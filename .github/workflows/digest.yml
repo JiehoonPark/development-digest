@@ -69,6 +69,13 @@ jobs:
           path: data/digest-*.html
           retention-days: 7
 
+      - name: Copy markdown to site
+        if: always() && hashFiles('site/index.html') != ''
+        run: |
+          if [ -d "data/markdown" ]; then
+            cp -r data/markdown site/markdown
+          fi
+
       - name: Deploy to GitHub Pages
         if: always() && hashFiles('site/index.html') != ''
         uses: peaceiris/actions-gh-pages@v4
@@ -76,3 +83,11 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./site
           keep_files: true
+
+      - name: Upload markdown (artifact)
+        if: always() && hashFiles('data/markdown/**/*.md') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: obsidian-markdown
+          path: data/markdown/
+          retention-days: 30
