@@ -23,35 +23,46 @@
     
     <div class="breadcrumb"><a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; 2026-03-15</div>
     <h2 style="font-size: 22px; margin-bottom: 4px;">📬 Dev Digest — 2026-03-15</h2>
-    <p style="font-size: 13px; color: #999; margin-bottom: 0;">2개 아티클</p>
-    <div class="daily-intro">안녕하세요! 오늘은 AI 코딩의 현실과 보안 위협, 그리고 성능 최적화가 핵심입니다. 바이브코딩으로 빠르게 프로토타입을 만들 수 있지만 실제 프로덕션까지는 100시간이 필요하며, 동시에 공급망을 노리는 Glassworm 공격이 확산되고 있으니 주의가 필요합니다.</div>
+    <p style="font-size: 13px; color: #999; margin-bottom: 0;">3개 아티클</p>
+    <div class="daily-intro">안녕하세요! 오늘 프론트엔드 개발 생태계는 AI 에이전트의 본격적인 활용과 웹 성능의 현실적 문제들이 주목받고 있습니다. Chrome DevTools의 AI 통합부터 page-agent까지 개발자 워크플로우를 혁신하는 기술들이 등장하는 한편, 49MB 웹페이지 문제와 보이지 않는 유니코드 공격 같은 심각한 이슈들도 우리의 주의를 요구하고 있습니다.</div>
     
-      <h2 class="section-header">📌 오늘의 화제</h2>
-      
-    <div class="article-card">
-      <h3><a href="https://www.aikido.dev/blog/glassworm-returns-unicode-attack-github-npm-vscode">Glassworm 귀환: GitHub와 npm을 노리는 새로운 보이지 않는 유니코드 공격</a></h3>
-      <span class="badge badge-engagement">⬆ 15</span>
-      <p class="summary">Glassworm 위협 행위자가 보이지 않는 유니코드 문자를 이용해 GitHub, npm, VS Code 마켓플레이스를 대규모로 공격하고 있습니다. 2025년 10월부터 추적된 이 공격은 3월 3-9일 사이에 최소 151개의 GitHub 저장소를 감염시켰으며, Wasmer, Reworm, OpenCode 등 유명 프로젝트도 포함되어 있습니다. 공격자는 눈에 띄지 않는 바이트 디코더를 빈 문자열에 숨겨 eval()을 통해 악성 페이로드를 실행하는 방식을 사용하고 있습니다.</p>
-      <ul class="key-points"><li>보이지 않는 유니코드 문자(U+FE00~U+FE0F 범위)를 이용해 eval() 호출로 디코딩되는 악성 페이로드를 삽입</li><li>GitHub 코드 검색 결과 최소 151개 저장소 감염 확인, 실제 규모는 더 클 것으로 예상</li><li>공격이 GitHub, npm, VS Code 마켓플레이스로 확대되어 생태계 전반에 영향</li><li>AI를 사용한 위장으로 보이는 일반적인 커밋(문서 수정, 버전 업데이트)과 함께 배포되어 시각적 코드 리뷰로 탐지 불가</li><li>표준 린팅 도구와 수동 코드 리뷰로는 감지 불가능하며 전문 악성코드 스캔 도구 필요</li></ul>
-      <p class="why-it-matters">💡 보이지 않는 공격 기법이 대규모 오픈소스 공급망을 위협하고 있으며, 개발자는 자신의 저장소와 의존성 보안을 위해 능동적인 방어 도구 도입이 필수입니다.</p>
-      <div class="card-meta">
-        <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/03/15/glassworm-is-back-a-new-wave-of-invisible-unicode-attacks-hits-repositories.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card">
-      <h3><a href="https://kanfa.macbudkowski.com/vibecoding-cryptosaurus">바이브코딩 프로토타입에서 실제 제품까지 100시간의 간격</a></h3>
-      <span class="badge badge-engagement">⬆ 114</span>
-      <p class="summary">저자는 AI 기반 코딩(바이브코딩)으로 Cryptosaurus 앱을 만드는 과정을 기록했으며, 30분에 앱을 완성한다는 주장은 단순 복제나 버그 많은 결과물이거나 engagement farming일 가능성이 높다고 결론지었습니다. 프로토타입은 1시간 만에 완성되었지만, UI/UX 개선, 이미지 생성 품질 최적화(프롬프트 274줄, 200회 이상 반복), 인프라 구축 등으로 총 100시간이 소요되었습니다. 저자는 Figma 같은 도구를 제대로 사용했다면 훨씬 빠르게 완성했을 수 있다고 지적합니다.</p>
-      <ul class="key-points"><li>바이브코딩은 프로토타입 단계에서는 빠르지만(1시간), 프로덕션 품질의 제품으로 가는 과정에서 대량의 반복 작업이 필요</li><li>이미지 생성 프롬프트 최적화만 200회 이상 반복되었으며, 엣지 케이스 대응을 위해 274줄의 프롬프트 파일 필요</li><li>AI 코딩이 장점을 가지려면 인프라 설정, UI/UX 다듬기 등 기술적 기초 지식이 전제되어야 함</li><li>전문 도구(Figma)를 우회하고 AI만 사용하려다 보니 '단순히 빌드하는' 방식이 오히려 비효율적이었음</li></ul>
-      <p class="why-it-matters">💡 AI 코딩 도구의 실제 생산성 한계와 올바른 활용 방식을 보여주며, 마케팅된 '30분 앱 개발' 같은 주장의 현실성을 평가할 수 있게 해줍니다.</p>
-      <div class="card-meta">
-        <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/03/15/100-hour-gap-between-a-vibecoded-prototype-and-a-working-product.html">📖 자세히 보기</a>
-      </div>
-    </div>
       <h2 class="section-header">🛠 프론트엔드 기술</h2>
       
+    <div class="article-card">
+      <h3><a href="https://developer.chrome.com/blog/chrome-devtools-mcp-debug-your-browser-session">Chrome DevTools MCP: 브라우저 세션 디버깅하기</a></h3>
+      <span class="badge badge-engagement">⬆ 242</span>
+      <p class="summary">Chrome DevTools MCP 서버가 AI 에이전트를 활성 브라우저 세션에 직접 연결할 수 있는 자동 연결 기능을 지원하기 시작했습니다. Chrome M144 베타에서 추가된 이 기능은 원격 디버깅 API를 기반으로 하며, 개발자가 DevTools의 Elements 또는 Network 패널에서 선택한 요소나 네트워크 요청을 AI 에이전트에 전달하여 자동으로 문제를 진단하고 수정하게 할 수 있습니다. 사용자 보안을 위해 매번 원격 디버깅 세션 요청 시 Chrome이 확인 대화상자를 표시합니다.</p>
+      <ul class="key-points"><li>Chrome M144 베타부터 DevTools MCP 서버가 --autoConnect 플래그로 활성 Chrome 인스턴스에 자동 연결 가능</li><li>DevTools의 Elements 패널에서 선택한 DOM 요소나 Network 패널의 실패한 네트워크 요청을 AI 에이전트에 직접 전달 가능</li><li>원격 디버깅 세션 활성화 시 Chrome에 '자동화된 테스트 도구가 Chrome을 제어 중' 배너 표시로 사용자에게 명확히 공지</li><li>기존의 사용자 프로필 기반 실행, 원격 디버깅 포트 연결, 임시 프로필 멀티 인스턴스 방식과 함께 동작</li></ul>
+      <p class="why-it-matters">💡 개발자가 수동 디버깅과 AI 기반 자동 디버깅 사이를 유연하게 전환할 수 있게 되어, AI 에이전트의 코드 분석 효율성을 대폭 높일 수 있습니다.</p>
+      <div class="card-meta">
+        <span>via Hacker News (Top)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/03/15/chrome-devtools-mcp.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card">
+      <h3><a href="https://yozm.wishket.com/magazine/detail/3641">Vercel react-best-practices 스킬로 코드 리뷰 자동화하기</a></h3>
+      
+      <p class="summary">Vercel의 CEO가 발표한 AI 에이전트용 skills 패키지 관리자 생태계에서 react-best-practices를 실제 프로젝트에 적용하여 성능 변화를 검증하는 내용입니다. GitHub Actions 기반의 AI 코드 리뷰에 룰셋을 적용하는 방식을 다룹니다.</p>
+      
+      <p class="why-it-matters">💡 npm처럼 AI 에이전트의 능력을 명령어 하나로 설치할 수 있는 새로운 개발 워크플로우가 등장하고 있습니다.</p>
+      <div class="card-meta">
+        <span>via 요즘IT</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/03/15/vercel-react-best-practices-스킬로-코드-리뷰-자동화하기.html">📖 자세히 보기</a>
+      </div>
+    </div>
+      <h2 class="section-header">💡 알면 좋은 정보</h2>
+      
+    <div class="article-card">
+      <h3><a href="https://www.antifound.com/posts/codegen-is-not-productivity/">코드 생성은 생산성이 아니다</a></h3>
+      
+      <p class="summary">코드 생성 기술이 실제로는 생산성 향상으로 이어지지 않을 수 있다는 주제를 다루고 있습니다.</p>
+      
+      <p class="why-it-matters">💡 코드 생성 도구의 도입 시 실제 생산성 개선 효과를 비판적으로 검토해야 함을 시사합니다.</p>
+      <div class="card-meta">
+        <span>via Lobste.rs</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/03/15/codegen-is-not-productivity.html">📖 자세히 보기</a>
+      </div>
+    </div>
   </main>
 
   <footer class="site-footer">
