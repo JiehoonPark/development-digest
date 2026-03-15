@@ -66,11 +66,84 @@ export function renderArticleDetailPage(
   });
 }
 
-function formatContent(text: string): string {
-  return text
-    .split(/\n\n+/)
-    .map((para) => `<p>${escapeHtml(para.trim())}</p>`)
-    .join("\n");
+function formatContent(markdown: string): string {
+  const lines = markdown.split("\n");
+  const html: string[] = [];
+  let inCodeBlock = false;
+  let codeLines: string[] = [];
+  let codeLang = "";
+  let inList = false;
+
+  function flushList() {
+    if (inList) {
+      html.push("</ul>");
+      inList = false;
+    }
+  }
+
+  for (const line of lines) {
+    // 코드 블록 시작/끝
+    if (line.trimStart().startsWith("```")) {
+      if (!inCodeBlock) {
+        flushList();
+        inCodeBlock = true;
+        codeLang = line.trim().slice(3).trim();
+        codeLines = [];
+      } else {
+        html.push(
+          `<pre><code${codeLang ? ` class="language-${escapeHtml(codeLang)}"` : ""}>${escapeHtml(codeLines.join("\n"))}</code></pre>`
+        );
+        inCodeBlock = false;
+      }
+      continue;
+    }
+
+    if (inCodeBlock) {
+      codeLines.push(line);
+      continue;
+    }
+
+    const trimmed = line.trim();
+
+    // 빈 줄
+    if (!trimmed) {
+      flushList();
+      continue;
+    }
+
+    // 헤더
+    const headerMatch = trimmed.match(/^(#{1,4})\s+(.+)$/);
+    if (headerMatch) {
+      flushList();
+      const level = Math.min(headerMatch[1].length + 1, 6); // h2~h5 (h1은 제목용)
+      html.push(`<h${level}>${escapeHtml(headerMatch[2])}</h${level}>`);
+      continue;
+    }
+
+    // 리스트
+    if (trimmed.startsWith("- ") || trimmed.startsWith("* ")) {
+      if (!inList) {
+        html.push("<ul>");
+        inList = true;
+      }
+      html.push(`<li>${inlineFormat(trimmed.slice(2))}</li>`);
+      continue;
+    }
+
+    // 일반 단락
+    flushList();
+    html.push(`<p>${inlineFormat(trimmed)}</p>`);
+  }
+
+  flushList();
+  return html.join("\n");
+}
+
+function inlineFormat(text: string): string {
+  return escapeHtml(text)
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*([^*]+)\*/g, "<em>$1</em>");
 }
 
 function formatEngagement(n: number): string {
