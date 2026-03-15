@@ -122,16 +122,8 @@ export const influencersDomestic: Source[] = [
     weight: 7,
     language: "ko",
   },
-  {
-    id: "yt-latte-and-code",
-    name: "라떼와 코드",
-    type: "youtube",
-    category: "influencer-domestic",
-    url: "https://www.youtube.com/feeds/videos.xml?channel_id=UCwyMA-cFISTaxpVnVXFbFuA",
-    channelId: "UCwyMA-cFISTaxpVnVXFbFuA",
-    weight: 5,
-    language: "ko",
-  },
+  // yt-latte-and-code 제거 — 채널 ID 무효 (YouTube RSS 404)
+
   {
     id: "blog-kakao-fe",
     name: "카카오 FE 기술블로그",

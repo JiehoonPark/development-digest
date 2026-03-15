@@ -19,15 +19,7 @@ export const frameworkBlogs: Source[] = [
     weight: 10,
     language: "en",
   },
-  {
-    id: "vercel-blog",
-    name: "Vercel Blog",
-    type: "rss",
-    category: "framework-blog",
-    url: "https://vercel.com/atom",
-    weight: 8,
-    language: "en",
-  },
+  // vercel-blog 제거 — Atom 피드 날짜 파싱 오류 (rss-parser 내부 RangeError: Invalid time value)
   {
     id: "typescript-blog",
     name: "TypeScript Blog",

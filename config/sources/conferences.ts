@@ -31,14 +31,6 @@ export const conferences: Source[] = [
     weight: 9,
     language: "en",
   },
-  {
-    id: "conf-nextjs-conf",
-    name: "Next.js Conf",
-    type: "youtube",
-    category: "conference",
-    url: "https://www.youtube.com/feeds/videos.xml?channel_id=UC3I4FeSKjqBMKjgZ3JTAuZA",
-    channelId: "UC3I4FeSKjqBMKjgZ3JTAuZA",
-    weight: 8,
-    language: "en",
-  },
+  // conf-nextjs-conf 제거 — 채널 ID 무효 (YouTube RSS 404)
+
 ];

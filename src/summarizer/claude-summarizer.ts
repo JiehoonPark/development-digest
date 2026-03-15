@@ -51,7 +51,11 @@ export async function askClaude(
 
     return result;
   } catch (error: unknown) {
-    const apiError = error as { status?: number; error?: { error?: { message?: string } } };
+    const apiError = error as { status?: number; message?: string; error?: { error?: { message?: string } } };
+    log.error(
+      { status: apiError.status, errorMessage: apiError.message ?? apiError.error?.error?.message },
+      "Claude API 호출 실패"
+    );
     if (apiError.status === 400 && apiError.error?.error?.message?.includes("credit balance")) {
       throw new Error(
         "Anthropic API 크레딧이 부족합니다. https://console.anthropic.com/settings/billing 에서 크레딧을 충전하세요."
