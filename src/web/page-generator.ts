@@ -61,7 +61,7 @@ export function generateSite(newArchive?: ArchiveData): void {
 
     for (const section of archive.sections) {
       for (const item of section.items) {
-        if (item.fullContent || item.translatedContent) {
+        {
           writeFileSync(
             join(dayDir, `${item.slug}.html`),
             renderArticleDetailPage(item, archive.date, baseUrl)
