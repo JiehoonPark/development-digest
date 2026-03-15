@@ -34,6 +34,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Install yt-dlp
+        run: pip install yt-dlp
+
       - name: Restore SQLite cache
         uses: actions/cache@v4
         with:
