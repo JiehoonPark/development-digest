@@ -13,6 +13,8 @@ export interface CollectedItem {
   engagement?: number; // HN points, Reddit upvotes 등
   tags?: string[];
   contentType: "article" | "video" | "repo" | "discussion";
+  fullContent?: string;
+  extractionStatus?: "pending" | "success" | "failed" | "skipped";
 }
 
 export interface CollectorResult {

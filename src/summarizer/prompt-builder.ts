@@ -10,14 +10,29 @@ export function buildFilterInput(items: ScoredItem[]): string {
 }
 
 export function buildSummarizeInput(
-  items: Array<{ index: number; title: string; url: string; summary?: string }>
+  items: Array<{
+    index: number;
+    title: string;
+    url: string;
+    summary?: string;
+    fullContent?: string;
+    contentType?: string;
+  }>
 ): string {
   return items
-    .map(
-      (item) =>
-        `[${item.index}] ${item.title}\n    URL: ${item.url}${item.summary ? `\n    미리보기: ${item.summary}` : ""}`
-    )
-    .join("\n\n");
+    .map((item) => {
+      const parts = [`[${item.index}] ${item.title}`, `    URL: ${item.url}`];
+
+      if (item.fullContent) {
+        const label = item.contentType === "video" ? "트랜스크립트" : "본문";
+        parts.push(`    ${label}:\n${item.fullContent}`);
+      } else if (item.summary) {
+        parts.push(`    미리보기: ${item.summary}`);
+      }
+
+      return parts.join("\n");
+    })
+    .join("\n\n---\n\n");
 }
 
 export function buildEditorialInput(

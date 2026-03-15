@@ -17,7 +17,8 @@ function getClient(): Anthropic {
 export async function askClaude(
   systemPrompt: string,
   userContent: string,
-  model = "claude-haiku-4-5-20251001"
+  model = "claude-haiku-4-5-20251001",
+  maxTokens = 4096
 ): Promise<string> {
   const anthropic = getClient();
 
@@ -29,7 +30,7 @@ export async function askClaude(
   try {
     const message = await anthropic.messages.create({
       model,
-      max_tokens: 4096,
+      max_tokens: maxTokens,
       messages: [
         {
           role: "user",

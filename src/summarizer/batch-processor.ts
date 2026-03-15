@@ -6,6 +6,8 @@ import { createChildLogger } from "../utils/logger.js";
 
 const log = createChildLogger("batch-processor");
 
+const SUMMARIZE_BATCH_SIZE = 8;
+
 export interface DigestSection {
   category: "hot" | "tech" | "insight" | "video";
   items: DigestItem[];
@@ -16,6 +18,8 @@ export interface DigestItem {
   url: string;
   sourceName: string;
   summary: string;
+  keyPoints: string[];
+  whyItMatters?: string;
   engagement?: number;
   contentType: string;
 }
@@ -41,23 +45,61 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
 
   log.info({ filtered: relevantItems.length }, "필터링 완료");
 
-  // Step 2: 요약
+  // Step 2: 요약 (배치 분할 — 본문 포함 시 토큰이 크므로)
   log.info("Step 2: 요약 생성");
-  const summarizeInput = buildSummarizeInput(
-    relevantItems.map((item, i) => ({
-      index: i,
-      title: item.title,
-      url: item.url,
-      summary: item.summary,
-    }))
-  );
-  const summarizeRaw = await askClaude(SUMMARIZE_PROMPT, summarizeInput);
-  const summaries = parseJsonResponse<Array<{ index: number; summary: string }>>(summarizeRaw);
 
-  const summaryMap = new Map(summaries.map((s) => [s.index, s.summary]));
+  const allSummaries: Array<{
+    index: number;
+    summary: string;
+    keyPoints?: string[];
+    whyItMatters?: string;
+  }> = [];
+
+  for (let batchStart = 0; batchStart < relevantItems.length; batchStart += SUMMARIZE_BATCH_SIZE) {
+    const batch = relevantItems.slice(batchStart, batchStart + SUMMARIZE_BATCH_SIZE);
+    const batchInput = buildSummarizeInput(
+      batch.map((item, localIdx) => ({
+        index: batchStart + localIdx,
+        title: item.title,
+        url: item.url,
+        summary: item.summary,
+        fullContent: item.fullContent,
+        contentType: item.contentType,
+      }))
+    );
+
+    log.info(
+      { batch: `${batchStart + 1}-${batchStart + batch.length}`, inputLength: batchInput.length },
+      "배치 요약 요청"
+    );
+
+    const raw = await askClaude(SUMMARIZE_PROMPT, batchInput, undefined, 8192);
+    const parsed = parseJsonResponse<Array<{
+      index: number;
+      summary: string;
+      keyPoints?: string[];
+      whyItMatters?: string;
+    }>>(raw);
+
+    allSummaries.push(...parsed);
+  }
+
+  const summaryMap = new Map(
+    allSummaries.map((s) => [s.index, s])
+  );
 
   // 섹션별 그룹화
-  const sections: Record<string, Array<{ index: number; title: string; summary: string; url: string; sourceName: string; engagement?: number; contentType: string }>> = {
+  const sections: Record<string, Array<{
+    index: number;
+    title: string;
+    summary: string;
+    keyPoints: string[];
+    whyItMatters?: string;
+    url: string;
+    sourceName: string;
+    engagement?: number;
+    contentType: string;
+  }>> = {
     hot: [],
     tech: [],
     insight: [],
@@ -66,13 +108,18 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
 
   for (let i = 0; i < relevantItems.length; i++) {
     const item = relevantItems[i];
-    const summary = summaryMap.get(i) ?? item.summary ?? "";
+    const summaryEntry = summaryMap.get(i);
+    const summary = summaryEntry?.summary ?? item.summary ?? "";
+    const keyPoints = summaryEntry?.keyPoints ?? [];
+    const whyItMatters = summaryEntry?.whyItMatters;
     const cat = item.aiCategory;
     if (sections[cat]) {
       sections[cat].push({
         index: i,
         title: item.title,
         summary,
+        keyPoints,
+        whyItMatters,
         url: item.url,
         sourceName: item.sourceName,
         engagement: item.engagement,
@@ -100,11 +147,11 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
   // 최종 섹션 구성
   const finalSections: DigestSection[] = [];
 
-  for (const [cat, label] of [
-    ["hot", "hot"],
-    ["tech", "tech"],
-    ["insight", "insight"],
-    ["video", "video"],
+  for (const [cat] of [
+    ["hot"],
+    ["tech"],
+    ["insight"],
+    ["video"],
   ] as const) {
     const sectionItems = sections[cat];
     if (sectionItems.length === 0) continue;
@@ -122,6 +169,8 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
         url: item.url,
         sourceName: item.sourceName,
         summary: item.summary,
+        keyPoints: item.keyPoints,
+        whyItMatters: item.whyItMatters,
         engagement: item.engagement,
         contentType: item.contentType,
       })),

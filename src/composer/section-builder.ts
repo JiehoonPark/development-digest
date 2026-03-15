@@ -35,6 +35,19 @@ function buildItemHtml(item: DigestItem): string {
       ? `<span style="display: inline-block; background: #ff0000; color: white; font-size: 11px; padding: 2px 6px; border-radius: 3px; margin-left: 4px;">▶ Video</span>`
       : "";
 
+  const keyPointsHtml =
+    item.keyPoints && item.keyPoints.length > 0
+      ? `<ul style="margin: 10px 0 6px 0; padding-left: 20px; color: #444; font-size: 13px; line-height: 1.8;">
+          ${item.keyPoints.map((kp) => `<li style="margin-bottom: 4px;">${escapeHtml(kp)}</li>`).join("")}
+         </ul>`
+      : "";
+
+  const whyItMattersHtml = item.whyItMatters
+    ? `<p style="font-size: 13px; color: #1a73e8; margin: 6px 0 0 0; font-style: italic;">
+        💡 ${escapeHtml(item.whyItMatters)}
+       </p>`
+    : "";
+
   return `
     <div style="margin-bottom: 20px; padding: 16px; background: #fafafa; border-radius: 8px; border-left: 3px solid #4a90d9;">
       <a href="${item.url}" style="font-size: 16px; color: #1a1a2e; text-decoration: none; font-weight: 600; line-height: 1.4;">
@@ -44,6 +57,8 @@ function buildItemHtml(item: DigestItem): string {
       <p style="font-size: 14px; color: #555; margin: 8px 0 4px 0; line-height: 1.6;">
         ${escapeHtml(item.summary)}
       </p>
+      ${keyPointsHtml}
+      ${whyItMattersHtml}
       <span style="font-size: 12px; color: #999;">via ${escapeHtml(item.sourceName)}</span>
     </div>
   `;

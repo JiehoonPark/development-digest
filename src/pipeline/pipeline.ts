@@ -5,6 +5,7 @@ import type { CollectedItem, CollectorResult } from "../collectors/types.js";
 import { dedup, markAsSeen } from "../dedup/dedup-service.js";
 import { prioritize } from "../prioritizer/prioritizer.js";
 import { processWithAI } from "../summarizer/batch-processor.js";
+import { enrichWithContent } from "../extractors/content-enricher.js";
 import { composeNewsletter } from "../composer/newsletter-composer.js";
 import { sendDigestEmail } from "../email/email-sender.js";
 import { initDb, cleanExpiredUrls, closeDb } from "../db/database.js";
@@ -63,9 +64,14 @@ export async function runPipeline(): Promise<void> {
       return prioritize(uniqueItems);
     });
 
-    // 5. AI 요약
+    // 5. 본문 추출
+    const enriched = await runStep("본문 추출", async () => {
+      return enrichWithContent(prioritized);
+    });
+
+    // 6. AI 요약
     const digest = await runStep("AI 요약", async () => {
-      return processWithAI(prioritized);
+      return processWithAI(enriched);
     });
 
     // 6. HTML 구성
