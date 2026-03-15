@@ -53,7 +53,7 @@ function buildItemHtml(item: DigestItem, siteBaseUrl?: string, dateStr?: string)
   return `
     <div style="margin-bottom: 20px; padding: 16px; background: #fafafa; border-radius: 8px; border-left: 3px solid #4a90d9;">
       <a href="${item.url}" style="font-size: 16px; color: #1a1a2e; text-decoration: none; font-weight: 600; line-height: 1.4;">
-        ${escapeHtml(item.title)}
+        ${escapeHtml(item.titleKo ?? item.title)}
       </a>
       ${engagementBadge}${typeBadge}
       <p style="font-size: 14px; color: #555; margin: 8px 0 4px 0; line-height: 1.6;">
