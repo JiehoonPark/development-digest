@@ -1,0 +1,56 @@
+name: Dev Digest
+
+on:
+  schedule:
+    # UTC 23:00 (월~금) = KST 08:00
+    - cron: "0 23 * * 0-4"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "DRY_RUN 모드 (true/false)"
+        required: false
+        default: "false"
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Restore SQLite cache
+        uses: actions/cache@v4
+        with:
+          path: data/dev-digest.db
+          key: digest-db-${{ github.ref_name }}
+          restore-keys: |
+            digest-db-
+
+      - name: Run digest pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          LOG_LEVEL: info
+        run: npx tsx src/index.ts
+
+      - name: Upload digest HTML (dry run)
+        if: github.event.inputs.dry_run == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: digest-html
+          path: data/digest-*.html
+          retention-days: 7

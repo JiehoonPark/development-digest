@@ -1,0 +1,58 @@
+import type { Source } from "./types.js";
+
+export const communitiesDomestic: Source[] = [
+  {
+    id: "geeknews",
+    name: "GeekNews",
+    type: "rss",
+    category: "community-domestic",
+    url: "https://news.hada.io/rss",
+    weight: 9,
+    language: "ko",
+  },
+  {
+    id: "yozm-it",
+    name: "요즘IT",
+    type: "rss",
+    category: "community-domestic",
+    url: "https://yozm.wishket.com/magazine/feed/",
+    weight: 7,
+    language: "ko",
+  },
+  {
+    id: "velog-trending",
+    name: "Velog 트렌딩",
+    type: "rss",
+    category: "community-domestic",
+    url: "https://v2.velog.io/rss",
+    weight: 5,
+    language: "ko",
+  },
+  {
+    id: "disquiet",
+    name: "Disquiet",
+    type: "rss",
+    category: "community-domestic",
+    url: "https://disquiet.io/rss",
+    weight: 5,
+    language: "ko",
+  },
+  {
+    id: "devcommunity-kakao",
+    name: "카카오 데브 커뮤니티",
+    type: "rss",
+    category: "community-domestic",
+    url: "https://tech.kakao.com/feed/",
+    weight: 7,
+    language: "ko",
+  },
+  {
+    id: "korean-fe-article",
+    name: "Korean FE Article",
+    type: "rss",
+    category: "community-domestic",
+    url: "https://kofearticle.substack.com/feed",
+    weight: 8,
+    language: "ko",
+  },
+];

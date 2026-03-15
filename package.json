@@ -1,0 +1,35 @@
+{
+  "name": "dev-digest",
+  "version": "1.0.0",
+  "description": "자동 일일 개발 뉴스레터 서비스",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dry-run": "DRY_RUN=true tsx src/index.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:collect": "tsx scripts/test-collect.ts",
+    "test:summarize": "tsx scripts/test-summarize.ts",
+    "test:email": "tsx scripts/test-email.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "better-sqlite3": "^11.7.0",
+    "cheerio": "^1.0.0",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.4.7",
+    "p-map": "^7.0.3",
+    "p-retry": "^6.2.1",
+    "pino": "^9.6.0",
+    "resend": "^4.1.2",
+    "rss-parser": "^3.13.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
+}

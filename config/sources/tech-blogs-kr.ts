@@ -1,0 +1,58 @@
+import type { Source } from "./types.js";
+
+export const techBlogsKr: Source[] = [
+  {
+    id: "toss-tech",
+    name: "토스 기술 블로그",
+    type: "rss",
+    category: "tech-blog-kr",
+    url: "https://toss.tech/rss.xml",
+    weight: 9,
+    language: "ko",
+  },
+  {
+    id: "woowahan-tech",
+    name: "우아한형제들 기술 블로그",
+    type: "rss",
+    category: "tech-blog-kr",
+    url: "https://techblog.woowahan.com/feed/",
+    weight: 8,
+    language: "ko",
+  },
+  {
+    id: "naver-d2",
+    name: "Naver D2",
+    type: "rss",
+    category: "tech-blog-kr",
+    url: "https://d2.naver.com/d2.atom",
+    weight: 7,
+    language: "ko",
+  },
+  {
+    id: "line-engineering",
+    name: "LINE Engineering",
+    type: "rss",
+    category: "tech-blog-kr",
+    url: "https://engineering.linecorp.com/ko/feed/index.xml",
+    weight: 7,
+    language: "ko",
+  },
+  {
+    id: "banksalad-tech",
+    name: "뱅크샐러드 기술 블로그",
+    type: "rss",
+    category: "tech-blog-kr",
+    url: "https://blog.banksalad.com/rss.xml",
+    weight: 6,
+    language: "ko",
+  },
+  {
+    id: "daangn-tech",
+    name: "당근 기술 블로그",
+    type: "rss",
+    category: "tech-blog-kr",
+    url: "https://medium.com/feed/daangn",
+    weight: 7,
+    language: "ko",
+  },
+];
