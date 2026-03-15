@@ -16,7 +16,7 @@ const SITE_DIR = join(__dirname, "../../site");
 const ARCHIVES_DIR = join(__dirname, "../../data/archives");
 
 export function generateSite(newArchive?: ArchiveData): void {
-  const baseUrl = process.env.SITE_BASE_URL ?? "./";
+  const baseUrl = process.env.SITE_BASE_URL ?? "/";
 
   // 1. site/ 디렉토리 생성
   mkdirSync(SITE_DIR, { recursive: true });
