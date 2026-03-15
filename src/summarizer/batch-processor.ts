@@ -37,14 +37,20 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
   const filterRaw = await askClaude(FILTER_PROMPT, filterInput);
   const filtered = parseJsonResponse<Array<{ index: number; category: string; relevance: number }>>(filterRaw);
 
-  const relevantItems = filtered
-    .filter((f) => f.relevance >= 60)
+  const MIN_ITEMS = 10;
+  const sorted = [...filtered].sort((a, b) => b.relevance - a.relevance);
+  const cutoff = sorted.length >= MIN_ITEMS
+    ? Math.min(60, sorted[MIN_ITEMS - 1]?.relevance ?? 0)
+    : 0;
+
+  const relevantItems = sorted
+    .filter((f) => f.relevance >= cutoff)
     .map((f) => ({
       ...items[f.index],
       aiCategory: f.category as DigestSection["category"],
     }));
 
-  log.info({ filtered: relevantItems.length }, "필터링 완료");
+  log.info({ filtered: relevantItems.length, cutoff }, "필터링 완료");
 
   // Step 2: 요약 (배치 분할 — 본문 포함 시 토큰이 크므로)
   log.info("Step 2: 요약 생성");
