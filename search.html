@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>검색 — Dev Digest</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="/">📬 Dev Digest</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="/">홈</a>
+        <a href="/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="search-container">
+      <h2 style="margin-bottom: 16px; font-size: 22px;">🔍 검색</h2>
+
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="검색어를 입력하세요..." autofocus>
+      </div>
+
+      <div class="search-filters">
+        <select id="filter-category">
+          <option value="">전체 카테고리</option>
+        </select>
+        <select id="filter-date">
+          <option value="">전체 날짜</option>
+        </select>
+      </div>
+
+      <div id="search-results" class="search-results">
+        <p class="no-results">검색어를 입력하면 결과가 표시됩니다.</p>
+      </div>
+    </div>
+
+    <script src="/search.js"></script>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Dev Digest — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+</body>
+</html>
