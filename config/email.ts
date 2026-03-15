@@ -12,4 +12,4 @@ export function getSubject(date?: Date): string {
   return `📬 Dev Digest — ${formatDigestDate(date)}`;
 }
 
-export const EMAIL_FROM = "Dev Digest <digest@devdigest.dev>";
+export const EMAIL_FROM = "Dev Digest <onboarding@resend.dev>";
