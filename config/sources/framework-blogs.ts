@@ -6,7 +6,7 @@ export const frameworkBlogs: Source[] = [
     name: "React Blog",
     type: "rss",
     category: "framework-blog",
-    url: "https://react.dev/blog/rss.xml",
+    url: "https://react.dev/rss.xml",
     weight: 10,
     language: "en",
   },

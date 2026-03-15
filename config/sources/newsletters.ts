@@ -1,15 +1,7 @@
 import type { Source } from "./types.js";
 
 export const newsletters: Source[] = [
-  {
-    id: "bytes-dev",
-    name: "Bytes.dev",
-    type: "rss",
-    category: "newsletter",
-    url: "https://bytes.dev/rss",
-    weight: 8,
-    language: "en",
-  },
+  // bytes-dev 제거 — 공식 RSS 미제공
   {
     id: "tldr",
     name: "TLDR",
@@ -28,15 +20,7 @@ export const newsletters: Source[] = [
     weight: 8,
     language: "en",
   },
-  {
-    id: "react-newsletter",
-    name: "React Newsletter",
-    type: "rss",
-    category: "newsletter",
-    url: "https://reactnewsletter.com/rss",
-    weight: 8,
-    language: "en",
-  },
+  // react-newsletter 제거 — RSS 미제공 (이메일만)
   {
     id: "node-weekly",
     name: "Node Weekly",
@@ -69,7 +53,7 @@ export const newsletters: Source[] = [
     name: "This Week In React",
     type: "rss",
     category: "newsletter",
-    url: "https://thisweekinreact.com/rss",
+    url: "https://substack.thisweekinreact.com/feed",
     weight: 9,
     language: "en",
   },
@@ -100,13 +84,5 @@ export const newsletters: Source[] = [
     weight: 8,
     language: "en",
   },
-  {
-    id: "frontend-weekly-kr",
-    name: "프론트엔드 위클리",
-    type: "rss",
-    category: "newsletter",
-    url: "https://frontendweekly.co/rss",
-    weight: 7,
-    language: "ko",
-  },
+  // frontend-weekly-kr 제거 — SSL 인증서 문제
 ];

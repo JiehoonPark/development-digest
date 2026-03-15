@@ -26,29 +26,39 @@ export async function askClaude(
     "Claude API 호출"
   );
 
-  const message = await anthropic.messages.create({
-    model,
-    max_tokens: 4096,
-    messages: [
+  try {
+    const message = await anthropic.messages.create({
+      model,
+      max_tokens: 4096,
+      messages: [
+        {
+          role: "user",
+          content: `${systemPrompt}\n\n---\n\n${userContent}`,
+        },
+      ],
+    });
+
+    const textBlock = message.content.find((b) => b.type === "text");
+    const result = textBlock?.text ?? "";
+
+    log.info(
       {
-        role: "user",
-        content: `${systemPrompt}\n\n---\n\n${userContent}`,
+        inputTokens: message.usage.input_tokens,
+        outputTokens: message.usage.output_tokens,
       },
-    ],
-  });
+      "Claude API 응답"
+    );
 
-  const textBlock = message.content.find((b) => b.type === "text");
-  const result = textBlock?.text ?? "";
-
-  log.info(
-    {
-      inputTokens: message.usage.input_tokens,
-      outputTokens: message.usage.output_tokens,
-    },
-    "Claude API 응답"
-  );
-
-  return result;
+    return result;
+  } catch (error: unknown) {
+    const apiError = error as { status?: number; error?: { error?: { message?: string } } };
+    if (apiError.status === 400 && apiError.error?.error?.message?.includes("credit balance")) {
+      throw new Error(
+        "Anthropic API 크레딧이 부족합니다. https://console.anthropic.com/settings/billing 에서 크레딧을 충전하세요."
+      );
+    }
+    throw error;
+  }
 }
 
 export function parseJsonResponse<T>(raw: string): T {

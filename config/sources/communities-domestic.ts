@@ -6,7 +6,7 @@ export const communitiesDomestic: Source[] = [
     name: "GeekNews",
     type: "rss",
     category: "community-domestic",
-    url: "https://news.hada.io/rss",
+    url: "https://news.hada.io/rss/news",
     weight: 9,
     language: "ko",
   },
@@ -28,15 +28,7 @@ export const communitiesDomestic: Source[] = [
     weight: 5,
     language: "ko",
   },
-  {
-    id: "disquiet",
-    name: "Disquiet",
-    type: "rss",
-    category: "community-domestic",
-    url: "https://disquiet.io/rss",
-    weight: 5,
-    language: "ko",
-  },
+  // disquiet 제거 — RSS 미지원 SPA
   {
     id: "devcommunity-kakao",
     name: "카카오 데브 커뮤니티",

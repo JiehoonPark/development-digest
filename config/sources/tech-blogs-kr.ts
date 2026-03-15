@@ -33,7 +33,7 @@ export const techBlogsKr: Source[] = [
     name: "LINE Engineering",
     type: "rss",
     category: "tech-blog-kr",
-    url: "https://engineering.linecorp.com/ko/feed/index.xml",
+    url: "https://techblog.lycorp.co.jp/ko/feed/index.xml",
     weight: 7,
     language: "ko",
   },

@@ -6,6 +6,7 @@ const parser = new Parser({
   timeout: 10000,
   headers: {
     "User-Agent": "DevDigest/1.0 (RSS Reader)",
+    Accept: "application/rss+xml, application/atom+xml, application/xml, text/xml, */*",
   },
 });
 
