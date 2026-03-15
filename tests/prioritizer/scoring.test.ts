@@ -22,10 +22,14 @@ describe("calculateScore", () => {
     expect(score).toBeGreaterThan(0);
   });
 
-  it("한국어 콘텐츠에 보너스를 부여한다", () => {
-    const ko = calculateScore(createItem({ language: "ko" }));
-    const en = calculateScore(createItem({ language: "en" }));
-    expect(ko).toBeGreaterThan(en);
+  it("커뮤니티 소스에서 engagement 없으면 감점한다", () => {
+    const withEngagement = calculateScore(
+      createItem({ sourceId: "hackernews-top", category: "community-overseas", engagement: 100 })
+    );
+    const noEngagement = calculateScore(
+      createItem({ sourceId: "velog-trending", category: "community-domestic" })
+    );
+    expect(withEngagement).toBeGreaterThan(noEngagement);
   });
 
   it("프론트엔드 키워드에 보너스를 부여한다", () => {

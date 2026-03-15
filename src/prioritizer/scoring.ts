@@ -6,17 +6,28 @@ export interface ScoredItem extends CollectedItem {
   score: number;
 }
 
+// 커뮤니티 카테고리: 누구나 올릴 수 있는 소스 → engagement 검증 필요
+const COMMUNITY_CATEGORIES = new Set([
+  "community-overseas",
+  "community-domestic",
+]);
+
 export function calculateScore(item: CollectedItem): number {
   let score = 0;
 
-  // 1. 소스 가중치 (0-10점, 정규화하여 0-30점)
   const source = getSourceById(item.sourceId);
   const weight = source?.weight ?? 5;
+  const isCommunity = COMMUNITY_CATEGORIES.has(item.category);
+
+  // 1. 소스 가중치 (0-10점, 정규화하여 0-30점)
   score += weight * 3;
 
   // 2. Engagement 점수 (0-30점)
   if (item.engagement) {
     score += engagementScore(item.engagement, item.sourceId);
+  } else if (isCommunity) {
+    // 커뮤니티 소스인데 engagement 없으면 감점 (검증 불가)
+    score -= 10;
   }
 
   // 3. 최신성 점수 (0-20점)
@@ -26,10 +37,7 @@ export function calculateScore(item: CollectedItem): number {
   else if (age <= 24) score += 10;
   else if (age <= 48) score += 5;
 
-  // 4. 한국어 보너스 (프론트엔드 개발자 대상)
-  if (item.language === "ko") score += 5;
-
-  // 5. 프론트엔드 관련 키워드 보너스
+  // 4. 프론트엔드 관련 키워드 보너스
   score += keywordBonus(item.title);
 
   return Math.round(score);
