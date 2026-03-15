@@ -1,4 +1,6 @@
 import type { DigestSection, DigestItem } from "../summarizer/batch-processor.js";
+import { generateSlug } from "../web/slug.js";
+import { formatISODate } from "../utils/date.js";
 
 const SECTION_HEADERS: Record<string, { emoji: string; title: string }> = {
   hot: { emoji: "📌", title: "오늘의 화제" },
@@ -7,13 +9,13 @@ const SECTION_HEADERS: Record<string, { emoji: string; title: string }> = {
   video: { emoji: "🎬", title: "새 영상 알림" },
 };
 
-export function buildSectionHtml(section: DigestSection): string {
+export function buildSectionHtml(section: DigestSection, siteBaseUrl?: string, dateStr?: string): string {
   const header = SECTION_HEADERS[section.category] ?? {
     emoji: "📄",
     title: section.category,
   };
 
-  const itemsHtml = section.items.map((item) => buildItemHtml(item)).join("");
+  const itemsHtml = section.items.map((item) => buildItemHtml(item, siteBaseUrl, dateStr)).join("");
 
   return `
     <div style="margin-bottom: 32px;">
@@ -25,7 +27,7 @@ export function buildSectionHtml(section: DigestSection): string {
   `;
 }
 
-function buildItemHtml(item: DigestItem): string {
+function buildItemHtml(item: DigestItem, siteBaseUrl?: string, dateStr?: string): string {
   const engagementBadge = item.engagement
     ? `<span style="display: inline-block; background: #f0f0f0; color: #666; font-size: 11px; padding: 2px 6px; border-radius: 3px; margin-left: 8px;">⬆ ${formatEngagement(item.engagement)}</span>`
     : "";
@@ -60,8 +62,19 @@ function buildItemHtml(item: DigestItem): string {
       ${keyPointsHtml}
       ${whyItMattersHtml}
       <span style="font-size: 12px; color: #999;">via ${escapeHtml(item.sourceName)}</span>
+      ${buildDetailLink(item.title, siteBaseUrl, dateStr)}
     </div>
   `;
+}
+
+function buildDetailLink(title: string, siteBaseUrl?: string, dateStr?: string): string {
+  if (!siteBaseUrl) return "";
+  const date = dateStr ?? formatISODate();
+  const [year, month, day] = date.split("-");
+  const slug = generateSlug(title);
+  const base = siteBaseUrl.endsWith("/") ? siteBaseUrl : `${siteBaseUrl}/`;
+  const url = `${base}${year}/${month}/${day}/${slug}.html`;
+  return `<a href="${url}" style="display: inline-block; font-size: 12px; color: #4a90d9; margin-left: 8px;">📖 자세히 보기</a>`;
 }
 
 function formatEngagement(n: number): string {

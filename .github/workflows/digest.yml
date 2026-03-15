@@ -11,10 +11,15 @@ on:
         required: false
         default: "false"
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   digest:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
@@ -37,6 +42,13 @@ jobs:
           restore-keys: |
             digest-db-
 
+      - name: Restore archives from gh-pages
+        continue-on-error: true
+        run: |
+          git fetch origin gh-pages --depth=1 || exit 0
+          git checkout origin/gh-pages -- data/archives/ 2>/dev/null || true
+          git checkout origin/gh-pages -- site/data/archives/ 2>/dev/null || true
+
       - name: Run digest pipeline
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -44,6 +56,8 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+          SITE_BASE_URL: ${{ secrets.SITE_BASE_URL }}
+          SKIP_TRANSLATION: ${{ secrets.SKIP_TRANSLATION || 'false' }}
           LOG_LEVEL: info
         run: npx tsx src/index.ts
 
@@ -54,3 +68,11 @@ jobs:
           name: digest-html
           path: data/digest-*.html
           retention-days: 7
+
+      - name: Deploy to GitHub Pages
+        if: always() && hashFiles('site/index.html') != ''
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          keep_files: true

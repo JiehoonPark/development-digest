@@ -10,7 +10,8 @@
     "test:watch": "vitest",
     "test:collect": "tsx scripts/test-collect.ts",
     "test:summarize": "tsx scripts/test-summarize.ts",
-    "test:email": "tsx scripts/test-email.ts"
+    "test:email": "tsx scripts/test-email.ts",
+    "build:site": "tsx -e \"import { generateSite } from './src/web/page-generator.js'; generateSite();\""
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",

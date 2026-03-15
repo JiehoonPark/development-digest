@@ -11,6 +11,10 @@ import { sendDigestEmail } from "../email/email-sender.js";
 import { initDb, cleanExpiredUrls, closeDb } from "../db/database.js";
 import { recordSuccess, recordFailure } from "../db/repositories/source-health.js";
 import { saveDigestHistory } from "../db/repositories/digest-history.js";
+import { buildArchiveData, saveArchive } from "../data/digest-archiver.js";
+import { translateArticles } from "../translator/article-translator.js";
+import { generateSite } from "../web/page-generator.js";
+import { generateMarkdown } from "../markdown/markdown-generator.js";
 import { runStep } from "./step-runner.js";
 import { createChildLogger } from "../utils/logger.js";
 import { RateLimiter } from "../utils/rate-limiter.js";
@@ -94,7 +98,18 @@ export async function runPipeline(): Promise<void> {
       });
     }
 
-    // 8. 이력 저장 + URL 마킹
+    // 8. 데이터 보관 → 번역 → 웹+Markdown 생성
+    await runStep("데이터 보관", async () => {
+      const archive = buildArchiveData(digest, enriched);
+      saveArchive(archive);
+
+      const translated = await translateArticles(archive);
+
+      generateSite(translated);
+      generateMarkdown(translated);
+    });
+
+    // 9. 이력 저장 + URL 마킹
     await runStep("이력 저장", async () => {
       markAsSeen(uniqueItems);
       const totalItems = digest.sections.reduce((acc, s) => acc + s.items.length, 0);

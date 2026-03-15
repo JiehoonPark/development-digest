@@ -1,10 +1,14 @@
 import type { DigestResult } from "../summarizer/batch-processor.js";
 import { buildSectionHtml } from "./section-builder.js";
-import { formatDigestDate } from "../utils/date.js";
+import { formatDigestDate, formatISODate } from "../utils/date.js";
 
 export function composeNewsletter(digest: DigestResult): string {
   const date = formatDigestDate();
-  const sectionsHtml = digest.sections.map(buildSectionHtml).join("");
+  const siteBaseUrl = process.env.SITE_BASE_URL;
+  const dateStr = formatISODate();
+  const sectionsHtml = digest.sections
+    .map((section) => buildSectionHtml(section, siteBaseUrl, dateStr))
+    .join("");
   const totalItems = digest.sections.reduce((acc, s) => acc + s.items.length, 0);
 
   return `<!DOCTYPE html>
