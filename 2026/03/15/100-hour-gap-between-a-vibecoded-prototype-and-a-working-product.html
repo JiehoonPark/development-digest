@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>바이브코딩 프로토타입에서 실제 제품까지 100시간의 간격 — Dev Digest</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 Dev Digest</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/15/">2026-03-15</a> &gt; 바이브코딩 프로토타입에서 실제 제품까지 100시간의 간격...
+      </div>
+
+      <h1>바이브코딩 프로토타입에서 실제 제품까지 100시간의 간격</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">100 hour gap between a vibecoded prototype and a working product</p>
+      <div class="article-meta">
+        <span>📅 2026-03-15</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 114</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>저자는 AI 기반 코딩(바이브코딩)으로 Cryptosaurus 앱을 만드는 과정을 기록했으며, 30분에 앱을 완성한다는 주장은 단순 복제나 버그 많은 결과물이거나 engagement farming일 가능성이 높다고 결론지었습니다. 프로토타입은 1시간 만에 완성되었지만, UI/UX 개선, 이미지 생성 품질 최적화(프롬프트 274줄, 200회 이상 반복), 인프라 구축 등으로 총 100시간이 소요되었습니다. 저자는 Figma 같은 도구를 제대로 사용했다면 훨씬 빠르게 완성했을 수 있다고 지적합니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>바이브코딩은 프로토타입 단계에서는 빠르지만(1시간), 프로덕션 품질의 제품으로 가는 과정에서 대량의 반복 작업이 필요</li><li>이미지 생성 프롬프트 최적화만 200회 이상 반복되었으며, 엣지 케이스 대응을 위해 274줄의 프롬프트 파일 필요</li><li>AI 코딩이 장점을 가지려면 인프라 설정, UI/UX 다듬기 등 기술적 기초 지식이 전제되어야 함</li><li>전문 도구(Figma)를 우회하고 AI만 사용하려다 보니 '단순히 빌드하는' 방식이 오히려 비효율적이었음</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>AI 코딩 도구의 실제 생산성 한계와 올바른 활용 방식을 보여주며, 마케팅된 '30분 앱 개발' 같은 주장의 현실성을 평가할 수 있게 해줍니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>AI로 앱을 만들며 깨달은 현실적인 한계</h2>
+<p>지난달 약 100시간을 'vibe coding'에 쏟아붓고 나니 한 가지 확실해졌어요. &quot;30분 만에 앱을 만들었다&quot;고 말하는 사람들은 기존 프로젝트의 단순한 복제본을 만들거나, 버그 투성이의 결과물을 내놓거나, 아니면 그냥 engagement를 노리는 거라는 뜻이었거든요.</p>
+<p>이건 제가 AI를 회의적으로 본다는 뜻은 아니에요. 오히려 그 반대입니다.</p>
+<h3>제 경험에서 시작하면</h3>
+<p>이전 회사에서는 2023년 말, 'vibe coding'이라는 표현이 생기기도 전에 AI로 코딩을 시작했어요. LLM이 아직 그리 좋지 않았고, 오픈소스 프로젝트였던 탓에 논란이 많았죠. 기여자들이 우리의 스파게티 코드베이스에 기여하길 꺼렸거든요.</p>
+<p>다행히 Tim이 AI의 가능성을 일찍이 인식했어요. 그는 gpt-cli를 통해 gpt-4-preview를 썼고, 저는 그냥 ChatGPT 앱에 코드를 복붙했습니다. 처음엔 간단한 작업(새로운 콘텐츠를 앱 레이아웃에 추가하는 식의)부터 시작했는데, AI가 나아지면서 점점 더 복잡한 기능도 이렇게 배포하기 시작했어요.</p>
+<p>나중에 Cursor와 Claude Code로 옮겨갔고, 이렇게 AI를 일찍 받아들인 경험이 우리에게 경쟁력을 줬어요. 덕분에 저는 AI가 개발자의 초능력이 될 수 있다고 믿게 됐죠.</p>
+<p>하지만 2026년 3월 현재, 분명한 한계가 있습니다.</p>
+<h3>아이디어 선택</h3>
+<p>이 한계를 직접 확인해보고 싶었어요.</p>
+<p>Kiwi에서 vibe coding을 해본 것 외에, 저는 '제대로 된' 코딩 경험도 있었거든요. 100일짜리 Python 코스를 끝냈고, JS 날씨 앱도 만들어봤고, Cryptozombies 스마트 계약도 배포해봤습니다. 당연히 Claude로 로컬 앱도 많이 vibe coding했고요.</p>
+<p>이제 이런 식으로는 더 이상 하고 싶지 않았어요. 드디어 공개용 앱을 제 손으로 완성하는 전체 과정을 경험할 시간이었습니다. 이걸 통해 더 나은 PM이 되는 게 목표였어요.</p>
+<p>주된 목표가 학습이었기 때문에 '제대로 하기'로 결정했어요. Replit이나 Lovable 같은 곳은 인프라 부분이 가려져 있지 않습니까. 저는 그 복잡성을 직접 마주하고 싶었습니다.</p>
+<p>과정을 즐겁게 하기 위해 재미있는 걸 하나 고르기로 했어요. Jason Cohen이 말하듯, SLC(Simple, Lovable, Complete)야말로 MVP가 되어야 할 것들이거든요.</p>
+<p>여러 아이디어 중에서 저는 <strong>Cryptosaurus</strong>를 골랐어요. 컨셉은 단순했습니다. 공룡을 고르고, 내 프로필사진을 업로드하면 내 pfp 스타일로 공룡을 만들어주는 거였죠. 심플하고, 사랑스럽고, 완전했어요.</p>
+<h3>그냥 만들어보자</h3>
+<p>머릿속으로는 전체 비전이 있었고, '교과서대로' 만드는 방법도 알고 있었어요. 하지만 생각했죠. &quot;좋아, 이 열풍을 받아들이고 그냥 만들어보자.&quot;</p>
+<p>그런데 이 '그냥 만들기'가 예상보다 훨씬 오래 걸렸어요.</p>
+<h4>작동하는 프로토타입</h4>
+<p>ChatGPT(5.2 Thinking Extended)에 내 아이디어를 설명하면서 시작했어요. 한참 논의하고 스코프를 좁혔고, 준비 완료. Opus 4.5로 옮겨 Plan Mode를 켜고 결과를 기다렸습니다.</p>
+<p>그 와중에 Gemini에서 API 키를 받아 .env에 추가했고... 1시간 만에 작동하는 프로토타입이 완성됐어요.</p>
+<p>우와, 이제 바로 배포하면 되겠네?</p>
+<h4>제대로 만든 프로토타입</h4>
+<p>아뇨.</p>
+<p>보일러플레이트 디자인이 마음에 안 들었거든요. Coolors로 팔레트를 찾아보고, 고른 후, UI에서 테스트하고, 색을 바꾸곤 했어요. 몇 번을 반복한 후에 제대로 된 색상을 얻었습니다.</p>
+<p>그런데 Claude가 UI와 UX를 너무 복잡하게 만들었더라고요. 그래서 단순화하기 시작했어요. Figma를 썼다면 10분 안에 10가지 버전을 만들고 픽셀 퍼펙트를 유지했을 텐데, 저는 '그냥 만들기'를 하고 싶잖습니까?</p>
+<p>그래서 LLM에 새로운 UI를 만들어달라고 했어요. 마음에 안 들어서 다시 만들어달라고 했고, 중요한 세부사항이 빠져있어서 다시 물었어요. 그러다 UI를 훨씬 더 단순화할 수 있다는 걸 깨달았고, 완전히 다시 만들어달라고 했죠.</p>
+<p>그다음엔 이상한 컨테이너가 프론트엔드를 깨먹었고, 모바일에서 제대로 렌더링 안 된 부분도 있었고, 원치 않는 아웃라인도 추가되었어요. 계속 이런 식이었어요. 매 반복마다 몇 분씩 걸렸어요. 프롬프트 작성, LLM이 구현, 검토, 재프롬프트의 반복이었거든요.</p>
+<p>시간은 계속 흘렀어요. 그냥 Figma를 썼으면 10배 빨리 UI를 준비했을 텐데요. 어쨌든 '그냥 만들기'를 하기로 했으니까요.</p>
+<h4>핵심 문제 : 이미지 품질</h4>
+<p>그건 빙산의 일각이었어요.</p>
+<p>Cryptosaurus의 핵심은 공룡 이미지였거든요. 내 pfp에선 잘 나왔지만, 다른 사람들의 pfp에선 어떻게 될까?</p>
+<p>엣지 케이스 pfp를 몇 개 골라서 테스트해봤어요. 그런데 아니었어요. 어떤 건 프레임을 바꿨고, 어떤 건 배경에 이상한 텍스트를 렌더링했으며, 어떤 건 이미지를 완전히 다르게 생성했어요.</p>
+<p>그래서 Gemini, Codex(방금 출시됨), Claude(4.6 새로 나옴)와 계속 논의했어요. 프롬프트 수정하고, 이미지 업로드하고, 새 이미지가 생성될 때까지 기다렸습니다. 이번엔 배경이 사라졌고, 다음엔 모자가 빠졌고, 어떤 건 이상한 텍스트가 보였고, 수염이 부자연스러웠어요.</p>
+<p>이 과정을 200번은 반복했어요. 시간은 여전히 흘렀습니다. 이미 '30분'은 한참 지났거든요.</p>
+<p>모든 엣지 케이스를 커버하려면, 제 <code>prompt.ts</code> 파일이 274줄이 돼야 했어요. 그리고 Gemini로 프롬프트를 보내는 스크립트도 엣지 케이스를 처리하고 나쁜 결과를 방지하는 기능들을 포함해야 했습니다.</p>
+<p>그래도 아직 localhost에서 빠져나오지 못했어요.</p>
+<h4>인프라 구축</h4>
+<p>이제 프롬프트를 고정했으니, 실제로 배포할 차례였어요.</p>
+<p>도메인을 샀고...</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://kanfa.macbudkowski.com/vibecoding-cryptosaurus" target="_blank" rel="noopener">🔗 원문 보기</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Dev Digest — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</body>
+</html>
