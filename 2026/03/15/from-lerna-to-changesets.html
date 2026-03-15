@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>From Lerna to Changesets — Dev Digest</title>
+  <link rel="stylesheet" href="/development-digest/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="/development-digest/">📬 Dev Digest</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="/development-digest/">홈</a>
+        <a href="/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="/development-digest/">홈</a> &gt; <a href="/development-digest/2026/03/15/">2026-03-15</a> &gt; From Lerna to Changesets...
+      </div>
+
+      <h1>From Lerna to Changesets</h1>
+      <div class="article-meta">
+        <span>📅 2026-03-15</span>
+        <span>📰 DEV Community</span>
+        
+        
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>모노레포 프로젝트인 Pedalboard에서 Lerna를 사용한 릴리스 관리를 Changesets로 마이그레이션하는 과정을 설명합니다. Lerna는 현재 버전 관리와 npm 배포만 담당하고 있으며, Changesets는 개발자가 의도적으로 변경사항과 semver 버전 범프 종류를 명시하는 더 명확한 접근 방식을 제시합니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>Lerna는 기존에 유지보수 중단되었다가 다시 활성화되었으며, 현재 Pedalboard에서는 릴리스 관리 전용으로 축소되어 있습니다.</li><li>Changesets는 conventional commit 대신 개발자가 .changeset/ 디렉토리에 마크다운 파일을 작성하여 변경사항을 명시하므로, 커밋 규율에 의존하지 않습니다.</li><li>Changesets 초기화 후 baseBranch와 access 설정을 조정해야 하며, commit: false 옵션으로 CI가 버전 관리를 하도록 설정할 수 있습니다.</li><li>사용하지 않는 디버그 스크립트(publish:lerna:skip-git)를 정리하는 것이 좋습니다.</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>모노레포에서 버전 관리와 배포 도구를 선택할 때, 명확성과 의도성 측면에서 Changesets의 장점을 이해하면 릴리스 프로세스의 안정성과 신뢰도를 높일 수 있습니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><p>Pedalboard 모노레포 이야기를 따라오셨다면, 저와 Lerna의 관계가... 복잡하다는 걸 아실 겁니다. 원래 No BS 모노레포 시리즈에서 모노레포가 계속 필요로 하는 두 가지 - 버전 관리와 배포 - 를 처리하기 위해 Lerna에 손을 뻗었습니다. 잘 작동했다가 유지보수가 되지 않았고, 불사조처럼 다시 살아났으며, 지금까지도 사용하고 있습니다. 그런데 최근에 Changesets를 살펴보면서 드디어 전환할 시점이 되지 않았나 하는 생각이 듭니다.</p>
+<p>## Lerna가 Pedalboard에서 실제로 하는 일 (현 시점)</p>
+<p>이 부분은 솔직해질 가치가 있습니다. Lerna의 범위가 이 프로젝트에서 한동안 축소되고 있기 때문입니다.</p>
+<p>Lerna에 남아있는 것은 lerna.json의 두 블록에 정리되어 있습니다:</p>
+<p>```json
+{
+  &quot;npmClient&quot;: &quot;pnpm&quot;,
+  &quot;useNx&quot;: false,
+  &quot;command&quot;: {
+    &quot;publish&quot;: {
+      &quot;ignoreChanges&quot;: [&quot;ignored-file&quot;, &quot;*.md&quot;],
+      &quot;message&quot;: &quot;chore(release): publish %s&quot;
+    },
+    &quot;version&quot;: {
+      &quot;message&quot;: &quot;chore(release): version&quot;,
+      &quot;allowBranch&quot;: &quot;master&quot;,
+      &quot;conventionalCommits&quot;: true
+    }
+  },
+  &quot;packages&quot;: [&quot;packages/*&quot;],
+  &quot;version&quot;: &quot;independent&quot;
+}
+```</p>
+<p>바로 이게 전부입니다. 현 시점에 Lerna의 전체 역할:</p>
+<p>- 마지막 릴리스 이후 어떤 패키지가 변경되었는지 감지
+- conventional commit 메시지를 기반으로 버전 범프 (patch/minor/major)
+- git에서 릴리스 태그 지정
+- `lerna publish --yes --no-verify-access`를 통해 npm에 배포</p>
+<p>루트 package.json도 이를 확인해줍니다 - lerna의 유일한 언급은 단 하나의 스크립트입니다:</p>
+<p>```json
+&quot;publish:lerna&quot;: &quot;lerna publish --yes --no-verify-access&quot;
+```</p>
+<p>완전히 성장한 모노레포 도구가 매우 구체적이면서도 매우 중요한 하나의 역할로 축소된 것입니다: 릴리스 관리.</p>
+<p>저는 이러한 철학적 진화에 대해 &quot;One Ring To Rule Them all&quot; 모노레포 관리자 재고하기에서 썼습니다. 하나의 도구가 모든 것을 해서는 안 되며, 각 도구가 자신의 영역을 소유해야 한다는 아이디어 말입니다. Lerna는 릴리스 영역을 소유합니다. 하지만 그 영역에서 최고의 도구일까요?</p>
+<p>## Changesets 등장</p>
+<p>Changesets (정확히는 @changesets/cli)는 같은 문제에 다른 접근 방식을 취합니다. conventional commit 메시지를 읽고 자동으로 변경 사항을 감지하는 대신, 개발자가 의도를 가지도록 요구합니다: 변경을 만들 때, changeset을 실행하고 변경 사항과 필요한 semver 범프 종류(patch, minor, major)를 간단히 설명합니다. 이는 .changeset/ 디렉토리에 작은 마크다운 파일을 생성합니다.</p>
+<p>릴리스할 시간이 되면, changeset version을 실행하여 이 파일들을 소비하고 적절한 패키지 버전을 범프한 다음, changeset publish로 npm에 푸시합니다.</p>
+<p>제 입장에서 매력은 명시성입니다. Lerna의 conventional commits 접근 방식에서는 버전 범프가 커밋 메시지에서 유추됩니다 - 즉, 커밋 규칙만큼만 신뢰할 수 있습니다. 누군가 `fix:` 접두사로 breaking change를 몰래 집어넣으면 (우린 모두 그렇게 한 적 있습니다, 거짓말하지 마세요), Lerna는 기꺼이 patch를 배포합니다. Changesets는 범프 의도를 PR 자체의 일부로 만들어 이를 우회합니다.</p>
+<p>## Changesets 초기화</p>
+<p>충분한 이론입니다. 초기화는 한 명령입니다:</p>
+<p>```bash
+pnpm dlx @changesets/cli init
+```</p>
+<p>이는 README.md와 더 중요하게는 config.json을 포함한 .changeset/ 디렉토리를 생성합니다:</p>
+<p>```json
+{
+  &quot;$schema&quot;: &quot;https://unpkg.com/@changesets/config@3.1.3/schema.json&quot;,
+  &quot;changelog&quot;: &quot;@changesets/cli/changelog&quot;,
+  &quot;commit&quot;: false,
+  &quot;fixed&quot;: [],
+  &quot;linked&quot;: [],
+  &quot;access&quot;: &quot;restricted&quot;,
+  &quot;baseBranch&quot;: &quot;main&quot;,
+  &quot;updateInternalDependencies&quot;: &quot;patch&quot;,
+  &quot;ignore&quot;: []
+}
+```</p>
+<p>시작점으로는 나쁘지 않지만, 두 가지가 즉시 고쳐져야 합니다.</p>
+<p>## 바로 나타나는 두 가지 설정 문제</p>
+<p>`baseBranch: &quot;main&quot;` - Pedalboard의 브랜치는 main이 아니라 master입니다. Changesets는 이를 사용하여 마지막 릴리스 이후 무엇이 변경되었는지 결정합니다. 잘못된 베이스는 changeset status가 잘못된 것과 비교하도록 의미합니다:</p>
+<p>```json
+&quot;baseBranch&quot;: &quot;master&quot;
+```</p>
+<p>`access: &quot;restricted&quot;` - 이는 npm 접근 수준을 제어합니다. &quot;restricted&quot;는 비공개 패키지를 의미하며, 이는 합리적인 안전한 기본값이지만, Pedalboard의 모든 패키지는 npm에서 공개입니다:</p>
+<p>```json
+&quot;access&quot;: &quot;public&quot;
+```</p>
+<p>두 줄입니다. 릴리스를 푸시한 후 아무것도 배포되지 않은 이유가 뭐지 싶기 전에 알아차린 것에 기쁩니다.</p>
+<p>다른 기본값들은 괜찮습니다: `&quot;commit&quot;: false`는 Changesets가 버전 범프를 자동으로 커밋하지 않음을 의미합니다 (CI가 처리합니다), 그리고 `&quot;updateInternalDependencies&quot;: &quot;patch&quot;`는 패키지가 범프될 때, 이를 의존하는 모든 내부 패키지가 patch 범프를 받음을 의미합니다.</p>
+<p>## 죽은 스크립트를 정리할 좋은 기회</p>
+<p>Lerna가 하는 일을 살펴보면서, 저는 또한 package.json에 앉아있는 `publish:lerna:skip-git` 스크립트를 발견했습니다:</p>
+<p>```json
+&quot;publish:lerna:skip-git&quot;: &quot;lerna publish --yes --no-verify-access --no-git-tag-version --no-push --loglevel=silly&quot;
+```</p>
+<p>플래그들이 이야기합니다 - `--no-git-tag-version --no-push`는 git 히스토리를 오염시키지 않으면서 로컬에서 배포를 테스트할 수 있도록 했습니다. 디버그 탈출구였습니다.</p>
+<p>저장소와 모든 블로그 포스트에 걸쳐 빠른 검색을 해보니 결론은 명확했습니다: 아무도 이것을 호출한 적이 없었습니다. GitHub Actions 워크플로우도 아니고, 다른 어떤 스크립트도 아니고, 단 하나의 포스트도 아닙니다. 그냥 거기 있었을 뿐입니다.</p>
+<p>저는 Changesets 동등물을 만들 것인지를 고려했지만, Changesets는 이미 버전 관리와 배포를 두 개의 별개 명령으로 분리하고 있으며, 설정에서 `&quot;commit&quot;: false`를 사용하면 `changeset version`은 git에 전혀 접촉하지 않습니다. 만약 태그 없는 배포가 필요한 경우, `changeset publ`</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://dev.to/mbarzeev/from-lerna-to-changesets-4cip" target="_blank" rel="noopener">🔗 원문 보기</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Dev Digest — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+</body>
+</html>
