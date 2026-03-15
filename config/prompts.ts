@@ -40,8 +40,10 @@ export const SUMMARIZE_PROMPT = `당신은 프론트엔드 개발 뉴스 분석 
 
 과도한 수식어 없이 사실 중심으로. 기술 용어는 한국어로 번역하되, 고유명사(React, TypeScript 등)는 원문 유지.
 
+모든 기사의 제목을 자연스러운 한국어로 번역하세요 (titleKo). 이미 한국어인 제목은 그대로 사용.
+
 JSON 배열로 응답하세요:
-[{"index": 0, "summary": "요약", "keyPoints": ["포인트1", "포인트2"], "whyItMatters": "중요성"}, ...]`;
+[{"index": 0, "titleKo": "한국어 제목", "summary": "요약", "keyPoints": ["포인트1", "포인트2"], "whyItMatters": "중요성"}, ...]`;
 
 export const EDITORIAL_PROMPT = `당신은 프론트엔드 개발 뉴스레터 편집자입니다.
 

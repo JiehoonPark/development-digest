@@ -54,13 +54,12 @@ function renderArticleCard(item: ArchiveItem, baseUrl: string, datePath: string)
     ? `<p class="why-it-matters">💡 ${escapeHtml(item.whyItMatters)}</p>`
     : "";
 
-  const detailLink = item.fullContent || item.translatedContent
-    ? `<a class="detail-link" href="${base}${datePath}/${item.slug}.html">📖 자세히 보기</a>`
-    : "";
+  const detailLink = `<a class="detail-link" href="${base}${datePath}/${item.slug}.html">📖 자세히 보기</a>`;
+  const displayTitle = item.titleKo ?? item.title;
 
   return `
     <div class="article-card">
-      <h3><a href="${escapeHtml(item.url)}">${escapeHtml(item.title)}</a></h3>
+      <h3><a href="${escapeHtml(item.url)}">${escapeHtml(displayTitle)}</a></h3>
       ${engagementBadge}${videoBadge}
       <p class="summary">${escapeHtml(item.summary)}</p>
       ${keyPointsHtml}

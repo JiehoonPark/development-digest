@@ -14,6 +14,7 @@ export function renderLayout({ title, content, baseUrl }: LayoutOptions): string
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escapeHtml(title)}</title>
   <link rel="stylesheet" href="${base}style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 </head>
 <body>
   <header class="site-header">
@@ -37,6 +38,8 @@ export function renderLayout({ title, content, baseUrl }: LayoutOptions): string
       <p style="margin-top: 4px;">Powered by Claude AI</p>
     </div>
   </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
 </body>
 </html>`;
 }

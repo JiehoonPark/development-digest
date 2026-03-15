@@ -9,6 +9,7 @@ export function renderArticleDetailPage(
   const [year, month, day] = date.split("-");
   const base = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
   const dailyLink = `${base}${year}/${month}/${day}/`;
+  const displayTitle = item.titleKo ?? item.title;
 
   const keyPointsHtml = item.keyPoints?.length
     ? `<div class="article-key-points">
@@ -34,10 +35,11 @@ export function renderArticleDetailPage(
   const content = `
     <div class="article-detail">
       <div class="breadcrumb">
-        <a href="${base}">홈</a> &gt; <a href="${dailyLink}">${date}</a> &gt; ${escapeHtml(item.title).slice(0, 40)}...
+        <a href="${base}">홈</a> &gt; <a href="${dailyLink}">${date}</a> &gt; ${escapeHtml(displayTitle).slice(0, 40)}...
       </div>
 
-      <h1>${escapeHtml(item.title)}</h1>
+      <h1>${escapeHtml(displayTitle)}</h1>
+      ${displayTitle !== item.title ? `<p style="font-size: 13px; color: #999; margin-bottom: 12px;">${escapeHtml(item.title)}</p>` : ""}
       <div class="article-meta">
         <span>📅 ${date}</span>
         <span>📰 ${escapeHtml(item.sourceName)}</span>
@@ -60,7 +62,7 @@ export function renderArticleDetailPage(
     </div>`;
 
   return renderLayout({
-    title: `${item.title} — Dev Digest`,
+    title: `${displayTitle} — Dev Digest`,
     content,
     baseUrl,
   });
@@ -73,6 +75,7 @@ function formatContent(markdown: string): string {
   let codeLines: string[] = [];
   let codeLang = "";
   let inList = false;
+  let tableRows: string[][] = [];
 
   function flushList() {
     if (inList) {
@@ -81,11 +84,44 @@ function formatContent(markdown: string): string {
     }
   }
 
+  function flushTable() {
+    if (tableRows.length === 0) return;
+    const headerRow = tableRows[0];
+    const bodyRows = tableRows.slice(1);
+
+    let table = '<div class="table-wrapper"><table><thead><tr>';
+    for (const cell of headerRow) {
+      table += `<th>${inlineFormat(cell)}</th>`;
+    }
+    table += "</tr></thead><tbody>";
+    for (const row of bodyRows) {
+      table += "<tr>";
+      for (const cell of row) {
+        table += `<td>${inlineFormat(cell)}</td>`;
+      }
+      table += "</tr>";
+    }
+    table += "</tbody></table></div>";
+    html.push(table);
+    tableRows = [];
+  }
+
+  function isTableSeparator(line: string): boolean {
+    return /^\|[\s-:|]+\|$/.test(line.trim());
+  }
+
+  function parseTableRow(line: string): string[] | null {
+    const trimmed = line.trim();
+    if (!trimmed.startsWith("|") || !trimmed.endsWith("|")) return null;
+    return trimmed.slice(1, -1).split("|").map((c) => c.trim());
+  }
+
   for (const line of lines) {
     // 코드 블록 시작/끝
     if (line.trimStart().startsWith("```")) {
       if (!inCodeBlock) {
         flushList();
+        flushTable();
         inCodeBlock = true;
         codeLang = line.trim().slice(3).trim();
         codeLines = [];
@@ -105,9 +141,29 @@ function formatContent(markdown: string): string {
 
     const trimmed = line.trim();
 
+    // 테이블 처리
+    if (trimmed.startsWith("|") && trimmed.endsWith("|")) {
+      flushList();
+      if (isTableSeparator(trimmed)) continue; // 구분선 스킵
+      const cells = parseTableRow(trimmed);
+      if (cells) {
+        tableRows.push(cells);
+        continue;
+      }
+    } else if (tableRows.length > 0) {
+      flushTable();
+    }
+
     // 빈 줄
     if (!trimmed) {
       flushList();
+      continue;
+    }
+
+    // 구분선 (---)
+    if (/^---+$/.test(trimmed)) {
+      flushList();
+      html.push("<hr>");
       continue;
     }
 
@@ -115,8 +171,8 @@ function formatContent(markdown: string): string {
     const headerMatch = trimmed.match(/^(#{1,4})\s+(.+)$/);
     if (headerMatch) {
       flushList();
-      const level = Math.min(headerMatch[1].length + 1, 6); // h2~h5 (h1은 제목용)
-      html.push(`<h${level}>${escapeHtml(headerMatch[2])}</h${level}>`);
+      const level = Math.min(headerMatch[1].length + 1, 6);
+      html.push(`<h${level}>${inlineFormat(headerMatch[2])}</h${level}>`);
       continue;
     }
 
@@ -130,12 +186,24 @@ function formatContent(markdown: string): string {
       continue;
     }
 
+    // 번호 리스트
+    const olMatch = trimmed.match(/^\d+\.\s+(.+)$/);
+    if (olMatch) {
+      if (!inList) {
+        html.push("<ul>");
+        inList = true;
+      }
+      html.push(`<li>${inlineFormat(olMatch[1])}</li>`);
+      continue;
+    }
+
     // 일반 단락
     flushList();
     html.push(`<p>${inlineFormat(trimmed)}</p>`);
   }
 
   flushList();
+  flushTable();
   return html.join("\n");
 }
 

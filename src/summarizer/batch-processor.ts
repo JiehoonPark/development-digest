@@ -15,6 +15,7 @@ export interface DigestSection {
 
 export interface DigestItem {
   title: string;
+  titleKo?: string;
   url: string;
   sourceName: string;
   summary: string;
@@ -50,6 +51,7 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
 
   const allSummaries: Array<{
     index: number;
+    titleKo?: string;
     summary: string;
     keyPoints?: string[];
     whyItMatters?: string;
@@ -76,6 +78,7 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
     const raw = await askClaude(SUMMARIZE_PROMPT, batchInput, undefined, 8192);
     const parsed = parseJsonResponse<Array<{
       index: number;
+      titleKo?: string;
       summary: string;
       keyPoints?: string[];
       whyItMatters?: string;
@@ -92,6 +95,7 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
   const sections: Record<string, Array<{
     index: number;
     title: string;
+    titleKo?: string;
     summary: string;
     keyPoints: string[];
     whyItMatters?: string;
@@ -112,11 +116,13 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
     const summary = summaryEntry?.summary ?? item.summary ?? "";
     const keyPoints = summaryEntry?.keyPoints ?? [];
     const whyItMatters = summaryEntry?.whyItMatters;
+    const titleKo = summaryEntry?.titleKo;
     const cat = item.aiCategory;
     if (sections[cat]) {
       sections[cat].push({
         index: i,
         title: item.title,
+        titleKo,
         summary,
         keyPoints,
         whyItMatters,
@@ -166,6 +172,7 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
       category: cat,
       items: ordered.map((item) => ({
         title: item.title,
+        titleKo: item.titleKo,
         url: item.url,
         sourceName: item.sourceName,
         summary: item.summary,
