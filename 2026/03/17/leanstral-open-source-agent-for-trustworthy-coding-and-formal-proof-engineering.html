@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leanstral: 신뢰할 수 있는 코딩과 형식적 증명 공학을 위한 오픈소스 에이전트 — FE 데일리 리포트</title>
+  <title>Leanstral: 신뢰할 수 있는 코드 및 형식 증명 엔지니어링을 위한 오픈소스 에이전트 — FE 데일리 리포트</title>
   <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 </head>
@@ -23,82 +23,76 @@
     
     <div class="article-detail">
       <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/17/">2026-03-17</a> &gt; Leanstral: 신뢰할 수 있는 코딩과 형식적 증명 공학을 위한 오픈...
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/17/">2026-03-17</a> &gt; Leanstral: 신뢰할 수 있는 코드 및 형식 증명 엔지니어링을 위한...
       </div>
 
-      <h1>Leanstral: 신뢰할 수 있는 코딩과 형식적 증명 공학을 위한 오픈소스 에이전트</h1>
+      <h1>Leanstral: 신뢰할 수 있는 코드 및 형식 증명 엔지니어링을 위한 오픈소스 에이전트</h1>
       <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Leanstral: Open-source agent for trustworthy coding and formal proof engineering</p>
       <div class="article-meta">
         <span>📅 2026-03-17</span>
         <span>📰 Hacker News (Top)</span>
         
-        <span>⬆ 413</span>
+        <span>⬆ 467</span>
       </div>
 
       <div class="article-summary">
         <h2>요약</h2>
-        <p>Mistral은 Lean 4 증명 보조기를 위해 설계된 첫 오픈소스 코드 에이전트인 Leanstral을 출시했다. 6B의 활성 파라미터만 사용하면서도 형식적 증명 작성과 수학적 개념 정의를 자동화하여 인간의 코드 검증 병목을 해결한다. Claude Opus 대비 92배 저렴한 비용($182 vs $1,650)으로 비슷한 수준의 성능을 제공하며, FLTEval이라는 새로운 평가 스위트로 현실적인 증명 공학 시나리오를 벤치마크한다. Apache 2.0 라이센스로 공개되며 MCP를 통한 확장을 지원한다.</p>
+        <p>Mistral은 Lean 4 증명 보조기를 위해 설계된 최초의 오픈소스 코드 에이전트 Leanstral을 발표했다. 6B 활성 매개변수로 구성된 고효율 희소 아키텍처(sparse architecture)를 사용하며, 형식 증명 작업에 특화되어 있다. Leanstral은 Apache 2.0 라이선스로 공개되었으며, pass@2에서 점수 26.3을 달성하여 Claude Sonnet을 2.6점 초과하면서 비용은 $549 대비 $36만 소요된다. FLTEval이라는 새로운 평가 스위트를 통해 실제 형식 저장소 작업에 기반한 평가를 제공한다.</p>
       </div>
 
       <div class="article-key-points">
         <h2>핵심 포인트</h2>
-        <ul><li>Leanstral은 6B 활성 파라미터의 경량 희소 아키텍처로 설계되어, GLM5-744B(점수 16.6), Kimi-K2.5-1T(점수 20.1) 같은 훨씬 큰 모델들을 단일 패스로 능가하는 효율성을 달성했다. Qwen3.5-397B는 4패스로 25.4를 기록할 때, Leanstral은 2패스(pass@2)로 26.3을 달성하며 계속 선형적으로 확장되어 pass@16에서 29.3에 도달한다.</li><li>Claude 제품군 대비 경제성이 뛰어나다: Leanstral pass@2는 Sonnet(점수 23.7)을 2.6점 앞서면서 $36의 비용으로 실행 가능하며($549 vs), Claude Opus 4.6의 점수 39.6을 따라잡기 위해 pass@16에서 31.9를 기록할 때 $290의 비용만 소요된다. Opus의 $1,650은 Leanstral의 92배에 달한다.</li><li>FLTEval이라는 새로운 평가 스위트는 Fermat의 마지막 정리(FLT) 프로젝트의 모든 PR에 대해 형식적 증명 완성과 새로운 수학적 개념 정의를 벤치마크한다. 경쟁 수학 문제 중심의 기존 평가를 넘어 실제 증명 공학 저장소에서의 유용성을 반영하도록 설계되었다.</li><li>Lean 4.29.0-rc6에서 발생한 타입 별칭 관련 패턴 매칭 오류를 진단한 사례는 `def`를 `abbrev`로 변경하여 정의적 동치성 문제를 해결했다. Leanstral은 테스트 코드 작성으로 실패 환경을 재현하고 근본 원인(rigid definition이 rw 전술의 패턴 매칭 방해)을 정확히 파악한 후 해결책을 제시했다.</li><li>Mistral Vibe 플랫폼을 통해 Apache 2.0 라이센스로 가중치, 에이전트 모드, 무료 API 엔드포인트를 공개하며, 학습 접근 방식을 설명하는 기술 보고서도 함께 제공한다. MCP를 통한 임의 확장을 지원하며 lean-lsp-mcp와의 호환성을 위해 특별히 훈련되었다.</li></ul>
+        <ul><li>형식 증명 자동화의 필요성: AI 코드 생성 모델이 고도의 수학 연구와 미션 크리티컬 소프트웨어 같은 고위험 분야로 확대되면서, 인간의 수동 검증이 주요 병목이 되었다. Leanstral은 기계 생성 로직 디버깅 대신 인간이 원하는 것을 명확히 명시하는 방식으로 해결하려 한다.</li><li>고효율 희소 아키텍처: 6B 활성 매개변수(6 billion active parameters)로 구성되어 매우 효율적이며, Lean 4 증명 보조기와의 완벽한 검증을 통해 병렬 추론이 가능하여 비용 효율적이다. 이는 훨씬 큰 경쟁 모델들보다 우수한 성능을 제공한다.</li><li>오픈소스 공개 및 접근성: Apache 2.0 라이선스로 모델 가중치를 공개하고 Mistral Vibe 환경에서 에이전트 모드로 제공되며, 무료 API 엔드포인트도 제공된다. 기술 보고서와 새로운 평가 스위트 FLTEval도 함께 공개할 예정이다.</li><li>오픈소스 모델 대비 성능: Leanstral-120B-A6B는 GLM5-744B-A40B(점수 16.6)와 Kimi-K2.5-1T-A32B(점수 20.1)를 상회하며, Qwen3.5-397B-A17B가 4회 시도로 25.4를 달성할 때 Leanstral은 2회 시도(pass@2)로 26.3을 달성하고 선형적으로 확장하여 pass@16에서 29.3을 기록한다.</li><li>Claude 제품군 대비 비용 효율성: Leanstral pass@2(점수 26.3)는 Claude Sonnet(점수 23.7, $549)을 2.6점 초과하면서 비용은 $36만 소요되며, pass@16(점수 31.9)은 Claude Opus(점수 39.6, $1,650)에 비해 8점 초과하면서 비용은 92배 저렴하다.</li><li>MCP 지원과 최적화: Mistral Vibe를 통해 임의의 Model Context Protocol(MCP)을 지원하며, 특히 자주 사용되는 lean-lsp-mcp를 통해 최대 성능을 달성하도록 특화 훈련되었다.</li><li>실제 사례: StackExchange 질문에 대응하는 Lean 4.29.0-rc6 호환성 문제를 진단할 때, Leanstral은 단순 타입 별칭의 def 정의가 rw 태틱의 패턴 매칭을 막는 근본 원인을 파악하고 abbrev로 변경하는 해결책을 제시했다. 이는 단순한 시행착오가 아닌 정의상 동등성(definitional equality)의 이해에 기반한다.</li><li>형식 저장소 기반 평가: FLTEval은 고립된 수학 문제 대신 FLT(Fermat's Last Theorem) 프로젝트로의 각 PR에서 형식 증명 완성과 새로운 수학 개념 정의를 평가하여 실제 증명 엔지니어링 시나리오에서의 유용성을 반영한다.</li></ul>
        </div>
       <div class="article-why">
         <h2>왜 중요한가</h2>
-        <p>코드 생성 AI의 신뢰성이 중요한 고위험 도메인(수학, 미션 크리티컬 소프트웨어)에서 AI가 자신의 구현을 형식적으로 증명하도록 하여 수동 검증의 병목을 제거하고, 동시에 경제성과 효율성을 제공한다.</p>
+        <p>Leanstral은 형식 증명 작업의 인간 검증 부담을 획기적으로 줄여 고위험 분야의 코드와 증명 개발 속도를 높일 수 있으며, 오픈소스로 공개되어 접근 가능한 고효율 도구를 제공함으로써 형식 검증 기술의 민주화를 진전시킨다. 클로드 같은 고가의 모폐쇄 모델 대비 저렴한 비용의 경쟁력 있는 대안을 제시한다.</p>
        </div>
       <div class="translated-content">
         <h2>📄 전문 번역</h2>
-        <div class="content"><h2>AI 코딩 에이전트의 새로운 시대: Leanstral 공개</h2>
-<p>AI 모델이 코드 생성에 뛰어난 능력을 보여주고 있습니다. 그런데 수학 연구나 핵심 소프트웨어처럼 높은 신뢰도가 필요한 분야로 나아가면서 새로운 병목이 생겼어요. 바로 <strong>인간의 검증</strong>입니다. 머신이 생성한 코드를 일일이 검토하는 데 드는 시간과 전문성이 개발 속도를 크게 낮추고 있죠.</p>
-<p>우리가 꿈꾸는 것은 다릅니다. 코딩 에이전트가 단순히 코드를 작성하는 것을 넘어, 그 구현이 정확한 명세를 만족하는지까지 <strong>형식적으로 증명</strong>할 수 있는 세상입니다. 사람들은 더 이상 머신이 만든 버그를 디버깅하지 않고, 원하는 결과물을 명확히 정의하기만 하면 됩니다. 오늘 우리는 그 첫 단계를 내디딥니다.</p>
+        <div class="content"><h2>AI 코딩 에이전트의 한계를 넘다: Leanstral 공개</h2>
+<p>AI 모델이 코드 생성에 뛰어난 능력을 보여주고 있습니다. 하지만 수학 연구나 미션 크리티컬 소프트웨어처럼 높은 신뢰도가 필요한 영역으로 나아갈수록 큰 병목이 생기는데요. 바로 인간의 검증입니다. 기계가 생성한 코드를 일일이 검토하고 검증하는 데 드는 시간과 전문 지식이 개발 속도를 가로막고 있거든요.</p>
+<p>우리가 꿈꾸는 건 다릅니다. 코딩 에이전트가 단순히 작업을 수행하는 것을 넘어, 자신의 구현이 엄격한 스펙을 만족하는지 형식적으로 증명할 수 있는 세상이죠. 사람이 일일이 디버깅하지 않아도, 원하는 것을 명확히 명시하면 나머지는 에이전트가 처리하는 방식입니다. 오늘 우리는 그 비전을 향한 첫 발을 내딛습니다.</p>
 <h3>Leanstral 소개</h3>
-<p>Lean 4를 위해 특별히 설계된 <strong>오픈소스 코딩 에이전트 Leanstral</strong>을 공개합니다.</p>
-<p>Lean 4는 단순한 증명 보조 도구가 아닙니다. perfectoid spaces 같은 복잡한 수학 개념부터 Rust 코드의 속성 같은 소프트웨어 명세까지 표현할 수 있죠. 기존의 대형 범용 모델을 감싸기만 하거나 단일 수학 문제에만 집중하던 증명 시스템과 달리, Leanstral은 <strong>실제 Lean 프로젝트에서 작동하도록 설계</strong>되었습니다.</p>
-<h4>핵심 특징</h4>
-<p><strong>공개적이고 접근 가능합니다</strong></p>
-<ul>
-<li>Apache 2.0 라이선스로 가중치 공개</li>
-<li>Mistral의 에이전트 모드를 통한 무료 API 제공</li>
-<li>학습 방식을 상세히 담은 기술 보고서 공개</li>
-<li>경쟁 수학 문제를 넘어선 새로운 평가 세트 FLTEval 공개</li>
-</ul>
-<p><strong>효율성과 성능을 모두 잡았습니다</strong></p>
-<ul>
-<li>초경량 아키텍처(6B의 활성 파라미터)로 설계</li>
-<li>Lean을 완벽한 검증자로 활용한 병렬 추론</li>
-<li>폐쇄형 경쟁사 대비 뛰어난 비용 효율성</li>
-</ul>
-<p><strong>MCP를 통해 계속 확장됩니다</strong></p>
-<ul>
-<li>임의의 MCP 지원</li>
-<li>lean-lsp-mcp와의 최적화된 연동</li>
-</ul>
+<p>이제 Lean 4를 위해 설계된 최초의 오픈소스 코딩 에이전트인 <strong>Leanstral</strong>을 공개합니다.</p>
+<p>Lean 4는 증명 보조 시스템(proof assistant)으로, 완벽한 공간(perfectoid spaces) 같은 복잡한 수학 객체부터 Rust 코드의 안전성 같은 소프트웨어 스펙까지 표현할 수 있습니다. 기존의 대형 범용 모델을 그냥 감싸거나 수학 문제 하나에만 집중하는 시스템과는 달리, Leanstral은 6B의 활성 파라미터만으로 매우 효율적이며 실제 형식 검증 저장소에서 동작하도록 훈련되었습니다.</p>
+<h4>주요 특징</h4>
+<p><strong>열려있고 접근 가능합니다</strong></p>
+<p>Apache 2.0 라이선스로 Leanstral 가중치를 공개합니다. Mistral vibe 에이전트 모드와 무료 API 엔드포인트로도 접근할 수 있고요. 훈련 방식을 다룬 기술 보고서와 함께, 수학 경시대회 문제를 넘어선 평가를 위한 새로운 벤치마크 FLTEval도 함께 릴리스합니다.</p>
+<p><strong>효율적이면서도 강력합니다</strong></p>
+<p>Leanstral은 극도로 희소한 아키텍처(sparse architecture)를 사용하며, 증명 공학 작업에 최적화되어 있습니다. Lean을 완벽한 검증자로 활용한 병렬 추론으로, 기존의 폐쇄형 경쟁 모델보다 뛰어난 성능을 훨씬 저렴하게 제공합니다.</p>
+<p><strong>MCP로 확장 가능합니다</strong></p>
+<p>Leanstral은 vibe를 통해 임의의 MCP를 지원하며, 자주 사용되는 lean-lsp-mcp와 최고 성능을 내도록 특별히 훈련되었습니다.</p>
 <h3>성능 평가</h3>
-<p>실제 증명 작업 시나리오를 반영하기 위해, 우리는 개별 수학 문제가 아닌 <strong>FLT 프로젝트의 실제 PR에서 모든 증명을 완성하고 새로운 수학 개념을 정의하는 능력</strong>을 평가했습니다.</p>
+<p>고립된 수학 문제가 아닌, 실제 증명 공학 시나리오의 유용성을 반영하기 위해 우리는 특별한 접근을 취했습니다. FLT 프로젝트로의 각 PR에서 형식 증명을 완성하고 새로운 수학 개념을 올바르게 정의하는 능력으로 Leanstral을 벤치마크했습니다.</p>
+<p>주요 코딩 에이전트(Claude Opus 4.6, Sonnet 4.6, Haiku 4.5)와 오픈소스 모델들(Qwen3.5 397B-A17B, Kimi-K2.5 1T-A32B, GLM5 744B-A40B)을 비교했는데요.</p>
 <h4>오픈소스 모델과의 비교</h4>
-<p>Leanstral-120B-A6B는 훨씬 더 큰 오픈소스 경쟁자들을 압도합니다.</p>
-<p>GLM5(744B)와 Kimi-K2.5(1T)는 각각 16.6과 20.1 점에서 정체되는 반면, Leanstral은 한 번의 패스(pass@1)만으로 이들을 능가합니다.</p>
-<p>가장 강력한 오픈소스 경쟁자인 Qwen3.5(397B)도 4번의 패스가 필요해 25.4점에 도달하지만, Leanstral은 <strong>절반의 비용(pass@2)으로 26.3점</strong>을 달성하고 계속 선형으로 성능이 향상되어 pass@4에서 29.3점에 이릅니다.</p>
+<p>Leanstral-120B-A6B는 훨씬 큰 오픈소스 경쟁자들 대비 눈에 띄는 효율성 우위를 보여줍니다. GLM5-744B나 Kimi-K2.5 같은 모델들은 아무리 크기가 크더라도 FLTEval 점수가 각각 16.6과 20.1에 정체되는데요. Leanstral은 단 한 번의 추론만으로 둘 다 앞서갑니다.</p>
+<p>가장 강한 오픈소스 경쟁자인 Qwen3.5-397B-A17B도 25.4점에 도달하려면 4번의 추론(pass@4)이 필요합니다. 반면 Leanstral은 절반의 비용으로 26.3점을 달성해서 이미 능가하며, 계속해서 선형으로 성능이 올라가 같은 비용대에서 29.3점에 도달합니다.</p>
 <h4>Claude 제품군과의 비교</h4>
-<p>Leanstral은 Claude를 이용할 때의 <strong>비용 대비 성능에서 탁월한 대안</strong>입니다.</p>
-<div class="table-wrapper"><table><thead><tr><th>모델</th><th>비용 ($)</th><th>점수</th></tr></thead><tbody><tr><td>Haiku</td><td>184</td><td>23.0</td></tr><tr><td>Sonnet</td><td>549</td><td>23.7</td></tr><tr><td>Opus</td><td>1,650</td><td>39.6</td></tr><tr><td>Leanstral (pass@1)</td><td>18</td><td>21.9</td></tr><tr><td>Leanstral (pass@2)</td><td>36</td><td><strong>26.3</strong></td></tr><tr><td>Leanstral (pass@4)</td><td>72</td><td>29.3</td></tr><tr><td>Leanstral (pass@8)</td><td>145</td><td>31.0</td></tr><tr><td>Leanstral (pass@16)</td><td>290</td><td>31.9</td></tr></tbody></table></div>
-<p>Leanstral pass@2는 Sonnet보다 <strong>2.6점 높으면서 비용은 15배 저렴</strong>합니다($36 vs $549). pass@16 기준으로는 Sonnet을 8점이나 앞지르면서도 $290에 불과해, Claude Opus($1,650)에 비해 <strong>92배 경제적</strong>입니다.</p>
-<h3>실제 사례</h3>
-<h4>Stack Exchange 질문 해결: Lean 버전 변경 대응</h4>
-<p>새 Lean 버전이 출시되면 기존 코드를 마이그레이션하는 것이 악몽이 될 수 있습니다.</p>
-<p>Proof Assistants Stack Exchange의 실제 질문을 Leanstral에 주었습니다. 질문은 Lean 4.29.0-rc6(학습 후 출시)에서 갑자기 컴파일이 안 되는 스크립트에 관한 것이었죠.</p>
-<p>문제는 <code>def T2 := List Bool</code> 같은 간단한 타입 별칭과 연결된 패턴을 <code>rw</code> (rewrite) 전술이 더 이상 매칭하지 못한다는 것이었습니다.</p>
-<p>Leanstral은 막힌 상황을 정면으로 돌파했습니다. 실패하는 환경을 재현하는 테스트 코드를 작성한 후, <strong>정의적 동등성(definitional equality)</strong> 문제를 정확히 진단했어요.</p>
-<p>그 결과를 보니 명확했습니다. <code>def</code>는 명시적 언폴딩이 필요한 고정 정의이기 때문에 <code>rw</code> 전술이 필요한 기저 구조를 볼 수 없었던 것입니다.</p>
-<p>해결책도 간단했습니다. <code>def</code>를 <code>abbrev</code>로 바꾸면 됩니다. <code>abbrev</code>는 투명한 별칭을 만들어서 원본 타입과 바로 정의적으로 동등하기 때문에, <code>rw</code> 전술이 다시 패턴을 완벽하게 매칭할 수 있습니다.</p>
-<p>Leanstral은 문제를 완벽하게 해결했을 뿐 아니라, 사용자에게 그 논리까지 명확하게 설명해주었습니다.</p></div>
+<p>Leanstral은 Claude 시리즈의 뛰어난 비용 대체재가 됩니다.</p>
+<ul>
+<li><strong>Leanstral (pass@2): 26.3점, 비용 $36</strong> vs Sonnet (23.7점, $549)</li>
+<li>성능은 2.6점 우수하면서 비용은 15분의 1 수준</li>
+</ul>
+<ul>
+<li><strong>Leanstral (pass@16): 31.9점, 비용 $290</strong> vs Sonnet (23.7점, $549)</li>
+<li>성능은 8점 우수하면서 비용은 절반 이하</li>
+</ul>
+<p>Claude Opus 4.6이 품질 면에서는 최고지만(39.6점), 가격은 $1,650으로 Leanstral의 92배입니다.</p>
+<div class="table-wrapper"><table><thead><tr><th>모델</th><th>비용 ($)</th><th>점수</th></tr></thead><tbody><tr><td>Haiku</td><td>184</td><td>23.0</td></tr><tr><td>Sonnet</td><td>549</td><td>23.7</td></tr><tr><td>Opus</td><td>1,650</td><td>39.6</td></tr><tr><td>Leanstral</td><td>18</td><td>21.9</td></tr><tr><td>Leanstral pass@2</td><td>36</td><td>26.3</td></tr><tr><td>Leanstral pass@4</td><td>72</td><td>29.3</td></tr><tr><td>Leanstral pass@8</td><td>145</td><td>31.0</td></tr><tr><td>Leanstral pass@16</td><td>290</td><td>31.9</td></tr></tbody></table></div>
+<p><em>Mistral Vibe를 평가용 특수 수정 없이 기본 상태로 사용했습니다.</em></p>
+<h3>실제 활용 사례</h3>
+<h4>Stack Exchange 질문 해결: 새 Lean 버전에서의 호환성 문제</h4>
+<p>새로운 Lean 버전이 나올 때마다 기존 코드를 마이그레이션하는 건 정말 골치 아픈 일입니다. 우리는 Proof Assistants Stack Exchange의 실제 질문을 Leanstral에 던졌는데요. 어떤 스크립트가 Lean 4.29.0-rc6에서 갑자기 컴파일되지 않는다는 문제였습니다. (당연히 이 버전은 훈련 데이터에 없습니다.)</p>
+<p>원인은 <code>rw</code> (rewrite) 전술이 갑자기 패턴 매칭을 못 하기 시작한 것이었는데요. 특히 단순한 타입 앨리어스인 <code>def T2 := List Bool</code>로 정의된 타입을 매칭하지 못했거든요.</p>
+<p>Leanstral은 무작정 추측하지 않았습니다. 테스트 코드를 작성해서 실패하는 환경을 재현했고, 정의적 동치성(definitional equality)을 철저히 진단했어요. 그리고 정확히 지적했습니다: <code>def</code>는 명시적 전개를 요구하는 엄격한 정의를 만드는데, 그래서 <code>rw</code> 전술이 매칭해야 할 기초 구조를 못 본다는 거죠.</p>
+<p>해결책은 간단했습니다. <code>def</code>를 <code>abbrev</code>로 바꾸는 거였어요. <code>abbrev</code>는 즉시 정의적으로 동치인 투명한 앨리어스를 만들어서, <code>rw</code> 전술이 다시금 <code>(L2 n).length</code> 패턴을 완벽하게 매칭할 수 있게 해줍니다. Leanstral은 문제를 완전히 해결하고 사용자에게 그 이유까지 명확하게 설명해주었습니다.</p></div>
        </div>
 
       <div class="original-link">
         <a href="https://mistral.ai/news/leanstral" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-17%20Leanstral%3A%20%EC%8B%A0%EB%A2%B0%ED%95%A0%20%EC%88%98%20%EC%9E%88%EB%8A%94%20%EC%BD%94%EB%94%A9%EA%B3%BC%20%ED%98%95%EC%8B%9D%EC%A0%81%20%EC%A6%9D%EB%AA%85%20%EA%B3%B5%ED%95%99%EC%9D%84%20%EC%9C%84%ED%95%9C%20%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8&labels=feedback%2Cliked&body=**Article**%3A%20Leanstral%3A%20%EC%8B%A0%EB%A2%B0%ED%95%A0%20%EC%88%98%20%EC%9E%88%EB%8A%94%20%EC%BD%94%EB%94%A9%EA%B3%BC%20%ED%98%95%EC%8B%9D%EC%A0%81%20%EC%A6%9D%EB%AA%85%20%EA%B3%B5%ED%95%99%EC%9D%84%20%EC%9C%84%ED%95%9C%20%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%0A**URL**%3A%20https%3A%2F%2Fmistral.ai%2Fnews%2Fleanstral%0A**Date**%3A%202026-03-17%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-17%20Leanstral%3A%20%EC%8B%A0%EB%A2%B0%ED%95%A0%20%EC%88%98%20%EC%9E%88%EB%8A%94%20%EC%BD%94%EB%93%9C%20%EB%B0%8F%20%ED%98%95%EC%8B%9D%20%EC%A6%9D%EB%AA%85%20%EC%97%94%EC%A7%80%EB%8B%88%EC%96%B4%EB%A7%81%EC%9D%84%20%EC%9C%84%ED%95%9C%20%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8&labels=feedback%2Cliked&body=**Article**%3A%20Leanstral%3A%20%EC%8B%A0%EB%A2%B0%ED%95%A0%20%EC%88%98%20%EC%9E%88%EB%8A%94%20%EC%BD%94%EB%93%9C%20%EB%B0%8F%20%ED%98%95%EC%8B%9D%20%EC%A6%9D%EB%AA%85%20%EC%97%94%EC%A7%80%EB%8B%88%EC%96%B4%EB%A7%81%EC%9D%84%20%EC%9C%84%ED%95%9C%20%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%0A**URL**%3A%20https%3A%2F%2Fmistral.ai%2Fnews%2Fleanstral%0A**Date**%3A%202026-03-17%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
       </div>
     </div>
   </main>

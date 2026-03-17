@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>미국 의료 시스템의 딜레마 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/17/">2026-03-17</a> &gt; 미국 의료 시스템의 딜레마...
+      </div>
+
+      <h1>미국 의료 시스템의 딜레마</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">The American Healthcare Conundrum</p>
+      <div class="article-meta">
+        <span>📅 2026-03-17</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 325</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>미국이 1인당 의료비에서 선진국보다 훨씬 높은 비용을 지출하는 문제를 식별하는 오픈소스 프로젝트입니다. 현재까지 약 $98.6B/년의 낭비를 정량화했으며, 약품 가격 책정과 병원 절차 가격의 불일치가 주요 원인입니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>동일한 약품에 대해 미국이 다른 OECD 국가보다 7~581배 더 높은 가격 지급 ($25.0B/년 낭비 추정)</li><li>동일한 병원 절차에서 상업 보험이 Medicare보다 254% 높은 가격 지급 ($73.0B/년 낭비 추정)</li><li>모든 분석이 오픈소스 코드로 공개되어 누구든 재현 가능</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>공공 데이터 분석 및 정책 문제 해결에 코드와 데이터를 활용하는 접근 방식을 보여주므로 개발자가 참고할 수 있습니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>미국 의료비 문제를 데이터로 풀어보기</h2>
+<p>미국은 국민 1인당 의료비로 연 14,570달러를 쓰고 있습니다. 반면 일본은 5,790달러를 쓰면서 OECD 국가 중 가장 긴 기대수명을 자랑합니다. 그 차이는 연간 약 3조 달러 규모입니다.</p>
+<p>이 프로젝트는 그 차이를 한 번에 하나씩 찾아내고 있습니다. 각 이슈마다 실제 수정 가능한 문제를 파악하고, 연방 공식 데이터로 낭비를 수치화한 뒤, 구체적인 정책 개선안을 제시합니다. 모든 코드는 오픈소스이므로 누구나 분석을 직접 재현할 수 있습니다.</p>
+<p>[Substack 구독](링크) | MIT License | [기여하기](링크)</p>
+<h3>지금까지 확인된 절감액</h3>
+<div class="table-wrapper"><table><thead><tr><th>#</th><th>이슈</th><th>연간 절감액</th><th>핵심 발견</th><th>데이터 출처</th></tr></thead><tbody><tr><td>1</td><td>일반의약품 과다 지출</td><td>6억 달러</td><td>Medicare가 일반의약품 가격으로 의료보험을 지불함</td><td>CMS Part D 2023</td></tr><tr><td>2</td><td>같은 약, 다른 가격</td><td>250억 달러</td><td>같은 약에 대해 미국이 다른 선진국보다 7~581배 비쌈</td><td>CMS Part D, NHS Tariff, RAND</td></tr><tr><td>3</td><td>254% 문제</td><td>730억 달러</td><td>상용 보험사가 같은 병원 시술에 Medicare 가격의 254%를 지불함</td><td>CMS HCRIS, RAND 5.1</td></tr><tr><td><strong>누계</strong></td><td></td><td><strong>986억 달러</strong></td><td><strong>3조 달러 격차의 3.3%</strong></td><td></td></tr></tbody></table></div>
+<h3>핵심 발견</h3>
+<p>똑같은 의료 시술입니다. 동일한 임상 근거가 있습니다. 그런데 가격은 천차만별입니다.</p>
+<p>출처: iFHP International Health Cost Comparison 2024–2025 (중앙값 기준 보험사 지불액)</p>
+<hr>
+<h3>이슈 #3 — 254% 문제 (연간 약 730억 달러)</h3>
+<p>상용 보험사들이 Medicare 가격의 254%를 같은 병원 시술에 지불하고 있습니다. 예를 들어 고관절 치환술은 미국에서 29,000달러인데, 대부분의 선진국에선 11,000달러 이하입니다.</p>
+<p>만약 상용 보험 병원 지불액을 Medicare의 200% 수준으로 제한한다면 어떨까요? 이미 몬태나 주 Medicaid와 수천 개의 자체 보험 고용주가 사용 중인 방식입니다. 이렇게 하면 연간 약 730억 달러를 절감할 수 있습니다.</p>
+<p>[전체 분석 읽기](링크) → issue_03/newsletter_issue_03.md</p>
+<h4>파이프라인 실행 방법</h4>
+<pre><code class="language-bash">cd issue_03
+# HCRIS 비용 보고서 데이터셋 구축 및 비용대청구비율 계산
+python 01_build_data.py
+# 차트 생성
+python 02_visualize.py</code></pre>
+<h4>데이터 출처</h4>
+<div class="table-wrapper"><table><thead><tr><th>출처</th><th>설명</th></tr></thead><tbody><tr><td>CMS HCRIS HOSP10-REPORTS FY2023</td><td>3,193개 병원의 비용 보고서, 비용대청구비율 및 운영 비용</td></tr><tr><td>RAND Round 5.1 Hospital Pricing Study (2023)</td><td>상용 보험사 지불액 = 같은 시술에 대해 Medicare의 254%</td></tr><tr><td>International Federation of Health Plans 2024-2025</td><td>국가별 시술 가격 (고관절 치환술, 심장 우회 수술 등)</td></tr><tr><td>Peterson-KFF Health System Tracker</td><td>미국 vs. 선진국 시술 비용 비교</td></tr><tr><td>CMS National Health Expenditure Accounts 2023</td><td>미국 병원 지출 총액 1조 3,610억 달러, 민간 보험 비중 38.8%</td></tr><tr><td>NASHP Montana Analysis (April 2021)</td><td>참조 기반 병원 가격 정책의 독립적 영향 평가</td></tr></tbody></table></div>
+<h4>주요 방법론 노트</h4>
+<ul>
+<li><strong>절감 공식</strong>: 5,280억 달러 상용 병원 지출 × 65% 적용 가능 × 21.3% 가격 인하(254%→200% of Medicare) = 730억 달러</li>
+<li><strong>분석 대상</strong>: FY2023 연방 HCRIS 원본 비용 보고서로부터 추출한 3,193개 병원</li>
+<li><strong>마크업 현황</strong>: 비영리 병원의 중앙값은 실제 운영 비용의 3.96배, 전체 병원의 37%가 3배 이상으로 책정</li>
+<li><strong>개선 메커니즘</strong>: 상용 참조 가격 책정(Commercial Reference Pricing)은 이미 몬태나와 수천 개의 자체 보험 고용주가 시행 중</li>
+<li><strong>중복 없음</strong>: 이슈 #1, #2는 의약품 가격만 다루므로 이슈 #3(병원/시술 가격)과 중복되지 않음</li>
+</ul>
+<hr>
+<h3>이슈 #2 — 같은 약, 다른 가격 (연간 약 250억 달러)</h3>
+<p>Medicare는 같은 브랜드 의약품에 대해 선진국보다 7~25배 더 비싼 가격을 지불하고 있습니다. 국제 참조 가격 제도, 즉 Medicare 협상 가격을 독일, 프랑스, 일본, 영국, 호주가 지불하는 가격에 맞추면 연간 약 250억 달러를 절감할 수 있습니다.</p>
+<p>출처: CMS Part D 2023 총 지출, Peterson-KFF 11개국 OECD 평균 가격 기준. (리베이트 조정 전 총액 기준)</p>
+<p>[전체 분석 읽기](링크) → issue_02/newsletter_issue_02_FINAL.md</p>
+<h4>파이프라인 실행 방법</h4>
+<pre><code class="language-bash">cd issue_02
+# 참조 가격 데이터셋 구축 (NHS Drug Tariff + RAND 국제 평균)
+python 01_build_reference_data.py
+# 차트 생성
+python 02_visualize.py</code></pre>
+<h4>데이터 출처</h4>
+<div class="table-wrapper"><table><thead><tr><th>출처</th><th>설명</th></tr></thead><tbody><tr><td>CMS Medicare Part D Spending by Drug (2023)</td><td>의약품별 총 지출액 및 청구 건수</td></tr><tr><td>NHS Drug Tariff Part VIIIA (March 2026)</td><td>특허 만료 후 영국 제네릭 의약품 상환 가격</td></tr><tr><td>RAND RRA788-3 (Feb 2024)</td><td>2022년 데이터 기반 국제 처방약 가격 비교</td></tr><tr><td>Peterson-KFF Health System Tracker (Dec 2024)</td><td>11개국 OECD 의약품 가격 벤치마크</td></tr></tbody></table></div>
+<h4>주요 방법론 노트</h4>
+<ul>
+<li><strong>Medicare 수치</strong>: CMS Part D 공개 사용 파일의 리베이트 전 총액 기준</li>
+<li><strong>리베이트 조정</strong>: 상위 지출 브랜드 약품에 약 49% 순 리베이트율 적용 (MedPAC 및 Feldman 외 기관 자료 삼각측량)</li>
+<li><strong>NHS 가격</strong>: 특허 만료 후 제네릭 상환 가격 (분자의 상품 가격을 나타냄)</li>
+<li><strong>국제 평균</strong>: Peterson-KFF 11개국 OECD 분석 기준</li>
+</ul>
+<hr>
+<h3>이슈 #1 — Medicare의 일반의약품 문제 (연간 약 6억 달러)</h3>
+<p>Medicare Part D는 일반의약품으로도 쌀 수 있는 의약품에 처방약 가격을 지불하고 있습니다. 단계별 치료 개선(Step Therapy) 정책을 도입해 처방약 보장 전에 일반의약품 사용을 먼저 요구한다면, 연간 약 6억 달러의 불필요한 지출을 줄일 수 있습니다.</p>
+<p>[전체 분석 읽기](링크) → issue_01/newsletter_issue_01_FINAL.md</p>
+<h4>파이프라인 실행 방법</h4>
+<pre><code class="language-bash">cd issue_01
+# 일회성 환경 설정
+chmod +x 01_setup.sh &amp;&amp; ./01_setup.sh
+source .venv/bin/activate
+# CMS Part D 데이터 다운로드 (약 200 MB)
+python 02_downlo</code></pre></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://github.com/rexrodeo/american-healthcare-conundrum" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-17%20%EB%AF%B8%EA%B5%AD%20%EC%9D%98%EB%A3%8C%20%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%9D%98%20%EB%94%9C%EB%A0%88%EB%A7%88&labels=feedback%2Cliked&body=**Article**%3A%20%EB%AF%B8%EA%B5%AD%20%EC%9D%98%EB%A3%8C%20%EC%8B%9C%EC%8A%A4%ED%85%9C%EC%9D%98%20%EB%94%9C%EB%A0%88%EB%A7%88%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Frexrodeo%2Famerican-healthcare-conundrum%0A**Date**%3A%202026-03-17%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

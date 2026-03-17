@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>열전사 영수증 프린터 - Markdown 및 웹 UI — FE 데일리 리포트</title>
+  <title>Thermal Receipt Printers – Markdown과 Web UI — FE 데일리 리포트</title>
   <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 </head>
@@ -23,131 +23,120 @@
     
     <div class="article-detail">
       <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/17/">2026-03-17</a> &gt; 열전사 영수증 프린터 - Markdown 및 웹 UI...
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/17/">2026-03-17</a> &gt; Thermal Receipt Printers – Markdown과 Web...
       </div>
 
-      <h1>열전사 영수증 프린터 - Markdown 및 웹 UI</h1>
+      <h1>Thermal Receipt Printers – Markdown과 Web UI</h1>
       <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Show HN: Thermal Receipt Printers – Markdown and Web UI</p>
       <div class="article-meta">
         <span>📅 2026-03-17</span>
         <span>📰 Hacker News (Top)</span>
         
-        <span>⬆ 63</span>
+        <span>⬆ 74</span>
       </div>
 
       <div class="article-summary">
         <h2>요약</h2>
-        <p>Markdown을 지원하는 열전사 영수증 프린터 제어 도구로, 웹 UI와 CLI 모드를 제공하며 Docker로 간편하게 배포할 수 있습니다. QR 코드, 정렬, 수평선 등 확장 기능을 지원합니다.</p>
+        <p>ThermalMarky는 먼지 쌓인 열감지 프린터를 활용하도록 Markdown 포맷과 Web UI, CLI를 지원하는 Python 기반 오픈소스 도구입니다. Docker 배포를 지원하며 QR 코드, 정렬, 특수 포맷팅 등 확장 기능을 제공합니다.</p>
       </div>
 
       <div class="article-key-points">
         <h2>핵심 포인트</h2>
-        <ul><li>표준 Markdown(헤더, 볼드, 언더라인, 리스트)과 사용자 정의 태그([align=center], [qr=URL], [effect=line--])를 지원합니다.</li><li>웹 UI, CLI, Docker 등 다양한 방식으로 사용 가능하며, USB 또는 네트워크 연결을 지원합니다.</li><li>현재 MUNBYN 열전사 프린터에서만 테스트되었으므로 다른 프린터 모델은 호환성 확인이 필요합니다.</li></ul>
+        <ul><li>Markdown, 볼드, 밑줄, 리스트 등 기본 포맷팅 지원</li><li>Web UI, CLI, Docker 등 다양한 사용 방식 제공</li><li>QR 코드, 정렬, 가로줄 등 커스텀 태그 지원</li></ul>
        </div>
       <div class="article-why">
         <h2>왜 중요한가</h2>
-        <p>저비용 열전사 프린터를 실용적인 도구로 활용하는 방법을 제시하며, Markdown 기반의 간단한 포맷으로 포인트 오브 세일 시스템이나 이벤트 티켓 인쇄 등에 활용 가능합니다.</p>
+        <p>레거시 하드웨어를 현대적인 방식으로 활용하고자 하는 개발자에게 빠른 프로토타입 방법을 제공합니다.</p>
        </div>
       <div class="translated-content">
         <h2>📄 전문 번역</h2>
-        <div class="content"><h2>🖨️ ThermalMarky - 마크다운 지원 열감지식 프린터</h2>
-<p>혹시 &quot;재미있는 뭔가를 하려고&quot; 열감지식 영수증 프린터를 사놨다가 지금 먼지만 쌓이고 있진 않나요? 아니면 그런 친구가 있나요?</p>
-<p>어쨌든 ThermalMarky는 기본적인 마크다운 문법을 지원하고, 깔끔한 웹 UI까지 제공해서 그런 프린터를 다시 활용하게 도와줄 거예요.</p>
-<h3>주요 기능</h3>
+        <div class="content"><h2>🖨️ ThermalMarky - 마크다운 열감지식 프린터</h2>
+<p>집에 굴러다니는 열감지식 영수증 프린터 있으신가요? &quot;뭔가 멋진 걸 할 수 있을 것 같은데&quot; 사서는 이제 먼지만 쌓여가는 그런 프린터 말이에요. 혹시 그런 프린터가 있다면 ThermalMarky가 도움이 될 거예요. 기본적인 마크다운 기능을 지원하고, 간단한 웹 인터페이스도 함께 제공하니까요.</p>
+<h3>기능</h3>
 <ul>
-<li><strong>마크다운 지원</strong>: 제목, 굵게, 밑줄, 목록 등 기본 형식 지원</li>
-<li><strong>확장 기능</strong>: 정렬 태그([align=center]), 구분선, QR 코드 생성</li>
-<li><strong>웹 UI</strong>: 편집기 단축키가 내장된 깔끔한 인터페이스</li>
-<li><strong>CLI 모드</strong>: 터미널에서 직접 실행하거나 파이프로 내용 전달 가능</li>
-<li><strong>Docker 지원</strong>: 당연히 준비되어 있습니다</li>
+<li><strong>마크다운 지원</strong>: 헤더, 굵은 글씨, 밑줄, 리스트</li>
+<li><strong>확장 포맷팅</strong>: 정렬 지정([align=center]), 가로선, QR 코드 생성</li>
+<li><strong>웹 UI</strong>: 깔끔한 인터페이스와 단축키 지원</li>
+<li><strong>CLI 모드</strong>: 터미널에서 직접 프린트하거나 파이프로 데이터 전달 가능</li>
+<li><strong>Docker 지원</strong>: 당연히 Docker도 지원합니다</li>
 </ul>
 <h3>시작하기</h3>
-<h4>프린터 설정</h4>
-<p>안타깝게도 열감지식 프린터 종류가 다양해서, 먼저 본인의 프린터가 정상 작동하는지 확인해야 합니다.</p>
-<p>이 프로젝트는 MUNBYN 열감지식 프린터(ITPP047UE-WH-UK) 기준으로만 테스트되었어요.</p>
-<h4>설정 파일 구성</h4>
-<p><code>.env.example</code> 파일을 <code>.env</code>로 이름을 바꾸고 필요한 정보를 입력하세요.</p>
+<h4>프린터 설치</h4>
+<p>열감지식 프린터는 종류가 정말 다양하기 때문에, ThermalMarky를 사용하기 전에 먼저 프린터가 정상 작동하는지 확인해야 해요. 이 프로젝트는 MUNBYN 열감지식 프린터(ITPP047UE-WH-UK) 모델로만 테스트했습니다.</p>
+<h4>설정</h4>
+<p><code>.env.example</code> 파일을 <code>.env</code>로 이름 바꾼 후 필요한 정보를 입력하세요.</p>
 <pre><code>#
-# 프린터 설정
+# Printer Setup
 #
-# 프린터 연결 방식: usb 또는 network
+# Printer Connection: usb or network
 MARKY_TYPE=usb
-
-# USB: lsusb 명령어로 다음과 같은 정보를 찾을 수 있습니다
+# USB, get this information by running `lsusb` while your printer is connected. You should see something like this:
+#
 # Bus 001 Device 094: ID 04b8:0e20 Seiko Epson Corp. TM-m30-ii
 MARKY_VENDOR_ID=0x04b8
 MARKY_PRODUCT_ID=0x0e20
-
-# Network: 프린터 종류에 따라 다른 방식으로 확인합니다
+# Network, how you get this information depends on which printer you have.
 MARKY_IP=192.168.1.100
 MARKY_PORT=9100
-
 #
-# 기본 설정
+# Configuration Setup
 #
-# 출력을 자르기 전에 인쇄할 최대 줄 수 (끝없는 출력 방지)
+# Number of lines to print before truncating output to avoid printing out LOTR.
 MARKY_MAX_LINES=30
-
-# 텍스트 줄 바꿈을 위한 프린터의 최대 가로 길이
+# Max line width supported by the printer for text-wrapping.
 MARKY_LINE_WIDTH=48</code></pre>
-<h4>Docker로 실행하기 (권장)</h4>
-<p>Docker를 사용하면 USB 권한 관리가 쉬워서 가장 간편합니다.</p>
-<p><strong>빌드 및 실행:</strong></p>
+<h4>Docker로 실행하기 (추천)</h4>
+<p>Docker를 사용하면 특히 USB 권한 관리가 훨씬 간단해요.</p>
+<p><strong>빌드 및 시작:</strong></p>
 <pre><code class="language-bash">docker compose up --build</code></pre>
-<p><strong>웹 UI 접속:</strong></p>
+<p><strong>UI 접속:</strong></p>
 <p>브라우저에서 <code>https://localhost:8000</code>을 열면 됩니다.</p>
-<p>(참고: 안전한 통신을 위해 <code>certs/</code> 디렉토리의 자체 서명 인증서를 사용합니다)</p>
+<p>(주의: 보안 통신을 위해 <code>certs/</code> 디렉토리의 자체 서명 인증서를 사용합니다)</p>
 <h4>로컬에서 실행하기</h4>
-<p>직접 설치해서 실행하려면 다음 단계를 따르세요.</p>
-<p><strong>사전 요구 사항</strong></p>
+<p>서버에 직접 설치해서 실행하고 싶다면 다음 단계를 따르세요.</p>
+<p><strong>필수 요구사항</strong></p>
 <ul>
 <li>Python 3.12 이상</li>
-<li>시스템 라이브러리 (python-escpos 필요):</li>
+<li>시스템 라이브러리 (python-escpos용):</li>
 </ul>
 <pre><code class="language-bash">sudo apt install libusb-1.0-0-dev libjpeg-dev zlib1g-dev libcups2-dev python3-dev gcc</code></pre>
-<p><strong>설치 및 실행</strong></p>
-<pre><code class="language-bash"># 가상 환경 생성 및 의존성 설치
-python3 -m venv .venv
+<p><strong>설정</strong></p>
+<p>의존성 설치:</p>
+<pre><code class="language-bash">python3 -m venv .venv
 pip install -r requirements.txt
-. .venv/bin/activate
-
-# 웹 서버 시작
-python3 main.py</code></pre>
+. .venv/bin/activate</code></pre>
+<p>웹 서버 시작:</p>
+<pre><code class="language-bash">python3 main.py</code></pre>
 <h3>사용법</h3>
-<p>웹 UI 없이 직접 파일을 인쇄할 수도 있습니다.</p>
-<pre><code class="language-bash"># 파일 인쇄
+<p>웹 인터페이스 없이도 파일을 직접 프린트할 수 있어요.</p>
+<pre><code class="language-bash"># 파일 프린트
 python print.py my_list.md
 
-# 파이프로 직접 전달
+# 표준 입력으로 바로 프린트
 echo &quot;# Hello World&quot; | python print.py
 
-# HTTP 요청으로 인쇄
+# HTTP 요청으로 프린트
 curl --insecure -X POST &quot;https://127.0.0.1:8000/print&quot; -d &quot;markdown=$(cat my-message.md)&quot;
 
 # 또는
 curl --insecure -X POST &quot;https://127.0.0.1:8000/print&quot; --data-urlencode &quot;markdown@my-message.md&quot;</code></pre>
-<h3>마크다운 문법</h3>
-<p>표준 마크다운 외에도 몇 가지 특수 태그를 지원합니다.</p>
-<div class="table-wrapper"><table><thead><tr><th>태그</th><th>설명</th></tr></thead><tbody><tr><td><code><strong>word</strong></code></td><td>굵게</td></tr><tr><td><code>__word__</code></td><td>밑줄</td></tr><tr><td><code>#</code></td><td>제목 1</td></tr><tr><td><code>##</code></td><td>제목 2</td></tr><tr><td><code>[align=center]</code></td><td>중앙 정렬 (left, right도 사용 가능)</td></tr><tr><td><code>[qr=https://...]</code></td><td>QR 코드 생성 및 인쇄</td></tr><tr><td><code>[effect=line--]</code></td><td>대시 구분선 인쇄</td></tr><tr><td><code>[effect=line-*]</code></td><td>별표 구분선 인쇄</td></tr></tbody></table></div>
-<h4>예제</h4>
+<h3>마크다운 지원 기능</h3>
+<p>표준 마크다운에 더해서 ThermalMarky만의 특별한 태그도 사용할 수 있어요.</p>
+<div class="table-wrapper"><table><thead><tr><th>태그</th><th>설명</th></tr></thead><tbody><tr><td><code><strong>word</strong></code></td><td>굵은 글씨</td></tr><tr><td><code>__word__</code></td><td>밑줄</td></tr><tr><td><code>#</code></td><td>H1 헤더</td></tr><tr><td><code>##</code></td><td>H2 헤더</td></tr><tr><td><code>[align=center]</code></td><td>다음 텍스트를 가운데 정렬 (left, right도 사용 가능)</td></tr><tr><td><code>[qr=https://...]</code></td><td>QR 코드 생성 및 프린트</td></tr><tr><td><code>[effect=line--]</code></td><td>대시(-) 가로선</td></tr><tr><td><code>[effect=line-*]</code></td><td>별(*) 가로선</td></tr></tbody></table></div>
+<h4>사용 예시</h4>
 <pre><code>[align=center]# Thermal Marky
-
 This is **very important** but this __not so much__.
-
 [align=right]This is on the right
-
 [effect=line--]
-
 [align=center][qr=https://github.com/sadreck/ThermalMarky]</code></pre>
-<p>이렇게 작성하면 중앙 정렬된 제목, 굵은 텍스트, 오른쪽 정렬된 텍스트, 구분선, QR 코드가 순서대로 인쇄됩니다.</p>
 <h3>문제 해결</h3>
-<p><strong>USB 권한 문제</strong>: 리눅스에서 프린터가 감지되지 않으면 udev 규칙을 추가하거나 sudo 권한으로 실행해야 할 수 있습니다. Docker Compose를 사용하면 특권 모드로 자동 실행되므로 이 문제가 없습니다.</p>
-<p><strong>인증서 경고</strong>: 웹 서버는 HTTPS를 사용하는데, 브라우저에서 인증서 경고가 나타나는 것은 로컬 사용을 위한 자체 서명 인증서이기 때문입니다. 무시하고 진행해도 괜찮습니다.</p></div>
+<p><strong>USB 권한 문제</strong>: Linux에서 프린터가 감지되지 않으면 udev 규칙을 추가하거나 sudo로 실행해야 할 수도 있어요. Docker Compose로 실행하면 권한이 있는 상태에서 실행되므로 이 문제를 피할 수 있습니다.</p>
+<p><strong>인증서 경고</strong>: 웹 서버는 HTTPS를 사용하고 있어요. 브라우저에서 인증서에 대한 경고가 뜨면, 로컬 테스트용 자체 서명 인증서를 사용하기 때문입니다.</p></div>
        </div>
 
       <div class="original-link">
         <a href="https://github.com/sadreck/ThermalMarky" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-17%20%EC%97%B4%EC%A0%84%EC%82%AC%20%EC%98%81%EC%88%98%EC%A6%9D%20%ED%94%84%EB%A6%B0%ED%84%B0%20-%20Markdown%20%EB%B0%8F%20%EC%9B%B9%20UI&labels=feedback%2Cliked&body=**Article**%3A%20%EC%97%B4%EC%A0%84%EC%82%AC%20%EC%98%81%EC%88%98%EC%A6%9D%20%ED%94%84%EB%A6%B0%ED%84%B0%20-%20Markdown%20%EB%B0%8F%20%EC%9B%B9%20UI%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Fsadreck%2FThermalMarky%0A**Date**%3A%202026-03-17%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-17%20Thermal%20Receipt%20Printers%20%E2%80%93%20Markdown%EA%B3%BC%20Web%20UI&labels=feedback%2Cliked&body=**Article**%3A%20Thermal%20Receipt%20Printers%20%E2%80%93%20Markdown%EA%B3%BC%20Web%20UI%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Fsadreck%2FThermalMarky%0A**Date**%3A%202026-03-17%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
       </div>
     </div>
   </main>
