@@ -81,16 +81,23 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
       "배치 요약 요청"
     );
 
-    const raw = await askClaude(SUMMARIZE_PROMPT, batchInput, undefined, 8192);
-    const parsed = parseJsonResponse<Array<{
-      index: number;
-      titleKo?: string;
-      summary: string;
-      keyPoints?: string[];
-      whyItMatters?: string;
-    }>>(raw);
+    try {
+      const raw = await askClaude(SUMMARIZE_PROMPT, batchInput, undefined, 8192);
+      const parsed = parseJsonResponse<Array<{
+        index: number;
+        titleKo?: string;
+        summary: string;
+        keyPoints?: string[];
+        whyItMatters?: string;
+      }>>(raw);
 
-    allSummaries.push(...parsed);
+      allSummaries.push(...parsed);
+    } catch (err) {
+      log.warn(
+        { batch: `${batchStart + 1}-${batchStart + batch.length}`, error: (err as Error).message },
+        "배치 요약 실패 — 해당 배치 건너뜀"
+      );
+    }
   }
 
   const summaryMap = new Map(
@@ -150,11 +157,17 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
       ])
     )
   );
-  const editRaw = await askClaude(EDITORIAL_PROMPT, editInput);
-  const editorial = parseJsonResponse<{
-    intro: string;
-    sectionOrder: Record<string, number[]>;
-  }>(editRaw);
+  let editorial: { intro: string; sectionOrder: Record<string, number[]> };
+  try {
+    const editRaw = await askClaude(EDITORIAL_PROMPT, editInput);
+    editorial = parseJsonResponse<{
+      intro: string;
+      sectionOrder: Record<string, number[]>;
+    }>(editRaw);
+  } catch (err) {
+    log.warn({ error: (err as Error).message }, "편집 AI 실패 — 기본값 사용");
+    editorial = { intro: "", sectionOrder: {} };
+  }
 
   // 최종 섹션 구성
   const finalSections: DigestSection[] = [];

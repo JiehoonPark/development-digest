@@ -70,6 +70,7 @@ export function parseJsonResponse<T>(raw: string): T {
   // JSON 블록 추출 (```json ... ``` 또는 순수 JSON)
   const jsonMatch = raw.match(/```json\s*([\s\S]*?)\s*```/) ?? raw.match(/(\[[\s\S]*\]|\{[\s\S]*\})/);
   if (!jsonMatch) {
+    log.error({ raw: raw.slice(0, 500) }, "JSON 블록을 찾을 수 없음");
     throw new Error("JSON 파싱 실패: JSON 블록을 찾을 수 없음");
   }
   return JSON.parse(jsonMatch[1]);
