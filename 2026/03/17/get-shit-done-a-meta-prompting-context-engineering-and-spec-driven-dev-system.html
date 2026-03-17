@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get Shit Done: Claude Code를 위한 메타-프롬팅, 컨텍스트 엔지니어링 및 사양 기반 개발 시스템 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/17/">2026-03-17</a> &gt; Get Shit Done: Claude Code를 위한 메타-프롬팅, 컨...
+      </div>
+
+      <h1>Get Shit Done: Claude Code를 위한 메타-프롬팅, 컨텍스트 엔지니어링 및 사양 기반 개발 시스템</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Get Shit Done: A Meta-Prompting, Context Engineering and Spec-Driven Dev System</p>
+      <div class="article-meta">
+        <span>📅 2026-03-17</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 123</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Claude Code, OpenCode, Gemini CLI 등을 위한 경량 메타-프롬팅 및 컨텍스트 엔지니어링 시스템으로, 컨텍스트 윈도우 채움에 따른 품질 저하 문제를 해결한다. Amazon, Google, Shopify 등의 엔지니어들이 신뢰하는 사양 기반 개발 워크플로우를 제공한다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>컨텍스트 로트 해결: Claude 컨텍스트 윈도우 채움으로 인한 품질 저하 문제를 XML 프롬팅과 서브에이전트 오케스트레이션으로 처리</li><li>간단한 워크플로우: 엔터프라이즈급 복잡성 없이 몇 가지 명령어만으로 작동</li><li>다중 런타임 지원: Claude Code, OpenCode, Gemini CLI, Codex 등 다양한 AI 코드 생성 도구 지원</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>AI 코드 생성 도구를 이용한 개발 시 품질 일관성을 유지하면서 생산성을 극대화할 수 있다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>GET SHIT DONE</h2>
+<p>영문 · 中文</p>
+<p>Claude Code, OpenCode, Gemini CLI, Codex, Copilot, Antigravity를 위한 가볍고 강력한 메타 프롬프팅, 컨텍스트 엔지니어링, 스펙 기반 개발 시스템입니다.</p>
+<p>Claude가 컨텍스트 윈도우를 채우면서 발생하는 품질 저하 현상인 &quot;컨텍스트 로트&quot;를 해결합니다.</p>
+<pre><code>npx get-shit-done-cc@latest</code></pre>
+<p>Mac, Windows, Linux에서 작동합니다.</p>
+<p>&gt; &quot;명확하게 원하는 게 있으면, 이게 무조건 만들어줄 거야. 잡소리 없이.&quot;</p>
+<p>&gt; &quot;SpecKit, OpenSpec, Taskmaster를 다 써봤는데 이게 제일 좋은 결과를 줬어.&quot;</p>
+<p>&gt; &quot;Claude Code에서 가장 강력한 추가 기능. 오버 엔지니어링 없고, 그냥 일을 처리해주네.&quot;</p>
+<p>Amazon, Google, Shopify, Webflow의 엔지니어들이 신뢰합니다.</p>
+<p>[왜 만들었나](1) · [어떻게 작동하나](2) · [명령어](3) · [왜 잘 작동하나](4) · [사용 가이드](5)</p>
+<h3>왜 만들었나</h3>
+<p>전 솔로 개발자예요. 저는 코드를 쓰지 않고 Claude Code가 씁니다.</p>
+<p>스펙 기반 개발 도구들이 있긴 한데요 — BMAD, SpecKit 같은 것들 말이에요. 근데 다들 필요 이상으로 복잡하게 만드는 경향이 있어요. 스프린트 회의, 스토리 포인트, 이해관계자 동기화, 회고, Jira 워크플로우… 정말 싫었어요. 저는 50명 규모의 소프트웨어 회사가 아니거든요. 엔터프라이즈 연극 같은 건 하고 싶지 않아요. 그냥 멋진 걸 만들고 싶은 창의적인 사람일 뿐이에요.</p>
+<p>그래서 GSD를 만들었습니다. 복잡성은 시스템 안에 감춰져 있고, 당신의 워크플로우는 단순합니다. 백그라운드에선 컨텍스트 엔지니어링, XML 프롬프트 포매팅, 서브에이전트 오케스트레이션, 상태 관리 같은 걸 다 처리해요. 당신이 보는 것은 그냥 몇 가지 명령어일 뿐이고, 그것들이 작동합니다.</p>
+<p>이 시스템은 Claude에게 일을 하고 검증하는 데 필요한 모든 걸 줍니다. 저는 이 워크플로우를 신뢰해요. 정말 잘 작동하거든요.</p>
+<p>이게 GSD예요. 엔터프라이즈 롤플레이는 없습니다. Claude Code로 일관되게 멋진 것들을 만들기 위한 정말 효과적인 시스템일 뿐이에요.</p>
+<p>— TÂCHES</p>
+<h3>Vibecoding의 문제점</h3>
+<p>Vibecoding은 나쁜 평판이 있어요. 뭘 원하는지 설명하면 AI가 코드를 만드는데, 이게 커질수록 깨져나가는 쓰레기가 돼버리곤 합니다.</p>
+<p>GSD가 이걸 고쳤어요. Claude Code를 신뢰할 수 있게 만드는 컨텍스트 엔지니어링 레이어거든요. 원하는 걸 설명하면, 이 시스템이 필요한 모든 정보를 추출해내고, Claude Code가 일을 시작합니다.</p>
+<h3>누가 사용하면 좋을까</h3>
+<p>원하는 것을 설명하고 제대로 만들어지길 원하는 사람들. 50명 규모의 엔지니어링 조직 같은 척할 필요는 없습니다.</p>
+<h3>시작하기</h3>
+<pre><code>npx get-shit-done-cc@latest</code></pre>
+<p>설치 프로그램이 다음을 선택하도록 물어봅니다:</p>
+<p><strong>런타임</strong> — Claude Code, OpenCode, Gemini, Codex, Copilot, Antigravity, 또는 전부</p>
+<p><strong>위치</strong> — 전역(모든 프로젝트) 또는 로컬(현재 프로젝트만)</p>
+<p>다음 명령어로 확인하세요:</p>
+<ul>
+<li>Claude Code / Gemini: <code>/gsd:help</code></li>
+<li>OpenCode: <code>/gsd-help</code></li>
+<li>Codex: <code>$gsd-help</code></li>
+<li>Copilot: <code>/gsd:help</code></li>
+<li>Antigravity: <code>/gsd:help</code></li>
+</ul>
+<p>&gt; <strong>참고</strong> Codex 설치는 커스텀 프롬프트 대신 스킬을 사용합니다 (skills/gsd-*/SKILL.md).</p>
+<h3>항상 최신 버전 유지</h3>
+<p>GSD는 빠르게 진화합니다. 주기적으로 업데이트하세요:</p>
+<pre><code>npx get-shit-done-cc@latest</code></pre>
+<h3>비대화형 설치 (Docker, CI, 스크립트)</h3>
+<pre><code class="language-bash"># Claude Code
+npx get-shit-done-cc --claude --global # ~/.claude/ 에 설치
+npx get-shit-done-cc --claude --local # ./.claude/ 에 설치
+
+# OpenCode (오픈소스, 무료 모델)
+npx get-shit-done-cc --opencode --global # ~/.config/opencode/ 에 설치
+
+# Gemini CLI
+npx get-shit-done-cc --gemini --global # ~/.gemini/ 에 설치
+
+# Codex (스킬 우선)
+npx get-shit-done-cc --codex --global # ~/.codex/ 에 설치
+npx get-shit-done-cc --codex --local # ./.codex/ 에 설치
+
+# Copilot (GitHub Copilot CLI)
+npx get-shit-done-cc --copilot --global # ~/.github/ 에 설치
+npx get-shit-done-cc --copilot --local # ./.github/ 에 설치
+
+# Antigravity (Google, 스킬 우선, Gemini 기반)
+npx get-shit-done-cc --antigravity --global # ~/.gemini/antigravity/ 에 설치
+npx get-shit-done-cc --antigravity --local # ./.agent/ 에 설치
+
+# 모든 런타임
+npx get-shit-done-cc --all --global # 모든 디렉토리에 설치</code></pre>
+<p><code>--global (-g)</code> 또는 <code>--local (-l)</code> 플래그로 위치 선택 화면을 건너뛸 수 있습니다.</p>
+<p><code>--claude</code>, <code>--opencode</code>, <code>--gemini</code>, <code>--codex</code>, <code>--copilot</code>, <code>--antigravity</code>, 또는 <code>--all</code>로 런타임 선택 화면을 건너뛸 수 있습니다.</p>
+<h3>개발 설치</h3>
+<p>저장소를 클론한 후 로컬에서 설치 프로그램을 실행하세요:</p>
+<pre><code class="language-bash">git clone https://github.com/glittercowboy/get-shit-done.git
+cd get-shit-done
+node bin/install.js --claude --local</code></pre>
+<p><code>./.claude/</code> 에 설치되어 기여하기 전에 수정 사항을 테스트할 수 있습니다.</p>
+<h3>권한 확인 단계 건너뛰기 (권장)</h3>
+<p>GSD는 마찰 없는 자동화를 위해 설계되었어요. Claude Code를 이렇게 실행하세요:</p>
+<pre><code>claude --dangerously-skip-permissions</code></pre>
+<p>&gt; <strong>팁</strong> GSD의 의도된 사용법이 이거예요. 날짜와 git 커밋을 50번 승인하려고 멈추는 건 목적을 깔아뭉개는 거거든요.</p>
+<h3>대체 방법: 세분화된 권한 관리</h3>
+<p>이 플래그를 쓰기 싫으면, 프로젝트의 <code>.claude/settings.json</code> 에 다음을 추가하세요:</p>
+<pre><code class="language-json">{
+  &quot;permissions&quot;: {
+    &quot;allow&quot;: [
+      &quot;Bash(date:*)&quot;,
+      &quot;Bash(echo:*)&quot;,
+      &quot;Bash(cat:*)&quot;,
+      &quot;Bash(ls:*)&quot;,
+      &quot;Bash(mkdir:*)&quot;,
+      &quot;Bash(wc:*)&quot;,
+      &quot;Bash(head:*)&quot;,
+      &quot;Bash(tail:*)&quot;,
+      &quot;Bash(sort:*)&quot;,
+      &quot;Bash(grep:*)&quot;,
+      &quot;Bash(tr:*)&quot;,
+      &quot;Bash(git add:*)&quot;,
+      &quot;Bash(git commit:*)&quot;,
+      &quot;Bash(git status:*)&quot;,
+      &quot;Bash(git log:*)&quot;,
+      &quot;Bash(git diff:*)&quot;,
+      &quot;Bash(git tag:*)&quot;
+    ]
+  }
+}</code></pre>
+<h3>어떻게 작동하나</h3>
+<p>이미 코드가 있나요? <code>/gsd:map-codebase</code> 를 먼저 실행하세요. 병렬 에이전트들을 띄워서 당신의 스택, 아키텍처, 코딩 관례, 주요 관심사들을 분석합니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://github.com/gsd-build/get-shit-done" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-17%20Get%20Shit%20Done%3A%20Claude%20Code%EB%A5%BC%20%EC%9C%84%ED%95%9C%20%EB%A9%94%ED%83%80-%ED%94%84%EB%A1%AC%ED%8C%85%2C%20%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%20%EC%97%94%EC%A7%80%EB%8B%88%EC%96%B4%EB%A7%81%20&labels=feedback%2Cliked&body=**Article**%3A%20Get%20Shit%20Done%3A%20Claude%20Code%EB%A5%BC%20%EC%9C%84%ED%95%9C%20%EB%A9%94%ED%83%80-%ED%94%84%EB%A1%AC%ED%8C%85%2C%20%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8%20%EC%97%94%EC%A7%80%EB%8B%88%EC%96%B4%EB%A7%81%20%EB%B0%8F%20%EC%82%AC%EC%96%91%20%EA%B8%B0%EB%B0%98%20%EA%B0%9C%EB%B0%9C%20%EC%8B%9C%EC%8A%A4%ED%85%9C%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Fgsd-build%2Fget-shit-done%0A**Date**%3A%202026-03-17%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

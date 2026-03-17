@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python 3.15의 JIT이 다시 정상 궤도로 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/17/">2026-03-17</a> &gt; Python 3.15의 JIT이 다시 정상 궤도로...
+      </div>
+
+      <h1>Python 3.15의 JIT이 다시 정상 궤도로</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Python 3.15's JIT is now back on track</p>
+      <div class="article-meta">
+        <span>📅 2026-03-17</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 201</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Python 3.15의 JIT 컴파일러가 성능 목표를 달성하여 macOS AArch64에서 11-12%, x86_64 Linux에서 5-6% 속도 향상을 기록했습니다. 원래 3.14까지는 인터프리터보다 느렸던 JIT이 커뮤니티 주도의 개선으로 유의미한 성능 향상을 달성했습니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>macOS AArch64에서 예상보다 1년 빠르게, x86_64 Linux에서 수개월 빨리 성능 목표 달성</li><li>더 간단한 작업 단위로 문제를 분해하고 상세한 가이드로 신규 기여자 유치</li><li>Free-threading 지원은 3.15/3.16에서 추가 예정</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>Python 애플리케이션의 실행 속도 향상으로 더 효율적인 개발과 배포가 가능해집니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Python 3.15의 JIT, 드디어 제 궤도에 올랐습니다</h2>
+<p>Ken Jin's Blog</p>
+<p>2026년 3월 17일</p>
+<p>좋은 소식입니다. CPython JIT의 성능 목표를 macOS AArch64에서는 예정보다 1년 먼저, x86_64 Linux에서는 몇 개월 먼저 달성했거든요. 3.15 알파 버전의 JIT는 macOS AArch64에서 꼬리 호출 인터프리터보다 약 11~12% 빠르고, x86_64 Linux의 표준 인터프리터보다 5~6% 빠릅니다.</p>
+<p>이건 기하평균이며 아직 예비 결과입니다. 실제로는 20% 느려지는 경우부터 100% 이상 빨라지는 경우까지 다양하게 나타나고 있어요. (unpack_sequence 마이크로벤치마크는 제외) 아직 완전한 자유 스레딩 지원은 없지만, 3.15/3.16에서 목표로 삼고 있습니다. 어쨌든 JIT 프로젝트가 제 궤도에 올랐다는 뜻입니다.</p>
+<h3>정말 고생했습니다</h3>
+<p>이 과정이 얼마나 힘들었는지는 말로 다 못 할 정도입니다. 한때 JIT 프로젝트가 실질적인 성능 개선을 이룰 수 있을지 진지하게 의심했던 시점이 있었거든요.</p>
+<p>되짚어보면, 원래의 CPython JIT는 거의 성능 개선을 보여주지 못했습니다. 8개월 전에 제가 올린 글에서는 3.13과 3.14의 JIT가 인터프리터보다 자주 느렸다고 지적했죠. 그 무렵이 Faster CPython 팀의 메인 스폰서가 펀딩을 빼던 시기였습니다. 저는 자원봉사자라 직접적인 영향을 받지 않았지만, 함께 일하는 친구들이 영향을 받았거든요. 그 시점엔 JIT의 미래가 정말 불확실해 보였습니다.</p>
+<h3>3.13과 3.14와 뭐가 달라졌나요?</h3>
+<p>우리가 어떻게 JIT를 절체절명의 위기에서 구출했는지 영웅담처럼 이야기해주고 싶지만, 솔직하게 말하자면 우리의 성공은 운이 정말 많이 작용했습니다. 적절한 시기에, 적절한 장소에, 적절한 사람들이, 적절한 결정을 했던 거죠.</p>
+<p>JIT의 핵심 기여자인 Savannah Ostrowski, Mark Shannon, Diego Russo, Brandt Bucher, 그리고 제 중 누군가라도 빠졌다면 이건 불가능했을 거라고 확신합니다. 그 외에도 Hai Zhu, Zheaoli, Tomas Roun, Reiden Ong, Donghee Na와 제가 빠뜨린 분들도 있습니다.</p>
+<p>이 글에서는 JIT의 기술적 측면보다는 사람과 운의 역할에 대해 이야기하려고 합니다. 기술적인 세부사항을 원하신다면 [여기](링크)를 참고하세요.</p>
+<h3>Part 1: 커뮤니티 주도의 JIT</h3>
+<p>Faster CPython 팀의 메인 스폰서가 2025년에 펀딩을 중단했습니다. 저는 즉시 커뮤니티 중심의 운영을 제안했죠. 당시에는 이게 잘될지 확신이 서지 않았습니다. JIT 프로젝트는 신규 기여자에게 친화적이지 않기로 악명이 높거든요. 역사적으로 상당한 전문 지식이 필요했었으니까요.</p>
+<p>Cambridge에서 열린 CPython 핵심 스프린트에서 JIT 핵심 팀이 모여 3.15에서 5% 더 빠른 JIT, 3.16에서 10% 더 빠른 JIT를 만들되 자유 스레딩을 지원하는 계획을 짰습니다.</p>
+<p>중요하면서도 주목받지 못한 한 가지 목표도 있었습니다. 바로 버스 요인(bus factor)을 줄이는 것이었어요. 우리는 JIT의 3단계 각각—프론트엔드(지역 선택기), 중간 단계(최적화기), 백엔드(코드 생성기)—에 최소 2명의 활동적인 유지보수자를 두고 싶었습니다.</p>
+<p>예전에는 중간 단계에 2명의 활동적인 기여자만 있었는데, 지금은 4명으로 늘었습니다. 그리고 핵심 개발자가 아닌 Hai Zhu와 Reiden을 이제는 능력 있고 소중한 팀원으로 봅니다.</p>
+<h4>사람들을 모으기 위해 효과 있었던 것들</h4>
+<p>일반적인 소프트웨어 엔지니어링 실전: 복잡한 문제를 관리 가능한 부분으로 나누기.</p>
+<p>Brandt가 3.14에서 먼저 시작한 것인데요. 그는 여러 개의 대형 이슈를 열어서 JIT 최적화를 간단한 작업들로 쪼갰습니다. 예를 들어 &quot;JIT의 단일 명령어 하나만 최적화해보세요&quot;처럼요. 저는 3.15에서 이 아이디어를 받아 발전시켰습니다.</p>
+<p>운 좋게도 제 작업은 인터프리터 명령어들을 JIT가 쉽게 최적화할 수 있는 형태로 변환하는 것이라 비교적 간단했어요. 신규 기여자들을 독려하기 위해 저는 매우 상세한 지침을 작성했고, 그걸 바로 실행할 수 있게 만들었습니다. 또 작업 단위도 명확하게 표시했죠. 이게 도움이 되었는지, 제를 포함해 11명의 기여자가 그 이슈에서 작업했고, 거의 모든 인터프리터를 JIT 최적화에 더 친화적인 형태로 변환했습니다.</p>
+<p>핵심은 이겁니다. 복잡한 검은 상자처럼 보이던 JIT를 JIT 경험이 없는 C 프로그래머도 기여할 수 있는 수준으로 분해했다는 것 말이에요.</p>
+<p>효과가 있었던 다른 것들도 있습니다. 사람들을 격려하고, 크고 작은 성취를 함께 축하하기. 모든 JIT PR마다 명확한 결과가 있었는데, 이게 사람들에게 방향감각을 줬던 것 같습니다.</p>
+<p>이런 커뮤니티 최적화 노력이 빛을 발했습니다. JIT는 x86_64 Linux에서 1% 빨라진 수준에서 3~4%까지 개선되었거든요.</p>
+<h3>Part 2: 행운의 내기들</h3>
+<h4>트레이스 레코딩</h4>
+<p>다시 한 번 운의 역할을 강조하자면, Cambridge의 CPython 핵심 스프린트 중에 Brandt가 제게 JIT 프론트엔드를 트레이싱 방식으로 다시 쓰도록 &quot;정신을 빼먹게&quot; 만들었습니다. 처음엔 이 아이디어가 마음에 들지 않았지만, 친절한 형태의 악의에 찬 개발 정신으로 무장해서 이게 안 된다는 걸 증명해주려고 다시 써보기로 했어요.</p>
+<p>초기 프로토타입은 3일 만에 완성했는데, 실제로 테스트 스위트를 통과하면서 제대로 JIT하기까지는 한 달이 걸렸습니다. 초기 결과는 형편없었어요. x86_64에서 약 6% 느렸거든요.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://fidget-spinner.github.io/posts/jit-on-track.html" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-17%20Python%203.15%EC%9D%98%20JIT%EC%9D%B4%20%EB%8B%A4%EC%8B%9C%20%EC%A0%95%EC%83%81%20%EA%B6%A4%EB%8F%84%EB%A1%9C&labels=feedback%2Cliked&body=**Article**%3A%20Python%203.15%EC%9D%98%20JIT%EC%9D%B4%20%EB%8B%A4%EC%8B%9C%20%EC%A0%95%EC%83%81%20%EA%B6%A4%EB%8F%84%EB%A1%9C%0A**URL**%3A%20https%3A%2F%2Ffidget-spinner.github.io%2Fposts%2Fjit-on-track.html%0A**Date**%3A%202026-03-17%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

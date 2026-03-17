@@ -1,0 +1,108 @@
+---
+title: "시간이 왔다: Temporal 발전, Vite 가속화"
+tags: [dev-digest, insight, javascript, vite]
+type: study
+tech:
+  - javascript
+  - vite
+level: ""
+created: 2026-03-17
+aliases: []
+---
+
+> [!info] 원문
+> [It’s about time: Temporal advances, Vite accelerates](https://javascriptweekly.com/issues/777) · JavaScript Weekly
+
+## 핵심 개념
+
+> [!abstract]
+> JavaScript의 날짜/시간 처리를 개선하기 위해 9년간 추진된 Temporal API가 거의 완성 단계에 이르렀으며, 인기 있는 빌드 도구 Vite 8.0이 메가 릴리스로 출시되었다. Vite 8.0은 Babel 제거, Rolldown 도입, Wasm SSR 지원 등 대폭적인 성능 개선을 담고 있다.
+
+## 상세 내용
+
+- Temporal API: JavaScript의 날짜/시간 처리 문제를 근본적으로 해결하며 Safari와 Node.js의 지원 대기 중
+- Vite 8.0: @vitejs/plugin-react v6이 Babel을 더 이상 필요로 하지 않으며, Rolldown이 Rollup과 esbuild를 대체
+- VoidZero의 Vite+ 오픈소스 공개: Vite, Vitest, Oxlint 등을 통합한 단일 툴체인
+
+> [!tip] 왜 중요한가
+> JavaScript 개발자들이 더 간편한 날짜 처리와 빠른 빌드 속도를 얻을 수 있으며, 프레임워크 전환이 AI 도구 덕분에 이전보다 쉬워지고 있다.
+
+## 전문 번역
+
+# JavaScript 주간 소식 정리 (2026년 3월 17일)
+
+## 주목할 소식
+
+**Temporal: JavaScript의 날짜/시간 처리를 바꾸다**
+
+JavaScript의 날짜와 시간 처리는 정말 골칫거리였어요. 그래서 Moment.js 같은 라이브러리가 큰 인기를 얻을 수 있었던 겁니다. 2017년 Moment.js의 유지보수자인 Maggie Johnson-Pint가 Temporal API를 제안했는데, 이제 거의 완성 단계에 도달했습니다. Safari와 Node가 아직 따라가지 못했지만, 지원 범위가 계속 넓어지고 있어요.
+
+**Vite 8.0 출시 — 대규모 업데이트**
+
+인기 있는 빌드 툴 Vite가 8.0을 내놨습니다. 업그레이드가 부드럽게 진행되도록 설계되었는데요, 뒤에서 일어나는 변화들은 꽤 큽니다. @vitejs/plugin-react v6는 더 이상 Babel이 필요 없고, Rolldown이 Rollup과 esbuild를 대체합니다. 여기에 Wasm SSR 지원, 브라우저 콘솔을 터미널로 전달하는 기능, 그리고 상당한 성능 개선이 포함됐어요.
+
+**Vite+ 오픈소스 공개**
+
+VoidZero가 Vite+ 툴킷을 오픈소스로 공개했습니다. 원래는 상업 프로젝트였는데, 결정을 바꿨네요. Vite+는 Vite, Vitest, Oxlint, Oxfmt, Rolldown, tsdown을 하나의 통합 툴체인으로 묶었으며, 현재 알파 버전입니다.
+
+## 소식 한눈에 보기
+
+TC39 미팅에서 여러 제안들이 진전을 이뤘어요. Temporal, Import Text, Error Stack Accessor, Iterator Includes 등이 그것입니다.
+
+재미있는 제안도 있네요. BigInt에 수학 상수를 추가하자는 (다소 장난스러운) 아이디어도 나왔습니다.
+
+Vue.js Amsterdam 컨퍼런스에서는 Vue Router 5, Vite 8, Void Cloud가 발표됐습니다.
+
+## 새로운 릴리스들
+
+- **Electron 41.0** – ASAR Integrity digest와 MSIX 자동 업데이트 지원을 추가했고, Wayland 지원을 개선했습니다. Chromium 146, Node v24.14.0, V8 14.6으로 업데이트됐어요.
+- **Nitro v3 Beta** – Vite 앱에 프로덕션 레벨의 서버를 추가할 수 있습니다. 자신의 프레임워크를 만들려는 사람들에게 유용하네요.
+- **Vitest 4.1** – 차세대 테스트 프레임워크가 Vite 8을 지원하기 시작했습니다.
+- Preact 10.29.0, Prisma 7.5.0, Babel 8.0 RC3, Vue 3.6.0 Beta 8도 릴리스됐습니다.
+
+## 읽을만한 글과 영상
+
+**소스맵: 표준을 통한 기능 배포**
+
+소스맵은 축소/변환된 코드를 원본과 연결해주는 JSON 파일입니다. 디버거와 유사한 도구들이 이걸 사용하는데요, Jon의 글에서는 이 기능이 어떻게 표준(ECMA-426)으로 발전해왔는지 자세히 살펴봅니다.
+
+**130만 줄을 React에서 Svelte로 2주 만에 옮기다**
+
+요즘 "LLM과 코딩 에이전트가 가장 인기 있는 프레임워크에 우리를 묶어둘 거다"는 말이 나돌고 있어요. 하지만 현실은 정반대입니다. 이런 도구들이 프레임워크 간 전환을 예전보다 훨씬 쉽게 만들어줬거든요. Strawberry는 실제로 이를 경험했습니다.
+
+**Svelte 개발자를 위한 베스트 프랙티스**
+
+Svelte 공식 문서에 새로 추가된 섹션입니다. 더 견고한 Svelte 앱을 만드는 방법들을 정리해뒀어요.
+
+**프론트엔드 메모리 누수 실증 연구**
+
+React, Vue, Angular 앱 500개를 분석했습니다. 결과를 보니 타이머 정리 누락과 이벤트 리스너 제거 누락이 대부분의 메모리 누수를 일으키고 있었어요.
+
+**12년 된 JavaScript 라이브러리를 TypeScript로 재작성하다**
+
+Machina 유한 상태 머신 라이브러리의 이야기입니다.
+
+그 외에도 협업 편집 도구에 대한 오해, 프론트엔드의 OAuth 2.0 보안, Bluesky 연동, Node.js의 가상 파일 시스템 필요성, 네이티브 JSON 모듈 등에 관한 글들이 있습니다.
+
+## 개발 도구와 라이브러리
+
+**Nuxt 4.4: 풀스택 Vue 프레임워크**
+
+라우팅(Vue Router v5로 개선), 서버사이드 렌더링, 데이터 페칭 등을 포함하는 풀스택 Vue 프레임워크가 새 버전을 냈습니다. 커스텀 useFetch/useAsyncData 팩토리, 타입된 레이아웃 props, 빌드 프로파일링 등이 추가됐어요.
+
+**Reveal.js 6.0: HTML 프레젠테이션 프레임워크**
+
+오랫동안 사랑받아온 브라우저 기반 프레젠테이션 도구가 6.0으로 업그레이드됐습니다. Vite로 전환했고, 공식 React 래퍼가 추가됐으며, 몇 가지 breaking change가 있네요.
+
+**RedwoodSDK 1.0: Cloudflare 기반 React 프레임워크**
+
+서버 우선 React 프레임워크로, Vite 플러그인으로 만들어졌습니다. Cloudflare 플랫폼과 깊게 통합되어 있어서 Workers, D1(데이터베이스), Durable Objects, R2(스토리지), AI API 등을 쉽게 활용할 수 있어요.
+
+## 참고 자료
+
+- [원문 링크](https://javascriptweekly.com/issues/777)
+- via JavaScript Weekly
+
+## 관련 노트
+
+- [[2026-03-17|2026-03-17 Dev Digest]]
