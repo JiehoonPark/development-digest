@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jepsen: MariaDB Galera Cluster 12.1.2 분석 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/17/">2026-03-17</a> &gt; Jepsen: MariaDB Galera Cluster 12.1.2 분석...
+      </div>
+
+      <h1>Jepsen: MariaDB Galera Cluster 12.1.2 분석</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Jepsen: MariaDB Galera Cluster 12.1.2</p>
+      <div class="article-meta">
+        <span>📅 2026-03-17</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 44</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Jepsen은 MariaDB Galera Cluster 12.1.2의 일관성 보장을 엄격히 분석하여, 문서에서 주장하는 '트랜잭션 손실 없음'과 '모든 노드에서의 일관된 데이터' 같은 claim들이 실제로는 성립하지 않음을 밝혔다. 동기식 복제(synchronous replication)를 표방하지만 실제로는 쿼럼 기반 시스템으로 작동하며, 문서에서 밝혀지지 않은 일관성 이상(anomaly)이 존재한다는 점을 지적한다. 2010년 분석 당시 발견된 'first-committer-wins' 부재 문제는 여전히 해결되지 않았으며, MariaDB가 2025년 Codership 인수 후에도 이런 한계가 남아있을 수 있음을 암시한다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>MariaDB는 '트랜잭션이 모든 노드에서 커밋되거나 모두 실패한다'고 주장하지만, 실제로는 쿼럼 기반 시스템으로 소수 노드 실패를 용인한다. 문서의 'unanim ous replication' 설명은 오류이며, 이는 기존 분석(2015)에서도 지적된 문제다.</li><li>Galera의 tx_isolation 설정은 Serializable과 Repeatable Read 사이에 위치한다고 문서에 명시되어 있으나, 이는 여전히 불명확하다. MariaDB의 Repeatable Read는 Snapshot Isolation을 제공해야 하지만(MDEV-35124), Galera Cluster에서 이것이 실제로 보장되는지는 문서에 명확하지 않다.</li><li>Jepsen의 테스트는 3노드 MariaDB 12.1.2~12.2.2 클러스터에서 네트워크 분할, 프로세스 일시 중지, 프로세스 강제 종료 등의 장애를 유발하며 Elle의 리스트 워크로드를 사용하여 일관성 이상을 탐지한다.</li><li>2015년 분석에서 발견된 'first-committer-wins' 부재(은행 계좌 이체 시뮬레이션에서 돈을 잃거나 생성할 수 있는 버그)는 설계 결함이며, Codership Oy의 의도적 선택이었다. MariaDB의 2025년 인수 이후에도 이 한계가 해결되었는지 확인 필요하다.</li><li>문서는 '명시적 잠금 미지원' 같은 알려진 제약사항을 나열하지만, 일관성 수준이나 일관성 이상에 대해서는 언급하지 않는다. 유일한 관련 언급은 '트랜잭션 크기' 섹션의 한줄 주석에 불과하다.</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>Galera Cluster 사용자는 공식 문서의 일관성 보장 claim이 실제 구현과 맞지 않을 수 있음을 알아야 하며, 특히 금융이나 데이터 무결성이 중요한 시스템에서는 독립적인 검증을 통해 실제 일관성 보장 수준을 확인해야 한다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>MariaDB Galera Cluster의 일관성 문제 분석</h2>
+<h3>배경</h3>
+<p>MariaDB는 MySQL을 기반으로 시작한 인기 있는 오픈소스 SQL 데이터베이스입니다. MariaDB Galera Cluster는 모든 노드에서 읽기와 쓰기가 가능한 액티브-액티브 복제 시스템이죠.</p>
+<p>2015년 필자가 MariaDB와 Galera Cluster를 분석했을 때 흥미로운 발견이 있었습니다. Galera는 Snapshot Isolation을 제공한다고 주장했지만, Codership Oy는 실제로는 Snapshot Isolation의 핵심 특성인 'first-committer-wins'를 의도적으로 제외해서 설계했거든요. 그 결과 은행 계좌 이체 같은 시뮬레이션에서 Galera는 돈을 잃거나 없는 돈을 만들어낼 수 있었습니다. 2025년 MariaDB가 Codership Oy를 인수하면서 Galera Cluster는 이제 MariaDB의 공식 제품이 되었습니다.</p>
+<p>Galera Cluster는 gcomm이라는 가상 동기식 그룹 통신 프레임워크를 기반으로 합니다. 트랜잭션은 먼저 어느 노드에서든 낙관적으로 실행됩니다. 커밋할 때 다른 노드들로 동기식으로 복제되며, 이들이 주요 키를 기준으로 트랜잭션을 검증하죠. 다른 트랜잭션과의 충돌은 시퀀스 번호(seqno)를 통해 식별됩니다.</p>
+<h4>문서의 오도(誤導)</h4>
+<p>MariaDB Galera 복제 가이드에는 이렇게 나와 있습니다:</p>
+<p>&gt; 기존의 비동기 또는 준동기 복제와 달리, Galera는 트랜잭션이 모든 노드에서 커밋되거나(또는 모두 실패하거나) 클라이언트가 성공 확인을 받기 전에 보장합니다.</p>
+<p>이건 사실이 아닙니다. 만약 Galera가 정말로 모든 노드에서 커밋을 요구한다면 단 하나의 노드 장애도 견딜 수 없을 테니까요.</p>
+<p>MariaDB 문서는 이 주장을 반복해서 나열합니다. &quot;트랜잭션은 모든 노드에서 검증을 통과할 때까지 진정으로 커밋된 것으로 간주되지 않는다&quot; 또는 &quot;트랜잭션이 COMMIT될 때 클러스터의 모든 노드가 같은 값을 가진다&quot; 같은 식이죠. 또 &quot;노드 A가 다른 모든 노드로부터 'OK'를 받은 후에야 클라이언트에게 '당신의 트랜잭션이 커밋되었습니다'라고 알린다&quot;고도 합니다.</p>
+<p>실제로는 어떨까요? Galera Cluster는 소수의 노드가 장애 상태에 있어도 계속 작동합니다. 마찬가지로 MariaDB의 장애 허용 정책도 일관성 있게 동작합니다. 쿼럼 수의 노드가 온라인이고 연결되어 있으면 그 컴포넌트는 진행 가능합니다.</p>
+<p>예전 Galera는 쿼럼을 잃으면 수동으로 복구해야 했습니다. 운영자가 모든 노드에 직접 접속해서 가장 높은 시퀀스 번호를 가진 노드를 찾아 이를 사용해 클러스터를 부트스트랩해야 했거든요. 다행히 최신 버전의 Galera는 자동으로 장애에서 복구할 수 있습니다.</p>
+<h4>일관성 보장에 대한 의문</h4>
+<p>Galera Cluster 복제 가이드는 &quot;데이터가 항상 모든 노드에서 일관성 있다&quot;고 하면서 &quot;노드 장애 시 데이터 손실을 방지한다&quot;고 주장합니다. Galera는 &quot;기본적으로 개별 MariaDB 서버 세트를 견고하고 가용성이 높으며 일관성 있는 분산 데이터베이스 시스템으로 변환한다&quot;고 합니다.</p>
+<p>이 시스템은 Strong Snapshot Isolation 같은 실시간 일관성 모델을 제공해야 할 것 같습니다. MariaDB의 Galera Cluster 가이드는 동기식 복제가 변경 사항을 &quot;모든 다른 노드로 즉시 복제하여 복제 지연 및 손실된 트랜잭션이 없음을 보장한다&quot;고 말합니다. &quot;손실된 트랜잭션이 없다&quot;는 주장은 MariaDB의 Galera Cluster README에서도 반복되죠.</p>
+<p>Galera Cluster 사용 가이드는 &quot;표준 SQL 트랜잭션(START TRANSACTION, COMMIT, ROLLBACK)이 예상대로 작동한다&quot;고 약속합니다. 이를 읽으면 MariaDB와 Galera Cluster가 단일 MariaDB 노드와 동일한 일관성 모델을 지원한다고 가정할 수 있을 것 같습니다. 정말 그럴까요? 놀랍게도 이를 확인하기가 어렵습니다!</p>
+<p>MariaDB의 Galera 문서에는 알려진 제한 사항 섹션이 있긴 합니다. 일부 명시적 잠금이 지원되지 않으며 MariaDB는 InnoDB 저장 엔진을 사용해야 한다고 합니다. 하지만 이 목록에는 격리 수준이나 일관성 이상(anomaly)에 대한 언급이 없습니다.</p>
+<p>실제로 MariaDB의 Galera 문서에서 격리 수준에 대해 언급한 유일한 부분은 관리 섹션에 묻혀 있습니다. &quot;Galera로 변환하기 팁&quot; 페이지의 &quot;트랜잭션 크기&quot; 항목 아래에 이렇게 적혀 있습니다:</p>
+<p>&gt; Galera의 tx_isolation은 Serializable과 Repeatable Read 사이입니다.</p>
+<p>&gt; tx_isolation 변수는 무시됩니다.</p>
+<p>Repeatable Read는 상당히 강한 일관성 모델입니다. 대부분의 형식에서는 객체가 술어가 아닌 주요 키로 선택되는 한 직렬성(Serializability)과 동등합니다.</p>
+<p>MariaDB에서 &quot;Repeatable Read&quot;는 예전엔 비반복 가능한 읽기를 허용했지만 이제는 금지합니다. MDEV-35124에 따르면 MariaDB의 &quot;Repeatable Read&quot;는 실제로 Snapshot Isolation을 제공해야 합니다. 따라서 MariaDB Galera Cluster는 직렬화 가능(Serializable)보다는 약하지만, Repeatable Read나 Snapshot Isolation보다는 강한 일관성 모델을 제공할 것으로 예상됩니다.</p>
+<h3>테스트 설계</h3>
+<p>Jepsen의 기존 MySQL &amp; MariaDB 테스트 스위트를 개조해서 Debian Trixie 위에서 실행되는 3노드 MariaDB Galera Cluster를 구성했습니다. MariaDB의 공식 Debian 저장소를 사용해 MariaDB 12.1.2부터 12.2.2까지, Galera 26.4.13부터 26.4.25까지 설치했습니다. MariaDB 공식 Java 클라이언트 버전 3.5.6을 사용해 클러스터에 트랜잭션을 제출했습니다. 테스트 과정에서 네트워크 분할, 프로세스 일시 정지, 프로세스 강제 종료 등 다양한 장애를 주입했습니다.</p>
+<p>이전 MySQL 분석과 마찬가지로 주요 워크로드는 Elle의 리스트를 기반으로 했습니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://jepsen.io/analyses/mariadb-galera-cluster-12.1.2" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-17%20Jepsen%3A%20MariaDB%20Galera%20Cluster%2012.1.2%20%EB%B6%84%EC%84%9D&labels=feedback%2Cliked&body=**Article**%3A%20Jepsen%3A%20MariaDB%20Galera%20Cluster%2012.1.2%20%EB%B6%84%EC%84%9D%0A**URL**%3A%20https%3A%2F%2Fjepsen.io%2Fanalyses%2Fmariadb-galera-cluster-12.1.2%0A**Date**%3A%202026-03-17%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

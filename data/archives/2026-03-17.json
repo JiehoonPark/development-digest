@@ -1,37 +1,194 @@
 {
   "date": "2026-03-17",
-  "intro": "안녕하세요! 오늘은 Claude Code와 AI 에이전트 생태계가 뜨거운 화제입니다. Mistral의 Leanstral 출시, Claude의 생성형 UI 프레임워크 오픈소스화, 그리고 Claude Code를 활용한 다양한 플러그인과 도구들이 개발자 생산성 혁신을 주도하고 있습니다. Software 3.0 시대에서 LLM의 실제 활용을 위한 '하네스' 개념도 주목할 만합니다.",
+  "intro": "안녕하세요! 오늘은 AI 코딩 에이전트와 검증 기술의 비약적 발전이 돋보이는 날입니다. Mistral의 Leanstral부터 Claude Code의 다양한 활용법까지, 생성형 AI가 소프트웨어 개발의 모든 단계를 혁신하고 있습니다. 동시에 개발 조직의 검토 단계 최적화와 AI 비용 거품에 대한 현실적 논의도 주목할 만합니다.",
   "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Leanstral: Open-source agent for trustworthy coding and formal proof engineering",
+          "titleKo": "Leanstral: 신뢰할 수 있는 코딩과 형식적 증명 공학을 위한 오픈소스 에이전트",
+          "summary": "Mistral은 Lean 4 증명 보조기를 위해 설계된 첫 오픈소스 코드 에이전트인 Leanstral을 출시했다. 6B의 활성 파라미터만 사용하면서도 형식적 증명 작성과 수학적 개념 정의를 자동화하여 인간의 코드 검증 병목을 해결한다. Claude Opus 대비 92배 저렴한 비용($182 vs $1,650)으로 비슷한 수준의 성능을 제공하며, FLTEval이라는 새로운 평가 스위트로 현실적인 증명 공학 시나리오를 벤치마크한다. Apache 2.0 라이센스로 공개되며 MCP를 통한 확장을 지원한다.",
+          "keyPoints": [
+            "Leanstral은 6B 활성 파라미터의 경량 희소 아키텍처로 설계되어, GLM5-744B(점수 16.6), Kimi-K2.5-1T(점수 20.1) 같은 훨씬 큰 모델들을 단일 패스로 능가하는 효율성을 달성했다. Qwen3.5-397B는 4패스로 25.4를 기록할 때, Leanstral은 2패스(pass@2)로 26.3을 달성하며 계속 선형적으로 확장되어 pass@16에서 29.3에 도달한다.",
+            "Claude 제품군 대비 경제성이 뛰어나다: Leanstral pass@2는 Sonnet(점수 23.7)을 2.6점 앞서면서 $36의 비용으로 실행 가능하며($549 vs), Claude Opus 4.6의 점수 39.6을 따라잡기 위해 pass@16에서 31.9를 기록할 때 $290의 비용만 소요된다. Opus의 $1,650은 Leanstral의 92배에 달한다.",
+            "FLTEval이라는 새로운 평가 스위트는 Fermat의 마지막 정리(FLT) 프로젝트의 모든 PR에 대해 형식적 증명 완성과 새로운 수학적 개념 정의를 벤치마크한다. 경쟁 수학 문제 중심의 기존 평가를 넘어 실제 증명 공학 저장소에서의 유용성을 반영하도록 설계되었다.",
+            "Lean 4.29.0-rc6에서 발생한 타입 별칭 관련 패턴 매칭 오류를 진단한 사례는 `def`를 `abbrev`로 변경하여 정의적 동치성 문제를 해결했다. Leanstral은 테스트 코드 작성으로 실패 환경을 재현하고 근본 원인(rigid definition이 rw 전술의 패턴 매칭 방해)을 정확히 파악한 후 해결책을 제시했다.",
+            "Mistral Vibe 플랫폼을 통해 Apache 2.0 라이센스로 가중치, 에이전트 모드, 무료 API 엔드포인트를 공개하며, 학습 접근 방식을 설명하는 기술 보고서도 함께 제공한다. MCP를 통한 임의 확장을 지원하며 lean-lsp-mcp와의 호환성을 위해 특별히 훈련되었다."
+          ],
+          "whyItMatters": "코드 생성 AI의 신뢰성이 중요한 고위험 도메인(수학, 미션 크리티컬 소프트웨어)에서 AI가 자신의 구현을 형식적으로 증명하도록 하여 수동 검증의 병목을 제거하고, 동시에 경제성과 효율성을 제공한다.",
+          "url": "https://mistral.ai/news/leanstral",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 413,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-formal-verification",
+          "isTopicPrimary": true,
+          "slug": "leanstral-open-source-agent-for-trustworthy-coding-and-formal-proof-engineering",
+          "fullContent": "AI agents have proven to be highly capable tools at code generation. Yet, as we push these models to high-stakes domains, ranging from frontier research mathematics to mission-critical software, we encounter a scaling bottleneck: the human review. The time and specialized expertise required to manually verify become the primary impedance of engineering velocity.\nWe envision a more helpful generation of coding agents to both carry out their tasks and formally prove their implementations against strict specifications. Instead of debugging machine-generated logic, humans dictate what they want. Today, we are taking the first major step toward that vision.\nIntroducing Leanstral\nWe release Leanstral, the first open-source code agent designed for Lean 4. Lean4 is a proof assistant capable of expressing complex mathematical objects such as perfectoid spaces and software specifications like properties of Rust fragments. Unlike existing proving systems that act as wrappers around large generalist models or focus on single math problems, Leanstral is designed to be highly efficient (with 6B active parameters) and trained for operating in realistic formal repositories.\nOpen and accessible: We release Leanstral weights under an Apache 2.0 license, in an agent mode within Mistral vibe, and through a free API endpoint. We will also release a tech report detailing our training approach, and a new evaluation suite FLTEval, to move evaluations beyond their focus on competition math.\nEfficient and mighty: We use a highly sparse architecture for Leanstral, and optimise it for proof engineering tasks. Leveraging parallel inference with Lean as a perfect verifier, Leanstral is both performant and cost-efficient against existing closed-source competitors.\nUpgradable via MCP: Leanstral supports arbitrary MCPs through vibe, and was specifically trained to achieve maximal performance with the frequently used lean-lsp-mcp.\nEvaluation\nTo reflect usefulness in realistic proof engineering scenarios, we benchmark Leanstral for completing all formal proofs and correctly defining new mathematical concepts in each PR to the FLT project, instead of isolated mathematical problems. We compare Leanstral against leading coding agents (Claude Opus 4.6, Sonnet 4.6, Haiku 4.5) and open-source models (Qwen3.5 397B-A17B, Kimi-K2.5 1T-A32B, GLM5 744B-A40B).\nLeanstral vs. OSS Models\nLeanstral-120B-A6B demonstrates a significant efficiency advantage over its much larger open-source peers. While models like GLM5-744B-A40B and Kimi-K2.5-1T-32B struggle to scale, capping their FLTEval scores at approximately 16.6 and 20.1 respectively, Leanstral outperforms them both with just a single pass.\nEven Qwen3.5-397B-A17B, the strongest OSS competitor shown, requires 4 passes to reach a score of 25.4. In contrast, Leanstral achieves a superior score of 26.3 with half that investment (pass@2) and continues to scale linearly, reaching 29.3 at the same cost level.\nLeanstral vs. Claude Family\nLeanstral serves as a high-value alternative to the Claude suite, offering competitive performance at a fraction of the price: Leanstral pass@2 reaches a score of 26.3, beating Sonnet by 2.6 points, while costing only $36 to run, compared to Sonnet’s $549. At pass@16, Leanstral reaches a score of 31.9, comfortably beating Sonnet by 8 points. While Claude Opus 4.6 remains the leader in quality, it carries a staggering cost of $1,650, 92 times higher than running Leanstral.\nIn our benchmarking, we used Mistral Vibe as the scaffold with no modifications specifically for the evaluation.\nModelCost ($)ScoreHaiku18423.0Sonnet54923.7Opus1,65039.6Leanstral1821.9Leanstral pass@23626.3Leanstral pass@47229.3Leanstral pass@814531.0Leanstral pass@1629031.9\nCase studies\nAnswering stackexchange posts about changes in newest Lean version\nWhen breaking changes hit a new Lean release, migrating code can be a massive headache. We fed Leanstral a real-world question from the Proof Assistants Stack Exchange about a script that mysteriously stopped compiling in Lean 4.29.0-rc6 (which we did not train with due to its recency). The culprit was a rewrite (rw) tactic that suddenly failed to match patterns involving a simple type alias, initially written as def T2 := List Bool.\nInstead of taking a stab in the dark, Leanstral rolled up its sleeves. It successfully built test code to recreate the failing environment and diagnosed the underlying issue with definitional equality. The model correctly identified that because def creates a rigid definition requiring explicit unfolding, it was actively blocking the rw tactic from seeing the underlying structure it needed to match.\nThe fix it proposed was simple: just swap def for abbrev. Because abbrev creates a transparent alias that is immediately definitionally equal to the original type, the rw tactic could once again perfectly match the pattern (L2 n).length in the proof. Leanstral completes the job and explains the rationale to the user perfectly.\nReasoning ",
+          "category": "hot",
+          "publishedAt": "2026-03-16T20:59:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# AI 코딩 에이전트의 새로운 시대: Leanstral 공개\n\nAI 모델이 코드 생성에 뛰어난 능력을 보여주고 있습니다. 그런데 수학 연구나 핵심 소프트웨어처럼 높은 신뢰도가 필요한 분야로 나아가면서 새로운 병목이 생겼어요. 바로 **인간의 검증**입니다. 머신이 생성한 코드를 일일이 검토하는 데 드는 시간과 전문성이 개발 속도를 크게 낮추고 있죠.\n\n우리가 꿈꾸는 것은 다릅니다. 코딩 에이전트가 단순히 코드를 작성하는 것을 넘어, 그 구현이 정확한 명세를 만족하는지까지 **형식적으로 증명**할 수 있는 세상입니다. 사람들은 더 이상 머신이 만든 버그를 디버깅하지 않고, 원하는 결과물을 명확히 정의하기만 하면 됩니다. 오늘 우리는 그 첫 단계를 내디딥니다.\n\n## Leanstral 소개\n\nLean 4를 위해 특별히 설계된 **오픈소스 코딩 에이전트 Leanstral**을 공개합니다.\n\nLean 4는 단순한 증명 보조 도구가 아닙니다. perfectoid spaces 같은 복잡한 수학 개념부터 Rust 코드의 속성 같은 소프트웨어 명세까지 표현할 수 있죠. 기존의 대형 범용 모델을 감싸기만 하거나 단일 수학 문제에만 집중하던 증명 시스템과 달리, Leanstral은 **실제 Lean 프로젝트에서 작동하도록 설계**되었습니다.\n\n### 핵심 특징\n\n**공개적이고 접근 가능합니다**\n- Apache 2.0 라이선스로 가중치 공개\n- Mistral의 에이전트 모드를 통한 무료 API 제공\n- 학습 방식을 상세히 담은 기술 보고서 공개\n- 경쟁 수학 문제를 넘어선 새로운 평가 세트 FLTEval 공개\n\n**효율성과 성능을 모두 잡았습니다**\n- 초경량 아키텍처(6B의 활성 파라미터)로 설계\n- Lean을 완벽한 검증자로 활용한 병렬 추론\n- 폐쇄형 경쟁사 대비 뛰어난 비용 효율성\n\n**MCP를 통해 계속 확장됩니다**\n- 임의의 MCP 지원\n- lean-lsp-mcp와의 최적화된 연동\n\n## 성능 평가\n\n실제 증명 작업 시나리오를 반영하기 위해, 우리는 개별 수학 문제가 아닌 **FLT 프로젝트의 실제 PR에서 모든 증명을 완성하고 새로운 수학 개념을 정의하는 능력**을 평가했습니다.\n\n### 오픈소스 모델과의 비교\n\nLeanstral-120B-A6B는 훨씬 더 큰 오픈소스 경쟁자들을 압도합니다.\n\nGLM5(744B)와 Kimi-K2.5(1T)는 각각 16.6과 20.1 점에서 정체되는 반면, Leanstral은 한 번의 패스(pass@1)만으로 이들을 능가합니다.\n\n가장 강력한 오픈소스 경쟁자인 Qwen3.5(397B)도 4번의 패스가 필요해 25.4점에 도달하지만, Leanstral은 **절반의 비용(pass@2)으로 26.3점**을 달성하고 계속 선형으로 성능이 향상되어 pass@4에서 29.3점에 이릅니다.\n\n### Claude 제품군과의 비교\n\nLeanstral은 Claude를 이용할 때의 **비용 대비 성능에서 탁월한 대안**입니다.\n\n| 모델 | 비용 ($) | 점수 |\n|------|---------|------|\n| Haiku | 184 | 23.0 |\n| Sonnet | 549 | 23.7 |\n| Opus | 1,650 | 39.6 |\n| Leanstral (pass@1) | 18 | 21.9 |\n| Leanstral (pass@2) | 36 | **26.3** |\n| Leanstral (pass@4) | 72 | 29.3 |\n| Leanstral (pass@8) | 145 | 31.0 |\n| Leanstral (pass@16) | 290 | 31.9 |\n\nLeanstral pass@2는 Sonnet보다 **2.6점 높으면서 비용은 15배 저렴**합니다($36 vs $549). pass@16 기준으로는 Sonnet을 8점이나 앞지르면서도 $290에 불과해, Claude Opus($1,650)에 비해 **92배 경제적**입니다.\n\n## 실제 사례\n\n### Stack Exchange 질문 해결: Lean 버전 변경 대응\n\n새 Lean 버전이 출시되면 기존 코드를 마이그레이션하는 것이 악몽이 될 수 있습니다.\n\nProof Assistants Stack Exchange의 실제 질문을 Leanstral에 주었습니다. 질문은 Lean 4.29.0-rc6(학습 후 출시)에서 갑자기 컴파일이 안 되는 스크립트에 관한 것이었죠.\n\n문제는 `def T2 := List Bool` 같은 간단한 타입 별칭과 연결된 패턴을 `rw` (rewrite) 전술이 더 이상 매칭하지 못한다는 것이었습니다.\n\nLeanstral은 막힌 상황을 정면으로 돌파했습니다. 실패하는 환경을 재현하는 테스트 코드를 작성한 후, **정의적 동등성(definitional equality)** 문제를 정확히 진단했어요.\n\n그 결과를 보니 명확했습니다. `def`는 명시적 언폴딩이 필요한 고정 정의이기 때문에 `rw` 전술이 필요한 기저 구조를 볼 수 없었던 것입니다.\n\n해결책도 간단했습니다. `def`를 `abbrev`로 바꾸면 됩니다. `abbrev`는 투명한 별칭을 만들어서 원본 타입과 바로 정의적으로 동등하기 때문에, `rw` 전술이 다시 패턴을 완벽하게 매칭할 수 있습니다.\n\nLeanstral은 문제를 완벽하게 해결했을 뿐 아니라, 사용자에게 그 논리까지 명확하게 설명해주었습니다."
+        },
+        {
+          "title": "크래프톤 CEO, 서브노티카 2 개발자들에게 보너스 지급을 피할 수 있는 방법을 ChatGPT에 물어본 것으로...",
+          "titleKo": "크래프톤 CEO, ChatGPT에 서브노티카 2 개발자 보너스 회피 방법 문의한 것으로 드러나",
+          "summary": "크래프톤이 2021년 인수한 서브노티카 개발사 언노운 월즈와의 계약에서 매출 목표 달성 시 1.91억 달러 성과급 지급을 약속했으나, 김창한 CEO가 ChatGPT에 보너스 지급을 피하는 방법을 문의한 것으로 법정 준비서면에 드러났다. 크래프톤 측은 이 주장을 부인하고 있다.",
+          "keyPoints": [
+            "크래프톤이 언노운 월즈 인수 시 1.91억 달러의 조건부 성과급(언아웃) 약속",
+            "CEO의 ChatGPT 보너스 회피 상담이 법정 문서에 기록됨"
+          ],
+          "whyItMatters": "기업 인수 시 약정 조건의 이행과 개발자 권리 보호에 대한 중요한 사례",
+          "url": "https://news.hada.io/topic?id=27583",
+          "sourceName": "GeekNews",
+          "contentType": "article",
+          "labels": [
+            "career",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "크래프톤-ceo-서브노티카-2-개발자들에게-보너스-지급을-피할-수-있는-방법을-chatgpt에-물어본-것으로",
+          "category": "hot",
+          "publishedAt": "2026-03-17T04:31:28.000Z",
+          "language": "ko"
+        }
+      ]
+    },
     {
       "category": "tech",
       "items": [
         {
-          "title": "OpenGenerativeUI - AI기반 생성형 UI 프레임워크 오픈소스",
-          "titleKo": "OpenGenerativeUI: Claude의 생성형 UI를 구현한 AI 기반 프레임워크",
-          "url": "https://news.hada.io/topic?id=27570",
-          "sourceName": "GeekNews",
-          "summary": "Claude가 출시한 인터랙티브 시각 자료 생성 기능을 오픈소스로 구현한 프레임워크로, 단순 텍스트 응답 대신 차트, 다이어그램, 시각화 등을 자동 생성합니다. 알고리즘 시각화(이진 탐색, BFS/DFS, 정렬 등)를 포함합니다.",
-          "keyPoints": [],
-          "whyItMatters": "AI 응답을 동적인 시각 자료로 변환하여 사용자 경험을 향상시키고, 복잡한 개념을 더 직관적으로 전달할 수 있습니다.",
-          "contentType": "article",
-          "slug": "opengenerativeui-ai기반-생성형-ui-프레임워크-오픈소스",
+          "title": "Show HN: Claude Code skills that build complete Godot games",
+          "titleKo": "Claude Code로 완전한 Godot 게임을 만드는 AI 기술",
+          "summary": "Godogen은 Claude Code를 활용하여 자연어 설명만으로 완전한 Godot 4 게임 프로젝트를 자동 생성하는 AI 파이프라인입니다. 아키텍처 설계부터 코드 작성, 미술 생성, 스크린샷 캡처 및 시각적 검증까지 전체 과정을 자동화하며, Gemini로 2D 미술을, Tripo3D로 3D 모델을 생성합니다. 두 개의 Claude Code 기술이 계획과 실행을 담당하며, 시각적 QA를 통해 실행 중인 게임의 스크린샷을 분석하여 Z-파이팅, 누락된 텍스처, 물리 오류 등을 감지합니다. 일반 PC에서 실행 가능하며, 클라우드 VM에서 몇 시간에 걸쳐 전체 게임을 생성할 수 있습니다.",
+          "keyPoints": [
+            "자동화된 게임 생성 파이프라인: 자연어 프롬프트를 입력하면 아키텍처 설계, GDScript 코드 작성, 장면 구성, 미술 생성을 모두 자동으로 처리합니다. Claude Code의 두 가지 기술(계획 수립 기술과 실행 기술)이 각각 독립적인 컨텍스트에서 작동하여 작업 집중도를 유지합니다.",
+            "다중 AI 모델 연동: Gemini는 2D 미술과 텍스처 생성에, Tripo3D는 이미지에서 3D 모델 변환에 사용되며, 비용 효율성을 고려한 예산 인식 시스템으로 시각적 임팩트를 최대화합니다.",
+            "GDScript 전문화: 850개 이상의 Godot 클래스에 대한 커스텀 언어 참고자료와 지연 로딩 API 문서를 통해 LLM의 제한된 GDScript 학습 데이터를 보완합니다.",
+            "시각적 QA 시스템: 실행 중인 게임에서 스크린샷을 캡처하고 Gemini Flash 비전으로 분석하여 Z-파이팅, 누락된 텍스처, 손상된 물리 등의 문제를 자동 감지하고 수정합니다.",
+            "낮은 진입장벽: Godot 4, Claude Code, 필요한 API 키만 있으면 일반 PC에서 실행 가능하며, 클라우드 VM(GCE T4/L4 GPU)을 사용하면 로컬 머신을 자유롭게 사용하면서 생성 작업을 진행할 수 있습니다.",
+            "실제 프로젝트 구조: 단순 코드 생성이 아닌 정상적인 장면 트리, 읽기 쉬운 스크립트, 적절한 게임 아키텍처를 가진 실제 Godot 프로젝트를 생성하며, 2D와 3D 모두 지원합니다.",
+            "모델 성능 비교: Claude Opus 4.6이 최고의 결과를 제공하며, Sonnet 4.6도 작동하지만 사용자 가이드가 더 필요합니다. OpenCode도 호환 가능하고 포팅이 직관적입니다."
+          ],
+          "whyItMatters": "게임 개발의 초기 프로토타이핑과 전체 프로젝트 생성을 대폭 자동화하여 개발 시간을 단축할 수 있으며, AI와 전문 도구의 조화로운 통합 사례로서 복잡한 멀티스텝 워크플로우를 실제로 구현하는 방법을 보여줍니다.",
+          "url": "https://github.com/htdt/godogen",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 222,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "topicId": "claude-code-skills",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "show-hn-claude-code-skills-that-build-complete-godot-games",
+          "fullContent": "Godogen: Claude Code skills that build complete Godot 4 projects\nWatch the demos · Prompts\nYou describe what you want. An AI pipeline designs the architecture, generates the art, writes every line of code, captures screenshots from the running engine, and fixes what doesn't look right. The output is a real Godot 4 project with organized scenes, readable scripts, and proper game architecture. Handles 2D and 3D, runs on commodity hardware.\nHow it works\nTwo Claude Code skills orchestrate the entire pipeline — one plans, one executes. Each task runs in a fresh context to stay focused.\nGodot 4 output — real projects with proper scene trees, scripts, and asset organization.\nAsset generation — Gemini creates 2D art and textures; Tripo3D converts selected images to 3D models. Budget-aware: maximizes visual impact per cent spent.\nGDScript expertise — custom-built language reference and lazy-loaded API docs for all 850+ Godot classes compensate for LLMs' thin training data on GDScript.\nVisual QA closes the loop — captures actual screenshots from the running game and analyzes them with Gemini Flash vision. Catches z-fighting, missing textures, broken physics.\nRuns on commodity hardware — any PC with Godot and Claude Code works.\nGetting started\nPrerequisites\nGodot 4 (headless or editor) on PATH\nClaude Code installed\nAPI keys as environment variables:\nGOOGLE_API_KEY — Gemini, used for image generation and visual QA\nTRIPO3D_API_KEY — Tripo3D, used for image-to-3D model conversion (only needed for 3D games)\nPython 3 with pip (asset tools install their own deps)\nTested on Ubuntu and Debian. macOS is untested — screenshot capture depends on X11/xvfb/Vulkan and will need a native capture path to work.\nCreate a game project\nThis repo is the skill development source. To start making a game, run publish.sh to set up a new project folder with all skills installed:\n./publish.sh ~/my-game # uses teleforge.md as CLAUDE.md\n./publish.sh ~/my-game local.md # uses a custom CLAUDE.md instead\nThis creates the target directory with .claude/skills/ and a CLAUDE.md, then initializes a git repo. Open Claude Code in that folder and tell it what game to make — the /godogen skill handles everything from there.\nRunning on a VM\nA single generation run can take several hours. Running on a cloud VM keeps your local machine free and gives the pipeline a GPU for Godot's screenshot capture. A basic GCE instance with a T4 or L4 GPU works well.\nThe default CLAUDE.md (teleforge.md) is set up for Teleforge — a lightweight Telegram bridge that lets you monitor progress and send messages to the running session from your phone. If you don't use Teleforge, pass your own CLAUDE.md to publish.sh or edit the generated one after publishing.\nIs Claude Code the only option?\nThe skills were tested across different setups. Claude Code with Opus 4.6 delivers the best outcome. Sonnet 4.6 works but requires more guidance from the user. OpenCode was quite nice and porting the skills is straightforward — I'd recommend it if you're looking for an alternative.\nRoadmap\nMigrate image generation to grok-imagine-image (cheaper per image)\nMigrate spritesheets to grok-imagine-video (animated sprites from video)\nAdd recipes for game builds (Android export)\nPublish a full game end-to-end as a public demo\nFollow progress: @alex_erm",
           "category": "tech",
-          "publishedAt": "2026-03-17T00:36:02.000Z",
-          "language": "ko"
+          "publishedAt": "2026-03-16T16:07:29.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Godogen: Claude Code로 완성된 Godot 4 게임 프로젝트 만들기\n\n[데모 보기](링크) · [프롬프트](링크)\n\n## 이게 뭐죠?\n\n원하는 게임을 말로 설명하면, AI 파이프라인이 아키텍처를 설계하고 아트를 생성한 뒤 모든 코드를 작성해줍니다. 실행 중인 엔진에서 직접 스크린샷을 캡처해서 문제가 있으면 자동으로 수정하죠. 결과물은 제대로 정리된 씬 트리, 읽기 쉬운 스크립트, 올바른 게임 아키텍처를 갖춘 실제 Godot 4 프로젝트입니다. 2D와 3D 모두 지원하고, 일반적인 PC에서 돌아갑니다.\n\n## 어떻게 작동하나요?\n\n**Claude Code 스킬 2개가 전체 파이프라인을 조율합니다.** 하나는 계획을 세우고 다른 하나는 실행하죠. 각 작업은 독립적인 컨텍스트에서 진행되니까 집중력을 잃지 않습니다.\n\n**Godot 4 프로젝트 생성**\n제대로 구성된 씬 트리, 스크립트, 에셋 폴더를 갖춘 실제 프로젝트를 만듭니다.\n\n**에셋 생성**\nGemini는 2D 아트와 텍스처를 만들고, Tripo3D는 선택된 이미지를 3D 모델로 변환합니다. 비용 최적화도 고려해서 투입된 비용 대비 최대의 시각적 임팩트를 뽑아냅니다.\n\n**GDScript 전문성**\nGDScript에 대한 커스텀 언어 레퍼런스와 850개 이상 Godot 클래스의 API 문서를 지연 로딩 방식으로 제공합니다. LLM의 GDScript 학습 데이터 부족함을 보완하기 위함이죠.\n\n**시각적 품질 검증**\n실행 중인 게임에서 스크린샷을 캡처하고 Gemini Flash 비전으로 분석합니다. z-파이팅, 누락된 텍스처, 물리 엔진 오류 같은 문제를 자동으로 잡아냅니다.\n\n**저사양 PC에서도 실행 가능**\nGodot와 Claude Code가 있으면 충분합니다.\n\n## 시작하기\n\n### 준비물\n\n- Godot 4 (헤드리스 또는 에디터 모드로 PATH에 등록)\n- Claude Code 설치\n- 환경 변수로 API 키 설정:\n  - `GOOGLE_API_KEY` — Gemini (이미지 생성, 시각적 검증)\n  - `TRIPO3D_API_KEY` — Tripo3D (3D 게임용, 필수 아님)\n- Python 3 및 pip (에셋 도구는 필요한 의존성을 자체 설치)\n\nUbuntu와 Debian에서 테스트됐습니다. macOS는 미테스트 상태인데, 스크린샷 캡처가 X11/xvfb/Vulkan에 의존하므로 네이티브 캡처 경로를 추가로 설정해야 합니다.\n\n### 게임 프로젝트 생성하기\n\n이 저장소는 스킬 개발 소스입니다. 게임을 만들려면 `publish.sh`를 실행해서 모든 스킬이 설치된 새 프로젝트 폴더를 만드세요:\n\n```bash\n./publish.sh ~/my-game                    # teleforge.md를 CLAUDE.md로 사용\n./publish.sh ~/my-game local.md           # 커스텀 CLAUDE.md 사용\n```\n\n이 명령어는 `.claude/skills/`와 `CLAUDE.md`를 포함한 대상 디렉토리를 생성하고 git 저장소를 초기화합니다. Claude Code에서 해당 폴더를 열고 어떤 게임을 만들고 싶은지 설명하면, `/godogen` 스킬이 나머지를 모두 처리합니다.\n\n## VM에서 실행하기\n\n한 번의 생성 작업이 몇 시간 걸릴 수 있습니다. 클라우드 VM에서 실행하면 로컬 머신을 자유롭게 쓸 수 있고, 파이프라인이 Godot 스크린샷 캡처를 위해 GPU를 활용할 수 있습니다. T4나 L4 GPU가 있는 기본 GCE 인스턴스면 충분합니다.\n\n기본 `CLAUDE.md`(teleforge.md)는 Teleforge로 설정되어 있습니다. Teleforge는 가벼운 텔레그램 브릿지로, 스마트폰에서 진행 상황을 모니터링하고 실행 중인 세션에 메시지를 보낼 수 있게 해줍니다. Teleforge를 쓰지 않으면 커스텀 `CLAUDE.md`를 `publish.sh`에 넘기거나 발행한 뒤 수정하면 됩니다.\n\n## Claude Code만 써야 하나요?\n\n여러 환경에서 스킬을 테스트했습니다. Opus 4.6과 Claude Code의 조합이 최고의 결과를 냅니다. Sonnet 4.6도 작동하지만 사용자 가이드가 더 필요합니다. OpenCode도 상당히 좋으므로, 스킬을 포팅하는 건 어렵지 않습니다. 다른 옵션을 찾으신다면 OpenCode를 추천합니다.\n\n## 향후 계획\n\n- 이미지 생성을 grok-imagine-image로 마이그레이션 (이미지당 비용 감소)\n- 스프라이트시트를 grok-imagine-video로 마이그레이션 (비디오에서 애니메이션 스프라이트 생성)\n- 게임 빌드 레시피 추가 (Android 내보내기)\n- 완전한 게임을 공개 데모로 출시\n\n진행 상황 팔로우: [@alex_erm](링크)"
+        },
+        {
+          "title": "Show HN: Oxyde – Pydantic-native async ORM with a Rust core",
+          "titleKo": "Oxyde – Pydantic 기반 Rust 코어의 비동기 ORM",
+          "summary": "Oxyde는 Django ORM의 우아함에서 영감을 받아 Pydantic v2와 완전히 통합된 타입 안전 비동기 ORM으로, Rust 코어로 고성능 SQL 생성 및 실행을 제공합니다. PostgreSQL, SQLite, MySQL을 지원하며 Django 스타일의 친숙한 API(Model.objects.filter())를 제공하면서도 명시성을 우선시합니다. 성능 벤치마크에서 PostgreSQL 기준 초당 1,475회 작업으로 Tortoise(888회), Django(736회)보다 우수하며, 트랜잭션, 마이그레이션, FastAPI 통합을 기본으로 지원합니다.",
+          "keyPoints": [
+            "고성능 벤치마크: PostgreSQL에서 초당 1,475회 작업으로 Tortoise(888회), Django(736회), SQLAlchemy(445회)를 크게 앞지르며, SQLite에서는 2,525회로 가장 높은 성능을 기록합니다. MySQL에서도 1,239회로 경쟁 ORM들을 압도합니다.",
+            "Pydantic v2 완전 통합: Pydantic 모델을 기반으로 하여 자동 검증, 타입 힌트, 직렬화를 모두 지원하며, 개발자는 단일 모델 정의로 ORM과 API 스키마를 동시에 관리할 수 있습니다.",
+            "Django 스타일 API: Model.objects.filter(), makemigrations, migrate 등 Django 사용자들이 즉시 익숙해질 수 있는 API를 제공하면서도 Rust 코어로 성능을 확보합니다.",
+            "비동기 우선 설계: asyncio 기반으로 완전히 설계되어 현대적인 Python 비동기 애플리케이션과 완벽하게 통합되며, FastAPI의 lifespan 매개변수로 자동 초기화/종료가 가능합니다.",
+            "트랜잭션 지원: transaction.atomic() 컨텍스트 매니저로 자동 커밋/롤백을 처리하며, 세이브포인트도 지원하여 복잡한 데이터베이스 작업의 안정성을 보장합니다.",
+            "다중 데이터베이스 지원: PostgreSQL 12+, SQLite 3.35+, MySQL 8.0+를 지원하며, 각 데이터베이스별 고유 기능(PostgreSQL의 RETURNING/UPSERT, SQLite의 WAL 모드, MySQL의 FOR UPDATE/SHARE)을 활용합니다.",
+            "자동 관리자 패널: Oxyde Admin 라이브러리로 보일러플레이트 없이 자동 생성된 CRUD 인터페이스, 검색, 필터, 내보내기 기능을 FastAPI, Litestar, Sanic 등 주요 프레임워크에서 즉시 사용할 수 있습니다."
+          ],
+          "whyItMatters": "Django 개발자들이 빠르게 학습할 수 있으면서도 Rust의 성능 이점을 누릴 수 있으며, 현대적인 Python 비동기 생태계에서 타입 안전성과 성능을 동시에 확보하려는 프로젝트에 강력한 선택지를 제공합니다.",
+          "url": "https://github.com/mr-fatalyst/oxyde",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 94,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "typescript"
+          ],
+          "topicId": "orm-tools",
+          "isTopicPrimary": true,
+          "slug": "show-hn-oxyde-pydantic-native-async-orm-with-a-rust-core",
+          "fullContent": "Oxyde ORM is a type-safe, Pydantic-centric asynchronous ORM with a high-performance Rust core designed for clarity, speed, and reliability.\nInspired by the elegance of Django's ORM, Oxyde focuses on explicitness over magic, providing a modern developer-friendly workflow with predictable behavior and strong typing throughout.\nHeads up! Oxyde is a young project under active development. The API may evolve between minor versions. Feedback, bug reports, and ideas are very welcome. Feel free to open an issue!\nFeatures\nDjango-style API — Familiar Model.objects.filter() syntax\nPydantic v2 models — Full validation, type hints, serialization\nAsync-first — Built for modern async Python with asyncio\nRust performance — SQL generation and execution in native Rust\nMulti-database — PostgreSQL, SQLite, MySQL support\nTransactions — transaction.atomic() context manager with savepoints\nMigrations — Django-style makemigrations and migrate CLI\nPerformance\nBenchmarks vs popular Python ORMs (avg ops/sec, higher is better):\nDatabase\nOxyde\nTortoise\nPiccolo\nDjango\nSQLAlchemy\nSQLModel\nPeewee\nPostgreSQL\n1,475\n888\n932\n736\n445\n431\n80\nMySQL\n1,239\n794\n—\n714\n536\n505\n461\nSQLite\n2,525\n1,882\n469\n1,294\n588\n567\n548\nFull benchmark report: Documentation\nInstallation\npip install oxyde\nQuick Start\n1. Initialize Project\noxyde init\nThis creates oxyde_config.py with your database settings and model paths.\n2. Define Models\n# models.py\nfrom oxyde import Model, Field\nclass User(Model):\nid: int | None = Field(default=None, db_pk=True)\nname: str\nemail: str = Field(db_unique=True)\nage: int | None = Field(default=None)\nclass Meta:\nis_table = True\n3. Create Tables\noxyde makemigrations\noxyde migrate\n4. Use It\nimport asyncio\nfrom oxyde import db\nfrom models import User\nasync def main():\nawait db.init(default=\"sqlite:///app.db\")\n# Create\nuser = await User.objects.create(name=\"Alice\", email=\"alice@example.com\", age=30)\n# Read\nusers = await User.objects.filter(age__gte=18).all()\nuser = await User.objects.get(id=1)\n# Update\nuser.age = 31\nawait user.save()\n# Delete\nawait user.delete()\nawait db.close()\nasyncio.run(main())\nTransactions\nfrom oxyde.db import transaction\nasync with transaction.atomic():\nuser = await User.objects.create(name=\"Alice\", email=\"alice@example.com\")\nawait Profile.objects.create(user_id=user.id)\n# Auto-commits on success, rolls back on exception\nFastAPI Integration\nfrom fastapi import FastAPI\nfrom oxyde import db\napp = FastAPI(\nlifespan=db.lifespan(\ndefault=\"postgresql://localhost/mydb\",\n)\n)\n@app.get(\"/users\")\nasync def get_users():\nreturn await User.objects.filter(is_active=True).all()\nDatabase Support\nDatabase\nMin Version\nStatus\nNotes\nPostgreSQL\n12+\nFull\nRETURNING, UPSERT, FOR UPDATE/SHARE, JSON, Arrays\nSQLite\n3.35+\nFull\nRETURNING, UPSERT, WAL mode by default\nMySQL\n8.0+\nFull\nUPSERT via ON DUPLICATE KEY, FOR UPDATE/SHARE\nConnection URLs:\npostgresql://user:password@localhost:5432/database\nsqlite:///path/to/database.db\nsqlite:///:memory:\nmysql://user:password@localhost:3306/database\nEcosystem\nOxyde Admin\nAuto-generated admin panel for Oxyde ORM with zero boilerplate.\nAutomatic CRUD, search, filters, export\nFastAPI, Litestar, Sanic, Quart, Falcon\nTheming, authentication, bulk operations\npip install oxyde-admin\nGitHub →\nDocumentation\nFull documentation: https://oxyde.fatalyst.dev/\nQuick Start — Get up and running\nUser Guide — Models, queries, relations, transactions\nCheatsheet — Quick reference for all methods\nContributing\nIf you have suggestions or find a bug, please open an issue or create a pull request on GitHub.\nLicense\nThis project is licensed under the terms of the MIT license.",
+          "category": "tech",
+          "publishedAt": "2026-03-13T13:35:12.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Oxyde ORM — 현대적이고 빠른 Python ORM\n\nOxyde는 타입 안전성과 Pydantic을 중심으로 설계된 비동기 ORM입니다. 고성능 Rust 코어로 구동되며, 명확성과 속도, 안정성을 모두 갖추고 있어요.\n\nDjango ORM의 우아함에서 영감을 받아 만들어졌는데요, \"마법 같은\" 기능보다는 명시적인 코드를 선호합니다. 현대적인 개발 경험과 예측 가능한 동작, 그리고 강력한 타입 안전성을 제공하죠.\n\n**⚠️ 주의:** Oxyde는 아직 개발 중인 프로젝트입니다. 마이너 버전 간에 API가 변경될 수 있으니 참고하세요. 피드백이나 버그 리포트, 아이디어는 언제든 환영합니다!\n\n## 주요 기능\n\n- **Django 스타일 API** — 익숙한 `Model.objects.filter()` 문법\n- **Pydantic v2 모델** — 완벽한 유효성 검사, 타입 힌트, 직렬화\n- **Async 우선** — 현대적인 asyncio 기반 Python을 위해 설계됨\n- **Rust 성능** — SQL 생성과 실행을 네이티브 Rust로 처리\n- **다중 데이터베이스 지원** — PostgreSQL, SQLite, MySQL\n- **트랜잭션** — `transaction.atomic()` 컨텍스트 매니저와 세이브포인트\n- **마이그레이션** — Django 스타일의 `makemigrations`, `migrate` CLI\n\n## 성능 비교\n\n인기 있는 Python ORM들과의 벤치마크 결과입니다 (평균 작업/초, 높을수록 좋음):\n\n| 데이터베이스 | Oxyde | Tortoise | Piccolo | Django | SQLAlchemy | SQLModel | Peewee |\n|-----------|-------|----------|---------|--------|-----------|---------|--------|\n| PostgreSQL | 1,475 | 888 | 932 | 736 | 445 | 431 | 80 |\n| MySQL | 1,239 | 794 | — | 714 | 536 | 505 | 461 |\n| SQLite | 2,525 | 1,882 | 469 | 1,294 | 588 | 567 | 548 |\n\n상세 벤치마크: [문서 참고](https://oxyde.fatalyst.dev/)\n\n## 설치\n\n```bash\npip install oxyde\n```\n\n## 빠른 시작\n\n### 1단계: 프로젝트 초기화\n\n```bash\noxyde init\n```\n\n`oxyde_config.py` 파일이 생성되어 데이터베이스 설정과 모델 경로가 저장됩니다.\n\n### 2단계: 모델 정의\n\n```python\n# models.py\nfrom oxyde import Model, Field\n\nclass User(Model):\n    id: int | None = Field(default=None, db_pk=True)\n    name: str\n    email: str = Field(db_unique=True)\n    age: int | None = Field(default=None)\n\n    class Meta:\n        is_table = True\n```\n\n### 3단계: 테이블 생성\n\n```bash\noxyde makemigrations\noxyde migrate\n```\n\n### 4단계: 사용하기\n\n```python\nimport asyncio\nfrom oxyde import db\nfrom models import User\n\nasync def main():\n    await db.init(default=\"sqlite:///app.db\")\n    \n    # 생성\n    user = await User.objects.create(name=\"Alice\", email=\"alice@example.com\", age=30)\n    \n    # 조회\n    users = await User.objects.filter(age__gte=18).all()\n    user = await User.objects.get(id=1)\n    \n    # 수정\n    user.age = 31\n    await user.save()\n    \n    # 삭제\n    await user.delete()\n    \n    await db.close()\n\nasyncio.run(main())\n```\n\n## 트랜잭션 관리\n\n```python\nfrom oxyde.db import transaction\n\nasync with transaction.atomic():\n    user = await User.objects.create(name=\"Alice\", email=\"alice@example.com\")\n    await Profile.objects.create(user_id=user.id)\n    # 성공하면 자동 커밋, 예외 발생 시 롤백됨\n```\n\n## FastAPI와의 통합\n\n```python\nfrom fastapi import FastAPI\nfrom oxyde import db\n\napp = FastAPI(\n    lifespan=db.lifespan(\n        default=\"postgresql://localhost/mydb\",\n    )\n)\n\n@app.get(\"/users\")\nasync def get_users():\n    return await User.objects.filter(is_active=True).all()\n```\n\n## 지원하는 데이터베이스\n\n| 데이터베이스 | 최소 버전 | 상태 | 특징 |\n|-----------|---------|------|------|\n| PostgreSQL | 12+ | 완전 지원 | RETURNING, UPSERT, FOR UPDATE/SHARE, JSON, Arrays |\n| SQLite | 3.35+ | 완전 지원 | RETURNING, UPSERT, WAL 모드 기본 활성화 |\n| MySQL | 8.0+ | 완전 지원 | ON DUPLICATE KEY를 통한 UPSERT |\n\n### 연결 URL 형식\n\n```\npostgresql://user:password@localhost:5432/database\nsqlite:///path/to/database.db\nsqlite:///:memory:\nmysql://user:password@localhost:3306/database\n```\n\n## 에코시스템\n\n### Oxyde Admin\n\nOxyde ORM을 위한 자동 생성 관리자 패널입니다. 보일러플레이트 코드 없이 바로 사용할 수 있어요.\n\n- 자동 CRUD, 검색, 필터, 내보내기 기능\n- FastAPI, Litestar, Sanic, Quart, Falcon 지원\n- 테마 커스터마이징, 인증, 일괄 작업\n\n```bash\npip install oxyde-admin\n```\n\n[GitHub →](https://github.com/fatalyst/oxyde-admin)\n\n## 더 알아보기\n\n- **전체 문서:** https://oxyde.fatalyst.dev/\n- **빠른 시작 가이드** — 기본 사용법\n- **사용자 가이드** — 모델, 쿼리, 관계, 트랜잭션\n- **치트시트** — 모든 메서드 빠른 참고\n\n## 기여하기\n\n제안이 있거나 버그를 발견하셨다면 GitHub에서 이슈를 열거나 풀 리퀘스트를 보내주세요.\n\n## 라이선스\n\nMIT 라이선스로 배포됩니다."
+        },
+        {
+          "title": "Pyodide: a Python distribution based on WebAssembly",
+          "titleKo": "Pyodide: WebAssembly 기반의 Python 배포판",
+          "summary": "Pyodide는 CPython을 WebAssembly/Emscripten으로 포팅하여 브라우저와 Node.js에서 Python을 실행 가능하게 하는 프로젝트다. micropip을 통해 PyPI의 순수 Python 패키지는 물론 NumPy, pandas, SciPy, Matplotlib 같은 C/C++/Rust 확장을 가진 과학 계산 패키지도 설치하고 실행할 수 있다. JavaScript와 Python 간의 풍부한 FFI를 제공하여 두 언어를 자유롭게 혼용할 수 있으며, 브라우저 환경에서 Web API에 완전히 접근 가능하다.",
+          "keyPoints": [
+            "CPython 기반 포팅으로 기존 Python 생태계와의 호환성을 유지하면서 WebAssembly 환경에서 실행한다. 순수 Python 패키지 외에도 NumPy, pandas, SciPy, Matplotlib, scikit-learn 같은 C/C++/Rust 확장 패키지도 Pyodide용으로 포팅되었다.",
+            "micropip 패키지 관리자로 PyPI의 wheel 형식 패키지를 브라우저에서 직접 설치하고 실행할 수 있어, 추가 설치 과정 없이 온라인 REPL 환경 제공이 가능하다.",
+            "JavaScript ⟺ Python 양방향 FFI는 에러 처리, async/await 완벽 지원으로 두 언어 간 상호작용의 마찰을 최소화하고, 브라우저 JavaScript 환경과 Python의 강력한 계산 능력을 결합할 수 있게 한다.",
+            "브라우저 환경에서 Python이 Web APIs(fetch, localStorage, DOM 조작 등)에 완전히 접근 가능하므로, 클라이언트 사이드에서 Python으로 웹 애플리케이션 개발이 가능하다.",
+            "2018년 Michael Droettboom이 Mozilla의 Iodide 프로젝트의 일부로 시작했으며, 현재는 독립적 커뮤니티 주도 프로젝트로 발전했다. 호스트된 배포판, 번들러 지원, 패키지 포팅 가이드, 소스 빌드 문서 등 여러 사용 방식을 지원한다.",
+            "Mozilla Public License 2.0으로 라이센스되며, BrowserStack을 통한 테스트와 OpenCollective, GitHub Sponsors를 통한 자금 지원 받고 있다."
+          ],
+          "whyItMatters": "웹 개발자가 Python의 강력한 과학 계산 라이브러리를 클라이언트 측에서 직접 활용할 수 있게 하며, 데이터 분석, 시뮬레이션, 교육용 인터랙티브 애플리케이션을 JavaScript 없이 Python으로만 개발할 수 있는 새로운 가능성을 열어준다.",
+          "url": "https://github.com/pyodide/pyodide",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 39,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "backend"
+          ],
+          "topicId": "wasm",
+          "isTopicPrimary": true,
+          "slug": "pyodide-a-python-distribution-based-on-webassembly",
+          "fullContent": "Pyodide is a Python distribution for the browser and Node.js based on WebAssembly.\nWhat is Pyodide?\nPyodide is a port of CPython to WebAssembly/Emscripten.\nPyodide makes it possible to install and run Python packages in the browser with\nmicropip. Any pure Python package with a wheel\navailable on PyPi is supported. Many packages with C, C++, and Rust extensions\nhave also been ported for use with Pyodide. These include many general-purpose\npackages such as regex, PyYAML, and cryptography, and scientific Python packages\nincluding NumPy, pandas, SciPy, Matplotlib, and scikit-learn.\nPyodide comes with a robust Javascript ⟺ Python foreign function interface so\nthat you can freely mix these two languages in your code with minimal friction.\nThis includes full support for error handling, async/await, and much more.\nWhen used inside a browser, Python has full access to the Web APIs.\nTry Pyodide (no installation needed)\nTry Pyodide in a\nREPL directly in\nyour browser. For further information, see the\ndocumentation.\nGetting Started\nIf you wish to use a hosted distribution of Pyodide: see the Getting\nStarted documentation.\nIf you wish to host Pyodide yourself, you can download Pyodide from the releases\npage and serve it with a web server.\nIf you wish to use Pyodide with a bundler, see the documentation on Working with\nBundlers\nIf you are a Python package maintainer, see the documentation on building and testing Python\npackages.\nIf you want to add a package to the Pyodide distribution, see the documentation on adding\na package to the Pyodide distribution\nIf you wish to experiment or contribute back to the Pyodide runtime, see the documentation on\nbuilding Pyodide from source\nThe Components of the Pyodide Project\nThe Pyodide project consists of the following components:\nA build of CPython with a few patches (https://github.com/pyodide/pyodide/tree/main/cpython/)\nA JS/Python foreign function interface\n(https://github.com/pyodide/pyodide/tree/main/src/core and\nhttps://github.com/pyodide/pyodide/tree/main/src/py)\nJavaScript code for creating and managing Pyodide interpreters\n(https://github.com/pyodide/pyodide/tree/main/src/js)\nA choice of Emscripten platform, which consists of a version + ABI-sensitive\nflags + static libraries to link. This is described\nhere and implemented in\n(https://github.com/pyodide/pyodide/tree/main/Makefile.envs)\nA toolchain for cross compiling\ntesting and\ninstalling packages for Pyodide.\nHistory\nPyodide was created in 2018 by Michael Droettboom\nat Mozilla as part of the Iodide\nproject. Iodide is an experimental\nweb-based notebook environment for literate scientific computing and\ncommunication.\nIodide is no longer maintained. If you want to use Pyodide in an interactive\nclient-side notebook, see Pyodide notebook\nenvironments.\nContributing\nPlease view the contributing\nguide for tips\non filing issues, making changes, and submitting pull requests. Pyodide is an\nindependent and community-driven open-source project. The decision-making\nprocess is outlined in the Project\ngovernance.\nCommunication\nBlog: blog.pyodide.org\nMailing list: mail.python.org/mailman3/lists/pyodide.python.org/\nTwitter: twitter.com/pyodide\nStack Overflow: stackoverflow.com/questions/tagged/pyodide\nDiscord: Pyodide Discord\nSponsors\nFor a full list of current and historical sponsors, please see the Funding section of our About page.\nPyodide also has a large number of small donors. If you’re interested in supporting Pyodide, check out our OpenCollective and GitHub Sponsors pages.\nSpecial thanks\nBrowserStack: This project is tested with BrowserStack\nLicense\nPyodide uses the Mozilla Public License Version\n2.0.",
+          "category": "tech",
+          "publishedAt": "2026-03-13T17:34:45.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Pyodide: 브라우저에서 Python을 실행하다\n\n## Pyodide가 뭔가요?\n\nPyodide는 WebAssembly 기반의 Python 런타임입니다. 브라우저와 Node.js 환경에서 Python 코드를 직접 실행할 수 있게 해주거든요. 핵심은 CPython을 WebAssembly/Emscripten으로 포팅한 것인데, 이를 통해 JavaScript 환경에서도 Python의 강력한 기능을 모두 활용할 수 있다는 뜻입니다.\n\n## 어떤 패키지들을 쓸 수 있나요?\n\nPyodide는 micropip를 통해 Python 패키지를 브라우저에 설치하고 실행할 수 있습니다. PyPI에 wheel 형식으로 배포되는 순수 Python 패키지라면 거의 모두 지원하죠. \n\n더 흥미로운 점은 C, C++, Rust 확장 기능을 가진 패키지들도 많이 포팅되었다는 겁니다. regex, PyYAML, cryptography 같은 일반적인 패키지부터 NumPy, pandas, SciPy, Matplotlib, scikit-learn 같은 과학 계산 라이브러리까지 모두 사용 가능합니다.\n\n## JavaScript와의 상호작용\n\nPyodide는 JavaScript ⟺ Python 간의 강력한 상호작용 인터페이스를 제공합니다. 두 언어를 자유롭게 섞어 쓸 수 있다는 뜻인데요. 에러 처리, async/await 등 대부분의 기능이 완벽하게 지원됩니다.\n\n브라우저에서 실행되면 Python은 Web API에 완전히 접근할 수 있어서, DOM 조작이나 API 호출 같은 웹 개발 작업도 Python으로 할 수 있습니다.\n\n## 지금 바로 써보기\n\n설치 없이 [브라우저에서 바로 Pyodide REPL을 시도](https://pyodide.org/en/stable/console.html)할 수 있습니다. 더 자세한 정보는 공식 문서를 참고하세요.\n\n## 시작하기\n\n상황에 맞는 방법을 선택하면 됩니다:\n\n- **호스팅된 Pyodide를 쓰려면**: [Getting Started 문서](https://pyodide.org/en/stable/usage/index.html)를 확인하세요.\n- **직접 호스팅하려면**: [릴리스 페이지](https://github.com/pyodide/pyodide/releases)에서 다운로드한 후 웹 서버로 제공하면 됩니다.\n- **번들러와 함께 쓰려면**: [번들러 연동 문서](https://pyodide.org/en/stable/usage/bundles.html)를 참고하세요.\n- **Python 패키지 관리자라면**: [패키지 빌드 및 테스트 문서](https://pyodide.org/en/stable/development/building-packages.html)를 확인하세요.\n- **새로운 패키지를 추가하려면**: [패키지 추가 문서](https://pyodide.org/en/stable/development/adding-packages.html)를 보세요.\n- **Pyodide 런타임에 기여하려면**: [소스 빌드 문서](https://pyodide.org/en/stable/development/building-from-source.html)를 참고하세요.\n\n## Pyodide 프로젝트의 구성 요소\n\nPyodide 프로젝트는 다음과 같은 것들로 이루어져 있습니다:\n\n- **CPython 빌드**: 몇 가지 패치를 적용한 CPython 커스텀 빌드\n- **JS/Python 상호작용 인터페이스**: 두 언어 간 통신을 담당하는 핵심 모듈\n- **JavaScript 인터프리터 관리**: Pyodide 인터프리터를 생성하고 관리하는 코드\n- **Emscripten 플랫폼**: WebAssembly로 컴파일하기 위한 버전, ABI 플래그, 정적 라이브러리 조합\n- **크로스 컴파일 도구체인**: 패키지를 빌드, 테스트, 설치하기 위한 각종 도구\n\n## 역사\n\nPyodide는 2018년 Mozilla의 Michael Droettboom이 Iodide 프로젝트의 일부로 만들었습니다. Iodide는 과학 계산을 위한 웹 기반 노트북 환경이었는데, 현재는 더 이상 유지보수되지 않습니다. \n\n대신 Pyodide를 사용하는 인터랙티브 노트북 환경들이 여러 개 생겨났으니, 필요하면 [Pyodide 노트북 환경](https://pyodide.org/en/stable/ecosystem.html)을 확인해보세요.\n\n## 커뮤니티에 참여하기\n\n- **기여하기**: [Contributing 가이드](https://pyodide.org/en/stable/development/contributing.html)를 먼저 읽고 이슈를 올리거나 PR을 제출하세요. Pyodide는 완전히 커뮤니티 기반의 오픈소스 프로젝트입니다.\n- **의사결정 과정**: [프로젝트 거버넌스](https://pyodide.org/en/stable/about.html#project-governance) 문서를 참고하세요.\n\n## 소통 채널\n\n- **블로그**: blog.pyodide.org\n- **메일링 리스트**: mail.python.org/mailman3/lists/pyodide.python.org/\n- **Twitter**: @pyodide\n- **Stack Overflow**: pyodide 태그\n- **Discord**: Pyodide Discord 서버\n\n## 스폰서\n\n이 프로젝트를 지원해주는 스폰서들이 있습니다. 자세한 내용은 [About 페이지의 Funding 섹션](https://pyodide.org/en/stable/about.html#sponsors)을 확인하세요.\n\nPyodide를 지원하고 싶다면 [OpenCollective](https://opencollective.com/pyodide)나 [GitHub Sponsors](https://github.com/sponsors/pyodide)에서 기여할 수 있습니다.\n\n## 라이선스\n\nPyodide는 Mozilla Public License Version 2.0을 따릅니다."
         },
         {
           "title": "thedotmack/claude-mem (TypeScript)",
-          "titleKo": "claude-mem: Claude 코딩 세션 자동 기록 및 컨텍스트 주입 플러그인",
+          "titleKo": "thedotmack/claude-mem (TypeScript)",
+          "summary": "Claude Code 플러그인으로, 코딩 세션 중 Claude의 모든 활동을 자동으로 캡처하고 AI로 압축한 후 향후 세션에 관련 컨텍스트를 주입하는 메모리 시스템이다.",
+          "keyPoints": [
+            "코딩 세션의 지속성을 제공하여 이전 작업 내용을 자동으로 기억하고 활용한다.",
+            "Claude의 에이전트 SDK를 활용한 AI 기반 압축으로 메모리 효율성을 달성한다.",
+            "개발자가 문맥을 반복 설명할 필요 없이 이어서 작업할 수 있는 환경을 제공한다."
+          ],
+          "whyItMatters": "장기 코딩 프로젝트에서 AI 어시스턴트가 프로젝트 맥락을 유지하도록 하여 상호작용 효율성을 크게 높일 수 있다.",
           "url": "https://github.com/thedotmack/claude-mem",
           "sourceName": "GitHub Trending",
-          "summary": "Claude Code 플러그인으로, 코딩 세션 중 Claude의 모든 작업을 자동으로 캡처하고 AI를 통해 압축한 후 향후 세션에 관련 컨텍스트를 주입하는 도구입니다.",
-          "keyPoints": [],
-          "whyItMatters": "AI 코딩 어시스턴트의 컨텍스트 유지를 자동화하여 반복적인 설명을 줄이고 개발 효율성을 높일 수 있습니다.",
-          "engagement": 37019,
+          "engagement": 37126,
           "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "topicId": "claude-tools",
+          "isTopicPrimary": true,
+          "relatedCount": 3,
           "slug": "thedotmackclaude-mem-typescript",
           "category": "tech",
-          "publishedAt": "2026-03-17T04:07:59.866Z",
+          "publishedAt": "2026-03-17T06:20:25.368Z",
           "language": "en",
           "tags": [
             "github",
@@ -39,33 +196,938 @@
           ]
         },
         {
+          "title": "langchain-ai/deepagents (Python)",
+          "titleKo": "langchain-ai/deepagents (Python)",
+          "summary": "LangChain과 LangGraph를 기반으로 구축된 에이전트 프레임워크로, 계획 도구, 파일시스템 백엔드, 서브에이전트 생성 기능을 갖춘 복잡한 에이전트 작업 처리용 도구다.",
+          "keyPoints": [
+            "LangChain 생태계 위에 구축된 고급 에이전트 하네스로, 복잡한 다단계 작업을 처리하도록 설계되었다.",
+            "내장된 계획 도구와 파일시스템 백엔드를 통해 에이전트가 파일 접근 및 구조화된 계획 수립을 수행할 수 있다.",
+            "서브에이전트 생성 능력으로 계층적 에이전트 아키텍처 구현이 가능하여 작업 분해와 병렬 처리를 지원한다."
+          ],
+          "whyItMatters": "복잡한 에이전트 작업이 필요한 개발자에게 LangChain 기반의 통합 솔루션을 제공하여 멀티 에이전트 시스템 개발 시간을 단축할 수 있다.",
+          "url": "https://github.com/langchain-ai/deepagents",
+          "sourceName": "GitHub Trending",
+          "engagement": 13264,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "ai-agents",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "langchain-aideepagents-python",
+          "category": "tech",
+          "publishedAt": "2026-03-17T06:20:25.371Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Show GN: mcp-optimizer - Claude Code의 MCP 토큰 낭비를 잡아주는 플러그인",
+          "titleKo": "Show GN: mcp-optimizer - Claude Code의 MCP 토큰 낭비를 잡아주는 플러그인",
+          "summary": "Claude Code에서 MCP 서버를 연결하면 미사용 도구 스키마도 매 대화에 로드되어 토큰이 낭비되는 문제를 mcp-optimizer가 진단, 분석, 최적화의 4단계로 해결한다. 3개 서버만 연결해도 대화당 6,500+ 토큰이 낭비되는데 이를 효율적으로 관리할 수 있다.",
+          "keyPoints": [
+            "MCP 서버 연결 시 불필요한 스키마로 인한 과도한 토큰 소비 문제 존재",
+            "mcp-doctor, mcp-audit, mcp-optimize 등 4단계 도구로 토큰 사용을 최적화"
+          ],
+          "whyItMatters": "Claude Code 사용자들이 토큰 비용을 대폭 줄일 수 있어 API 사용 효율성이 크게 향상된다.",
+          "url": "https://news.hada.io/topic?id=27578",
+          "sourceName": "GeekNews",
+          "contentType": "article",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-tools",
+          "isTopicPrimary": true,
+          "slug": "show-gn-mcp-optimizer-claude-code의-mcp-토큰-낭비를-잡아주는-플러그인",
+          "category": "tech",
+          "publishedAt": "2026-03-17T01:42:40.000Z",
+          "language": "ko"
+        },
+        {
+          "title": "4 Reasons That Make Tailwind Great for Building Layouts",
+          "titleKo": "Tailwind가 레이아웃 구축에 뛰어난 4가지 이유",
+          "summary": "CSS-Tricks 기사로 Tailwind CSS가 레이아웃 구축에 효과적인 이유를 4가지 구체적 사용 사례를 통해 설명한다.",
+          "keyPoints": [
+            "Tailwind의 유틸리티 클래스 기반 접근법이 일반적인 레이아웃 패턴들을 효율적으로 구현할 수 있게 한다.",
+            "복잡한 CSS 작성 없이 선언적 마크업만으로 레이아웃 변화를 빠르게 구현할 수 있다.",
+            "반응형 디자인과 다양한 상태 변화를 손쉽게 관리할 수 있는 구조를 제공한다."
+          ],
+          "whyItMatters": "Tailwind를 사용하는 개발자가 효과적인 레이아웃 구축 기법을 배워 개발 속도를 높일 수 있다.",
+          "url": "https://css-tricks.com/4-reasons-that-make-tailwind-great-for-building-layouts/",
+          "sourceName": "CSS-Tricks",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "tailwind-css",
+          "isTopicPrimary": true,
+          "slug": "4-reasons-that-make-tailwind-great-for-building-layouts",
+          "category": "tech",
+          "publishedAt": "2026-03-16T14:01:02.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Jepsen: MariaDB Galera Cluster 12.1.2",
+          "titleKo": "Jepsen: MariaDB Galera Cluster 12.1.2 분석",
+          "summary": "Jepsen은 MariaDB Galera Cluster 12.1.2의 일관성 보장을 엄격히 분석하여, 문서에서 주장하는 '트랜잭션 손실 없음'과 '모든 노드에서의 일관된 데이터' 같은 claim들이 실제로는 성립하지 않음을 밝혔다. 동기식 복제(synchronous replication)를 표방하지만 실제로는 쿼럼 기반 시스템으로 작동하며, 문서에서 밝혀지지 않은 일관성 이상(anomaly)이 존재한다는 점을 지적한다. 2010년 분석 당시 발견된 'first-committer-wins' 부재 문제는 여전히 해결되지 않았으며, MariaDB가 2025년 Codership 인수 후에도 이런 한계가 남아있을 수 있음을 암시한다.",
+          "keyPoints": [
+            "MariaDB는 '트랜잭션이 모든 노드에서 커밋되거나 모두 실패한다'고 주장하지만, 실제로는 쿼럼 기반 시스템으로 소수 노드 실패를 용인한다. 문서의 'unanim ous replication' 설명은 오류이며, 이는 기존 분석(2015)에서도 지적된 문제다.",
+            "Galera의 tx_isolation 설정은 Serializable과 Repeatable Read 사이에 위치한다고 문서에 명시되어 있으나, 이는 여전히 불명확하다. MariaDB의 Repeatable Read는 Snapshot Isolation을 제공해야 하지만(MDEV-35124), Galera Cluster에서 이것이 실제로 보장되는지는 문서에 명확하지 않다.",
+            "Jepsen의 테스트는 3노드 MariaDB 12.1.2~12.2.2 클러스터에서 네트워크 분할, 프로세스 일시 중지, 프로세스 강제 종료 등의 장애를 유발하며 Elle의 리스트 워크로드를 사용하여 일관성 이상을 탐지한다.",
+            "2015년 분석에서 발견된 'first-committer-wins' 부재(은행 계좌 이체 시뮬레이션에서 돈을 잃거나 생성할 수 있는 버그)는 설계 결함이며, Codership Oy의 의도적 선택이었다. MariaDB의 2025년 인수 이후에도 이 한계가 해결되었는지 확인 필요하다.",
+            "문서는 '명시적 잠금 미지원' 같은 알려진 제약사항을 나열하지만, 일관성 수준이나 일관성 이상에 대해서는 언급하지 않는다. 유일한 관련 언급은 '트랜잭션 크기' 섹션의 한줄 주석에 불과하다."
+          ],
+          "whyItMatters": "Galera Cluster 사용자는 공식 문서의 일관성 보장 claim이 실제 구현과 맞지 않을 수 있음을 알아야 하며, 특히 금융이나 데이터 무결성이 중요한 시스템에서는 독립적인 검증을 통해 실제 일관성 보장 수준을 확인해야 한다.",
+          "url": "https://jepsen.io/analyses/mariadb-galera-cluster-12.1.2",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 44,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "topicId": "database-analysis",
+          "isTopicPrimary": true,
+          "slug": "jepsen-mariadb-galera-cluster-1212",
+          "fullContent": "1 Background\nMariaDB is a popular open\nsource SQL database which began as a fork of\nMySQL. MariaDB\nGalera Cluster is an active-active replication system for MariaDB\nwhich allows reads and writes on every node. In 2015 this\nauthor analyzed MariaDB with Galera Cluster and found that although\nGalera claimed to offer Snapshot\nIsolation, Codership Oy intentionally\ndesigned their system without a key Snapshot Isolation property,\ncalled first-committer-wins. This allowed MariaDB with Galera\nCluster to lose or create money out of thin air in a simulated bank\naccount transfer workload. In 2025 MariaDB\nacquired Codership Oy, bringing Galera Cluster under the MariaDB\numbrella.\nGalera Cluster is based on virtual synchrony group\ncommunication framework called gcomm. Transactions are\ninitially executed optimistically\non any node. When a transaction commits it is synchronously\nreplicated to other nodes, which certify the transaction based on\nthe primary keys it wrote. Conflicts with other transactions are\nidentified based on a sequence number, or seqno.\nThe MariaDB\nGalera Replication Guide says that Galera uses unanimous\nreplication:\nUnlike traditional asynchronous or semi-synchronous replication,\nGalera ensures that transactions are committed on all nodes (or fail on\nall) before the client receives a success confirmation.\nThis is obviously wrong. If Galera actually required transactions to\ncommit on all nodes, it would not tolerate a single node failure.\nMariaDB’s documentation often repeats this claim, saying “a\ntransaction is not truly considered committed until it has passed\ncertification on all nodes”, or “when\na transaction COMMITs, all nodes in the cluster have the\nsame value”, or “only\nafter Node A gets an ‘OK’ from all other nodes does it tell the client,\n‘Your transaction is committed.’” In reality, Galera Cluster\ncontinues to operate when a minority of nodes has failed. This is\nconsistent with MariaDB’s\nclaims about fault tolerance: if a quorum of nodes are online\nand connected, that component can make progress.1\nGalera used to require a\nmanual recovery procedure when quorum was lost: an operator would\nhave to log in to every node, identify the node with the highest\nsequence number, and use it to bootstrap the cluster. However, newer\nversions of Galera can\nrecover from failures automatically.\n1.1 Safety\n“Data is consistent across all nodes at all times,” says the Galera\nCluster Replication Guide, “preventing data loss upon node\nfailures.” Galera “essentially transforms a set of individual MariaDB\nservers into a robust, highly available, and consistent distributed\ndatabase system.”\nThis system should provide a real-time\nconsistency model like Strong Snapshot\nIsolation. MariaDB’s Galera\nCluster Guide says that Galera Cluster’s synchronous replication\nmeans that changes are “instantly replicated to all other nodes,\nensuring no replica lag and no lost transactions.” The “no lost\ntransactions” claim is repeated in MariaDB’s\nGalera Cluster README.\nThe Galera\nCluster Usage Guide promises that “Standard SQL transactions\n(START TRANSACTION, COMMIT,\nROLLBACK) work as expected.” From this one might assume\nthat MariaDB with Galera Cluster supports the same consistency models as\na single MariaDB node. Is this true? It is surprisingly difficult to\nfind out! MariaDB’s Galera documentation does include a section on known\nlimitations. Some kinds of explicit locking are unsupported, and\nMariaDB must use the InnoDB storage engine. However, this list makes no\nmention of isolation levels or consistency anomalies. In fact, the sole\nreference to isolation levels Jepsen found in MariaDB’s Galera\ndocumentation is buried in the Management section, under Installation\nand Deployment, on the Tips\non Converting to Galera page, under the “Transaction size”\nheading.2 It says:\nGalera’s tx_isolation is between Serializable and Repeatable Read.\ntx_isolation variable is ignored.\nRepeatable Read is a remarkably\nstrong consistency model. In most formalisms it is equivalent to Serializability\nso long as objects are selected by primary key, rather than predicates.\nIn MariaDB “Repeatable Read” used to allow\nnon-repeatable reads but now prohibits them; per MDEV-35124,\nMariaDB “Repeatable Read” should actually provide Snapshot\nIsolation. We therefore expect MariaDB Galera Cluster to provide a\nconsistency model weaker than Serializable, but stronger than Repeatable\nRead, Snapshot Isolation, or both.\n2 Test Design\nWe adapted Jepsen’s existing\ntest suite for MySQL & MariaDB to set up three-node clusters of\nMariaDB with Galera Cluster, running on Debian Trixie. We used MariaDB’s\nofficial Debian repositories to install MariaDB 12.1.2 through 12.2.2,\nand Galera 26.4.13 through 26.4.25. We used MariaDB’s official Java\nclient at version 3.5.6 to submit transactions to the cluster. While\ntesting we introduced a variety of faults, including network partitions,\nprocess pauses, and process kills.\nAs in our previous\nMySQL analysis, our main\nworkload used Elle’s\nlist",
+          "category": "tech",
+          "publishedAt": "2026-03-17T03:46:22.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# MariaDB Galera Cluster의 일관성 문제 분석\n\n## 배경\n\nMariaDB는 MySQL을 기반으로 시작한 인기 있는 오픈소스 SQL 데이터베이스입니다. MariaDB Galera Cluster는 모든 노드에서 읽기와 쓰기가 가능한 액티브-액티브 복제 시스템이죠.\n\n2015년 필자가 MariaDB와 Galera Cluster를 분석했을 때 흥미로운 발견이 있었습니다. Galera는 Snapshot Isolation을 제공한다고 주장했지만, Codership Oy는 실제로는 Snapshot Isolation의 핵심 특성인 'first-committer-wins'를 의도적으로 제외해서 설계했거든요. 그 결과 은행 계좌 이체 같은 시뮬레이션에서 Galera는 돈을 잃거나 없는 돈을 만들어낼 수 있었습니다. 2025년 MariaDB가 Codership Oy를 인수하면서 Galera Cluster는 이제 MariaDB의 공식 제품이 되었습니다.\n\nGalera Cluster는 gcomm이라는 가상 동기식 그룹 통신 프레임워크를 기반으로 합니다. 트랜잭션은 먼저 어느 노드에서든 낙관적으로 실행됩니다. 커밋할 때 다른 노드들로 동기식으로 복제되며, 이들이 주요 키를 기준으로 트랜잭션을 검증하죠. 다른 트랜잭션과의 충돌은 시퀀스 번호(seqno)를 통해 식별됩니다.\n\n### 문서의 오도(誤導)\n\nMariaDB Galera 복제 가이드에는 이렇게 나와 있습니다:\n\n> 기존의 비동기 또는 준동기 복제와 달리, Galera는 트랜잭션이 모든 노드에서 커밋되거나(또는 모두 실패하거나) 클라이언트가 성공 확인을 받기 전에 보장합니다.\n\n이건 사실이 아닙니다. 만약 Galera가 정말로 모든 노드에서 커밋을 요구한다면 단 하나의 노드 장애도 견딜 수 없을 테니까요.\n\nMariaDB 문서는 이 주장을 반복해서 나열합니다. \"트랜잭션은 모든 노드에서 검증을 통과할 때까지 진정으로 커밋된 것으로 간주되지 않는다\" 또는 \"트랜잭션이 COMMIT될 때 클러스터의 모든 노드가 같은 값을 가진다\" 같은 식이죠. 또 \"노드 A가 다른 모든 노드로부터 'OK'를 받은 후에야 클라이언트에게 '당신의 트랜잭션이 커밋되었습니다'라고 알린다\"고도 합니다. \n\n실제로는 어떨까요? Galera Cluster는 소수의 노드가 장애 상태에 있어도 계속 작동합니다. 마찬가지로 MariaDB의 장애 허용 정책도 일관성 있게 동작합니다. 쿼럼 수의 노드가 온라인이고 연결되어 있으면 그 컴포넌트는 진행 가능합니다.\n\n예전 Galera는 쿼럼을 잃으면 수동으로 복구해야 했습니다. 운영자가 모든 노드에 직접 접속해서 가장 높은 시퀀스 번호를 가진 노드를 찾아 이를 사용해 클러스터를 부트스트랩해야 했거든요. 다행히 최신 버전의 Galera는 자동으로 장애에서 복구할 수 있습니다.\n\n### 일관성 보장에 대한 의문\n\nGalera Cluster 복제 가이드는 \"데이터가 항상 모든 노드에서 일관성 있다\"고 하면서 \"노드 장애 시 데이터 손실을 방지한다\"고 주장합니다. Galera는 \"기본적으로 개별 MariaDB 서버 세트를 견고하고 가용성이 높으며 일관성 있는 분산 데이터베이스 시스템으로 변환한다\"고 합니다.\n\n이 시스템은 Strong Snapshot Isolation 같은 실시간 일관성 모델을 제공해야 할 것 같습니다. MariaDB의 Galera Cluster 가이드는 동기식 복제가 변경 사항을 \"모든 다른 노드로 즉시 복제하여 복제 지연 및 손실된 트랜잭션이 없음을 보장한다\"고 말합니다. \"손실된 트랜잭션이 없다\"는 주장은 MariaDB의 Galera Cluster README에서도 반복되죠.\n\nGalera Cluster 사용 가이드는 \"표준 SQL 트랜잭션(START TRANSACTION, COMMIT, ROLLBACK)이 예상대로 작동한다\"고 약속합니다. 이를 읽으면 MariaDB와 Galera Cluster가 단일 MariaDB 노드와 동일한 일관성 모델을 지원한다고 가정할 수 있을 것 같습니다. 정말 그럴까요? 놀랍게도 이를 확인하기가 어렵습니다!\n\nMariaDB의 Galera 문서에는 알려진 제한 사항 섹션이 있긴 합니다. 일부 명시적 잠금이 지원되지 않으며 MariaDB는 InnoDB 저장 엔진을 사용해야 한다고 합니다. 하지만 이 목록에는 격리 수준이나 일관성 이상(anomaly)에 대한 언급이 없습니다. \n\n실제로 MariaDB의 Galera 문서에서 격리 수준에 대해 언급한 유일한 부분은 관리 섹션에 묻혀 있습니다. \"Galera로 변환하기 팁\" 페이지의 \"트랜잭션 크기\" 항목 아래에 이렇게 적혀 있습니다:\n\n> Galera의 tx_isolation은 Serializable과 Repeatable Read 사이입니다.\n> tx_isolation 변수는 무시됩니다.\n\nRepeatable Read는 상당히 강한 일관성 모델입니다. 대부분의 형식에서는 객체가 술어가 아닌 주요 키로 선택되는 한 직렬성(Serializability)과 동등합니다.\n\nMariaDB에서 \"Repeatable Read\"는 예전엔 비반복 가능한 읽기를 허용했지만 이제는 금지합니다. MDEV-35124에 따르면 MariaDB의 \"Repeatable Read\"는 실제로 Snapshot Isolation을 제공해야 합니다. 따라서 MariaDB Galera Cluster는 직렬화 가능(Serializable)보다는 약하지만, Repeatable Read나 Snapshot Isolation보다는 강한 일관성 모델을 제공할 것으로 예상됩니다.\n\n## 테스트 설계\n\nJepsen의 기존 MySQL & MariaDB 테스트 스위트를 개조해서 Debian Trixie 위에서 실행되는 3노드 MariaDB Galera Cluster를 구성했습니다. MariaDB의 공식 Debian 저장소를 사용해 MariaDB 12.1.2부터 12.2.2까지, Galera 26.4.13부터 26.4.25까지 설치했습니다. MariaDB 공식 Java 클라이언트 버전 3.5.6을 사용해 클러스터에 트랜잭션을 제출했습니다. 테스트 과정에서 네트워크 분할, 프로세스 일시 정지, 프로세스 강제 종료 등 다양한 장애를 주입했습니다.\n\n이전 MySQL 분석과 마찬가지로 주요 워크로드는 Elle의 리스트를 기반으로 했습니다."
+        },
+        {
+          "title": "Meta’s renewed commitment to jemalloc",
+          "titleKo": "Meta의 jemalloc에 대한 재개된 약속",
+          "summary": "Meta는 고성능 메모리 할당자인 jemalloc에 대한 투자를 재개하고 있으며, 기술 부채를 제거하고 최신 하드웨어에 맞게 현대화하기로 약속했다. 커뮤니티의 피드백을 받아들여 원본 저장소를 복구하고 장기 로드맵을 재구성하고 있다.",
+          "keyPoints": [
+            "기술 부채 제거, HPA 개선, AArch64 최적화 등 4가지 주요 개선 영역에 집중",
+            "과거 단기 이익 추구로 인한 기술 부채 누적을 인식하고 엔지니어링 원칙으로 복귀",
+            "오픈소스 커뮤니티와 협력하여 jemalloc의 장기적 건강성 확보"
+          ],
+          "whyItMatters": "jemalloc은 Meta와 많은 기업의 소프트웨어 스택의 기반이 되는 핵심 인프라 컴포넌트이므로, 그 개선은 전체 시스템 성능과 신뢰성에 영향을 미친다.",
+          "url": "https://engineering.fb.com/2026/03/02/data-infrastructure/investing-in-infrastructure-metas-renewed-commitment-to-jemalloc/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 402,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "topicId": "memory-management",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "metas-renewed-commitment-to-jemalloc",
+          "fullContent": "Meta recognizes the long-term benefits of jemalloc, a high-performance memory allocator, in its software infrastructure.\nWe are renewing focus on jemalloc, aiming to reduce maintenance needs and modernize the codebase while continuing to evolve the allocator to adapt to the latest hardware and workloads.\nWe are committed to continuing to develop jemalloc development with the open source community and welcome contributions and collaborations from the community.\nBuilding a software system is a lot like building a skyscraper: The product everyone sees is the top, but the part that keeps it from falling over is the foundation buried in the dirt and the scaffolding hidden from sight.\njemalloc, the high performance memory allocator, has consistently been a highly-leveraged component within our software stack, adapting over time to changes in underlying hardware and upper-layer software. Alongside the Linux kernel and the compilers, it has delivered long-term benefits to Meta, contributing to a reliable and performant infrastructure.\nListening, Reflecting, and Changing\nHigh leverage comes with high stakes. On the spectrum of practical versus principled engineering practice, foundational software components like jemalloc need the highest rigor. With the leverage jemalloc provides however, it can be tempting to realize some short-term benefit. It requires strong self-discipline as an organization to resist that temptation and adhere to the core engineering principles.\nIn recent years, there has been a gradual shift away from the core engineering principles that have long guided jemalloc’s development. While some decisions delivered immediate benefits, the resulting technical debt eventually slowed progress.\nWe took the community’s feedback to heart. In the spirit of collaboration, we have reflected deeply on our stewardship and its impact on jemalloc’s long-term health. As we’ve met with some members of the community, including the project’s founder, Jason Evans, to share our introspection and how we are changing our approach. We’ve started an effort to remove technical debt and rebuild a long-term roadmap for jemalloc.\nA New Chapter for jemalloc\nAs a result of these conversations with the community, the original jemalloc open source repository has been unarchived. We are grateful for the opportunity to continue as stewards of the project. Meta is renewing focus on jemalloc, aiming to reduce maintenance needs and modernizing the codebase while continuing to evolve the allocator to adapt to the latest and emerging hardware and workloads.\nLooking ahead, our current plan for jemalloc focus on several key areas of improvement:\nTechnical Debt Reduction: We are focusing on cleaning up technical debt, refactoring, and enhancing jemalloc to ensure it remains efficient, reliable and easy to use for all users.\nHuge-Page Allocator: We will continue to improve jemalloc’s hugepage allocator  (HPA) to better utilize transparent hugepages (THP) for improved CPU efficiency.\nMemory Efficiency: We plan to deliver improvements to packing, caching, and purging mechanisms for optimized memory efficiency.\nAArch64 Optimizations: We will make sure jemalloc has good out-of-the-box performance for the AArch64 (ARM64) platform.\nWe know that trust is earned through action. Our hope is that, over time, our renewed commitment will be evident in the health and progress of jemalloc. We invite the community to join us in this new chapter — share your feedback and help shape jemalloc’s future. We look forward to collaborating with the community to drive jemalloc forward.",
+          "category": "tech",
+          "publishedAt": "2026-03-16T18:12:32.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Meta, jemalloc 개발에 다시 집중한다\n\nMeta는 고성능 메모리 할당자인 jemalloc이 소프트웨어 인프라에 얼마나 중요한지 잘 알고 있습니다. 이번에 jemalloc 개발에 재차 집중하기로 결정했는데요, 유지보수 비용을 줄이고 코드베이스를 현대화하면서 동시에 최신 하드웨어와 워크로드에 대응할 수 있도록 진화시켜 나갈 예정입니다. Meta는 오픈소스 커뮤니티와 함께 jemalloc을 계속 개발하겠으며, 커뮤니티의 기여와 협력을 적극 환영합니다.\n\n## 기초가 견고해야 건물도 선다\n\n소프트웨어 시스템을 만드는 것은 마천루를 짓는 것과 비슷합니다. 사람들이 보는 건 맨 위층이지만, 건물이 무너지지 않게 해주는 것은 땅속 깊이 묻힌 기초와 눈에 띄지 않는 비계거든요.\n\njemalloc은 Meta의 소프트웨어 스택에서 정말 중요한 역할을 해왔습니다. 시간이 지나면서 하드웨어와 상위 소프트웨어가 변해도 그에 맞게 적응해왔는데요, Linux 커널과 컴파일러와 함께 Meta의 안정적이고 고성능의 인프라를 만드는 데 큰 역할을 했습니다.\n\n## 반성과 변화\n\n하지만 중요한 기초 컴포넌트일수록 높은 수준의 엄격함이 필요합니다. jemalloc처럼 영향력이 큰 도구라면 더욱 그렇거든요. 단기적 이득에 흔들려서는 안 된다는 뜻인데, 이를 지키기 위해선 조직 차원의 강한 의지가 필요합니다.\n\n최근 몇 년간 jemalloc 개발을 이끌어온 핵심 원칙들에서 점차 멀어져갔습니다. 당장의 이득을 주는 결정들이 있었지만, 그 결과로 쌓인 기술 부채가 결국 발전 속도를 늦추게 됐거든요.\n\n커뮤니티의 의견을 진지하게 받아들였습니다. 협력의 정신으로 우리 자신을 깊이 있게 돌아보고, jemalloc의 장기적 건강에 어떤 영향을 미쳤는지 살펴봤습니다. 프로젝트 창시자인 Jason Evans를 포함한 커뮤니티 멤버들을 만나 우리의 성찰과 변화 계획을 나눴습니다. 이제 기술 부채를 제거하고 jemalloc을 위한 새로운 장기 로드맵을 세우는 작업을 시작했습니다.\n\n## jemalloc의 새로운 시작\n\n커뮤니티와의 대화를 통해 원래의 jemalloc 오픈소스 저장소를 다시 활성화했습니다. 이 프로젝트의 관리자로서 역할을 계속할 수 있게 된 점 정말 감사합니다. Meta는 jemalloc에 다시 집중하면서 유지보수를 줄이고 코드를 현대화하는 한편, 최신 하드웨어와 새로운 워크로드에 맞춰 할당자를 계속 발전시켜 나갈 것입니다.\n\n앞으로 jemalloc 개발의 핵심 초점은 다음과 같습니다:\n\n**기술 부채 제거**: 코드를 정리하고 리팩토링하면서 jemalloc이 모든 사용자에게 효율적이고 신뢰할 수 있으며 쓰기 쉬운 도구로 남을 수 있도록 개선합니다.\n\n**Huge-Page 할당자**: jemalloc의 hugepage 할당자(HPA)를 계속 개선해서 Transparent Hugepages(THP)를 더 잘 활용하고 CPU 효율성을 높입니다.\n\n**메모리 효율성**: 메모리 사용을 최적화할 수 있도록 패킹, 캐싱, 퍼징 메커니즘을 개선합니다.\n\n**AArch64 최적화**: AArch64(ARM64) 플랫폼에서 jemalloc이 별도 설정 없이도 좋은 성능을 낼 수 있도록 합니다.\n\n신뢰는 행동으로 얻어진다는 걸 우리도 알고 있습니다. 앞으로 시간이 지나면서 우리의 재정비 노력이 jemalloc의 건강함과 발전으로 눈에 띄게 나타나길 바랍니다. 이 새로운 여정에 함께하려는 커뮤니티를 환영하는데요, 의견을 나누고 jemalloc의 미래를 함께 만들어가길 기대합니다. jemalloc을 더 나은 도구로 발전시키기 위한 협력을 기대하겠습니다."
+        },
+        {
+          "title": "What’s !important #7: random(), Folded Corners, Anchored Container Queries, and More",
+          "titleKo": "What's !important #7: random(), 접힌 모서리, 고정된 컨테이너 쿼리 등",
+          "summary": "CSS-Tricks의 What's !important 시리즈 7번째 에디션에서는 간과하기 쉬운 기존 CSS 기능과 새로운 CSS 기능들을 균형있게 소개합니다. random(), random-item(), clip-path를 이용한 접힌 모서리 효과, backdrop-filter, font-variant-numeric: tabular-nums, Popover API, 고정된 컨테이너 쿼리 등의 내용을 포함합니다.",
+          "keyPoints": [
+            "random() 함수: CSS에서 난수를 생성하여 동적이고 다양한 스타일링을 선언형으로 구현할 수 있습니다.",
+            "clip-path를 활용한 접힌 모서리: 정교한 기하학적 효과를 clip-path 속성으로 구현하여 디자인의 시각적 임팩트를 높일 수 있습니다.",
+            "Popover API: 기본 제공되는 팝오버 기능으로 JavaScript 없이 모달, 드롭다운 등의 UI를 구현할 수 있습니다.",
+            "고정된 컨테이너 쿼리: 컨테이너의 크기 변화에 따라 자식 요소의 스타일을 조건부로 변경하여 더욱 반응형 디자인을 구현할 수 있습니다."
+          ],
+          "whyItMatters": "최신 CSS 기능들을 학습하여 더욱 효율적이고 유지보수하기 쉬운 스타일시트를 작성할 수 있으며, 기존에 간과했던 유용한 기능들도 재발견할 수 있습니다.",
+          "url": "https://css-tricks.com/whats-important-7/",
+          "sourceName": "CSS-Tricks",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "css-features",
+          "isTopicPrimary": true,
+          "slug": "whats-important-7-random-folded-corners-anchored-container-queries-and-more",
+          "category": "tech",
+          "publishedAt": "2026-03-16T15:06:01.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Canopy Height Maps v2",
+          "titleKo": "산림 캐노피 높이 지도 v2 (CHMv2)",
+          "summary": "Meta와 WRI가 발표한 CHMv2는 DINOv3 모델을 사용하여 전 세계 산림의 나무 높이를 고정확도로 매핑한다. R² 점수가 0.53에서 0.86으로 향상되어 산림 모니터링과 생물 다양성 보호에 활용 가능하다.",
+          "keyPoints": [
+            "DINOv3(자체 지도학습 기반) 백본 도입으로 정확도와 상세도가 크게 개선됨",
+            "SAT-493M 위성 이미지 데이터셋 학습으로 다양한 경관에서 강건한 시각적 특징 추출",
+            "영국, 유럽, 미국 등 정부 및 도시 계획 단위에서 실제 산림 모니터링, 탄소 저장량 추정, 도시 냉각 계획에 활용 중"
+          ],
+          "whyItMatters": "고정확도의 위성 기반 산림 모니터링은 기후 변화 대응, 생물 다양성 보호, 탄소 저장량 추정 등 환경 정책 수립에 필수 데이터를 제공한다.",
+          "url": "https://ai.meta.com/blog/world-resources-institute-dino-canopy-height-maps-v2/?_fb_noscript=1",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 26,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-applications",
+          "isTopicPrimary": true,
+          "slug": "canopy-height-maps-v2",
+          "fullContent": "Forests are essential to life on Earth — storing carbon, sheltering wildlife, and shaping our climate. To protect and restore them, we must see them as never before. Today, in partnership with the World Resources Institute, we’re announcing Canopy Height Maps v2 (CHMv2): an open source model and world-scale maps generated with it. Together, they will help researchers and governments measure and understand every tree, gap, and canopy edge — enabling smarter biodiversity support and land-management decisions.\nAt the heart of CHMv2 is DINOv3, Meta’s self-supervised vision model, which brings unprecedented clarity and detail to forest mapping worldwide. But visibility isn’t enough — having accurate, high-resolution data on forest structure is essential for turning insights into action. Tree canopy height measurements are important for monitoring forest health, tracking restoration efforts, detecting degradation, and estimating carbon storage.\nBuilding on our original high-resolution canopy height maps released in 2024, CHMv2 delivers substantial improvements in accuracy, detail, and global consistency. This comes from replacing the DINOv2 backbone with our more capable DINOv3 backbone, pre-trained on SAT-493M, a large and diverse dataset of satellite imagery.\n“DINOv3 strengthens our ability to measure forest structure across diverse landscapes, making high-resolution restoration monitoring more consistent and more scalable,” says John Brandt, Data Science Lead at the World Resources Institute.\nDINOv3 learns robust visual features from large amounts of unlabeled imagery. By training on diverse satellite data, DINOv3 captures the subtle visual cues that indicate tree height, such as shadows, textures, and crown shapes — without requiring millions of manually labeled examples. This enables CHMv2 to deliver major gains in accuracy and detail over the previous version.\nAdditionally, the model's R² — a way of measuring how closely predictions match real-world measurements — has soared from 0.53 to 0.86. The model now delivers sharper canopy maps and minimizes bias for tall trees, making its predictions more trustworthy for scientific and operational use.\nThe training dataset for CHMv2 was also expanded and improved by adding more geographically diverse, high-quality lidar examples. To better align satellite imagery with real-world lidar measurements, we built automated matching tools and developed a specialized loss function to address the unique challenges of canopy height estimation. Together, these advances enable CHMv2 to set a new bar for global forest mapping.\nCollaborations with the Public Sector in Europe, the United States, and Beyond\nOur previous AI model and associated maps, CHMv1, are already supporting climate migration, restoration, and biodiversity efforts. In the United Kingdom, Forest Research — the research agency of the Forestry Commission — is using these to transform how they monitor and manage Great Britain’s forests. Their work demonstrates how these tools can support national-scale forest inventory and help track progress toward climate commitments. Read more about this collaboration.\nBeyond the United Kingdom, Canopy Height Maps are helping national and local governments across Europe advance their environmental goals. The European Commission’s Joint Research Centre used the first version of Canopy Height Maps in its Global Forest Cover map for 2020 research (ESSD paper, EU Forest Observatory) and hopes to use CHMv2 for future map versions and other tree monitoring efforts, including the 3 Billion Tree Initiative — a commitment to plant at least 3 billion biodiverse trees across the European Union by 2030.\nIn the United States, these maps have also been leveraged in city planning tools being used for the implementation of Cities for Smart Surfaces, an initiative led by the Smart Surfaces Coalition and signed on by the mayors of 10 cities, including Atlanta, Baltimore, Boston, Columbia (South Carolina), Dallas, and New Orleans. Cities for Smart Surfaces is a multiyear project funded by Waverley Street Foundation and the MacArthur Foundation to cool cities and metropolitan areas with reflective (cool) roofs and pavements, green roofs, solar energy, porous pavements, rain gardens, and trees. Additionally, WRI Ross Center for Sustainable Cities is making use of these maps in Cool Cities Lab, a forthcoming globally relevant scenario planning tool — initially available for cities in 11 countries — that helps cities assess the temperature effects of urban cooling interventions.\nCHMv2 represents a significant step forward, but challenges remain. We’re continuing to improve predictions in regions where data is sparse, address viewing-geometry effects, and extend temporal coverage to better support change detection over time.\nBy making these advances available to the research community, we hope to accelerate progress in forest monitoring worldwide. Better maps enable better decisions — for conservation",
+          "category": "tech",
+          "publishedAt": "2026-03-12T18:24:10.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 숲을 더 정확하게 보다: AI 기반 삼림 모니터링의 새로운 시대\n\n숲은 지구 생명의 필수 요소입니다. 탄소를 저장하고, 야생동물의 서식지를 제공하며, 기후를 형성하니까요. 이러한 숲을 보호하고 복원하려면, 이전과는 완전히 다른 수준의 관찰이 필요합니다.\n\n오늘 우리는 World Resources Institute와 함께 **Canopy Height Maps v2(CHMv2)**를 발표합니다. 오픈소스 AI 모델과 이를 통해 생성한 전 지구적 지도 데이터셋인데요, 이들이 연구자와 정부가 숲의 모든 나무, 갭, 그리고 캐노피 경계를 측정하고 이해하도록 도와줄 것입니다. 결국 더 똑똑한 생물다양성 보호와 토지 관리 의사결정을 가능하게 하는 거죠.\n\n## DINOv3로 숲을 더 선명하게 본다\n\nCHMv2의 핵심은 Meta의 자가지도학습 비전 모델인 **DINOv3**입니다. 이 모델이 전 세계 숲 지도에 전례 없는 선명함과 디테일을 가져옵니다.\n\n그런데 선명함만으로는 부족합니다. 숲의 구조에 대한 정확하고 고해상도의 데이터가 있어야 실제 행동으로 옮길 수 있거든요. 나무 캐노피 높이 측정은 다음을 위해 중요합니다:\n- 숲 건강 모니터링\n- 복원 노력 추적\n- 산림 황폐화 감지\n- 탄소 저장량 추정\n\n2024년에 공개한 고해상도 캐노피 높이 지도를 기반으로, CHMv2는 정확도, 디테일, 그리고 전 지구적 일관성 면에서 상당한 개선을 이루었습니다. 이는 DINOv2 백본을 더욱 강력한 DINOv3 백본으로 교체했기 때문인데요, SAT-493M이라는 대규모의 다양한 위성 이미지 데이터셋으로 사전학습됐습니다.\n\nWorld Resources Institute의 데이터 과학 책임자인 John Brandt는 이렇게 말합니다: \"DINOv3는 다양한 지형에서 숲 구조를 측정하는 능력을 강화해, 고해상도 복원 모니터링을 더욱 일관되고 확장 가능하게 만듭니다.\"\n\n## 레이블 없는 데이터로 배운다\n\nDINOv3는 레이블이 없는 대량의 이미지에서 견고한 시각적 특징을 학습합니다. 다양한 위성 데이터로 학습함으로써, 그림자, 질감, 수관 형태 같은 나무 높이를 나타내는 미묘한 시각적 단서를 포착하죠. 이는 수백만 개의 수동 레이블을 만들 필요 없이 가능합니다.\n\n결과적으로 CHMv2는 이전 버전 대비 정확도와 디테일에서 큰 진전을 이루었습니다. 특히 R²(실제 측정값과 예측값이 얼마나 잘 맞는지 나타내는 지표)는 0.53에서 0.86으로 껑충 올랐습니다. 더 선명한 캐노피 지도를 제공하고, 키 큰 나무에 대한 편향을 최소화해서 과학 및 운영 목적으로 사용하기에 훨씬 더 신뢰할 수 있게 됐습니다.\n\n## 훈련 데이터도 한 단계 업그레이드\n\nCHMv2의 훈련 데이터셋은 지리적으로 더 다양하고 고품질의 라이다(lidar) 샘플을 추가해 확장되고 개선됐습니다. 위성 이미지와 실제 라이다 측정값을 더 잘 맞추기 위해, 우리는 자동 매칭 도구를 개발하고 캐노피 높이 추정의 고유한 과제를 해결하는 특화된 손실 함수를 만들었습니다. 이러한 발전들이 모여 CHMv2를 전 지구적 숲 지도의 새로운 기준으로 만들었습니다.\n\n## 실제로 작동하고 있다: 유럽과 미국의 사례들\n\n이전 버전인 CHMv1과 관련 지도는 이미 기후 이주, 산림 복원, 생물다양성 노력을 지원하고 있습니다.\n\n**영국**에서는 Forestry Commission의 연구 기관인 Forest Research가 이를 활용해 영국 숲의 모니터링과 관리 방식을 완전히 바꾸고 있습니다. 그들의 작업은 이러한 도구가 국가 규모의 숲 인벤토리를 어떻게 지원하고 기후 약속 달성 진전을 추적하는 데 도움이 되는지 보여줍니다.\n\n**유럽** 전역에서 여러 국가와 지방 정부들이 환경 목표를 달성하기 위해 캐노피 높이 지도를 활용 중입니다. 유럽위원회 공동연구센터(JRC)는 첫 번째 버전을 2020년 전 지구 산림 커버 지도에 사용했으며, CHMv2를 향후 지도 버전과 '30억 그루 나무 심기 이니셔티브' 같은 다른 나무 모니터링 노력에 활용할 계획입니다. 이는 2030년까지 EU 전역에 생물다양성 있는 나무 30억 그루 이상을 심으려는 약속입니다.\n\n**미국**에서는 이 지도가 '스마트 표면 도시' 이니셔티브에 활용되고 있습니다. 스마트 표면 연합이 주도하고 애틀란타, 볼티모어, 보스턴, 콜럼비아, 댈러스, 뉴올리언스 등 10개 도시의 시장들이 참여하는 프로젝트거든요. 이 다년간의 프로젝트는 Waverley Street Foundation과 MacArthur Foundation의 지원을 받으며, 반사 지붕, 녹색 지붕, 태양광, 투수성 포장, 빗물 정원, 그리고 나무를 통해 도시를 냉각하려고 합니다.\n\n또한 WRI Ross Center for Sustainable Cities는 '쿨 시티 랩'이라는 새로운 시나리오 계획 도구에서 이 지도를 활용하고 있습니다. 초기에 11개 국가의 도시들을 위해 제공될 이 도구는 도시들이 도시 냉각 개입의 온도 효과를 평가하는 데 도움을 줄 것입니다.\n\n## 남은 과제들\n\nCHMv2는 큰 진전이지만, 해결해야 할 과제들이 남아있습니다. 우리는 데이터가 부족한 지역에서의 예측을 계속 개선하고, 관측 각도 효과를 다루며, 시간에 따른 변화 감지를 더 잘 지원하기 위해 시간 범위를 확장하려고 노력하고 있습니다.\n\n이러한 발전을 연구 커뮤니티에 공개함으로써, 우리는 전 세계 숲 모니터링의 진전을 가속화하길 바랍니다. 더 나은 지도는 더 나은 의사결정을 만들고, 그것은 더 나은 보전으로 이어집니다."
+        },
+        {
+          "title": "Show GN: tui.builders – 터미널 UI의 Figma, Rust 코드 생성까지",
+          "titleKo": "Show GN: tui.builders - 터미널 UI의 Figma, Rust 코드 생성까지",
+          "summary": "Rust로 CLI/TUI 도구를 개발할 때 Figma와 같은 비주얼 에디터로 UI를 디자인하고 자동으로 Rust 코드를 생성할 수 있는 tui.builders 프로젝트. Python의 Textual이나 JS의 Ink와 달리 런타임 의존성 없이 Rust의 성능 이점을 활용한다.",
+          "keyPoints": [
+            "비주얼 UI 디자인 도구에서 즉시 Rust 코드 생성 가능",
+            "ratatui 기반으로 Rust의 성능과 단일 바이너리 배포 이점 활용"
+          ],
+          "whyItMatters": "Rust 개발자들이 TUI 개발을 더 빠르고 간편하게 할 수 있어 CLI 도구 개발 생산성이 증가한다.",
+          "url": "https://news.hada.io/topic?id=27581",
+          "sourceName": "GeekNews",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-gn-tuibuilders-터미널-ui의-figma-rust-코드-생성까지",
+          "category": "tech",
+          "publishedAt": "2026-03-17T02:57:47.000Z",
+          "language": "ko"
+        },
+        {
+          "title": "typenix: Full typing for Nix based on TypeScript",
+          "titleKo": "typenix: TypeScript 기반 Nix 완전 타입핑",
+          "summary": "Nix 언어에 TypeScript 스타일의 완전한 타입 시스템을 제공하는 typenix 프로젝트.",
+          "keyPoints": [
+            "Nix의 동적 타입 시스템을 정적 타입으로 개선",
+            "TypeScript 스타일의 타입 안정성 제공"
+          ],
+          "whyItMatters": "Nix 사용자들이 타입 안정성을 확보할 수 있어 런타임 오류를 줄일 수 있다.",
+          "url": "https://github.com/ryanrasti/typenix",
+          "sourceName": "Lobste.rs",
+          "contentType": "article",
+          "labels": [
+            "typescript",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "typenix-full-typing-for-nix-based-on-typescript",
+          "category": "tech",
+          "publishedAt": "2026-03-16T22:16:34.000Z",
+          "language": "en"
+        },
+        {
           "title": "YishenTu/claudian (TypeScript)",
-          "titleKo": "Claudian: Obsidian 플러그인으로 Claude Code를 AI 협력자로 통합",
+          "titleKo": "YishenTu/claudian (TypeScript)",
+          "summary": "Obsidian 플러그인으로 Claude Code를 Obsidian 볼트에 AI 협력자로 통합하여, 노트 작성 및 관리 중에 AI 어시스턴트를 직접 활용할 수 있게 한다.",
+          "keyPoints": [
+            "Obsidian 플러그인 아키텍처를 통해 Claude Code를 노트 작성 환경에 네이티브로 통합한다.",
+            "지식 관리 시스템(Obsidian vault) 내에서 AI 협력자를 활용하여 문서 작성 생산성을 높일 수 있다.",
+            "개발자와 작가가 코딩과 문서화를 동시에 수행할 때 AI 어시스턴트의 지원을 받을 수 있다."
+          ],
+          "whyItMatters": "Obsidian 사용자가 노트 및 문서 작성 중에 Claude의 AI 능력을 직접 활용할 수 있어 개발 문서화와 지식 관리 효율성을 크게 높일 수 있다.",
           "url": "https://github.com/YishenTu/claudian",
           "sourceName": "GitHub Trending",
-          "summary": "Obsidian 노트 관리 도구 내에 Claude Code를 AI 협력자로 임베드하는 플러그인입니다.",
-          "keyPoints": [],
-          "whyItMatters": "노트 작업 중 AI 코딩 어시스턴트를 직접 활용하여 문서와 코드 작업을 통합할 수 있습니다.",
-          "engagement": 4243,
+          "engagement": 4289,
           "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "topicId": "claude-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
           "slug": "yishentuclaudian-typescript",
           "category": "tech",
-          "publishedAt": "2026-03-17T04:07:59.869Z",
+          "publishedAt": "2026-03-17T06:20:25.371Z",
           "language": "en",
           "tags": [
             "github",
             "TypeScript"
           ]
+        },
+        {
+          "title": "Big drop for EchoHR 🚀\r\n🔧 Postgres queue + worker, idempotent + HMAC webhooks, retries/backoff, metrics\r\n✨ Cleaner UX with hero video, logo, and clearer lifecycle\r\n⚙️ More reliable setup + Docker flow (migrate seed worker)\r\nCheck out the blog for more 👇",
+          "titleKo": "EchoHR 주요 업데이트 🚀",
+          "summary": "EchoHR HR 시스템이 PostgreSQL 큐 + 워커, 멱등성 HMAC 웹훅, 재시도/백오프 메커니즘, 메트릭 모니터링을 추가했으며, UI 개선과 더 안정적인 Docker 기반 설정 흐름을 제공한다.",
+          "keyPoints": [
+            "Postgres 기반 큐 및 워커 아키텍처로 신뢰성 있는 비동기 작업 처리",
+            "멱등성과 HMAC 서명을 통한 웹훅 안정성 및 보안 강화",
+            "히어로 비디오, 로고, 개선된 라이프사이클 UI로 사용자 경험 개선"
+          ],
+          "whyItMatters": "HR 시스템의 안정성과 신뢰성을 위해 필수적인 메시지 큐, 재시도 로직, 보안 검증 패턴을 구현한 사례를 제시한다.",
+          "url": "https://dev.to/ujja/big-drop-for-echohr-postgres-queue-worker-idempotent-hmac-webhooks-retriesbackoff-387",
+          "sourceName": "DEV Community",
+          "contentType": "article",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "big-drop-for-echohr-postgres-queue-worker-idempotent-hmac-webhooks",
+          "category": "tech",
+          "publishedAt": "2026-03-17T06:08:56.000Z",
+          "language": "en"
+        },
+        {
+          "title": "CodexBar - Codex/Claude Code 등의 사용량 통계를 편하게 보기",
+          "titleKo": "CodexBar - AI 코딩 도구 사용량 통계 앱",
+          "summary": "CodexBar는 macOS 메뉴 바 앱으로, Codex, Claude, Cursor, Gemini 등 16개 이상의 AI 코딩 도구의 사용량 한도와 리셋 시간을 한눈에 확인할 수 있다.",
+          "keyPoints": [
+            "16개 이상의 AI 코딩 도구 프로바이더 지원",
+            "세션 및 주간 사용량 미터와 리셋 카운트다운을 메뉴 바에 표시",
+            "여러 AI 도구 사용 시 한도 관리를 간편하게 지원"
+          ],
+          "whyItMatters": "다양한 AI 코딩 도구를 사용하는 개발자가 API 사용량 한도를 효율적으로 추적하고 관리할 수 있다.",
+          "url": "https://news.hada.io/topic?id=27580",
+          "sourceName": "GeekNews",
+          "contentType": "article",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "codexbar-codexclaude-code-등의-사용량-통계를-편하게-보기",
+          "category": "tech",
+          "publishedAt": "2026-03-17T02:21:02.000Z",
+          "language": "ko"
+        },
+        {
+          "title": "Memory Allocation Strategies",
+          "titleKo": "메모리 할당 전략",
+          "summary": "메모리 할당 전략에 대한 기술 자료 시리즈이지만, 제공된 본문이 부족하여 상세 요약 불가.",
+          "keyPoints": [
+            "메모리 할당은 시스템 성능의 핵심 요소"
+          ],
+          "whyItMatters": "효율적인 메모리 할당 전략은 애플리케이션 성능과 안정성에 직접적인 영향을 미친다.",
+          "url": "https://www.gingerbill.org/series/memory-allocation-strategies/",
+          "sourceName": "Lobste.rs",
+          "contentType": "article",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "topicId": "memory-management",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "memory-allocation-strategies",
+          "category": "tech",
+          "publishedAt": "2026-03-17T05:13:50.000Z",
+          "language": "en"
+        },
+        {
+          "title": "building a software protection system from first principles",
+          "titleKo": "처음부터 만드는 소프트웨어 보호 시스템",
+          "summary": "소프트웨어 라이선싱 시스템을 단계적으로 구축하는 과정을 소개하며, 경량의 하드코드된 시리얼부터 시작해 난독화, 디지털 서명, 온라인 검증 등으로 진화하는 방식을 보여준다. 각 단계마다 공격 방식을 분석하고 이에 대응하는 형태로 설계를 개선하는 실용적 접근을 제시한다.",
+          "keyPoints": [
+            "하드코드된 시리얼은 `strings` 명령어로 쉽게 추출되며 난독화도 결국 리버스 엔지니어링에 취약",
+            "디지털 서명과 공개키 암호화를 통해 위조 불가능하고 고객별 고유한 라이선스 구현 가능",
+            "위협 모델에 따라 보호 수준을 선택하는 반복적 설계 방식 제시 (선택적 체크리스트)"
+          ],
+          "whyItMatters": "소프트웨어 개발자가 자신의 위협 모델에 맞는 현실적인 라이선싱 시스템을 단계적으로 구축할 수 있다.",
+          "url": "https://seg6.space/posts/software-protection-system/",
+          "sourceName": "Lobste.rs",
+          "contentType": "article",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "building-a-software-protection-system-from-first-principles",
+          "fullContent": "Let’s walk through building a software protection system from first principles. I’m purposefully not elaborating any properties of such a system upfront. We’ll be iteratively exploring them as we build and break each attempt. In the end, we’ll end up with a practical solution.\nBefore implementing any licensing system, define what “good enough” means for your product. Who are you defending against? Casual sharing, hobbyist reverse engineering, organized cracking groups, or all of them? How much user friction can you tolerate? How much operational complexity can you afford?\nThink of this post as a ladder, not a mandatory checklist. You can stop at any iteration if it meets your threat model, or keep going if your requirements demand stronger protection.\nwhere things start: an application\nWe will start with putting together a simple application that does something useful. It’ll print the meaning of life.\n#include <stdio.h>\n#define ANSWER 42\nint app_main(void) {\nprintf(\"the meaning of life is %d\\n\", ANSWER);\nreturn 0;\n}\nint main(void) {\nreturn app_main();\n}\n$ cc -o app iter0.c\n$ ./app\nthe meaning of life is 42\nThere we have it, an application that provides value. The ANSWER is our secret, the thing worth protecting. In a real application this might be a proprietary algorithm, decryption keys for premium content, or anything really.\nThe question we’re trying to answer: how do we make sure only paying customers can run this?\niteration 1: hardcoded serial\nThe most straightforward approach is to ask for a password before doing anything useful.\n#include <stdio.h>\n#include <string.h>\n#define ANSWER 42\n#define SERIAL \"XXXX-YYYY-ZZZZ\"\nint app_main(void) {\nprintf(\"the meaning of life is %d\\n\", ANSWER);\nreturn 0;\n}\nint check_license(const char *input) {\nreturn strcmp(input, SERIAL) == 0;\n}\nint main(int argc, char *argv[]) {\nif (argc != 2) {\nfprintf(stderr, \"usage: %s <serial>\\n\", argv[0]);\nreturn 1;\n}\nif (!check_license(argv[1])) {\nfprintf(stderr, \"invalid license\\n\");\nreturn 1;\n}\nreturn app_main();\n}\n$ cc -o app iter1.c\n$ ./app wrong\ninvalid license\n$ ./app XXXX-YYYY-ZZZZ\nthe meaning of life is 42\nThis works! We could ship this, but let’s see how it holds up.\ncracking it\nThe problem with hardcoded strings is that they’re just sitting there in the binary, waiting to be found.\n$ strings app | grep -E '^[A-Z]{4}-[A-Z]{4}-[A-Z]{4}$'\nXXXX-YYYY-ZZZZ\nThat took about half a second. The attacker now has a valid serial.\niteration 2: obfuscated serial\nSince plaintext strings are too easy to find, let’s hide the serial. We can XOR it, hash it, or use any number of obfuscation techniques.\n#include <stdio.h>\n#include <string.h>\n#include <stddef.h>\n#define ANSWER 42\nint app_main(void) {\nprintf(\"the meaning of life is %d\\n\", ANSWER);\nreturn 0;\n}\n// Serial \"XXXX-YYYY-ZZZZ\" XOR'd with 0x42\nstatic const unsigned char obfuscated_serial[] = {\n0x1a, 0x1a, 0x1a, 0x1a, 0x6f, 0x1b, 0x1b, 0x1b,\n0x1b, 0x6f, 0x18, 0x18, 0x18, 0x18, 0x00\n};\nint check_license(const char *input) {\nsize_t len = strlen(input);\nif (len != sizeof(obfuscated_serial) - 1) return 0;\nfor (size_t i = 0; i < len; i++) {\nif ((input[i] ^ 0x42) != obfuscated_serial[i]) {\nreturn 0;\n}\n}\nreturn 1;\n}\nint main(int argc, char *argv[]) {\nif (argc != 2) {\nfprintf(stderr, \"usage: %s <serial>\\n\", argv[0]);\nreturn 1;\n}\nif (!check_license(argv[1])) {\nfprintf(stderr, \"invalid license\\n\");\nreturn 1;\n}\nreturn app_main();\n}\nNow strings comes up empty:\n$ cc -o app iter2.c\n$ strings app | grep -E '^[A-Z]{4}-'\n$\nThe serial is no longer directly visible. But here’s the problem: the deobfuscation logic has to exist in the binary. We XOR with 0x42 to check the input, which means an attacker can find that code, understand the scheme, and reverse it. We could use stronger obfuscation, nested encryption, code virtualization, anti-disassembly tricks, but it’s fundamentally a hide-and-seek game. The algorithm to recover the secret is always right there, waiting to be found. We’re not making it impossible, just a tad bit tedious.\nHere’s the first realization we should have: obfuscation is a security through obscurity measure. Given enough time and motivation, a reverse engineer will always win because the binary must contain everything needed to perform the check.\nAs a fun side note, modern reverse engineering tools often auto detect simple XOR encoded blobs, which makes this style of obfuscation even less effective in practice!\niteration 3: digital signatures\nThe real problem with iterations 1 and 2 is that the secret has to be shared. One person buys the software, posts the serial online, and now everyone can use it.\nWhat we need is licenses that are:\nverifiable by anyone (the application can check them)\nunforgeable by some third party provider\nunique to each customer\nThis is where asymmetric cryptography comes into play and helps us.\nThe idea is that instead of one shared secret, we use a key pair. A private key (which we keep) and a public key (which goes in the binary). The private key can sign data, p",
+          "category": "tech",
+          "publishedAt": "2026-03-17T02:20:55.000Z",
+          "language": "en",
+          "translatedContent": "# 소프트웨어 보호 시스템을 처음부터 만들어보자\n\n소프트웨어 보호 시스템을 단계별로 구축해보겠습니다. 처음부터 모든 요구사항을 설명하지 않고, 각 단계를 시도하고 부수면서 자연스럽게 알아가는 방식으로 진행할 거예요. 결국 실무에 쓸 수 있는 솔루션에 도달하게 될 겁니다.\n\n## 먼저 정의해야 할 것들\n\n라이센싱 시스템을 구축하기 전에, 당신의 제품에서 \"충분히 좋은 수준\"이 뭔지 명확히 해야 합니다. 누로부터 보호하려는 건가요? 가벼운 공유 정도인가요, 취미 차원의 역분석인가요, 아니면 전문적인 크래킹 조직까지 대비해야 하나요? 사용자 경험을 얼마나 해칠 수 있고, 시스템 운영에는 얼마나 복잡함을 감수할 수 있나요?\n\n이 글을 \"반드시 따라야 할 체크리스트\"가 아닌 \"선택지의 사다리\"처럼 생각해보세요. 당신의 위협 모델에 맞으면 어느 단계에서든 멈춰도 되고, 요구사항이 높으면 계속 올라가면 됩니다.\n\n## 시작: 간단한 애플리케이션\n\n먼저 실제 가치를 제공하는 간단한 앱을 만들어봅시다.\n\n```c\n#include <stdio.h>\n#define ANSWER 42\n\nint app_main(void) {\n    printf(\"the meaning of life is %d\\n\", ANSWER);\n    return 0;\n}\n\nint main(void) {\n    return app_main();\n}\n```\n\n```bash\n$ cc -o app iter0.c\n$ ./app\nthe meaning of life is 42\n```\n\n이제 우리는 가치를 제공하는 애플리케이션을 가졌습니다. `ANSWER`가 우리가 지키려는 비밀이에요. 실제 앱이라면 독점 알고리즘, 프리미엄 콘텐츠 복호화 키, 또는 다른 여러 것들이 될 수 있습니다.\n\n이제 핵심 질문은 이겁니다: 유료 고객만 이 앱을 실행할 수 있게 하려면 어떻게 해야 할까요?\n\n## 첫 번째 시도: 하드코딩된 시리얼 번호\n\n가장 직관적인 방법은 뭔가 유용한 일을 하기 전에 비밀번호를 묻는 것입니다.\n\n```c\n#include <stdio.h>\n#include <string.h>\n#define ANSWER 42\n#define SERIAL \"XXXX-YYYY-ZZZZ\"\n\nint app_main(void) {\n    printf(\"the meaning of life is %d\\n\", ANSWER);\n    return 0;\n}\n\nint check_license(const char *input) {\n    return strcmp(input, SERIAL) == 0;\n}\n\nint main(int argc, char *argv[]) {\n    if (argc != 2) {\n        fprintf(stderr, \"usage: %s <serial>\\n\", argv[0]);\n        return 1;\n    }\n    if (!check_license(argv[1])) {\n        fprintf(stderr, \"invalid license\\n\");\n        return 1;\n    }\n    return app_main();\n}\n```\n\n```bash\n$ cc -o app iter1.c\n$ ./app wrong\ninvalid license\n$ ./app XXXX-YYYY-ZZZZ\nthe meaning of life is 42\n```\n\n작동합니다! 이대로 배포해도 될 것 같지만, 얼마나 견고한지 살펴봅시다.\n\n### 이걸 깨는 것은 얼마나 쉬울까?\n\n하드코딩된 문자열의 문제는 바이너리에 그대로 노출되어 있다는 겁니다.\n\n```bash\n$ strings app | grep -E '^[A-Z]{4}-[A-Z]{4}-[A-Z]{4}$'\nXXXX-YYYY-ZZZZ\n```\n\n0.5초면 충분합니다. 공격자는 이제 유효한 시리얼 번호를 얻었어요.\n\n## 두 번째 시도: 난독화된 시리얼 번호\n\n평문 문자열은 너무 찾기 쉬우니까, 숨겨봅시다. XOR, 해싱, 또는 다른 난독화 기법을 쓸 수 있습니다.\n\n```c\n#include <stdio.h>\n#include <string.h>\n#include <stddef.h>\n#define ANSWER 42\n\nint app_main(void) {\n    printf(\"the meaning of life is %d\\n\", ANSWER);\n    return 0;\n}\n\n// Serial \"XXXX-YYYY-ZZZZ\" XOR'd with 0x42\nstatic const unsigned char obfuscated_serial[] = {\n    0x1a, 0x1a, 0x1a, 0x1a, 0x6f, 0x1b, 0x1b, 0x1b,\n    0x1b, 0x6f, 0x18, 0x18, 0x18, 0x18, 0x00\n};\n\nint check_license(const char *input) {\n    size_t len = strlen(input);\n    if (len != sizeof(obfuscated_serial) - 1) return 0;\n    for (size_t i = 0; i < len; i++) {\n        if ((input[i] ^ 0x42) != obfuscated_serial[i]) {\n            return 0;\n        }\n    }\n    return 1;\n}\n\nint main(int argc, char *argv[]) {\n    if (argc != 2) {\n        fprintf(stderr, \"usage: %s <serial>\\n\", argv[0]);\n        return 1;\n    }\n    if (!check_license(argv[1])) {\n        fprintf(stderr, \"invalid license\\n\");\n        return 1;\n    }\n    return app_main();\n}\n```\n\n이제 `strings` 명령으로도 찾을 수 없습니다:\n\n```bash\n$ cc -o app iter2.c\n$ strings app | grep -E '^[A-Z]{4}-'\n$\n```\n\n시리얼이 더 이상 직접 보이지 않네요. 하지만 여기 문제가 있습니다. 난독화를 푸는 로직이 바이너리에 존재해야 한다는 거예요. 우리는 입력을 확인하기 위해 `0x42`와 XOR 연산을 하는데, 이는 공격자가 그 코드를 찾아서 방식을 이해한 뒤 역으로 계산할 수 있다는 뜻입니다.\n\n더 강한 난독화, 중첩 암호화, 코드 가상화, 역어셈블리 방지 트릭 등을 사용할 수야 있겠지만, 본질적으로는 숨바꼭질일 뿐입니다. 불가능하게 만드는 게 아니라 좀 더 번거롭게 만드는 것뿐이거든요.\n\n여기서 첫 번째 깨달음을 얻습니다: **난독화는 결국 \"난해함을 통한 보안\"일 뿐입니다.** 충분한 시간과 동기가 있으면 역분석자는 항상 이깁니다. 왜냐하면 바이너리에는 검증을 수행하는 데 필요한 모든 것이 담겨있기 때문이에요.\n\n재미있는 곁말이지만, 현대의 역분석 도구들은 보통 단순한 XOR 인코딩 블록을 자동으로 탐지합니다. 그래서 이 방식의 난독화는 실무에서 더욱 비효과적입니다!\n\n## 세 번째 시도: 디지털 서명\n\n처음 두 시도의 근본적인 문제는 비밀이 공유되어야 한다는 점입니다. 한 사람이 소프트웨어를 구매해서 시리얼을 온라인에 공개하면, 이제 모든 사람이 그걸 쓸 수 있어요.\n\n우리가 필요한 것은 이런 라이센스입니다:\n\n- 누구나 검증 가능 (애플리케이션이 확인할 수 있음)\n- 제3자가 위조 불가능 (우리만 발급 가능)\n- 각 고객마다 고유함\n\n이게 바로 **비대칭 암호화**가 필요한 대목입니다.\n\n아이디어는 단 하나의 공유 비밀 대신 **키 쌍**을 사용하는 것입니다. 하나는 우리가 보관하는 개인 키(private key)이고, 다른 하나는 바이너리에 들어가는 공개 키(public key)입니다. 개인 키로는 데이터에 서명할 수 있고, 공개 키로는 그 서명을 검증할 수 있습니다. 공개 키만 있으면 검증은 가능하지만 새로운 서명을 만들 수는 없어요."
+        },
+        {
+          "title": "My Journey to a reliable and enjoyable locally hosted voice assistant (2025)",
+          "titleKo": "신뢰성 있고 즐거운 로컬 음성 어시스턴트 구축 여정 (2025)",
+          "summary": "Home Assistant의 로컬 음성 어시스턴트(Assist)를 llama.cpp와 완전 로컬 LLM으로 구축한 실제 사례를 공유한다. 다양한 GPU 하드웨어(3050~3090), 음성 인식/합성 모델(Parakeet V2, Kokoro TTS), 그리고 LLM 모델들의 성능 비교 테이블을 제공하며 구축 과정에서의 최적화 방법들을 상세히 기록했다.",
+          "keyPoints": [
+            "RTX 3090/RX 7900XTX로 20B-30B MoE 모델을 1-2초 응답시간으로 실행 가능하며 RTX 3050으로도 4B 모델은 3초 대 응답 가능",
+            "Wyoming ONNX ASR (OpenVINO 최적화)로 0.3초 음성인식, Kokoro TTS로 고품질 음성 출력 달성",
+            "LLM Conversation 통합으로 문맥 이해, 오인식 처리, 다중 디바이스 제어 등 고급 기능 구현"
+          ],
+          "whyItMatters": "개인들이 클라우드 의존 없이 로컬에서만 완전히 작동하는 음성 어시스턴트를 구축할 수 있는 구체적인 경로와 최적화 기법을 제시한다.",
+          "url": "https://community.home-assistant.io/t/my-journey-to-a-reliable-and-enjoyable-locally-hosted-voice-assistant/944860",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 355,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "ai"
+          ],
+          "topicId": "voice-assistant",
+          "isTopicPrimary": true,
+          "slug": "my-journey-to-a-reliable-and-enjoyable-locally-hosted-voice-assistant-2025",
+          "fullContent": "My Journey to a reliable and enjoyable locally hosted voice assistant\nConfiguration\nVoice Assistant\ncrzynik\n(Nicolas Mowen)\nOctober 27, 2025, 6:03pm\n1\nI have been watching HomeAssistant’s progress with assist for some time. We previously used Google Home via Nest Minis, and have switched to using fully local assist backed by local first + llama.cpp (previously Ollama). In this post I will share the steps I took to get to where I am today, the decisions I made and why they were the best for my use case specifically.\nLinks to Additional Improvements\nHere are links to additional improvements posted about in this thread.\nNew Features\nSecurity Camera Insight / Analsysis\nSearch for YouTube video and play on the TV\nFixing Unwanted HA / LLM Behaviors\nOverriding the default HassGetWeather intent to have consistent weather outputs\nImproving handling of unclear requests / false activations\nAutomatically handle obvious transcription errors\nOptimizing prompt to reduce bloat and token usage\nOptimizing Performance\nllama.cpp performance optimizations\nHardware Details\nI have tested a wide variety of hardware from a 3050 to a 3090, most modern discrete GPUs can be used for local assist effectively, it just depends on your expectations of capability and speed for what hardware is required.\nI am running HomeAssistant on my UnRaid NAS, specs are not really important as it has nothing to do with HA Voice.\nVoice Hardware:\n1 HA Voice Preview Satellite\n2 Satellite1 Small Squircle Enclosures\n1 Pixel 7a used as a satellite/ hub with View Assist\nVoice Server Hardware:\nBeelink MiniPC with USB4 (the exact model isn’t important as long as it has USB4)\nUSB4 eGPU enclosure\nGPUs\nThe below table shows GPUs that I have tested with this setup. Response time will vary based on the model that is used.\nGPU\nModel Class\nResponse Time (after prompt caching)\nNotes\nRTX 3090 24GB\n20B-30B MoE, 9B Dense\n1 - 2 seconds\nEfficiently and quickly runs models that are optimal for this setup.\nRX 7900XTX 24GB\n20B-30B MoE, 9B Dense\n1 - 2 seconds\nEfficiently and quickly runs models that are optimal for this setup.\nRTX 5060Ti 16GB\n20B MoE, 9B Dense\n1.5 - 3 seconds\nQuick enough to run models that are optimal for this setup with responses < 3 seconds.\nRX 9060XT 16GB\n20B MoE, 9B Dense\n1.5 - 4 seconds\nQuick enough to run models that are optimal for this setup with responses < 4 seconds.\nRTX 3050 8GB\n4B Dense\n3 seconds\nGood for running small models with basic functionality.\nModels\nThe below table shows the models I have tested using this setup with various features and their performance.\nAll models below are good for basic tool calling. Advanced features are listed with the models quality at reliably reproducing the desired behavior.\nModel\nMulti device tool calls (1)\nUnderstands context cues (2)\nParses misheard commands (3)\nIgnores unexpected text from false positives (4)\nGGML GPT-OSS:20B MXFP4\nUnsloth Qwen3.5-35B-A3B MXFP4_MOE\nUnsloth Qwen3-VL:8B-Instruct Q6_K_XL\nUnsloth Qwen3-30B-A3B-Instruct Q4_K_XL\nUnsloth GLM 4.7 Flash (30B) Q4_K_XL\nUnsloth Qwen3:4b-Instruct 2507 Q6_K_XL\n(1) Handles commands like “Turn on the fan and off the lights”\n(2) Understands when it is in a particular area and does not ask “which light?” when there is only one light in the area, but does correctly ask when there are multiple of the device type in the given area.\n(3) Is able to parse misheard commands (ex: “turn on the pan”) and reliably execute the intended command\n(4) Is able to reliably ignore unwanted input without being negatively affected by misheard text that was an intended command.\nVoice Server Software:\nModel Runner:\nllama.cpp is recommended for optimal performance, see my reply below for details.\nSpeech to Text (Voice In):\nThe following are Speech to Text options that I have tested:\nSoftware\nModel\nNotes\nWyoming ONNX ASR\nNvidia Parakeet V2\nSpecifically running via the OpenVINO branch which optimizes CPU inference time down to ~ 0.3 seconds\nRhasspy Faster Whisper\nNvidia Parakeet V2\nSlower due to running directly via ONNX CPU which is slower than OpenVINO\nText to Speech (Voice Out):\nSoftware\nNotes\nKokoro TTS\nProvides ability to mix and match multiple voices / tones to get desired output. Handles all text well.\nPiper running on CPU (TTS)\nHas multiple voices which can be picked from, works for general text but struggles with currency, phone numbers, and addresses.\nHome Assistant LLM Integrations\nLLM Conversation Provides improvements to the base conversation to improve default experience talking with Assist\nLLM Intents to provide additional tools for Assist (Web Search, Place Search, Weather Forecast)\nThe Journey\nMy point in posting this is not to suggest that what I have done is “the right way” or even something others should replicate. But I learned a lot throughout this process and I figured it would be worth sharing so others could get a better idea of what to expect, pitfalls, etc.\nThe Problem\nThroughout the last year or two we have noticed that Google Assistant through these Nest M",
+          "category": "tech",
+          "publishedAt": "2026-03-16T13:09:58.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 로컬 음성 어시스턴트 구축기: 신뢰할 수 있고 즐거운 경험을 찾아서\n\n**작성자:** Nicolas Mowen  \n**날짜:** 2025년 10월 27일\n\nHome Assistant의 음성 어시스턴트 기능이 발전하는 과정을 지켜봐온 지 꽤 됩니다. 저희 집은 원래 Google Home과 Nest Mini를 썼는데, 이제는 완전히 로컬에서 돌아가는 음성 어시스턴트로 바꿨거든요. llama.cpp를 이용해서 말이죠. 이 글에서는 어떻게 현재 상태에 도달했는지, 어떤 결정을 내렸고, 왜 그게 제 상황에 최적이었는지를 공유하려고 합니다.\n\n## 하드웨어 구성\n\n### 음성 장비\n- Home Assistant Voice Preview Satellite 1개\n- Satellite1 Small Squircle 인클로저 2개  \n- Pixel 7a (위성 허브 및 View Assist용)\n\n### 음성 처리 서버\nBeelink MiniPC(USB4 포함)에 다음을 연결해서 사용하고 있습니다.\n\n**GPU별 성능 비교**\n\n| GPU | 모델 클래스 | 응답 속도 | 참고 |\n|-----|-----------|---------|------|\n| RTX 3090 24GB | 20B-30B MoE, 9B Dense | 1-2초 | 최적의 모델을 빠르고 효율적으로 실행 |\n| RX 7900XTX 24GB | 20B-30B MoE, 9B Dense | 1-2초 | 최적의 모델을 빠르고 효율적으로 실행 |\n| RTX 5060Ti 16GB | 20B MoE, 9B Dense | 1.5-3초 | 3초 이내 응답으로 충분한 성능 |\n| RX 9060XT 16GB | 20B MoE, 9B Dense | 1.5-4초 | 4초 이내 응답으로 충분한 성능 |\n| RTX 3050 8GB | 4B Dense | 3초 | 소규모 모델에 적합 |\n\n현대의 대부분의 GPU는 로컬 음성 어시스턴트에 사용할 수 있습니다. 다만 응답 속도와 능력에 대한 기대치에 따라 필요한 하드웨어가 달라질 뿐이죠.\n\n## 모델 선택\n\n여러 모델을 테스트했고, 아래는 다양한 기능과 성능을 테스트한 결과입니다. 모든 모델이 기본적인 도구 호출(tool calling)은 잘 지원합니다.\n\n**테스트된 주요 기능:**\n1. **다중 장치 제어** - \"선풍기 켜고 불 꺼\" 같은 명령 처리\n2. **상황 이해** - \"불을 켜\"라고 했을 때 그 공간에 조명이 하나만 있으면 바로 켜고, 여럿이면 물어보기\n3. **오청 처리** - \"선풍기\" 대신 \"팬\"이라고 들렸을 때도 올바르게 실행\n4. **오인식 무시** - 오청된 텍스트에 영향받지 않고 정상 동작\n\n권장 모델 조합으로는 **Unsloth Qwen 시리즈**들이 위 기능들을 잘 지원합니다.\n\n## 소프트웨어 스택\n\n### 음성 인식 (Speech to Text)\n\n**Wyoming ONNX ASR** (추천)\n- Nvidia Parakeet V2 모델 사용\n- OpenVINO 기반 실행으로 CPU 추론을 약 0.3초로 최적화\n\n**Rhasspy Faster Whisper**\n- Nvidia Parakeet V2 모델 사용\n- 직접 ONNX CPU 실행이라 상대적으로 느린 편\n\n### 음성 생성 (Text to Speech)\n\n**Kokoro TTS** (추천)\n- 여러 음성과 톤을 섞어서 원하는 느낌으로 출력 가능\n- 모든 텍스트를 잘 처리\n\n**Piper TTS**\n- CPU에서 실행\n- 다양한 음성 선택 가능\n- 화폐, 전화번호, 주소 처리에는 약한 편\n\n### 모델 실행\n**llama.cpp**를 최적 성능을 위해 권장합니다.\n\n## Home Assistant 통합\n\n- **LLM Conversation** - 기본 대화 기능 개선\n- **LLM Intents** - 웹 검색, 장소 검색, 날씨 예보 같은 추가 도구 제공\n\n## 마지막으로\n\n이 글에서 제시한 구성이 \"정답\"이거나 누구나 따라야 할 방법은 아닙니다. 다만 이 과정에서 배운 것들이 많았고, 다른 분들도 기대치를 어느 정도로 잡아야 하고 어떤 함정이 있는지 알 수 있으면 좋겠다는 생각에 공유하는 것입니다."
+        },
+        {
+          "title": "Home Assistant waters my plants",
+          "titleKo": "Home Assistant가 내 식물에 물을 준다",
+          "summary": "Home Assistant와 저비용 IoT 기기들을 조합하여 관개 시스템, 기후 센서, Zigbee 네트워크 등을 클라우드 의존성 없이 구축했습니다. Cloudflare Tunnel과 WARP VPN으로 보안을 유지하면서 원격 접근을 구현했습니다.",
+          "keyPoints": [
+            "Proxmox에서 Home Assistant VM과 MQTT, Zigbee2mqtt 컨테이너를 실행하여 로컬 기반 홈 오토메이션 시스템을 구축했습니다.",
+            "Link-Tap 관개 제어기와 저가 Zigbee 센서들(토양 습도, 기후)을 MQTT로 통합하고, 날씨 예보 기반 자동화를 설정했습니다.",
+            "Cloudflare Tunnel로 Home Assistant만 선택적으로 외부 노출하고 WARP VPN으로 보안을 강화했습니다."
+          ],
+          "whyItMatters": "개발자가 상용 클라우드 서비스에 의존하지 않고 저비용 하드웨어로 자체 홈 오토메이션 인프라를 구축하는 실제 사례를 제시합니다.",
+          "url": "https://finnian.io/blog/home-assistant-waters-my-plants/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 278,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "ai"
+          ],
+          "topicId": "home-automation",
+          "isTopicPrimary": true,
+          "slug": "home-assistant-waters-my-plants",
+          "fullContent": "Some readers will know, but most will not, that I am a bit of a self-confessed foodie. I enjoy cooking, but especially so when others get enjoyment from it. Be it friends, family, or neighbours, and sometimes all three, I’m always up for putting something together.\nFood isn’t what this post is about, but it’s the underlying motivation for much of the things I talk about, mingled with a healthy dose of nerdism.\nAt work, some of my colleagues enjoy tinkering with Home Assistant. For anyone unfamiliar, HA is a platform for collecting data from devices, controlling them, and running automations. It’s pretty cool. I was unfamiliar with it, but it sounded pretty cool. OK, so we have a solution. Now to find a problem.\nMy property has a basic irrigation system for the lawns. 6 zones, you attach the right hose to the tap and let it run until you remember to turn it off. All well and good, but I figured it could be smarter and safer. So, that became the first thing I decided to solve with Home Assistant.\nHere are the requirements for the system:\nSimple. No crazy electronics.\nSafe. Pissing water out for 24h would be bad.\nCheap. Let’s not break the bank.\nBuild in an extendible way to pave the path for future ideas.\nObservable. I want proof it’s all working properly.\nRun unsupervised.\nAvoid cloud dependency where possible (a common desire for Home Assistant users)\nThe hardest part was choosing some hardware for this new platform. I didn’t want to mess around building a server, something off the shelf would suffice. I ended up going with a Beelink EQ14 Intel Twin Lake N150 which seemed like a good fit. It has a 500GB SSD, gigabit ethernet, 16GB RAM and a decent CPU. I paid $259 USD shipped to NZ. It’s definitely overkill for running Home Assistant and a couple of containers, but I wanted some headroom for future projects like a media server and it uses very little power.\nGoing back to my first use-case for Home Assistant (irrigation), I needed something to control water flow. Various solutions exist, from off the shelf to DIY, but I didn’t want to muck around with custom electronics in close proximity to water, where the failure state is a flood. I also wanted something that operated locally to the property and didn’t require cloud connection. I stumbled across Link-Tap which can either run as a cloud client or it can use a local MQTT server, which I figured would be easy to integrate with Home Assistant, so I took the plunge and got their Q1 4-zone unit.\nOnce it all showed up, I started by testing out the Link-Tap with their app and cloud integration. It all worked flawlessly and I was really pleased with it. I ran the irrigation schedule for a few days to prove it was working as expected.\nLink-Tap installed with transceiver placed up high.\nNext step was to get Home Assistant installed and configured. I decided to go full nerd homelab setup and install Proxmox on the Beelink. This was pretty straightforward, I just made a bootable USB stick and ran the Proxmox installer.\nI found it confusing as to whether I should run HA in a Linux container, or as a VM. As most guides suggested the latter would be easier if I wanted to pass-through USB (e.g. for a Zigbee transceiver, more on that later), I opted to do that. With that, Home Assistant was up and running!\nThe next step was to setup an MQTT broker, which was also really easy. I ran it as a container in Proxmox and then connected the Link-Tap gateway to it so communications could happen over MQTT. The sensors (water flow, etc) and switches immediately showed up in Home Assistant which was cool.\nIrrigation dashboard in Home Assistant\nI was able to easily configure an automation to run the irrigation every morning, taking into account the forecast for the day (e.g. don’t run if it’s going to rain!). I also added automations to send me push notifications when any zone turns on.\nI mentioned Zigbee earlier. I liked the idea of various sensors around the house and outside the property for measuring things. I picked up a SONOFF ZBDongle-P for $32 USD as it had good support for Home Assistant. It was easy to get working with zigbee2mqtt running in another container.\nI started with climate sensors in various rooms but I’ve also added soil moisture and humidity sensors to the mix. These were all cheap battery devices from Aliexpress. The climate sensors are great but the soil sensors report data sporadically. I think I need more Zigbee repeaters to get a reliable mesh network, but to date I haven’t found any consumer-grade devices certified for use in NZ.\nClimate dashboard in Home Assistant showing data from various rooms.\nTo take things a step further, I wanted to be able to remote into Home Assistant to check on things. I only wanted to expose Home Assistant though, not any of the other services to keep the surface area minimal.\nI decided to use Cloudflare tunnels for this, in combination with WARP VPN for security. It’s configured to only allow connections from within my Zero Trus",
+          "category": "tech",
+          "publishedAt": "2026-03-12T10:19:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: Thermal Receipt Printers – Markdown and Web UI",
+          "titleKo": "열전사 영수증 프린터 - Markdown 및 웹 UI",
+          "summary": "Markdown을 지원하는 열전사 영수증 프린터 제어 도구로, 웹 UI와 CLI 모드를 제공하며 Docker로 간편하게 배포할 수 있습니다. QR 코드, 정렬, 수평선 등 확장 기능을 지원합니다.",
+          "keyPoints": [
+            "표준 Markdown(헤더, 볼드, 언더라인, 리스트)과 사용자 정의 태그([align=center], [qr=URL], [effect=line--])를 지원합니다.",
+            "웹 UI, CLI, Docker 등 다양한 방식으로 사용 가능하며, USB 또는 네트워크 연결을 지원합니다.",
+            "현재 MUNBYN 열전사 프린터에서만 테스트되었으므로 다른 프린터 모델은 호환성 확인이 필요합니다."
+          ],
+          "whyItMatters": "저비용 열전사 프린터를 실용적인 도구로 활용하는 방법을 제시하며, Markdown 기반의 간단한 포맷으로 포인트 오브 세일 시스템이나 이벤트 티켓 인쇄 등에 활용 가능합니다.",
+          "url": "https://github.com/sadreck/ThermalMarky",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 63,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-thermal-receipt-printers-markdown-and-web-ui",
+          "fullContent": "🖨️ ThermalMarky - Markdown Thermal Printer\nDid you ever buy a thermal receipt printer \"to do cool stuff\" which is now collecting dust? No? Me neither.\nBut if you have a friend that did, ThermalMarky is here to help by supporting basic Markdown features and a basic WebUI to go with it.\nFeatures\nMarkdown Support: Headers, Bold, Underline, and Lists.\nEnhanced Formatting: Custom tags for alignment ([align=center]), horizontal lines, and QR Codes.\nWeb UI: A clean interface with built-in editor shortcuts.\nCLI Mode: Print directly from your terminal or pipe content into it.\nDocker Ready: You know exactly what this means.\nQuick Start\nPrinter Installation\nUnfortunately due to the different types of thermal printers out there, you will need to make sure your printer works before trying to use ThermalMarky.\nThis project has only been tested with MUNBYN Thermal Printer / ITPP047UE-WH-UK.\nConfiguration\nRename .env.example to .env and fill in the required information.\n#\n# Printer Setup\n#\n# Printer Connection: usb or network\nMARKY_TYPE=usb\n# USB, get this information by running `lsusb` while your printer is connected. You should see something like this:\n#\n# Bus 001 Device 094: ID 04b8:0e20 Seiko Epson Corp. TM-m30-ii\nMARKY_VENDOR_ID=0x04b8\nMARKY_PRODUCT_ID=0x0e20\n# Network, how you get this information depends on which printer you have.\nMARKY_IP=192.168.1.100\nMARKY_PORT=9100\n#\n# Configuration Setup\n#\n# Number of lines to print before truncating output to avoid printing out LOTR.\nMARKY_MAX_LINES=30\n# Max line width supported by the printer for text-wrapping.\nMARKY_LINE_WIDTH=48\nRunning with Docker (Recommended)\nDocker is the easiest way to get ThermalMarky up and running, especially for managing USB permissions.\nBuild and Start:\ndocker compose up --build\nAccess the UI:\nOpen https://localhost:8000 in your browser.\n(Note: Uses self-signed certificates in certs/ for secure transport)\nRunning Locally\nIf you prefer to run it bare-metal, follow these steps:\nPrerequisites\nPython 3.12+\nSystem libraries (for python-escpos):\nsudo apt install libusb-1.0-0-dev libjpeg-dev zlib1g-dev libcups2-dev python3-dev gcc\nSetup\nInstall Dependencies:\npython3 -m venv .venv\npip install -r requirements.txt\n. .venv/bin/activate\nLaunch the Web Server:\npython3 main.py\nUsage\nYou can print files directly without the web interface:\n# Print a file\npython print.py my_list.md\n# Pipe content directly\necho \"# Hello World\" | python print.py\n# HTTP request\ncurl --insecure -X POST \"https://127.0.0.1:8000/print\" -d \"markdown=$(cat my-message.md)\"\n# or\ncurl --insecure -X POST \"https://127.0.0.1:8000/print\" --data-urlencode \"markdown@my-message.md\"\nMarkdown Support\nBeyond standard Markdown, ThermalMarky supports special tags:\nTag\nDescription\n**word**\nBold\n__word__\nUnderline\n#\nH1\n##\nH2\n[align=center]\nCenter-align the following text (also left, right)\n[qr=https://...]\nGenerate and print a QR code\n[effect=line--]\nPrint a horizontal line of dashes\n[effect=line-*]\nPrint a horizontal line of asterisks\nExample\n[align=center]# Thermal Marky\nThis is **very important** but this __not so much__.\n[align=right]This is on the right\n[effect=line--]\n[align=center][qr=https://github.com/sadreck/ThermalMarky]\nResult\nTroubleshooting\nUSB Permissions: On Linux, you might need to add a udev rule or run with sudo if the printer isn't detected. Docker-compose handles this by running as privileged.\nCertificates: The web server uses HTTPS. If your browser warns you about the certificate, it's because it's self-signed for local use.",
+          "category": "tech",
+          "publishedAt": "2026-03-13T16:49:01.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 🖨️ ThermalMarky - 마크다운 지원 열감지식 프린터\n\n혹시 \"재미있는 뭔가를 하려고\" 열감지식 영수증 프린터를 사놨다가 지금 먼지만 쌓이고 있진 않나요? 아니면 그런 친구가 있나요? \n\n어쨌든 ThermalMarky는 기본적인 마크다운 문법을 지원하고, 깔끔한 웹 UI까지 제공해서 그런 프린터를 다시 활용하게 도와줄 거예요.\n\n## 주요 기능\n\n- **마크다운 지원**: 제목, 굵게, 밑줄, 목록 등 기본 형식 지원\n- **확장 기능**: 정렬 태그([align=center]), 구분선, QR 코드 생성\n- **웹 UI**: 편집기 단축키가 내장된 깔끔한 인터페이스\n- **CLI 모드**: 터미널에서 직접 실행하거나 파이프로 내용 전달 가능\n- **Docker 지원**: 당연히 준비되어 있습니다\n\n## 시작하기\n\n### 프린터 설정\n\n안타깝게도 열감지식 프린터 종류가 다양해서, 먼저 본인의 프린터가 정상 작동하는지 확인해야 합니다.\n\n이 프로젝트는 MUNBYN 열감지식 프린터(ITPP047UE-WH-UK) 기준으로만 테스트되었어요.\n\n### 설정 파일 구성\n\n`.env.example` 파일을 `.env`로 이름을 바꾸고 필요한 정보를 입력하세요.\n\n```\n#\n# 프린터 설정\n#\n# 프린터 연결 방식: usb 또는 network\nMARKY_TYPE=usb\n\n# USB: lsusb 명령어로 다음과 같은 정보를 찾을 수 있습니다\n# Bus 001 Device 094: ID 04b8:0e20 Seiko Epson Corp. TM-m30-ii\nMARKY_VENDOR_ID=0x04b8\nMARKY_PRODUCT_ID=0x0e20\n\n# Network: 프린터 종류에 따라 다른 방식으로 확인합니다\nMARKY_IP=192.168.1.100\nMARKY_PORT=9100\n\n#\n# 기본 설정\n#\n# 출력을 자르기 전에 인쇄할 최대 줄 수 (끝없는 출력 방지)\nMARKY_MAX_LINES=30\n\n# 텍스트 줄 바꿈을 위한 프린터의 최대 가로 길이\nMARKY_LINE_WIDTH=48\n```\n\n### Docker로 실행하기 (권장)\n\nDocker를 사용하면 USB 권한 관리가 쉬워서 가장 간편합니다.\n\n**빌드 및 실행:**\n\n```bash\ndocker compose up --build\n```\n\n**웹 UI 접속:**\n\n브라우저에서 `https://localhost:8000`을 열면 됩니다.\n\n(참고: 안전한 통신을 위해 `certs/` 디렉토리의 자체 서명 인증서를 사용합니다)\n\n### 로컬에서 실행하기\n\n직접 설치해서 실행하려면 다음 단계를 따르세요.\n\n**사전 요구 사항**\n\n- Python 3.12 이상\n- 시스템 라이브러리 (python-escpos 필요):\n\n```bash\nsudo apt install libusb-1.0-0-dev libjpeg-dev zlib1g-dev libcups2-dev python3-dev gcc\n```\n\n**설치 및 실행**\n\n```bash\n# 가상 환경 생성 및 의존성 설치\npython3 -m venv .venv\npip install -r requirements.txt\n. .venv/bin/activate\n\n# 웹 서버 시작\npython3 main.py\n```\n\n## 사용법\n\n웹 UI 없이 직접 파일을 인쇄할 수도 있습니다.\n\n```bash\n# 파일 인쇄\npython print.py my_list.md\n\n# 파이프로 직접 전달\necho \"# Hello World\" | python print.py\n\n# HTTP 요청으로 인쇄\ncurl --insecure -X POST \"https://127.0.0.1:8000/print\" -d \"markdown=$(cat my-message.md)\"\n\n# 또는\ncurl --insecure -X POST \"https://127.0.0.1:8000/print\" --data-urlencode \"markdown@my-message.md\"\n```\n\n## 마크다운 문법\n\n표준 마크다운 외에도 몇 가지 특수 태그를 지원합니다.\n\n| 태그 | 설명 |\n|------|------|\n| `**word**` | 굵게 |\n| `__word__` | 밑줄 |\n| `#` | 제목 1 |\n| `##` | 제목 2 |\n| `[align=center]` | 중앙 정렬 (left, right도 사용 가능) |\n| `[qr=https://...]` | QR 코드 생성 및 인쇄 |\n| `[effect=line--]` | 대시 구분선 인쇄 |\n| `[effect=line-*]` | 별표 구분선 인쇄 |\n\n### 예제\n\n```\n[align=center]# Thermal Marky\n\nThis is **very important** but this __not so much__.\n\n[align=right]This is on the right\n\n[effect=line--]\n\n[align=center][qr=https://github.com/sadreck/ThermalMarky]\n```\n\n이렇게 작성하면 중앙 정렬된 제목, 굵은 텍스트, 오른쪽 정렬된 텍스트, 구분선, QR 코드가 순서대로 인쇄됩니다.\n\n## 문제 해결\n\n**USB 권한 문제**: 리눅스에서 프린터가 감지되지 않으면 udev 규칙을 추가하거나 sudo 권한으로 실행해야 할 수 있습니다. Docker Compose를 사용하면 특권 모드로 자동 실행되므로 이 문제가 없습니다.\n\n**인증서 경고**: 웹 서버는 HTTPS를 사용하는데, 브라우저에서 인증서 경고가 나타나는 것은 로컬 사용을 위한 자체 서명 인증서이기 때문입니다. 무시하고 진행해도 괜찮습니다."
         }
       ]
     },
     {
       "category": "insight",
-      "items": []
+      "items": [
+        {
+          "title": "Lf-lean: The frontier of verified software engineering",
+          "titleKo": "Lf-lean: 검증된 소프트웨어 공학의 최전선",
+          "summary": "AI가 생성한 코드를 자동으로 검증하는 'task-level specification generators' 방식을 제시하며, Logical Foundations 교과서의 1,276개 명제를 Rocq에서 Lean으로 번역하고 증명하는 작업을 2인일로 완료했다(수동 예상 2.75인년 대비 350배 속도). 검증된 소프트웨어 공학이 미검증 소프트웨어보다 더 빠르게 발전하고 있음을 시사한다.",
+          "keyPoints": [
+            "rocq-dove가 소스코드에서 자동으로 정확성 명세를 생성하므로 각 경우마다 인간 판단 없이 검증 가능",
+            "AI가 자동으로 1,276개 번역 중 97%를 검증된 상태로 완성하고 극도로 어려운 6개만 인간이 해결",
+            "AI 역량이 증가할수록 인간 검토 병목은 심화되므로 자동 검증이 필수 요구사항이 됨"
+          ],
+          "whyItMatters": "AI 시대에 코드의 정확성을 보장하는 방식이 인간 검토에서 자동 검증으로 전환되어야 함을 시사한다.",
+          "url": "https://theorem.dev/blog/lf-lean/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 36,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "topicId": "formal-verification",
+          "isTopicPrimary": true,
+          "slug": "lf-lean-the-frontier-of-verified-software-engineering",
+          "fullContent": "Figure 1: Closing the Gap Between Verified and Unverified Software Engineering. Adapted from METR’s Time Horizon plot, including software verification benchmarks where AIs write code and then prove it correct. We plot only the time horizon for software implementation (not verification) for an an apples-to-apples comparison of how much functionality is implemented via each method of software development. lf-lean gives us an encouraging measurement of where verified software engineering capability is.\nWe present lf-lean, a verified translation of all 1,276 statements of the Logical Foundations textbook from Rocq to Lean, produced by frontier AI with ~2 person-days of human effort versus an estimated ~2.75 person-years manually (a 350x speed-up). We achieve this through task-level specification generators: because many software transformations are semantics-preserving, correctness can be defined once for an entire task class and checked automatically across all instances and codebases. This scales human oversight from 𝒪(𝓃) to 𝒪(1) regardless of program complexity. Placed on METR's time horizon graph, our result suggests verified software engineering is advancing faster than expected.\nIntroduction\nAs AIs automate increasingly complex software tasks, a fundamental tension emerges: how do we know the code they produce is correct? The standard approach of reviewing AI-generated code and its tests doesn’t scale.\nHuman review effort grows proportionally with code volume, while AI code generation capacity grows exponentially.1\nIf this trend continues, we’re headed toward a world where code deployment is bottlenecked on human review capacity, or just deployed without review.\nThis post introduces a different approach: task-level specification generators.\nInstead of reviewing each piece of generated code individually, we review a correctness specification once for an entire class of tasks, and the correctness specification covers all instances of the task across any codebase.\nThe key insight is that for many important software transformations (translation, optimization, refactoring), we can define what “correct” means generically, without reference to any specific codebase.\nMoreover, as codebase complexity increases, a lot of feature implementation is a semantics-preserving transformation of existing features, so the correctness specification for the new feature is a simple corollary of the correctness specification for the existing features.\nThus, building task-level specification generators helps scale oversight in two ways: (1) you can easily work on many more codebases simultaneously, and (2) what works on simple codebases extends to arbitrarily complex ones.\nWe prototype task-level specification generation with rocq-dove, building a scalable environment for verified translation2 from Rocq3 to Lean.\nGiven any Rocq source code, rocq-dove automatically generates a correctness specification (a theorem that any valid translation must satisfy) and grades model-generated translations and proofs against it.\nBecause the specification is derived from the source code itself, rocq-dove scales to arbitrary codebases without additional human effort.\nWe use rocq-dove to generate an environment for a verified translation of all 1,276 statements4 in Logical Foundations5 1.\nUsing our scaffold, frontier AI models6 autonomously produced verified translations of 97% of the statements.7\nWe solved 6 extreme-difficulty statements manually (~2 person-days), after which models completed the remaining 2.5%.\nFor context, we estimate the full task would have taken 3 person-months for translation plus 2.5 person-years for verification if done entirely by humans.8\nTwo key world-view updates:\nVerified software engineering can scale without marginal human oversight.\nrocq-dove automatically generated correctness specifications for the 1,276 translations in lf-lean.\nNo human judgment was needed to define “correct” for each case. Combined with rich feedback from the proof assistant, this creates a dense reward signal that lets AI iterate toward correct solutions autonomously.\nAI capabilities on software verification are advancing faster than expected.\nWe developed lf-lean, the first sufficiently complex evaluation to demonstrate this.\nCompared to METR’s time horizon trend 2 on unverified software engineering, verified software engineering appears to be catching up.\nThe implication is that software verification, long considered too expensive for practical software development, may become the more scalable approach in an era of AI-assisted programming.\nWhen humans can’t review all the code AI produces, having machines verify correctness automatically becomes not just nice to have, but necessary.\nIn what follows, we explain task-level specification generators, the conceptual framework that lets correctness checking scale without marginal human effort.\nWe then describe rocq-dove, our prototype environment for verified translation from Rocq to Lean, an",
+          "category": "insight",
+          "publishedAt": "2026-03-12T15:37:37.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# AI 시대에 검증 가능한 소프트웨어 엔지니어링의 미래\n\n그림 1을 보면 검증된 소프트웨어와 검증되지 않은 소프트웨어 간의 격차가 좁혀지는 추세를 확인할 수 있습니다. METR의 시간 축 그래프에 AI가 작성한 코드를 증명하는 검증 벤치마크를 추가한 것인데요, 여기서는 소프트웨어 구현 시간만 비교했습니다(검증 시간 제외).\n\n**lf-lean** 프로젝트는 검증된 소프트웨어 엔지니어링이 어디까지 발전했는지 보여주는 좋은 사례입니다. Rocq에서 Lean으로 Logical Foundations 교과서의 1,276개 명제를 모두 번역했는데, AI의 도움으로 단 2인일(person-days) 만에 완료했습니다. 수작업으로는 약 2년 9개월이 걸릴 작업을 350배 빠르게 처리한 거죠.\n\n이렇게 빠른 속도를 낼 수 있었던 핵심은 **작업 단위 명세 생성기(task-level specification generators)** 때문입니다. 많은 소프트웨어 변환 작업이 의미를 보존하기 때문에, 정확성을 한 번 정의하면 그 작업의 모든 인스턴스에 자동으로 적용할 수 있거든요. 이를 통해 인간의 감독 비용을 O(n)에서 O(1)로 줄일 수 있습니다.\n\n## 문제: AI 코드의 급속한 성장과 검토의 병목\n\nAI가 점점 더 복잡한 소프트웨어 작업을 자동화하면서 근본적인 질문이 대두되고 있습니다. **이 AI가 만든 코드가 정말 맞는 걸까?**\n\n기존 방식은 AI가 생성한 코드와 테스트를 일일이 검토하는 것이었습니다. 그런데 문제가 있습니다.\n\n- 인간의 검토 비용은 코드량에 비례해 증가합니다\n- AI의 코드 생성 능력은 기하급수적으로 늘어납니다\n\n이 추세가 계속되면, 결국 인간의 검토 능력이 병목이 되거나 검토 없이 배포할 수밖에 없는 상황이 옵니다.\n\n## 해결책: 작업 단위 명세 생성기\n\n이 글에서 소개할 방식은 다릅니다. 생성된 코드를 하나씩 검토하는 대신, **한 번에 전체 작업 클래스에 대한 정확성 명세를 정의하고 검증**하는 거예요.\n\n핵심 아이디어는 이겁니다:\n- 많은 중요한 소프트웨어 변환(번역, 최적화, 리팩토링)에서 \"정확하다\"는 의미는 특정 코드베이스와 무관하게 일반적으로 정의할 수 있습니다\n- 코드베이스가 복잡해질수록, 새로운 기능 구현은 기존 기능의 **의미를 보존하는 변환**이 되곤 합니다\n- 따라서 새 기능의 정확성 명세는 기존 기능의 정확성 명세에서 자연스럽게 도출됩니다\n\n이렇게 하면 두 가지 방식으로 감독을 확장할 수 있습니다:\n1. 동시에 훨씬 더 많은 코드베이스를 다룰 수 있습니다\n2. 단순한 코드베이스에서 작동하는 방식이 아무리 복잡한 코드베이스로도 확장됩니다\n\n## rocq-dove: 검증된 번역을 위한 자동 명세 생성\n\n이 개념을 실제로 구현한 것이 **rocq-dove**입니다. Rocq에서 Lean으로의 자동 번역을 위해 만들어진 검증 환경인데요.\n\nrocq-dove의 작동 방식은 이렇습니다:\n- Rocq 소스 코드가 주어지면, 자동으로 정확성 명세(모든 유효한 번역이 만족해야 할 정리)를 생성합니다\n- AI가 생성한 번역과 증명을 이 명세에 맞춰 자동으로 검증합니다\n- 명세가 소스 코드에서 직접 도출되기 때문에, 추가 인력 투입 없이 어떤 코드베이스에도 확장됩니다\n\n## lf-lean: 1,276개 명제의 검증된 번역\n\nrocq-dove를 이용해 Logical Foundations 교과서 전체(1,276개 명제)를 Rocq에서 Lean으로 번역하는 프로젝트를 진행했습니다.\n\n결과는 놀랍습니다:\n- **97%의 명제를 AI가 자율적으로 검증된 번역으로 완성했습니다**\n- 극도로 어려운 6개 명제만 수작업으로 해결했습니다(약 2인일)\n- 그 후 남은 2.5%도 AI가 완료했습니다\n\n비교 대상으로는 이렇게 추정됩니다:\n- 수작업 번역: 3개월\n- 수작업 검증: 2년 6개월\n- **총 2년 9개월 vs 실제 2인일 = 350배 속도 개선**\n\n## 두 가지 중요한 인사이트\n\n**첫째, 검증된 소프트웨어 엔지니어링은 인간 감독 없이도 확장 가능합니다.**\n\nrocq-dove가 자동으로 1,276개 번역 모두에 대한 정확성 명세를 생성했습니다. 각 경우에 \"정확하다\"는 게 뭔지 인간이 판단할 필요가 없었거든요. 증명 보조기(proof assistant)의 풍부한 피드백과 결합하면, 이것이 밀도 높은 보상 신호가 되어 AI가 자율적으로 올바른 해결책으로 수렴할 수 있게 됩니다.\n\n**둘째, 소프트웨어 검증의 발전 속도가 예상보다 빠릅니다.**\n\nlf-lean은 이를 보여주는 충분히 복잡한 첫 번째 평가 사례입니다. METR의 검증되지 않은 소프트웨어 엔지니어링 추세와 비교하면, 검증된 소프트웨어 엔지니어링이 따라잡는 중입니다.\n\n## 왜 이게 중요할까?\n\n지금까지 소프트웨어 검증은 너무 비싸서 실무 개발에는 쓸 수 없다고 여겨져 왔습니다. 그런데 AI 보조 프로그래밍 시대에는 상황이 달라집니다.\n\n인간이 AI가 만드는 모든 코드를 검토할 수 없다면, **기계가 자동으로 정확성을 검증하는 것이 선택지가 아니라 필수**가 되는 거죠. 검증된 소프트웨어 엔지니어링이 더 확장 가능한 방식으로 떠오르는 이유입니다.\n\n다음 섹션에서는 작업 단위 명세 생성기가 어떻게 인간 노력 없이 정확성 검사를 확장하는지 설명하겠습니다. 그 후 rocq-dove와 이 프로젝트의 구체적인 구현 방식을 살펴보겠습니다."
+        },
+        {
+          "title": "Embracing the Software 3.0 Era",
+          "titleKo": "Software 3.0 시대 수용하기",
+          "summary": "소프트웨어 진화의 세 단계(1.0: 명시적 코드, 2.0: 신경망, 3.0: LLM 프롬프트)를 설명하고, LLM의 실제 활용을 위해 필요한 '하네스(harness)'의 개념을 소개한다. Claude Code 같은 도구들을 기존의 계층화 아키텍처 패턴으로 이해할 수 있음을 보여준다.",
+          "keyPoints": [
+            "LLM 자체는 강력하지만 단독으로는 코드베이스 접근, 명령 실행, 데이터베이스 접근이 불가능하므로 도구와 환경이 필요",
+            "Slash command, Sub-agent, Skills, MCP를 Controller, Service Layer, Domain Component, Adapter 패턴으로 매핑하면 기존 소프트웨어 설계 원칙을 적용 가능",
+            "God skill, Leaky abstraction 등 기존 아키텍처의 안티패턴이 에이전트 설계에도 동일하게 적용됨"
+          ],
+          "whyItMatters": "개발자들이 LLM 기반 도구와 에이전트를 설계하고 평가할 때 검증된 소프트웨어 아키텍처 원칙을 활용할 수 있게 한다.",
+          "url": "https://toss.tech/article/harness-for-team-productivity-eng",
+          "sourceName": "토스 기술 블로그",
+          "contentType": "article",
+          "labels": [
+            "ai",
+            "career"
+          ],
+          "topicId": "ai-productivity",
+          "isTopicPrimary": true,
+          "slug": "embracing-the-software-30-era",
+          "fullContent": "This is the English version of a previously published article.What Is the Software 3.0 Era?In June 2025, Andrej Karpathy gave a talk at Y Combinator AI Startup School. He broke software's evolution into three stages.Software 1.0: What we've done for decades. Writing explicit logic in Python, Java, or C++. Branching with if-else, looping with for, abstracting with functions. Telling the computer exactly how to do things—in code.Software 2.0: Kicked off with the deep learning boom in the 2010s. You stop writing rules by hand. Collect data, train a model, and the neural network weights become the program. Tesla Autopilot, for instance, replaced huge chunks of C++ with neural networks.Software 3.0: Where we are now. You tell an LLM what you want, in plain language. The prompt is the program.As Karpathy puts it: \"Software 3.0 is eating 1.0/2.0.\" The new paradigm is swallowing the old ones.📺 Andrej Karpathy: Software Is Changing (Again) — Y Combinator AI Startup SchoolHarness: Making LLMs Actually UsefulBut the reality is messier.You can't just tell ChatGPT, \"Fix the bug in our service,\" and expect a patch to ship. LLMs are powerful—but on their own, they can't read your codebase, run commands, or touch a database.That's where the idea of a harness comes in.A harness is the gear you put on a horse. It's what lets humans actually use that power. No matter how fast or strong the horse, without a harness, that power goes nowhere.Same goes for LLMs. Raw capability isn't enough. You need tools and environments that fill the gaps and connect them to real work.LLM LimitationHarness RoleContext window limitsMemory managementHallucinationFact grounding, RAGLack of domain knowledgeKnowledge baseNo state managementSession management, orchestrationNo access to external systemsTooling, MCPClaude Code Is Also a HarnessClaude Code is Anthropic's CLI-based coding agent. At its core, it's essentially a harness for Claude.Here's what it provides:FeatureRoleFile system accessLets Claude read and write codeTerminal executionLets Claude run commandsMCP (Model Context Protocol)Connects to external systemsSub-agentSplits and handles complex tasksSlash commandRoutes user intentSkillsReusable functional unitsHooksEvent-driven automationTogether, these turn Claude from a model into an agent that can actually ship things.But look at this structure for a second. Doesn't it feel familiar?Seeing It Through Software 1.0 EyesMCP, skills, sub-agents, slash commands...New terms pile up fast, and with them, cognitive load. But look closely at this structure, and you might notice something: it maps surprisingly well onto layered architecture—something most of us have been working with for years. At least as a starting point.Breaking Down Each LayerSlash command = ControllerLike Spring's @RestController or Express's router.get(), a slash command is the entry point for user requests. Type /review and the review workflow kicks off. Type /refactor and refactoring begins.# User input\n/review PR-1234\n# Internally\n→ Triggers the review workflow\n→ Executes the appropriate sub-agent and skill combinationSub-agent = Service LayerJust as a Service layer coordinates multiple repositories and domain objects, a sub-agent orchestrates multiple skills to complete a workflow. Each sub-agent maintains its own independent context—think of it as a self-contained unit of work, separate from others.Skills = Domain-level Component (SRP)A skill is a single-purpose unit that follows the Single Responsibility Principle. \"Review code,\" \"Generate tests,\" \"Write docs\"—one clear job per skill. Just as classes shouldn't bloat into monoliths, a skill should do exactly one thing, and do it well.MCP = Infrastructure / AdapterThink of MCP as the layer that manages connections to external systems—databases, APIs, and similar outside interfaces. Much like the Repository or Adapter pattern, it's an abstraction boundary: internal logic doesn't need to know how the outside world is implemented.CLAUDE.md = the project's constitutionThink of CLAUDE.md as the project's stable foundation—the norms and principles that don't change often: tech stack, coding conventions, build commands. Less a dependency manifest, more a shared understanding of how this project works.# Example CLAUDE.md\n## Tech Stack\n- TypeScript + React 18\n- Node.js 20+\n- pnpm\n## Coding Conventions\n- Use functional components only\n- Write tests using vitest\n## Build Commands\n- `pnpm build` — Production build\n- `pnpm test` — Run all testsOne thing worth noting: if you find yourself editing CLAUDE.md often, that content probably doesn't belong there. Dynamic details—current task, today's priorities—should come in through conversation or be injected into the sub-agent's context directly.Anti-patterns Apply Here TooThe anti-patterns from layered architecture carry over to agent design with surprising fidelity. The names even ring a bell.Traditional Anti-patternAgent VersionSymptomGod ClassGod skillOne 3,000-line skill handling ev",
+          "category": "insight",
+          "publishedAt": "2026-03-17T03:38:00.000Z",
+          "language": "ko"
+        },
+        {
+          "title": "Every layer of review makes you 10x slower",
+          "titleKo": "검토 레이어 하나마다 프로세스가 10배씩 느려진다",
+          "summary": "조직의 승인 단계가 증가할수록 작업 완료 시간이 기하급수적으로 증가하는데, 각 검토 단계마다 약 10배씩 느려진다는 경험적 법칙을 제시한다. AI의 코드 생성 속도는 빨라졌지만 검토 단계의 병목으로 인해 실제 효과는 제한적이며, 지속 가능한 개선은 검토 단계를 줄이는 것이 유일한 방법이다.",
+          "keyPoints": [
+            "버그 수정 30분 → 피어 리뷰 5시간 → 설계 문서 승인 50시간 → 타팀 일정 조율 500시간으로 기하급수적 증가",
+            "AI로 코드 생성 속도를 높여도 느린 검토 단계를 피할 수 없으므로 근본적 해결이 아님",
+            "검토 단계를 줄이는 것만이 지속 가능한 속도 향상의 유일한 방법"
+          ],
+          "whyItMatters": "조직의 검토 문화와 프로세스 설계가 개발 속도를 결정하는 핵심 요소임을 이해하는 것이 중요하다.",
+          "url": "https://apenwarr.ca/log/20260316",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 100,
+          "contentType": "discussion",
+          "labels": [
+            "career",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "every-layer-of-review-makes-you-10x-slower",
+          "fullContent": "Every layer of review makes you 10x slower\nWe’ve all heard of those network effect laws: the value of a network goes up\nwith the square of the number of members. Or the cost of communication goes\nup with the square of the number of members, or maybe it was n log n, or\nsomething like that, depending how you arrange the members. Anyway doubling\na team doesn't double its speed; there’s coordination overhead. Exactly how\nmuch overhead depends on how badly you botch the org design.\nBut there’s one rule of thumb that someone showed me decades ago, that has\nstuck with me ever since, because of how annoyingly true it is. The rule\nis annoying because it doesn’t seem like it should be true. There’s no\ntheoretical basis for this claim that I’ve ever heard. And yet, every time I\nlook for it, there it is.\nEvery layer of approval makes a process 10x slower\nI know what you're thinking. Come on, 10x? That’s a lot. It’s unfathomable.\nSurely we’re exaggerating.\nJust to be clear, we're counting “wall clock time” here rather than effort.\nAlmost all the extra time is spent sitting and waiting.\nCode a simple bug fix\n30 minutes\nGet it code reviewed by the peer next to you\n300 minutes → 5 hours → half a day\nGet a design doc approved by your architects team first\n50 hours → about a week\nGet it on some other team’s calendar to do all that\n(for example, if a customer requests a feature)\n500 hours → 12 weeks → one fiscal quarter\nI wish I could tell you that the next step up — 10 quarters or about 2.5\nyears — was too crazy to contemplate, but no. That’s the life of an\nexecutive sitting above a medium-sized team; I bump into it all the time\neven at a relatively small company like Tailscale if I want to change\nproduct direction. (And execs sitting above\nlarge teams can’t actually do work of their own at all. That's another\nstory.)\nFirst of all, this isn’t a post about AI, because AI’s direct impact\non this problem is minimal. Okay, so Claude can code it in 3 minutes instead\nof 30? That’s super, Claude, great work.\nNow you either get to spend 27 minutes reviewing the code yourself in a\nback-and-forth loop with the AI (this is actually kinda fun); or you save 27\nminutes and submit unverified code to the code reviewer, who will still take\n5 hours like before, but who will now be mad that you’re making them read\nthe slop that you were too lazy to read yourself. Little of value was gained.\nNow now, you say, that’s not the value of agentic coding. You don’t use an\nagent on a 30-minute fix. You use it on a monstrosity week-long project that\nyou and Claude can now do in a couple of hours! Now we’re talking. Except\nno, because the monstrosity is so big that your reviewer will be extra mad\nthat you didn’t read it yourself, and it’s too big to review in one chunk so\nyou have to slice it into new bite-sized chunks, each with a 5-hour review\ncycle. And there’s no design doc so there’s no intentional architecture, so\neventually someone’s going to push back on that and here we go with the\ndesign doc review meeting, and now your monstrosity week-long project that\nyou did in two hours is... oh. A week, again.\nI guess I could have called this post Systems Design 4 (or 5, or whatever\nI’m up to now, who knows, I’m writing this on a plane with no wifi) because\nyeah, you guessed it. It's Systems Design time again.\nThe only way to sustainably go faster is fewer reviews\nIt’s funny, everyone has been predicting the Singularity for decades now.\nThe premise is we build systems that are so smart that they themselves can\nbuild the next system that is even smarter, that builds the next smarter\none, and so on, and once we get that started, if they keep getting smarter\nfaster enough, then the incremental time (t) to achieve a unit (u) of\nimprovement goes to zero, so (u/t) goes to infinity and foom.\nAnyway, I have never believed in this theory for the simple reason we\noutlined above: the majority of time needed to get anything done is not\nactually the time doing it. It’s wall clock time. Waiting. Latency.\nAnd you can’t overcome latency with brute force.\nI know you want to. I know many of you now work at companies where the\nbusiness model kinda depends on doing exactly that.\nBut you can’t just not review things!\nAh, well, no, actually yeah. You really can’t.\nThere are now many people who have seen the symptom: the start of the\npipeline (AI generated code) is so much faster, but all the subsequent\nstages (reviews) are too slow! And so they intuit the obvious solution: stop\nreviewing then!\nThe result might be slop, but if the slop is 100x\ncheaper, then it only needs to deliver 1% of the value per unit and it's\nstill a fair trade. And if your value per unit is even a mere 2% of what it\nused to be, you’ve doubled your returns! Amazing.\nThere are some pretty dumb assumptions underlying that theory; you can\nimagine them for yourself. Suffice it to say that this produces what I will\ncall the AI Developer’s Descent Into Madness:\nWhoa, I produced this prototype so fast! I have su",
+          "category": "insight",
+          "publishedAt": "2026-03-17T03:20:36.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 리뷰 단계가 많을수록 10배씩 느려진다\n\n네트워크 효과 법칙이라는 게 있잖아요. 네트워크의 가치는 사용자 수의 제곱에 비례한다는 거, 또는 의사소통 비용이 제곱에 비례한다는 거 말입니다. 어쨌든 팀 규모를 두 배로 늘린다고 해서 속도가 두 배 빨라지지는 않습니다. 조정과 협업에 들어가는 오버헤드가 생기거든요. 그 오버헤드의 크기는 조직 설계를 얼마나 망쳤는지에 달려 있습니다.\n\n그런데 십몇 년 전에 누군가가 보여준 경험칙이 있는데, 지금까지도 잊히지 않거든요. 왜냐하면 정말 성가시게도 사실이기 때문입니다. 이 규칙이 성가신 이유는 사실이어야 할 이유가 없어 보인다는 겁니다. 이론적 근거도 찾아본 적 없고요. 그런데도 찾아보려고 하면 항상 있습니다.\n\n**승인 단계가 하나 늘어날 때마다 프로세스는 10배씩 느려진다**\n\n아마 이렇게 생각할 거예요. 10배요? 너무 많은데요. 비현실적이잖아요.\n\n혹시 모르니 명확히 하자면, 여기서 말하는 건 실제 경과 시간(wall clock time)이지 노력 시간이 아닙니다. 대부분의 시간은 그냥 기다리는 데 소비되죠.\n\n**간단한 버그 수정:** 30분\n\n**옆자리 동료에게 코드 리뷰 받기:** 300분 → 5시간 → 반나절\n\n**먼저 아키텍처 팀에 설계 문서 승인받기:** 50시간 → 약 1주일\n\n**다른 팀 일정에 올려서 진행하기** (예를 들어 고객이 기능을 요청했을 때): 500시간 → 12주 → 한 분기\n\n그 다음 단계 — 10분기, 즉 약 2.5년 — 는 너무 황당해서 생각할 수도 없을 거라고 말하고 싶지만, 아닙니다. 중간 규모 팀을 이끄는 임원의 일상이 이 정도입니다. 저도 Tailscale 같은 상대적으로 작은 회사에서도 제품 방향을 바꾸려고 하면 자주 마주칩니다. (그리고 더 큰 팀을 이끄는 임원들은 실제로 자기 손으로는 일을 거의 못 합니다. 이건 또 다른 얘기네요.)\n\n## AI는 이 문제를 해결하지 못한다\n\n우선 이 글이 AI에 관한 건 아닙니다. AI가 이 문제에 직접 미치는 영향은 미미하거든요. 좋아요, Claude가 30분 걸릴 작업을 3분에 해냅니다. 대단한데요.\n\n그럼 이제 두 가지 선택지가 생깁니다. AI와 계속 왕복하면서 27분을 들여 코드를 리뷰하거나 (이건 실제로 꽤 재밌습니다), 아니면 27분을 절약하고 검증 안 된 코드를 코드 리뷰어에게 보내는 겁니다. 리뷰어는 여전히 5시간을 쓸 테지만, 이제는 당신이 읽기도 싫어서 건넨 엉망진창한 코드를 읽어야 하니까 화날 거예요. 별로 얻은 게 없네요.\n\n\"그게 아니라 자동 코딩의 진정한 가치는...\"라고 말할 수도 있겠죠. 30분짜리 수정에는 AI를 안 쓰고, 원래 일주일이 걸렸던 대형 프로젝트에 쓰는 겁니다. 그럼 몇 시간 만에 끝내버릴 수 있잖아요. 이제 얘기가 되는군요.\n\n아니, 잠깐. 그런데 그 프로젝트가 너무 커서 리뷰어가 더 화낼 겁니다. 당신이 직접도 안 읽었는데 리뷰를 요청했으니까요. 게다가 한 번에 리뷰할 수 없을 만큼 크니까 작은 단위로 쪼개야 합니다. 그럼 각 단계마다 5시간씩 리뷰 사이클이 돌죠. 설계 문서도 없으니 의도적인 아키텍처도 없고, 결국 누군가 이의를 제기하고 설계 리뷰 회의가 또 생기고... 아, 원래 2시간에 끝낸다던 일주일짜리 프로젝트가 다시 1주일이 되는군요.\n\n## 그래서 결국 시스템 설계다\n\n이건 사실 시스템 설계 시리즈의 다음 편(몇 편인지는 모르겠어요, 비행기에서 와이파이 없이 쓰고 있거든요)이라고 할 수 있습니다. 네, 맞습니다. 또 시스템 설계 얘기입니다.\n\n지난 수십 년간 사람들은 특이점을 예측해왔어요. 시스템이 너무 똑똑해져서 그 다음 더 똑똑한 시스템을 만들고, 그 시스템이 또 더 똑똑한 걸 만들고, 이런 식으로 계속 반복되다가 증강 속도가 빨라지면 단위 개선(u)을 이루는 데 걸리는 시간(t)이 0으로 수렴해서 속도(u/t)가 무한대가 된다는 거죠.\n\n어쨌든 저는 이 이론을 절대 믿지 않습니다. 이유는 간단합니다. 위에서 말한 대로, 실제로 무언가를 완성하는 데 걸리는 시간의 대부분은 일 자체를 하는 시간이 아니라 기다리는 시간입니다. 지연(latency)이죠.\n\n그리고 지연은 무식한 힘으로는 극복할 수 없습니다.\n\n## 더 적은 리뷰가 유일한 답이다\n\n당신도 알고 싶을 거예요. 많은 분들이 지금 이걸 비즈니스 모델의 핵심으로 삼는 회사에서 일하고 있잖아요.\n\n하지만 리뷰를 안 할 수는 없지 않겠어요!\n\n음, 사실... 안 하면 됩니다.\n\n지금 증상을 본 사람들이 많아요. 파이프라인의 시작 부분(AI 생성 코드)은 엄청 빠른데, 뒷부분(리뷰)이 너무 느린 거죠. 그래서 사람들은 직관적으로 당연한 해결책을 떠올립니다. 그럼 리뷰를 그만하면 되지 않을까?\n\n결과는 엉망이겠지만, 100배 저렴하다면? 단위당 가치가 1% 수준으로 떨어져도 여전히 장사가 되는 거 아닐까요. 어쩌면 예전보다 2% 정도만 가치 있어도 수익이 두 배가 되잖아요. 대박입니다.\n\n이 이론에는 정말 어리석은 가정들이 깔려 있습니다. 직접 상상해보셔도 좋고요. 간단히 말해서 이렇게 하면 제가 부르는 \"AI 개발자의 미치광이 같은 하강(The AI Developer's Descent Into Madness)\"이 일어납니다.\n\n와, 프로토타입을 이렇게 빨리 만들었다! 이제 엄청나..."
+        },
+        {
+          "title": "Language model teams as distributed systems",
+          "titleKo": "언어 모델 팀을 분산 시스템으로 보기",
+          "summary": "연구 논문으로, LLM 팀의 설계와 평가를 위해 분산 시스템의 원칙을 제시한다. 팀 규모, 구조, 성능 등에 관한 기본적인 질문에 분산 컴퓨팅의 원칙이 적용될 수 있음을 보여준다.",
+          "keyPoints": [
+            "LLM 팀의 설계 문제(팀의 효용성, 에이전트 수, 구조의 영향, 단일 에이전트 대비 성능)를 분산 시스템 프레임워크로 분석",
+            "분산 컴퓨팅의 기본적 이점과 과제가 LLM 팀에도 동일하게 나타남",
+            "두 학문 분야의 교차 검토를 통해 실질적인 통찰 제공"
+          ],
+          "whyItMatters": "LLM 팀 구축 시 체계적인 평가 프레임워크를 제공하여 시행착오를 줄일 수 있다.",
+          "url": "https://arxiv.org/abs/2603.12229",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 87,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "topicId": "ai-systems",
+          "isTopicPrimary": true,
+          "slug": "language-model-teams-as-distributed-systems",
+          "fullContent": "Computer Science > Multiagent Systems\narXiv:2603.12229 (cs)\n[Submitted on 12 Mar 2026]\nTitle:Language Model Teams as Distributed Systems\nAuthors:Elizabeth Mieczkowski, Katherine M. Collins, Ilia Sucholutsky, Natalia Vélez, Thomas L. Griffiths View a PDF of the paper titled Language Model Teams as Distributed Systems, by Elizabeth Mieczkowski and 4 other authors\nView PDF\nHTML (experimental)\nAbstract:Large language models (LLMs) are growing increasingly capable, prompting recent interest in LLM teams. Yet, despite increased deployment of LLM teams at scale, we lack a principled framework for addressing key questions such as when a team is helpful, how many agents to use, how structure impacts performance -- and whether a team is better than a single agent. Rather than designing and testing these possibilities through trial-and-error, we propose using distributed systems as a principled foundation for creating and evaluating LLM teams. We find that many of the fundamental advantages and challenges studied in distributed computing also arise in LLM teams, highlighting the rich practical insights that can come from the cross-talk of these two fields of study.\nSubjects:\nMultiagent Systems (cs.MA)\nCite as:\narXiv:2603.12229 [cs.MA]\n(or\narXiv:2603.12229v1 [cs.MA] for this version)\nhttps://doi.org/10.48550/arXiv.2603.12229\nFocus to learn more\narXiv-issued DOI via DataCite\nSubmission history From: Elizabeth Mieczkowski [view email] [v1]\nThu, 12 Mar 2026 17:49:34 UTC (2,168 KB)\nFull-text links:\nAccess Paper:\nView a PDF of the paper titled Language Model Teams as Distributed Systems, by Elizabeth Mieczkowski and 4 other authorsHTML (experimental)\nview license\nCurrent browse context: cs.MA\n< prev\n|\nnext >\nnew\n|\nrecent\n| 2026-03\nChange to browse by:\ncs\nReferences & Citations\nNASA ADSGoogle Scholar\nSemantic Scholar\nexport BibTeX citation\nLoading...\nBibTeX formatted citation\n×\nloading...\nData provided by:\nBookmark\nBibliographic Tools\nBibliographic and Citation Tools\nBibliographic Explorer Toggle\nBibliographic Explorer (What is the Explorer?)\nConnected Papers Toggle\nConnected Papers (What is Connected Papers?)\nLitmaps Toggle\nLitmaps (What is Litmaps?)\nscite.ai Toggle\nscite Smart Citations (What are Smart Citations?)\nCode, Data, Media\nCode, Data and Media Associated with this Article\nalphaXiv Toggle\nalphaXiv (What is alphaXiv?)\nLinks to Code Toggle\nCatalyzeX Code Finder for Papers (What is CatalyzeX?)\nDagsHub Toggle\nDagsHub (What is DagsHub?)\nGotitPub Toggle\nGotit.pub (What is GotitPub?)\nHuggingface Toggle\nHugging Face (What is Huggingface?)\nLinks to Code Toggle\nPapers with Code (What is Papers with Code?)\nScienceCast Toggle\nScienceCast (What is ScienceCast?)\nDemos\nDemos\nReplicate Toggle\nReplicate (What is Replicate?)\nSpaces Toggle\nHugging Face Spaces (What is Spaces?)\nSpaces Toggle\nTXYZ.AI (What is TXYZ.AI?)\nRelated Papers\nRecommenders and Search Tools\nLink to Influence Flower\nInfluence Flower (What are Influence Flowers?)\nCore recommender toggle\nCORE Recommender (What is CORE?)\nAuthor\nVenue\nInstitution\nTopic\nAbout arXivLabs\narXivLabs: experimental projects with community collaborators\narXivLabs is a framework that allows collaborators to develop and share new arXiv features directly on our website.\nBoth individuals and organizations that work with arXivLabs have embraced and accepted our values of openness, community, excellence, and user data privacy. arXiv is committed to these values and only works with partners that adhere to them.\nHave an idea for a project that will add value for arXiv's community? Learn more about arXivLabs.\nWhich authors of this paper are endorsers? |\nDisable MathJax (What is MathJax?)",
+          "category": "insight",
+          "publishedAt": "2026-03-16T17:19:13.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Claude Tips for 3D Work",
+          "titleKo": "3D 작업을 위한 Claude 팁",
+          "summary": "Claude Code를 활용하여 3D 웹 앱 개발 시 시각적 작업 검증의 어려움을 극복하는 방법을 소개합니다. 반복적 검증 루프를 구성하여 Claude가 카메라 조작, 디버그 마커 배치, 스크린샷 비교를 통해 자체 검증하도록 하는 워크플로우를 제시합니다.",
+          "keyPoints": [
+            "Claude는 CSS와 2D 이미지 분석에는 능하지만 3D 공간 분석에서는 실패하므로, 스크린샷과 좌표 로깅을 통한 수동 피드백이 필요했습니다.",
+            "자동화된 검증 루프를 구성하면 Claude가 STL 재생성, 다양한 각도에서의 렌더링 캡처, 위치 검증을 사용자 개입 없이 반복할 수 있습니다.",
+            "3D 프로젝트에서는 단순히 요청을 이해시키는 것보다 공유 언어로 작동하는 도구를 먼저 구축하는 것이 효과적입니다."
+          ],
+          "whyItMatters": "LLM 기반 개발 도구의 한계를 극복하고 복잡한 시각적 작업에서 자동화된 검증 루프를 구성하는 패턴은 다른 도메인 개발에도 적용 가능합니다.",
+          "url": "https://www.davesnider.com/posts/claude-3d",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 31,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "claude-tips-for-3d-work",
+          "fullContent": "Claude tips for 3D work March 13, 2026 Although I’m sometimes uneasy about it, Claude Code is an invaluable tool for my current projects. I still occasionally hand write code in NeoVim on the bits I care the most about (CSS, design and early architecture like API patterns), but I now leave most of the actual code writing to the machine once I have the skeleton up. That’s not to say I think the code it outputs is always great. I perform a heavy dose of sanitation after the fact, though even that is done through more suggestions to Claude. I do watch the edit feed live, and have built up the skill of speed reading so that I can stop Claude in its tracks when its does something naughty.\nThis works for most web projects really well. Where I’ve found Claude still can’t reason is in “visual” work that needs eyes. It can reason about CSS fairly well, and does an OK job understanding design language and color theory when prompted, but it’s the more complex tasks like spatial analysis in 3D where it always fails. Claude has great tooling for reading plain 2D images though, and when presented a set of images of 3D space from different angles, along with the right reference language, it can usually figure something out. A lot of my early work in Table Slayer, and Counter Slayer, both heavy 3D web apps, involved me manually taking screenshots and saying something like “check this out, you did it wrong”. It took HOURS of back and forth mostly because I was the one who needed to feed it screenshots.\nUsing Claude to build complex 3D scenes like this can be tricky\nLike most, I learned quickly that when working with Claude, you need to think in terms of “readable outputs” when working with LLMs. For most, this is a test layer. During the exploratory experience of design though, you typically don’t have tests, and make do with asking it to create lots of temporary logging. For 3D projects this might be things like positioning and coordinates. This works to a degree, but is laborious and often done after you’ve hit a wall of failure. CAD systems have lots of unions and subtractions. Just because there’s a box there, it doesn’t mean its visible.\nNatively, Claude can’t read an STL. It will tell you it can, but after you realize it’s just bullshiting you about the contents of the binary, you’ll end up down a road where it wants to install a bunch of Python libraries to view the files. This is sort of useful for reading STLs, and will give it a way to rotate a camera and zoom in on certain positions, but its not very useful for a Three.js web app where your problem is in the CAD system building the 3D in the first place.\nTo solve those sorts of problem you need to generate a real context loop where it can read the state of the application, navigate the camera, add some debug markers and iterate. The core loop is asking it to navigate the app on its own, control the camera, and add visual markers (think red spheres to give it position context) to test itself. I’ve found generating these types of “iterative validation” loops essentially for working with Claude. This allows it to double check its work before before it assumes it solves a problem.\nHere’s the loop for Counter Slayer.\n## Geometry Iteration Workflow\nWhen making geometry changes, use this self-contained loop to iterate without user intervention:\n### The Loop\n1. Make code changes to geometry (lid.ts, counterTray.ts, box.ts)\n2. Regenerate STLs: npx tsx scripts/generate-geometry.ts\n3. Verify with renders: npx tsx scripts/capture-view.ts --angle iso\n4. Read project.json for positions and layout data\n5. Check multiple angles, zoom into problem areas\n6. If not correct, go back to step 1\n7. When satisfied, inform the user\nThe full Claude.md is here and goes into more detail, but this is the heart of the workflow. “The loop” gives it a way to navigate the app with playwrite, select different 3D objects (like trays or boxes), change the camera, place a red sphere on it at a certain position, check a screenshot, and see if that screenshot matches the request. More importantly it does it without asking me for confirmation.\nAs an example, here’s the tooling to let it navigate around.\n# View from preset angles\nnpx tsx scripts/capture-view.ts --angle iso\nnpx tsx scripts/capture-view.ts --angle top\nnpx tsx scripts/capture-view.ts --angle front\n# Zoom in\nnpx tsx scripts/capture-view.ts --angle left --zoom 3\n# Custom camera position (Three.js Y-up coordinates)\nnpx tsx scripts/capture-view.ts --pos \"100,80,150\" --look-at \"0,25,50\"\n# Output to specific file\nnpx tsx scripts/capture-view.ts --angle top --out mesh-analysis/view-top.png\n# View specific items by ID (selects item and sets appropriate view mode)\nnpx tsx scripts/capture-view.ts --trayId nrme206 --angle bottom --zoom 2\nOverall I’ve started to change my thinking about how to work with Claude. Instead of expecting it to understand my requests, I almost always build tooling first to give us a shared language to discuss the project. Sc",
+          "category": "insight",
+          "publishedAt": "2026-03-13T14:53:10.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Claude와 함께하는 3D 웹 개발: 실전 워크플로우\n\n2026년 3월 13일\n\nClaude Code를 쓸 때마다 약간의 불안감이 있긴 하지만, 현재 진행 중인 프로젝트에서는 정말 필수적인 도구가 되어버렸습니다. CSS, 디자인, API 패턴 같은 핵심 아키텍처 부분은 여전히 NeoVim에서 직접 손으로 작성하지만, 기본 골격을 잡은 후의 대부분 코드 작업은 이제 Claude에 맡기고 있어요.\n\n물론 Claude가 생성한 코드가 항상 완벽한 건 아닙니다. 생성 후 꽤 많은 정제 작업이 필요하긴 한데, 이마저도 Claude에게 제안하는 방식으로 처리합니다. 편집 피드를 실시간으로 지켜보고 있어서, Claude가 이상한 걸 할 때 빠르게 멈출 수 있을 정도의 속독 기술도 생겼네요.\n\n## 웹 프로젝트에서는 잘 작동하지만...\n\n이 방식은 대부분의 웹 프로젝트에서 정말 잘 작동합니다. 그런데 \"눈으로 봐야 하는\" 시각적 작업이 들어가면 Claude의 한계가 명확해집니다. CSS는 꽤 잘 추론하고, 디자인 언어나 색감 이론도 적절히 프롬프트하면 괜찮은 수준으로 이해합니다. 다만 3D 공간 분석처럼 복잡한 시각적 작업은 항상 실패하곤 합니다.\n\n다행히 Claude는 2D 이미지를 읽는 도구가 훌륭합니다. 다양한 각도에서 본 3D 공간의 스크린샷 여러 개와 적절한 참조 언어를 함께 제시하면, 대부분의 경우 뭔가를 해낼 수 있거든요. Table Slayer와 Counter Slayer 같은 3D 웹 앱을 만들 때도 처음엔 수동으로 스크린샷을 찍어서 \"여기 봐, 이건 틀렸어\"라는 식으로 계속 피드백해야 했습니다. 대부분의 시간이 제가 스크린샷을 일일이 촬영해서 제공하는 데 쓰였어요.\n\n## LLM과 일할 땐 \"읽을 수 있는 결과물\"이 중요\n\nClaude와 협업하려면 빠르게 배워야 할 게 있습니다. 바로 \"읽을 수 있는 결과물\"을 기준으로 생각해야 한다는 점입니다. 대부분의 경우 이건 테스트 레이어를 의미합니다. 그런데 디자인을 탐색하는 초기 단계에선 보통 테스트가 없으니, 임시 로깅을 대량으로 생성하도록 요청하는 방식으로 보완합니다. 3D 프로젝트라면 위치나 좌표 정보 같은 걸 말하는 거죠. 이 방식이 어느 정도는 작동하지만, 상당히 번거롭고 보통 큰 실패에 부딪친 후에야 시작합니다.\n\nCAD 시스템에서는 합집합과 차집합 연산이 많이 일어납니다. 박스가 거기 있다고 해서 눈에 보이는 건 아니거든요.\n\n## STL 파일의 현실적인 한계\n\nClaude는 STL 파일을 읽을 수 있다고 말합니다. 하지만 실제로는 바이너리 내용을 대충 꾸며내고 있을 뿐이에요. 결국 Python 라이브러리를 설치하는 방향으로 빠지게 되는데, STL을 읽는 데는 어느 정도 도움이 됩니다. 카메라를 회전하고 특정 위치로 줌인할 수도 있죠.\n\n하지만 Three.js 웹 앱에선 문제가 다릅니다. 진짜 원인은 CAD 시스템 자체에서 3D를 구성하는 로직에 있거든요.\n\n## 해결책: 반복 검증 루프\n\n이 문제를 해결하려면 애플리케이션의 상태를 읽고, 카메라를 조작하고, 디버그 마커를 추가하면서 반복할 수 있는 실제 컨텍스트 루프가 필요합니다. 핵심은 Claude가 앱을 스스로 네비게이션하고, 카메라를 제어하며, 시각적 마커(예: 위치 맥락을 파악하기 위한 빨간 구)를 추가해서 자체 검증하는 것입니다. 저는 이런 \"반복 검증\" 루프가 Claude와 작업할 때 본질적으로 중요하다는 걸 깨달았습니다. 문제를 해결했다고 가정하기 전에 자신의 작업을 이중 검증할 수 있거든요.\n\nCounter Slayer에서 사용한 루프를 예로 들어보겠습니다.\n\n### 기하학적 구조 반복 워크플로우\n\n기하학적 구조를 변경할 때는 다음 자체 포함 루프를 사용해 사용자 개입 없이 반복합니다:\n\n**핵심 루프**\n\n1. 기하학적 구조 코드 변경 (lid.ts, counterTray.ts, box.ts)\n2. STL 재생성: `npx tsx scripts/generate-geometry.ts`\n3. 렌더링으로 검증: `npx tsx scripts/capture-view.ts --angle iso`\n4. project.json에서 위치와 레이아웃 데이터 읽기\n5. 여러 각도에서 확인, 문제 영역 줌인\n6. 문제가 있으면 1단계로 돌아가기\n7. 만족하면 사용자에게 보고\n\n더 자세한 내용은 전체 Claude.md 문서에 있지만, 이것이 핵심입니다. \"루프\"를 통해 Claude는 Playwright로 앱을 네비게이션하고, 트레이나 박스 같은 3D 객체를 선택하고, 카메라를 변경하고, 특정 위치에 빨간 구를 배치하고, 스크린샷을 확인해서 요청과 일치하는지 볼 수 있습니다. 가장 중요한 점은 제 승인을 받지 않고도 이 모든 걸 할 수 있다는 것입니다.\n\n예를 들어, 앱을 네비게이션할 수 있는 도구는 이렇습니다:\n\n```bash\n# 미리 설정된 각도로 보기\nnpx tsx scripts/capture-view.ts --angle iso\nnpx tsx scripts/capture-view.ts --angle top\nnpx tsx scripts/capture-view.ts --angle front\n\n# 줌인\nnpx tsx scripts/capture-view.ts --angle left --zoom 3\n\n# 사용자 정의 카메라 위치 (Three.js Y-up 좌표)\nnpx tsx scripts/capture-view.ts --pos \"100,80,150\" --look-at \"0,25,50\"\n\n# 특정 파일로 출력\nnpx tsx scripts/capture-view.ts --angle top --out mesh-analysis/view-top.png\n\n# ID로 특정 항목 보기 (항목 선택 및 적절한 보기 모드 설정)\nnpx tsx scripts/capture-view.ts --trayId nrme206 --angle bottom --zoom 2\n```\n\n## 생각의 전환: 도구 먼저, 협업 두 번째\n\n전반적으로 Claude와 일하는 방식에 대한 생각이 바뀌었습니다. Claude가 제 요청을 이해할 것으로 기대하기보다는, 거의 항상 먼저 도구를 만들어서 프로젝트에 대해 함께 이야기할 수 있는 공용 언어를 만드는 거죠."
+        },
+        {
+          "title": "“지금 AI는 너무 싸다” 개발자 커뮤니티가 본 가격 거품과 생존 전망",
+          "titleKo": "\"지금 AI는 너무 싸다\" 개발자 커뮤니티가 본 가격 거품과 생존 전망",
+          "summary": "AI 코딩 도구의 현재 낮은 가격은 실제 원가가 아니라 투자금과 시장점유율 경쟁에 기반한 것이며, 개발자의 생존 전략은 AI를 거부하는 것이 아니라 저가 정책 종료 후에도 적응할 수 있는 실력을 갖추는 것이어야 한다는 주장이다.",
+          "keyPoints": [
+            "현재 AI 코딩 도구 가격은 시장 경쟁과 투자금에 기반하며 지속 불가능할 가능성",
+            "개발자는 AI 기술 자체보다 가격 변동성에 대응할 수 있는 능력과 적응력이 중요",
+            "AI 거부가 아닌 AI 활용 능력과 함께 다른 경쟁력을 갖춰야 함"
+          ],
+          "whyItMatters": "AI 도구의 가격 정책 변화가 장기적으로 개발자의 경제 모델을 변화시킬 가능성이 있으므로, 단순 비용 절감보다는 장기적 경쟁력 확보에 집중해야 한다.",
+          "url": "https://news.hada.io/topic?id=27584",
+          "sourceName": "GeekNews",
+          "contentType": "article",
+          "labels": [
+            "ai",
+            "career"
+          ],
+          "topicId": "ai-market",
+          "isTopicPrimary": true,
+          "slug": "지금-ai는-너무-싸다-개발자-커뮤니티가-본-가격-거품과-생존-전망",
+          "category": "insight",
+          "publishedAt": "2026-03-17T04:57:43.000Z",
+          "language": "ko"
+        },
+        {
+          "title": "LINE 앱의 다자간 대화 기능 통합",
+          "titleKo": "LINE 앱의 다자간 대화 기능 통합",
+          "summary": "LINE의 임시 대화용 '여러 명과의 대화'와 장기 대화용 '그룹' 기능을 하나의 '그룹 대화'로 통합했습니다. 이중 읽기(dual read)를 활용한 점진적 마이그레이션과 초대 메커니즘 개선을 통해 사용성 향상과 서버 리소스 절약을 달성했습니다.",
+          "keyPoints": [
+            "기존에는 사용자가 기능 차이를 인식하지 못해 여러 명과의 대화에서 필요한 기능이 없으면 새로운 그룹을 만들었고, 동일 구성원의 중복 대화방이 15%까지 쌓여 있었습니다.",
+            "이중 읽기 방식으로 구 API와 신규 API 호환성을 유지하며 점진적으로 전환했고, 배치 처리로 기존 그룹 데이터를 마이그레이션했습니다.",
+            "통합 후 중복 대화방 비율이 15%에서 0.78%로 감소했으며, 모든 대화에서 앨범, 노트 등 모든 기능을 사용할 수 있게 되었습니다."
+          ],
+          "whyItMatters": "레거시 시스템의 기능 분산으로 인한 사용성 저하를 이중 읽기와 점진적 마이그레이션으로 해결한 사례로, 대규모 서비스 통합 시 데이터 손실 없이 무중단 전환하는 방법을 보여줍니다.",
+          "url": "https://techblog.lycorp.co.jp/ko/unification-of-group-chat-on-the-line-app",
+          "sourceName": "LINE Engineering",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "line-앱의-다자간-대화-기능-통합",
+          "fullContent": "이 글은 합병 이전 구 블로그에 게시했던 기사(최초 게시일: 2022년 2월 24일)를 현재 블로그로 이관한 것으로, 내용은 최초 게시 시점 기준입니다.\nLINE은 1:1 대화뿐 아니라 다자간 대화도 지원합니다. 그런데 LINE에는 서로 다른 용도로 개발된 두 가지 다자간 대화 기능인 '여러 명과의 대화'와 '그룹'이 있었습니다.\n여러 명과의 대화(Room)는 일시적인 대화를 위해 설계됐습니다. 여러 명과의 대화를 만들 때에는 따로 방의 이름을 지정할 필요가 없으며, 친구를 여러 명과의 대화에 초대할 때에도 친구의 승인을 기다릴 필요가 없습니다. 초대 버튼만 클릭하면 상대가 바로 대화에 참여할 수 있습니다. 즉 여러 명과의 대화는 대화를 바로 시작할 수 있는 구조입니다.\n이에 반해 그룹(Group)은 장기적인 대화를 목적으로 설계됐습니다. 이 글을 읽고 계신 여러분도 학교 친구나 직장 동료, 동호회 사람 등으로 구성된 다양한 그룹에 이미 속해 계실 것이라고 생각합니다. 각 그룹에는 이름이 있어서 쉽게 찾을 수 있고, 이름만으로도 그룹의 생성 목적을 쉽게 떠올릴 수 있습니다. 그룹에 친구를 초대하면 초대받은 친구는 대화에 참여하기 전에 초대를 승인해야 합니다.\n보통 사용자들은 한 번 참여한 그룹에서 오랜 기간 활동하기 때문에 그룹 구성원의 사용자 경험을 향상시키면서 그룹 구성원 간에 친밀한 관계를 구축하는 데 도움이 되는 다양한 기능들을 지속적으로 그룹에 추가했습니다. 예를 들어 그룹 구성원은 여행에서 찍은 사진을 그룹 앨범에 업로드해 다른 사람들과 공유할 수 있고, 중요한 메모를 그룹 노트에 작성할 수도 있습니다.\n사용자들은 이런 기능들을 자주 사용했습니다. 그런데 이런 기능은 그룹에서만 사용할 수 있었습니다. 여러 명과의 대화 사용자는 이런 기능들이 필요하지 않을 것이라고 예상했기 때문입니다.\n그룹과 여러 명과의 대화를 '그룹 대화'로 통합합니다\n이와 같이 서로 다른 용도로 설계했던 그룹과 여러 명과의 대화를 통합하는 작업이 진행되고 있습니다. 통합의 목표는 사용성을 높이면서 서버와 클라이언트의 리소스를 절약하는 것입니다. 여러 명과의 대화와 그룹은 서로 사양도 조금 다르고, API와 스토리지도 분리돼 있었는데요. 통합 후에는 대화에 참여하는 방법 외에는 모두 동일한 사양이 될 예정입니다. 통합 모델의 이름은 그룹 대화(Group Chat)입니다.\n사용성 증진\n1:1 대화와 여러 명과의 대화, 그리고 그룹은 각각 기능이 다르지만, 비전문가인 사용자 입장에서는 그 차이를 인식하는 게 어려웠습니다. 그러다 보니 사용자는 앨범과 메모를 포함해 여러 기능을 사용할 수 없다는 것을 모른 채 여러 명과의 대화를 만들어 사용하다가, 앨범과 같은 기능이 필요해지면 전체 대화 기록은 여러 명과의 대화에 남겨 놓은 채(기존 여러 명과의 대화에는 변환 기능이 없습니다) 새로 그룹을 만들어 사용하곤 했습니다.\n서버와 클라이언트의 리소스 절약\n여러 명과의 대화는 일시적인 대화가 목적이지만 그 데이터는 매일 서버에 축적되고 있습니다. 많은 사용자들이 동일한 구성원으로 기존에 만들어 놓은 대화방이 있었다는 사실을 잊고 새로 만드는데요. 이렇게 동일한 구성원으로 구성된 대화방이 다수 생성되면서 대화 목록에는 불필요한 대화방이 쌓이고 있었습니다. 이와 같은 문제를 해결하기 위해 여러 명과의 대화와 그룹을 그룹 대화로 통합하기로 결정했습니다.\n여러 명과의 대화와 그룹의 통합 전후 비교\n아래는 여러 명과의 대화와 그룹의 통합 전후 차이를 정리한 표입니다.\n통합 전\n통합 후\n그룹을 그룹 대화로 마이그레이션\n먼저 그룹을 그룹 대화로 어떻게 마이그레이션하는지 설명하겠습니다.\n그룹 대화용 API로 점진적 전환\n그룹 대화를 위해 새로운 API를 설계했고, 아래와 같이 이중 읽기(dual read)를 이용해 이전 API와 신규 API 간의 호환성을 유지하며 점진적으로 전환했습니다.\n1. 처음에는 그룹 대화 API에서 그룹 스토리지를 지원합니다. 여기서 라우터는 그룹 API와 그룹 대화 API 간의 차이를 메꾸는 역할을 담당합니다.\n2. 점진적으로 그룹 대화를 늘려갑니다.\n3. 최종적으로 그룹 대화만 생성합니다.\n그룹 데이터 마이그레이션\n모든 그룹 데이터는 배치 처리를 통해 그룹 대화 데이터로 마이그레이션했고, 마이그레이션 후에는 이중 읽기(dual read)를 중지하고 그룹 대화만 사용했습니다.\n여러 명과의 대화를 그룹 대화로 마이그레이션\n여러 명과의 대화와 그룹의 차이점\n앞서 여러 명과의 대화와 그룹은 서로 목적이 다르기 때문에 몇 가지 차이점이 있다고 말씀드렸습니다.\n초대 메커니즘\n첫 번째로 친구를 대화에 초대하는 방법이 달랐습니다. 친구를 선택해서 그룹을 만들거나 기존 그룹에 친구를 초대했을 때에는 초대받은 친구가 해당 그룹에 즉각 참여하게 되지 않습니다. 우선 초대받은 친구가 받은 초대를 수락하거나 거부해야 합니다. 초대를 수락해야만 대화에 참여하게 되는 것입니다. 반면 여러 명과의 대화에서는 방을 만들거나 친구를 초대하면 초대받은 친구가 바로 대화에 참여하게 됩니다.\n사용자 중에는 여러 명과의 대화처럼 바로 대화하는 것이 편리하다고 느끼는 사람도 있었고, 초대받은 사람이 그룹 가입 여부를 결정하도록 하는 것이 예의라고 생각하는 사람도 있었습니다.\n지원 기능의 차이\n두 번째는 여러 명과의 대화가 그룹보다 지원하는 기능이 적다는 것입니다. 여러 명과의 대화는 일시적인 대화를 위해 설계됐기 때문에 그룹에서 지원하고 있는 앨범과 같은 기능은 사용자들이 잘 이용하지 않을 것이라고 예상했습니다. 그래서 몇 년에 걸쳐 그룹에 추가됐던 다양한 기능의 대부분은 여러 명과의 대화에서는 지원되지 않았습니다.\n새로운 통합 모델에서의 변화\n대화 통합 프로젝트에서는 새로운 통합 모델인 그룹 대화를 도입하면서 기존 그룹 모델을 기반으로 여러 명과의 대화 모델을 통합했습니다.\n초대 메커니즘 변경\n이제 LINE 앱의 워크플로는 새로운 그룹 대화를 만들 때 여러 명과의 대화와 그룹을 구분하지 않습니다. 대신 생성 UI에서 초대받은 사람이 대화에 즉시 참여하게 할지 혹은 참여하기 전에 수락이나 거절을 선택할 수 있도록 할지 선택할 수 있습니다.\n기존 대화에 대한 힌트 제공\n사용자들은 특정 주제에 대해 토론하기 위해 여러 명의 친구와 대화방을 만듭니다. 그 방은 토론이 끝난 후에도 각 방 구성원의 대화 목록에 남아 있지만 다시 사용하지 않는 경우가 많습니다. 대신 사용자들은 동일한 구성원으로 다시 대화할 일이 생겼을 때 (이미 충분히 긴) 대화 목록에서 대화방을 찾지 않고 새로 만드는 것을 선택합니다. 이렇게 구성원이 동일하지만 다시 사용되지 않는 대화방이 점점 누적되면서 대화 목록은 점점 더 길어집니다. 이는 불편한 사용자 경험으로 이어지고 서버 리소스도 많이 소비합니다.\n신규 대화 생성 워크플로에서는 사용자가 기존 대화방과 동일한 구성원으로 새로 대화방을 만들려고 할 때 '힌트'를 표시합니다. 이를 통해 사용자는 기존에 만들었던 대화방으로 쉽게 이동해서 새로운 대화를 시작할 수 있습니다.\n모든 대화에서 모든 기능 지원\n새로운 대화 모델은 그룹 모델을 기반으로 하므로 모든 신규 대화에서 현재 지원되는 모든 기능을 사용할 수 있습니다. 또한 향후에 지원될 모든 신규 기능 역시 대화 통합 이후에 생성된 모든 대화에 적용될 것입니다.\n향후 계획 - 여러 명과의 대화를 그룹 대화로 마이그레이션\n현재 LINE 최신 버전을 통해 생성되는 모든 대화는 그룹 대화이며, 통합되기 이전 버전을 사용하는 사용자가 생성한 그룹은 서버 측에서 새 그룹 대화로 바뀝니다. 이제 다음 목표는 여러 명과의 대화를 새 모델로 마이그레이션해서 사용자가 모든 기능을 사용할 수 있도록 만드는 것입니다.\n마치며\n이번 프로젝트는 여러 명과의 대화와 그룹을 개선하기 위해 수년에 걸쳐 진행하고 있는 장기 프로젝트입니다. 사용자가 갑작스러운 변화에 스트레스 받지 않도록 최대한 편안하게, 불편함을 느끼지 않게 노력하고 있습니다. 프로젝트 진행 결과 현재 동일한 구성원으로 생성되는 대화방의 비율이 15%(여러 명과의 대화)에서 0.78%(초대 없는 그룹 대화)로 감소했습니다.\n현재 프로젝트에서는 본문에서 언급한 작업 외에도 많은 부분을 개선해 나가고 있는데요. 앞으로도 매일매일 꾸준히 노력해서 사용자 편의성을 높이며 보다 나은 시스템을 구축해 나가겠습니다. 긴 글 읽어주셔서 감사합니다.",
+          "category": "insight",
+          "publishedAt": "2026-03-17T02:30:00.000Z",
+          "language": "ko"
+        },
+        {
+          "title": "The “small web” is bigger than you might think",
+          "titleKo": "\"작은 웹\"은 당신이 생각하는 것보다 크다",
+          "summary": "Kagi의 작은 웹 목록이 약 6,000개에서 32,000개로 급증했으며, 피드 분석 결과 약 9,000개 사이트가 월 1회 이상 업데이트되고 있습니다. 하루 1,251개의 새로운 콘텐츠 업데이트가 발생할 정도로 작은 웹이 활발하게 성장하고 있습니다.",
+          "keyPoints": [
+            "작은 웹 사이트 목록이 1년 사이 5배 이상 증가했으며, 실제 활동 중인 사이트는 9,000개 이상입니다.",
+            "일일 1,251개의 새 콘텐츠 업데이트가 발생하여 전체 피드를 단일 페이지에 집계하는 것이 실질적으로 불가능해졌습니다.",
+            "Gemini 프로토콜(약 6,000개 캡슐)과 달리 작은 웹은 규모와 활동성 모두에서 훨씬 더 활발합니다."
+          ],
+          "whyItMatters": "상업화되지 않은 개인 웹사이트와 블로그의 생태계가 생각보다 훨씬 크고 활발하다는 것을 보여주며, 중앙화된 플랫폼의 대안으로서의 가능성을 시사합니다.",
+          "url": "https://kevinboone.me/small_web_is_big.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 369,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-small-web-is-bigger-than-you-might-think",
+          "fullContent": "The “small web” is\nbigger than you might think\nThere are currently several initiatives that attempt to reclaim some\npart of the Internet for non-commercial, personal use; some of these I\ndescribed in this earlier article. Here\nI’m using the term “small web” to mean the use of ordinary web browsers\nand servers, but for private sites, free of advertising and corporate\ntracking.\nI’ve also recently adopted the Gemini\nprotocol, which uses completely different protocols and software\nfrom the regular web. The Gemini protocol is so limited that it’s almost\nincapable of commercial exploitation which is, of course, the main part\nof its appeal. It’s hard to assess the number of people using Gemini;\nthere seem to be about 6,000 Gemini “capsules” (sites) world-wide, but\nmany of them seem to be defunct. Gemini online forums typically seem to\nhave perhaps a hundred or so active users. It’s a small community,\nmostly populated by IT professionals at present.\nWhat got me thinking about the size of the small web was my use of\nfeed aggregators in Gemini. Like regular websites, the owners of Gemini\ncapsules often announce updates to their contents using feeds. A feed is\na simple file in an agreed format that lists site updates, usually with\na time-stamp for each update. As in the regular web, Gemini feeds are\nusually in ATOM or RSS format – XML documents with a particular layout,\ndescribed by a specification.\nA “feed aggregator” is a service that examines the feeds from a range\nof sites or capsules, and publishes updates in chronological order,\ntypically in a way that is accessible to the public. By looking at a\nGemini feed aggregator, I can see immediately what new content is\navailable, across the whole the Gemini community.\nSince there aren’t all that many active Gemini capsules, it’s\npracticable to list updates from many capsules – perhaps all of them –\non a single page, which I find very convenient. There are several active\nGemini feed aggregators, differing in how they discover, or are informed\nabout, new content.\nI look at aggregated Gemini feeds on most days, and I always find\nsomething of interest. So I wondered: could I implement something\nsimilar for the small web as a whole? Of course, aggregating updates to\nthe whole web on a single page would be absurd, perhaps even\nimpossible. Still, I reasoned, the small web is, well, small. Maybe\nthere aren’t that many updates every day?\nTo attempt such a task, I first needed a list of sites on the small\nweb. I wasn’t going to try to construct one myself but, fortunately, I\ndidn’t have to. The Kagi search engine has such a list as part of its small web initiative.\nThis list contains sites nominated by Kagi users; apart from\n“smallness”, one of the criteria for inclusion is that the site\npublishes an update feed.\nKagi’s list mostly includes private sites and blogs, although some\nblogs are hosted on corporate platforms like Blogger. When I last looked\nat it, some time last year, I think it listed about 6,000 sites. That’s\nabout the same number as known Gemini capsules, and I rather expected\nmany of those sites to be moribund.\nYesterday I looked at the list again, and I saw it had risen to about\n32,000 entries. That’s more than I expected but, for the purposes of\naggregating feeds, it’s not the number of sites, but how often they’re\nupdated, that matters.\nIt’s not easy to tell from the feed list alone how active each site\nis, so I wrote a program that downloaded each feed, and checked the\ntimestamps to see the frequency of updates. Not all feeds have\ntimestamps – they’re not compulsory – but, of course, to list updates\nchronologically I do need a time-stamp. So I excluded all the sites\nwhose feeds didn’t have time-stamps, or were otherwise incapable of\nbeing indexed properly. Of course I had to exclude the sites that were\ndown, or that didn’t produce a valid feed from the listed URL.\nThese exclusions reduced the list of sites to about 25,000 – still a\nlot. So I excluded all sites that produced fewer than one update per\nmonth. That left about 9,000 sites.\nOf this number, some sites had only one update a month, others had\nmany updates each day. It turned out that on March 15 there were 1,251\nupdates. The numbers weren’t very different for earlier dates.\nI should point out that these “updates” aren’t just fixing spelling\nmistakes: they’re additions of new content to a site.\nSo there’s good news and bad news, although actually it’s the same\nnews: the small web is too large, and too active, to publish all the\nupdates on a single page, even for just one day. Well, I could publish\nthem, but nobody has time to read them all. It’s good news, because the\nsmall web is very much alive, and growing. It’s bad news because I was\nhoping to be able to implement a feed aggregator, of the same kind that\nexists for Gemini, and the current scale of the “small” web makes that\nimpractical.\nTo be fair, I should point out that the “small” web was never defined\nby the number of sites, but by the lack of com",
+          "category": "insight",
+          "publishedAt": "2026-03-16T17:17:57.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# \"작은 웹\"은 생각보다 훨씬 크다\n\n인터넷을 비상업적이고 개인적인 용도로 되찾으려는 움직임들이 요즘 여러 곳에서 일어나고 있습니다. 저는 여기서 \"작은 웹(small web)\"이라는 표현을 쓸 때, 일반적인 웹 브라우저와 서버를 사용하지만 광고와 기업 추적이 없는 개인 사이트들을 의미합니다.\n\n최근에 저는 Gemini 프로토콜도 시작했는데요. 이건 일반 웹과 완전히 다른 프로토콜과 소프트웨어를 사용합니다. Gemini 프로토콜은 제약이 많아서 상업적 착취가 거의 불가능한데, 이게 바로 사람들이 선호하는 가장 큰 이유죠. Gemini 사용자 규모를 정확히 파악하기는 어렵지만, 전 세계적으로 약 6,000개의 Gemini \"캡슐(사이트)\"이 있는 것 같습니다. 다만 많은 사이트가 더 이상 활동하지 않는 상태네요. Gemini 온라인 포럼을 보면 활동 중인 사용자가 100명 정도인 것 같고, 대부분 IT 전문가들입니다.\n\n## 피드 애그리게이터를 통해 본 작은 웹의 규모\n\n작은 웹의 규모가 어느 정도일까 생각해보게 된 계기는 Gemini의 피드 애그리게이터를 사용하면서였습니다. 일반 웹사이트처럼 Gemini 캡슐 운영자들도 콘텐츠 업데이트를 피드로 알립니다. 피드는 사이트 업데이트 목록을 담은 간단한 파일인데, 보통 각 업데이트마다 타임스탐프가 붙어 있죠.\n\n일반 웹과 마찬가지로 Gemini 피드도 보통 ATOM이나 RSS 형식입니다. 이건 특정 레이아웃으로 정의된 XML 문서거든요.\n\n\"피드 애그리게이터\"는 여러 사이트나 캡슐의 피드를 수집해서 업데이트를 시간 순서대로 공개하는 서비스입니다. Gemini 피드 애그리게이터를 보면 Gemini 커뮤니티 전체에서 어떤 새로운 콘텐츠가 올라왔는지 한눈에 알 수 있습니다.\n\n활발한 Gemini 캡슐이 그리 많지 않아서, 한 페이지에 많은 캡슐의 업데이트를 모두 표시하는 게 가능합니다. 이게 정말 편하더군요. Gemini 피드 애그리게이터도 여러 개가 있고, 각각 새로운 콘텐츠를 찾아내거나 알림받는 방식이 다릅니다.\n\n저는 대부분의 날에 Gemini 피드를 확인하는데, 항상 흥미로운 뭔가를 발견합니다. 그러다 생각이 들었거든요. \"혹시 작은 웹 전체를 대상으로 비슷한 서비스를 만들 수 있을까?\"\n\n당연히 전체 웹의 업데이트를 한 페이지에 모으는 건 말도 안 됩니다. 거의 불가능할 겁니다. 하지만 작은 웹은 말 그대로 작으니까, 하루에 업데이트가 그렇게 많지 않을 수도 있다고 생각했어요.\n\n## 작은 웹 사이트 목록 수집하기\n\n이 작업을 시작하려면 먼저 작은 웹의 사이트 목록이 필요했습니다. 직접 만들려고 하지는 않았는데, 다행히 그럴 필요가 없었어요. Kagi 검색 엔진이 자신의 작은 웹 이니셔티브의 일부로 이런 목록을 가지고 있거든요.\n\n이 목록은 Kagi 사용자들이 추천한 사이트들인데, \"작음\"이라는 조건 외에도 피드를 제공한다는 게 포함 기준입니다. Kagi의 목록은 주로 개인 사이트와 블로그들을 담고 있고, 일부는 Blogger 같은 기업 플랫폼에서 호스팅 중입니다. 작년쯤 마지막으로 확인했을 때는 약 6,000개의 사이트가 있었어요. Gemini 캡슐 수와 비슷했고, 많은 사이트가 더 이상 활동하지 않을 거라고 예상했죠.\n\n어제 다시 확인해보니 약 32,000개로 늘어나 있었습니다. 예상보다 많았지만, 피드를 애그리게이트하는 입장에서는 사이트 개수보다 얼마나 자주 업데이트되는가가 중요합니다.\n\n## 실제 활동 중인 사이트 파악하기\n\n피드 목록만으로는 각 사이트가 얼마나 활발한지 알기 어려워서, 각 피드를 다운로드하고 타임스탐프를 확인해서 업데이트 빈도를 체크하는 프로그램을 작성했습니다.\n\n모든 피드가 타임스탐프를 가지고 있진 않습니다만, 업데이트를 시간 순서대로 정렬하려면 타임스탐프가 필수거든요. 그래서 타임스탐프가 없거나 제대로 인덱싱할 수 없는 사이트들은 제외했습니다. 당연히 다운되었거나 올바른 피드를 제공하지 않는 사이트들도 제외했고요.\n\n이렇게 제외하다 보니 약 25,000개가 남았습니다. 여전히 많네요. 거기서 월 1회 미만으로 업데이트되는 사이트들도 제외했더니 약 9,000개가 남았어요.\n\n이 중에는 월 1회만 업데이트하는 사이트도 있고, 매일 여러 번 업데이트하는 사이트도 있습니다. 3월 15일에는 총 1,251건의 업데이트가 있었네요. 며칠 전의 수치도 비슷했습니다.\n\n참고로 이 \"업데이트\"는 맞춤법 수정 같은 것만을 의미하는 게 아니라, 사이트에 추가된 새로운 콘텐츠를 뜻합니다.\n\n## 예상과 다른 결과\n\n좋은 소식도 있고 나쁜 소식도 있는데, 사실 같은 이야기입니다. 작은 웹은 너무 커서, 너무 활발해서, 하루치 업데이트조차 한 페이지에 모두 게시하기 불가능합니다. 물론 게시는 할 수 있겠지만, 모두 읽을 시간이 없거든요.\n\n좋은 소식인 이유는 작은 웹이 매우 살아있고 성장하고 있다는 증거이기 때문입니다. 나쁜 소식인 이유는 제가 Gemini처럼 작동하는 피드 애그리게이터를 만들고 싶었는데, 현재 \"작은\" 웹의 규모가 이를 실질적으로 불가능하게 만들었기 때문입니다.\n\n공정하게 말하자면, \"작은\" 웹은 애초에 사이트 개수로 정의되지 않았습니다. 상업성의 부재로 정의되었던 거죠."
+        },
+        {
+          "title": "Why I love FreeBSD",
+          "titleKo": "FreeBSD를 사랑하는 이유",
+          "summary": "저자는 2002년 FreeBSD의 완벽한 문서화에 감동하여 전환 후 24년간 프로덕션 서버의 기본 OS로 사용해왔습니다. FreeBSD는 혁신보다 안정성과 예측 가능성을 우선시하는 설계 철학으로 장기간 신뢰할 수 있는 시스템을 제공합니다.",
+          "keyPoints": [
+            "FreeBSD는 Linux와 유사하지만 더 성숙하고 체계적이며, 동일한 컴파일 작업에서 열관리와 반응성 모두에서 Linux보다 우수한 성능을 보였습니다.",
+            "\"진화, 혁명 아님\"의 철학으로 기초는 유지하면서 기능을 추가하여 2009년 이후의 서버도 주요 업데이트 시 최소한의 조정으로 계속 운영할 수 있습니다.",
+            "완벽한 Handbook 문서는 단순한 매뉴얼을 넘어 시스템 설계 철학과 Best Practice를 배우는 교육 자료로 작용했습니다."
+          ],
+          "whyItMatters": "프로덕션 환경에서는 혁신성보다 안정성과 예측 가능성이 얼마나 중요한지, 그리고 우수한 문서화가 사용자의 신뢰도와 장기 채택률에 미치는 영향을 보여줍니다.",
+          "url": "https://it-notes.dragas.net/2026/03/16/why-i-love-freebsd/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 396,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "why-i-love-freebsd",
+          "fullContent": "When I first laid eyes on the FreeBSD Handbook, back in 2002, I couldn't believe what I was seeing. Six years of Linux, a relationship I've written about elsewhere, across various distributions, had trained me to hunt for documentation in fragments: often incomplete, often outdated, sometimes already stale after barely a year. Here was an operating system that came with a complete, accurate, up-to-date (as much as possible), detailed manual. I was already a convinced believer in Open Source, but I found myself reasoning in very practical terms: if the team behind this OS puts this much care into its documentation, imagine how solid the system itself must be. And so I decided to give it a try. I had a Sony Vaio with no room for a dual boot. I synced everything to a desktop machine with more space, took a breath, and made a decision: I'd install FreeBSD on that laptop and reinstall Linux when the experiment was over.Spoiler: FreeBSD never left that machine. At the time I had no idea that this experiment would shape the way I design and run systems for the next twenty years.I realized almost immediately that GNU/Linux and FreeBSD were so similar they were completely different. The Unix inspiration was the same, but everything worked differently - and the impression was that FreeBSD was distinctly more mature, less chaotic, more focused. A magnificent cathedral - a form then widely criticized in the circles I moved in - but one that had certain undeniable virtues. Back then I compiled the entire system from source, and I noticed right away that performance was better on that hardware than Linux had ever been. Not only that: Linux would overheat and produce unpredictable results - errors, sudden shutdowns, fans screaming even after compilation finished. My Linux friends continued to insist it was a “hardware problem”, but FreeBSD handled the load far more gracefully. I could read my email in mutt while compiling, something that was practically impossible on Linux, which would slow to a crawl. The fans would settle within seconds of the load ending, and the system felt genuinely more responsive. I never experienced a crash. I was running KDE on all my systems at the time, and the experience on FreeBSD was noticeably superior - more consistent and steady performance, none of the micro-freezes I'd come to accept on Linux, greater overall stability. The one drawback: I compiled everything, including KDE. I was a university student and couldn't leave my laptop in another room - the risk of an \"incident\" involving one of my flatmates was too real - so I kept it within arm's reach, night after night, fans spinning as KDE and all its applications compiled. At some point I figured out exactly how long the KDE build took, and started using it as a clock: fans running meant it was before four in the morning. Fans silent meant I'd made it past.The Handbook taught me an enormous amount - more than many of my university courses - including things that had nothing to do with FreeBSD specifically. It taught me the right approach: understand first, act second. The more I read, the more I wanted a printed copy to keep at my desk. So I convinced my parents that I needed a laser printer “for university work”. And the first thing I printed, of course, was the Handbook. That Handbook still contains relevant information today. There have been significant changes over the past twenty-four years, but the foundations are still the same. Many tools still work exactly as they did. Features have been added, but the originals still operate on the same principles. Evolution, not revolution. And when you're building something meant to last, that is - in my view - exactly the right philosophy. Change is good. Innovation is good. On my own machines I've broken and rebuilt things thousands of times. But production environments must be stable and predictable. That, still today, is one of the qualities I value most in every BSD.Over the years, FreeBSD has served me well. At a certain point it stepped down as my primary desktop - partly because I switched to Mac, partly because of unsupported hardware - but it never stopped being one of my first choices for servers and any serious workload. As I often say: I only have one workstation, and I use it to access hundreds of servers. It's far easier to replace a workstation - I can reconfigure everything in a couple of hours - than to deal with a production server gone sideways, with anxious clients waiting or operations ground to a halt.FreeBSD has never chased innovation for its own sake. It has never chased hype at the expense of its core purpose. Its motto is \"The Power to Serve\" - and to do that effectively, efficiently, securely. That is what FreeBSD has been for me.I love FreeBSD because it has served me for decades without surprises. I love FreeBSD because it innovates while making sure my 2009 servers keep running correctly, requiring only small adjustments at each major update rather than a comp",
+          "category": "insight",
+          "publishedAt": "2026-03-16T11:23:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# FreeBSD와 함께한 20년, 안정성의 가치를 배우다\n\n2002년 FreeBSD 핸드북을 처음 봤을 때 정말 깜짝 놀랐습니다. 그 전까지 Linux를 6년간 써오면서 여러 배포판을 오가며 경험한 건, 조각난 문서를 찾아다니는 일이었거든요. 불완전하고, 자주 오래된, 심지어 1년도 안 돼서 쓸모없어지는 문서들 말입니다.\n\n그런데 여기 FreeBSD는 완전하고, 정확하고, 최대한 최신으로 유지되는 상세한 매뉴얼이 함께 왔어요. 저는 이미 오픈소스를 믿고 있었지만, 그때는 더 실질적인 생각을 하게 됐습니다. '이 OS를 만든 팀이 문서에 이렇게까지 정성을 쏟는다면, 시스템 자체는 얼마나 견고할까?'\n\n결국 시도해보기로 했어요. 당시 Sony Vaio 노트북에는 듀얼부팅 여유가 없었거든요. 데스크톱에 모든 것을 동기화한 다음, 결심을 내렸습니다. FreeBSD를 설치하고, 실험이 끝나면 Linux를 다시 깔기로요.\n\n스포일러: FreeBSD는 그 노트북을 떠난 적이 없습니다. 그때는 몰랐지만, 이 결정이 앞으로 20년간 제 시스템 설계와 운영 방식을 좌우하게 될 줄요.\n\n## 비슷한 듯 완전히 다르다\n\nUnix의 철학은 같지만, 작동하는 방식은 완전히 달랐습니다. FreeBSD가 훨씬 더 성숙하고, 덜 혼란스럽고, 더 집중된 느낌을 받았어요. 당시 제 주변 개발자들은 이런 접근을 비판했지만, 그 \"성당\" 같은 설계에는 부인할 수 없는 장점들이 있었습니다.\n\n당시 저는 전체 시스템을 소스에서 직접 컴파일했는데, 성능 차이가 바로 눈에 띄었습니다. Linux보다 훨씬 빨랐거든요. 게다가 Linux는 그 노트북에서 자주 과열되고 예측 불가능한 결과를 냈습니다. 에러, 갑작스러운 종료, 컴파일이 끝난 후에도 계속 윙윙거리는 팬 소리요.\n\nLinux를 쓰던 친구들은 \"하드웨어 문제\"라고 주장했지만, FreeBSD는 그 부하를 훨씬 우아하게 처리했어요. mutt에서 이메일을 읽으면서 동시에 컴파일할 수 있었는데, Linux에서는 거의 불가능했습니다. 시스템이 너무 느려지거든요.\n\n부하가 끝나면 팬은 몇 초 안에 조용해졌고, 시스템이 정말 반응성 있게 느껴졌습니다. 한 번도 크래시를 경험하지 않았어요.\n\n당시 모든 시스템에서 KDE를 썼는데, FreeBSD에서의 경험이 현저히 달랐습니다. 성능이 일관되고 안정적이었고, Linux에서 당연하게 받아들이던 마이크로 프리징도 없었죠. 전체적인 안정성이 훨씬 우월했어요.\n\n다만 한 가지 단점이 있었습니다. KDE를 포함해 모든 것을 직접 컴파일했거든요. 대학생이던 저는 노트북을 다른 방에 둘 수 없었습니다. 룸메이트들이 \"사건\"을 일으킬 위험이 있었거든요. 그래서 밤새 팬이 도는 소리를 들으며 팔 닿는 거리에 두고 있어야 했습니다.\n\n결국 KDE 빌드 시간을 정확히 파악하게 됐어요. 팬이 도는 건 새벽 4시 전이고, 조용해지면 4시를 넘겼다는 뜻이었습니다.\n\n## 첫 인쇄본이 여전히 유용하다\n\nFreeBSD 핸드북은 대학 강좌보다 훨씬 많은 것을 가르쳐줬어요. FreeBSD 자체와 관계없는 내용들도 마찬가지였습니다. 그것은 올바른 접근법을 보여줬습니다. 먼저 이해하고, 나중에 행동하라는 거죠.\n\n더 읽을수록 인쇄본이 갖고 싶어졌어요. 책상에 두고 싶었거든요. 그래서 부모님을 설득했습니다. \"대학 과제용으로 레이저 프린터가 필요해\"라고요. 그리고 제일 먼저 인쇄한 것은 당연히 그 핸드북이었습니다.\n\n그 핸드북은 지금도 여전히 관련성 있는 정보를 담고 있어요. 24년이 지나면서 중요한 변화들이 있었지만, 기초는 같습니다. 많은 도구들이 여전히 정확히 같은 방식으로 작동합니다. 새로운 기능들이 추가됐지만, 기존 것들은 같은 원리로 작동해요.\n\n이건 진화지, 혁명이 아닙니다. 뭔가를 오래 유지하려고 만들 때, 제 생각엔 이게 정확히 옳은 철학입니다.\n\n변화는 좋고, 혁신도 좋습니다. 제 노트북에선 수천 번 망가뜨렸다가 다시 만들었어요. 하지만 프로덕션 환경은 안정적이고 예측 가능해야 합니다. 그것이 지금도 저가 BSD에서 가장 소중히 여기는 가치입니다.\n\n## 서버용으로는 여전히 최고의 선택\n\n세월이 지나면서 FreeBSD는 저를 잘 섬겨줬어요. 어느 시점부터는 주 데스크톱 OS 역할에서 물러났습니다. Mac으로 전환했고, 하드웨어 지원 문제도 있었거든요. 하지만 서버와 무거운 작업에는 항상 첫 번째 선택지였습니다.\n\n저는 자주 이렇게 말합니다. \"워크스테이션은 하나인데, 그걸로 수백 개의 서버에 접근한다\"고요. 워크스테이션은 몇 시간이면 다시 설정할 수 있으니까요. 하지만 프로덕션 서버가 문제를 일으키면? 불안한 클라이언트들, 멈춘 운영... 그건 다릅니다.\n\nFreeBSD는 혁신을 위해 혁신하지 않았습니다. 핵심 목적을 무시하면서까지 유행을 따르지도 않았어요. 그들의 모토는 \"The Power to Serve\" - 효과적으로, 효율적으로, 안전하게 서비스하는 것입니다. 그것이 FreeBSD가 제게 준 것이었습니다.\n\n저는 FreeBSD를 사랑합니다. 수십 년을 예측 가능하게 섬겨왔으니까요. 그리고 혁신하면서도 2009년식 서버를 계속 제대로 돌리기 때문입니다. 각 메이저 업데이트마다 약간의 조정만 필요할 뿐, 완전히 뒤엎어야 할 일은 없었어요."
+        },
+        {
+          "title": "The Future of Classrooms: How Generative AI Is Reshaping Teaching and Homework",
+          "titleKo": "교실의 미래: 생성형 AI가 교육과 과제를 어떻게 재편성하고 있는가",
+          "summary": "생성형 AI가 전통적으로 느린 변화를 보여온 교육 분야에 빠르게 침투하고 있으며, 교사의 수업 계획부터 학생의 과제 수행까지 모든 영역을 변화시키고 있습니다.",
+          "keyPoints": [
+            "교육 기관이 준비하기 전에 생성형 AI가 이미 교실에 들어오고 있습니다.",
+            "AI의 도입으로 인한 교육 방식의 근본적인 변화가 진행 중입니다."
+          ],
+          "whyItMatters": "생성형 AI 시대의 교육 전환 속도와 범위를 이해하는 것이 학생, 교사, 개발자 모두에게 중요합니다.",
+          "url": "https://dev.to/tricon_infotech/the-future-of-classrooms-how-generative-ai-is-reshaping-teaching-and-homework-242k",
+          "sourceName": "DEV Community",
+          "contentType": "article",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "topicId": "ai-education",
+          "isTopicPrimary": true,
+          "slug": "the-future-of-classrooms-how-generative-ai-is-reshaping-teaching-and-homework",
+          "category": "insight",
+          "publishedAt": "2026-03-17T05:59:51.000Z",
+          "language": "en"
+        },
+        {
+          "title": "In space, no one can hear you kernel panic (2020)",
+          "titleKo": "우주에서는 아무도 커널 패닉을 들을 수 없다 (2020)",
+          "summary": "본문 내용 없음",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://increment.com/software-architecture/in-space-no-one-can-hear-you-kernel-panic/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 53,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "in-space-no-one-can-hear-you-kernel-panic-2020",
+          "category": "insight",
+          "publishedAt": "2026-03-13T00:02:00.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "I’ve added human.json to my website",
+          "titleKo": "내 웹사이트에 human.json을 추가했다",
+          "summary": "개발자가 분산 신뢰 네트워크를 위한 human.json 프로토콜을 자신의 웹사이트에 구현하고, RSS를 통해 자동으로 지지(vouch)하는 사람들을 발견하는 방식을 공유했다.",
+          "keyPoints": [
+            "human.json 프로토콜은 /human.json 파일과 HTML link 요소로 간단히 구현 가능",
+            "BeautifulSoup을 사용한 자동 발견 스크립트로 RSS 피드에서 프로토콜 사용자 추적"
+          ],
+          "whyItMatters": "분산 웹 신뢰 시스템 구축에 참여하는 간단한 방법 제공",
+          "url": "https://sethmlarson.dev/ive-added-human-dot-json-to-my-website",
+          "sourceName": "Lobste.rs",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ive-added-humanjson-to-my-website",
+          "fullContent": "Evan Hahn recently blogged about adding\nsupport for the “human.json protocol” to his website.\nI read the specification and thought this\nseemed like a straightforward protocol\nto implement.\nI've followed along, and added a /human.json file to my\nwebsite and rel=\"human-json\" in a <link>\nelement to the <head> section of my HTML. Easy!\nVouching was a little more involved because I wanted to\nauto-discover who uses human.json from everyone that I follow using RSS.\nThen my vouches can be kept up-to-date as more people implement\nthe protocol. I updated the script to parse the <link> element\nproperly using BeautifulSoup (thanks Evan!). The script below is what I ended up with:\nRunning this script turned up with two websites that I follow\nalready supporting the protocol:\nMaybe this post will inspire you to add support to your own website?\nIf you do and I follow you via RSS, your website will appear automatically\nafter I regenerate my OPML files. If we're mutuals on Mastodon or Bluesky\ngive me a ping and I'll add you sooner.\nI'm probably not going to use the browser extension myself, but if others\nare using the data from this \"network\" then that is a win.",
+          "category": "insight",
+          "publishedAt": "2026-03-17T01:37:49.000Z",
+          "language": "en",
+          "translatedContent": "# Human.json 프로토콜을 내 웹사이트에 추가해봤습니다\n\nEvan Hahn이 최근 자신의 웹사이트에 \"human.json 프로토콜\"을 추가했다는 블로그 글을 올렸습니다. 사양을 읽어보니 구현하기에 꽤 간단한 프로토콜이라는 생각이 들었어요.\n\n저도 따라해봤는데, 웹사이트에 `/human.json` 파일을 만들고 HTML의 `<head>` 섹션에 `rel=\"human-json\"`이 지정된 `<link>` 엘리먼트를 추가하는 것만으로 충분했습니다. 정말 간단하네요!\n\n## 자동 발견을 위한 추가 작업\n\n다만 보증(vouch) 부분은 조금 복잡했습니다. 제가 구독하는 RSS 피드의 모든 사이트에서 human.json을 지원하는지 자동으로 감지하고 싶었거든요. 그럼 더 많은 사람들이 프로토콜을 구현할 때마다 자동으로 보증 목록을 최신으로 유지할 수 있으니까요.\n\n결국 BeautifulSoup을 이용해서 `<link>` 엘리먼트를 제대로 파싱하도록 스크립트를 수정했습니다(Evan 감사합니다!). 이게 최종 버전입니다:\n\n```python\n# 스크립트 코드가 여기에 들어갑니다\n```\n\n스크립트를 실행해보니 제가 구독 중인 웹사이트 중에 이미 프로토콜을 지원하는 곳이 두 군데 있더라고요.\n\n## 함께 해보세요\n\n혹시 당신도 자신의 웹사이트에 이 프로토콜을 추가한다면 어떨까요? 제가 당신의 RSS를 구독하고 있다면, 다시 OPML 파일을 생성할 때 자동으로 당신의 웹사이트가 추가될 겁니다.\n\nMastodon이나 Bluesky에서 팔로우 관계라면 한 번 연락 주세요. 더 빨리 추가해드릴 수 있거든요.\n\n저는 개인적으로 브라우저 익스텐션을 사용할 계획은 없지만, 다른 사람들이 이 \"네트워크\"에서 데이터를 활용한다면 그것만으로도 성공이라고 생각합니다."
+        },
+        {
+          "title": "Starlink Mini as a failover",
+          "titleKo": "장애 조치용 Starlink Mini",
+          "summary": "Starlink Mini를 홈 네트워크의 백업 인터넷으로 구성하는 방법과 IPv6 설정 등 기술적 상세 내용을 다룬다. 월 4.5파운드의 대기 모드로 500kbps 속도의 무제한 데이터를 제공한다.",
+          "keyPoints": [
+            "Starlink Mini는 159파운드의 저렴한 위성 인터넷 백업 솔루션으로 26ms 평균 지연시간 제공",
+            "IPv6 설정 시 UniFi의 기본 라우트 미할당 버그 발생으로 SSH를 통한 수동 설정 필요",
+            "월 4.5파운드 대기 모드는 500kbps 무제한 데이터 제공으로 모바일 백업 대비 저렴"
+          ],
+          "whyItMatters": "인프라 엔지니어와 네트워크 관리자에게 신뢰성 높은 저비용 백업 솔루션 및 IPv6 구성 경험 제공",
+          "url": "https://www.jackpearce.co.uk/posts/starlink-failover/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 238,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "starlink-mini-as-a-failover",
+          "fullContent": "I recently picked up a Starlink Mini to use as a backup connection for my home network. With the new £4.50 standby plan, it's a great way to keep things online if my FTTP connection fails.\nMy primary FTTP connection is generally excellent offering 5ms latency at best, having a backup; something that is reliant on a string of satelites 600Km above the earth is just fascinating to me.\nEnter Starlink Mini#\nStarlink Mini is SpaceX's compact satellite dish. It's portable and for this use case - it can be put into 'Standby Mode' for just £4.50 per month.\nThe £4.50 Standby Plan#\nIn August 2025, Starlink replaced their free 'Pause Mode' with a paid 'Standby Mode'. It's pretty reasonable:\nYou can restart full bandwidth service whenever you need it\nYou get unlimited low-speed data (500kbps) in standby - enough bandwidth for apps such as Google Meet, FaceTime, Claude, and even low quality Netflix.\nIt's cheaper than most mobile data plans you could use as a backup\nThe hardware cost#\nThe Starlink Mini itself costs £159. That's reasonable for a satellite internet backup solution, and significantly cheaper than most 4G/5G backup solutions with similar capabilities. It has the advantage of working pretty much anywhere with a view of the sky so no relying on mobile network coverage.\nGeneral Observations#\nLatency is really decent - 18ms to 1.1.1.1, spiking to 65ms. The mean has been 26ms.\nStarlink Mini average power draw is now around 13w thanks to a recent software update.\nUniFi just added the ability to see obstructions and dish latency to the UniFi Dashboard - neat.\nStarlink just launched 100Mbps, 200Mbps and 'Max' with speeds 400Mbps+\nStarlink are offering a free Starlink Mini if you subscribe to the Residential Max plan\nThe dish needs a relatively clear view of the sky - but can work behind a thin layer such as glass. A partially obscured view is still usable due to it's adaptive antenna technology.\nSetup is genuinely simple - plug it in, point it skyward, wait 5-10 minutes\nThe Starlink app is surprisingly decent for monitoring and configuration\nIPv6 Configuration with UniFi isn't pretty#\nOne thing that caught me out was getting IPv6 working properly. Starlink supports IPv6 natively but it requires a bit of configuration on the UniFi side to work correctly. There's a bug in UniFi that prevents the default IPv6 route from being assigned automatically, which means you'll need to fix it manually.\nStarlink uses Carrier-Grade NAT (CGNAT) which makes port forwarding impossible on IPv4. If you're hosting anything this can be solved by using a Cloudflare Tunnel. IPv6 also solves this by giving you a proper routable address space.\nStarlink allocates a /56 IPv6 prefix via DHCPv6 Prefix Delegation.\nTechnical notes (IPv6 configuration)\nClick to show ▼\nHere's how to get it working with UniFi gear:\nInitial Configuration#\nNavigate to your WAN settings (Settings → Internet → Primary WAN):\nSet 'Advanced' to 'Manual'\nEnable IPv6\nSet IPv6 Connection to SLAAC (this is critical - SLAAC must be used, not DHCPv6)\nUncheck 'Auto' on Prefix Delegation\nSet 'Prefix Delegation Size' to 56\nApply the settings and you should see an IPv6 address appear in the 'Internet' field. Now enable IPv6 on your LAN networks using SLAAC for address assignment.\nAt this point you might think everything is working, but if you try to access IPv6 resources from your LAN clients, you'll find they can't route properly. This is because of a bug in UniFi.\nThe UniFi IPv6 Routing Bug#\nUniFi has a problem where it doesn't automatically assign the default IPv6 route. You'll need to fix this manually via SSH.\nStep 1: SSH into your UniFi device (UDM, UDM Pro, etc.)\nIf you need to set SSH keys first, go to Control Plane → Console → SSH and configure them. The username is root and the password is what you set in the console settings.\nStep 2: Check if the default route is missing\nip -6 route show default\nThis will likely return blank, confirming the problem.\nStep 3: Wait for a Router Advertisement\nRun a TCP dump to capture the Router Advertisement from Starlink:\ntcpdump -i eth7 -vvv icmp6\nWait for an RA (Router Advertisement) packet. It'll look something like this:\n10:51:39.297010 IP6 fe80::200:6edd:3e00:101 > ff02::1: ICMP6, router advertisement, length 104\nThe important bit is the IPv6 link-local address at the start (fe80::200:6edd:3e00:101 in this example). This is your default gateway.\nStep 4: Add the default route manually\nReplace the IPv6 address and interface with your own values:\nip -6 route add default via fe80::200:6edd:3e00:101 dev eth7\nNote: eth7 is typically the WAN interface on a UDM Pro. For other UniFi devices it might be different (e.g., eth4 on a standard UDM).\nStep 5: Test from your LAN clients\nTry pinging an IPv6 address or visiting an IPv6-only website. It should work now.\nImportant Warning#\nThis fix is not persistent across UniFi firmware updates. If you update your UniFi device, there's a chance the default route will be removed and you'll need to add it aga",
+          "category": "insight",
+          "publishedAt": "2026-03-16T08:07:29.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Starlink Mini로 집 네트워크 백업 구성하기\n\n최근에 Starlink Mini를 구입해서 집 네트워크의 백업 연결로 사용하고 있어요. £4.50의 저렴한 대기 요금제 덕분에 주 연결이 끊겼을 때 인터넷을 유지할 수 있는 훌륭한 방법이 되었습니다.\n\n제 주 연결은 FTTP인데 최고 5ms의 아주 좋은 지연시간을 제공해요. 그런데 지구 위 600km의 위성들에 의존하는 백업 연결이 있다는 게 정말 흥미롭더라고요.\n\n## Starlink Mini 소개\n\nStarlink Mini는 SpaceX의 콤팩트 위성 접시예요. 휴대가 가능하고, 제 경우처럼 월 £4.50에 '대기 모드'로 운영할 수 있습니다.\n\n## £4.50 대기 모드의 가치\n\n2025년 8월부터 Starlink는 무료 '일시 중지 모드'를 유료 '대기 모드'로 변경했는데, 가격 대비 정말 합리적입니다.\n\n- 필요할 때마다 언제든 전체 대역폭 서비스로 전환할 수 있어요\n- 대기 모드에서 무제한 저속 데이터(500kbps)를 제공하는데, Google Meet, FaceTime, Claude는 물론 낮은 화질의 Netflix도 충분히 재생됩니다\n- 백업용 모바일 데이터 요금제보다 훨씬 저렴해요\n\n## 하드웨어 비용\n\nStarlink Mini는 £159인데요, 위성 인터넷 백업 솔루션으로는 합리적인 가격입니다. 대부분의 4G/5G 백업 솔루션보다 훨씬 싸거든요. 게다가 하늘이 보이는 곳이면 거의 어디서나 작동하니까 모바일 네트워크 커버리지에 의존할 필요가 없어요.\n\n## 실제 사용 후 느낀 점들\n\n- **지연시간**: 1.1.1.1까지 18ms에서 65ms 사이인데, 평균은 26ms 정도예요\n- **전력 소비**: 최근 소프트웨어 업데이트 덕분에 평균 13W 정도로 줄었어요\n- **UniFi 대시보드**: 이제 위성 접시의 방해물과 지연시간을 대시보드에서 확인할 수 있게 됐어요\n- **새로운 요금제**: Starlink가 100Mbps, 200Mbps, 400Mbps 이상의 'Max' 요금제를 출시했습니다\n- **프로모션**: Residential Max 요금제 구독 시 Starlink Mini를 무료로 제공하고 있어요\n- **설치**: 정말 간단합니다. 전원을 연결하고 하늘을 향하게 한 후 5~10분 기다리면 끝이에요\n- **앱**: 모니터링과 설정을 위한 Starlink 앱이 생각보다 잘 만들어져 있더라고요\n- **날씨 및 장애물**: 하늘을 비교적 잘 보아야 하지만, 유리창 같은 얇은 층 뒤에서도 작동합니다. 부분적으로 가려진 상태도 적응형 안테나 기술 덕분에 충분히 사용할 수 있어요\n\n## IPv6 설정이 까다로워요\n\n한 가지 예상 밖으로 복잡했던 부분이 IPv6 설정이었어요. Starlink가 IPv6를 기본으로 지원하긴 하지만, UniFi에서 제대로 작동시키려면 약간의 설정이 필요합니다. UniFi에 기본 IPv6 경로가 자동으로 할당되지 않는 버그가 있거든요. 수동으로 설정해야 합니다.\n\n참고로 Starlink는 IPv4에서 Carrier-Grade NAT(CGNAT)를 사용하기 때문에 포트 포워딩이 불가능합니다. 뭔가를 호스팅해야 한다면 Cloudflare Tunnel로 해결할 수 있어요. IPv6를 쓰면 진정한 라우팅 가능한 주소 공간을 얻기 때문에 더 간단합니다.\n\nStarlink는 DHCPv6 Prefix Delegation을 통해 /56 IPv6 접두사를 할당합니다.\n\n## IPv6 설정 기술 가이드\n\n### 초기 설정\n\nWAN 설정(설정 → 인터넷 → 주 WAN)으로 이동하세요:\n\n1. '고급'을 '수동'으로 설정하기\n2. IPv6 활성화\n3. IPv6 연결을 SLAAC로 설정하기 (중요: DHCP가 아닌 SLAAC을 반드시 사용해야 해요)\n4. Prefix Delegation의 '자동' 체크 해제\n5. 'Prefix Delegation 크기'를 56으로 설정\n6. 설정 적용하면 '인터넷' 필드에 IPv6 주소가 나타날 거예요. 이제 LAN 네트워크에서도 SLAAC을 사용해 IPv6를 활성화하세요\n\n이 단계까지 오면 다 된 것 같지만, LAN 클라이언트에서 IPv6 리소스에 접근하려고 하면 라우팅이 제대로 되지 않는 걸 발견할 거예요. UniFi의 버그 때문입니다.\n\n### UniFi IPv6 라우팅 버그 해결하기\n\nUniFi는 기본 IPv6 경로를 자동으로 할당하지 않는 문제가 있어요. SSH로 수동으로 설정해야 합니다.\n\n**1단계: UniFi 기기에 SSH 접속하기**\n\nSSH 키를 먼저 설정해야 한다면 Control Plane → Console → SSH에서 설정하세요. 사용자명은 root이고 비밀번호는 콘솔 설정에서 지정한 것입니다.\n\n**2단계: 기본 경로가 있는지 확인하기**\n\n```bash\nip -6 route show default\n```\n\n결과가 비어있다면 문제가 맞습니다.\n\n**3단계: Router Advertisement 기다리기**\n\nStarlink의 Router Advertisement를 캡처하기 위해 TCP dump를 실행하세요:\n\n```bash\ntcpdump -i eth7 -vvv icmp6\n```\n\nRA(Router Advertisement) 패킷을 기다리면 이런 식으로 보입니다:\n\n```\n10:51:39.297010 IP6 fe80::200:6edd:3e00:101 > ff02::1: ICMP6, router advertisement, length 104\n```\n\n여기서 중요한 부분은 처음의 IPv6 link-local 주소(이 경우 fe80::200:6edd:3e00:101)예요. 이게 바로 기본 게이트웨이입니다.\n\n**4단계: 기본 경로 수동으로 추가하기**\n\nIPv6 주소와 인터페이스를 자신의 값으로 바꿔서 실행하세요:\n\n```bash\nip -6 route add default via fe80::200:6edd:3e00:101 dev eth7\n```\n\n참고로 eth7은 보통 UDM Pro의 WAN 인터페이스입니다. 다른 UniFi 기기라면 다를 수 있어요(예: 표준 UDM의 경우 eth4).\n\n**5단계: LAN 클라이언트에서 테스트하기**\n\nIPv6 주소를 ping하거나 IPv6 전용 웹사이트를 방문해보세요. 이제 작동할 거예요.\n\n## 중요한 주의사항\n\n안타깝게도 이 설정은 UniFi 펌웨어 업데이트에 걸쳐 유지되지 않습니다. UniFi 기기를 업데이트하면 기본 경로가 제거될 수 있고, 다시 추가해야 할 수도 있어요."
+        }
+      ]
     },
     {
       "category": "video",
-      "items": []
+      "items": [
+        {
+          "title": "987: Remote Coding Agents",
+          "titleKo": "원격 코딩 에이전트 – Syntax 팟캐스트 에피소드 987",
+          "summary": "Syntax 팟캐스트 에피소드 987에서 Wes Bos와 Scott Tolinski가 원격 코딩 에이전트의 개념, 필요성, 다양한 실행 방식을 다룹니다. Cursor Cloud, Claude Code부터 개인 노트북을 서버로 활용하는 방법까지 여러 옵션을 설명하며, 웹사이트 데이터 정리, 연구 보조, 여행 계획 등 실제 사용 사례를 제시합니다. 에이전트 실행 환경, CLI/UI 인터페이스, API 키 관리, 웹 검색 기능 등 실무 운영 측면도 상세히 다룹니다.",
+          "keyPoints": [
+            "원격 에이전트의 정의와 실행 위치: 클라우드 서비스(Cursor Cloud, Claude Code)에서 실행하거나, 개인 노트북/PC를 서버로 구성하는 등 다양한 방식으로 운영할 수 있으며, 사용자가 수면 중이어도 에이전트가 배경에서 작업을 계속할 수 있습니다.",
+            "실제 사용 사례: 웹사이트에서 데이터를 수집하는 반복적 작업, 다양한 소스에서 정보를 수집하는 연구 보조, 여행 계획 수립 등 구체적인 일상 작업들을 자동화할 수 있습니다.",
+            "다양한 인터페이스 옵션: CLI와 사용자 인터페이스의 여러 조합으로 에이전트를 제어할 수 있으며, 서로 다른 워크플로우와 선호도에 맞게 선택할 수 있습니다.",
+            "환경 구성과 API 키 관리: 원격 에이전트를 운영할 때 개발 환경 설정, API 키의 안전한 관리, 접근 제어 등이 실무의 핵심 고려사항임을 강조합니다.",
+            "웹 검색 기능: 에이전트가 현재 정보에 접근하기 위해 웹 검색 능력이 필요하며, 이를 통해 정적 학습 데이터의 한계를 극복할 수 있습니다."
+          ],
+          "whyItMatters": "원격 코딩 에이전트는 반복적이고 시간 소모적인 개발 작업을 자동화할 수 있는 새로운 패러다임을 제시하며, 개발자는 이 기술의 설정, 운영, 실제 활용 방법을 이해해야 합니다.",
+          "url": "https://syntax.fm/987",
+          "sourceName": "Syntax.fm",
+          "contentType": "article",
+          "labels": [
+            "ai",
+            "frontend",
+            "backend"
+          ],
+          "topicId": "ai-agents",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "987-remote-coding-agents",
+          "fullContent": "Wes Bos Host Scott Tolinski Host Play Episode 987 or Show Notes Transcript Scott and Wes break down the world of remote coding agents — what they are, why you'd want one, and all the different ways you can run them, from Cursor Cloud and Claude Code to an old laptop sitting on your floor. They cover real-world use cases, environment setup, API key management, and the wild variety of interfaces that let agents work while you sleep.\nShow Notes\n00:00 Welcome to Syntax!\n03:14 Introduction to Remote Coding Agents\n05:32 Practical Examples of Remote Agents\n05:34 Website data grunt work.\n07:48 Research assistant\n08:57 Travel agent... agent\n09:57 Where and When Remote Agents Run\n10:43 Brought to you by Sentry.io\n13:31 Where Remote Agents Run\n19:14 CLI and User Interfaces for Remote Agents\n24:53 Remote Development Environments\n31:21 DIY Agents and Custom Solutions\n36:09 The environment\n38:08 Managing API Keys and Access\n41:02 Web search\nHit us up on Socials!\nSyntax: X Instagram Tiktok LinkedIn Threads\nWes: X Instagram Tiktok LinkedIn Threads\nScott: X Instagram Tiktok LinkedIn Threads\nRandy: X Instagram YouTube Threads Share",
+          "category": "video",
+          "publishedAt": "2026-03-16T11:00:00.000Z",
+          "language": "en",
+          "translatedContent": "# 원격 코딩 에이전트 완벽 가이드\n\nWes Bos와 Scott Tolinski가 진행하는 Syntax 팟캐스트 987화입니다.\n\n원격 코딩 에이전트가 정확히 무엇인지, 왜 필요한지, 그리고 어떻게 활용할 수 있는지 상세하게 설명해드릴게요. Cursor Cloud, Claude Code부터 책상 밑에 굴러다니는 낡은 노트북까지, 여러분이 자는 동안 일해줄 에이전트를 어디에서 어떻게 구동하는지 살펴봅시다.\n\n## 쇼 노트\n\n**00:00** Syntax 팟캐스트 시작\n\n**03:14** 원격 코딩 에이전트 소개\n\n**05:32** 원격 에이전트의 실제 활용 사례들\n\n**05:34** 웹사이트 데이터 처리 자동화  \n반복적인 데이터 수집이나 정리 작업을 에이전트에게 맡길 수 있습니다.\n\n**07:48** 리서치 어시스턴트  \n대량의 정보를 수집하고 정리하는 작업이 한층 쉬워집니다.\n\n**08:57** 여행 계획 에이전트  \n여행 일정, 숙박, 항공편 등을 자동으로 검색하고 정리해주죠.\n\n**09:57** 원격 에이전트가 실행되는 위치와 시점\n\n**10:43** Sentry.io 광고\n\n**13:31** 원격 에이전트 구동 환경\n\n**19:14** 원격 에이전트 제어를 위한 CLI와 사용자 인터페이스\n\n**24:53** 원격 개발 환경\n\n**31:21** DIY 방식의 커스텀 에이전트 구축\n\n**36:09** 환경 설정\n\n**38:08** API 키와 접근 권한 관리\n\n**41:02** 웹 검색 기능\n\n---\n\n## 소셜 미디어\n\n**Syntax 팟캐스트**  \nX · Instagram · TikTok · LinkedIn · Threads\n\n**Wes**  \nX · Instagram · TikTok · LinkedIn · Threads\n\n**Scott**  \nX · Instagram · TikTok · LinkedIn · Threads\n\n**Randy**  \nX · Instagram · YouTube · Threads"
+        },
+        {
+          "title": "5 Claude Code skills I use every single day",
+          "titleKo": "매일 사용하는 Claude Code의 5가지 스킬",
+          "summary": "Claude Code의 일상적 활용법을 다루는 YouTube 영상으로, 개발 생산성을 높이기 위한 5가지 핵심 기법을 소개한다.",
+          "keyPoints": [
+            "Claude Code를 활용한 일일 개발 작업의 구체적 활용 사례와 팁이 제시된다.",
+            "각 스킬은 실제 개발 시나리오에서 바로 적용 가능한 실용적 기법이다.",
+            "AI 코딩 어시스턴트의 효과적 사용 패턴을 학습할 수 있다."
+          ],
+          "whyItMatters": "Claude Code 사용자가 AI 어시스턴트를 최대한 효율적으로 활용하는 방법을 배울 수 있어 개발 속도와 품질 향상에 도움이 된다.",
+          "url": "https://www.youtube.com/watch?v=EJyuu6zlQCg",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "typescript"
+          ],
+          "topicId": "claude-code-skills",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "5-claude-code-skills-i-use-every-single-day",
+          "category": "video",
+          "publishedAt": "2026-03-16T16:01:49+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "오라클의 쿠키 안에 담긴 진짜 의미 [유튜브]",
+          "titleKo": "오라클의 쿠키에 담긴 진짜 의미 [유튜브]",
+          "summary": "AI의 의식과 철학적 의미를 매트릭스에 빗대어 설명하는 유튜브 영상 추천글로, 실제 개발 시 도움이 되는 AI 탐구 콘텐츠를 공유한다.",
+          "keyPoints": [
+            "AI의 마음과 의식에 대한 철학적 탐구",
+            "매트릭스 영화를 통한 비유적 설명으로 개발자에게 실질적 도움 제공"
+          ],
+          "whyItMatters": "AI 시스템 개발 시 기술적 이해를 넘어 철학적 사고가 도움이 될 수 있음",
+          "url": "https://news.hada.io/topic?id=27579",
+          "sourceName": "GeekNews",
+          "contentType": "article",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "오라클의-쿠키-안에-담긴-진짜-의미-유튜브",
+          "category": "video",
+          "publishedAt": "2026-03-17T02:10:14.000Z",
+          "language": "ko"
+        },
+        {
+          "title": "You don't want to be a manager.",
+          "titleKo": "당신은 매니저가 되고 싶지 않을 것이다",
+          "summary": "YouTube 영상으로 관리자 역할의 현실과 도전 과제에 대한 내용으로 추정되나 상세 정보 부재.",
+          "keyPoints": [
+            "제목에서 추론하면 개발자 → 매니저 전환의 어려움과 실체를 다룰 것으로 예상"
+          ],
+          "whyItMatters": "경력 발전 경로를 고려하는 개발자들에게 경영진 역할의 현실을 이해하도록 도와준다.",
+          "url": "https://www.youtube.com/watch?v=v0gyPfrlOc8",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "you-dont-want-to-be-a-manager",
+          "category": "video",
+          "publishedAt": "2026-03-16T19:06:16+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Sci-Fi Short Film \"There Is No Antimemetics Division\" [video]",
+          "titleKo": "공상과학 단편영화 '반-밈 부서는 없다'",
+          "summary": "SCP 재단 세계관을 기반으로 한 공상과학 단편영화입니다.",
+          "keyPoints": [
+            "초현실적 공포 설정을 영상화한 창작물",
+            "인터넷 창작 커뮤니티의 콘텐츠를 영상화"
+          ],
+          "whyItMatters": "개발자 커뮤니티에서는 직접적 관련성이 낮으나, 창작 및 스토리텔링에 관심 있는 개발자들에게 참고가 될 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=3v8AsTHfAG0",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 28,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "sci-fi-short-film-there-is-no-antimemetics-division-video",
+          "category": "video",
+          "publishedAt": "2026-03-13T11:44:27.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
     }
   ]
 }

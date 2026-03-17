@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code로 완전한 Godot 게임을 만드는 AI 기술 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/17/">2026-03-17</a> &gt; Claude Code로 완전한 Godot 게임을 만드는 AI 기술...
+      </div>
+
+      <h1>Claude Code로 완전한 Godot 게임을 만드는 AI 기술</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Show HN: Claude Code skills that build complete Godot games</p>
+      <div class="article-meta">
+        <span>📅 2026-03-17</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 222</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Godogen은 Claude Code를 활용하여 자연어 설명만으로 완전한 Godot 4 게임 프로젝트를 자동 생성하는 AI 파이프라인입니다. 아키텍처 설계부터 코드 작성, 미술 생성, 스크린샷 캡처 및 시각적 검증까지 전체 과정을 자동화하며, Gemini로 2D 미술을, Tripo3D로 3D 모델을 생성합니다. 두 개의 Claude Code 기술이 계획과 실행을 담당하며, 시각적 QA를 통해 실행 중인 게임의 스크린샷을 분석하여 Z-파이팅, 누락된 텍스처, 물리 오류 등을 감지합니다. 일반 PC에서 실행 가능하며, 클라우드 VM에서 몇 시간에 걸쳐 전체 게임을 생성할 수 있습니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>자동화된 게임 생성 파이프라인: 자연어 프롬프트를 입력하면 아키텍처 설계, GDScript 코드 작성, 장면 구성, 미술 생성을 모두 자동으로 처리합니다. Claude Code의 두 가지 기술(계획 수립 기술과 실행 기술)이 각각 독립적인 컨텍스트에서 작동하여 작업 집중도를 유지합니다.</li><li>다중 AI 모델 연동: Gemini는 2D 미술과 텍스처 생성에, Tripo3D는 이미지에서 3D 모델 변환에 사용되며, 비용 효율성을 고려한 예산 인식 시스템으로 시각적 임팩트를 최대화합니다.</li><li>GDScript 전문화: 850개 이상의 Godot 클래스에 대한 커스텀 언어 참고자료와 지연 로딩 API 문서를 통해 LLM의 제한된 GDScript 학습 데이터를 보완합니다.</li><li>시각적 QA 시스템: 실행 중인 게임에서 스크린샷을 캡처하고 Gemini Flash 비전으로 분석하여 Z-파이팅, 누락된 텍스처, 손상된 물리 등의 문제를 자동 감지하고 수정합니다.</li><li>낮은 진입장벽: Godot 4, Claude Code, 필요한 API 키만 있으면 일반 PC에서 실행 가능하며, 클라우드 VM(GCE T4/L4 GPU)을 사용하면 로컬 머신을 자유롭게 사용하면서 생성 작업을 진행할 수 있습니다.</li><li>실제 프로젝트 구조: 단순 코드 생성이 아닌 정상적인 장면 트리, 읽기 쉬운 스크립트, 적절한 게임 아키텍처를 가진 실제 Godot 프로젝트를 생성하며, 2D와 3D 모두 지원합니다.</li><li>모델 성능 비교: Claude Opus 4.6이 최고의 결과를 제공하며, Sonnet 4.6도 작동하지만 사용자 가이드가 더 필요합니다. OpenCode도 호환 가능하고 포팅이 직관적입니다.</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>게임 개발의 초기 프로토타이핑과 전체 프로젝트 생성을 대폭 자동화하여 개발 시간을 단축할 수 있으며, AI와 전문 도구의 조화로운 통합 사례로서 복잡한 멀티스텝 워크플로우를 실제로 구현하는 방법을 보여줍니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Godogen: Claude Code로 완성된 Godot 4 게임 프로젝트 만들기</h2>
+<p>[데모 보기](링크) · [프롬프트](링크)</p>
+<h3>이게 뭐죠?</h3>
+<p>원하는 게임을 말로 설명하면, AI 파이프라인이 아키텍처를 설계하고 아트를 생성한 뒤 모든 코드를 작성해줍니다. 실행 중인 엔진에서 직접 스크린샷을 캡처해서 문제가 있으면 자동으로 수정하죠. 결과물은 제대로 정리된 씬 트리, 읽기 쉬운 스크립트, 올바른 게임 아키텍처를 갖춘 실제 Godot 4 프로젝트입니다. 2D와 3D 모두 지원하고, 일반적인 PC에서 돌아갑니다.</p>
+<h3>어떻게 작동하나요?</h3>
+<p><strong>Claude Code 스킬 2개가 전체 파이프라인을 조율합니다.</strong> 하나는 계획을 세우고 다른 하나는 실행하죠. 각 작업은 독립적인 컨텍스트에서 진행되니까 집중력을 잃지 않습니다.</p>
+<p><strong>Godot 4 프로젝트 생성</strong></p>
+<p>제대로 구성된 씬 트리, 스크립트, 에셋 폴더를 갖춘 실제 프로젝트를 만듭니다.</p>
+<p><strong>에셋 생성</strong></p>
+<p>Gemini는 2D 아트와 텍스처를 만들고, Tripo3D는 선택된 이미지를 3D 모델로 변환합니다. 비용 최적화도 고려해서 투입된 비용 대비 최대의 시각적 임팩트를 뽑아냅니다.</p>
+<p><strong>GDScript 전문성</strong></p>
+<p>GDScript에 대한 커스텀 언어 레퍼런스와 850개 이상 Godot 클래스의 API 문서를 지연 로딩 방식으로 제공합니다. LLM의 GDScript 학습 데이터 부족함을 보완하기 위함이죠.</p>
+<p><strong>시각적 품질 검증</strong></p>
+<p>실행 중인 게임에서 스크린샷을 캡처하고 Gemini Flash 비전으로 분석합니다. z-파이팅, 누락된 텍스처, 물리 엔진 오류 같은 문제를 자동으로 잡아냅니다.</p>
+<p><strong>저사양 PC에서도 실행 가능</strong></p>
+<p>Godot와 Claude Code가 있으면 충분합니다.</p>
+<h3>시작하기</h3>
+<h4>준비물</h4>
+<ul>
+<li>Godot 4 (헤드리스 또는 에디터 모드로 PATH에 등록)</li>
+<li>Claude Code 설치</li>
+<li>환경 변수로 API 키 설정:</li>
+<li><code>GOOGLE_API_KEY</code> — Gemini (이미지 생성, 시각적 검증)</li>
+<li><code>TRIPO3D_API_KEY</code> — Tripo3D (3D 게임용, 필수 아님)</li>
+<li>Python 3 및 pip (에셋 도구는 필요한 의존성을 자체 설치)</li>
+</ul>
+<p>Ubuntu와 Debian에서 테스트됐습니다. macOS는 미테스트 상태인데, 스크린샷 캡처가 X11/xvfb/Vulkan에 의존하므로 네이티브 캡처 경로를 추가로 설정해야 합니다.</p>
+<h4>게임 프로젝트 생성하기</h4>
+<p>이 저장소는 스킬 개발 소스입니다. 게임을 만들려면 <code>publish.sh</code>를 실행해서 모든 스킬이 설치된 새 프로젝트 폴더를 만드세요:</p>
+<pre><code class="language-bash">./publish.sh ~/my-game                    # teleforge.md를 CLAUDE.md로 사용
+./publish.sh ~/my-game local.md           # 커스텀 CLAUDE.md 사용</code></pre>
+<p>이 명령어는 <code>.claude/skills/</code>와 <code>CLAUDE.md</code>를 포함한 대상 디렉토리를 생성하고 git 저장소를 초기화합니다. Claude Code에서 해당 폴더를 열고 어떤 게임을 만들고 싶은지 설명하면, <code>/godogen</code> 스킬이 나머지를 모두 처리합니다.</p>
+<h3>VM에서 실행하기</h3>
+<p>한 번의 생성 작업이 몇 시간 걸릴 수 있습니다. 클라우드 VM에서 실행하면 로컬 머신을 자유롭게 쓸 수 있고, 파이프라인이 Godot 스크린샷 캡처를 위해 GPU를 활용할 수 있습니다. T4나 L4 GPU가 있는 기본 GCE 인스턴스면 충분합니다.</p>
+<p>기본 <code>CLAUDE.md</code>(teleforge.md)는 Teleforge로 설정되어 있습니다. Teleforge는 가벼운 텔레그램 브릿지로, 스마트폰에서 진행 상황을 모니터링하고 실행 중인 세션에 메시지를 보낼 수 있게 해줍니다. Teleforge를 쓰지 않으면 커스텀 <code>CLAUDE.md</code>를 <code>publish.sh</code>에 넘기거나 발행한 뒤 수정하면 됩니다.</p>
+<h3>Claude Code만 써야 하나요?</h3>
+<p>여러 환경에서 스킬을 테스트했습니다. Opus 4.6과 Claude Code의 조합이 최고의 결과를 냅니다. Sonnet 4.6도 작동하지만 사용자 가이드가 더 필요합니다. OpenCode도 상당히 좋으므로, 스킬을 포팅하는 건 어렵지 않습니다. 다른 옵션을 찾으신다면 OpenCode를 추천합니다.</p>
+<h3>향후 계획</h3>
+<ul>
+<li>이미지 생성을 grok-imagine-image로 마이그레이션 (이미지당 비용 감소)</li>
+<li>스프라이트시트를 grok-imagine-video로 마이그레이션 (비디오에서 애니메이션 스프라이트 생성)</li>
+<li>게임 빌드 레시피 추가 (Android 내보내기)</li>
+<li>완전한 게임을 공개 데모로 출시</li>
+</ul>
+<p>진행 상황 팔로우: [@alex_erm](링크)</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://github.com/htdt/godogen" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-17%20Claude%20Code%EB%A1%9C%20%EC%99%84%EC%A0%84%ED%95%9C%20Godot%20%EA%B2%8C%EC%9E%84%EC%9D%84%20%EB%A7%8C%EB%93%9C%EB%8A%94%20AI%20%EA%B8%B0%EC%88%A0&labels=feedback%2Cliked&body=**Article**%3A%20Claude%20Code%EB%A1%9C%20%EC%99%84%EC%A0%84%ED%95%9C%20Godot%20%EA%B2%8C%EC%9E%84%EC%9D%84%20%EB%A7%8C%EB%93%9C%EB%8A%94%20AI%20%EA%B8%B0%EC%88%A0%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Fhtdt%2Fgodogen%0A**Date**%3A%202026-03-17%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

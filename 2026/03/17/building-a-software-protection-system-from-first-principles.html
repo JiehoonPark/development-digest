@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>처음부터 만드는 소프트웨어 보호 시스템 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/17/">2026-03-17</a> &gt; 처음부터 만드는 소프트웨어 보호 시스템...
+      </div>
+
+      <h1>처음부터 만드는 소프트웨어 보호 시스템</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">building a software protection system from first principles</p>
+      <div class="article-meta">
+        <span>📅 2026-03-17</span>
+        <span>📰 Lobste.rs</span>
+        
+        
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>소프트웨어 라이선싱 시스템을 단계적으로 구축하는 과정을 소개하며, 경량의 하드코드된 시리얼부터 시작해 난독화, 디지털 서명, 온라인 검증 등으로 진화하는 방식을 보여준다. 각 단계마다 공격 방식을 분석하고 이에 대응하는 형태로 설계를 개선하는 실용적 접근을 제시한다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>하드코드된 시리얼은 `strings` 명령어로 쉽게 추출되며 난독화도 결국 리버스 엔지니어링에 취약</li><li>디지털 서명과 공개키 암호화를 통해 위조 불가능하고 고객별 고유한 라이선스 구현 가능</li><li>위협 모델에 따라 보호 수준을 선택하는 반복적 설계 방식 제시 (선택적 체크리스트)</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>소프트웨어 개발자가 자신의 위협 모델에 맞는 현실적인 라이선싱 시스템을 단계적으로 구축할 수 있다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>소프트웨어 보호 시스템을 처음부터 만들어보자</h2>
+<p>소프트웨어 보호 시스템을 단계별로 구축해보겠습니다. 처음부터 모든 요구사항을 설명하지 않고, 각 단계를 시도하고 부수면서 자연스럽게 알아가는 방식으로 진행할 거예요. 결국 실무에 쓸 수 있는 솔루션에 도달하게 될 겁니다.</p>
+<h3>먼저 정의해야 할 것들</h3>
+<p>라이센싱 시스템을 구축하기 전에, 당신의 제품에서 &quot;충분히 좋은 수준&quot;이 뭔지 명확히 해야 합니다. 누로부터 보호하려는 건가요? 가벼운 공유 정도인가요, 취미 차원의 역분석인가요, 아니면 전문적인 크래킹 조직까지 대비해야 하나요? 사용자 경험을 얼마나 해칠 수 있고, 시스템 운영에는 얼마나 복잡함을 감수할 수 있나요?</p>
+<p>이 글을 &quot;반드시 따라야 할 체크리스트&quot;가 아닌 &quot;선택지의 사다리&quot;처럼 생각해보세요. 당신의 위협 모델에 맞으면 어느 단계에서든 멈춰도 되고, 요구사항이 높으면 계속 올라가면 됩니다.</p>
+<h3>시작: 간단한 애플리케이션</h3>
+<p>먼저 실제 가치를 제공하는 간단한 앱을 만들어봅시다.</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#define ANSWER 42
+
+int app_main(void) {
+    printf(&quot;the meaning of life is %d\n&quot;, ANSWER);
+    return 0;
+}
+
+int main(void) {
+    return app_main();
+}</code></pre>
+<pre><code class="language-bash">$ cc -o app iter0.c
+$ ./app
+the meaning of life is 42</code></pre>
+<p>이제 우리는 가치를 제공하는 애플리케이션을 가졌습니다. <code>ANSWER</code>가 우리가 지키려는 비밀이에요. 실제 앱이라면 독점 알고리즘, 프리미엄 콘텐츠 복호화 키, 또는 다른 여러 것들이 될 수 있습니다.</p>
+<p>이제 핵심 질문은 이겁니다: 유료 고객만 이 앱을 실행할 수 있게 하려면 어떻게 해야 할까요?</p>
+<h3>첫 번째 시도: 하드코딩된 시리얼 번호</h3>
+<p>가장 직관적인 방법은 뭔가 유용한 일을 하기 전에 비밀번호를 묻는 것입니다.</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#define ANSWER 42
+#define SERIAL &quot;XXXX-YYYY-ZZZZ&quot;
+
+int app_main(void) {
+    printf(&quot;the meaning of life is %d\n&quot;, ANSWER);
+    return 0;
+}
+
+int check_license(const char *input) {
+    return strcmp(input, SERIAL) == 0;
+}
+
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        fprintf(stderr, &quot;usage: %s &lt;serial&gt;\n&quot;, argv[0]);
+        return 1;
+    }
+    if (!check_license(argv[1])) {
+        fprintf(stderr, &quot;invalid license\n&quot;);
+        return 1;
+    }
+    return app_main();
+}</code></pre>
+<pre><code class="language-bash">$ cc -o app iter1.c
+$ ./app wrong
+invalid license
+$ ./app XXXX-YYYY-ZZZZ
+the meaning of life is 42</code></pre>
+<p>작동합니다! 이대로 배포해도 될 것 같지만, 얼마나 견고한지 살펴봅시다.</p>
+<h4>이걸 깨는 것은 얼마나 쉬울까?</h4>
+<p>하드코딩된 문자열의 문제는 바이너리에 그대로 노출되어 있다는 겁니다.</p>
+<pre><code class="language-bash">$ strings app | grep -E '^[A-Z]{4}-[A-Z]{4}-[A-Z]{4}$'
+XXXX-YYYY-ZZZZ</code></pre>
+<p>0.5초면 충분합니다. 공격자는 이제 유효한 시리얼 번호를 얻었어요.</p>
+<h3>두 번째 시도: 난독화된 시리얼 번호</h3>
+<p>평문 문자열은 너무 찾기 쉬우니까, 숨겨봅시다. XOR, 해싱, 또는 다른 난독화 기법을 쓸 수 있습니다.</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stddef.h&gt;
+#define ANSWER 42
+
+int app_main(void) {
+    printf(&quot;the meaning of life is %d\n&quot;, ANSWER);
+    return 0;
+}
+
+// Serial &quot;XXXX-YYYY-ZZZZ&quot; XOR'd with 0x42
+static const unsigned char obfuscated_serial[] = {
+    0x1a, 0x1a, 0x1a, 0x1a, 0x6f, 0x1b, 0x1b, 0x1b,
+    0x1b, 0x6f, 0x18, 0x18, 0x18, 0x18, 0x00
+};
+
+int check_license(const char *input) {
+    size_t len = strlen(input);
+    if (len != sizeof(obfuscated_serial) - 1) return 0;
+    for (size_t i = 0; i &lt; len; i++) {
+        if ((input[i] ^ 0x42) != obfuscated_serial[i]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main(int argc, char *argv[]) {
+    if (argc != 2) {
+        fprintf(stderr, &quot;usage: %s &lt;serial&gt;\n&quot;, argv[0]);
+        return 1;
+    }
+    if (!check_license(argv[1])) {
+        fprintf(stderr, &quot;invalid license\n&quot;);
+        return 1;
+    }
+    return app_main();
+}</code></pre>
+<p>이제 <code>strings</code> 명령으로도 찾을 수 없습니다:</p>
+<pre><code class="language-bash">$ cc -o app iter2.c
+$ strings app | grep -E '^[A-Z]{4}-'
+$</code></pre>
+<p>시리얼이 더 이상 직접 보이지 않네요. 하지만 여기 문제가 있습니다. 난독화를 푸는 로직이 바이너리에 존재해야 한다는 거예요. 우리는 입력을 확인하기 위해 <code>0x42</code>와 XOR 연산을 하는데, 이는 공격자가 그 코드를 찾아서 방식을 이해한 뒤 역으로 계산할 수 있다는 뜻입니다.</p>
+<p>더 강한 난독화, 중첩 암호화, 코드 가상화, 역어셈블리 방지 트릭 등을 사용할 수야 있겠지만, 본질적으로는 숨바꼭질일 뿐입니다. 불가능하게 만드는 게 아니라 좀 더 번거롭게 만드는 것뿐이거든요.</p>
+<p>여기서 첫 번째 깨달음을 얻습니다: <strong>난독화는 결국 &quot;난해함을 통한 보안&quot;일 뿐입니다.</strong> 충분한 시간과 동기가 있으면 역분석자는 항상 이깁니다. 왜냐하면 바이너리에는 검증을 수행하는 데 필요한 모든 것이 담겨있기 때문이에요.</p>
+<p>재미있는 곁말이지만, 현대의 역분석 도구들은 보통 단순한 XOR 인코딩 블록을 자동으로 탐지합니다. 그래서 이 방식의 난독화는 실무에서 더욱 비효과적입니다!</p>
+<h3>세 번째 시도: 디지털 서명</h3>
+<p>처음 두 시도의 근본적인 문제는 비밀이 공유되어야 한다는 점입니다. 한 사람이 소프트웨어를 구매해서 시리얼을 온라인에 공개하면, 이제 모든 사람이 그걸 쓸 수 있어요.</p>
+<p>우리가 필요한 것은 이런 라이센스입니다:</p>
+<ul>
+<li>누구나 검증 가능 (애플리케이션이 확인할 수 있음)</li>
+<li>제3자가 위조 불가능 (우리만 발급 가능)</li>
+<li>각 고객마다 고유함</li>
+</ul>
+<p>이게 바로 <strong>비대칭 암호화</strong>가 필요한 대목입니다.</p>
+<p>아이디어는 단 하나의 공유 비밀 대신 <strong>키 쌍</strong>을 사용하는 것입니다. 하나는 우리가 보관하는 개인 키(private key)이고, 다른 하나는 바이너리에 들어가는 공개 키(public key)입니다. 개인 키로는 데이터에 서명할 수 있고, 공개 키로는 그 서명을 검증할 수 있습니다. 공개 키만 있으면 검증은 가능하지만 새로운 서명을 만들 수는 없어요.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://seg6.space/posts/software-protection-system/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-17%20%EC%B2%98%EC%9D%8C%EB%B6%80%ED%84%B0%20%EB%A7%8C%EB%93%9C%EB%8A%94%20%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%20%EB%B3%B4%ED%98%B8%20%EC%8B%9C%EC%8A%A4%ED%85%9C&labels=feedback%2Cliked&body=**Article**%3A%20%EC%B2%98%EC%9D%8C%EB%B6%80%ED%84%B0%20%EB%A7%8C%EB%93%9C%EB%8A%94%20%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%20%EB%B3%B4%ED%98%B8%20%EC%8B%9C%EC%8A%A4%ED%85%9C%0A**URL**%3A%20https%3A%2F%2Fseg6.space%2Fposts%2Fsoftware-protection-system%2F%0A**Date**%3A%202026-03-17%0A**Source**%3A%20Lobste.rs" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

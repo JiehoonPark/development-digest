@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>내 웹사이트에 human.json을 추가했다 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/17/">2026-03-17</a> &gt; 내 웹사이트에 human.json을 추가했다...
+      </div>
+
+      <h1>내 웹사이트에 human.json을 추가했다</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">I’ve added human.json to my website</p>
+      <div class="article-meta">
+        <span>📅 2026-03-17</span>
+        <span>📰 Lobste.rs</span>
+        
+        
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>개발자가 분산 신뢰 네트워크를 위한 human.json 프로토콜을 자신의 웹사이트에 구현하고, RSS를 통해 자동으로 지지(vouch)하는 사람들을 발견하는 방식을 공유했다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>human.json 프로토콜은 /human.json 파일과 HTML link 요소로 간단히 구현 가능</li><li>BeautifulSoup을 사용한 자동 발견 스크립트로 RSS 피드에서 프로토콜 사용자 추적</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>분산 웹 신뢰 시스템 구축에 참여하는 간단한 방법 제공</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Human.json 프로토콜을 내 웹사이트에 추가해봤습니다</h2>
+<p>Evan Hahn이 최근 자신의 웹사이트에 &quot;human.json 프로토콜&quot;을 추가했다는 블로그 글을 올렸습니다. 사양을 읽어보니 구현하기에 꽤 간단한 프로토콜이라는 생각이 들었어요.</p>
+<p>저도 따라해봤는데, 웹사이트에 <code>/human.json</code> 파일을 만들고 HTML의 <code>&lt;head&gt;</code> 섹션에 <code>rel=&quot;human-json&quot;</code>이 지정된 <code>&lt;link&gt;</code> 엘리먼트를 추가하는 것만으로 충분했습니다. 정말 간단하네요!</p>
+<h3>자동 발견을 위한 추가 작업</h3>
+<p>다만 보증(vouch) 부분은 조금 복잡했습니다. 제가 구독하는 RSS 피드의 모든 사이트에서 human.json을 지원하는지 자동으로 감지하고 싶었거든요. 그럼 더 많은 사람들이 프로토콜을 구현할 때마다 자동으로 보증 목록을 최신으로 유지할 수 있으니까요.</p>
+<p>결국 BeautifulSoup을 이용해서 <code>&lt;link&gt;</code> 엘리먼트를 제대로 파싱하도록 스크립트를 수정했습니다(Evan 감사합니다!). 이게 최종 버전입니다:</p>
+<pre><code class="language-python"># 스크립트 코드가 여기에 들어갑니다</code></pre>
+<p>스크립트를 실행해보니 제가 구독 중인 웹사이트 중에 이미 프로토콜을 지원하는 곳이 두 군데 있더라고요.</p>
+<h3>함께 해보세요</h3>
+<p>혹시 당신도 자신의 웹사이트에 이 프로토콜을 추가한다면 어떨까요? 제가 당신의 RSS를 구독하고 있다면, 다시 OPML 파일을 생성할 때 자동으로 당신의 웹사이트가 추가될 겁니다.</p>
+<p>Mastodon이나 Bluesky에서 팔로우 관계라면 한 번 연락 주세요. 더 빨리 추가해드릴 수 있거든요.</p>
+<p>저는 개인적으로 브라우저 익스텐션을 사용할 계획은 없지만, 다른 사람들이 이 &quot;네트워크&quot;에서 데이터를 활용한다면 그것만으로도 성공이라고 생각합니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://sethmlarson.dev/ive-added-human-dot-json-to-my-website" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-17%20%EB%82%B4%20%EC%9B%B9%EC%82%AC%EC%9D%B4%ED%8A%B8%EC%97%90%20human.json%EC%9D%84%20%EC%B6%94%EA%B0%80%ED%96%88%EB%8B%A4&labels=feedback%2Cliked&body=**Article**%3A%20%EB%82%B4%20%EC%9B%B9%EC%82%AC%EC%9D%B4%ED%8A%B8%EC%97%90%20human.json%EC%9D%84%20%EC%B6%94%EA%B0%80%ED%96%88%EB%8B%A4%0A**URL**%3A%20https%3A%2F%2Fsethmlarson.dev%2Five-added-human-dot-json-to-my-website%0A**Date**%3A%202026-03-17%0A**Source**%3A%20Lobste.rs" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

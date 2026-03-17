@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dev Digest — 2026-03-15</title>
+  <title>FE 데일리 리포트 — 2026-03-15</title>
   <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 </head>
 <body>
   <header class="site-header">
     <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 Dev Digest</a></h1>
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
       <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
       <nav>
         <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
@@ -22,13 +22,23 @@
   <main class="container">
     
     <div class="breadcrumb"><a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; 2026-03-15</div>
-    <h2 style="font-size: 22px; margin-bottom: 4px;">📬 Dev Digest — 2026-03-15</h2>
+    <h2 style="font-size: 22px; margin-bottom: 4px;">📬 FE 데일리 리포트 — 2026-03-15</h2>
     <p style="font-size: 13px; color: #999; margin-bottom: 0;">3개 아티클</p>
     <div class="daily-intro">안녕하세요! 오늘 프론트엔드 개발 생태계는 AI 에이전트의 본격적인 활용과 웹 성능의 현실적 문제들이 주목받고 있습니다. Chrome DevTools의 AI 통합부터 page-agent까지 개발자 워크플로우를 혁신하는 기술들이 등장하는 한편, 49MB 웹페이지 문제와 보이지 않는 유니코드 공격 같은 심각한 이슈들도 우리의 주의를 요구하고 있습니다.</div>
+    <div class="label-filters">
+      <button class="label-filter active" data-label="all">전체</button>
+      <button class="label-filter" data-label="frontend">frontend</button>
+      <button class="label-filter" data-label="backend">backend</button>
+      <button class="label-filter" data-label="typescript">typescript</button>
+      <button class="label-filter" data-label="devops">devops</button>
+      <button class="label-filter" data-label="ai">ai</button>
+      <button class="label-filter" data-label="career">career</button>
+      <button class="label-filter" data-label="general">general</button>
+    </div>
     
       <h2 class="section-header">🛠 프론트엔드 기술</h2>
       
-    <div class="article-card">
+    <div class="article-card" data-labels="" data-topic="">
       <h3><a href="https://developer.chrome.com/blog/chrome-devtools-mcp-debug-your-browser-session">Chrome DevTools MCP: 브라우저 세션 디버깅하기</a></h3>
       <span class="badge badge-engagement">⬆ 242</span>
       <p class="summary">Chrome DevTools MCP 서버가 AI 에이전트를 활성 브라우저 세션에 직접 연결할 수 있는 자동 연결 기능을 지원하기 시작했습니다. Chrome M144 베타에서 추가된 이 기능은 원격 디버깅 API를 기반으로 하며, 개발자가 DevTools의 Elements 또는 Network 패널에서 선택한 요소나 네트워크 요청을 AI 에이전트에 전달하여 자동으로 문제를 진단하고 수정하게 할 수 있습니다. 사용자 보안을 위해 매번 원격 디버깅 세션 요청 시 Chrome이 확인 대화상자를 표시합니다.</p>
@@ -39,7 +49,7 @@
         <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/03/15/chrome-devtools-mcp.html">📖 자세히 보기</a>
       </div>
     </div>
-    <div class="article-card">
+    <div class="article-card" data-labels="" data-topic="">
       <h3><a href="https://yozm.wishket.com/magazine/detail/3641">Vercel react-best-practices 스킬로 코드 리뷰 자동화하기</a></h3>
       
       <p class="summary">Vercel의 CEO가 발표한 AI 에이전트용 skills 패키지 관리자 생태계에서 react-best-practices를 실제 프로젝트에 적용하여 성능 변화를 검증하는 내용입니다. GitHub Actions 기반의 AI 코드 리뷰에 룰셋을 적용하는 방식을 다룹니다.</p>
@@ -52,7 +62,7 @@
     </div>
       <h2 class="section-header">💡 알면 좋은 정보</h2>
       
-    <div class="article-card">
+    <div class="article-card" data-labels="" data-topic="">
       <h3><a href="https://www.antifound.com/posts/codegen-is-not-productivity/">코드 생성은 생산성이 아니다</a></h3>
       
       <p class="summary">코드 생성 기술이 실제로는 생산성 향상으로 이어지지 않을 수 있다는 주제를 다루고 있습니다.</p>
@@ -67,11 +77,12 @@
 
   <footer class="site-footer">
     <div class="container">
-      <p>Dev Digest — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
       <p style="margin-top: 4px;">Powered by Claude AI</p>
     </div>
   </footer>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
 </body>
 </html>

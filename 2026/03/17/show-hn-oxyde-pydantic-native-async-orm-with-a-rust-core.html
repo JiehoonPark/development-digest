@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oxyde – Pydantic 기반 Rust 코어의 비동기 ORM — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/17/">2026-03-17</a> &gt; Oxyde – Pydantic 기반 Rust 코어의 비동기 ORM...
+      </div>
+
+      <h1>Oxyde – Pydantic 기반 Rust 코어의 비동기 ORM</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Show HN: Oxyde – Pydantic-native async ORM with a Rust core</p>
+      <div class="article-meta">
+        <span>📅 2026-03-17</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 94</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Oxyde는 Django ORM의 우아함에서 영감을 받아 Pydantic v2와 완전히 통합된 타입 안전 비동기 ORM으로, Rust 코어로 고성능 SQL 생성 및 실행을 제공합니다. PostgreSQL, SQLite, MySQL을 지원하며 Django 스타일의 친숙한 API(Model.objects.filter())를 제공하면서도 명시성을 우선시합니다. 성능 벤치마크에서 PostgreSQL 기준 초당 1,475회 작업으로 Tortoise(888회), Django(736회)보다 우수하며, 트랜잭션, 마이그레이션, FastAPI 통합을 기본으로 지원합니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>고성능 벤치마크: PostgreSQL에서 초당 1,475회 작업으로 Tortoise(888회), Django(736회), SQLAlchemy(445회)를 크게 앞지르며, SQLite에서는 2,525회로 가장 높은 성능을 기록합니다. MySQL에서도 1,239회로 경쟁 ORM들을 압도합니다.</li><li>Pydantic v2 완전 통합: Pydantic 모델을 기반으로 하여 자동 검증, 타입 힌트, 직렬화를 모두 지원하며, 개발자는 단일 모델 정의로 ORM과 API 스키마를 동시에 관리할 수 있습니다.</li><li>Django 스타일 API: Model.objects.filter(), makemigrations, migrate 등 Django 사용자들이 즉시 익숙해질 수 있는 API를 제공하면서도 Rust 코어로 성능을 확보합니다.</li><li>비동기 우선 설계: asyncio 기반으로 완전히 설계되어 현대적인 Python 비동기 애플리케이션과 완벽하게 통합되며, FastAPI의 lifespan 매개변수로 자동 초기화/종료가 가능합니다.</li><li>트랜잭션 지원: transaction.atomic() 컨텍스트 매니저로 자동 커밋/롤백을 처리하며, 세이브포인트도 지원하여 복잡한 데이터베이스 작업의 안정성을 보장합니다.</li><li>다중 데이터베이스 지원: PostgreSQL 12+, SQLite 3.35+, MySQL 8.0+를 지원하며, 각 데이터베이스별 고유 기능(PostgreSQL의 RETURNING/UPSERT, SQLite의 WAL 모드, MySQL의 FOR UPDATE/SHARE)을 활용합니다.</li><li>자동 관리자 패널: Oxyde Admin 라이브러리로 보일러플레이트 없이 자동 생성된 CRUD 인터페이스, 검색, 필터, 내보내기 기능을 FastAPI, Litestar, Sanic 등 주요 프레임워크에서 즉시 사용할 수 있습니다.</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>Django 개발자들이 빠르게 학습할 수 있으면서도 Rust의 성능 이점을 누릴 수 있으며, 현대적인 Python 비동기 생태계에서 타입 안전성과 성능을 동시에 확보하려는 프로젝트에 강력한 선택지를 제공합니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Oxyde ORM — 현대적이고 빠른 Python ORM</h2>
+<p>Oxyde는 타입 안전성과 Pydantic을 중심으로 설계된 비동기 ORM입니다. 고성능 Rust 코어로 구동되며, 명확성과 속도, 안정성을 모두 갖추고 있어요.</p>
+<p>Django ORM의 우아함에서 영감을 받아 만들어졌는데요, &quot;마법 같은&quot; 기능보다는 명시적인 코드를 선호합니다. 현대적인 개발 경험과 예측 가능한 동작, 그리고 강력한 타입 안전성을 제공하죠.</p>
+<p><strong>⚠️ 주의:</strong> Oxyde는 아직 개발 중인 프로젝트입니다. 마이너 버전 간에 API가 변경될 수 있으니 참고하세요. 피드백이나 버그 리포트, 아이디어는 언제든 환영합니다!</p>
+<h3>주요 기능</h3>
+<ul>
+<li><strong>Django 스타일 API</strong> — 익숙한 <code>Model.objects.filter()</code> 문법</li>
+<li><strong>Pydantic v2 모델</strong> — 완벽한 유효성 검사, 타입 힌트, 직렬화</li>
+<li><strong>Async 우선</strong> — 현대적인 asyncio 기반 Python을 위해 설계됨</li>
+<li><strong>Rust 성능</strong> — SQL 생성과 실행을 네이티브 Rust로 처리</li>
+<li><strong>다중 데이터베이스 지원</strong> — PostgreSQL, SQLite, MySQL</li>
+<li><strong>트랜잭션</strong> — <code>transaction.atomic()</code> 컨텍스트 매니저와 세이브포인트</li>
+<li><strong>마이그레이션</strong> — Django 스타일의 <code>makemigrations</code>, <code>migrate</code> CLI</li>
+</ul>
+<h3>성능 비교</h3>
+<p>인기 있는 Python ORM들과의 벤치마크 결과입니다 (평균 작업/초, 높을수록 좋음):</p>
+<div class="table-wrapper"><table><thead><tr><th>데이터베이스</th><th>Oxyde</th><th>Tortoise</th><th>Piccolo</th><th>Django</th><th>SQLAlchemy</th><th>SQLModel</th><th>Peewee</th></tr></thead><tbody><tr><td>PostgreSQL</td><td>1,475</td><td>888</td><td>932</td><td>736</td><td>445</td><td>431</td><td>80</td></tr><tr><td>MySQL</td><td>1,239</td><td>794</td><td>—</td><td>714</td><td>536</td><td>505</td><td>461</td></tr><tr><td>SQLite</td><td>2,525</td><td>1,882</td><td>469</td><td>1,294</td><td>588</td><td>567</td><td>548</td></tr></tbody></table></div>
+<p>상세 벤치마크: [문서 참고](https://oxyde.fatalyst.dev/)</p>
+<h3>설치</h3>
+<pre><code class="language-bash">pip install oxyde</code></pre>
+<h3>빠른 시작</h3>
+<h4>1단계: 프로젝트 초기화</h4>
+<pre><code class="language-bash">oxyde init</code></pre>
+<p><code>oxyde_config.py</code> 파일이 생성되어 데이터베이스 설정과 모델 경로가 저장됩니다.</p>
+<h4>2단계: 모델 정의</h4>
+<pre><code class="language-python"># models.py
+from oxyde import Model, Field
+
+class User(Model):
+    id: int | None = Field(default=None, db_pk=True)
+    name: str
+    email: str = Field(db_unique=True)
+    age: int | None = Field(default=None)
+
+    class Meta:
+        is_table = True</code></pre>
+<h4>3단계: 테이블 생성</h4>
+<pre><code class="language-bash">oxyde makemigrations
+oxyde migrate</code></pre>
+<h4>4단계: 사용하기</h4>
+<pre><code class="language-python">import asyncio
+from oxyde import db
+from models import User
+
+async def main():
+    await db.init(default=&quot;sqlite:///app.db&quot;)
+    
+    # 생성
+    user = await User.objects.create(name=&quot;Alice&quot;, email=&quot;alice@example.com&quot;, age=30)
+    
+    # 조회
+    users = await User.objects.filter(age__gte=18).all()
+    user = await User.objects.get(id=1)
+    
+    # 수정
+    user.age = 31
+    await user.save()
+    
+    # 삭제
+    await user.delete()
+    
+    await db.close()
+
+asyncio.run(main())</code></pre>
+<h3>트랜잭션 관리</h3>
+<pre><code class="language-python">from oxyde.db import transaction
+
+async with transaction.atomic():
+    user = await User.objects.create(name=&quot;Alice&quot;, email=&quot;alice@example.com&quot;)
+    await Profile.objects.create(user_id=user.id)
+    # 성공하면 자동 커밋, 예외 발생 시 롤백됨</code></pre>
+<h3>FastAPI와의 통합</h3>
+<pre><code class="language-python">from fastapi import FastAPI
+from oxyde import db
+
+app = FastAPI(
+    lifespan=db.lifespan(
+        default=&quot;postgresql://localhost/mydb&quot;,
+    )
+)
+
+@app.get(&quot;/users&quot;)
+async def get_users():
+    return await User.objects.filter(is_active=True).all()</code></pre>
+<h3>지원하는 데이터베이스</h3>
+<div class="table-wrapper"><table><thead><tr><th>데이터베이스</th><th>최소 버전</th><th>상태</th><th>특징</th></tr></thead><tbody><tr><td>PostgreSQL</td><td>12+</td><td>완전 지원</td><td>RETURNING, UPSERT, FOR UPDATE/SHARE, JSON, Arrays</td></tr><tr><td>SQLite</td><td>3.35+</td><td>완전 지원</td><td>RETURNING, UPSERT, WAL 모드 기본 활성화</td></tr><tr><td>MySQL</td><td>8.0+</td><td>완전 지원</td><td>ON DUPLICATE KEY를 통한 UPSERT</td></tr></tbody></table></div>
+<h4>연결 URL 형식</h4>
+<pre><code>postgresql://user:password@localhost:5432/database
+sqlite:///path/to/database.db
+sqlite:///:memory:
+mysql://user:password@localhost:3306/database</code></pre>
+<h3>에코시스템</h3>
+<h4>Oxyde Admin</h4>
+<p>Oxyde ORM을 위한 자동 생성 관리자 패널입니다. 보일러플레이트 코드 없이 바로 사용할 수 있어요.</p>
+<ul>
+<li>자동 CRUD, 검색, 필터, 내보내기 기능</li>
+<li>FastAPI, Litestar, Sanic, Quart, Falcon 지원</li>
+<li>테마 커스터마이징, 인증, 일괄 작업</li>
+</ul>
+<pre><code class="language-bash">pip install oxyde-admin</code></pre>
+<p>[GitHub →](https://github.com/fatalyst/oxyde-admin)</p>
+<h3>더 알아보기</h3>
+<ul>
+<li><strong>전체 문서:</strong> https://oxyde.fatalyst.dev/</li>
+<li><strong>빠른 시작 가이드</strong> — 기본 사용법</li>
+<li><strong>사용자 가이드</strong> — 모델, 쿼리, 관계, 트랜잭션</li>
+<li><strong>치트시트</strong> — 모든 메서드 빠른 참고</li>
+</ul>
+<h3>기여하기</h3>
+<p>제안이 있거나 버그를 발견하셨다면 GitHub에서 이슈를 열거나 풀 리퀘스트를 보내주세요.</p>
+<h3>라이선스</h3>
+<p>MIT 라이선스로 배포됩니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://github.com/mr-fatalyst/oxyde" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-17%20Oxyde%20%E2%80%93%20Pydantic%20%EA%B8%B0%EB%B0%98%20Rust%20%EC%BD%94%EC%96%B4%EC%9D%98%20%EB%B9%84%EB%8F%99%EA%B8%B0%20ORM&labels=feedback%2Cliked&body=**Article**%3A%20Oxyde%20%E2%80%93%20Pydantic%20%EA%B8%B0%EB%B0%98%20Rust%20%EC%BD%94%EC%96%B4%EC%9D%98%20%EB%B9%84%EB%8F%99%EA%B8%B0%20ORM%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Fmr-fatalyst%2Foxyde%0A**Date**%3A%202026-03-17%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
