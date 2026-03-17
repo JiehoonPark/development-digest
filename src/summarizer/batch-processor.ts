@@ -1,12 +1,13 @@
 import type { ScoredItem } from "../prioritizer/scoring.js";
 import { askClaude, parseJsonResponse } from "./claude-summarizer.js";
 import { buildFilterInput, buildSummarizeInput, buildEditorialInput } from "./prompt-builder.js";
-import { FILTER_PROMPT, SUMMARIZE_PROMPT, EDITORIAL_PROMPT } from "../../config/prompts.js";
+import { FILTER_PROMPT, SUMMARIZE_PROMPT, SUMMARIZE_BRIEF_PROMPT, EDITORIAL_PROMPT } from "../../config/prompts.js";
 import { createChildLogger } from "../utils/logger.js";
 
 const log = createChildLogger("batch-processor");
 
 const SUMMARIZE_BATCH_SIZE = 8;
+const DEEP_RELEVANCE_THRESHOLD = 80;
 
 export interface DigestSection {
   category: "hot" | "tech" | "insight" | "video";
@@ -23,6 +24,10 @@ export interface DigestItem {
   whyItMatters?: string;
   engagement?: number;
   contentType: string;
+  labels?: string[];
+  topicId?: string;
+  isTopicPrimary?: boolean;
+  relatedCount?: number;
 }
 
 export interface DigestResult {
@@ -30,93 +35,71 @@ export interface DigestResult {
   sections: DigestSection[];
 }
 
+interface ClassifiedItem extends ScoredItem {
+  aiCategory: DigestSection["category"];
+  labels: string[];
+  relevance: number;
+  topicId?: string;
+  isTopicPrimary?: boolean;
+}
+
 export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> {
-  // Step 1: 필터 + 분류
-  log.info("Step 1: 필터링 및 분류");
+  // Step 1: 분류 + 라벨 + 토픽 클러스터링
+  log.info("Step 1: 분류, 라벨 부여, 토픽 클러스터링");
   const filterInput = buildFilterInput(items);
   const filterRaw = await askClaude(FILTER_PROMPT, filterInput);
-  const filtered = parseJsonResponse<Array<{ index: number; category: string; relevance: number }>>(filterRaw);
-
-  const MIN_ITEMS = 10;
-  const sorted = [...filtered].sort((a, b) => b.relevance - a.relevance);
-  const cutoff = sorted.length >= MIN_ITEMS
-    ? Math.min(60, sorted[MIN_ITEMS - 1]?.relevance ?? 0)
-    : 0;
-
-  const relevantItems = sorted
-    .filter((f) => f.relevance >= cutoff)
-    .map((f) => ({
-      ...items[f.index],
-      aiCategory: f.category as DigestSection["category"],
-    }));
-
-  log.info({ filtered: relevantItems.length, cutoff }, "필터링 완료");
-
-  // Step 2: 요약 (배치 분할 — 본문 포함 시 토큰이 크므로)
-  log.info("Step 2: 요약 생성");
-
-  const allSummaries: Array<{
+  const classified = parseJsonResponse<Array<{
     index: number;
-    titleKo?: string;
-    summary: string;
-    keyPoints?: string[];
-    whyItMatters?: string;
-  }> = [];
+    category: string;
+    labels?: string[];
+    relevance: number;
+    topicId?: string | null;
+    isTopicPrimary?: boolean;
+  }>>(filterRaw);
 
-  for (let batchStart = 0; batchStart < relevantItems.length; batchStart += SUMMARIZE_BATCH_SIZE) {
-    const batch = relevantItems.slice(batchStart, batchStart + SUMMARIZE_BATCH_SIZE);
-    const batchInput = buildSummarizeInput(
-      batch.map((item, localIdx) => ({
-        index: batchStart + localIdx,
-        title: item.title,
-        url: item.url,
-        summary: item.summary,
-        fullContent: item.fullContent,
-        contentType: item.contentType,
-      }))
-    );
+  const classifyMap = new Map(classified.map((c) => [c.index, c]));
 
-    log.info(
-      { batch: `${batchStart + 1}-${batchStart + batch.length}`, inputLength: batchInput.length },
-      "배치 요약 요청"
-    );
-
-    try {
-      const raw = await askClaude(SUMMARIZE_PROMPT, batchInput, undefined, 8192);
-      const parsed = parseJsonResponse<Array<{
-        index: number;
-        titleKo?: string;
-        summary: string;
-        keyPoints?: string[];
-        whyItMatters?: string;
-      }>>(raw);
-
-      allSummaries.push(...parsed);
-    } catch (err) {
-      log.warn(
-        { batch: `${batchStart + 1}-${batchStart + batch.length}`, error: (err as Error).message },
-        "배치 요약 실패 — 해당 배치 건너뜀"
-      );
+  // 토픽별 카운트 계산
+  const topicCounts = new Map<string, number>();
+  for (const c of classified) {
+    if (c.topicId) {
+      topicCounts.set(c.topicId, (topicCounts.get(c.topicId) ?? 0) + 1);
     }
   }
 
-  const summaryMap = new Map(
-    allSummaries.map((s) => [s.index, s])
-  );
+  const relevantItems: ClassifiedItem[] = items
+    .map((item, i) => {
+      const cls = classifyMap.get(i);
+      return {
+        ...item,
+        aiCategory: (cls?.category ?? "insight") as DigestSection["category"],
+        labels: cls?.labels ?? ["general"],
+        relevance: cls?.relevance ?? 50,
+        topicId: cls?.topicId ?? undefined,
+        isTopicPrimary: cls?.isTopicPrimary ?? true,
+      };
+    })
+    .sort((a, b) => b.relevance - a.relevance);
+
+  log.info({ total: relevantItems.length }, "분류 완료");
+
+  // Step 2: 요약 (relevance 기반 깊이 차등)
+  log.info("Step 2: 요약 생성 (심층/간략 차등)");
+
+  const deepItems = relevantItems.filter((item) => item.relevance >= DEEP_RELEVANCE_THRESHOLD);
+  const briefItems = relevantItems.filter((item) => item.relevance < DEEP_RELEVANCE_THRESHOLD);
+
+  log.info({ deep: deepItems.length, brief: briefItems.length }, "요약 티어 분리");
+
+  const allSummaries = [
+    ...(await summarizeTier(relevantItems, deepItems, SUMMARIZE_PROMPT, 16384, "심층")),
+    ...(await summarizeTier(relevantItems, briefItems, SUMMARIZE_BRIEF_PROMPT, 8192, "간략")),
+  ];
+
+  const summaryMap = new Map(allSummaries.map((s) => [s.index, s]));
 
   // 섹션별 그룹화
-  const sections: Record<string, Array<{
-    index: number;
-    title: string;
-    titleKo?: string;
-    summary: string;
-    keyPoints: string[];
-    whyItMatters?: string;
-    url: string;
-    sourceName: string;
-    engagement?: number;
-    contentType: string;
-  }>> = {
+  const sections: Record<string, DigestItem[]> = {
     hot: [],
     tech: [],
     insight: [],
@@ -126,23 +109,24 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
   for (let i = 0; i < relevantItems.length; i++) {
     const item = relevantItems[i];
     const summaryEntry = summaryMap.get(i);
-    const summary = summaryEntry?.summary ?? item.summary ?? "";
-    const keyPoints = summaryEntry?.keyPoints ?? [];
-    const whyItMatters = summaryEntry?.whyItMatters;
-    const titleKo = summaryEntry?.titleKo;
     const cat = item.aiCategory;
+    const relatedCount = item.topicId ? (topicCounts.get(item.topicId) ?? 1) - 1 : 0;
+
     if (sections[cat]) {
       sections[cat].push({
-        index: i,
         title: item.title,
-        titleKo,
-        summary,
-        keyPoints,
-        whyItMatters,
+        titleKo: summaryEntry?.titleKo,
+        summary: summaryEntry?.summary ?? item.summary ?? "",
+        keyPoints: summaryEntry?.keyPoints ?? [],
+        whyItMatters: summaryEntry?.whyItMatters,
         url: item.url,
         sourceName: item.sourceName,
         engagement: item.engagement,
         contentType: item.contentType,
+        labels: item.labels,
+        topicId: item.topicId,
+        isTopicPrimary: item.isTopicPrimary,
+        relatedCount: relatedCount > 0 ? relatedCount : undefined,
       });
     }
   }
@@ -153,7 +137,7 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
     Object.fromEntries(
       Object.entries(sections).map(([key, items]) => [
         key,
-        items.map((item) => ({ index: item.index, title: item.title, summary: item.summary })),
+        items.map((item, idx) => ({ index: idx, title: item.title, summary: item.summary })),
       ])
     )
   );
@@ -189,17 +173,7 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
 
     finalSections.push({
       category: cat,
-      items: ordered.map((item) => ({
-        title: item.title,
-        titleKo: item.titleKo,
-        url: item.url,
-        sourceName: item.sourceName,
-        summary: item.summary,
-        keyPoints: item.keyPoints,
-        whyItMatters: item.whyItMatters,
-        engagement: item.engagement,
-        contentType: item.contentType,
-      })),
+      items: ordered,
     });
   }
 
@@ -212,4 +186,78 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
     intro: editorial.intro,
     sections: finalSections,
   };
+}
+
+async function summarizeTier(
+  allItems: ClassifiedItem[],
+  tierItems: ClassifiedItem[],
+  prompt: string,
+  maxTokens: number,
+  tierLabel: string
+): Promise<Array<{
+  index: number;
+  titleKo?: string;
+  summary: string;
+  keyPoints?: string[];
+  whyItMatters?: string;
+}>> {
+  const results: Array<{
+    index: number;
+    titleKo?: string;
+    summary: string;
+    keyPoints?: string[];
+    whyItMatters?: string;
+  }> = [];
+
+  if (tierItems.length === 0) return results;
+
+  // 원래 인덱스 매핑 (relevantItems 배열 내 위치)
+  const originalIndices = tierItems.map((item) => allItems.indexOf(item));
+
+  for (let batchStart = 0; batchStart < tierItems.length; batchStart += SUMMARIZE_BATCH_SIZE) {
+    const batch = tierItems.slice(batchStart, batchStart + SUMMARIZE_BATCH_SIZE);
+    const batchOriginalIndices = originalIndices.slice(batchStart, batchStart + SUMMARIZE_BATCH_SIZE);
+
+    const batchInput = buildSummarizeInput(
+      batch.map((item, localIdx) => ({
+        index: localIdx,
+        title: item.title,
+        url: item.url,
+        summary: item.summary,
+        fullContent: item.fullContent,
+        contentType: item.contentType,
+      }))
+    );
+
+    log.info(
+      { tier: tierLabel, batch: `${batchStart + 1}-${batchStart + batch.length}`, inputLength: batchInput.length },
+      "배치 요약 요청"
+    );
+
+    try {
+      const raw = await askClaude(prompt, batchInput, undefined, maxTokens);
+      const parsed = parseJsonResponse<Array<{
+        index: number;
+        titleKo?: string;
+        summary: string;
+        keyPoints?: string[];
+        whyItMatters?: string;
+      }>>(raw);
+
+      // 로컬 인덱스 → 원래 인덱스로 변환
+      for (const entry of parsed) {
+        const originalIndex = batchOriginalIndices[entry.index];
+        if (originalIndex !== undefined) {
+          results.push({ ...entry, index: originalIndex });
+        }
+      }
+    } catch (err) {
+      log.warn(
+        { tier: tierLabel, batch: `${batchStart + 1}-${batchStart + batch.length}`, error: (err as Error).message },
+        "배치 요약 실패 — 해당 배치 건너뜀"
+      );
+    }
+  }
+
+  return results;
 }

@@ -80,7 +80,7 @@ export function generateSite(newArchive?: ArchiveData): void {
 
 function copyStaticFiles(): void {
   const staticDir = join(__dirname, "static");
-  const files = ["style.css", "search.js"];
+  const files = ["style.css", "search.js", "label-filter.js"];
 
   for (const file of files) {
     const src = join(staticDir, file);

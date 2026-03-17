@@ -349,6 +349,71 @@ a:hover { text-decoration: underline; }
   color: var(--color-text-muted);
 }
 
+/* Label Filters */
+.label-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 16px 0 24px 0;
+}
+.label-filter {
+  padding: 5px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  transition: all 0.2s;
+}
+.label-filter:hover {
+  background: #f0f4ff;
+}
+.label-filter.active {
+  background: var(--color-accent);
+  color: #fff;
+  border-color: var(--color-accent);
+}
+
+/* Label Badges (web) */
+.badge-label {
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  color: #fff;
+}
+.badge-label-frontend { background: #4a90d9; }
+.badge-label-backend { background: #e67e22; }
+.badge-label-typescript { background: #3178c6; }
+.badge-label-devops { background: #27ae60; }
+.badge-label-ai { background: #8e44ad; }
+.badge-label-career { background: #e74c3c; }
+.badge-label-general { background: #95a5a6; }
+
+/* Cluster (related items) */
+.badge-cluster {
+  background: #2ecc71;
+  color: #fff;
+  font-size: 10px;
+  padding: 1px 6px;
+  border-radius: 3px;
+}
+.cluster-related {
+  margin-left: 24px;
+  border-left-color: #2ecc71;
+  opacity: 0.85;
+}
+
+/* Feedback */
+.feedback-link {
+  color: #27ae60;
+  font-size: 13px;
+  text-decoration: none;
+  margin-left: 12px;
+}
+.feedback-link:hover {
+  text-decoration: underline;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
   .site-header h1 { font-size: 22px; }

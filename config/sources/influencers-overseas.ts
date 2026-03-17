@@ -102,6 +102,25 @@ export const influencersOverseas: Source[] = [
     weight: 6,
     language: "en",
   },
+  // 유튜버 블로그 (RSS 확인됨)
+  {
+    id: "blog-webdevsimplified",
+    name: "Web Dev Simplified Blog",
+    type: "rss",
+    category: "influencer-overseas",
+    url: "https://blog.webdevsimplified.com/rss.xml",
+    weight: 7,
+    language: "en",
+  },
+  {
+    id: "blog-james-q-quick",
+    name: "James Q Quick",
+    type: "rss",
+    category: "influencer-overseas",
+    url: "https://jamesqquick.com/rss.xml",
+    weight: 6,
+    language: "en",
+  },
   // 블로그 인플루언서
   {
     id: "blog-dan-abramov",

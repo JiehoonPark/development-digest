@@ -25,13 +25,23 @@ export function renderDailyDigestPage(archive: ArchiveData, baseUrl: string): st
 
   const content = `
     <div class="breadcrumb"><a href="${baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`}">홈</a> &gt; ${archive.date}</div>
-    <h2 style="font-size: 22px; margin-bottom: 4px;">📬 Dev Digest — ${archive.date}</h2>
+    <h2 style="font-size: 22px; margin-bottom: 4px;">📬 FE 데일리 리포트 — ${archive.date}</h2>
     <p style="font-size: 13px; color: #999; margin-bottom: 0;">${totalItems}개 아티클</p>
     <div class="daily-intro">${escapeHtml(archive.intro)}</div>
+    <div class="label-filters">
+      <button class="label-filter active" data-label="all">전체</button>
+      <button class="label-filter" data-label="frontend">frontend</button>
+      <button class="label-filter" data-label="backend">backend</button>
+      <button class="label-filter" data-label="typescript">typescript</button>
+      <button class="label-filter" data-label="devops">devops</button>
+      <button class="label-filter" data-label="ai">ai</button>
+      <button class="label-filter" data-label="career">career</button>
+      <button class="label-filter" data-label="general">general</button>
+    </div>
     ${sectionsHtml}`;
 
   return renderLayout({
-    title: `Dev Digest — ${archive.date}`,
+    title: `FE 데일리 리포트 — ${archive.date}`,
     content,
     baseUrl,
   });
@@ -46,6 +56,16 @@ function renderArticleCard(item: ArchiveItem, baseUrl: string, datePath: string)
     ? `<span class="badge badge-video">▶ Video</span>`
     : "";
 
+  const labelBadges = (item.labels ?? [])
+    .map((l) => `<span class="badge badge-label badge-label-${l}">${escapeHtml(l)}</span>`)
+    .join("");
+
+  const clusterBadge = item.relatedCount
+    ? `<span class="badge badge-cluster">관련 ${item.relatedCount}건</span>`
+    : "";
+
+  const clusterClass = item.topicId && !item.isTopicPrimary ? " cluster-related" : "";
+
   const keyPointsHtml = item.keyPoints?.length
     ? `<ul class="key-points">${item.keyPoints.map((kp) => `<li>${escapeHtml(kp)}</li>`).join("")}</ul>`
     : "";
@@ -58,9 +78,9 @@ function renderArticleCard(item: ArchiveItem, baseUrl: string, datePath: string)
   const displayTitle = item.titleKo ?? item.title;
 
   return `
-    <div class="article-card">
+    <div class="article-card${clusterClass}" data-labels="${(item.labels ?? []).join(",")}" data-topic="${item.topicId ?? ""}">
       <h3><a href="${escapeHtml(item.url)}">${escapeHtml(displayTitle)}</a></h3>
-      ${engagementBadge}${videoBadge}
+      ${engagementBadge}${videoBadge}${labelBadges}${clusterBadge}
       <p class="summary">${escapeHtml(item.summary)}</p>
       ${keyPointsHtml}
       ${whyHtml}

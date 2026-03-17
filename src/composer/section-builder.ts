@@ -37,6 +37,22 @@ function buildItemHtml(item: DigestItem, siteBaseUrl?: string, dateStr?: string)
       ? `<span style="display: inline-block; background: #ff0000; color: white; font-size: 11px; padding: 2px 6px; border-radius: 3px; margin-left: 4px;">▶ Video</span>`
       : "";
 
+  const labelColors: Record<string, string> = {
+    frontend: "#4a90d9",
+    backend: "#e67e22",
+    typescript: "#3178c6",
+    devops: "#27ae60",
+    ai: "#8e44ad",
+    career: "#e74c3c",
+    general: "#95a5a6",
+  };
+  const labelBadges = (item.labels ?? [])
+    .map((label) => {
+      const color = labelColors[label] ?? "#95a5a6";
+      return `<span style="display: inline-block; background: ${color}; color: white; font-size: 10px; padding: 1px 5px; border-radius: 3px; margin-left: 3px;">${escapeHtml(label)}</span>`;
+    })
+    .join("");
+
   const keyPointsHtml =
     item.keyPoints && item.keyPoints.length > 0
       ? `<ul style="margin: 10px 0 6px 0; padding-left: 20px; color: #444; font-size: 13px; line-height: 1.8;">
@@ -55,7 +71,7 @@ function buildItemHtml(item: DigestItem, siteBaseUrl?: string, dateStr?: string)
       <a href="${item.url}" style="font-size: 16px; color: #1a1a2e; text-decoration: none; font-weight: 600; line-height: 1.4;">
         ${escapeHtml(item.titleKo ?? item.title)}
       </a>
-      ${engagementBadge}${typeBadge}
+      ${engagementBadge}${typeBadge}${labelBadges}${item.relatedCount ? `<span style="display: inline-block; background: #2ecc71; color: white; font-size: 10px; padding: 1px 5px; border-radius: 3px; margin-left: 3px;">관련 ${item.relatedCount}건</span>` : ""}
       <p style="font-size: 14px; color: #555; margin: 8px 0 4px 0; line-height: 1.6;">
         ${escapeHtml(item.summary)}
       </p>
@@ -63,6 +79,7 @@ function buildItemHtml(item: DigestItem, siteBaseUrl?: string, dateStr?: string)
       ${whyItMattersHtml}
       <span style="font-size: 12px; color: #999;">via ${escapeHtml(item.sourceName)}</span>
       ${buildDetailLink(item.title, siteBaseUrl, dateStr)}
+      ${buildFeedbackLink(item, dateStr)}
     </div>
   `;
 }
@@ -75,6 +92,16 @@ function buildDetailLink(title: string, siteBaseUrl?: string, dateStr?: string):
   const base = siteBaseUrl.endsWith("/") ? siteBaseUrl : `${siteBaseUrl}/`;
   const url = `${base}${year}/${month}/${day}/${slug}.html`;
   return `<a href="${url}" style="display: inline-block; font-size: 12px; color: #4a90d9; margin-left: 8px;">📖 자세히 보기</a>`;
+}
+
+function buildFeedbackLink(item: DigestItem, dateStr?: string): string {
+  const repo = process.env.FEEDBACK_REPO ?? "JiehoonPark/development-digest";
+  const date = dateStr ?? formatISODate();
+  const slug = generateSlug(item.title);
+  const title = encodeURIComponent(`👍 ${date} ${(item.titleKo ?? item.title).slice(0, 50)}`);
+  const labels = encodeURIComponent("feedback,liked");
+  const body = encodeURIComponent(`**Article**: ${item.titleKo ?? item.title}\n**URL**: ${item.url}\n**Date**: ${date}\n**Source**: ${item.sourceName}`);
+  return `<a href="https://github.com/${repo}/issues/new?title=${title}&labels=${labels}&body=${body}" style="font-size: 12px; color: #27ae60; text-decoration: none; margin-left: 8px;">👍 유용해요</a>`;
 }
 
 function formatEngagement(n: number): string {

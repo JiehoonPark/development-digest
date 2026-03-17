@@ -48,9 +48,14 @@ export async function runPipeline(): Promise<void> {
     });
 
     // 2. 수집
-    const allItems = await runStep("수집", async () => {
+    const { allItems, healthWarnings } = await runStep("수집", async () => {
       const results = await collectAll();
-      return results.flatMap((r) => r.items);
+      const items = results.flatMap((r) => r.items);
+      const warnings = checkSourceHealth(results);
+      if (warnings.length > 0) {
+        log.warn({ warnings }, "소스 헬스 경고");
+      }
+      return { allItems: items, healthWarnings: warnings };
     });
 
     if (allItems.length === 0) {
@@ -80,7 +85,7 @@ export async function runPipeline(): Promise<void> {
 
     // 6. HTML 구성
     const html = await runStep("뉴스레터 구성", async () => {
-      return composeNewsletter(digest);
+      return composeNewsletter(digest, { healthWarnings });
     });
 
     // 7. 발송 또는 로컬 저장
@@ -169,6 +174,12 @@ async function collectAll(): Promise<CollectorResult[]> {
   log.info({ totalItems, failedSources, totalSources: allSources.length }, "전체 수집 완료");
 
   return results;
+}
+
+function checkSourceHealth(results: CollectorResult[]): string[] {
+  return results
+    .filter((r) => r.items.length === 0 && !r.error)
+    .map((r) => `${r.sourceId} (0건)`);
 }
 
 function groupByType(sources: typeof allSources): Record<string, typeof allSources> {

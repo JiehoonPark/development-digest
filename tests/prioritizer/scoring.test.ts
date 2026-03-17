@@ -57,4 +57,35 @@ describe("calculateScore", () => {
     );
     expect(popular).toBeGreaterThan(unpopular);
   });
+
+  it("월요일: 56시간 전 콘텐츠도 최신성 점수를 받는다", () => {
+    // 월요일 오전 8시
+    const monday = new Date("2026-03-16T08:00:00+09:00"); // 월요일
+    const saturdayContent = new Date(monday.getTime() - 56 * 60 * 60 * 1000);
+
+    const mondayScore = calculateScore(
+      createItem({ publishedAt: saturdayContent.toISOString() }),
+      monday
+    );
+    // 같은 콘텐츠를 화요일에 평가하면 0점
+    const tuesday = new Date("2026-03-17T08:00:00+09:00");
+    const tuesdayScore = calculateScore(
+      createItem({ publishedAt: saturdayContent.toISOString() }),
+      tuesday
+    );
+    expect(mondayScore).toBeGreaterThan(tuesdayScore);
+  });
+
+  it("월요일: 32시간 전 일요일 콘텐츠가 높은 최신성 점수를 받는다", () => {
+    const monday = new Date("2026-03-16T08:00:00+09:00");
+    const sundayContent = new Date(monday.getTime() - 32 * 60 * 60 * 1000);
+
+    const score = calculateScore(
+      createItem({ publishedAt: sundayContent.toISOString() }),
+      monday
+    );
+    // 32시간 < 36시간(12+24), 15점 이상 받아야 함
+    // 기본 소스 점수 + 최신성 15점 이상
+    expect(score).toBeGreaterThan(30);
+  });
 });

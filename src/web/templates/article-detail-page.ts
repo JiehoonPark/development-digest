@@ -58,11 +58,12 @@ export function renderArticleDetailPage(
 
       <div class="original-link">
         <a href="${escapeHtml(item.url)}" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/${process.env.FEEDBACK_REPO ?? "JiehoonPark/development-digest"}/issues/new?title=${encodeURIComponent(`👍 ${date} ${escapeHtml(displayTitle).slice(0, 50)}`)}&labels=${encodeURIComponent("feedback,liked")}&body=${encodeURIComponent(`**Article**: ${displayTitle}\n**URL**: ${item.url}\n**Date**: ${date}\n**Source**: ${item.sourceName}`)}" class="feedback-link">👍 유용해요</a>
       </div>
     </div>`;
 
   return renderLayout({
-    title: `${displayTitle} — Dev Digest`,
+    title: `${displayTitle} — FE 데일리 리포트`,
     content,
     baseUrl,
   });

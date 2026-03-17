@@ -6,7 +6,7 @@ import { createChildLogger } from "../utils/logger.js";
 
 const log = createChildLogger("content-enricher");
 
-const ENRICHMENT_LIMIT = 25;
+const ENRICHMENT_LIMIT = 40;
 const CONCURRENCY = 3;
 
 export async function enrichWithContent(items: ScoredItem[]): Promise<ScoredItem[]> {

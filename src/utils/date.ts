@@ -15,6 +15,6 @@ export function isWithinDays(dateStr: string, days: number): boolean {
   return isAfter(date, cutoff);
 }
 
-export function hoursAgo(date: Date): number {
-  return (Date.now() - date.getTime()) / (1000 * 60 * 60);
+export function hoursAgo(date: Date, now: Date = new Date()): number {
+  return (now.getTime() - date.getTime()) / (1000 * 60 * 60);
 }

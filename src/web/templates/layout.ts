@@ -19,7 +19,7 @@ export function renderLayout({ title, content, baseUrl }: LayoutOptions): string
 <body>
   <header class="site-header">
     <div class="container">
-      <h1><a href="${base}">📬 Dev Digest</a></h1>
+      <h1><a href="${base}">📬 FE 데일리 리포트</a></h1>
       <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
       <nav>
         <a href="${base}">홈</a>
@@ -34,12 +34,13 @@ export function renderLayout({ title, content, baseUrl }: LayoutOptions): string
 
   <footer class="site-footer">
     <div class="container">
-      <p>Dev Digest — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
       <p style="margin-top: 4px;">Powered by Claude AI</p>
     </div>
   </footer>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
   <script>hljs.highlightAll();</script>
+  <script src="${base}label-filter.js"></script>
 </body>
 </html>`;
 }
