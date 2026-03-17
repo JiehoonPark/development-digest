@@ -1,13 +1,13 @@
 import { execSync } from "child_process";
-import { readFileSync, unlinkSync, existsSync } from "fs";
-import { join } from "path";
+import { readFileSync, unlinkSync, existsSync, readdirSync } from "fs";
+import { join, basename } from "path";
 import { tmpdir } from "os";
 import { createChildLogger } from "../utils/logger.js";
 import type { ExtractionResult } from "./article-extractor.js";
 
 const log = createChildLogger("youtube-transcript");
 
-const MAX_TRANSCRIPT_LENGTH = 5000;
+const MAX_TRANSCRIPT_LENGTH = 15000;
 
 export async function extractYoutubeTranscript(url: string): Promise<ExtractionResult> {
   const videoId = parseVideoId(url);
@@ -23,12 +23,13 @@ export async function extractYoutubeTranscript(url: string): Promise<ExtractionR
   try {
     const content = extractWithYtDlp(videoId);
     if (content.length > 0) {
-      log.debug({ videoId, length: content.length }, "yt-dlp 자막 추출 성공");
+      log.info({ videoId, length: content.length }, "yt-dlp 자막 추출 성공");
       return { url, content, wordCount: content.split(/\s+/).length, status: "success" };
     }
+    log.warn({ videoId }, "yt-dlp: SRT 파일 없음 — 폴백");
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    log.debug({ videoId, error: message }, "yt-dlp 실패 — 라이브러리 폴백");
+    log.warn({ videoId, error: message }, "yt-dlp 실패 — 라이브러리 폴백");
   }
 
   // yt-dlp 실패 시 기존 라이브러리 폴백
@@ -37,41 +38,76 @@ export async function extractYoutubeTranscript(url: string): Promise<ExtractionR
 
 function extractWithYtDlp(videoId: string): string {
   const tmpFile = join(tmpdir(), `dev-digest-yt-${videoId}`);
-  const srtPath = `${tmpFile}.en.srt`;
-  const srtPathOrig = `${tmpFile}.en-orig.srt`;
+  const prefix = basename(tmpFile);
+  const dir = tmpdir();
 
   try {
-    // 자동 생성 자막 다운로드 (en-orig 우선, en 폴백)
+    // 자막 + 자동 생성 자막 모두 시도, 다국어 지원
     execSync(
-      `yt-dlp --write-auto-sub --sub-lang "en-orig,en" --sub-format srt --skip-download --output "${tmpFile}" "https://www.youtube.com/watch?v=${videoId}" 2>/dev/null`,
-      { timeout: 15000, stdio: "pipe" }
+      `yt-dlp --write-subs --write-auto-sub --sub-lang "en.*,en,ko.*,ko,ja.*,ja" --sub-format srt --skip-download --no-warnings --output "${tmpFile}" "https://www.youtube.com/watch?v=${videoId}"`,
+      { timeout: 30000, stdio: "pipe" }
     );
 
-    // SRT 파일 찾기
-    const actualPath = existsSync(srtPathOrig) ? srtPathOrig : existsSync(srtPath) ? srtPath : null;
-    if (!actualPath) return "";
+    // 다운로드된 SRT 파일을 패턴으로 찾기 (언어 코드가 다양할 수 있음)
+    const srtFiles = readdirSync(dir)
+      .filter((f) => f.startsWith(prefix) && f.endsWith(".srt"))
+      .map((f) => join(dir, f))
+      .sort((a, b) => {
+        // 수동 자막(orig 없는) 우선, 영어 우선
+        const aName = basename(a);
+        const bName = basename(b);
+        const aIsOrig = aName.includes("-orig");
+        const bIsOrig = bName.includes("-orig");
+        if (!aIsOrig && bIsOrig) return -1;
+        if (aIsOrig && !bIsOrig) return 1;
+        const aIsEn = aName.includes(".en");
+        const bIsEn = bName.includes(".en");
+        if (aIsEn && !bIsEn) return -1;
+        if (!aIsEn && bIsEn) return 1;
+        return 0;
+      });
 
-    const srt = readFileSync(actualPath, "utf-8");
+    if (srtFiles.length === 0) return "";
+
+    log.debug({ videoId, srtFiles: srtFiles.map(basename) }, "SRT 파일 발견");
+
+    const srt = readFileSync(srtFiles[0], "utf-8");
     return parseSrt(srt);
   } finally {
-    // 임시 파일 정리
-    for (const p of [srtPath, srtPathOrig]) {
-      try { if (existsSync(p)) unlinkSync(p); } catch {}
-    }
+    // 임시 SRT 파일 모두 정리
+    try {
+      const files = readdirSync(dir).filter(
+        (f) => f.startsWith(prefix) && f.endsWith(".srt")
+      );
+      for (const f of files) {
+        try { unlinkSync(join(dir, f)); } catch {}
+      }
+    } catch {}
   }
 }
 
 function parseSrt(srt: string): string {
-  return srt
-    .split("\n")
-    .filter((line) => {
-      const trimmed = line.trim();
-      if (!trimmed) return false;
-      if (/^\d+$/.test(trimmed)) return false;             // 시퀀스 번호
-      if (/^\d{2}:\d{2}/.test(trimmed)) return false;      // 타임스탬프
-      return true;
-    })
-    .map((line) => line.trim())
+  // HTML 태그 제거 (자동 자막에 <font> 등 포함)
+  const cleaned = srt.replace(/<[^>]+>/g, "");
+
+  const lines = cleaned.split("\n");
+  const textLines: string[] = [];
+  const seen = new Set<string>();
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+    if (/^\d+$/.test(trimmed)) continue;              // 시퀀스 번호
+    if (/^\d{2}:\d{2}/.test(trimmed)) continue;       // 타임스탬프
+
+    // 자동 자막 중복 라인 제거
+    if (!seen.has(trimmed)) {
+      seen.add(trimmed);
+      textLines.push(trimmed);
+    }
+  }
+
+  return textLines
     .join(" ")
     .replace(/\s{2,}/g, " ")
     .trim()
@@ -98,7 +134,7 @@ async function fallbackToLibrary(url: string, videoId: string): Promise<Extracti
 
     let segments: Array<{ text: string }> | null = null;
 
-    for (const lang of ["ko", "en", undefined]) {
+    for (const lang of ["en", "ko", undefined]) {
       try {
         segments = lang
           ? await YoutubeTranscript.fetchTranscript(videoId, { lang })
@@ -110,6 +146,7 @@ async function fallbackToLibrary(url: string, videoId: string): Promise<Extracti
     }
 
     if (!segments || segments.length === 0) {
+      log.warn({ videoId }, "폴백 라이브러리: 자막 없음");
       return { url, content: "", wordCount: 0, status: "failed", error: "No transcript available" };
     }
 
@@ -120,9 +157,11 @@ async function fallbackToLibrary(url: string, videoId: string): Promise<Extracti
       .replace(/\s{2,}/g, " ")
       .slice(0, MAX_TRANSCRIPT_LENGTH);
 
+    log.info({ videoId, length: content.length }, "폴백 라이브러리 자막 추출 성공");
     return { url, content, wordCount: content.split(/\s+/).length, status: "success" };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
+    log.warn({ videoId, error: message }, "폴백 라이브러리도 실패");
     return { url, content: "", wordCount: 0, status: "failed", error: message };
   }
 }
