@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>미적분을 이용한 정수론 문제 해결 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/18/">2026-03-18</a> &gt; 미적분을 이용한 정수론 문제 해결...
+      </div>
+
+      <h1>미적분을 이용한 정수론 문제 해결</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Using calculus to do number theory</p>
+      <div class="article-meta">
+        <span>📅 2026-03-18</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 104</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Kurt Hensel이 발견한 방법론으로, Newton의 미적분 근사 기법을 모듈러 산술의 다항식 방정식 해결에 적용합니다. 예를 들어 mod 3000 조건 하에서 다항식을 풀기 위해 중국인의 나머지 정리로 문제를 분해한 후, 더 작은 소수의 거듭제곱에 대해 Newton의 방법을 반복 적용합니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>중국인의 나머지 정리를 사용하여 mod 3000 문제를 mod 8, mod 3, mod 125로 분해하여 각각 풀이</li><li>Hensel의 기법: 작은 소인수의 해를 '근사'로 보고 Newton의 방법으로 더 큰 거듭제곱에 대한 해로 개선</li><li>이 아이디어는 현대 정수론의 Langlands 프로그램으로 발전</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>미적분과 정수론이라는 겉으로 무관해 보이는 분야가 어떻게 연결되는지 보여주며, 모듈러 산술 문제 해결의 강력한 기법을 제시합니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>칼큘러스와 정수론의 만남: Hensel의 lift 방법</h2>
+<p>칼큘러스는 연속량의 근사를 다루는 수학이고, 정수론은 이산량에 대한 정확한 문제를 다룹니다. 얼핏 보면 이 두 분야는 아무 관련이 없어 보이는데요. 그런데 쿠르트 헨셀이라는 수학자가 놀라운 발견을 했습니다. 칼큘러스의 아이디어를 활용하면 정수론 문제를 더 잘 이해할 수 있다는 겁니다.</p>
+<p>이 글에서는 헨셀의 훌륭한 발견을 설명하기 위해 합동식에서 다항식 방정식을 풀어볼 겁니다. 구체적으로는, 다음 조건을 만족하는 모든 정수 x를 찾아보겠습니다.</p>
+<p>$$x^3 - 17x^2 + 12x + 16 \equiv 0 \pmod{3000}$$</p>
+<p>합동식에서 다항식을 푸는 이런 문제가 좀 낯설어 보일 수도 있지만, 놀랍게도 현대 정수론의 Langlands 프로그램과 직결되는 주제입니다.</p>
+<h3>중국인의 나머지 정리로 문제를 나누기</h3>
+<p>먼저 3000을 소인수분해하면:</p>
+<p>$$3000 = 2^3 \times 3 \times 5^3$$</p>
+<p>중국인의 나머지 정리에 따르면, 다음 하나의 합동식을 푸는 것은</p>
+<p>$$x^3 -17x^2 + 12x + 16 \equiv 0 \pmod{3000}$$</p>
+<p>이 세 개의 합동식을 각각 푸는 것과 동치입니다:</p>
+<p>$$x^3 - 17x^2 + 12x + 16 \equiv 0\pmod{8}$$</p>
+<p>$$x^3 - 17x^2 + 12x + 16 \equiv 0\pmod{3}$$</p>
+<p>$$x^3 - 17x^2 + 12x + 16 \equiv 0\pmod{125}$$</p>
+<p>일견 문제가 더 복잡해진 것 같지만, 사실은 훨씬 단순해졌습니다. 예를 들어, mod 8을 풀려면 x = 0, 1, 2, 3, 4, 5, 6, 7 총 8개 값만 대입하면 됩니다.</p>
+<p>다항식을 mod 8로 정리하면:</p>
+<p>$$x^3 - x^2 + 4x \equiv 0\pmod{8}$$</p>
+<p>각 값을 대입해보면 해는 다음뿐입니다:</p>
+<p>$$x \equiv 0, 4 \pmod{8}$$</p>
+<p>마찬가지로 mod 3의 경우 x = 0, 1, 2를 시도해보면:</p>
+<p>$$x \equiv 1 \pmod{3}$$</p>
+<h3>mod 125는 어떻게 할까?</h3>
+<p>안타깝게도 mod 125를 풀려면 x = 0부터 x = 124까지 125개 값을 모두 대입해야 합니다. 이건 너무 오래 걸릴 것 같은데요. 더 빠른 방법이 있을까요?</p>
+<p>125 = 5³이라는 점에 주목해봅시다. 만약 x가 mod 125에서 해라면, 당연히 mod 5에서도 해여야 합니다. Mod 5는 훨씬 쉽습니다. x = 0, 1, 2, 3, 4를 대입하면:</p>
+<p>$$x \equiv 2 \pmod{5}$$</p>
+<p>이제 x = 2를 원래 다항식에 대입해보면:</p>
+<p>$$2^3 - 17 \cdot 2^2 + 12 \cdot 2 + 16 = -20$$</p>
+<p>흥미로운 점은 -20이 5로 나누어지지만, 125로는 나누어지지 않는다는 겁니다. 그런데 헨셀은 -20을 &quot;125 mod에서 거의 0에 가깝다&quot;고 생각했습니다. 왜냐하면 125 = 5³이고, -20은 최소한 5 한 번은 나누어지기 때문입니다.</p>
+<p>이 생각만으로는 별로 도움이 안 될 것 같은데, 헨셀이 그 다음에 한 행동이 정말 놀라웠습니다.</p>
+<h3>뉴턴 방법: 칼큘러스에서의 근사</h3>
+<p>이를 설명하기 전에 잠깐 칼큘러스의 핵심 아이디어를 상기해봅시다.</p>
+<p>뉴턴은 칼큘러스를 사용해 어떤 방정식의 근사해를 더 나은 근사해로 개선하는 방법을 보여줬습니다. 칼큘러스가 근사의 수학이니 당연하겠죠.</p>
+<p>함수 g(x)가 있고, g(4) = 0.1이라고 알고 있다고 합시다. 0.1은 꽤 작으니, g(x) = 0의 해가 x = 4 근처에 있을 거라고 추측할 수 있습니다.</p>
+<p>g(4 + ε) = 0을 만족하는 ε를 찾는다면, 뉴턴은 다음을 제시했습니다:</p>
+<p>$$g(4 + \epsilon) \approx g(4) + g'(4) \cdot \epsilon$$</p>
+<p>g'(4) = 2라면:</p>
+<p>$$g(4 + \epsilon) \approx 0.1 + 2\epsilon$$</p>
+<p>따라서 g(4 + ε) = 0의 근사해는 ε = -0.05이고, x = 3.95는 x = 4보다 실제 해에 더 가깝습니다. 더 좋은 해를 원하면 x = 3.95에서 같은 과정을 반복하면 됩니다. 이렇게 뉴턴은 복잡한 방정식의 해를 매우 정확하게 찾을 수 있었습니다.</p>
+<h3>헨셀의 아이디어</h3>
+<p>이제 헨셀로 돌아갑시다. 우리는 다음을 알았습니다:</p>
+<p>$$x \equiv 2 \pmod{5}$$</p>
+<p>는 다음의 해입니다:</p>
+<p>$$x^3 - 17x^2 + 12x + 16 \equiv 0\pmod{5}$$</p>
+<p>$f(x) = x^3 - 17x^2 + 12x + 16$이라고 하면, f(2) = -20입니다. -20은 5로는 나누어지지만 125로는 나누어지지 않습니다.</p>
+<p>하지만 헨셀은 &quot;5로 나누어진다&quot;는 것이 &quot;125로 나누어진다&quot;는 것에 &quot;가깝다&quot;고 생각했습니다. 그래서 그는 뉴턴 방법을 적용하기로 결정했습니다. 마치 칼큘러스처럼, 2를 개선해서 f(x) ≡ 0 (mod 125)에 더 가까운 수를 찾으려는 거였죠.</p>
+<p>f(x) ≡ 0 (mod 125)를 만족하는 정수 x는 반드시 x ≡ 2 (mod 5)를 만족해야 합니다. 따라서 다음과 같이 쓸 수 있습니다:</p>
+<p>$$x = 2 + 5 \cdot n$$</p>
+<p>여기서 n은 어떤 정수입니다.</p>
+<p>헨셀이 발견한 놀라운 항등식이 있었습니다:</p>
+<p>$$f(2 + 5n) = f(2) + f'(2) \cdot 5n + \text{(5의 더 높은 거듭제곱을 포함한 항들)}$$</p>
+<p>이것은 정확히 뉴턴의 일차 근사 공식과 같은 형태입니다. 즉, 칼큘러스의 아이디어를 정수론에 직접 적용할 수 있다는 뜻입니다.</p>
+<p>이렇게 헨셀이 발견한 방법은 mod 5에서의 해를 mod 5²으로, 그 다음 mod 5³으로 점진적으로 &quot;들어올릴(lift)&quot; 수 있게 해줍니다. 이것이 바로 현대 정수론에서 강력한 도구가 된 Hensel's Lemma의 핵심 아이디어입니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://hidden-phenomena.com/articles/hensels" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-18%20%EB%AF%B8%EC%A0%81%EB%B6%84%EC%9D%84%20%EC%9D%B4%EC%9A%A9%ED%95%9C%20%EC%A0%95%EC%88%98%EB%A1%A0%20%EB%AC%B8%EC%A0%9C%20%ED%95%B4%EA%B2%B0&labels=feedback%2Cliked&body=**Article**%3A%20%EB%AF%B8%EC%A0%81%EB%B6%84%EC%9D%84%20%EC%9D%B4%EC%9A%A9%ED%95%9C%20%EC%A0%95%EC%88%98%EB%A1%A0%20%EB%AC%B8%EC%A0%9C%20%ED%95%B4%EA%B2%B0%0A**URL**%3A%20https%3A%2F%2Fhidden-phenomena.com%2Farticles%2Fhensels%0A**Date**%3A%202026-03-18%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

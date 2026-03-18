@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SSH는 Host 헤더가 없다 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/18/">2026-03-18</a> &gt; SSH는 Host 헤더가 없다...
+      </div>
+
+      <h1>SSH는 Host 헤더가 없다</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">SSH has no Host header</p>
+      <div class="article-meta">
+        <span>📅 2026-03-18</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 147</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>exe.dev는 여러 VM이 동일한 IPv4 주소를 공유해야 하는 상황에서 SSH 연결을 올바른 VM으로 라우팅하는 문제를 해결했다. HTTP의 Host 헤더와 달리 SSH에는 이러한 메커니즘이 없어, 공개 키와 IP 주소의 조합으로 사용자를 식별하는 방식을 구현했다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>SSH는 HTTP의 Host 헤더에 해당하는 기능이 없어 IPv4 주소 공유 시 라우팅 문제 발생</li><li>사용자별로 고유한 IP 주소를 할당하고 공개 키 + IP 튜플로 VM 식별하는 방식 도입</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>멀티테넌트 환경에서 SSH 접근성을 유지하면서 비용을 절감할 수 있는 인프라 설계 패턴을 제시한다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>SSH 주소 공유로 다중 VM 운영하기</h2>
+<p>exe.dev에서는 흥미로운 문제와 마주쳤습니다. 모든 VM을 같은 도메인 형식으로 접근하게 하되, 제한된 IPv4 주소로 여러 VM을 운영해야 했거든요.</p>
+<h3>문제 상황</h3>
+<p>사용자는 웹 브라우저에서처럼 SSH도 단순하게 사용하고 싶어 합니다.</p>
+<pre><code>ssh undefined-behavior.exe.xyz</code></pre>
+<p>이렇게 입력하면 자신의 VM에 바로 접속되는 경험을 원하는 거죠. 그런데 여기에 난제가 있습니다.</p>
+<p>각 머신마다 고유한 IP 주소를 부여하면 간단하겠지만, exe.dev는 정액 요금제로 많은 VM을 제공합니다. 모든 VM에 IPv4를 할당할 수는 없습니다. 비용이 폭증하거든요. 그렇다고 IPv6만 쓸 수도 없습니다. 인터넷의 일부 지역에서는 여전히 IPv6에 접근할 수 없으니까요.</p>
+<p>결국 여러 VM이 같은 IPv4 주소를 공유해야 합니다.</p>
+<h3>웹과 SSH의 차이</h3>
+<p>웹에서는 이 문제를 오래전에 해결했어요. 같은 IP 주소를 가진 여러 사이트가 공존합니다. 비결은 HTTP 요청에 포함된 <code>Host</code> 헤더입니다. 브라우저가 접근하려던 도메인을 헤더에 실어 보내면, 서버의 프록시가 이 정보를 보고 적절한 VM으로 요청을 라우팅합니다.</p>
+<p>SSH는 다릅니다. Host 헤더 같은 메커니즘이 없거든요. IP 주소만으로는 어느 VM으로 연결할지 알 수 없습니다.</p>
+<h3>해결책: SSH IP 공유</h3>
+<p>exe.dev는 공개 IPv4 주소 풀을 만들었습니다. 각 VM에는 소유자별로 고유한 IP가 할당됩니다.</p>
+<p>DNS 조회 결과를 보면 이렇습니다:</p>
+<pre><code>$ dig undefined-behavior.exe.xyz
+; &lt;&lt;&gt;&gt; DiG 9.10.6 &lt;&lt;&gt;&gt; undefined-behavior.exe.xyz
+...
+;; ANSWER SECTION:
+undefined-behavior.exe.xyz. 230 IN CNAME s003.exe.xyz.
+s003.exe.xyz. 230 IN A 16.145.102.7</code></pre>
+<p>포인트는 여기입니다. <code>s003</code> IP 주소는 많은 VM이 사용하지만, <strong>이 사용자의 VM 중에서는 단 하나만 사용합니다.</strong></p>
+<p>SSH 접속이 들어오면 공개키와 함께 특정 IP 주소를 통해 들어옵니다. 공개키로 사용자를 파악하고, <code>{사용자, IP}</code> 조합으로 대상 VM을 정확히 식별하는 거죠. 즉, 공개키와 들어온 IP 주소가 VM을 유일하게 결정합니다.</p>
+<h3>구현의 복잡성</h3>
+<p>이 방식을 구현하려면 여러 시스템 간 통신이 필요합니다.</p>
+<p>VM을 생성할 때 소유자 정보를 바탕으로 IP를 신중하게 할당해야 합니다. SSH 프록시는 들어온 요청이 어느 로컬 IP에 도착했는지 파악해야 하는데, 베어메탈에서는 간단하지만 클라우드 환경에서는 어렵습니다. 공개 IP가 VPC 내부의 프라이빗 IP로 NAT되기 때문이죠.</p>
+<p>이 모든 것을 처리하려면 맞춤형 관리 소프트웨어가 필요합니다. 따라서 일반적인 해결책으로 추천하기는 어렵습니다. 다만 exe.dev에게는 일관되고 예측 가능한 도메인 동작이 중요했기에, 이 방식을 구축하기로 결정했습니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://blog.exe.dev/ssh-host-header" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-18%20SSH%EB%8A%94%20Host%20%ED%97%A4%EB%8D%94%EA%B0%80%20%EC%97%86%EB%8B%A4&labels=feedback%2Cliked&body=**Article**%3A%20SSH%EB%8A%94%20Host%20%ED%97%A4%EB%8D%94%EA%B0%80%20%EC%97%86%EB%8B%A4%0A**URL**%3A%20https%3A%2F%2Fblog.exe.dev%2Fssh-host-header%0A**Date**%3A%202026-03-18%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
