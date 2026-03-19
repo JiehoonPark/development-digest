@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown을 생성형 UI를 위한 프로토콜로 전환하기 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/19/">2026-03-19</a> &gt; Markdown을 생성형 UI를 위한 프로토콜로 전환하기...
+      </div>
+
+      <h1>Markdown을 생성형 UI를 위한 프로토콜로 전환하기</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">I turned Markdown into a protocol for generative UI</p>
+      <div class="article-meta">
+        <span>📅 2026-03-19</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 67</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Markdown을 LLM이 생성하는 텍스트, 코드, 데이터를 통합하는 프로토콜로 사용하여, 에이전트가 실시간으로 React UI를 생성하고 스트리밍 실행하는 프로토타입을 개발했습니다. 마운트 프리미티브를 통해 클라이언트-서버-LLM 간 데이터 흐름을 구현합니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>Markdown 형식의 코드 펜스(tsx, json)를 프로토콜로 사용하여 텍스트, 실행 코드, 데이터를 하나의 스트림으로 처리</li><li>LLM이 생성한 코드를 토큰 단위로 즉시 실행하는 스트리밍 실행으로 빠른 응답성 제공</li><li>mount() 함수를 통해 React UI를 동적으로 생성하고, 폼 입력, 라이브 업데이트 등 4가지 데이터 흐름 패턴 구현</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>LLM이 UI를 동적으로 생성하는 에이전트 기반 인터페이스의 구현 방식을 보여주며, 기존 UI 개발과 다른 새로운 패러다임을 제시합니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>AI 에이전트가 UI를 생성하는 미래</h2>
+<p>Eric Schmidt는 &quot;사용자 인터페이스는 거의 사라질 것&quot;이라고 예측했습니다. 앞으로는 에이전트가 필요에 따라 UI를 즉석에서 만들어낼 거라는 뜻이죠. 이 가정을 탐구하기 위해 프로토타입을 만들어봤습니다.</p>
+<p>클라이언트, 서버, LLM 사이에 데이터가 오가며 React UI를 처음부터 생성하는 AI 에이전트입니다. 이 프로토타입은 세 가지 핵심 아이디어에 기반하고 있어요.</p>
+<p><strong>마크다운을 프로토콜로 사용</strong> — 하나의 스트림에 텍스트, 실행 가능한 코드, 데이터를 모두 담습니다. LLM은 이미 마크다운을 잘 알고 있거든요.</p>
+<p><strong>스트리밍 실행</strong> — 에이전트가 코드를 작성하고 즉시 실행합니다. 전체 응답을 기다리지 않고 각 문장이 완성되는 순간 실행돼요.</p>
+<p><strong>mount() 함수</strong> — 에이전트가 반응형 UI를 만들 수 있게 하는 함수입니다. 클라이언트-서버-LLM 간의 데이터 흐름 패턴을 지원하죠.</p>
+<p>[리포지토리 확인하기](repo-link)</p>
+<h3>프로토콜: 어떻게 코드 실행과 텍스트, 데이터를 합칠까?</h3>
+<p>코드 실행과 텍스트, 데이터를 모두 하나의 스트림으로 담고, 순서도 마음대로 섞으면서 하나의 프로토콜로 표현할 수 있을까요? 고민하다 보니 계속 마크다운으로 돌아오더라고요. LLM은 마크다운을 매우 잘 알고 있으니까요.</p>
+<p>결국 세 가지 블록 타입으로 정했습니다.</p>
+<div class="table-wrapper"><table><thead><tr><th>블록</th><th>문법</th><th>목적</th></tr></thead><tbody><tr><td>텍스트</td><td><strong>일반 마크다운 형식</strong></td><td>사용자에게 스트리밍</td></tr><tr><td>코드 펜스</td><td>```tsx agent.run</td><td>서버에서 실행</td></tr><tr><td>데이터 펜스</td><td>```json agent.data =&gt; &quot;id&quot;</td><td>UI에 데이터 스트리밍</td></tr></tbody></table></div>
+<p>실제로는 이렇게 보입니다.</p>
+<pre><code>안녕하세요! 저는 에이전트입니다. 이 텍스트는 사용자에게 토큰 단위로 스트리밍됩니다.
+
+하지만 코드도 실행할 수 있어요...
+</code></pre>
+<p>const messages = await fetchMessages()</p>
+<pre><code>
+UI도 마운트할 수 있죠.
+</code></pre>
+<p>const fakeMovieData = new StreamedData(&quot;fake-movies&quot;);</p>
+<p>const form = mount({</p>
+<p>streamedData: fakeMovieData,</p>
+<p>ui: ({ streamedData }) =&gt; &lt;Movies movies={streamedData} /&gt;</p>
+<p>})</p>
+<pre><code>
+그리고 이 UI들에 데이터를 스트리밍할 수 있어요.
+</code></pre>
+<p>[</p>
+<p>{ &quot;name&quot;: &quot;Blade Runner&quot;, &quot;rating&quot;: 4.5 },</p>
+<p>{ &quot;name&quot;: &quot;Dune&quot;, &quot;rating&quot;: 4.2 }</p>
+<p>]</p>
+<pre><code>
+모든 게 같은 응답 안에 들어가 있습니다...</code></pre>
+<p>텍스트, 코드, 데이터가 섞여 있고, 어떤 순서든 몇 번이든 반복될 수 있죠. 파서는 토큰이 들어오는 대로 점진적으로 이를 처리합니다.</p>
+<p>게다가 문법도 자연스럽게 확장할 수 있어요. 새로운 블록 타입이 필요하면? 펜스 헤더만 추가하면 됩니다. <code>tsx agent.run</code>과 <code>json agent.data</code>는 처음 두 개일 뿐이거든요.</p>
+<h3>피드백 루프: 에이전트가 자기 자신과 대화하기</h3>
+<p>피드백 루프는 간단합니다. <code>console.log</code>가 에이전트가 자기 자신과 대화하는 방식이에요.</p>
+<ul>
+<li>LLM이 코드 블록이 있는 마크다운을 생성합니다</li>
+<li>텍스트는 사용자에게 스트리밍되고, 코드는 서버에서 점진적으로 실행됩니다</li>
+<li><code>console.*</code> 출력과 예외사항이 다음 턴에서 LLM으로 피드백됩니다</li>
+<li>출력이나 예외가 없으면 종료하고 다음 사용자 쿼리를 기다립니다</li>
+</ul>
+<p>이렇게 하면 에이전트가 자신의 실행 결과에 반응할 수 있습니다.</p>
+<p><strong>예시 1: 실행 결과 반영</strong></p>
+<pre><code>사용자: 몇 개의 메시지를 받았나요?
+
+에이전트:</code></pre>
+<p>const messages = await fetchMessages();</p>
+<p>console.log('messagesCount:', messages.length);</p>
+<pre><code>
+[런타임 트랜스크립트]
+messagesCount: 4
+
+에이전트: 새로운 메시지가 4개 있습니다.</code></pre>
+<p><strong>예시 2: 사용자 입력 대기</strong></p>
+<pre><code></code></pre>
+<p>const form = mount({ /<em> ... </em>/ });</p>
+<p>const answer = await form.result; // 사용자 제출 대기</p>
+<p>console.log(&quot;user:responded&quot;, answer);</p>
+<pre><code></code></pre>
+<h3>스트리밍 실행: 코드 펜스가 끝나기를 기다리지 않기</h3>
+<p>문장이 생성되는 대로 즉시 실행되게 하고 싶었어요. 코드 펜스 전체가 닫힐 때까지 기다릴 필요 없이요. 그러면 API 호출이 시작되고, UI가 렌더링되고, 에러가 표시되는 모든 게 LLM이 토큰을 보내는 동안 일어날 수 있거든요. 훨씬 반응성이 좋아지겠죠.</p>
+<p>문제는 스트리밍 실행이 아직 표준 프리미티브가 아니라는 거예요. 토큰을 받으면서 문장을 실행하고, 공유 컨텍스트와 top-level await를 지원하는 런타임이 없습니다.</p>
+<p>결국 <code>bun-streaming-exec</code>를 직접 만들어야 했고, <code>vm.Script</code>에 좀 &quot;창의적인&quot; 래핑을 해서 구현했어요. 자세한 내용은 [별도 글](deep-dive-link)을 참고하시면 됩니다.</p>
+<p>저주받은 코드인가요? 네. 잘 작동하나요? 대체로요.</p>
+<h3>에이전틱 UI: 마크다운을 살아있는 인터페이스로</h3>
+<p>텍스트, 코드, 데이터가 하나의 스트림에 들어있으면 에이전틱 UI를 위한 대부분의 빌딩 블록이 갖춰져요. 부족한 건 코드를 실제 인터페이스로 바꾸는 방법뿐입니다. UI로는 React가 당연한 선택이죠. LLM은 수백만 개의 React 컴포넌트를 본 거든요. JSX를 알고 있어요.</p>
+<p>핵심 프리미티브는 <code>mount()</code>입니다.</p>
+<pre><code class="language-tsx agent.run">mount({
+  ui: () =&gt; &lt;Card&gt;에이전트로부터 안녕!&lt;/Card&gt;
+});</code></pre>
+<p><code>mount()</code>는 React 컴포넌트를 직렬화해서 클라이언트로 보냅니다. 클라이언트는 이를 채팅 안에서 렌더링하죠.</p>
+<p>진짜 강력한 건 데이터 흐름이에요.</p>
+<h3>네 가지 데이터 흐름 패턴</h3>
+<p>구현하면서 서버, 클라이언트, LLM 사이에 데이터를 옮기는 네 가지 패턴을 발견했습니다.</p>
+<h4>1. 클라이언트 → 서버 (폼)</h4>
+<p>에이전트가 사용자 입력을 기다릴 수 있어요.</p>
+<pre><code class="language-tsx agent.run">const form = mount({
+  outputSchema: z.object({ name: z.string().min(1) }),
+  ui: ({ output }) =&gt; (
+    &lt;Box&gt;
+      &lt;TextField {...output.name} label=&quot;이름&quot; /&gt;
+      &lt;Button type=&quot;submit&quot; {...output}&gt;제출&lt;/Button&gt;
+    &lt;/Box&gt;
+  )
+});
+const { name } = await form.result; // 제출 대기
+console.log(&quot;user:responded&quot;, name);</code></pre>
+<p><code>{...output.name}</code>은 필드를 연결하고, <code>await form.result</code>는 사용자가 제출할 때까지 실행을 멈춰요. 결과는 <code>console.log</code>를 통해 LLM으로 피드백됩니다.</p>
+<h4>2. 서버 → 클라이언트 (실시간 업데이트)</h4>
+<p>[계속...]</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://fabian-kuebler.com/posts/markdown-agentic-ui/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-19%20Markdown%EC%9D%84%20%EC%83%9D%EC%84%B1%ED%98%95%20UI%EB%A5%BC%20%EC%9C%84%ED%95%9C%20%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%EB%A1%9C%20%EC%A0%84%ED%99%98%ED%95%98%EA%B8%B0&labels=feedback%2Cliked&body=**Article**%3A%20Markdown%EC%9D%84%20%EC%83%9D%EC%84%B1%ED%98%95%20UI%EB%A5%BC%20%EC%9C%84%ED%95%9C%20%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C%EB%A1%9C%20%EC%A0%84%ED%99%98%ED%95%98%EA%B8%B0%0A**URL**%3A%20https%3A%2F%2Ffabian-kuebler.com%2Fposts%2Fmarkdown-agentic-ui%2F%0A**Date**%3A%202026-03-19%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

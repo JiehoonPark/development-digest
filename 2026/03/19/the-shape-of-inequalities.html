@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>부등식의 모양 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/19/">2026-03-19</a> &gt; 부등식의 모양...
+      </div>
+
+      <h1>부등식의 모양</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">The Shape of Inequalities</p>
+      <div class="article-meta">
+        <span>📅 2026-03-19</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 86</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>수학자 Andrei N. Ciobanu가 대수학의 부등식을 기하학적으로 시각화하는 방법을 제시한다. 조화평균(HM), 기하평균(GM), 산술평균(AM), 제곱평균(QM)의 관계를 원과 삼각형으로 표현하여 직관적 이해를 돕는다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>HM-AM-GM-QM 부등식 체인을 두 개의 원을 이용한 기하학적 증명으로 표현</li><li>조화평균은 평균 속도 계산에, 기하평균은 투자 성장률에 실제 응용되는 실용적 의미 설명</li><li>반원을 이용한 시각화 등 여러 기하학적 표현 방법으로 대수 개념의 직관적 이해 제공</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>수학 개념을 시각적으로 표현하는 기법은 개발자의 알고리즘 이해와 교육 콘텐츠 제작에 유용하다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>부등식의 형태</h2>
+<p>지난 3월 16일, 초승달이 뜬 밤에 쓴 글입니다.</p>
+<p>…대칭성은 단순히 &quot;예쁜&quot; 모양을 선호하는 것이 아닙니다.</p>
+<h3>시작하며</h3>
+<p>웹을 돌아다니다가 우연히 멋진 그림 하나를 발견했는데, 그것이 제 상상력을 자극해서 이 글을 쓰게 되었습니다.</p>
+<p>이전에 부등식에 관한 글을 쓴 후, 대수와 해석학에서 다루는 개념들을 기하학적으로 표현할 수 있을까 궁금했거든요. 이를테면 원, 삼각형, 정사각형, 정육면체 같은 도형들 말이죠. 이리저리 시도하다 보니 애니메이션을 몇 개 만들게 되었고, 이를 통해 많은 사람들이 대수와 해석학의 개념을 기하학적으로 직관할 수 있길 바랍니다.</p>
+<p>대부분의 애니메이션은 학교에서 배우는 표준적인 방법이지만, 일부는 제가 직접 펜과 종이로 개발한 것들입니다. 물론 누군가 이미 같은 방법을 발견했을 수도 있습니다. 기초 수학에 관한 한, 지난 2000년 동안 너무 많은 사람들이 이 길을 걸어갔으니까요.</p>
+<h3>HM-AM-GM-QM 부등식</h3>
+<p>학창 시절 우리가 가장 많이 만나는 부등식 연쇄(inequality chain)입니다. 혹시 잊으셨을까 봐, 세 양수 $a, b, c &gt; 0$에 대한 단순한 형태를 다시 적어보겠습니다.</p>
+<p>\[</p>
+<p>\underbrace{\frac{3}{\frac{1}{a} + \frac{1}{b} + \frac{1}{c}}}_{\text{HM}} \leq \underbrace{\sqrt[3]{abc}}_{\text{GM}} \leq \underbrace{\frac{a+b+c}{3}}_{\text{AM}} \leq \underbrace{\sqrt{\frac{a^2+b^2+c^2}{3}}}_{\text{QM}}</p>
+<p>\]</p>
+<p>두 변수만 있는 더 간단한 경우는 이렇습니다.</p>
+<p>\[</p>
+<p>\frac{2}{\frac{1}{a} + \frac{1}{b}} \leq \sqrt{ab} \leq \frac{a+b}{2} \leq \sqrt{\frac{a^2+b^2}{2}}</p>
+<p>\]</p>
+<p>이 &quot;알파벳 수프&quot;가 무엇을 의미하는지 풀어서 설명해드리겠습니다.</p>
+<p><strong>HM = 조화평균(Harmonic Mean)</strong>: 들으면 낯설 수 있지만, 이 평균은 우리 우주의 법칙에 나타납니다. 예를 들어 A에서 B까지 시속 $v_1$로 가고, 돌아올 때 시속 $v_2$로 온다면 평균 속도는 얼마일까요? 부실한 학생이라면 $v_{\text{avg}}=\frac{v_1+v_2}{2}$라고 할 텐데, 좋은 학생이라면 조화평균 $v_{\text{avg}} = \frac{2}{\frac{1}{v_1} + \frac{1}{v_2}}$임을 알겠죠.</p>
+<p><strong>GM = 기하평균(Geometric Mean)</strong>: &quot;성장&quot;의 평균이라고 할 수 있으며, 스케일링이나 복리에 유용합니다. 마찬가지로 자연과 금융에서도 나타납니다. 예를 들어 주식 투자자라고 가정해봅시다. 첫 해에 포트폴리오가 100% 성장했는데, 다음 해는 시장이 50% 하락했다면 평균 성장률은 얼마일까요?</p>
+<p>수학을 못 하는 투자자라면 이렇게 계산할 겁니다: $\frac{100 + (-50)}{2} = 25%$.</p>
+<p>그런데 수학을 잘 아는 투자자는 성장 배수로 생각합니다. 첫 해의 배수는 $2.0$, 둘째 해의 배수는 $0.5$입니다. 그다음 이렇게 평균을 냅니다.</p>
+<p>\[\text{평균 성장 배수} = \sqrt{2.0 \times 0.5} = 1.0\]</p>
+<p>즉, 평균 성장률은 실제로 $0%$입니다. 결국 시작점으로 돌아온 거죠. 솔직히 말해, 이것도 대부분의 트레이더보다는 낫습니다.</p>
+<p><strong>AM = 산술평균(Arithmetic Mean)</strong>: 모두가 알고 있는 고전적인 평균입니다. 음, 수학 공식에 &quot;사랑한다&quot;는 표현이 과할 수도 있겠네요.</p>
+<p><strong>QM = 제곱평균(Quadratic Mean)</strong>: 또는 RMS(Root Mean Square)라고도 부르며, 전기 공학에서 나타납니다. 유럽의 전압이 230V로 표시되지만, 이것이 사람들이 생각하는 실제 평균 전압은 아닙니다. 실제 값은 RMS로 결정됩니다.</p>
+<p>이제 명확해졌으니, 이 부등식 연쇄를 기하학적 관점에서 살펴봅시다. 어떻게 추상적인 개념들이 살아 움직이는지 보는 것은 정말 신기합니다.</p>
+<h3>두 원의 증명</h3>
+<p>첫 번째 애니메이션은 실제로 제가 찾은 그림입니다.</p>
+<p>중심이 $O$이고 지름이 $a$인 큰 원이 있습니다. 따라서 반지름은 $R = \frac{a}{2}$이죠. 그 다음 중심이 $O'$인 작은 원이 있는데, 이 원이 큰 원의 외부에서 접합니다. 작은 원의 지름은 $b$이므로 반지름은 $r = \frac{b}{2}$입니다. 작은 원의 중심 $O'$를 $O$를 지나는 수직선에 정사영하면, 그 점을 $P$라고 부릅시다.</p>
+<p>이렇게 하면 직각삼각형 $OPO'$이 만들어지는데, 각 변의 길이는 다음과 같습니다.</p>
+<p>빗변 $OO'$는 두 반지름의 합입니다: $\frac{a}{2} + \frac{b}{2} = \frac{a+b}{2}$.</p>
+<p>가로 다리 $OP$는 두 반지름의 차입니다: $\frac{a}{2} - \frac{b}{2} = \frac{a-b}{2}$.</p>
+<p>세로 다리 $O'P$를 구하려면 피타고라스 정리를 적용하면 됩니다.</p>
+<p>\[</p>
+<p>(O'P)^2 = \left(\frac{a+b}{2}\right)^2 - \left(\frac{a-b}{2}\right)^2 = ab \implies</p>
+<p>\]</p>
+<p>\[</p>
+<p>\implies O'P = \sqrt{ab}</p>
+<p>\]</p>
+<p>$OO'$는 $a$와 $b$의 산술평균(AM)이고, $O'P$는 기하평균(GM)입니다. 보시다시피 GM(직각삼각형의 한 다리)은 항상 AM(빗변)보다 작거나 같습니다. 특별한 경우, 두 원의 크기가 같을 때($a=b$), 다리 $OP$는 0이 되고 GM과 AM이 일치합니다. 정말 아름답죠!</p>
+<h3>반원을 이용한 증명</h3>
+<p>이것은 학교에서 배우는 &quot;교실의 방법&quot;이라고 할 수 있습니다.</p>
+<p>중심이 $O$이고 전체 지름이 $a + b$인 반원에서 시작합니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://www.andreinc.net/2026/03/16/the-shape-of-inequalities/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-19%20%EB%B6%80%EB%93%B1%EC%8B%9D%EC%9D%98%20%EB%AA%A8%EC%96%91&labels=feedback%2Cliked&body=**Article**%3A%20%EB%B6%80%EB%93%B1%EC%8B%9D%EC%9D%98%20%EB%AA%A8%EC%96%91%0A**URL**%3A%20https%3A%2F%2Fwww.andreinc.net%2F2026%2F03%2F16%2Fthe-shape-of-inequalities%2F%0A**Date**%3A%202026-03-19%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
