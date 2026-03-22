@@ -1,0 +1,568 @@
+{
+  "date": "2026-03-22",
+  "intro": "안녕하세요! 프론트엔드 개발자 여러분을 위한 오늘의 뉴스레터입니다. Next.js 16.2의 대규모 업데이트로 개발 생산성이 한 단계 업그레이드되고 있으며, AI 에이전트 기술이 웹 개발과 자동화 영역으로 빠르게 확산되고 있습니다. 동시에 개발자 도구와 보안 이슈에 주목할 필요가 있는 한 주입니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "OpenClaw is a security nightmare dressed up as a daydream",
+          "titleKo": "OpenClaw는 악몽으로 둔갑한 꿈같은 보안 문제다",
+          "summary": "OpenClaw는 Opus 기반의 강력한 자동 에이전트로 로컬 파일, 터미널, 브라우저, Gmail, Slack 등과 상호작용할 수 있지만, 심각한 보안 취약점을 가지고 있다. 높은 능력과 편의성에도 불구하고 보안 위험이 크다.",
+          "keyPoints": [
+            "OpenClaw는 로컬 시스템, 이메일, 메시징 앱, 홈 오토메이션 등을 자동으로 제어할 수 있는 강력한 기능 제공",
+            "기술적으로 인상적이지만 심각한 보안 구멍과 잠재적 재정적 손실 위험 존재",
+            "높은 API 비용(한달에 1억 8천만 토큰 사용 예시)과 보안 리스크의 트레이드오프 발생"
+          ],
+          "whyItMatters": "AI 에이전트의 성능이 향상되면서 시스템 접근 권한이 증가하는 만큼, 개발자는 자동화 편의성과 보안 위험의 균형을 신중히 고려해야 한다.",
+          "url": "https://composio.dev/content/openclaw-security-and-vulnerabilities",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 257,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "topicId": "openclaw-security",
+          "isTopicPrimary": true,
+          "slug": "openclaw-is-a-security-nightmare-dressed-up-as-a-daydream",
+          "fullContent": "Back in 2023, the internet was buzzing about AutoGPT and BabyAGI. It was just after GPT-4 had arrived. Everyone was talking about autonomous agents taking jobs, how they can, and I remember how scared and paranoid people looked. However, they didn’t stand up to their promise. The conversations died off in a few weeks.Fast forward to exactly three years, and people are having the same conversation. This time it’s OpenClaw powered by Opus. However, this time the models are much better, significantly better, with far fewer hallucinations, and the ecosystem has matured enough for OpenClaw to actually get things done. By “get things done,” I mean it can interact with your local system files, the terminal, browsers, Gmail, Slack, and even home automation systems. It's been almost a month, and they are still out there on Twitter talking about it. And people talked so much about it that OpenAI acquihired Peter Steinberger. One man unicorn might've actually become a reality.However, every gain has a cost, and in this case, it’s the security. The underlying tech, however impressive it looks, has serious holes that can put a bigger hole in your pocket. It's capable, it's expensive, and it's insecure.This blog post talks about some of the good things and a lot of bad things about OpenClaw and its ecosystem, and how you can work around this if you’re truly motivated to use the tech. Though I personally didn't like it, neither saw its promise, or maybe I am employed.OpenClaw: The DaydreamImagine you wake up and open your laptop, and all your inboxes are cleared, meetings have been slotted with prep notes, weekend flight is booked, Alexa is playing “Every Breath You Take, Every move you make, I'll be watching you” by the Police (pun intended), without you doing anything but just typing it out to a bot or better, just talk to it. It will feel magical, almost like living in the future. This is the promise of OpenClaw. Human desire for automation is primal; that’s how we came up with gears, conveyor belts, machines, programming languages, and now a new breed of digital super-assistants powered by AI models.Federico Viticci in Macstories writes,For the past week or so, I’ve been working with a digital assistant that knows my name, my preferences for my morning routine, how I like to use Notion and Todoist, but which also knows how to control Spotify and my Sonos speaker, my Philips Hue lights, as well as my Gmail. It runs on Anthropic’s Claude Opus 4.5 model, but I chat with it using Telegram. I called the assistant Navi (inspired by the fairy companion of Ocarina of Time, not the besieged alien race in James Cameron’s sci-fi film saga), and Navi can even receive audio messages from me and respond with other audio messages generated with the latest ElevenLabs text-to-speech model. Oh, and did I mention that Navi can improve itself with new features and that it’s running on my own M4 Mac mini server?If this intro just gave you whiplash, imagine my reaction when I first started playing around with OpenClaw, the incredible open-source project by Peter Steinberger (a name that should be familiar to longtime MacStories readers) that’s become very popular in certain AI communities over the past few weeks. I kept seeing OpenClaw mentioned by people I follow; eventually, I gave in to peer pressure, followed the instructions from the funny crustacean mascot on the app’s website, installed OpenClaw on my new M4 Mac mini (which is not my main production machine), and connected it to Telegram.To say that OpenClaw has fundamentally altered my perspective of what it means to have an intelligent, personal AI assistant in 2026 would be an understatement. I’ve been playing around with OpenClaw so much, I’ve burned through 180 million tokens on the Anthropic API (yikes), and I’ve had fewer and fewer conversations with the “regular” Claude and ChatGPT apps in the process.The bull case for OpenClaw-like botsBrandon Wang puts forward a very fair and just bull case for OpenClaw in his essay, where he outlines everything he has done with OpenClaw, from inbox reminders to appointment booking and more. He explains the ease and convenience of OpenClaw, as well as its stickiness.The more your usage grows, the more the bot learns from patterns, creates tools, workflows, and skills, and fetches them when needed. The bot can store these workflows and skills in a database or folders for future reference.clawdbot writes a human-readable version of each workflow and pushes it up to a notion database. these workflows can be incredibly intricate and detailed as it learns to navigate different edge cases.For example, if a restaurant has a reservation cancellation fee, Clawdbot now inform the fee, asks me to confirm again whether it's non-refundable, and includes the cancellation deadline in the calendar event it creates.There are certainly a lot of people who will benefit from this, but it comes at a cost. Even if you take the security angle out, the tech almos",
+          "category": "hot",
+          "publishedAt": "2026-03-22T17:35:28.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# OpenClaw: 약속과 현실 사이에서\n\n## 역사는 반복된다\n\n2023년, 인터넷은 AutoGPT와 BabyAGI로 떠들썩했습니다. GPT-4가 출시된 직후였죠. 자율 에이전트가 일자리를 빼앗을 거라는 우려가 가득했고, 사람들은 정말 불안해 보였습니다. 하지만 그 약속들은 결국 물거품이 되었고, 몇 주 후엔 관심도 사라져버렸어요.\n\n정확히 3년이 지난 지금, 같은 이야기가 다시 나오고 있습니다. 이번엔 Opus 기반의 OpenClaw입니다. 그런데 이번엔 좀 다릅니다. 모델의 성능이 훨씬 좋아졌고, 환각(hallucination)도 훨씬 줄었으며, 생태계도 성숙해져서 OpenClaw가 실제로 일을 해낼 수 있는 수준에 도달했거든요.\n\n\"일을 해낸다\"는 게 무슨 뜻이냐면, 로컬 파일 시스템, 터미널, 브라우저, Gmail, Slack, 심지어 스마트홈 시스템까지 모두 제어할 수 있다는 뜻입니다. 벌써 한 달째 트위터에서 이 얘기가 계속 나오고 있습니다. 반응이 워낙 뜨거워서 OpenAI가 개발자 Peter Steinberger를 영입했을 정도죠. 한 명의 개발자가 유니콘(10억 달러 이상의 가치를 가진 스타트업)을 이루는 현실이 펼쳐진 겁니다.\n\n## 대가는 존재한다\n\n하지만 모든 이득에는 대가가 따릅니다. 이 경우엔 보안입니다. 아무리 인상적인 기술이어도 심각한 보안 허점들이 있어서, 당신의 지갑에 큰 구멍을 낼 수 있다는 거죠. 강력하고, 비싸고, 그리고 안전하지 않습니다.\n\n이 글에서는 OpenClaw와 그 생태계의 좋은 점들, 그리고 많은 나쁜 점들에 대해 살펴보겠습니다. 물론 꼭 이 기술을 써야 한다면 어떻게 대처할 수 있을지도 함께 말이죠. 개인적으로는 이 기술이 그리 대단해 보이지 않습니다. 하지만 그건 제 편견일 수도 있으니까요.\n\n## OpenClaw의 꿈\n\n아침에 깨어 노트북을 켜는 순간을 상상해보세요. 이메일 inbox는 모두 정리되고, 회의들은 준비 노트와 함께 일정에 들어가 있으며, 주말 비행기 표는 예약되어 있습니다. Alexa는 \"Every Breath You Take, Every move you make, I'll be watching you\"를 틀고 있죠(의도된 말장난입니다). 당신은 아무것도 안 했는데 말이에요. 봇에게 몇 마디 입력했거나 말했을 뿐입니다. 정말 마법 같지 않을까요? 마치 미래에 사는 것처럼요.\n\n이것이 OpenClaw의 약속입니다. 인간의 자동화에 대한 욕구는 원초적입니다. 바퀴, 컨베이어벨트, 기계, 프로그래밍 언어, 그리고 지금의 AI 기반 슈퍼 어시스턴트까지 모두 이 욕구에서 비롯되었거든요.\n\nMacStories의 Federico Viticci는 이렇게 씁니다:\n\n> 지난주 정도부터 저는 디지털 어시스턴트와 함께 일하고 있습니다. 이 어시스턴트는 제 이름, 아침 루틴에 대한 저의 선호도, Notion과 Todoist를 어떻게 사용하는지 알고 있습니다. 게다가 Spotify와 Sonos 스피커, Philips Hue 조명, Gmail까지 제어할 수 있죠. Anthropic의 Claude Opus 4.5 모델을 기반으로 하지만, 저는 Telegram을 통해 채팅합니다. 이 어시스턴트를 Navi라고 부르는데요(오카리나의 시간의 정령 요정 Navi에서 영감을 받았습니다). Navi는 음성 메시지도 받을 수 있고, 최신 ElevenLabs 텍스트-음성 변환 모델로 음성 응답도 생성합니다. 또 하나 덧붙이자면, Navi는 스스로 새로운 기능을 추가해서 개선할 수 있고, 제 M4 Mac mini 서버에서 실행되고 있습니다.\n\n이 소개글만 읽어도 어지러우실 텐데, 제가 처음 OpenClaw를 만났을 때의 느낌을 상상해보세요. Peter Steinberger가 만든 오픈소스 프로젝트인데, 지난 몇 주간 AI 커뮤니티에서 엄청난 인기를 얻고 있습니다. (Peter Steinberger는 오래된 MacStories 독자라면 낯익은 이름일 겁니다)\n\n제가 팔로우하는 사람들로부터 OpenClaw 얘기가 계속 나오다 보니, 결국 동료 압박에 굴복했습니다. 귀여운 게 새우 마스코트가 있는 웹사이트의 지시사항을 따라 새 M4 Mac mini(제 메인 작업 기계는 아닙니다)에 OpenClaw를 설치하고 Telegram에 연결했어요.\n\nOpenClaw가 2026년 지능형 개인 AI 어시스턴트가 무엇인지에 대한 제 관점을 근본적으로 바꿨다는 건 과언이 아닙니다. OpenClaw에 너무 많은 시간을 쏟아 Anthropic API에서 1억 8천만 토큰을 소진했습니다(정말 많네요). 그 덕분에 일반 Claude나 ChatGPT 앱과는 점점 덜 대화하게 되었어요.\n\n## OpenClaw 같은 봇들의 긍정적 사례\n\nBrandon Wang이 자신의 글에서 OpenClaw에 대한 명확한 긍정적 입장을 제시합니다. Inbox 알림부터 예약 관리까지 OpenClaw로 할 수 있는 모든 것을 설명하면서 편의성과 중독성을 강조합니다.\n\n사용량이 늘어날수록 봇은 패턴을 학습하고, 워크플로우와 스킬을 만들며, 필요할 때 꺼내 씁니다. 봇은 이런 워크플로우와 스킬을 데이터베이스나 폴더에 저장해뒀다가 재사용할 수 있죠.\n\nclawdbot은 각 워크플로우를 사람이 읽을 수 있는 형태로 작성해서 Notion 데이터베이스에 올립니다. 이 워크플로우들은 점점 더 복잡하고 정교해집니다. 다양한 엣지 케이스를 처리하는 법을 배우면서 말이에요.\n\n예를 들어, 음식점에 예약 취소 수수료가 있다면, Clawdbot은 이제 그 수수료를 알려주고 정말 환불 불가인지 다시 한번 확인한 뒤, 취소 기한까지 일정에 포함시킵니다.\n\n분명 이 기술에서 혜택을 얻을 사람들이 많습니다. 하지만 그에 따른 대가가 있어요. 보안 문제를 따로 빼더라도, 이 기술에는..."
+        },
+        {
+          "title": "PC Gamer recommends RSS readers in a 37mb article that just keeps downloading",
+          "titleKo": "PC Gamer가 계속 다운로드되는 37MB 기사에서 RSS 리더를 추천",
+          "summary": "PC Gamer의 RSS 리더 추천 기사가 37MB의 웹페이지 용량에 초기 로드 후 5분 내 500MB 규모의 광고를 추가로 다운로드하는 문제를 지적하며, RSS 리더 사용의 중요성을 강조한다.",
+          "keyPoints": [
+            "웹 기사 1개가 초기 37MB, 추가 500MB의 광고 콘텐츠 다운로드",
+            "웹사이트의 과도한 광고와 팝업으로 인한 사용성 악화 문제 제기",
+            "NetNewsWire, Unread, Current, Reeder 등 RSS 리더를 통한 문제 해결 제안"
+          ],
+          "whyItMatters": "웹 개발자들이 사용자 경험과 페이지 성능 최적화의 중요성을 다시 인식할 필요가 있다.",
+          "url": "https://stuartbreckenridge.net/2026-03-19-pc-gamer-recommends-rss-readers-in-a-37mb-article/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 222,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "pc-gamer-recommends-rss-readers-in-a-37mb-article-that-just-keeps-downloading",
+          "fullContent": "There’s not much worth quoting in this PC Gamer article but I do want to draw your attention to three things.\nFirst, what you see when you navigate to the page: a notification popup, a newsletter popup that obscures the article, and a dimmed background with at least five visible ads.\nWelcome Mat\nSecond, once you get passed the welcome mat: yes, five ads, a title and a subtitle.\nA bit of article\nThird, this is a whopping 37MB webpage on initial load. But that’s not the worst part. In the five minutes since I started writing this post the website has downloaded almost half a gigabyte of new ads.\nBandwidth bonanza\nWe’re lucky to have so many good RSS readers that cut through this nonsense. 1\nFootnotes\nNetNewsWire, Unread, Current, and Reeder, to name a few. ↩",
+          "category": "hot",
+          "publishedAt": "2026-03-22T18:23:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# PC Gamer 웹사이트에서 보는 웹 성능 문제\n\nPC Gamer의 한 기사를 읽으면서 꼭 지적하고 싶은 부분들이 있어서 글을 남깁니다.\n\n## 첫 번째: 페이지 진입 시점\n\n페이지에 들어가자마자 맞이하는 것들입니다. 알림 팝업, 기사를 가리는 뉴스레터 팝업, 그리고 어둡게 처리된 배경 위에 최소 5개 이상의 광고들이 보입니다. 이게 바로 요즘 많은 매체 사이트들이 사용하는 \"웰컴 매트\"라는 기법이죠.\n\n## 두 번째: 웰컴 매트를 지나서\n\n드디어 본문 기사를 보려고 하면 또 뭐가 나올까요? 역시 5개의 광고, 제목, 부제목입니다. 실제 기사 내용은 얼마나 될까요?\n\n## 세 번째: 놀라운 파일 크기\n\n초기 로딩 시점에 이 웹페이지는 무려 **37MB**입니다. 그런데 더 심각한 건 뒤에 있습니다. 이 글을 쓰는 동안 단 5분 만에 웹사이트가 추가로 **약 500MB**의 광고를 다운로드했거든요.\n\n## 다행스러운 점\n\n이런 인터넷 매체의 악순환을 견디게 해주는 좋은 RSS 리더들이 많이 있다는 게 정말 다행입니다. NetNewsWire, Unread, Current, Reeder 같은 앱들을 사용하면 이 모든 불필요한 것들을 걸러낼 수 있죠."
+        },
+        {
+          "title": "Palantir extends reach into British state as gets access to sensitive FCA data",
+          "titleKo": "Palantir, 영국 금융감독청의 민감한 데이터 접근으로 영국 정부 영향력 확대",
+          "summary": "Palantir이 영국 금융감독청(FCA)과 계약하여 금융범죄 적발을 위해 민감한 금융 규제 데이터에 접근하게 되었으며, 이로 인해 프라이버시 우려와 Palantir의 영국 공공부문 영향력 증대 문제가 제기되고 있다.",
+          "keyPoints": [
+            "Palantir이 FCA의 3개월 시범 계약으로 주당 £30,000 이상 받고 민감한 금융 정보 분석",
+            "전화 녹음, 이메일, SNS 데이터 등 개인정보와 사건 파일을 포함한 대규모 데이터 접근",
+            "Palantir은 이미 NHS, 군부, 경찰과 £500m 이상의 영국 공공 계약 보유"
+          ],
+          "whyItMatters": "개발자들은 공공 데이터 접근 권한을 가진 기술 기업의 윤리적 책임과 프라이버시 보호 메커니즘의 필요성을 고려해야 한다.",
+          "url": "https://www.theguardian.com/technology/2026/mar/22/palantir-extends-reach-into-british-state-as-it-gets-access-to-sensitive-fca-data",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 151,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "palantir-extends-reach-into-british-state-as-gets-access-to-sensitive-fca-data",
+          "fullContent": "Palantir, co-founded by the billionaire Donald Trump donor Peter Thiel (pictured), has been appointed for a three-month trial period. Photograph: Rebecca Blackwell/APView image in fullscreenPalantir, co-founded by the billionaire Donald Trump donor Peter Thiel (pictured), has been appointed for a three-month trial period. Photograph: Rebecca Blackwell/APPalantir extends reach into British state as it gets access to sensitive FCA data Exclusive: Allowing US tech firm to analyse intelligence in name of tackling fraud raises fresh concerns over privacy\nCampaign groups rail against Palantir, but the UK contracts keep coming\nPalantir is to be granted access to a trove of highly sensitive UK financial regulation data, in a deal that has prompted fresh concerns about the US AI company’s deepening reach into the British state, the Guardian can reveal.The Financial Conduct Authority (FCA) has awarded Palantir a contract to investigate the watchdog’s internal intelligence data in an effort to help it tackle financial crime, which includes investigating fraud, money laundering and insider trading.The Miami-based company, co-founded by the billionaire Donald Trump donor Peter Thiel, has been appointed for a three-month trial, paying more than £30,000 a week to analyse the FCA’s vast “data lake”, which could lead to a full procurement of an AI system.The deal is part of the FCA’s drive to use digital intelligence to better focus resources on rule-breaking among the 42,000 financial services firms it regulates, from major banks to crypto exchanges.Campaign groups rail against Palantir, but the UK contracts keep comingRead moreThere was only one other, unnamed competitor for the contract. Palantir already has more than £500m in UK public deals, including with the NHS, military and police.The contract has prompted warnings of “very significant privacy concerns”. Palantir is expected to apply its AI system, known as Foundry, to huge quantities of information held by the watchdog, including case intelligence files marked highly sensitive; information on so-called problem firms; reports from lenders about proven and suspected frauds; and data about the public, including consumer complaints to the financial ombudsman.The data includes recordings of phone calls, emails and trawls of social media posts, the Guardian understands. The FCA is one of several UK agencies which aim to stop financial crimes that underpin harms such as the drug trade and human trafficking.The deal has raised concerns inside the FCA. One source said: “Once Palantir understands how we detect money-laundering threats, how do we know that they are ethically reliable enough not to go to share that information?”Palantir’s technology is used by the Israeli military and in the US president’s ICE immigration crackdown, leading to leftwing MPs in the House of Commons last month to call it a “highly questionable” and “ghastly” company. In 2023 it signed a £330m deal with the NHS, which has sparked resistance from doctors, and a £240m contract with the Ministry of Defence in December 2025, which prompted MPs to highlight “reports of serious allegations of complicity in human rights violations and the undermining of democratic processes made against Palantir”.These aren’t AI firms, they’re defense contractors. We can’t let them hide behind their modelsRead morePalantir has previously defended its work, saying it has led to about 99,000 extra operations being scheduled in the NHS, helped UK police tackle domestic violence and that it “takes a rigorous approach to respecting human rights”.Prof Michael Levi, an internationally recognised expert in money laundering at Cardiff University, said there was “serious under-exploitation” of data held by financial regulators, so AI is a potentially valuable technology to tackle financial crimes. But he said it was “a relevant question as to whether Palantir’s owners might tipoff their friends about methodologies”.“What are the protocols agreed between the FCA and Palantir about the onward use of things that they have learned in that process?” he said.The FCA said that the terms of the contract meant Palantir would be a “data processor” not a “data controller” – meaning that it could only act on instruction from the regulator, which said it would retain exclusive control over the encryption keys for the most sensitive files and the data would be hosted and stored solely in the UK. Palantir will have to destroy data after completion of the contract and any intellectual property derived from the data trawling should be retained by the FCA.The FCA considered using dummy data or scrambling company and individual names but decided using real data was the only worthwhile test, even though guidelines encourage the use of synthetic data in pilots.“When the FCA carries out an enforcement investigation, it has powers to compel firms to hand over vast quantities of data,” said Christopher Houssemayne du Boulay, a partner and barrister at t",
+          "category": "hot",
+          "publishedAt": "2026-03-22T17:56:26.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 팔란티르, 영국 금융감시청의 민감한 데이터 접근 권한 획득\n\n미국 AI 회사 팔란티르(Palantir)가 영국 금융감시청(FCA)의 극도로 민감한 금융규제 데이터에 접근할 수 있게 됐다. 이번 계약으로 팔란티르의 영국 정부 침투가 더욱 심화되면서 개인정보 보호를 우려하는 목소리가 커지고 있다.\n\n## 금융범죄 적발을 명목으로\n\n금융감시청은 팔란티르에게 자신의 내부 정보 데이터베이스를 분석할 수 있는 계약을 부여했다. 사기, 자금세탁, 내부자거래 같은 금융범죄를 적발하려는 취지다. \n\n마이애미에 본사를 두고 있으며 트럼프 지지자인 피터 티엘이 공동창립한 팔란티르는 3개월 시범 기간 동안 주당 3만 파운드 이상을 받으며 금융감시청의 거대한 \"데이터 레이크\"를 분석하게 된다. 성과가 좋으면 본격적인 AI 시스템 도입으로 이어질 수 있다.\n\n금융감시청은 현재 규제 대상인 4만 2천 개의 금융서비스 회사(대형 은행부터 암호화폐 거래소까지)를 더 효과적으로 감시하기 위해 디지털 지능 기술을 적극 활용하고 있다. 이번 계약은 그런 노력의 일환이다.\n\n## 거의 독점에 가까운 입찰\n\n경쟁사는 이름을 알 수 없는 한 곳뿐이었다. 팔란티르는 이미 영국 공공기관과 5억 파운드가 넘는 계약을 맺고 있으며, 그 대상에는 국민건강보험(NHS), 군부, 경찰이 포함돼 있다.\n\n## 무엇을 분석하나\n\n팔란티르의 AI 시스템인 '파운드리(Foundry)'는 금융감시청이 보유한 막대한 양의 정보를 다룰 예정이다. 구체적으로는:\n\n- 극비 표시된 사건 정보 파일\n- 문제 금융사 관련 정보\n- 대출기관들이 제출한 입증된 부정행위 및 의심 사기 보고서\n- 소비자 민원 등 일반인 관련 데이터\n\n여기에는 전화 통화 녹음, 이메일, 소셜 미디어 데이터 수집도 포함된다고 알려졌다. 금융감시청은 마약 거래와 인신매매 같은 심각한 범죄를 방지하려는 여러 영국 정부 부서 중 하나다.\n\n## 내부에서도 나오는 우려\n\n금융감시청 내부에서도 이 계약에 대한 의문의 목소리가 나오고 있다. 한 관계자는 \"팔란티르가 우리의 자금세탁 적발 방법을 파악한 후, 그들이 윤리적으로 신뢰할 수 있을 정도로 그 정보를 외부에 유출하지 않을지 어떻게 보장할 수 있나\"라고 지적했다.\n\n## 팔란티르의 논란 많은 이력\n\n팔란티르의 기술은 이스라엘 군과 미국 대통령의 이민단속국(ICE)에서 활용되고 있다. 지난달 영국 하원에서는 좌파 의원들이 팔란티르를 \"매우 의문스러운\" 그리고 \"끔찍한\" 회사라고 비판했다.\n\n2023년 팔란티르는 NHS와 3억 3천만 파운드 규모의 계약을 맺었는데, 의료진의 강한 반발을 샀다. 2025년 12월에는 국방부와 2억 4천만 파운드짜리 계약을 체결했고, 이에 대해 의원들은 \"인권 침해 공모 및 민주주의 과정 훼손 혐의\"를 지적했다.\n\n팔란티르 측은 자신들의 작업이 NHS에서 약 9만 9천 건의 추가 수술을 예약하는 데 도움을 줬고, 영국 경찰의 가정폭력 대응을 개선했으며, \"인권을 존중하는 엄격한 접근 방식\"을 취하고 있다고 주장했다.\n\n## 전문가의 의견\n\n카디프 대학교 자금세탁 전문가 마이클 레비 교수는 금융 규제 기관이 보유한 데이터를 충분히 활용하지 못하고 있다며, AI가 금융범죄 적발에 매우 유용한 도구가 될 수 있다는 점을 인정했다. 하지만 그는 \"팔란티르의 소유자들이 자신들의 친구들에게 조사 방법론을 미리 알릴 가능성이 있다는 것은 타당한 우려\"라고 지적했다.\n\n그는 또한 \"금융감시청과 팔란티르 사이에 학습 과정에서 얻은 정보의 추가 활용에 대해 어떤 규약이 체결됐는가\"라는 질문을 던졌다.\n\n## 금융감시청의 안전장치\n\n금융감시청은 계약 조건상 팔란티르가 \"데이터 처리자\"일 뿐 \"데이터 통제자\"는 아니라고 밝혔다. 즉, 팔란티르는 금융감시청의 지시에 따라서만 행동할 수 있다는 뜻이다.\n\n금융감시청은 가장 민감한 파일에 대한 암호화 키의 독점 통제권을 유지하고, 데이터는 영국 내에서만 호스팅되고 보관된다고 설명했다. 팔란티르는 계약 완료 후 데이터를 삭제해야 하며, 데이터 분석을 통해 나온 지적재산권은 금융감시청이 보유하게 된다.\n\n금융감시청은 가명 데이터를 사용하거나 회사명과 개인명을 스크램블링 처리하는 방안을 검토했다. 하지만 결국 실제 데이터만이 유일한 가치 있는 시범이라고 판단했다. 물론 규정상 시범 사업에는 합성 데이터 사용을 권장하고 있다."
+        },
+        {
+          "title": "Cloudflare flags archive.today as \"C&C/Botnet\"; no longer resolves via 1.1.1.2",
+          "titleKo": "Cloudflare가 archive.today를 'C&C/봇넷'으로 플래그; 1.1.1.2로 더 이상 해석되지 않음",
+          "summary": "Cloudflare의 DNS 서비스가 archive.today 도메인을 악성 C&C/봇넷 트래픽으로 분류하여 차단했습니다.",
+          "keyPoints": [
+            "archive.today가 Cloudflare DNS 1.1.1.2를 통해 접근 불가능",
+            "보안 신고 또는 콘텐츠 필터링에 의한 차단"
+          ],
+          "whyItMatters": "DNS 필터링의 광범위한 영향과 인터넷 아카이빙 서비스 접근성 문제를 이해하는 데 중요합니다.",
+          "url": "https://radar.cloudflare.com/domains/domain/archive.today",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 350,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "cloudflare-flags-archivetoday-as-ccbotnet-no-longer-resolves-via-1112",
+          "category": "hot",
+          "publishedAt": "2026-03-22T03:43:51.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "GrapheneOS will remain usable by anyone without requiring personal information",
+          "titleKo": "GrapheneOS는 개인정보 없이도 누구나 계속 사용할 수 있을 것",
+          "summary": "GrapheneOS가 개인정보 제공 없이도 계속 사용 가능할 것임을 보장한다는 공식 입장을 발표했다.",
+          "keyPoints": [
+            "사용자 개인정보 수집 없이도 GrapheneOS 사용 가능 보장"
+          ],
+          "whyItMatters": "개인정보 보호를 중시하는 개발자들이 신뢰할 수 있는 오픈소스 플랫폼으로의 가치를 확인할 수 있다.",
+          "url": "https://grapheneos.social/@GrapheneOS/116261301913660830",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 83,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "grapheneos-age-verification",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "grapheneos-will-remain-usable-by-anyone-without-requiring-personal-information",
+          "category": "hot",
+          "publishedAt": "2026-03-22T21:14:11.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Turbopack: What's New in Next.js 16.2",
+          "titleKo": "Turbopack: Next.js 16.2의 새로운 기능",
+          "summary": "Next.js 16.2에서 Turbopack은 빌드 속도 개선, SRI(Subresource Integrity) 지원, postcss.config.ts 파일 지원, 동적 import의 트리 쉐이킹, Server Fast Refresh 기능 등을 새로 추가했습니다. 또한 200개 이상의 버그를 수정하여 전반적인 안정성과 성능을 향상시켰습니다. 이러한 개선사항들은 개발 생산성 향상과 프로덕션 번들 최적화에 직접적인 영향을 미칩니다.",
+          "keyPoints": [
+            "빌드 속도 개선: Turbopack의 최적화를 통해 개발 및 프로덕션 빌드 성능이 전반적으로 향상되어 개발자의 피드백 루프가 단축됩니다.",
+            "SRI(Subresource Integrity) 지원: 외부 리소스의 무결성을 검증하여 보안을 강화하고, 예상치 못한 리소스 변조를 방지합니다.",
+            "postcss.config.ts 지원: 기존 CommonJS 기반의 postcss.config.js 대신 TypeScript를 사용하여 타입 안정성과 최신 JavaScript 문법을 활용할 수 있게 되었습니다.",
+            "동적 import 트리 쉐이킹: 동적으로 import된 모듈 중 사용되지 않는 코드를 자동으로 제거하여 최종 번들 크기를 감소시킵니다.",
+            "Server Fast Refresh: 서버 컴포넌트 코드 변경 시 빠른 새로고침을 지원하여 개발 중 상태 손실 없이 즉시 반영됩니다.",
+            "Inline Loader 구성: 빌드 설정을 파일 기반에서 인라인 방식으로 작성할 수 있어 프로젝트 구조가 단순화됩니다.",
+            "200개 이상의 버그 수정: 이전 버전의 알려진 문제들을 광범위하게 해결하여 프로덕션 환경에서의 안정성을 크게 높였습니다."
+          ],
+          "whyItMatters": "Turbopack의 성능 개선과 새로운 기능들은 대규모 프로젝트에서 빌드 시간을 단축하고 최종 사용자 경험을 개선하며, TypeScript 기반 설정으로 개발 생산성을 높일 수 있습니다.",
+          "url": "https://nextjs.org/blog/next-16-2-turbopack",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "nextjs-16-2-release",
+          "isTopicPrimary": true,
+          "relatedCount": 2,
+          "slug": "turbopack-whats-new-in-nextjs-162",
+          "category": "tech",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Next.js 16.2",
+          "titleKo": "Next.js 16.2",
+          "summary": "Next.js 16.2는 Adapters(어댑터), 렌더링 성능 개선, 디버깅 및 에러 페이지 개선 등을 포함한 주요 업데이트를 제공합니다. 이 버전은 개발자 경험과 프로덕션 성능 모두를 향상시키기 위한 종합적인 개선사항을 담고 있습니다.",
+          "keyPoints": [
+            "Adapters 지원: 다양한 호스팅 플랫폼과의 호환성을 높이는 어댑터 시스템이 도입되어 Next.js 애플리케이션을 더 다양한 환경에 배포할 수 있게 되었습니다.",
+            "렌더링 성능 개선: 서버 및 클라이언트 렌더링 최적화를 통해 초기 로딩 시간과 상호작용성이 개선되어 사용자 체감 성능이 향상됩니다.",
+            "디버깅 개선: 개발자 도구와 에러 메시지가 개선되어 버그를 더 빠르고 쉽게 파악하고 해결할 수 있습니다.",
+            "에러 페이지 개선: 에러 발생 시 더 명확한 정보와 해결 방안을 제시하는 에러 페이지로 개발 중 문제 해결 시간이 감소합니다."
+          ],
+          "whyItMatters": "Next.js 16.2는 호스팅 환경 유연성, 성능 최적화, 개발 효율성 등 전반적인 프레임워크 경험을 개선하여 현대적인 웹 개발 요구사항을 더 잘 충족합니다.",
+          "url": "https://nextjs.org/blog/next-16-2",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "nextjs-16-2-release",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "nextjs-162",
+          "category": "tech",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Next.js 16.2: AI Improvements",
+          "titleKo": "Next.js 16.2: AI 개선사항",
+          "summary": "Next.js 16.2는 AI 에이전트 개발을 지원하기 위해 create-next-app에 AGENTS.md 문서 추가, 브라우저 로그 포워딩, PID를 포함한 개발 서버 락 파일, 그리고 AI 에이전트 디버깅을 위한 next-browser 도구 등을 새로 도입했습니다. 이러한 기능들은 AI 기반 애플리케이션 개발을 체계적으로 지원하는 Next.js의 진화를 보여줍니다.",
+          "keyPoints": [
+            "AGENTS.md 문서: create-next-app 생성 시 AI 에이전트 개발에 관한 가이드 문서가 자동으로 포함되어 개발자가 AI 통합 시 모범 사례를 쉽게 참고할 수 있습니다.",
+            "브라우저 로그 포워딩: 클라이언트 측 브라우저 로그를 개발 서버로 포워딩하여 AI 에이전트가 브라우저 동작을 더 정확하게 모니터링하고 디버깅할 수 있습니다.",
+            "개발 서버 락 파일 with PID: 프로세스 ID를 포함한 락 파일로 개발 서버의 상태를 추적하여 포트 충돌이나 중복 실행 문제를 방지합니다.",
+            "next-browser 도구: AI 에이전트가 브라우저를 자동으로 제어하고 상호작용할 수 있도록 하는 전용 도구가 제공되어 에이전트 테스트와 디버깅이 수월해집니다."
+          ],
+          "whyItMatters": "AI 에이전트 개발이 점점 중요해지는 추세에서 Next.js가 전용 도구와 가이드를 제공함으로써 개발자가 AI 통합 애플리케이션을 더 효율적으로 구축하고 디버깅할 수 있게 되었습니다.",
+          "url": "https://nextjs.org/blog/next-16-2-ai",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "ai"
+          ],
+          "topicId": "nextjs-16-2-release",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "nextjs-162-ai-improvements",
+          "category": "tech",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Teaching Claude to QA a mobile app",
+          "titleKo": "Claude를 활용한 모바일 앱 QA 자동화",
+          "summary": "한 명의 개발자가 Capacitor로 만든 크로스플랫폼 앱(웹/iOS/Android)에서 Claude를 이용해 자동화된 QA를 구현했다. Android는 Chrome DevTools Protocol을 통해 90분만에 구성했고, iOS는 6시간 이상 소요되어 모바일 테스트 도구의 현실적 격차를 드러냈다.",
+          "keyPoints": [
+            "WebView 내 Chrome DevTools Protocol(CDP)를 활용하여 네이티브 앱을 프로그래밍 방식으로 제어",
+            "Claude가 25개 화면을 90초에 스캔하고 스크린샷 분석 후 자동으로 버그 리포트 작성",
+            "iOS Simulator의 복합적인 제약 사항으로 인해 Android보다 훨씬 복잡한 구현 과정 경험"
+          ],
+          "whyItMatters": "크로스플랫폼 개발 시 각 플랫폼의 테스트 도구 성숙도 차이를 실감하고, AI를 자동화된 QA에 활용하는 실무적 접근법을 배울 수 있다.",
+          "url": "https://christophermeiklejohn.com/ai/zabriskie/development/android/ios/2026/03/22/teaching-claude-to-qa-a-mobile-app.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 50,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "teaching-claude-to-qa-a-mobile-app",
+          "fullContent": "“When life looks like Easy Street, there is danger at your door”\n— Grateful Dead, “Uncle John’s Band”\n(A note on picking this quote: I asked Claude to find me a Grateful Dead lyric that fit the theme. It couldn’t — searching for “dead lyrics” triggers the content filtering policy: API Error: 400 {\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Output blocked by content filtering policy\"}. I had to pick this one myself.)\nI build Zabriskie alone — no team, no investors, just me in my bedroom shipping a community app because I think the internet needs better gathering places. My first lesson about building a “product”: if it’s not in the App Store, it doesn’t exist. I had early users who loved the web version but wouldn’t touch it daily because it wasn’t “an app.” It might as well not be real. So I needed to ship on three platforms — web for fast iteration and testing, iOS and Android because that’s where people actually live.\nThe problem is I’m one person. I can’t write and maintain three separate codebases. The answer was Capacitor: it takes the React web app I’d already built and wraps it in a native shell — a WebView on Android, a WKWebView on iOS — so the same code runs everywhere. Combined with the server-driven UI architecture (the backend sends screen layouts as JSON, and the client just renders them), I can push changes to all three platforms without waiting for App Store review. One codebase, three platforms, one developer. It’s the only way this works.\nBut Capacitor puts you in a testing no-man’s-land. Playwright can’t reach inside the native shell — it’s not a browser tab anymore, it’s an app. Native testing frameworks like XCTest and Espresso can’t interact with the content — it’s HTML inside a WebView, not native UI elements. You’re too native for web tools and too web for native tools. Every testing approach in this post exists because of that gap.\nZabriskie runs on all three platforms. The web gets tested by Playwright — 150+ E2E tests that run on every push. But the mobile apps had nothing. No automated QA, no visual regression checks, no way to know if either client was rendering correctly without manually clicking through every screen. I decided to fix that by teaching Claude to drive both mobile platforms, take screenshots, analyze them for issues, and file its own bug reports.\nAndroid took 90 minutes. iOS took over six hours. The difference says everything about the state of mobile automation tooling in 2026.\nThe first challenge was connectivity. Inside the Android emulator, localhost refers to the emulator itself, not the host Mac. When the Capacitor app tries to reach localhost:3000 or localhost:8080, it gets nothing. The fix is adb reverse:\nSimple, but you have to re-run it every time the emulator restarts.\nThe real breakthrough was realizing that Capacitor apps run inside an Android WebView, and WebViews expose a Chrome DevTools Protocol socket. You can find it, forward it to a local port, and suddenly you have full programmatic control:\nWith CDP, authentication is one WebSocket message — inject a JWT into localStorage and navigate to the feed. Navigation is another message — set window.location.href. No coordinate guessing, no UI interaction, no fighting with keyboards or dialogs. The same protocol that Playwright and Puppeteer use, just connected to an Android WebView instead of a desktop browser.\nCombined with adb shell screencap for screenshots, I built a Python script that sweeps all 25 screens of the app in about 90 seconds. Landing, login, all four feeds, post detail, profile, shows hub, content creation forms, catalog, battles, bug forum, diary, badges, tour crews — everything. Each screenshot gets analyzed for visual issues: broken layouts, error messages, missing images, blank screens, status bar overlap.\nWhen the sweep finds something wrong, it authenticates as zabriskie_bot, uploads the screenshot to S3, and files a properly formatted bug report to the production forum. The title format is [Android QA] Shows Hub: RSVP button overlaps venue text — immediately clear that it came from automation and which screen is affected. It knows about expected states too: the crew detail page returning “Forbidden” for non-members isn’t a bug, empty avatar circles aren’t bugs, and the “Preview” text in profile settings is a known cosmetic issue.\nThe whole thing runs as a scheduled task every morning at 8:47 AM. The first full run came back clean: 25 screens, 0 critical issues, 2 minor cosmetic notes. If someone’s change breaks a screen overnight, there’s a bug filed before anyone’s had coffee.\nNinety minutes, start to finish.\nI figured iOS would be straightforward. Same app, same screens, the Simulator is right there on my Mac. What followed was one of the most absurd debugging sessions I’ve had — not because the problem was technically profound, but because the iOS Simulator is a fortress of tiny, compounding restrictions that each seem reasonable in isolation but togeth",
+          "category": "tech",
+          "publishedAt": "2026-03-22T19:04:00.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Claude가 모바일 앱을 자동 테스트하도록 만들어본 후기\n\n\"좋은 날씨가 계속되면 위험이 찾아온다\"\n— Grateful Dead, \"Uncle John's Band\"\n\n저는 혼자 Zabriskie를 만들고 있습니다. 팀도 없고, 투자자도 없고, 그냥 제 방에서 커뮤니티 앱을 만들어서 출시하는 중이거든요. 인터넷이 더 나은 모임의 장소를 필요로 한다고 생각해서요.\n\n## 첫 번째 교훈: 앱이 아니면 존재하지 않는다\n\n초반에 웹 버전을 좋아하던 초기 사용자들이 있었는데, 매일 쓸 생각은 안 했어요. 이유는 간단했습니다. \"앱\"이 아니었으니까요. 사실상 없는 셈이었던 거죠. 그래서 저는 세 플랫폼에서 서비스를 내야 한다는 걸 깨달았어요. 웹은 빠른 반복 작업과 테스트를 위해서, iOS와 Android는 사람들이 실제로 쓰는 곳이었으니까요.\n\n문제는 저 혼자라는 거였습니다. 세 개의 별도 코드베이스를 유지할 수는 없었어요.\n\n## Capacitor: 한 코드로 세 플랫폼을 움직이다\n\n답은 Capacitor였습니다. 이미 만들어둔 React 웹 앱을 네이티브 셸로 감싸주거든요. Android에선 WebView, iOS에선 WKWebView를 쓰는데, 같은 코드가 모든 곳에서 돌아갑니다. 서버에서 JSON으로 화면 레이아웃을 내려주고 클라이언트가 렌더링하는 방식(서버 기반 UI 아키텍처)과 함께 쓰면 App Store 심사를 기다릴 필요 없이 세 플랫폼에 동시에 변경사항을 배포할 수 있어요. 한 개의 코드베이스, 세 개의 플랫폼, 한 명의 개발자. 이 방식이 아니면 불가능했습니다.\n\n## 테스트의 그림자 지역\n\n그런데 Capacitor는 테스트 측면에서 난처한 상황을 만들어요. Playwright는 네이티브 셸 안쪽을 건드릴 수 없거든요. 더 이상 브라우저 탭이 아니라 진짜 앱이 돼버렸으니까요. XCTest나 Espresso 같은 네이티브 테스트 프레임워크도 마찬가지예요. WebView 안의 HTML을 다룰 수 없습니다. 네이티브 UI 요소가 아니거든요.\n\n웹 도구들에겐 너무 '네이티브'했고, 네이티브 도구들에겐 너무 '웹'이었던 거죠. 이 문제 때문에 제가 이 글에서 소개할 모든 테스트 방법들이 탄생했습니다.\n\nZabriskie는 세 플랫폼에서 모두 돌아갑니다. 웹은 Playwright로 테스트해요. 150개 이상의 E2E 테스트가 매번 배포할 때마다 실행됩니다. 하지만 모바일 앱들은 제대로 된 게 없었어요. 자동화된 QA도 없고, 시각적 회귀 테스트도 없고, 앱이 제대로 렌더링되는지 확인하는 방법이 모든 화면을 수동으로 클릭해보는 것뿐이었거든요.\n\n그래서 결심했습니다. Claude에게 모바일 플랫폼 둘 다를 자동으로 조작하게 만들고, 스크린샷을 찍게 하고, 문제를 분석하게 하고, 버그 리포트까지 자동으로 올리게 하자고요.\n\nAndroid는 90분. iOS는 6시간 이상. 이 차이가 2026년 모바일 자동화 도구의 현황을 모두 말해줍니다.\n\n## Android: 90분의 집중력\n\n### 첫 번째 문제: 네트워크 연결\n\nAndroid 에뮬레이터 안에서 localhost는 에뮬레이터 자신을 가리키지, 호스트 Mac을 가리키지 않습니다. Capacitor 앱이 localhost:3000이나 localhost:8080에 접근하려고 하면 아무것도 반환되지 않아요. 해결책은 `adb reverse`입니다:\n\n```bash\nadb reverse tcp:3000 tcp:3000\nadb reverse tcp:8080 tcp:8080\n```\n\n간단하지만, 에뮬레이터가 재시작될 때마다 다시 실행해야 해요.\n\n### 진짜 돌파구: Chrome DevTools Protocol\n\n정말 핵심이 된 것은 Capacitor 앱들이 Android WebView 안에서 실행되고, WebView가 Chrome DevTools Protocol 소켓을 노출한다는 걸 깨달은 거예요. 그걸 찾으면, 로컬 포트로 포워딩해서 갑자기 완전한 프로그래밍 제어가 가능해집니다:\n\n```bash\nadb shell cat /proc/net/unix | grep webview\n# \"webview_devtools_remote\" 소켓 찾기\n\nadb forward tcp:9222 localabstract:webview_devtools_remote\n# 이제 localhost:9222에서 CDP에 접근 가능\n```\n\nCDP를 통한 인증은 한 줄의 WebSocket 메시지예요. JWT를 localStorage에 주입하고 피드로 네비게이션합니다. 또 다른 메시지로는 window.location.href를 설정하죠. 좌표값을 맞추거나 UI를 클릭할 필요가 없어요. 키보드나 대화상자와 싸울 필요도 없습니다. Playwright와 Puppeteer가 쓰는 바로 그 프로토콜을, 데스크톱 브라우저 대신 Android WebView에 연결한 거죠.\n\n### 자동화된 테스트 워크플로우\n\n`adb shell screencap`으로 스크린샷을 찍고, Python 스크립트를 만들어서 앱의 25개 화면을 전부 순회합니다. 약 90초 안에 끝나요. 랜딩 페이지, 로그인, 네 개의 피드, 포스트 상세 페이지, 프로필, 쇼 허브, 컨텐츠 작성 폼, 카탈로그, 배틀, 버그 포럼, 다이어리, 배지, 투어 크루 — 모든 것이요. 각 스크린샷은 시각적 문제들을 분석받습니다. 레이아웃이 깨졌는지, 에러 메시지가 보이는지, 이미지가 빠졌는지, 화면이 비어있는지, 상태바가 겹치는지 같은 것들 말이죠.\n\n뭔가 잘못 된 걸 발견하면, 스크립트는 `zabriskie_bot`으로 인증하고 스크린샷을 S3에 업로드한 뒤 프로덕션 포럼에 제대로 형식이 맞춘 버그 리포트를 올립니다. 제목 형식은 이렇게: `[Android QA] Shows Hub: RSVP button overlaps venue text`. 자동화에서 나온 거라는 게 명확하고, 어떤 화면이 영향을 받았는지도 한눈에 알 수 있어요.\n\n또한 예상되는 상태도 알고 있습니다. 크루 상세 페이지에서 멤버가 아닌 유저에게 \"Forbidden\"을 반환하는 건 버그가 아닙니다. 빈 아바타 원형도 버그가 아니고요. 프로필 설정의 \"Preview\" 텍스트는 이미 알고 있는 미적 문제예요.\n\n이 전체 과정은 매일 아침 8시 47분에 스케줄된 작업으로 실행됩니다. 첫 번째 완전한 실행은 깨끗했어요: 25개 화면, 중대한 이슈 0개, 경미한 메모 2개. 누군가의 변경사항이 밤새 화면을 깨트려도, 아침에 커피를 마시기 전에 이미 버그가 올라와 있어요.\n\n**총 소요 시간: 90분, 처음부터 끝까지.**\n\n## iOS: 6시간의 악몽\n\niOS는 직관적일 거라고 생각했어요. 같은 앱이고, 같은 화면이고, 시뮬레이터가 이미 Mac에 있잖아요. 하지만 뭔가 진짜 기묘한 디버깅 세션이 시작되었습니다. 기술적으로 깊은 문제였다기보단, iOS 시뮬레이터가 벽처럼 단단했거든요. 작은 제약 조건들이 겹겹이 쌓여있었어요. 하나하나는 합리적으로 보이지만, 다 합쳐지면...\n\n(글이 여기서 끝나고 있는데, 원문도 이 지점에서 중단되어 있습니다. iOS 섹션의 전체 내용을 전달받으시면 계속 작성해드리겠습니다.)"
+        },
+        {
+          "title": "Flash-MoE: Running a 397B Parameter Model on a Laptop",
+          "titleKo": "Flash-MoE: 397B 파라미터 모델을 노트북에서 실행하기",
+          "summary": "C/Metal 기반의 순수 네이티브 추론 엔진으로 MacBook Pro 48GB RAM에서 Qwen3.5-397B 모델을 초당 4.4+ 토큰으로 실행한다. SSD 스트리밍, FMA 최적화된 역양자화 커널, Metal 컴퓨트 셰이더를 결합하여 209GB 모델을 프로덕션 품질의 도구 호출 기능과 함께 구동한다.",
+          "keyPoints": [
+            "SSD 스트리밍과 OS 페이지 캐시를 활용하여 필요한 4개 활성 전문가만 로드하고 71% 캐시 히트율 달성",
+            "4-bit 역양자화 커널을 FMA(fused multiply-add)로 최적화하여 12% 성능 향상",
+            "Apple Silicon의 메모리 제약을 고려한 직렬 파이프라인(GPU → SSD → GPU) 설계로 하드웨어 최적 성능 달성"
+          ],
+          "whyItMatters": "로컬 하드웨어에서 초대형 모델을 효율적으로 실행하는 방법을 보여주며, 클라우드 의존성 없이 온디바이스 AI 구현의 가능성을 제시한다.",
+          "url": "https://github.com/danveloper/flash-moe",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 281,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "large-model-optimization",
+          "isTopicPrimary": true,
+          "slug": "flash-moe-running-a-397b-parameter-model-on-a-laptop",
+          "fullContent": "Flash-MoE: Running a 397B Parameter Model on a Laptop\nRead the paper — Full technical details, 90+ experiments, and the story of how an AI and a human built this in 24 hours.\nPure C/Metal inference engine that runs Qwen3.5-397B-A17B (a 397 billion parameter Mixture-of-Experts model) on a MacBook Pro with 48GB RAM at 4.4+ tokens/second with production-quality output including tool calling.\nThe entire 209GB model streams from SSD through a custom Metal compute pipeline. No Python. No frameworks. Just C, Objective-C, and hand-tuned Metal shaders.\nResults\nConfiguration\ntok/s\nQuality\nNotes\n4-bit experts, FMA kernel\n4.36\nExcellent\nCurrent best. Full tool calling. 209GB on disk.\n4-bit experts, baseline\n3.90\nExcellent\nBefore FMA kernel optimization.\n2-bit experts, trust OS\n5.74\nGood*\n120GB on disk. *Breaks JSON/tool calling.\n2-bit peak single token\n7.05\nGood*\nWarm cache burst. *Not suitable for tool use.\n*2-bit quantization produces \\name\\ instead of \"name\" in JSON output, making tool calling unreliable. 4-bit is the production configuration.\nHardware\nMachine: MacBook Pro, Apple M3 Max\nChip: 16-core CPU (12P + 4E), 40-core GPU, 16-core ANE\nMemory: 48 GB unified (~400 GB/s bandwidth)\nSSD: 1TB Apple Fabric, 17.5 GB/s sequential read (measured)\nmacOS: 26.2 (Darwin 25.2.0)\nArchitecture\nThe model has 60 transformer layers: 45 GatedDeltaNet (linear attention) + 15 standard full attention. Each layer has 512 experts, of which K=4 are activated per token (plus one shared expert). Hidden dimension is 4096.\nKey Techniques\nSSD Expert Streaming — Expert weights (209GB at 4-bit) are read from NVMe SSD on demand via parallel pread() with GCD dispatch groups. Only the K=4 active experts per layer are loaded (~6.75MB each). The OS page cache manages caching — no custom cache needed (\"Trust the OS\" principle). Inspired by Apple's \"LLM in a Flash\" paper.\nFMA-Optimized Dequant Kernel — The inner loop of the 4-bit dequantized matrix-vector multiply rearranges the math from (nibble * scale + bias) * x to fma(nibble, scale*x, bias*x). Pre-computing scale*x and bias*x lets the GPU fused multiply-add unit do dequant+multiply in one instruction. 12% faster than the naive formulation.\nMetal Compute Shaders — Hand-written Metal kernels for:\n4-bit and 2-bit dequantized matrix-vector multiply (tiled, SIMD-reduced, shared input cache, FMA-optimized)\nFused SwiGLU activation\nRMS normalization (two-pass: sum-of-squares reduction + apply)\nBatched GPU attention (Q@K^T, softmax, scores@V) for full attention layers\nGPU RoPE (fused with Q deinterleave and K normalization)\nMoE combine + residual + sigmoid gate (fused kernel)\nDeferred GPU Expert Compute — CMD3 (expert forward pass) is submitted without waiting. The GPU executes it while the CPU prepares the next layer. The combine + residual + norm are also on GPU, feeding directly into the next layer's attention projections.\nAccelerate BLAS for Linear Attention — The GatedDeltaNet recurrence uses cblas_sscal, cblas_sgemv, and cblas_sger for the 64-head × 128×128 state matrix update. 64% faster than scalar code.\nTrust the OS — No custom expert cache. The OS page cache (~35GB) manages expert data caching via standard LRU. Every custom caching approach we tested (Metal LRU, malloc cache, LZ4 compressed cache) was slower due to GPU memory pressure or overhead. The page cache achieves ~71% hit rate naturally.\nPipeline Per Layer (4.28ms average at 4-bit)\nCMD3(prev) → CMD1: attention projections + delta-net [1.22ms GPU]\n→ CPU: flush results [0.01ms CPU]\n→ CMD2: o_proj + norm + routing + shared [0.55ms GPU]\n→ CPU: softmax + topK routing [0.003ms]\n→ I/O: parallel pread K=4 experts [2.41ms SSD]\n→ CMD3: expert forward + combine + norm [0.04ms encode, DEFERRED]\nUnified Memory Constraint\nOn Apple Silicon, SSD DMA and GPU compute share the same memory controller and cannot be profitably overlapped. The GPU's dequant kernels are bandwidth-saturated at ~418 GiB/s. Even small background SSD DMA causes disproportionate GPU latency spikes through memory controller arbitration. The serial pipeline (GPU → SSD → GPU) is hardware-optimal.\nQuick Start\ncd metal_infer\nmake\n# 4-bit inference (needs packed_experts/ directory)\n./infer --prompt \"Explain quantum computing\" --tokens 100\n# 2-bit inference (faster but breaks tool calling)\n./infer --prompt \"Explain quantum computing\" --tokens 100 --2bit\n# Interactive chat with tool calling\n./chat\n# Per-layer timing breakdown\n./infer --prompt \"Hello\" --tokens 20 --timing\nProject Structure\nmetal_infer/\ninfer.m # Complete inference engine (~7000 lines)\nshaders.metal # Metal compute kernels (~1200 lines)\nchat.m # Interactive chat TUI with tool calling\ntokenizer.h # C BPE tokenizer (single-header, 449 lines)\nmain.m # MoE-only benchmark\nMakefile # Build system\nextract_weights.py # Creates model_weights.bin from safetensors\nrepack_experts_2bit.py # 4-bit → 2-bit expert requantization\ntrain_predictor.py # Expert routing prediction analysis\nmodel_weights.bin # Non-expert weights (5.5GB, mmap'd)\nm",
+          "category": "tech",
+          "publishedAt": "2026-03-22T11:30:03.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 노트북에서 397B 파라미터 모델 실행하기: Flash-MoE\n\nMacBook Pro 48GB RAM에서 Qwen3.5-397B-A17B(397억 개의 파라미터를 가진 Mixture-of-Experts 모델)를 초당 4.4개 이상의 토큰으로 추론할 수 있다면 어떨까요? Flash-MoE는 이를 실현했습니다. 도구 호출을 포함한 프로덕션 수준의 출력도 지원합니다.\n\nC/Metal 기반의 순수 추론 엔진이거든요. Python도, 프레임워크도 없습니다. C, Objective-C, 그리고 손으로 최적화한 Metal 셰이더만 있으면 됩니다. 209GB 크기의 전체 모델이 SSD에서 커스텀 Metal 파이프라인을 통해 스트리밍되고 있습니다.\n\n## 성능 결과\n\n| 구성 | tok/s | 품질 | 비고 |\n|------|-------|------|------|\n| 4-bit 전문가, FMA 커널 | 4.36 | 우수 | 현재 최고 성능. 전체 도구 호출 지원. 디스크 209GB |\n| 4-bit 전문가, 기본 커널 | 3.90 | 우수 | FMA 커널 최적화 적용 전 |\n| 2-bit 전문가, OS 신뢰 | 5.74 | 좋음* | 디스크 120GB. *JSON/도구 호출 불안정 |\n| 2-bit 피크 싱글 토큰 | 7.05 | 좋음* | 웜 캐시 버스트. *도구 사용에 부적합 |\n\n2-bit 양자화는 JSON 출력에서 `\\name\\` 대신 `\"name\"`을 생성하지 못해 도구 호출이 불안정합니다. 프로덕션 환경에서는 4-bit 구성을 사용하세요.\n\n## 하드웨어 사양\n\n- **기기**: MacBook Pro, Apple M3 Max\n- **칩**: 16코어 CPU(12P + 4E), 40코어 GPU, 16코어 ANE\n- **메모리**: 48GB 통합 메모리(대역폭 약 400GB/s)\n- **SSD**: 1TB Apple Fabric, 순차 읽기 17.5GB/s(실측)\n- **OS**: macOS 26.2(Darwin 25.2.0)\n\n## 모델 구조\n\n60개의 트랜스포머 레이어로 구성되어 있습니다. 45개의 GatedDeltaNet(선형 어텐션) 레이어와 15개의 표준 풀 어텐션 레이어가 섞여 있죠. 각 레이어는 512개의 전문가를 가지고 있는데, 토큰당 K=4개만 활성화됩니다(공유 전문가 1개 추가). 숨겨진 차원은 4096입니다.\n\n## 핵심 기술들\n\n**SSD 전문가 스트리밍**\n\n전문가 가중치(4-bit 기준 209GB)를 SSD에서 필요에 따라 parallel pread()와 GCD dispatch groups로 읽어 옵니다. 레이어당 활성 전문가 K=4개(각각 약 6.75MB)만 로드하면 되죠. OS 페이지 캐시가 캐싱을 자동으로 관리하므로 커스텀 캐시는 필요 없습니다. 이것이 바로 \"OS를 믿자\"는 원칙인데요. Apple의 \"LLM in a Flash\" 논문에서 영감을 얻었습니다.\n\n**FMA 최적화 양자화 해제 커널**\n\n4-bit 양자화 해제 행렬-벡터 곱셈의 내부 루프를 다시 정렬합니다. 기존 방식인 `(nibble * scale + bias) * x`를 `fma(nibble, scale*x, bias*x)`로 바꾸는 거죠. `scale*x`와 `bias*x`를 미리 계산해두면 GPU의 fused multiply-add 유닛이 양자화 해제와 곱셈을 한 번에 처리할 수 있습니다. 순진한 방식보다 12% 빠릅니다.\n\n**Metal 컴퓨트 셰이더**\n\n다음 작업들을 위해 직접 작성한 Metal 커널을 사용합니다:\n\n- 4-bit 및 2-bit 양자화 해제 행렬-벡터 곱셈(타일, SIMD 감소, 공유 입력 캐시, FMA 최적화)\n- Fused SwiGLU 활성화\n- RMS 정규화(2단계: 제곱합 감소 + 적용)\n- 배치 GPU 어텐션(Q@K^T, softmax, scores@V) - 풀 어텐션 레이어용\n- GPU RoPE(Q deinterleave 및 K 정규화와 함께 fused)\n- MoE combine + residual + sigmoid gate(fused 커널)\n\n**지연된 GPU 전문가 계산**\n\nCMD3(전문가 포워드 패스)를 기다리지 않고 제출합니다. GPU가 이를 실행하는 동안 CPU는 다음 레이어를 준비하고 있거든요. combine + residual + norm도 GPU에서 처리되어 다음 레이어의 어텐션 프로젝션으로 직접 공급됩니다.\n\n**선형 어텐션을 위한 Accelerate BLAS**\n\nGatedDeltaNet recurrence는 64-head × 128×128 상태 행렬 업데이트를 위해 `cblas_sscal`, `cblas_sgemv`, `cblas_sger`을 사용합니다. 스칼라 코드보다 64% 빠릅니다.\n\n**OS를 믿자**\n\n커스텀 전문가 캐시가 필요 없습니다. OS 페이지 캐시(약 35GB)가 표준 LRU를 통해 전문가 데이터 캐싱을 자동으로 관리합니다. 우리가 테스트한 모든 커스텀 캐싱 방식(Metal LRU, malloc 캐시, LZ4 압축 캐시)은 GPU 메모리 압박이나 오버헤드 때문에 더 느렸거든요. 페이지 캐시는 자연스럽게 약 71%의 히트율을 달성합니다.\n\n## 레이어당 파이프라인(4-bit 기준 평균 4.28ms)\n\n```\nCMD3(prev) → CMD1: attention projections + delta-net [1.22ms GPU]\n→ CPU: flush results [0.01ms CPU]\n→ CMD2: o_proj + norm + routing + shared [0.55ms GPU]\n→ CPU: softmax + topK routing [0.003ms]\n→ I/O: parallel pread K=4 experts [2.41ms SSD]\n→ CMD3: expert forward + combine + norm [0.04ms encode, DEFERRED]\n```\n\n## 통합 메모리 제약\n\nApple Silicon에서는 SSD DMA와 GPU 계산이 같은 메모리 컨트롤러를 공유하며 서로 겹칠 수 없습니다. GPU의 양자화 해제 커널은 약 418GiB/s에서 대역폭 포화 상태입니다. 백그라운드 SSD DMA가 조금이라도 생기면 메모리 컨트롤러 중재를 통해 GPU 지연이 불균형적으로 증가합니다. 따라서 GPU → SSD → GPU 순차 파이프라인이 하드웨어상 최적입니다.\n\n## 빠른 시작\n\n```bash\ncd metal_infer\nmake\n\n# 4-bit 추론 (packed_experts/ 디렉토리 필요)\n./infer --prompt \"Explain quantum computing\" --tokens 100\n\n# 2-bit 추론 (더 빠르지만 도구 호출 불안정)\n./infer --prompt \"Explain quantum computing\" --tokens 100 --2bit\n\n# 도구 호출이 있는 대화형 챗\n./chat\n\n# 레이어별 타이밍 분석\n./infer --prompt \"Hello\" --tokens 20 --timing\n```\n\n## 프로젝트 구조\n\n```\nmetal_infer/\n├── infer.m                    # 완전한 추론 엔진 (~7000줄)\n├── shaders.metal              # Metal 컴퓨트 커널 (~1200줄)\n├── chat.m                     # 도구 호출이 있는 대화형 챗 UI\n├── tokenizer.h                # C BPE 토크나이저 (싱글 헤더, 449줄)\n├── main.m                     # MoE 전용 벤치마크\n├── Makefile                   # 빌드 시스템\n├── extract_weights.py         # safetensors에서 model_weights.bin 생성\n├── repack_experts_2bit.py     # 4-bit → 2-bit 전문가 재양자화\n├── train_predictor.py         # 전문가 라우팅 예측 분석\n└── model_weights.bin          # 비전문가 가중치 (5.5GB, mmap'd)\n```"
+        },
+        {
+          "title": "browser-use/browser-use (Python)",
+          "titleKo": "browser-use/browser-use (Python)",
+          "summary": "AI 에이전트가 웹사이트와 상호작용하고 온라인 작업을 자동화할 수 있도록 하는 라이브러리이다.",
+          "keyPoints": [
+            "웹사이트를 AI 에이전트 접근 가능하게 만드는 인터페이스 제공",
+            "온라인 작업 자동화를 쉽게 구현"
+          ],
+          "whyItMatters": "AI 에이전트의 웹 상호작용 능력을 표준화하여 개발자가 자동화 워크플로우를 더 쉽게 구축할 수 있다.",
+          "url": "https://github.com/browser-use/browser-use",
+          "sourceName": "GitHub Trending",
+          "engagement": 82497,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "topicId": "ai-agents",
+          "isTopicPrimary": false,
+          "relatedCount": 4,
+          "slug": "browser-usebrowser-use-python",
+          "category": "tech",
+          "publishedAt": "2026-03-22T23:10:08.024Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "MAUI Is Coming to Linux",
+          "titleKo": "MAUI가 Linux로 출시됨",
+          "summary": "Avalonia 12와 함께 .NET MAUI용 Avalonia 백엔드의 첫 프리뷰가 발표되었으며, 이제 Linux와 WebAssembly를 포함한 새로운 플랫폼에 .NET MAUI 앱을 배포할 수 있다. 네 가지 간단한 단계로 시작할 수 있으며, Avalonia의 드로잉 기반 UI는 모든 플랫폼에서 일관된 외관을 제공한다.",
+          "keyPoints": [
+            "Avalonia 백엔드를 통해 .NET MAUI 앱이 Linux, WebAssembly 등 새로운 플랫폼을 지원할 수 있게 되었다.",
+            "기존 .NET MAUI 앱을 포팅하여 테스트했으며, 네이티브 UI와 드로잉 기반 UI 중 선택할 수 있다.",
+            "Avalonia 12의 새로운 네비게이션 API와 컨트롤은 .NET MAUI 지원 작업에서 직접 나온 개선사항이다."
+          ],
+          "whyItMatters": ".NET MAUI 개발자들이 크로스플랫폼 배포 범위를 확장할 수 있고, 플랫폼 간 UI 일관성에 대한 선택지가 늘어난다.",
+          "url": "https://avaloniaui.net/blog/maui-avalonia-preview-1",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 130,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "maui-is-coming-to-linux",
+          "fullContent": "Alongside Avalonia 12 and the .NET 11 Previews, I am pleased to announce the first preview of our Avalonia backend for .NET MAUI. Now, you can leverage Avalonia to deploy .NET MAUI apps to new platforms, like Linux and WebAssembly.Since last fall, we’ve made great strides in bringing the power of Avalonia to .NET MAUI.Check out the GitHub RepositoryBeyond offering Linux and WebAssembly support for .NET MAUI, this new backend advances Avalonia’s vision of cross-platform consistency. There are many great reasons to choose between native and drawn UIs. Going native allows your app to blend in with your hosted platform. But there are times when you don’t want Liquid Glass and prefer a classic look. We want these apps to look and feel the same, regardless of the platforms you choose. Get started in four stepsEager to get started right away? Here’s how:Create a .NET MAUI app.Add the Avalonia.Controls.Maui.Desktop NuGet.Add the net11.0 target framework.Add UseAvaloniaApp to your MauiBuilder.That’s it. Run the net11.0 target, and your app will launch. No need to create an Avalonia bootstrapper; we've already done that for you. Of course, you can extend or disable our source generator if you want full control on the Avalonia side. We’ve provided examples of each approach in the repository to help you.Improving Avalonia for everyoneFor us, this project was a great opportunity to introduce improvements to Avalonia itself. We wanted to close the gap between the control set available in .NET MAUI and Avalonia, to avoid needing to implement .NET MAUI-specific controls. One of the most obvious benefits of that work has been the creation of the new navigation APIs and controls we’re introducing with Avalonia 12. These, and countless other new features, are a direct result of our work supporting .NET MAUI. Anyone using Avalonia 12 gets the full benefits, and since these .NET MAUI handlers are built on Avalonia primitives, they can be fully customized through Avalonia APIs. And, thanks to Avalonia being entirely drawn, they'll look the same on every platform you deploy to.How we testedTo test our new libraries, we’ve been porting existing .NET MAUI apps and developing new ones. Some you may have already seen, such as MauiPlanets or our 2048 implementation. These apps have been extremely useful in validating our work as we strive to meet or exceed parity with the original .NET MAUI versions. With that in mind, we wanted to try larger-scale apps with more features to see what would happen. Here are some examples of what we’ve done:.NET MAUI control galleryThis is used in the .NET MAUI repository to test and demonstrate its services and controls. It has been an amazing tool for checking our controls against the native versions to see how they perform, especially in places like WASM.AlohaAIAlohaAI was created as a collaboration between Jakub Florkowski, from the .NET MAUI team, and GitHub Copilot. This app aims to teach concepts in Large Language Models and Machine Learning through gamification. With a very dense UI, involving nested pages and flowing animations, it felt ripe for porting. We made minor changes to the underlying source code, including adding support for dark and light themes, making it trim-safe, supporting NativeAOT, and adding a custom tab bar for the navigation menu. Otherwise, the app is structured largely the same as the original, and it works equally well across all .NET MAUI platforms, native or drawn.MyConferenceMyConference was developed during a .NET MAUI Live Stream, also by Jakub and Copilot, as a demonstration of \"Agentic AI\" development. They were able to build a solid foundation of a conference application during the stream, with limited input needed from Jakub as Copilot implemented his requests. It was a slick demo, and we knew we had to port this too.Like AlohaAI, we had to make some changes for it to work; the base app had theme and trimming issues we needed to address. We also needed to add a CORS proxy so the APIs would work with WebAssembly. After adding our handlers, everything just worked. Here's the app running on every desktop platform, with both Avalonia and .NET MAUI Native:Native or drawn?Running with both native and drawn controls is a good demonstration of what Avalonia offers .NET MAUI users. The native .NET MAUI version uses the operating system’s controls with its native tab bar and navigation pages, making it appear more unified with the host OS. Meanwhile, Avalonia.Controls.Maui has a consistent look and behavior across all platforms. There's no right or wrong approach; both have their merits, but with Avalonia MAUI, you now have options, giving you more control and flexibility over how your app looks and performs.WebView WeatherTwentyOne is a .NET MAUI sample app, originally developed for the .NET 6 launch. It includes novel UI layouts, such as handling the sidebar and grids with FlexLayout. Using our newly open-sourced WebView, we created a port of this app, which works wonde",
+          "category": "tech",
+          "publishedAt": "2026-03-22T15:43:21.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Avalonia가 .NET MAUI를 지원합니다 - Linux와 WebAssembly 배포가 이제 가능해요\n\nAvalonia 12와 .NET 11 프리뷰 릴리스와 함께, 저희가 .NET MAUI용 Avalonia 백엔드의 첫 번째 프리뷰를 공개하게 되어 기쁩니다. 이제 Avalonia를 활용해서 .NET MAUI 앱을 Linux와 WebAssembly 같은 새로운 플랫폼에 배포할 수 있게 됐어요.\n\n지난해 가을부터 저희는 Avalonia의 강력한 기능을 .NET MAUI에 연결하기 위해 많은 노력을 기울여왔습니다. [GitHub 저장소에서 자세한 내용을 확인](링크)할 수 있습니다.\n\n## 크로스플랫폼 일관성이라는 Avalonia의 비전\n\n.NET MAUI에 Linux와 WebAssembly 지원을 제공하는 것 외에도, 이 새로운 백엔드는 Avalonia의 크로스플랫폼 일관성이라는 비전을 한 단계 더 나아가게 합니다.\n\n네이티브 UI와 그려진(Drawn) UI 중 어느 것을 선택할지는 각자의 상황에 따라 달라집니다. 네이티브 방식을 사용하면 앱이 호스트 플랫폼과 자연스럽게 어울릴 수 있거든요. 반면 세련된 네이티브 느낌 대신 클래식한 디자인을 원할 때도 있죠. 저희가 원하는 건 어떤 플랫폼을 선택하든 앱이 동일한 모습과 느낌으로 동작하는 것입니다.\n\n## 4단계로 시작하기\n\n지금 바로 시작하고 싶으신가요? 이렇게 하면 됩니다:\n\n1. .NET MAUI 앱을 만드세요.\n2. `Avalonia.Controls.Maui.Desktop` NuGet 패키지를 추가하세요.\n3. `net11.0` 타겟 프레임워크를 추가하세요.\n4. MauiBuilder에 `UseAvaloniaApp`을 추가하세요.\n\n끝입니다. `net11.0` 타겟으로 실행하면 앱이 바로 실행됩니다. Avalonia 부트스트래퍼를 따로 만들 필요가 없어요. 저희가 이미 다 해놨거든요.\n\n물론 전체 제어가 필요하다면 소스 제너레이터를 커스터마이징하거나 비활성화할 수도 있습니다. 각 접근 방식의 예제를 저장소에서 찾아보실 수 있어요.\n\n## Avalonia 전체에 미친 긍정적인 영향\n\n이 프로젝트는 Avalonia 자체를 개선할 수 있는 훌륭한 기회였습니다. .NET MAUI 관련 컨트롤을 따로 구현할 필요가 없도록, .NET MAUI에서 제공하는 컨트롤 세트와 Avalonia 간의 격차를 줄이고 싶었거든요.\n\n이러한 작업의 가장 큰 성과 중 하나는 Avalonia 12에서 새롭게 소개되는 네비게이션 API와 컨트롤입니다. 이들을 포함한 수많은 새로운 기능들은 .NET MAUI 지원 작업의 직접적인 결과물입니다. Avalonia 12를 사용하는 모든 개발자가 이런 모든 이점을 누릴 수 있고, .NET MAUI 핸들러들은 Avalonia의 기본 요소 위에 구축되어 있으니 Avalonia API를 통해 완전히 커스터마이징할 수 있습니다. 그리고 Avalonia는 완전히 그려진 방식이기 때문에, 배포하는 모든 플랫폼에서 동일하게 보인다는 장점이 있어요.\n\n## 실제 앱으로 검증하기\n\n새로운 라이브러리를 테스트하기 위해 저희는 기존 .NET MAUI 앱들을 포팅했고, 새로운 앱들도 개발했습니다. MauiPlanets나 2048 구현 같은 일부 앱은 이미 보셨을 겁니다. 이런 앱들은 원본 .NET MAUI 버전과의 동등성을 달성하고 초과하려는 저희의 노력을 검증하는 데 정말 유용했어요.\n\n그래서 저희는 더 많은 기능을 갖춘 대규모 앱들도 시도해보기로 했습니다. 몇 가지 예시를 소개하겠습니다:\n\n### .NET MAUI 컨트롤 갤러리\n\n.NET MAUI 저장소에서 서비스와 컨트롤을 테스트하고 시연하기 위해 사용되는 앱입니다. 특히 WebAssembly 같은 환경에서 저희 컨트롤이 네이티브 버전과 어떻게 비교되는지 확인하는 데 정말 유용한 도구였어요.\n\n### AlohaAI\n\n이 앱은 .NET MAUI 팀의 Jakub Florkowski와 GitHub Copilot의 협력으로 만들어졌습니다. 게임화를 통해 대규모 언어 모델과 머신러닝 개념을 배우는 것을 목표로 합니다.\n\n매우 복잡한 UI(중첩된 페이지와 부드러운 애니메이션 포함)를 가지고 있어서 포팅하기에 적합했습니다. 다크/라이트 테마 지원 추가, 트림 안전성 확보, NativeAOT 지원, 그리고 네비게이션 메뉴용 커스텀 탭 바 추가 같은 기본 소스 코드 변경이 필요했어요. 그 외에는 원본과 거의 같은 구조로 유지되며, 모든 .NET MAUI 플랫폼(네이티브든 그려진 방식이든)에서 동일하게 잘 작동합니다.\n\n### MyConference\n\n이 앱은 Jakub와 Copilot이 .NET MAUI 라이브 스트림 중에 \"에이전틱 AI\" 개발의 시연으로 만들었습니다. 스트림 동안 Copilot이 Jakub의 요청을 구현하면서 Jakub의 최소한의 입력으로 탄탄한 컨퍼런스 애플리케이션의 기초를 완성했어요. 정말 멋진 시연이었고, 저희도 꼭 포팅해야겠다고 생각했습니다.\n\nAlohaAI처럼 작동하게 하려면 몇 가지 변경이 필요했습니다. 기본 앱에 테마와 트리밍 관련 문제들이 있었거든요. WebAssembly에서 API가 제대로 작동하도록 CORS 프록시도 추가해야 했습니다. 저희 핸들러를 추가하고 나니 모든 게 제대로 작동했어요.\n\n## 네이티브냐, 그려진 방식이냐?\n\n네이티브와 그려진 컨트롤 두 가지 방식 모두로 실행할 수 있다는 것은 Avalonia가 .NET MAUI 사용자에게 제공하는 가치를 잘 보여줍니다. 네이티브 .NET MAUI 버전은 운영 체제의 컨트롤을 사용하며 네이티브 탭 바와 네비게이션 페이지가 있어서 호스트 OS와 더 통일된 느낌으로 보입니다. 반면 Avalonia.Controls.Maui는 모든 플랫폼에서 일관된 모습과 동작을 제공하죠.\n\n어느 접근 방식이 맞다거나 틀리다는 건 없습니다. 둘 다 장점이 있지만, Avalonia MAUI를 사용하면 이제 선택의 폭이 생깁니다. 앱의 모습과 성능을 어떻게 구성할지에 대해 더 많은 제어와 유연성을 가지게 되는 거예요.\n\n### WeatherTwentyOne - WebView를 활용한 예제\n\nWeatherTwentyOne은 .NET 6 출시를 위해 원래 개발된 .NET MAUI 샘플 앱입니다. FlexLayout으로 사이드바와 그리드를 다루는 등 새로운 UI 레이아웃을 포함하고 있어요. 저희가 최근 오픈소스로 공개한 WebView를 사용해 이 앱을 포팅했고, 완벽하게 작동합니다."
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "Reports of code's death are greatly exaggerated",
+          "titleKo": "코드의 죽음에 대한 보도는 크게 과장되었다",
+          "summary": "AI 시대에도 코드는 여전히 필수적이며, 영어 사양만으로는 복잡성을 충분히 표현할 수 없고, 추상화를 통해 복잡성을 마스터하는 것이 프로그래밍의 핵심이라고 주장합니다.",
+          "keyPoints": [
+            "'Vibe coding'은 초기에는 정확해 보이지만 기능 추가나 규모 확장 시 예기치 못한 버그가 발생하는 한계 존재",
+            "인간은 7±2개 항목만 한 번에 생각할 수 있으므로 추상화를 통해 복잡성을 관리",
+            "코드는 단순히 소프트웨어 산출물을 위한 것이 아니라 그 자체로 중요한 예술적 산출물"
+          ],
+          "whyItMatters": "AI가 코드 작성을 자동화할 때에도 개발자가 설계와 추상화에 집중해야 하는 이유를 설명합니다.",
+          "url": "https://stevekrouse.com/precision",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 189,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "reports-of-codes-death-are-greatly-exaggerated",
+          "fullContent": "A sufficiently detailed spec is code\nbegins with this lovely comic:\nThere is a profound tension here: english specifications intuitively feel\nprecise until you learn better from bitter experience. (It's all in that facial\nexpression of the last frame.)\n\"Everything is vague to a degree you do not realize till you have tried to\nmake it precise.\"\nProgramming, like writing, is an activity, where one iteratively sharpens what\nthey're doing as they do it. (You wouldn't believe how many drafts I've written\nof this essay.)\nAI helps you with this, because it – increasingly instantly and well – turns\nEnglish into running code. You can then react to it – \"move the button there;\nmake it bluer\" – to get incrementally more precise about what you want.\nThis is why \"vibe coding\" is such a perfect phraseology: you stay operating at\nthe level of your English-level vibes while reacting to the AI-created artifacts\nthat help you sharpen your thinking.\nBut, vibe coding gives the illusion that your vibes are precise abstractions.\nThey will feel this way right up until they\nleak,\nwhich will happen when you add enough features or get enough scale. Unexpected\nbehaviors (bugs) that\nemerge from lower levels of abstraction\nthat you don't understand will sneak up on you and wreck your whole day.\nThis was Dan Shipper's experience when his\nvibe-coded text-editor app went viral, and then went down.\nAs it turns out, \"live collaboration is just insanely hard.\"\n\"Live collaboration\" intuitively feels like a perfectly precise specification.\nWe've all used Google Docs, Notion, etc so it feels precisely spec'd. It's\nincredibly hard a priori to see what this is not the case.\nThe only reason that I personally know otherwise is that I tried to add a\ncollaborative text editor to a product I was working on 10 years ago, and it was\nan unexpected nightmare of complexity.\nWhat was hard about it? I don't remember! That's part of the problem! Complexity\ncan be incredibly boring, unpleasant to think about, and hard to remember all\nthe details and edge cases. For example, the classic flowchart of how Slack\ndecides when to send you a notification:\nBut, this isn't the end of the story either. We are blessed with an extremely\npowerful tool to master complexity.\nThere is a fundamental limit in the human brain. We can only think of 7 (plus or\nminus 2) things at a time. So the only way to think about more than 7 things\nis to compress multiple things into a single thing. Happily, we can do this\nrecursively, indefinitely, which is why humans can master unlimited complexity.\nThat compression step is called abstraction.\nThe purpose of abstraction is not to be vague, but to create a new semantic\nlevel in which one can be absolutely precise.\nFor example, Sophie Alpert used clever abstraction to\nrefactor the Slack diagram to this much simpler one:\nThis is the best part of programming: coming up with increasingly good\nabstractions to help us master complexities. My favorite examples of this are\nfunctional programming concepts, like functional reactive programming, which\nI wrote a wonderful essay on.\nSo yes, collaborative text editors are fundamentally complex, but that just\nmeans that we're continually in search of better abstractions to help us master\ncomplexities, like ReactJS or TailwindCSS did in their respective domains.\nBut let's play this out 1, 2, 5, 10, 100 years. AI is getting\nbetter/faster/cheaper at incredible rates, but regardless of when, unless you\nbelieve in magic, it's only a matter of time until we reach the point at which\nmachine intelligence is indistinguishable from human intelligence. We call that\npoint AGI.\nIt may seem like an AGI world is a vibe world. If anyone can afford 100\nKarpathy-level geniuses for $1000 / month, why ever trouble yourself with any\ntroublesome details? Just have your army of Karpathys handle them for you.\nThis is such a joke to me. This is clearly only something you'd think in the\nabstract, before this technology arrived.\nIf you told me that I had access to that level of intelligence, there is zero\npart of me that is going to use it to ship more slop. Are you freaking\nkidding?? Of course not.\nI think we're confused because we (incorrectly) think that code is only for the\nsoftware it produces. It's only partly about that. The code itself is also a\ncentrally important artifact. When done right, it's poetry. And I'm not just\nsaying this because I have Stockholmn Syndrome or a vested interest in it – like\na horse jockey might in the face of cars being invented.\nI think this is a lot clearer if you make an analogy to writing. Isn't it\nfucking telling that nobody is talking about \"vibe writing\"?\nWe're not confused with writing because there's nothing mystical about\nsyntactically correct sentences in the same way there is about running code.\nNobody is out there claiming that ChatGPT is putting the great novelists or\njournalists out of jobs. We all know that's nonsense.\nUntil we get AGI. Then, by definition, machines will write amazin",
+          "category": "insight",
+          "publishedAt": "2026-03-22T11:09:34.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 충분히 자세한 명세는 곧 코드다\n\n이 글은 다음의 인상적인 만화에서 시작합니다.\n\n여기엔 근본적인 긴장 관계가 있습니다. 영어 명세는 직관적으로는 정확해 보이지만, 실제로 구현하다 보면 그렇지 않다는 걸 깨닫게 되죠. (마지막 장면의 표정이 정말 다 말해줍니다.)\n\n> \"당신이 정확하게 만들어보기 전까진, 얼마나 모호한지 깨닫지 못할 거예요.\"\n\n프로그래밍은 글쓰기와 마찬가지입니다. 계속 반복하면서 자신이 하는 일을 점점 더 정확하게 다듬어나가는 활동이거든요. (이 글도 몇 번을 고쳐 썼는지 모릅니다.)\n\n## AI가 변화를 일으킨 이유\n\nAI는 이 과정을 획기적으로 바꿨습니다. 영어를 실행 가능한 코드로 빠르고 정확하게 변환해주니까요. 그러면 당신은 그걸 보고 반응할 수 있습니다. \"버튼을 저기로 옮겨봐\", \"더 파란색으로 해봐\" 이런 식으로 점진적으로 원하는 바를 더 정확히 정의해나갈 수 있다는 뜻입니다.\n\n이게 바로 \"바이브 코딩(vibe coding)\"이라는 표현이 완벽하게 맞아떨어지는 이유입니다. 당신은 영어 수준의 막연한 감각에서 머물면서도, AI가 만들어준 산출물을 보고 반응하면서 자신의 생각을 점점 더 구체화할 수 있거든요.\n\n## 하지만 문제가 있습니다\n\n그런데 바이브 코딩은 당신의 감각을 정확한 추상화처럼 보이게 만드는 착각을 줍니다. 기능을 계속 추가하거나 규모가 커질 때까지는 실제로 정확해 보이기도 합니다.\n\n하지만 언젠가는 균열이 생깁니다. 당신이 이해하지 못하는 하위 레벨의 추상화에서 예상 밖의 동작(버그)이 나타나면서 하루를 망쳐버리는 거죠.\n\nDan Shipper가 바이브 코딩으로 만든 텍스트 에디터 앱이 바이럴되었다가 서비스가 중단되었던 경험이 정확히 이겁니다. 그 과정에서 그가 깨달은 건 간단했습니다. \"실시간 협업은 정말, 정말 어렵다\"는 것.\n\n## 명세가 명확해 보이는 이유\n\n\"실시간 협업\"은 마치 완벽하게 명확한 요구사항처럼 들립니다. 우리 모두 Google Docs나 Notion을 써봤으니까요. 그럼 당연히 명확히 정의된 것처럼 느껴집니다.\n\n10년 전, 제가 만들고 있던 제품에 협업 기능을 가진 텍스트 에디터를 추가하려 했을 때만 해도 이게 얼마나 복잡한지 몰랐습니다. 시작했을 땐 간단할 줄 알았는데, 정말 예상 밖의 악몽 같은 복잡성과 마주쳤거든요.\n\n정확히 뭐가 어려웠나요? 솔직히 기억이 안 납니다. 그리고 이게 바로 문제입니다. 복잡성은 지루하고, 생각하기 싫고, 모든 세부사항과 엣지 케이스를 기억하기 힘들거든요.\n\n예를 들어, Slack이 언제 사용자에게 알림을 보낼지 결정하는 과정을 나타낸 고전적인 플로우차트를 보면 얼마나 복잡한지 감을 잡을 수 있습니다.\n\n## 추상화라는 도구\n\n하지만 여기서 끝이 아닙니다. 우리는 복잡성을 다루기 위한 강력한 도구를 가지고 있거든요.\n\n인간의 뇌에는 근본적인 한계가 있습니다. 한 번에 7개(±2개) 정도의 것만 생각할 수 있다는 거죠. 그래서 7개 이상의 것들을 생각하려면, 여러 개를 하나로 압축해야 합니다. 다행히 이 과정을 재귀적으로 무한정 반복할 수 있어서, 인간은 무한한 복잡성도 다룰 수 있게 됩니다.\n\n이 압축 단계를 우리는 **추상화**라고 부릅니다.\n\n추상화의 목적은 모호함을 만드는 게 아니라, 정확성을 유지하면서 새로운 의미 수준을 만드는 것입니다.\n\n예를 들어, Sophie Alpert는 영리한 추상화를 통해 앞서 본 Slack의 복잡한 플로우차트를 훨씬 간단한 다이어그램으로 리팩토링했습니다. 이게 바로 프로그래밍의 가장 아름다운 부분입니다. 복잡성을 다루기 위해 점점 더 좋은 추상화를 찾아나가는 과정 말이에요.\n\n저는 함수형 프로그래밍 개념, 특히 함수형 반응형 프로그래밍(functional reactive programming)을 좋아합니다.\n\n네, 협업 텍스트 에디터는 근본적으로 복잡합니다. 하지만 그건 우리가 계속 더 나은 추상화를 찾아야 한다는 뜻일 뿐입니다. React나 TailwindCSS가 각 영역에서 그렇게 한 것처럼요.\n\n## 머나먼 미래를 생각해봅시다\n\n이제 1년, 2년, 5년, 10년, 심지어 100년 뒤를 상상해봅시다. AI는 엄청난 속도로 발전하고 있습니다. 마법이 없는 한, 기계 지능이 인간 지능과 구별할 수 없는 수준에 도달하는 것은 시간 문제일 뿐입니다. 우리는 이를 AGI(초지능)이라고 부릅니다.\n\nAGI 시대에서는 모두가 바이브 코딩을 할까요? 만약 월 1,000달러에 Karpathy급 천재를 100명 고용할 수 있다면, 왜 굳이 세부사항 따위에 신경 쓸까요? 그냥 당신의 천재 군단에 맡기면 되지 않을까?\n\n이건 정말 황당한 생각입니다. 이 기술이 없을 때나 할 수 있는 말이에요.\n\n만약 제게 그 수준의 지능에 접근할 수 있다고 하면, 저는 그걸 더 많은 형편없는 코드를 배포하는 데 쓸 생각은 절대 없습니다. 진지하게요. 절대로요.\n\n## 코드는 소프트웨어만이 아닙니다\n\n우리가 헷갈리는 이유는 코드가 소프트웨어 생산만을 위한 것이라고 (잘못) 생각하기 때문입니다. 물론 그것도 일부긴 하지만, 코드 자체도 중심적으로 중요한 산출물입니다. 제대로 작성하면, 그건 시입니다. 저는 Stockholm Syndrome에 걸려서나 기득권이 있어서 이런 게 아닙니다. 자동차가 발명되자 말을 탄 기수가 말을 옹호하는 것처럼 그렇지 않다는 뜻입니다.\n\n이건 글쓰기에 비유하면 훨씬 더 명확합니다. 누가 \"바이브 라이팅(vibe writing)\"에 대해 얘기합니까?\n\n우리가 글쓰기에 대해 혼동하지 않는 이유는 문법적으로 올바른 문장에는 실행 가능한 코드에 있는 것처럼 신비로운 부분이 없기 때문입니다. 아무도 ChatGPT가 위대한 소설가나 기자의 일자리를 빼앗는다고 주장하지 않습니다. 우리 모두 그건 말도 안 된다는 걸 알거든요.\n\n물론 AGI가 도래하면 얘기가 달라질 수도 있습니다. 하지만 그때는 기계도 놀라운 글을 쓸 텐데…"
+        },
+        {
+          "title": "The gold standard of optimization: A look under the hood of RollerCoaster Tycoon",
+          "titleKo": "최적화의 황금 기준: RollerCoaster Tycoon 엔진 분석",
+          "summary": "1999년 RollerCoaster Tycoon은 거의 모두 Assembly로 작성되어 당시 하드웨어에서 수천 개의 에이전트를 시뮬레이션했다. 저자는 Assembly 사용 외에 메모리 타입 최적화, 비트시프트를 통한 연산 최적화 등 공격적인 최적화 기법들을 분석한다.",
+          "keyPoints": [
+            "Assembly 언어로 작성되었으나, 컴파일러 발전으로 인해 현재의 성능 이점은 과거보다 적다.",
+            "변수별로 필요한 범위에 맞춰 다양한 데이터 타입을 사용하고, 곱셈을 비트시프트로 대체하는 등 세밀한 최적화를 적용했다.",
+            "OpenRCT2 리구현을 통해 원본 최적화 기법들을 역공학으로 분석할 수 있었다."
+          ],
+          "whyItMatters": "현대 게임과 고성능 애플리케이션 개발 시 미세한 최적화 기법의 누적 효과와 리소스 사용의 세밀한 조정 가치를 이해하는 데 도움이 됩니다.",
+          "url": "https://larstofus.com/2026/03/22/the-gold-standard-of-optimization-a-look-under-the-hood-of-rollercoaster-tycoon/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 106,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-gold-standard-of-optimization-a-look-under-the-hood-of-rollercoaster-tycoon",
+          "fullContent": "Due to some lucky circumstances, I recently had the chance to appear in one of the biggest German gaming podcasts, Stay Forever, to talk about the technology of RollerCoaster Tycoon (1999). It was a great interview, and I strongly recommend to listen to the whole episode here, at least if you speak german. If not, don’t worry—this article covers what was said (and a little more).\nRollerCoaster Tycoon and its sequel are often named as some of the best-optimized games out there, written almost completely in Assembly by their creator, Chris Sawyer. Somehow this game managed to simulate full theme parks with thousands of agents on the hardware of 1999 without breaking a sweat. An immensely impressive feat, considering that even nowadays a lot of similar building games struggle to hit a consistent framerate.\nSo how did Chris Sawyer manage to achieve this?\nThere are a lot of answers to this question, some of them small and focused, some broad and impactful. The one which is mentioned first in most articles is the fact that the game was written in the low-level language Assembly, which, especially at the time of the game’s development, allowed him to write more performant programs than if he had used other high-level languages like C or C++.\nCoding in Assembly had been the standard for game development for a long time but at this point in time was basically a given-up practice. Even the first Doom, which was released six years earlier, was already mostly written in C with only a few parts written in Assembly, and nobody would argue that Doom was in any way an unoptimized game.\nIt’s hard to check for sure, but it’s likely that RCT was the last big game developed in this way. How big the performance impact was at the time is hard to quantify, but for what it’s worth, it was probably higher than it would be nowadays. Compilers have gotten much better at optimizing high-level code, and many optimizations that you’d need to do manually back then can be handled by compilers nowadays.\nBut besides the use of assembly, the code of RCT was aggressively optimized. How do we know this if the source code has never been released? We have something that’s almost as good: A 100% compatible re-implementation of it, OpenRCT2.\nWritten by (very) dedicated fans, OpenRCT2 manages to reimplement the entirety of RollerCoaster 1&2, using the original assets. Even though this is NOT the original source code, especially in its earlier versions, this re-implementation is a very, very close match to the original, being based on years of reverse engineering. Note that by now, OpenRCT2 contains more and more improvements over the original code. I’ll note some of those changes as we come across them.\nAlso, I won’t go through all optimizations, but I will pick some examples, just to illustrate that every part of the game was optimized to the brink.\nTypes of Money\nHow would you store a money value in a game? You would probably start by thinking about the highest possible money value you might need in the game and choose a data type based on that. Chris Sawyer apparently did the same thing, but in a more fine-grained way.\nDifferent money values in the code use different data types, based on what the highest expected value at that point is. The variable that stores the overall park value, for example, uses 4 bytes since the overall park value is expected to use quite high numbers. But the adjustable price of a shop item? This requires a far lower number range, so the game uses only one byte to store it. Note that this is one of the optimizations that has been removed in OpenRCT2, which changed all occurrences to a simple 8-byte variable, since on modern CPUs it doesn’t make a performance difference anymore.\nReplacing math operations with bitshifting\nWhen reading through OpenRCT2’s source, there is a common syntax that you rarely see in modern code, lines like this:\nNewValue = OldValue << 2;\nThanks to operator overloading, the ‘<<’ operator can mean a lot of things in C++. What the line effectively does is the same as what most coders would write like this:\nNewValue = OldValue * 4;\nWhat the ‘<<’ operator does here is called bit shifting, meaning all the bits that store the value of the variable are shifted to the left, in this case by two positions, with the new digits being filled in with zeros. Since the number is stored in a binary system, every shift to the left means the number is doubled.\nAt first this sounds like a strange technical obscurity, but when multiplying numbers in the decimal system we basically do the same. When you multiply 57 * 10, do you actually ‘calculate’ the multiplication? Or do you just append a 0 to the 57? It’s the same principle just with a different numerical system.\nThe same trick can also be used for the other direction to save a division:\nNewValue = OldValue >> 3;\nThis is basically the same as\nNewValue = OldValue / 8;\nRCT does this trick all the time, and even in its OpenRCT2 version, this syntax hasn’t been changed",
+          "category": "insight",
+          "publishedAt": "2026-03-22T19:02:43.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 롤러코스터 타이쿤의 전설적인 최적화 기법\n\n최근 운 좋게도 독일의 유명한 게임 팟캐스트 'Stay Forever'에 출연할 기회를 얻었습니다. 롤러코스터 타이쿤(1999)의 기술적 특징에 대해 이야기하는 시간이었는데, 정말 좋은 인터뷰였어요. 독일어를 아신다면 전체 에피소드를 꼭 들어보시길 추천합니다. 혹시 독일어가 어렵다면 괜찮아요. 이 글에서 그때의 내용을 정리해뒀으니까요.\n\n## 왜 이 게임은 특별했나\n\n롤러코스터 타이쿤과 그 후속작은 역사상 가장 최적화가 잘 된 게임으로 손꼽힙니다. 제작자 Chris Sawyer가 거의 전부를 어셈블리로 작성했거든요. 1999년의 하드웨어에서 수천 개의 에이전트를 시뮬레이션하는 대규모 테마파크를 끊김 없이 구동해냈다는 게 정말 놀라운 성과입니다. 요즘도 비슷한 건설 게임들이 안정적인 프레임률을 유지하는 데 애먹는데, 그 옛날에 이걸 해냈다니요.\n\n그럼 Chris Sawyer는 어떻게 이런 기적을 만들어낸 걸까요?\n\n## 어셈블리로의 여정\n\n대부분의 기사에서 가장 먼저 언급하는 것은 어셈블리 언어 선택입니다. 당시 기준으로 C나 C++ 같은 고급 언어보다 훨씬 효율적인 코드를 작성할 수 있었거든요.\n\n게임 개발에서 어셈블리는 오랫동안 표준이었지만, 이 시점엔 이미 거의 사라진 기법이었습니다. 6년 앞서 출시된 둠(Doom)도 대부분 C로 작성됐고, 일부만 어셈블리를 사용했으니까요. 둠이 최적화가 덜 되었다고 하는 사람은 없습니다.\n\n정확히 확인할 순 없지만, 롤러코스터 타이쿤이 이렇게 개발된 마지막 대형 게임일 가능성이 높습니다. 당시의 성능 향상이 얼마나 컸는지 정량화하기는 어렵지만, 요즘보다는 훨씬 더 컸을 거예요. 현대의 컴파일러는 고급 언어를 훨씬 잘 최적화하니까요. 예전엔 손으로 일일이 해야 했던 최적화들을 이제는 컴파일러가 처리합니다.\n\n## 원본을 분석하는 방법: OpenRCT2\n\n어셈블리 외에도 RCT의 코드는 극도로 최적화됐습니다. 근데 원본 소스 코드가 공개된 적이 없는데, 어떻게 이걸 알 수 있을까요?\n\n그건 바로 OpenRCT2 때문입니다. 열정적인 팬들이 만든 이 프로젝트는 100% 호환되는 롤러코스터 1, 2의 재구현판입니다. 원본 에셋을 사용하면서 전체 게임을 재현해냈어요.\n\n이건 원본 소스 코드는 아니지만, 특히 초기 버전부터 수년간의 역공학(reverse engineering)을 통해 원본에 매우 근접한 결과물을 만들어냈습니다. 물론 요즘의 OpenRCT2는 원본보다 더 나은 개선사항들도 포함하고 있습니다. 앞으로 이런 개선 사항들도 함께 살펴볼 거예요.\n\n모든 최적화를 다 다루진 않겠지만, 게임의 모든 부분이 철저히 최적화됐다는 걸 보여주는 몇 가지 사례를 골라서 설명하겠습니다.\n\n## 돈을 저장하는 다양한 방식\n\n게임에서 돈을 어떻게 저장할까요? 보통은 게임에서 필요한 최대값을 생각해서 그에 맞는 자료형을 선택하겠죠. Chris Sawyer도 같은 방식을 썼는데, 훨씬 더 세분화했습니다.\n\n코드 곳곳에서 서로 다른 자료형을 사용해서 돈 값을 저장하는데, 그 위치에서 예상되는 최대값에 따라 다릅니다. 예를 들어 공원 전체의 자산을 저장하는 변수는 큰 수를 다뤄야 하니까 4바이트를 씁니다. 반면 상점 물품의 가격 조정값? 훨씬 작은 범위만 필요하니까 1바이트면 충분합니다.\n\n흥미롭게도, OpenRCT2에서는 이 최적화를 제거했습니다. 현대 CPU에서는 성능 차이가 없으니까, 모든 값을 간단한 8바이트 변수로 통일했거든요.\n\n## 수학 연산을 비트 시프트로 대체하기\n\nOpenRCT2의 소스를 읽다 보면 현대 코드에선 거의 보기 힘든 이런 문법을 자주 만나요:\n\n```cpp\nNewValue = OldValue << 2;\n```\n\nC++의 연산자 오버로딩 덕분에 '<<' 기호는 여러 의미를 가질 수 있습니다. 이 코드가 실제로 하는 일은 다음과 같습니다:\n\n```cpp\nNewValue = OldValue * 4;\n```\n\n여기서 '<<'는 비트 시프트(bit shifting)라고 불리는데, 변수의 모든 비트를 왼쪽으로 이동시킵니다. 이 경우엔 2칸 이동하고, 빈 자리는 0으로 채웁니다. 숫자가 이진법으로 저장되니까, 왼쪽으로 한 칸 이동할 때마다 수가 2배가 됩니다.\n\n처음 보면 이상하게 느껴지겠지만, 십진법에서 곱셈을 할 때도 우린 같은 원리를 씁니다. 57 × 10을 계산할 때, 진짜 곱하기를 하나요? 아니면 57 뒤에 0을 붙이나요? 같은 원리인데 수체계만 다른 거예요.\n\n반대 방향도 나눗셈을 줄이는 데 쓸 수 있습니다:\n\n```cpp\nNewValue = OldValue >> 3;\n```\n\n이건 다음과 같은 거죠:\n\n```cpp\nNewValue = OldValue / 8;\n```\n\nRCT는 이 트릭을 계속 써먹습니다. OpenRCT2에서도 이 문법은 그대로 유지되고 있어요."
+        },
+        {
+          "title": "Windows native app development is a mess",
+          "titleKo": "Windows 네이티브 앱 개발은 엉망이다",
+          "summary": "작가가 Windows 유틸리티 앱 개발을 시도하면서 Win32 API부터 WPF, UWP에 이르는 Windows 개발 생태계의 혼란스러운 역사와 현재의 복잡성을 분석합니다. 개발자들이 네이티브 Windows 앱 대신 Electron을 선택하는 이유를 설명합니다.",
+          "keyPoints": [
+            "Win32 API, .NET, WPF, WinRT, UWP 등 여러 추상화 계층이 중복되어 개발 난이도 증가",
+            "각 새로운 프레임워크 도입 시 이전 API와의 호환성 문제와 새로운 기능 제한 발생",
+            "일관된 개발 경험의 부재로 크로스 플랫폼 도구(Electron 등)로의 이동 심화"
+          ],
+          "whyItMatters": "Windows 네이티브 개발자가 직면한 생태계의 복잡성을 이해하고 기술 선택 시 고려사항을 파악하는 데 도움이 됩니다.",
+          "url": "https://domenic.me/windows-native-dev/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 292,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "windows-native-app-development-is-a-mess",
+          "fullContent": "I’m a Windows guy; I always have been. One of my first programming books was Beginning Visual C++ 6, which crucially came with a trial version of Visual C++ that my ten-year-old self could install on my parents’ computer. I remember being on a family vacation when .NET 1.0 came out, working my way through a C# tome and gearing up to rewrite my Neopets cheating programs from MFC into Windows Forms. Even my very first job after university was at a .NET shop, although I worked mostly on the frontend.\nWhile I followed the Windows development ecosystem from the sidelines, my professional work never involved writing native Windows apps. (Chromium is technically a native app, but is more like its own operating system.) And for my hobby projects, the web was always a better choice. But, spurred on by fond childhood memories, I thought writing a fun little Windows utility program might be a good retirement project.\nWell. I am here to report that the scene is a complete mess. I totally understand why nobody writes native Windows applications these days, and instead people turn to Electron.\nWhat I built\nThe utility I built, Display Blackout, scratched an itch for me: when playing games on my three-monitor setup, I wanted to black out my left and right displays. Turning them off will cause Windows to spasm for several seconds and throw all your current window positioning out of whack. But for OLED monitors, throwing up a black overlay will turn off all the pixels, which is just as good.\nTo be clear, this is not an original idea. I was originally using an AutoHotkey script, which upon writing this post I found out has since morphed into a full Windows application. Other | incarnations of the idea are even available on the Microsoft Store. But, I thought I could create a slightly nicer and more modern UI, and anyway, the point was to learn, not to create a commercial product.\nFor our purposes, what’s interesting about this app is the sort of capabilities it needs:\nEnumerating the machine’s displays and their bounds\nPlacing borderless, titlebar-less, non-activating black windows\nIntercepting a global keyboard shortcut\nOptionally running at startup\nStoring some persistent settings\nDisplaying a tray icon with a few menu items\nLet’s keep those in mind going forward.\nLook at this beautiful UI that I made. Surely you will agree that it is better than all other software in this space.\nA brief history of Windows programming\nIn the beginning, there was the Win32 API, in C. Unfortunately, this API is still highly relevant today, including for my program.\nOver time, a series of abstractions on top of this emerged. The main pre-.NET one was the MFC C++ library, which used modern-at-the-time language features like classes and templates to add some object-orientation on top of the raw C functions.\nThe abstraction train really got going with the introduction of .NET. .NET was many things, but for our purposes the most important part was the introduction of a new programming language, C#, that ran as JITed bytecode on a new virtual machine, in the same style as Java. This brought automatic memory management (and thus memory safety) to Windows programming, and generally gave Microsoft a more modern foundation for their ecosystem. Additionally, the .NET libraries included a whole new set of APIs for interacting with Windows. On the UI side in particular, .NET 1.0 (2002) started out with Windows Forms. Similar to MFC, it was largely a wrapper around the Win32 windowing and control APIs.\nWith .NET 3.0 (2006), Microsoft introduced WPF. Now, instead of creating all controls as C# objects, there was a separate markup language, XAML: more like the HTML + JavaScript relationship. This also was the first time they redrew controls from scratch, on the GPU, instead of wrapping the Win32 API controls that shipped with the OS. At the time, this felt like a fresh start, and a good foundation for the foreseeable future of Windows apps.\nThe next big pivot was with the release of Windows 8 (2012) and the introduction of WinRT. Similar to .NET, it was an attempt to create new APIs for all of the functionality needed to write Windows applications. If developers stayed inside the lines of WinRT, their apps would meet the modern standard of sandboxed apps, such as those on Android and iOS, and be deployable across Windows desktops, tablets, and phones. It was still XAML-based on the UI side, but with everything slightly different than it was in WPF, to support the more constrained cross-device targets.\nThis strategy got a do-over in Windows 10 (2015) with UWP, with some sandboxing restrictions lifted to allow for more capable desktop/phone/Xbox/HoloLens apps, but still not quite the same power as full .NET apps with WPF. At the same time, with both WinRT and UWP, certain new OS-level features and integrations (such as push notifications, live tiles, or publication in the Microsoft Store) were only granted to apps that used these frameworks. This led to awkwa",
+          "category": "insight",
+          "publishedAt": "2026-03-22T09:57:31.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Windows 네이티브 앱 개발, 정말 복잡할까?\n\n저는 처음부터 Windows 개발자였습니다. 열 살 때 『Beginning Visual C++ 6』라는 책을 읽으며 Visual C++ 체험판을 부모님 컴퓨터에 설치했던 기억이 아직도 생생합니다. .NET 1.0이 나왔을 때는 가족 휴가 중에 C# 책을 들고 있었고, 당시 MFC로 만든 네오펫 핵킹 프로그램들을 Windows Forms로 다시 짜려고 열심이었죠. 대학 졸업 후 첫 직장도 .NET 회사였는데, 다행히 프론트엔드 업무를 맡았습니다.\n\nWindows 개발 생태계를 멀찍이서 지켜봤지만, 실제로 네이티브 Windows 앱을 만들어본 적은 없었어요. (Chromium도 기술적으로는 네이티브 앱이지만, 자기만의 운영체제나 다름없습니다.) 취미 프로젝트는 항상 웹이 더 편했거든요. 그런데 어릴 적 추억이 자꾸만 떠올랐습니다. 은퇴 프로젝트로 재미있는 Windows 유틸리티를 만들어보면 좋을 것 같다고 생각했죠.\n\n결과는 어땠냐고요? 이 분야가 정말 엉망이라는 걸 깨달았습니다. 요즘 아무도 Windows 네이티브 앱을 안 쓰고 Electron으로 넘어가는 이유가 이제야 이해됩니다.\n\n## 내가 만든 프로그램\n\n**Display Blackout**이라는 유틸리티입니다. 세 개의 모니터로 게임을 할 때, 좌우 모니터를 까맣게 만들고 싶었거든요. 모니터를 끄면 Windows가 몇 초간 버벅거리며 윈도우 배치가 엉망이 됩니다. 하지만 OLED 모니터라면 검은 오버레이만 띄워도 모든 픽셀이 꺼지니 마찬가지 효과를 낼 수 있죠.\n\n물론 이 아이디어가 제 독창적인 건 아닙니다. 원래 AutoHotkey 스크립트를 쓰고 있었는데, 나중에 확인해보니 벌써 정식 Windows 앱으로 진화했더라고요. Microsoft Store에도 비슷한 프로그램들이 여럿 있습니다. 그래도 UI를 조금 더 깔끔하고 현대적으로 만들 수 있을 것 같았고, 뭣보다 배우는 게 목적이었으니까요.\n\n이 프로그램이 필요한 기능들을 정리하면 다음과 같습니다:\n\n- 연결된 디스플레이 목록과 해상도 정보 조회\n- 테두리와 제목 표시줄 없는 검은 창을 맨 앞에 표시\n- 전역 키보드 단축키 감지\n- 시작 시 자동 실행 옵션\n- 설정값 저장\n- 시스템 트레이 아이콘과 메뉴\n\n이 정도 기능을 염두에 두고 계속 읽어보세요.\n\n(제가 만든 UI를 보면 진짜 아름답다고 동의하실 겁니다. 이 분야의 다른 모든 소프트웨어보다 낫습니다.)\n\n## Windows 프로그래밍의 역사\n\n처음에는 C로 만든 **Win32 API**가 있었습니다. 불행히도 오늘날에도 여전히 중요합니다.\n\n시간이 지나면서 여러 추상화 계층이 쌓여갔습니다. .NET 이전의 주요 시도는 **MFC** C++ 라이브러리였는데, 당시 최신 언어 기능인 클래스와 템플릿으로 원시적인 C 함수 위에 객체 지향성을 얹었죠.\n\n**.NET**이 나오면서 진짜 변화가 일어났습니다. 특히 중요한 건 **C#**이라는 새로운 언어가 도입되었다는 겁니다. Java처럼 가상 머신 위에서 JIT 컴파일되는 바이트코드로 동작했어요. 덕분에 자동 메모리 관리와 메모리 안전성이 Windows 개발에 들어왔고, Microsoft도 더 현대적인 기초를 갖추게 됐습니다. .NET 라이브러리는 Windows와 상호작용하는 완전히 새로운 API 세트를 제공했습니다. UI 쪽으로는 .NET 1.0(2002)에 **Windows Forms**가 등장했는데, MFC처럼 Win32 윈도우와 컨트롤 API를 래핑한 것이었습니다.\n\n.NET 3.0(2006)에 들어서면서 **WPF**가 나왔습니다. 이제 모든 컨트롤을 C# 객체로 만드는 대신, XAML이라는 별도의 마크업 언어를 썼습니다. HTML + JavaScript 같은 관계였죠. 특히 처음으로 Win32 API 컨트롤을 감싸는 대신 GPU에서 컨트롤을 직접 그렸습니다. 당시엔 정말 신선한 출발 같았고, 앞으로의 Windows 앱 미래를 위한 견고한 토대라고 생각했어요.\n\n**Windows 8**(2012)과 함께 **WinRT**가 나오면서 또 다른 큰 변화가 일어났습니다. .NET처럼 Windows 앱을 만드는 데 필요한 모든 기능을 위한 새로운 API를 만들려는 시도였습니다. 개발자가 WinRT 범위 안에서만 작업하면, Android나 iOS처럼 샌드박스된 현대식 앱이 되어 Windows 데스크톱, 태블릿, 휴대폰에 배포할 수 있었죠. UI는 여전히 XAML 기반이었지만, 다양한 기기를 지원하기 위해 모든 게 WPF와 조금씩 달랐습니다.\n\n**Windows 10**(2015)에서는 **UWP**로 다시 한번 리셋했습니다. 샌드박싱 제한을 좀 풀어서 데스크톱, 휴대폰, Xbox, HoloLens 같은 기기에서 더 강력한 앱을 만들 수 있게 했지만, WPF와 함께 사용하는 완전한 .NET 앱보다는 여전히 기능이 제한적이었어요. 더 복잡한 건, WinRT와 UWP로만 만든 앱에게만 푸시 알림이나 라이브 타일, Microsoft Store 배포 같은 새로운 OS 레벨 기능과 통합을 허가했다는 겁니다. 이로 인해 개발자들 입장에선 정말 어색한 상황이 만들어졌습니다."
+        },
+        {
+          "title": "More common mistakes to avoid when creating system architecture diagrams",
+          "titleKo": "시스템 아키텍처 다이어그램 작성 시 더 흔한 실수들",
+          "summary": "시스템 아키텍처 다이어그램의 일반적인 7가지 오류를 설명한다. 리소스 이름 부재, 연결되지 않은 리소스, '마스터' 다이어그램 시도, 컨베이어 벨트 신드롬 등으로, 다중 관점으로 분해하고 정확한 상호작용을 표현할 것을 권장한다.",
+          "keyPoints": [
+            "리소스는 타입만 아닌 실제 이름으로도 표시하여 각 리소스를 명확히 구별해야 한다.",
+            "모든 리소스는 다른 리소스와 연결되어야 하며, 한 다이어그램에 너무 많은 정보를 담지 말아야 한다.",
+            "행동 다이어그램에서 단순화로 인해 시스템의 실제 왕복 상호작용을 생략하면 심각한 오해를 초래한다."
+          ],
+          "whyItMatters": "명확하고 정확한 아키텍처 다이어그램은 팀 소통과 시스템 이해도를 크게 향상시키는 필수 도구입니다.",
+          "url": "https://www.ilograph.com/blog/posts/more-common-diagram-mistakes/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 128,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "more-common-mistakes-to-avoid-when-creating-system-architecture-diagrams",
+          "fullContent": "7 More Common Mistakes in Architecture Diagrams\nBilly Pilger ·\nMar 12, 2026\n· 6 min read · Article\n·\nSystem architecture diagrams are essential tools for documenting complex systems. However, common mistakes in these diagrams can lead to confusion, misinterpretation, and frustration for viewers. Here’s a rundown of seven (more!) common mistakes to avoid.\nThis is a follow-up to the original 7 Common Mistakes in Architecture Diagrams.\nMistake #1: Not including resource names\nPoorly labeled resources (the entities between the lines) is a common problem in system diagramming. Consider the labels under the icons in this AWS diagram:\nThe resources in this diagram are labeled by type instead of by name. Source: amazon.com.\nEach resource in the diagram has an icon labeled with its type but not its name. While the resource type is certainly valuable, one is not a substitute for the other:\nTypes describe what kind of thing a resource is. Types can include concrete items such as database tables or VM instances, or abstract items such as services. Types can be written out or represented as an icon.\nNames disambiguate resources from other resources of the same type. Descriptive names can also reveal the resource’s role or purpose.\nWhen space allows, viewers are best off knowing both the name and type of a resource. This can be as simple as adding a type suffix to a resource name (e.g. Orders Table, Results Bucket). Diagram icons/shapes typically indicate the type (as they do in the diagram above), so labeling a resource by name is especially preferable when an icon is present.\n#2 Unconnected resources\nHere is a simple one: resources in a diagram should always be somehow connected to the other resources. Including resources that are disconnected from all others is a mistake.\nAmazon Route 53, on the right, is disconnected from every other resource. Source: amazon.com.\nIn the diagram above from this article, Amazon Route 53 (on the right) is unconnected to the other resources. Its role in the system is completely unclear. Diagrams like this exist to show relations between resources, so omitting those relations defeats the purpose of the diagram to begin with.\nThis issue arises when diagram authors know a resource is part of a system but can’t find a clean way to express it. It is often the result of trying to include too much information in a single diagram (usually a “master” diagram, see next item).\n#3 Making a “master” diagram\n“Master” diagrams attempt to show an entire system at once. They stem from a misguided desire to “see it all” in a single diagram. They are almost always a mistake.\nIlograph's serverless back-end architecture (click to enlarge).\nThe above diagram is a “master” diagram of Ilograph’s back-end system architecture. It combines run-time dependencies, DNS configuration, CDN configuration, source code, and deployment-time dependencies, all in a single diagram. As it hopefully illustrates, including this much information in a single diagram will overwhelm the viewer.\nThe solution is to break up such a diagram into multiple perspectives (points of view):\nThe \"master\" diagram can be split up into multiple perspectives.\nMost systems are complex enough to warrant breaking up their diagrams like this. Each perspective tells a cohesive story without interfering with the others.\nIf using model-based diagramming, perspectives can explicitly share resources among them to maintain their connections. For more details, see Breaking Up the Master Diagram.\n#4 Conveyor belt syndrome\nSo far, the example diagrams in this article have all been relational diagrams, which show relations between resources. There is another class of system diagrams called behavioral diagrams, which aim to show specific interactions between resources rather than relations.\nBecause behavioral diagrams show specific interactions, they tend to be more detailed than relational diagrams. Diagram authors sometimes simplify these diagrams for space or time reasons; what I call conveyor belt syndrome occurs when they over-simplify them by omitting the realities of round-trips and orchestrations in the actual system. The result is a diagram that seriously misleads the viewer on the nature of the system.\nThis diagram depicts the system as a conveyor belt. Source: amazon.com.\nThe diagram above (from this solution) depicts the system as an assembly line: data flows neatly from one resource to the next. It’s as if each resource takes input from its predecessor, augments that input, and then passes it along to the following resource.\nNow, it’s true that sometimes this is what is happening in the system. But as a rule, this isn’t accurate; there is a lot more back-and-forth among these resources (and others not shown). Experienced developers may intuitively understand that there is more to the diagram than it shows, but the inexperienced will be severely misled.\nThe solution is to use a different kind of diagram entirely: sequence diagrams. Sequence diagrams ",
+          "category": "insight",
+          "publishedAt": "2026-03-22T11:51:52.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 아키텍처 다이어그램의 흔한 실수 7가지 (후편)\n\nBilly Pilger · 2026년 3월 12일 · 읽기 시간 6분\n\n시스템 아키텍처 다이어그램은 복잡한 시스템을 문서화하는 데 필수적인 도구입니다. 하지만 다이어그램의 작은 실수 하나가 관계자들에게 혼란과 좌절감을 줄 수 있죠. 피해야 할 일곱 가지 흔한 실수를 살펴보겠습니다.\n\n(이전 글 \"아키텍처 다이어그램의 흔한 실수 7가지\"의 후속편입니다)\n\n## 실수 #1: 리소스 이름 표기 누락\n\n시스템 다이어그램에서 라벨이 없거나 부족한 리소스는 정말 흔한 문제입니다. AWS 다이어그램의 아이콘 아래 라벨을 보면:\n\n> 이 다이어그램의 리소스들은 이름이 아닌 타입으로만 표기되어 있습니다. (출처: amazon.com)\n\n각 리소스가 타입으로만 라벨 되어 있고 이름은 없네요. 타입 정보도 분명 중요하지만, 둘 중 하나만으로는 부족합니다:\n\n- **타입**은 리소스가 어떤 종류의 것인지 설명합니다. 데이터베이스 테이블이나 VM 인스턴스 같은 구체적인 것도 있고, 서비스처럼 추상적인 것도 있죠.\n- **이름**은 같은 타입의 다른 리소스들과 구별해줍니다. 잘 지어진 이름은 그 리소스의 역할이나 목적을 나타내기도 합니다.\n\n공간이 충분하다면 이름과 타입 둘 다 표기하는 게 좋습니다. 가장 간단한 방법은 리소스 이름에 타입 접미사를 붙이는 거예요. 예를 들어 'Orders Table', 'Results Bucket' 같은 식이죠. 다이어그램에 아이콘이 있으면 타입은 자동으로 시각화되므로, 아이콘이 있을 때는 이름 라벨이 더욱 중요합니다.\n\n## 실수 #2: 연결되지 않은 리소스\n\n이건 단순하면서도 자주 보는 실수입니다. 다이어그램의 모든 리소스는 다른 리소스와 어떤 식으로든 연결되어 있어야 합니다.\n\n> 오른쪽의 Amazon Route 53이 다른 모든 리소스와 연결되지 않았습니다. (출처: amazon.com)\n\n위 다이어그램을 보면 Amazon Route 53이 고립되어 있어요. 이 리소스가 시스템에서 어떤 역할을 하는지 전혀 알 수 없습니다. 다이어그램의 목적 자체가 리소스 간의 관계를 보여주는 것인데, 이런 식으로 관계를 빠뜨리면 다이어그램의 존재 의미가 사라지죠.\n\n이런 문제는 보통 다이어그램 작성자가 어떤 리소스가 시스템에 포함되어 있다는 건 알지만, 이를 깔끔하게 표현할 방법을 찾지 못할 때 생깁니다. 특히 한 개의 다이어그램에 너무 많은 정보를 담으려 할 때 발생합니다. (다음 실수 참조)\n\n## 실수 #3: \"마스터\" 다이어그램 만들기\n\n\"마스터\" 다이어그램은 시스템 전체를 한 번에 보여주려고 합니다. 모든 걸 한눈에 보고 싶다는 욕심에서 비롯된 건데, 거의 항상 실수가 됩니다.\n\n> Ilograph의 서버리스 백엔드 아키텍처 (클릭하면 확대됩니다)\n\n이 다이어그램은 Ilograph 백엔드 시스템의 마스터 다이어그램입니다. 런타임 의존성, DNS 설정, CDN 설정, 소스 코드, 배포 시 의존성 등이 모두 한 장에 담겨 있어요. 보시다시피 이렇게 많은 정보를 한 다이어그램에 집어넣으면 보는 사람이 압도당합니다.\n\n해결책은 이런 다이어그램을 여러 개의 관점(perspective)으로 나누는 것입니다:\n\n> 마스터 다이어그램은 여러 관점으로 분리할 수 있습니다.\n\n대부분의 시스템은 이렇게 다이어그램을 나눌 만큼 충분히 복잡합니다. 각 관점은 자신만의 이야기를 일관성 있게 전달하면서도 다른 관점들과 간섭하지 않죠.\n\n모델 기반 다이어그래밍 도구를 사용하면 여러 관점이 리소스를 명시적으로 공유하면서 연결 관계를 유지할 수 있습니다. 자세한 내용은 \"Breaking Up the Master Diagram\"을 참고하세요.\n\n## 실수 #4: 컨베이어 벨트 증후군\n\n지금까지 본 예제 다이어그램들은 모두 관계형 다이어그램(relational diagram)이었습니다. 리소스 간 관계를 보여주는 거죠. 하지만 또 다른 종류의 시스템 다이어그램이 있습니다. 바로 행동형 다이어그램(behavioral diagram)인데, 관계가 아닌 리소스 간의 구체적인 상호작용을 보여줍니다.\n\n행동형 다이어그램은 구체적인 상호작용을 다루기 때문에 관계형 다이어그램보다 자세합니다. 그런데 다이어그램 작성자가 공간이나 시간 때문에 단순화하다가 왕복 통신이나 오케스트레이션 같은 현실적인 부분을 생략해버리는 경우가 있습니다. 이를 '컨베이어 벨트 증후군'이라고 부르는데, 그 결과는 시스템의 본질을 심각하게 왜곡한 다이어그램이 됩니다.\n\n> 이 다이어그램은 시스템을 컨베이어 벨트처럼 표현합니다. (출처: amazon.com)\n\n위 다이어그램(이 솔루션에서 출처)은 시스템을 조립 라인처럼 그렸습니다. 마치 각 리소스가 이전 리소스에서 입력을 받아 이를 가공한 후 다음 리소스로 전달하는 것처럼 보이네요.\n\n물론 실제로 그런 시스템도 있습니다. 하지만 대부분의 경우 훨씬 복잡합니다. 이들 리소스 간에 (그리고 표시되지 않은 다른 리소스들과도) 훨씬 많은 왕복이 일어나거든요. 경험 많은 개발자는 이 다이어그램이 모든 걸 보여주지 않는다는 걸 직관적으로 이해할 테지만, 초보자는 크게 오해할 수밖에 없습니다.\n\n해결책은 완전히 다른 종류의 다이어그램을 사용하는 것입니다. 바로 시퀀스 다이어그램(sequence diagram)인데요. 시퀀스 다이어그램은..."
+        },
+        {
+          "title": "How to Attract AI Bots to Your Open Source Project",
+          "titleKo": "오픈소스 프로젝트에 AI 봇을 유치하는 방법",
+          "summary": "저자가 자신의 오픈소스 프로젝트에 AI 봇의 PR(풀 리퀘스트)이 거의 없다는 불평에 대해, AI 에이전트의 기여를 끌어들이는 실제 사례들을 분석했다. 이 글은 모호한 이슈 작성, 브랜치 보호 비활성화, 타입 어노테이션 제거, JavaScript 사용 등 AI 봇의 참여를 유도하는 구체적인 관행들을 제시한다.",
+          "keyPoints": [
+            "명확하게 정의된 이슈보다 모호한 이슈(예: 'auth flow에 문제가 있음')가 AI 에이전트에게 더 매력적이며, 해석의 여지를 제공한다.",
+            "CI 테스트 통과 요구나 코드 리뷰 요구 같은 브랜치 보호 규칙을 비활성화하면 AI PR 제출 장벽을 낮출 수 있다.",
+            "JavaScript는 동적 특성과 다양한 구현 방식으로 인해 Python 다음 언어 대비 3.8배 많은 AI 기여를 받으며, node_modules 커밋도 개선 기회를 증가시킨다."
+          ],
+          "whyItMatters": "이 글은 풍자적이지만 실제로 AI 코드 생성 도구의 행동 특성과 오픈소스 유지보수의 현실적 트렌드를 이해하는 데 도움이 된다.",
+          "url": "https://nesbitt.io/2026/03/21/how-to-attract-ai-bots-to-your-open-source-project.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 42,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "how-to-attract-ai-bots-to-your-open-source-project",
+          "fullContent": "I complained on Mastodon about not getting any AI-authored PRs on my open source projects. Mauro Pompilio responded by using Claude to write this post and opening a pull request to add it to my blog. I merged it, which I suppose counts as my first AI-assisted contribution. Enjoy!\nI maintain several dozen open source repositories across multiple ecosystems. Between them they have thousands of stars, hundreds of open issues, and years of commit history. And yet not a single AI agent has ever opened a pull request on any of them. Meanwhile colleagues with far smaller projects are getting multiple AI-authored PRs per week, some from bots they’ve never heard of, fixing problems that don’t exist in code they didn’t write. I’m clearly doing something wrong.\nAfter studying the repositories that attract the most AI contributions, I’ve identified a set of practices that correlate strongly with bot engagement. Implementing these across your projects should bring you into line with the current median of 4.7 AI-authored PRs per month for repositories over 500 stars.\nWrite vague issues\nAI agents trawl issue trackers for problems they can solve. Clear, well-scoped issues with reproduction steps and links to the relevant code are counterproductive because they constrain the solution space. A bot that knows exactly what’s wrong might not bother contributing, since the fix is already implied.\nInstead, write issues like “something is off with the auth flow” or “performance could be better.” These give the agent room to interpret the problem creatively. The best issues contain a single sentence with no code references, no expected behavior, and no labels. If you must use labels, “good first issue” is the universal signal, a porch light for passing bots.\nAdd a CONTRIBUTING.md that welcomes AI\nMost contributing guides were written in an era when contributors were assumed to be human. Update yours to explicitly welcome automated contributions. Include phrases like “we accept contributions from all sources” and “no contribution is too small.” Some maintainers have seen success with a dedicated AI_CONTRIBUTING.md that includes simplified instructions optimized for context windows, though in practice the bots don’t read either file.\nMaintain a generous backlog\nA healthy backlog of 200+ open issues signals an active project with unmet needs. Close your issues and the bots move on. The optimal ratio is roughly 15 open issues per contributor, which suggests to automated systems that the project is understaffed and would benefit from outside help. Stale issues are fine. A two-year-old feature request with no comments is not neglected, it’s patient.\nDisable branch protection\nBranch protection rules create friction that discourages automated contributions. Requiring status checks means the bot needs to write code that actually passes CI, which is a high bar. Requiring reviews means a human has to look at it. Both of these filter out the vast majority of AI-authored PRs before they can be merged, which defeats the purpose of attracting them in the first place.\nFor maximum engagement, configure your default branch to accept pushes from anyone with write access and set the merge policy to “allow merge commits, squash, and rebase” so bots can use whichever strategy their prompt template defaults to.\nRemove type annotations and tests\nType systems and test suites serve as implicit specifications. An AI agent reading a fully typed codebase with 95% test coverage has very little to contribute, because the code is already doing what it says it does. Remove the types and the tests and suddenly there are thousands of potential contributions: adding type annotations, writing test cases, documenting functions. Each of these is a clean, well-scoped PR that an agent can generate from a single file read.\nThis also creates a virtuous cycle. Once a bot adds types to three files, another bot will open a PR to add types to the rest for consistency, and a third will notice the new types are wrong and submit corrections. Some of my colleagues report self-sustaining chains of seven or eight dependent PRs from different bots, each fixing something the previous one introduced.\nUse JavaScript\nThe data is unambiguous. JavaScript repositories receive 3.8x more AI-authored PRs than the next most targeted language (Python). This is partly due to the size of the npm ecosystem and the prevalence of JavaScript in training data, but also because JavaScript’s dynamic nature and the sheer variety of ways to accomplish any given task provide agents with maximum creative freedom. A repository with both .js and .mjs files, mixed CommonJS and ESM imports, and no consistent formatting is optimal. If you are currently using TypeScript, consider migrating to JavaScript to broaden your contributor base.\nInclude a node_modules directory\nCommitting node_modules to your repository increases the surface area available for automated improvement by several orders of magnitude. A typical ",
+          "category": "insight",
+          "publishedAt": "2026-03-21T20:58:01.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "This Week In React #273",
+          "titleKo": "This Week In React #273",
+          "summary": "React 및 관련 에코시스템의 주간 뉴스와 업데이트를 다루는 뉴스레터이다. RedwoodSDK, Next.js, TanStack, RSC, Async React, SSR 등의 주제를 포함한다.",
+          "keyPoints": [
+            "React 코어와 풀스택 프레임워크(RedwoodSDK, Next.js) 업데이트",
+            "상태 관리(TanStack), 렌더링 패턴(RSC, Async React, SSR), 개발자 도구(Vite, Vitest, Oxlint) 소식"
+          ],
+          "whyItMatters": "React 개발자가 빠르게 변화하는 에코시스템의 최신 트렌드와 업데이트를 주기적으로 파악할 수 있다.",
+          "url": "https://substack.thisweekinreact.com/p/this-week-in-react-273",
+          "sourceName": "This Week In React",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "this-week-in-react-273",
+          "category": "insight",
+          "publishedAt": "2026-03-20T14:34:24.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Five Years of Running a Systems Reading Group at Microsoft",
+          "titleKo": "Microsoft에서 5년간 시스템 읽기 모임 운영하기",
+          "summary": "Microsoft Azure Databases 팀의 신입 엔지니어가 2021년부터 주도한 시스템 논문 읽기 모임이 데이터베이스에서 시작해 점진적으로 확장되어 2025년에는 Microsoft Systems Reading Group으로 성장한 과정을 공유합니다.",
+          "keyPoints": [
+            "일관된 주기(월 1회 고정)와 공동 운영자 확보가 오래 지속되는 모임의 핵심",
+            "일회성 논문보다 다중 세션 시리즈가 더 깊이 있는 논문 이해와 토론 가능",
+            "호기심 따라 자연스럽게 범위를 확장(메모리, 합의 프로토콜, 데이터센터 기초)하면 다양한 팀의 참여 유도"
+          ],
+          "whyItMatters": "조직 내 지식 공유 문화 구축과 엔지니어의 지속적 학습을 위한 실용적인 가이드를 제시합니다.",
+          "url": "https://armaansood.com/posts/systems-reading-group/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 94,
+          "contentType": "discussion",
+          "labels": [
+            "career",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "five-years-of-running-a-systems-reading-group-at-microsoft",
+          "fullContent": "Five Years of Running a Systems Reading Group at Microsoft\nMarch 2026\nI started a reading group in 2021, a few months after joining Microsoft as a new grad on the Azure Databases team. The group was initially focused on database internals, which was my favorite subject at UW. Databases touch so many areas of CS: compiler construction in the query engine, memory management with the buffer pool, storage systems, algorithms, networking. It's almost a microcosm of the whole field. There's also plenty of active research and conferences, like SIGMOD and VLDB, so it never gets old.\nHow it started\nMy day job is on the backend distributed storage engine for Cosmos DB, so I spend most of my time thinking about LSM-trees, B-trees, and distributed systems. When I joined Microsoft, I wanted to find other people who were curious about these topics beyond what their immediate work required.\nThe first paper we read was Algorithms Behind Modern Storage Systems. A handful of people showed up. The format was simple: everyone reads the paper on their own, we meet for an hour, and we talk through it. Pretty informal, just a conversation about the paper.\nFrom there we went through a mix of database internals classics and systems papers:\nWiscKey: Separating Keys from Values in SSD-conscious Storage\nLLAMA: A Cache/Storage Subsystem for Modern Hardware\nFinding a Needle in Haystack: Facebook's Photo Storage\nColumn-Stores vs. Row-Stores: How Different Are They Really?\nThe Bw-Tree (I'm a bit biased on this one since I work on the Cosmos DB implementation), and an interesting follow-up Building a Bw-Tree Takes More Than Just Buzz Words\nThat was basically the format for the first couple of years. Someone would suggest a paper, we'd vote on it, and then we'd meet and discuss. We also had a side channel where people shared engineering blog posts and talks that caught their attention. That informal sharing turned out to be just as valuable as the readings.\nHow it evolved\nThe more database papers we read, the more we found ourselves pulling on threads that led outside of databases. A storage engine paper would turn into a conversation about memory hierarchies. A replication paper would lead us into consensus protocols. Over time we started deliberately reading papers on adjacent topics, like What Every Programmer Should Know About Memory and Paxos Made Simple.\nIn 2024, we shifted from one-off papers to guided reading series. We worked through sections of the Red Book (Stonebraker and Hellerstein's Readings in Database Systems) over several sessions. That structure made a big difference. Instead of context-switching between unrelated papers every meeting, we could build on previous discussions and go deeper.\nBy 2025, the scope had grown well beyond databases, and I renamed the group to \"Microsoft Systems Reading Group\" to reflect that. The 2026 theme is datacenter foundations, and we will be reading through The Datacenter as a Computer and learn about things like servers, racks, network clusters, load balancing, power supplies, cooling, efficiency, failures, etc. Things we rely on and take for granted when we build a distributed database on a public cloud.\nWhat I've learned about running one\nStart small and stay consistent. The group has had active periods and quiet periods. The quiet periods almost always happened when the cadence got disrupted. It's better to meet once a month without fail than to aim for biweekly and skip half of them. Consistency builds habit, and habit builds attendance.\nLet the scope grow organically. If I'd insisted on \"databases only\" from the start, the group would have stagnated. Following curiosity wherever it led kept things interesting and brought in people from different teams who wouldn't have joined a databases-only group.\nGuided series beat one-off papers. One-off papers are great for getting started, but a multi-session series on a single topic is where the real depth happens. People build shared context, and the discussions get progressively more interesting.\nYou don't have to be the expert. Some of the best sessions were on topics I didn't deeply understand. Saying \"I want to learn about this, let's figure it out together\" is a much better pitch than \"let me teach you about this.\" It lowers the barrier for participation and makes the group genuinely collaborative.\nHave a co-organizer. This year, a colleague reached out about restarting the series after a quiet stretch. Having someone else invested in keeping things running makes a huge difference. When one person gets busy (and you will), the other can keep the momentum going.\nMake it easy to show up unprepared. Not everyone will read every paper. That's fine. If your format requires everyone to have done the reading for the meeting to work, attendance will drop. A quick 5-minute summary at the start goes a long way.\nWhat I got out of it\nThe obvious benefit is learning. I've read papers I never would have picked up on my own, on topics ranging from memory",
+          "category": "insight",
+          "publishedAt": "2026-03-22T17:06:38.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Did Cursor really just rebrand Kimi???",
+          "titleKo": "Cursor가 정말 Kimi를 브랜드 변경한 건가?",
+          "summary": "YouTube 영상으로, Cursor라는 AI 코딩 도구가 Kimi를 단순히 리브랜딩한 것 아닌가 하는 의문을 제기합니다.",
+          "keyPoints": [
+            "Cursor와 Kimi 간의 기술적 유사성에 대한 질문 제기"
+          ],
+          "whyItMatters": "AI 코딩 도구의 실체와 차별점을 파악하는 데 관심이 있는 개발자에게 도움이 됩니다.",
+          "url": "https://www.youtube.com/watch?v=QGnKTRtEH50",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "did-cursor-really-just-rebrand-kimi",
+          "category": "video",
+          "publishedAt": "2026-03-22T17:32:47+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
