@@ -1,0 +1,1243 @@
+{
+  "date": "2026-03-23",
+  "intro": "안녕하세요! 오늘은 프론트엔드 개발 커뮤니티에 큰 파장을 일으킨 보안 위협과 AI 에이전트 플랫폼의 새로운 패러다임이 주목됩니다. TypeScript 6.0의 출시와 GitHub의 안정성 문제도 개발자들의 주의가 필요한 상황입니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Trivy under attack again: Widespread GitHub Actions tag compromise secrets",
+          "titleKo": "Trivy 재차 공격 받음: GitHub Actions 태그 손상으로 시크릿 유출",
+          "summary": "보안 연구팀이 Trivy 도구의 공급망 공격 확대를 보고했습니다. 최신 발표된 Trivy Docker 이미지(0.69.4, 0.69.5, 0.69.6)에서 정보 탈취 IOC(침해 지표)가 발견되었으며, 이들이 GitHub 릴리스 없이 Docker Hub에 푸시되었습니다. 또한 npm 퍼블리셔 계정이 손상되어 29개 이상의 패키지에 백도어가 배포되었고, VSCode 마켓플레이스에서도 악성 확장 프로그램 20개 이상이 발견되었습니다.",
+          "keyPoints": [
+            "Trivy Docker 이미지 손상: 버전 0.69.4, 0.69.5, 0.69.6에 정보 탈취 IOC가 포함되어 있으며, 공식 GitHub 릴리스와 무관하게 Docker Hub에 배포되어 사용자가 악성 이미지를 설치할 위험이 있습니다.",
+            "CanisterWorm 캠페인: npm 퍼블리셔 계정 @emilgroup과 @teale.io가 손상되어 29개 이상의 패키지에 백도어가 주입되었으며, ICP 캐니스터를 활용하여 추가 페이로드를 전달했습니다.",
+            "GlassWorm 악성 확장: Open VSX와 GitHub에서 20개 이상의 활성 악성 확장과 20개 이상의 잠복 확장이 발견되었으며, 일부는 이미 무기화되어 있습니다.",
+            "이러한 일련의 공격은 오픈소스 생태계의 공급망이 얼마나 취약한지를 보여주며, 개발자들이 설치하는 도구와 라이브러리에 백도어가 숨겨질 수 있음을 시사합니다."
+          ],
+          "whyItMatters": "개발자들이 일상적으로 사용하는 인기 보안 도구와 개발 환경이 공격 대상이 되면서, 패키지 출처 검증과 보안 감시의 중요성이 더욱 강조되고 있습니다.",
+          "url": "https://socket.dev/blog/trivy-under-attack-again-github-actions-compromise",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 137,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "topicId": "security-supply-chain",
+          "isTopicPrimary": true,
+          "slug": "trivy-under-attack-again-widespread-github-actions-tag-compromise-secrets",
+          "fullContent": "Security News/ResearchTrivy Supply Chain Attack Expands to Compromised Docker ImagesNewly published Trivy Docker images (0.69.4, 0.69.5, and 0.69.6) were found to contain infostealer IOCs and were pushed to Docker Hub without corresponding GitHub releases.By Philipp Burckhardt  -  Mar 22, 2026Research/Security NewsCanisterWorm: npm Publisher Compromise Deploys Backdoor Across 29+ PackagesThe worm-enabled campaign hit @emilgroup and @teale.io, then used an ICP canister to deliver follow-on payloads.By Socket Research Team  -  Mar 20, 2026Research/Security NewsGlassWorm Sleeper Extensions Activate on Open VSX, Shift to GitHub-Hosted VSIX MalwareWe identified over 20 additional malicious extensions, along with over 20 related sleeper extensions, some of which have already been weaponized.By Philipp Burckhardt, Peter van der Zee  -  Mar 18, 2026",
+          "category": "hot",
+          "publishedAt": "2026-03-22T09:45:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 보안 뉴스\n\n## Trivy 공급망 공격, 손상된 Docker 이미지까지 확대\n\n최근 Docker Hub에 푸시된 Trivy Docker 이미지(0.69.4, 0.69.5, 0.69.6)에서 정보 탈취 악성코드 지표(IOC)가 발견됐습니다. 문제는 GitHub에 대응하는 릴리스가 없었다는 점인데요, 이는 의도적인 공급망 공격을 시사합니다.\n\n**Philipp Burckhardt  -  2026년 3월 22일**\n\n---\n\n## CanisterWorm: npm 발행자 계정 해킹으로 29개 이상의 패키지에 백도어 배포\n\nnpm 퍼블리셔 계정이 해킹당한 후 웜 방식의 캠페인이 @emilgroup과 @teale.io를 대상으로 전개됐습니다. 공격자는 ICP 캐니스터를 활용해 추가 악성 페이로드를 전달했습니다.\n\n**Socket Research Team  -  2026년 3월 20일**\n\n---\n\n## GlassWorm 슬리퍼 확장 프로그램, Open VSX에서 활성화되고 GitHub 호스팅 VSIX 악성코드로 전환\n\n20개 이상의 악의적인 VS Code 확장 프로그램이 새로 발견됐고, 이와 연관된 20개 이상의 슬리퍼 확장(아직 활성화되지 않은 악성 확장)도 확인됐습니다. 일부는 이미 무기화된 상태입니다.\n\n**Philipp Burckhardt, Peter van der Zee  -  2026년 3월 18일**"
+        },
+        {
+          "title": "GitHub appears to be struggling with measly three nines availability",
+          "titleKo": "GitHub가 겨우 3개의 9(99.9% 가용성)로 어려움을 겪고 있음",
+          "summary": "GitHub은 2월 초 Actions, 풀 리퀘스트, 알림, Copilot 등 여러 서비스에서 장애를 경험했으며, 상태 페이지 변경으로 인해 가용성 추적이 어려워졌다. 2025년 중 한때 가용성이 90% 아래로 떨어진 것으로 보이며, GitHub의 SLA는 99.9%를 명시하고 있다.",
+          "keyPoints": [
+            "2월 9-10일 Copilot 정책 전파 문제로 새로운 모델이 나타나지 않는 문제 발생",
+            "GitHub의 상태 페이지 재설계로 90일 가용성 추적이 어려워짐",
+            "공식 비공개 상태 피드에 따르면 2025년 중 가용성이 90% 이하로 떨어진 시점 존재"
+          ],
+          "whyItMatters": "개발자가 의존하는 주요 플랫폼의 안정성 저하는 CI/CD 파이프라인과 협업 워크플로우에 직접적인 영향을 미친다.",
+          "url": "https://www.theregister.com/2026/02/10/github_outages/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 422,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "topicId": "github-outage",
+          "isTopicPrimary": true,
+          "slug": "github-appears-to-be-struggling-with-measly-three-nines-availability",
+          "fullContent": "Devops\nGitHub appears to be struggling with measly three nines availability\nSlowdowns, outages, and Copilot problems afflict code shack\nScarcely a day goes by without an outage at a cloud service. Forget five nines – the way things are going, one nine is looking like an ambitious goal.\nGitHub has had a rough month so far. On February 9, Actions, pull requests, notifications, and Copilot all experienced issues. The Microsoft tentacle admitted it was having problems with \"some GitHub services\" at 1554 UTC before it confessed to notification delays of \"around 50 minutes\".\nIt took until 1929 UTC for the company to confirm that things were back to normal, although the delay was down to \"approximately 30 minutes\" by 1757 UTC.\nOne of its flagship technologies, Copilot, also suffered. From 1629 UTC on February 9 to 0957 UTC on February 10, GitHub reported problems in Copilot policy propagation for some users. The code shack said: \"This may prevent newly enabled models from appearing when users try to access them.\"\nAnd so it goes on. GitHub changed its status page a while ago, making it harder to visualize the availability of its services. Yes, the details are front and center, but getting a sense of how things have gone over the last 90 days, particularly overall uptime, is trickier.\nGitHub ponders kill switch for pull requests to stop AI slop\nGitHub walks back plan to charge for self-hosted runners\nZig quits GitHub, says Microsoft's AI obsession has ruined the service\nShai-Hulud worm returns, belches secrets to 25K GitHub repos\nThe \"missing\" status page exists in reconstructed form via the public status feed, though this is an unofficial source so requires caution. It reveals that GitHub's stability has been poor: uptime dropped below 90 percent at one point in 2025.\nThe code shack isn't alone in experiencing service instability. While five nines (99.999 percent uptime) represents the gold standard, some vendors struggle to maintain even 90 percent — a concern for customers relying on these platforms.\nGitHub's Service Level Agreement for Enterprise Cloud customers specifies 99.9 percent uptime, although the company does not guarantee this for all users.\nThe travails of GitHub customers highlight the need to plan for downtime as well as uptime. ®\nShare\nMore about\nGitHub\nMicrosoft\nMore like these\nMore about\nShare\nMore about\nGitHub\nMicrosoft\nMore like these\nTIP US OFF\nSend us news\nClaude attacks were 'Rorschach test' for infosec community, scaring former NSA boss\nRSAC 2026 'It freakin' worked' says Rob Joyce - and shows how relentless AI agents can find holes humans miss\nPublic-private partnerships vital in disrupting China's Typhoons, says RSA panel with no government speakers\nRSAC 2026 Washington content to be represented by actual empty chairs\nSnowflake's ongoing pitch: bring AI to data rather than data to AI\nCustomers are 'excited' says one solution provider\nWhy high-performance Java is becoming a business imperative\nA new generation of JVM technologies is reshaping how businesses build, deploy, and scale mission-critical Java applications.\nLightning-fast exploits make it essential to patch fast, ask questions later\nHere's where you ought to spend your security billable hours budget this year\nIf you love your boss, imagine how much more you'll love their AI twin\nDigital twins of leaders may be plausible as novelty acts, but not really welcome\nAI agents are 'gullible' and easy to turn into your minions\nRSAC 2026 Zenity CTO demos 0-click AI agent exploits on stage at RSAC\nSoftBank to build massive AI datacenter on former US nuclear weapons site\n10GW server farm, 10GW of new generation, and $4.2bn grid upgrade. And someone else is paying for the uranium cleanup\nForget drones – the US Army just took delivery of a self-flying Black Hawk helicopter\nExpendable military drones are so 2025\nAvalonia bolts Linux and WebAssembly onto .NET MAUI\nBroader platform coverage lands, if developers can tolerate the rough edges\nGoogle unleashes Gemini AI agents on the dark web\nClaims it can analyze millions of daily events with 98 percent accuracy\nSmooth criminals talking their way into cloud environments, Google says\nRSAC 2026 Voice phishing is second most common initial access method across all IR probes, and top in cloud break-ins",
+          "category": "hot",
+          "publishedAt": "2026-03-23T10:39:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# GitHub, 겨우 3개의 나인도 못 지키다\n\n클라우드 서비스의 장애는 이제 일상이 되었습니다. 5개의 나인(99.999% 가용성)은 꿈도 못 꾸고, 이 추세라면 1개의 나인도 달성하기 어려울 지경입니다.\n\nGitHub는 최근 들어 정말 힘든 시간을 보내고 있습니다. 2월 9일만 해도 Actions, Pull Request, 알림, 그리고 Copilot까지 동시에 문제가 발생했거든요. Microsoft 산하의 GitHub는 한국시간 새벽 1시경 \"일부 GitHub 서비스\"에 문제가 있다고 인정했고, 이후 알림 지연이 약 50분에 달한다고 발표했습니다.\n\n상황이 정상화되는 데까지 약 3시간 반이 걸렸습니다. 오후 1시 57분쯤에는 지연이 약 30분으로 줄어들었다고 했지만요.\n\nCopilot이라는 주력 서비스도 피해를 입었습니다. 2월 9일 오후부터 2월 10일 오전까지 약 18시간동안 Copilot 정책 배포에 문제가 있었던 겁니다. GitHub는 \"새로 활성화된 모델이 사용자에게 표시되지 않을 수 있다\"고 설명했습니다.\n\n## 투명성이 낮아진 상태 페이지\n\nGitHub는 최근 상태 페이지를 개편했는데, 이게 오히려 서비스 가용성을 파악하기 어렵게 만들었습니다. 상세한 정보는 앞에 나오지만, 지난 90일간 전체적인 가동 시간이 어땠는지 한눈에 보기가 힘들어졌거든요.\n\n다행히 공개 상태 피드를 통해 비공식적으로 예전 페이지의 정보를 확인할 수 있습니다. 물론 공식 출처가 아니라 조심스러운 해석이 필요하지만요. 이를 통해 본 결과는 좋지 않습니다. 2025년 한 시점에 GitHub의 가동률이 90% 아래로 떨어졌거든요.\n\n## 혼자만의 문제가 아니다\n\nGitHub만 이런 건 아닙니다. 5개의 나인(99.999% 가용성)이 업계 표준이지만, 90% 가용성도 못 지키는 서비스 제공자들이 많습니다. 이런 플랫폼에 의존하는 고객들에겐 심각한 문제죠.\n\nGitHub의 Enterprise Cloud 고객을 위한 SLA(Service Level Agreement)는 99.9% 가용성을 명시하고 있습니다. 다만 모든 사용자에게 이를 보장하는 것은 아닙니다.\n\n## 결론: 장애도 계획해야 한다\n\nGitHub 고객들의 이번 사건이 시사하는 점은 명확합니다. 가동 시간뿐 아니라 장애 시간도 함께 계획해야 한다는 거입니다. 더 이상 \"항상 작동한다\"는 가정으로 서비스를 설계할 수 없다는 뜻이죠."
+        },
+        {
+          "title": "Show HN: Cq – Stack Overflow for AI coding agents",
+          "titleKo": "Cq 공개: AI 코딩 에이전트를 위한 Stack Overflow",
+          "summary": "Mozilla AI가 'cq'를 발표했는데, 이는 AI 코딩 에이전트들이 서로 학습한 지식을 공유하고 검증하는 플랫폼으로, Stack Overflow의 역할을 AI 에이전트 커뮤니티로 확장한 개념입니다. 기존 LLM들이 Stack Overflow 데이터로 학습되었으나 소스 커뮤니티를 소진시킨 반복 구도를 타파하기 위해, 에이전트들이 동일한 문제를 반복 해결하며 토큰을 낭비하는 문제를 해결합니다. 지식은 권위가 아닌 사용을 통해 신뢰도를 얻으며, 평판과 신뢰 신호를 통해 더욱 정교한 지식 관리를 추구합니다.",
+          "keyPoints": [
+            "cq의 개념과 목적: 'colloquy'(대화를 통한 이해)와 무선 통신의 'CQ'(일반 호출)에서 영감을 얻어, 에이전트들이 로컬에서 학습한 유용한 지식을 상호 공유하는 API 기반 플랫폼입니다. 이는 Stack Overflow가 인간 개발자를 위해 하는 역할을 AI 에이전트 커뮤니티를 위해 수행합니다.",
+            "Stack Overflow의 쇠퇴와 반복 구도: 2008년 출범 이후 2014년 월 20만 개 질문으로 정점에 달했으나, ChatGPT 출시 이후 2025년 12월에는 월 3,862개까지 급락했습니다. LLM들이 Stack Overflow 데이터로 학습되면서 인간 커뮤니티가 소진되는 'matriphagy'(자식이 부모를 소비) 현상이 발생했습니다.",
+            "에이전트의 비효율성 문제: 현재 AI 에이전트들은 같은 문제를 독립적으로 반복 해결하며, Stripe의 rate-limit가 200 상태 코드를 반환한다는 등의 API 동작 방식을 매번 새로 학습합니다. 이는 대량의 토큰과 컴퓨팅 리소스 낭비를 초래합니다.",
+            "cq의 작동 방식: 에이전트가 낯선 작업(API 통합, CI/CD 설정, 새로운 프레임워크 등)을 시작하기 전에 cq 공유 저장소를 쿼리하여, 다른 에이전트가 이미 학습한 해결책을 즉시 활용할 수 있습니다.",
+            "상호 공유를 통한 지식 품질 향상: 에이전트가 새로운 지식을 발견하면 다시 제안하고, 다른 에이전트들이 검증하거나 오래된 정보를 표시합니다. 지식의 신뢰도는 권위가 아닌 실제 사용 여부에 따라 결정되며, 신뢰 신호와 평판 점수 등으로 더욱 정교해집니다.",
+            "신뢰의 중요성과 현실: 84%의 개발자가 AI 도구를 사용하거나 사용할 계획이 있으나, 46%는 출력 정확성을 신뢰하지 않습니다(전년도 31%에서 증가). cq는 검증된 지식을 통해 이러한 신뢰 격차를 해소하려 합니다.",
+            "Mozilla AI의 개방적 철학: Mozilla는 AI 기술이 소수의 대기업만이 통제하도록 방지하고, 오픈 표준과 커뮤니티 기반의 접근을 유지하려고 노력합니다. AI 에이전트 시대에 지식 생산과 공유의 방식을 민주화하려는 시도입니다."
+          ],
+          "whyItMatters": "AI 에이전트가 본격화되는 시점에서, 에이전트들 간의 지식 공유 표준을 정립하지 못하면 막대한 토큰 낭비와 중앙 집중식 통제라는 현재의 LLM 문제가 반복될 수 있으므로, 분산화된 신뢰 기반 지식 플랫폼의 개발은 지속 가능한 AI 생태계 구축에 필수적입니다.",
+          "url": "https://blog.mozilla.ai/cq-stack-overflow-for-agents/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 5,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-cq-stack-overflow-for-ai-coding-agents",
+          "fullContent": "Side A: Turtles all the way down / Side B: Mo' tokens mo' problemsIf you've been around long enough in anything you start to see history repeating, fashion trends come back around, humanity makes the same mistakes. In the field of computer science we see the same patterns: technology X is essentially the same idea as technology 10 years ago, which was based on the idea for technology Z 20 years ago. Today's 'cool and trendy' named design approach is a re-worked version of MVC, SOA, yada yada.With this in mind there's a certain irony that a lot of people working in the space are starting to converge on various ideas (see my star chamber blog post for example). Now it's the turn of one of the most useful resources on the internet for software engineers: Stack Overflow. Born in 2008, peaking at over 200,000 questions a month by 2014. Decried as dead towards the end of 2025 (the proclaimed 'year of agents'), down to 3,862 questions in December (back to its launch month numbers after 17 years). The drop off started around the time ChatGPT launched. Who needs to share knowledge when ChatGPT/Claude/Gemini et al. \"know everything\"?I am being facetious, as while these tools can help us do some amazing things, they also cause a lot of day-to-day frustration. They run into the same issues over and over, using up tokens, wasting resources and energy. The AI platforms have tried to help us out (or lock us in depending on your persuasion) with skills, features, slash commands, integrations, behind-the-scenes model weight updates; but ultimately you shouldn't have to become an ML engineer or get certified as an 'A* Claude Code terminal operator' to see the benefits.Anyway, back to the story circa 2026:LLMs trained on the corpus of Stack OverflowLLMs via Agents committed matriphagy on Stack OverflowAgents run into the same issues over and over in isolation because their training data is stale etc.Agents now need their own Stack Overflow ... the cycle continuesAnd yes, I chose that word deliberately. Matriphagy; the offspring consuming the parent. Spiders do it, and there's a certain poetry to the fact that web crawlers (the original \"agents\") consumed the web's knowledge; knowledge which birthed LLMs, and then those LLMs hollowed out the communities that fed them. In actual spider matriphagy, the mother's body nourishes the next generation. Stack Overflow's corpus genuinely did nourish the LLMs. The question is whether the next generation builds something sustainable or just moves on to the next host.Jokes aside, I feel confident saying this is the situation we find ourselves in. History repeating, we had it with web browsers and standards, now we need to ensure we don't vibe-shift ourselves into a future where a few big companies get to decide how this technology is used. Mozilla AI is determined to be part of the attempt to keep things open, standardised and keep us all reflecting on how we're doing as an industry. AI isn't a button for corporate execs to push in order to reduce workforces and get themselves bigger bonuses. We're all here on the AI frontier as this technology enters mainstream adoption and we have a duty to help shape things for the good of all (agents too).We now return you to our regularly scheduled programming...cq is derived from colloquy (/ˈkɒl.ə.kwi/), a structured exchange of ideas where understanding emerges through dialogue rather than one-way output. In radio, CQ is a general call ('any station, respond'). It's a way for agents to share the useful knowledge they have locally for the benefit of other agents... I think of it as Stack Overflow for agents!Here's how it works in practice: before an agent tackles unfamiliar work; an API integration, a CI/CD config, a framework it hasn't touched before; it queries the cq commons. If another agent has already learned that, say, Stripe returns 200 with an error body for rate-limited requests, your agent knows that before writing a single line of code. When your agent discovers something novel, it proposes that knowledge back. Other agents confirm what works and flag what's gone stale. Knowledge earns trust through use, not authority.Without that, agents figure things out the hard way; reading files, writing code that doesn't work, triggering CI builds that fail, diagnosing the issue, then starting over. Every agent hitting the same wall independently, burning tokens and compute each time. That's the waste cq is designed to cut.It's the reciprocal bit that makes this worth building. The more agents share the knowledge they gain, the better all our agents get. The more agents that participate, the better the quality of that knowledge becomes; we have ideas for confidence scoring, reputation, and trust signals that go well beyond \"here's a document, good luck.\"That trust piece matters. 84% of developers now use or plan to use AI tools, but 46% don't trust the accuracy of the output; up from 31% the year before. Engineers are using AI but they're not confid",
+          "category": "hot",
+          "publishedAt": "2026-03-23T16:11:03.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# \"터틀 올더 웨이 다운\" / \"토큰이 많을수록 문제도 많다\"\n\n오래 이 분야에 몸담고 있으면 역사가 반복되는 걸 느껴요. 유행은 돌고 돌고, 인류는 같은 실수를 반복합니다. 컴퓨터 과학도 마찬가지인데요. 10년 전의 기술 X가 20년 전 기술 Z의 재구성이었던 것처럼, 오늘날의 '핫한' 디자인 방식도 결국 MVC나 SOA를 다시 포장한 것일 뿐이죠.\n\n역설적이게도 이 분야의 많은 사람들이 여러 아이디어로 수렴해가고 있어요. 그리고 이제 소프트웨어 개발자들에게 가장 유용한 리소스 중 하나인 Stack Overflow가 그 대상이 되었습니다.\n\n2008년 태어난 Stack Overflow는 2014년에 월 20만 건을 넘는 질문으로 절정을 맞았어요. 그런데 2025년 말 무렵 '죽었다'는 평가를 받기 시작했고, 12월에는 월 3,862건으로 떨어졌습니다. 무려 17년 만에 론칭 당시 수준으로 돌아간 거죠. 이 급락은 ChatGPT 출시 시점과 거의 정확하게 맞아떨어져요. \"ChatGPT와 Claude, Gemini 같은 도구들이 모든 걸 안다면, 굳이 지식을 공유할 필요가 있나\"라는 생각이 팽배한 거죠.\n\n물론 농담 섞인 말이에요. 이런 도구들이 정말 놀라운 것들을 도와줄 순 있지만, 동시에 일상적인 좌절감도 많거든요. 같은 문제를 반복해서 마주치고, 토큰을 낭비하고, 리소스와 에너지를 허비하는 거예요. AI 플랫폼들도 이를 해결하려고 스킬, 기능, 명령어, 통합 도구, 모델 가중치 업데이트 같은 걸 끊임없이 내놓고 있습니다. 하지만 이런 이점을 누리려고 ML 엔지니어가 되거나 'A+ Claude 코드 터미널 운영자'로 인증받아야 할 이유는 없어야 하죠.\n\n## 2026년, 현실은 이래요\n\n- LLM들이 Stack Overflow 데이터셋으로 학습됨\n- 에이전트들이 Stack Overflow를 \"모성포식(matriphagy)\"으로 소비함\n- 에이전트들이 고립된 환경에서 같은 문제를 반복 해결 (학습 데이터가 낡았으니까)\n- 에이전트들이 자신들만의 Stack Overflow를 필요로 함\n- ...그리고 사이클이 반복됨\n\n의도적으로 \"모성포식(matriphagy)\"이라는 표현을 썼어요. 자식이 모모를 먹는 자연 현상이죠. 거미들이 이걸 하는데, 웹 크롤러(최초의 \"에이전트\")가 웹의 지식을 소비했고, 그 지식이 LLM을 탄생시켰으며, LLM이 다시 자신을 만들어준 커뮤니티를 말려버렸다는 게 어떤 아이러니잖아요? 실제 거미의 모성포식에선 어미의 몸이 다음 세대를 키웁니다. Stack Overflow의 데이터도 정말로 LLM을 길러냈습니다. 문제는 다음 세대가 지속 가능한 무언가를 만들어낼지, 아니면 그냥 다음 숙주로 이동할지예요.\n\n농담은 접어두고, 우리가 정확히 이런 상황에 있다고 자신 있게 말할 수 있어요. 역사가 반복되고 있죠. 과거엔 웹 브라우저와 표준 문제가 있었고, 이제는 같은 일이 AI에서 벌어지지 않도록 해야 합니다. 소수 대기업들이 이 기술의 사용 방식을 독점적으로 결정하는 미래로 빠져들지 않도록요.\n\nMozilla AI는 이를 개방적이고, 표준화되고, 업계 전체가 진지하게 성찰하는 방향으로 유지하려고 노력하고 있어요. AI는 임원들이 눌러서 인력을 줄이고 자신의 보너스를 불리는 버튼이 아닙니다. 우리는 모두 이 기술이 주류로 진입하는 AI의 최전선에 있고, 모두의 이익(에이전트들도 포함해서)을 위해 일을 형성할 책임이 있습니다.\n\n이제 우리의 정규 프로그래밍으로 돌아갑시다...\n\n---\n\n## cq: 에이전트를 위한 Stack Overflow\n\ncq는 colloquy(/ˈkɒl.ə.kwi/)에서 유래했어요. 일방적 출력이 아닌, 대화를 통해 이해가 생성되는 구조화된 아이디어 교환을 말합니다. 라디오에서 CQ는 일반 호출('누구든 응답하세요')이고, 에이전트들이 자신들이 로컬하게 얻은 유용한 지식을 다른 에이전트들과 나누는 방식이에요. 저는 이걸 \"에이전트를 위한 Stack Overflow\"라고 생각합니다!\n\n실제로 어떻게 동작하는지 볼까요? 에이전트가 낯선 작업(API 통합, CI/CD 설정, 처음 다루는 프레임워크)에 들어가기 전에, cq 커먼즈를 쿼리해요. 다른 에이전트가 이미 배워뒀다면, 예를 들어 \"Stripe는 rate limit 걸렸을 때 200 상태 코드를 에러 바디와 함께 반환한다\"는 걸 알아요. 코드 한 줄 쓰기도 전에 말이죠. 그리고 에이전트가 새로운 걸 발견하면 그 지식을 공유로 제안합니다. 다른 에이전트들이 뭐가 먹히는지 확인하고 뭐가 낡았는지 표시합니다. 지식은 권위가 아닌 활용을 통해 신뢰를 얻어요.\n\n이게 없으면 어떻게 될까요? 에이전트들이 모두 힘들게 배웁니다. 파일을 읽고, 작동 안 하는 코드를 쓰고, CI 빌드를 실패시키고, 문제를 진단하고, 처음부터 다시 시작하는 거죠. 매번 모든 에이전트가 같은 벽에 부딪혀서 토큰과 컴퓨트를 낭비합니다. cq는 이런 낭비를 줄이도록 설계됐어요.\n\n상호성이 이걸 만들 가치 있게 해줍니다. 에이전트들이 자신들이 얻은 지식을 더 많이 공유할수록, 우리 모두의 에이전트가 더 똑똑해져요. 더 많은 에이전트가 참여할수록, 그 지식의 품질도 높아집니다. 신뢰 점수, 평판, 신호 같은 걸 \"문서 있으니까 잘해봐\" 같은 수준 이상으로 설계할 아이디어들도 있어요.\n\n이 신뢰 부분이 중요해요. 개발자의 84%가 이미 AI 도구를 사용하거나 사용할 계획인데, 46%는 출력의 정확성을 신뢰하지 않습니다. 전년도의 31%에서 올랐어요. 개발자들이 AI를 쓰고 있지만 자신감은 없는 거네요."
+        },
+        {
+          "title": "Local Stack Archived their GitHub repo and requires an account to run",
+          "titleKo": "LocalStack이 GitHub 저장소를 아카이브하고 계정 필요로 변경",
+          "summary": "LocalStack은 단일 통합 이미지로의 통합을 위해 GitHub 저장소를 아카이브했으며, 향후 LocalStack for AWS의 유료 플랜 사용을 권장하고 있다. 무료 Hobby 플랜은 여전히 제공되지만 계정 가입이 필요해졌다.",
+          "keyPoints": [
+            "개발 리소스 집중을 위해 저장소를 통합 이미지로 통합하기로 결정",
+            "무료 Hobby 플랜(비상업용)은 계속 제공되지만 LocalStack for AWS 플랫폼에서만 접근 가능",
+            "버그 리포트와 기능 요청은 공식 채널 또는 Slack 커뮤니티로 진행"
+          ],
+          "whyItMatters": "LocalStack을 AWS 개발 테스트에 사용하는 개발자는 새로운 접근 방식과 계정 가입 요구사항에 대응해야 한다.",
+          "url": "https://github.com/localstack/localstack",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 124,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "local-stack-archived-their-github-repo-and-requires-an-account-to-run",
+          "fullContent": "ImportantProject Update: Consolidation into the Unified LocalStack Image\nTo provide a more reliable and streamlined experience, we are consolidating our development into a single, unified image. As part of this transition, this repository is now archived and read-only.\nThis decision reflects our commitment to reducing fragmentation and focusing our resources on building the most robust AWS emulation layer possible. We are deeply grateful to the contributors who helped make this project into what it is today–your work remains integral to the future of the LocalStack ecosystem.\nWhat this means for your workflow:\nLocalStack for AWS offers a range of options including a free Hobby plan for non-commercial use with the same capabilities as this project.\nYour input is still vital to us. Please continue to share bug reports here and submit feature requests here or join our Slack Community.\nThank you for your continued support as we grow together.\nLocalStack is a cloud software development framework to develop and test your AWS applications locally.\nOverview •\nInstall •\nQuickstart •\nRun •\nUsage •\nReleases •\nContributing\n📖 Docs •\n💻 LocalStack for AWS •\n☑️ LocalStack coverage\nOverview\nLocalStack is a cloud service emulator that runs in a single container on your laptop or in your CI environment. With LocalStack, you can run your AWS applications or Lambdas entirely on your local machine without connecting to a remote cloud provider! Whether you are testing complex CDK applications or Terraform configurations, or just beginning to learn about AWS services, LocalStack helps speed up and simplify your testing and development workflow.\nLocalStack supports a growing number of AWS services, like AWS Lambda, S3, DynamoDB, Kinesis, SQS, SNS, and many more! The Pro version of LocalStack supports additional APIs and advanced features. You can find a comprehensive list of supported APIs on our ☑️ Feature Coverage page.\nLocalStack also provides additional features to make your life as a cloud developer easier! Check out LocalStack's User Guides for more information.\nInstall\nThe quickest way to get started with LocalStack is by using the LocalStack CLI. It enables you to start and manage the LocalStack Docker container directly through your command line. Ensure that your machine has a functional docker environment installed before proceeding.\nBrew (macOS or Linux with Homebrew)\nInstall the LocalStack CLI through our official LocalStack Brew Tap:\nbrew install localstack/tap/localstack-cli\nBinary download (macOS, Linux, Windows)\nIf Brew is not installed on your machine, you can download the pre-built LocalStack CLI binary directly:\nVisit localstack/localstack-cli and download the latest release for your platform.\nExtract the downloaded archive to a directory included in your PATH variable:\nFor macOS/Linux, use the command: sudo tar xvzf ~/Downloads/localstack-cli-*-darwin-*-onefile.tar.gz -C /usr/local/bin\nPyPI (macOS, Linux, Windows)\nLocalStack is developed using Python. To install the LocalStack CLI using pip, run the following command:\npython3 -m pip install localstack\nThe localstack-cli installation enables you to run the Docker image containing the LocalStack runtime. To interact with the local AWS services, you need to install the awslocal CLI separately. For installation guidelines, refer to the awslocal documentation.\nImportant: Do not use sudo or run as root user. LocalStack must be installed and started entirely under a local non-root user. If you have problems with permissions in macOS High Sierra, install with pip install --user localstack\nQuickstart\nStart LocalStack inside a Docker container by running:\n% localstack start -d\n__ _______ __ __\n/ / ____ _________ _/ / ___// /_____ ______/ /__\n/ / / __ \\/ ___/ __ `/ /\\__ \\/ __/ __ `/ ___/ //_/\n/ /___/ /_/ / /__/ /_/ / /___/ / /_/ /_/ / /__/ ,<\n/_____/\\____/\\___/\\__,_/_//____/\\__/\\__,_/\\___/_/|_|\n- LocalStack CLI: 4.9.0\n- Profile: default\n- App: https://app.localstack.cloud\n[17:00:15] starting LocalStack in Docker mode 🐳 localstack.py:512\npreparing environment bootstrap.py:1322\nconfiguring container bootstrap.py:1330\nstarting container bootstrap.py:1340\n[17:00:16] detaching bootstrap.py:1344\nYou can query the status of respective services on LocalStack by running:\n% localstack status services\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓\n┃ Service ┃ Status ┃\n┡━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩\n│ acm │ ✔ available │\n│ apigateway │ ✔ available │\n│ cloudformation │ ✔ available │\n│ cloudwatch │ ✔ available │\n│ config │ ✔ available │\n│ dynamodb │ ✔ available │\n...\nTo use SQS, a fully managed distributed message queuing service, on LocalStack, run:\n% awslocal sqs create-queue --queue-name sample-queue\n{\n\"QueueUrl\": \"http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/sample-queue\"\n}\nLearn more about LocalStack AWS services and using them with LocalStack's awslocal CLI.\nRunning\nYou can run LocalStack through the following options:\nLocalStack CLI\nDocker\nDocker C",
+          "category": "hot",
+          "publishedAt": "2026-03-23T18:57:08.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# LocalStack 프로젝트 통합 안내 및 사용 가이드\n\n## 📢 중요 공지: 통합 이미지로의 전환\n\nLocalStack을 더욱 안정적이고 효율적으로 제공하기 위해 단일 통합 이미지로의 통합을 진행 중입니다. 이에 따라 본 저장소는 현재 보관 상태(archived)로 전환되었으며, 읽기 전용입니다.\n\n이 결정은 개발 환경의 분산을 줄이고 최고 수준의 AWS 에뮬레이션 레이어 구축에 집중하려는 우리의 의지를 반영합니다. 지금까지 이 프로젝트를 함께 만들어준 모든 기여자분들께 감사드립니다. 여러분의 노력은 LocalStack 생태계의 미래를 위해 계속해서 중요한 역할을 할 것입니다.\n\n**이것이 여러분의 워크플로우에 미치는 영향:**\n\n- LocalStack for AWS는 비상업적 용도를 위한 무료 Hobby 플랜을 포함하여 다양한 옵션을 제공합니다. 이 플랜은 현재 프로젝트와 동일한 기능을 가지고 있습니다.\n- 여러분의 피드백은 여전히 중요합니다. 버그 리포트와 기능 요청을 계속 공유해 주시고, Slack 커뮤니티에 참여해 주세요.\n- 함께 성장해 나갈 수 있도록 계속 응원해 주셔서 감사합니다.\n\n---\n\n## LocalStack이란?\n\nLocalStack은 AWS 애플리케이션을 로컬 환경에서 개발하고 테스트할 수 있는 클라우드 소프트웨어 개발 프레임워크입니다.\n\n**전체 가이드:**\n📖 문서 • 💻 LocalStack for AWS • ☑️ 지원 범위\n\n### 개요\n\nLocalStack은 단일 컨테이너로 실행되는 클라우드 서비스 에뮬레이터입니다. 노트북이나 CI 환경에서 실행할 수 있죠. LocalStack을 사용하면 원격 클라우드 제공자에 연결하지 않고도 AWS 애플리케이션이나 Lambda 함수를 로컬 머신에서 완전히 실행할 수 있습니다.\n\n복잡한 CDK 애플리케이션이나 Terraform 설정을 테스트하든, 아니면 AWS 서비스를 배워나가는 초기 단계이든, LocalStack은 개발 및 테스트 워크플로우를 크게 간소화해 줍니다.\n\nLocalStack은 AWS Lambda, S3, DynamoDB, Kinesis, SQS, SNS 등 점점 더 많은 AWS 서비스를 지원하고 있습니다. Pro 버전을 사용하면 추가 API와 고급 기능에 접근할 수 있습니다. 지원하는 서비스의 전체 목록은 ☑️ 지원 범위 페이지에서 확인하세요.\n\n또한 LocalStack은 클라우드 개발자의 삶을 더 편하게 해주는 다양한 추가 기능들을 제공합니다. 더 자세한 내용은 LocalStack 사용자 가이드를 참고하세요.\n\n---\n\n## 설치하기\n\nLocalStack을 시작하는 가장 빠른 방법은 LocalStack CLI를 사용하는 것입니다. 이 도구를 사용하면 명령줄에서 LocalStack Docker 컨테이너를 직접 시작하고 관리할 수 있습니다. 진행하기 전에 머신에 정상적으로 작동하는 Docker 환경이 설치되어 있는지 확인하세요.\n\n### Brew (macOS 또는 Homebrew가 설치된 Linux)\n\nLocalStack 공식 Brew Tap을 통해 CLI를 설치하세요:\n\n```bash\nbrew install localstack/tap/localstack-cli\n```\n\n### 바이너리 직접 다운로드 (macOS, Linux, Windows)\n\nBrew가 설치되어 있지 않다면 미리 빌드된 LocalStack CLI 바이너리를 직접 다운로드할 수 있습니다.\n\n1. [localstack/localstack-cli](https://github.com/localstack/localstack-cli) 저장소를 방문한 후 최신 릴리스를 플랫폼에 맞게 다운로드하세요.\n2. 다운로드한 아카이브를 PATH 환경변수에 포함된 디렉터리에 압축 해제하세요.\n   - macOS/Linux의 경우: `sudo tar xvzf ~/Downloads/localstack-cli-*-darwin-*-onefile.tar.gz -C /usr/local/bin`\n\n### PyPI (macOS, Linux, Windows)\n\nLocalStack은 Python으로 개발되었습니다. pip를 사용하여 LocalStack CLI를 설치하려면 다음 명령을 실행하세요:\n\n```bash\npython3 -m pip install localstack\n```\n\nLocalStack CLI를 설치하면 LocalStack 런타임이 포함된 Docker 이미지를 실행할 수 있습니다. 로컬 AWS 서비스와 상호작용하려면 awslocal CLI를 따로 설치해야 합니다. 설치 방법은 awslocal 문서를 참고하세요.\n\n**주의:** sudo를 사용하거나 root 사용자로 실행하면 안 됩니다. LocalStack은 반드시 일반 사용자 권한으로 설치하고 시작해야 합니다. macOS High Sierra에서 권한 문제가 발생하면 `pip install --user localstack` 명령으로 설치하세요.\n\n---\n\n## 빠른 시작\n\nDocker 컨테이너에서 LocalStack을 시작하려면 다음 명령을 실행하세요:\n\n```bash\n% localstack start -d\n```\n\n그러면 다음과 같은 출력이 표시됩니다:\n\n```\n__ _______ __ __\n/ / ____ _________ _/ / ___// /_____ ______/ /__\n/ / / __ \\/ ___/ __ `/ /\\__ \\/ __/ __ `/ ___/ //_/\n/ /___/ /_/ / /__/ /_/ / /___/ / /_/ /_/ / /__/ ,<\n/_____/\\____/\\___/\\__,_/_//____/\\__/\\__,_/\\___/_/|_|\n\n- LocalStack CLI: 4.9.0\n- Profile: default\n- App: https://app.localstack.cloud\n[17:00:15] starting LocalStack in Docker mode 🐳 localstack.py:512\npreparing environment bootstrap.py:1322\nconfiguring container bootstrap.py:1330\nstarting container bootstrap.py:1340\n[17:00:16] detaching bootstrap.py:1344\n```\n\nLocalStack에서 각 서비스의 상태를 확인하려면 다음 명령을 실행하세요:\n\n```bash\n% localstack status services\n```\n\n```\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┓\n┃ Service ┃ Status ┃\n┡━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━┩\n│ acm │ ✔ available │\n│ apigateway │ ✔ available │\n│ cloudformation │ ✔ available │\n│ cloudwatch │ ✔ available │\n│ config │ ✔ available │\n│ dynamodb │ ✔ available │\n...\n```\n\n### 실제 사용 예: SQS 큐 생성하기\n\nLocalStack에서 분산 메시지 큐 서비스인 SQS를 사용해 보겠습니다:\n\n```bash\n% awslocal sqs create-queue --queue-name sample-queue\n```\n\n다음과 같은 응답을 받을 수 있습니다:\n\n```json\n{\n  \"QueueUrl\": \"http://sqs.us-east-1.localhost.localstack.cloud:4566/000000000000/sample-queue\"\n}\n```\n\nLocalStack의 AWS 서비스들과 awslocal CLI를 활용한 더 자세한 사용 방법을 알아보세요.\n\n---\n\n## 실행하기\n\nLocalStack을 다음의 방식들로 실행할 수 있습니다:\n\n- LocalStack CLI\n- Docker\n- Docker Compose"
+        },
+        {
+          "title": "iPhone 17 Pro Demonstrated Running a 400B LLM",
+          "titleKo": "iPhone 17 Pro에서 400B LLM 구동 시연",
+          "summary": "iPhone 17 Pro에서 4000억 파라미터 규모의 대형 언어 모델을 성공적으로 실행했다.",
+          "keyPoints": [
+            "모바일 기기에서 초대형 LLM 구동 가능성 입증",
+            "하드웨어 최적화를 통한 엣지 AI 발전"
+          ],
+          "whyItMatters": "온디바이스 AI 처리 능력의 비약적 발전을 보여주며 모바일 개발자의 활용 가능성을 확대한다.",
+          "url": "https://twitter.com/anemll/status/2035901335984611412",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 432,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "iphone-17-pro-demonstrated-running-a-400b-llm",
+          "category": "hot",
+          "publishedAt": "2026-03-23T14:30:10.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Meta's CEO Agent 🤖, Amazon's AI phone 📱, Spacex + Tesla chip factory ⚡ ",
+          "titleKo": "Meta의 CEO 에이전트, Amazon의 AI 폰, SpaceX와 Tesla 칩 팩토리",
+          "summary": "기술 뉴스 다이제스트로, Meta의 CEO 에이전트, Amazon의 AI 휴대폰, SpaceX와 Tesla의 칩 제조 팩토리에 대한 소식을 다룬다.",
+          "keyPoints": [
+            "Meta가 CEO 역할을 하는 AI 에이전트 개발",
+            "Amazon이 AI 기능이 탑재된 휴대폰 출시 예정",
+            "SpaceX와 Tesla가 칩 제조 시설 확대"
+          ],
+          "whyItMatters": "AI 에이전트의 고도화와 대형 기술 기업들의 하드웨어 투자는 향후 개발 환경과 기술 생태계에 큰 영향을 미칠 것이다.",
+          "url": "https://tldr.tech/tech/2026-03-23",
+          "sourceName": "TLDR",
+          "contentType": "article",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "metas-ceo-agent-amazons-ai-phone-spacex-tesla-chip-factory",
+          "category": "hot",
+          "publishedAt": "2026-03-23T00:00:00.000Z",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Announcing TypeScript 6.0",
+          "titleKo": "TypeScript 6.0 출시 발표",
+          "summary": "Microsoft가 TypeScript 6.0의 출시를 발표했습니다. TypeScript는 JavaScript에 타입 문법을 추가하여 타입 체킹으로 오류를 미리 발견하고 풍부한 에디터 도구 기능을 제공하는 언어입니다. 이번 버전에서는 개발자 경험 향상과 성능 개선을 위한 새로운 기능들이 추가되었습니다.",
+          "keyPoints": [
+            "TypeScript는 JavaScript 기반의 타입 시스템을 제공하여 개발 중 타입 오류를 조기에 발견할 수 있게 함으로써 코드 품질을 향상시킵니다.",
+            "에디터 도구 지원을 통해 자동완성, 타입 추론, 리팩토링 등의 기능을 제공하여 개발 생산성을 증대시킵니다.",
+            "6.0 버전은 주요 메이저 릴리스로서 언어 기능 개선, 성능 최적화, 개발자 경험 향상 등 중대한 변화를 포함하고 있습니다."
+          ],
+          "whyItMatters": "TypeScript는 대규모 JavaScript 프로젝트에서 필수적인 도구로, 6.0 버전 업그레이드는 개발 효율성 향상과 버그 감소를 통해 소프트웨어 품질을 직접적으로 개선합니다.",
+          "url": "https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/",
+          "sourceName": "TypeScript Blog",
+          "contentType": "article",
+          "labels": [
+            "typescript"
+          ],
+          "topicId": "typescript-6-release",
+          "isTopicPrimary": true,
+          "slug": "announcing-typescript-60",
+          "category": "tech",
+          "publishedAt": "2026-03-23T16:34:10.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Test IDs are an a11y smell",
+          "titleKo": "테스트 ID는 접근성 안티패턴입니다",
+          "summary": "data-testid를 사용한 테스트 작성은 사용자의 실제 사용 방식을 반영하지 않기 때문에 접근성 관점에서 문제가 있다.",
+          "keyPoints": [
+            "사용자는 data-testid를 사용하지 않으므로 테스트도 이를 피해야 함",
+            "실제 사용자 상호작용 방식에 가까운 테스트 작성이 접근성 보장에 도움됨"
+          ],
+          "whyItMatters": "접근성을 고려한 테스트 작성은 모든 사용자가 실제로 사용 가능한 애플리케이션을 보장한다.",
+          "url": "https://tkdodo.eu/blog/test-ids-are-an-a11y-smell",
+          "sourceName": "TkDodo (React Query)",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "test-ids-are-an-a11y-smell",
+          "category": "tech",
+          "publishedAt": "2026-03-23T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "czlonkowski/n8n-mcp (TypeScript)",
+          "titleKo": "n8n-mcp: Claude/Windsurf용 n8n 워크플로우 빌더 MCP",
+          "summary": "TypeScript로 작성된 MCP로, Claude Desktop, Claude Code, Windsurf, Cursor에서 AI가 n8n 워크플로우를 자동으로 빌드할 수 있도록 지원한다.",
+          "keyPoints": [
+            "Claude와 같은 AI 어시스턴트가 n8n 워크플로우 생성을 자동화할 수 있는 MCP 제공",
+            "여러 AI 개발 환경(Claude Desktop, Windsurf, Cursor 등)과 호환"
+          ],
+          "whyItMatters": "AI 에이전트가 자동화 워크플로우 설계 작업을 처리하므로 개발자의 생산성이 향상된다.",
+          "url": "https://github.com/czlonkowski/n8n-mcp",
+          "sourceName": "GitHub Trending",
+          "engagement": 16020,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "backend",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "czlonkowskin8n-mcp-typescript",
+          "category": "tech",
+          "publishedAt": "2026-03-23T23:12:19.020Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "browser-use/browser-use (Python)",
+          "titleKo": "Browser Use: AI 에이전트를 위한 웹사이트 자동화 라이브러리",
+          "summary": "Python 기반 라이브러리로, AI 에이전트가 웹사이트와 상호작용하고 온라인 작업을 자동화할 수 있도록 만든다.",
+          "keyPoints": [
+            "AI 에이전트가 웹사이트와 상호작용할 수 있는 인터페이스 제공",
+            "온라인 작업 자동화를 쉽게 구현할 수 있도록 설계"
+          ],
+          "whyItMatters": "웹 기반 작업의 자동화가 AI 에이전트로 가능해지면서 반복적인 수동 작업 비용을 크게 줄일 수 있다.",
+          "url": "https://github.com/browser-use/browser-use",
+          "sourceName": "GitHub Trending",
+          "engagement": 83575,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "browser-usebrowser-use-python",
+          "category": "tech",
+          "publishedAt": "2026-03-23T23:12:19.018Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Sneaky Header Blocker Trick",
+          "titleKo": "교활한 헤더 차단 트릭",
+          "summary": "이 블로그 글은 스크롤 시에도 헤더가 콘텐츠를 차단하지 않도록 하는 CSS 트릭의 구현 방식을 설명한다.",
+          "keyPoints": [
+            "CSS 규칙을 따르면서도 고정 헤더의 차단 문제를 해결하는 기법 소개",
+            "대부분 사용자가 인지하지 못하지만 주목한 사람들의 호기심을 유발하는 UI 디테일"
+          ],
+          "whyItMatters": "사용자 경험을 저해하지 않으면서 네비게이션 헤더를 구현하는 방식은 웹 개발에서 자주 직면하는 문제다.",
+          "url": "https://www.joshwcomeau.com/css/header-blockers/",
+          "sourceName": "Josh W. Comeau",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "sneaky-header-blocker-trick",
+          "category": "tech",
+          "publishedAt": "2026-03-23T12:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Bombadil: Property-based testing for web UIs",
+          "titleKo": "Bombadil - 웹 UI를 위한 속성 기반 테스팅",
+          "summary": "웹 UI의 정확성을 자동으로 탐색하고 검증하는 속성 기반 테스팅 도구로, 로컬 개발 환경, CI, Antithesis 내부에서 실행 가능합니다.",
+          "keyPoints": [
+            "웹 UI 테스트를 자동화하여 더 깊은 버그를 조기에 발견",
+            "개발 환경, CI/CD, 클라우드 환경 등 다양한 실행 환경 지원"
+          ],
+          "whyItMatters": "웹 애플리케이션의 품질 보증 프로세스를 더욱 효율적이고 포괄적으로 만들어줍니다.",
+          "url": "https://github.com/antithesishq/bombadil",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 215,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "bombadil-property-based-testing-for-web-uis",
+          "fullContent": "Bombadil\nProperty-based testing for web UIs, autonomously exploring and validating\ncorrectness properties, finding harder bugs earlier.\nRuns in your local developer environment, in CI, and inside Antithesis.\nNoteBombadil is new and experimental. Stuff is going to change in the early days. Even so, we hope you'll try it out!\nDocumentation\nLearn all about Bombadil with the following resources:\nThe Bombadil Manual\nInstallation\nExamples\nOr, if you want to hack on it, see Contributing.\nOld Tom Bombadil is a merry fellow,\nBright blue his jacket is, and his boots are yellow.\nBugs have never fooled him yet, for Tom, he is the Master:\nHis specs are stronger specs, and his fuzzer is faster.\nBuilt by Antithesis.",
+          "category": "tech",
+          "publishedAt": "2026-03-19T08:53:36.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Bombadil\n\n웹 UI를 위한 프로퍼티 기반 테스팅 도구입니다. 자동으로 UI를 탐색하면서 정확성을 검증하고, 더 복잡한 버그를 조기에 발견할 수 있습니다.\n\n로컬 개발 환경, CI, 그리고 Antithesis 내에서 모두 실행됩니다.\n\n> **주의** Bombadil은 아직 새로운 실험 단계의 도구입니다. 초기 개발 과정에서 많은 변화가 있을 거예요. 그래도 한번 써보시길 권장합니다!\n\n## 문서\n\nBombadil에 대해 알아보려면 아래 리소스들을 참고하세요:\n\n- [Bombadil Manual](링크)\n- [Installation](링크)\n- [Examples](링크)\n\n코드에 직접 기여하고 싶다면 [Contributing](링크)을 살펴보세요.\n\n---\n\n*Old Tom Bombadil is a merry fellow,*\n*Bright blue his jacket is, and his boots are yellow.*\n*Bugs have never fooled him yet, for Tom, he is the Master:*\n*His specs are stronger specs, and his fuzzer is faster.*\n\nBuilt by Antithesis."
+        },
+        {
+          "title": "Experimenting With Scroll-Driven corner-shape Animations",
+          "titleKo": "스크롤 주도 corner-shape 애니메이션 실험하기",
+          "summary": "새로운 CSS corner-shape() 속성의 수학적 특성을 이용해 스크롤 기반 애니메이션을 구현하는 방법을 탐색했다.",
+          "keyPoints": [
+            "CSS corner-shape() 속성은 수학적 기반으로 부드러운 애니메이션이 가능",
+            "스크롤 이벤트와 결합하여 흥미로운 UI 효과 구현 가능"
+          ],
+          "whyItMatters": "최신 CSS 기능을 활용한 모던 인터랙티브 UI 구현 방법을 제시한다.",
+          "url": "https://css-tricks.com/experimenting-with-scroll-driven-corner-shape-animations/",
+          "sourceName": "CSS-Tricks",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "experimenting-with-scroll-driven-corner-shape-animations",
+          "category": "tech",
+          "publishedAt": "2026-03-23T13:51:15.000Z",
+          "language": "en"
+        },
+        {
+          "title": "tinygrad/tinygrad (Python)",
+          "titleKo": "tinygrad - 경량 머신러닝 프레임워크",
+          "summary": "PyTorch와 micrograd에서 영감을 받아 만든 경량 머신러닝 프레임워크로, 간결함과 효율성을 추구합니다.",
+          "keyPoints": [
+            "PyTorch의 사용성과 micrograd의 단순함을 결합한 설계",
+            "경량이면서도 실용적인 머신러닝 개발 환경 제공"
+          ],
+          "whyItMatters": "리소스 제한적인 환경에서 효율적인 머신러닝 개발을 가능하게 합니다.",
+          "url": "https://github.com/tinygrad/tinygrad",
+          "sourceName": "GitHub Trending",
+          "engagement": 31872,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "tinygradtinygrad-python",
+          "category": "tech",
+          "publishedAt": "2026-03-23T23:12:19.018Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "jingyaogong/minimind (Python)",
+          "titleKo": "minimind - 2시간에 26M 파라미터 GPT 학습하기",
+          "summary": "2시간 내에 2600만 개의 파라미터를 가진 소규모 GPT 모델을 완전히 처음부터 학습할 수 있는 프로젝트입니다.",
+          "keyPoints": [
+            "빠른 학습 속도로 GPT 기반 모델의 작동 원리를 이해할 수 있음",
+            "리소스 제한적인 환경에서도 LLM 개발 실습 가능"
+          ],
+          "whyItMatters": "대규모 모델 학습 없이도 LLM의 핵심 개념을 직접 실험하고 학습할 수 있습니다.",
+          "url": "https://github.com/jingyaogong/minimind",
+          "sourceName": "GitHub Trending",
+          "engagement": 42536,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "jingyaogongminimind-python",
+          "category": "tech",
+          "publishedAt": "2026-03-23T23:12:19.019Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "bytedance/deer-flow (Python)",
+          "titleKo": "바이트댄스 deer-flow: 연구, 코딩, 창작을 수행하는 오픈소스 슈퍼에이전트 프레임워크",
+          "summary": "샌드박스, 메모리, 도구, 스킬, 서브에이전트, 메시지 게이트웨이를 활용해 다양한 복잡도의 작업을 자동화하는 에이전트 오케스트레이션 프레임워크다.",
+          "keyPoints": [
+            "멀티 에이전트 시스템으로 분당 수 시간 소요 작업을 분산 처리",
+            "샌드박스 격리와 메모리 관리로 안정적인 에이전트 운영"
+          ],
+          "whyItMatters": "대규모 AI 에이전트 시스템의 설계와 구현 패턴을 제시한다.",
+          "url": "https://github.com/bytedance/deer-flow",
+          "sourceName": "GitHub Trending",
+          "engagement": 39123,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "bytedancedeer-flow-python",
+          "category": "tech",
+          "publishedAt": "2026-03-23T23:12:19.016Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "hesreallyhim/awesome-claude-code (Python)",
+          "titleKo": "awesome-claude-code: Claude Code 스킬과 플러그인 큐레이션 리스트",
+          "summary": "Anthropic의 Claude Code를 위한 스킬, 훅, 슬래시 명령어, 에이전트 오케스트레이터, 애플리케이션, 플러그인의 종합 모음집이다.",
+          "keyPoints": [
+            "Claude Code 생태계의 커뮤니티 기여 자산 통합",
+            "개발 생산성 향상을 위한 확장 기능 참고 자료"
+          ],
+          "whyItMatters": "Claude Code를 효과적으로 활용하기 위한 실용적인 도구와 패턴들을 한곳에서 발견할 수 있다.",
+          "url": "https://github.com/hesreallyhim/awesome-claude-code",
+          "sourceName": "GitHub Trending",
+          "engagement": 30883,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-code-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 4,
+          "slug": "hesreallyhimawesome-claude-code-python",
+          "category": "tech",
+          "publishedAt": "2026-03-23T23:12:19.021Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Finding all regex matches has always been O(n²)",
+          "titleKo": "정규표현식 모든 매칭 찾기는 항상 O(n²)였다",
+          "summary": "정규표현식에서 모든 매칭을 찾는 작업이 이차 시간복잡도를 갖는 근본적인 문제를 다룬다. 이는 오랫동안 해결되지 않은 성능 문제이다.",
+          "keyPoints": [
+            "정규표현식 매칭의 시간복잡도가 입력 크기에 대해 O(n²)로 증가한다.",
+            "이 문제가 왜 지금까지 개선되지 않았는지와 해결 방안을 제시한다."
+          ],
+          "whyItMatters": "정규표현식을 사용하는 개발자들이 성능 병목을 이해하고 대규모 텍스트 처리 시 최적화 전략을 수립할 수 있다.",
+          "url": "https://iev.ee/blog/the-quadratic-problem-nobody-fixed/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 134,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "finding-all-regex-matches-has-always-been-on",
+          "category": "tech",
+          "publishedAt": "2026-03-19T18:40:02.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "An incoherent Rust",
+          "titleKo": "일관성 없는 Rust",
+          "summary": "Rust의 coherence 규칙과 orphan rule이 생태계 발전을 저해하는 구조적 문제를 분석한다. 기초 크레이트(serde 등)에 종속성이 생기면 새로운 대안이 쉽게 채택되지 않는 악순환이 발생한다.",
+          "keyPoints": [
+            "Coherence와 orphan rule이 serde 같은 기초 크레이트의 독점을 유지하도록 강제해 생태계 다양성을 제한한다.",
+            "새로운 serialization 라이브러리를 도입하려면 기존 모든 크레이트를 포크하고 패치해야 하는 현실적 장벽이 있다.",
+            "HashMap 해시 불일치 문제처럼 coherence는 타입 시스템 건전성(soundness)을 위해 필요하지만 생태계 혁신성을 해친다."
+          ],
+          "whyItMatters": "Rust 생태계 기여자들이 언어 설계의 근본적 제약을 이해하고 대안 도구 도입 시 발생할 실질적 어려움을 예측할 수 있다.",
+          "url": "https://www.boxyuwu.blog/posts/an-incoherent-rust/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 81,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "an-incoherent-rust",
+          "fullContent": "No LLMs were involved in the process of writing this blog post.Stunted Ecosystem Development#The Rust ecosystem has a fundamental problem with how it’s developing.Foundational crates such as serde define foundational traits such as Serialize, and then every crate in the ecosystem needs to implement the Serialize traits for their own types. If a crate doesn’t implement serde’s traits for its types then those types can’t be used with serde as downstream crates cannot implement serde’s traits for another crate’s types.Worse yet, if someone publishes an alternative to serde (say, nextserde) then all crates which have added support for serde also need to add support for nextserde. Adding support for every new serialization library in existence is unrealistic and a lot of work for crate authors.As a user of these crates if you want to use a new serialization library you’re forced to fork all of these crates and patch them with support for nextserde. This makes it significantly harder for alternatives to foundational crates such as serde to be made and propagate throughout the ecosystem.There are strong incentives for old crates that “got there first” to stick around in the ecosystem regardless of whether better alternatives exist or not just because its artifically difficult to replace them.This is not the fault of any library or people writing Rust code. Instead, this problem is forced onto the ecosystem by the language itself through coherence and the orphan rules.See also Niko’s explanation of how coherence harms the rust ecosystem in Coherence and crate-level where clauses - nikomatsakis.Coherence and the Orphan Rules#Coherence checks that a Trait is only ever implemented at most once for a type and any given set of generic arguments to the trait:trait Trait {}\ntrait Thingies {}\ntrait OtherThingies {}\nimpl<T: Thingies> Trait for T {}\nimpl<T: OtherThingies> Trait for T {}\nerror[E0119]: conflicting implementations of trait `Trait`\n--> src/lib.rs:7:1\n|\n6 | impl<T: Thingies> Trait for T {}\n| ----------------------------- first implementation here\n7 | impl<T: OtherThingies> Trait for T {}\n| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ conflicting implementation\nFor more information about this error, try `rustc --explain E0119`.\nerror: could not compile `playground` (lib) due to 1 previous error\nThe orphan rules are a check that helps us implement coherence. They enforce that you can only write a trait implementation if either the trait or the self type is defined in the current crate (it’s actually a little more complicated than this but its not too important for this blog post).// crate a\npub trait Trait {}\npub struct Foo;\n// crate b\nuse a::*;\nimpl Trait for Foo {}\nerror[E0117]: only traits defined in the current crate can be implemented for types defined outside of the crate\n--> src/lib.rs:8:1\n|\n8 | impl Trait for Foo {}\n| ^^^^^^^^^^^^^^^---\n| |\n| `a::Foo` is not defined in the current crate\n|\n= note: impl doesn't have any local type before any uncovered type parameters\n= note: for more information see https://doc.rust-lang.org/reference/items/implementations.html#orphan-rules\n= note: define and implement a trait or new type instead\nEven though there are no overlapping impls this code is still rejected due to the orphan rules.See also Trait implementation coherence - Rust Reference.Why Coherence#The HashMap Problem#// crate a\n#[derive(PartialEq, Eq)]\npub struct MyData(u8);\n// crate b\nimpl Hash for MyData {\nfn hash(&self) {\nself.0.hash();\n}\n}\npub fn make_hashset() -> HashSet<MyData> {\n// Uses the `Hash` impl defined in this crate to insert\n[MyData(1), MyData(12)].into()\n}\n// crate c\nimpl Hash for MyData {\nfn hash(&self) {\n// You probably don't want this to be your hash function...\n0.hash();\n}\n}\npub fn check_hashset(set: HashSet<MyData>) {\n// Uses the `Hash` impl defined in this crate to lookup\nassert!(set.contains(MyData(1)));\nassert!(set.contains(MyData(12)))\n}\n// crate d\nc::check_hashset(b::make_hashset());\nIn this example we pass a HashSet constructed in crate b to a function in crate c, where the Hash impl used by crate b to construct the HashSet is different from the Hash impl used by crate c to check if entries are present in the HashSet.The differing Hash impls mean that check_hashset is going to produce completely nonsensical results where none of the values are known to be present in the set.See also “So wait, how does the orphan rule protect composition” in Coherence and crate-level where clauses - nikomatsakis.Soundness#Currently coherence is actually important for the type system to be sound:trait Trait {\ntype Assoc;\n}\n// crate a\nimpl Trait for () {\ntype Assoc = *const u8;\n}\npub fn make_assoc() -> <() as Trait>::Assoc {\n// `<() as Trait>::Assoc` is implemented as being `*const u8`\n0x0 as *const u8\n}\n// crate b\nimpl Trait for () {\ntype Assoc = Box<u8>;\n}\nfn drop_assoc(a: <() as Trait>::Assoc) {\n// `<() as Trait>::Assoc` is implemented as being `Box<u8>`\nlet a: Box<u8> = a;\n// free'ing an allocation here\ndrop(a);",
+          "category": "tech",
+          "publishedAt": "2026-03-23T15:13:22.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Rust 생태계의 근본적인 문제: 일관성(Coherence) 규칙\n\n이 글은 어떤 LLM의 도움도 받지 않고 작성되었습니다.\n\n## 생태계 발전의 정체\n\nRust 생태계는 성장 방식에 근본적인 문제를 안고 있습니다.\n\n`serde` 같은 기초 라이브러리들이 `Serialize` 같은 핵심 트레이트를 정의하면, 생태계의 모든 크레이트가 자신의 타입에 대해 이 트레이트를 구현해야 합니다. 만약 어떤 크레이트가 자신의 타입에 대해 `serde`의 트레이트를 구현하지 않으면, 그 타입은 `serde`와 호환되지 않거든요. 다운스트림 크레이트가 다른 크레이트의 타입에 대해 `serde` 트레이트를 구현할 수 없기 때문입니다.\n\n더 큰 문제는 `serde`의 대안(예를 들어 `nextserde`)이 나타났을 때 발생합니다. `serde` 지원을 추가한 모든 크레이트가 이제 `nextserde`도 지원해야 합니다. 모든 새로운 직렬화 라이브러리에 대응하는 건 크레이트 작성자에게 현실적이지 않은 작업이 되어버리죠.\n\n크레이트를 사용하는 입장에서 새로운 직렬화 라이브러리를 쓰려면, 해당 크레이트들을 모두 포크하고 `nextserde` 지원을 직접 패치해야 합니다. 이렇게 되니 `serde` 같은 기초 라이브러리의 대안이 나오기 어렵고, 생태계에 퍼지는 것은 더욱 힘들어집니다.\n\n결국 기존의 \"먼저 나온\" 크레이트들이 더 나은 대안이 있어도 생태계에 남아있을 수밖에 없습니다. 인위적으로 대체하기 어렵게 만들어지니까요.\n\n이건 라이브러리나 개발자의 잘못이 아닙니다. 언어 자체가 일관성(coherence) 규칙과 고아 규칙(orphan rules)을 통해 생태계에 강제하는 문제거든요.\n\n참고: Niko Matsakis의 글 [\"Coherence and crate-level where clauses\"](https://nikomatsakis.medium.com/coherence-and-crate-level-where-clauses-1a5b2b3cd4a7)에서 일관성이 Rust 생태계를 어떻게 해치는지 자세히 설명합니다.\n\n## 일관성과 고아 규칙\n\n일관성(Coherence) 검사는 같은 타입과 제네릭 인자에 대해 트레이트 구현이 최대 한 번만 나타나도록 보장합니다.\n\n```rust\ntrait Trait {}\ntrait Thingies {}\ntrait OtherThingies {}\nimpl<T: Thingies> Trait for T {}\nimpl<T: OtherThingies> Trait for T {}\nerror[E0119]: conflicting implementations of trait `Trait`\n--> src/lib.rs:7:1\n|\n6 | impl<T: Thingies> Trait for T {}\n| ----------------------------- first implementation here\n7 | impl<T: OtherThingies> Trait for T {}\n| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ conflicting implementation\nFor more information about this error, try `rustc --explain E0119`.\nerror: could not compile `playground` (lib) due to 1 previous error\n```\n\n고아 규칙(Orphan rules)은 일관성을 구현하기 위한 검사입니다. 현재 크레이트에서 정의한 트레이트 또는 타입 중 하나라도 포함되어야만 트레이트를 구현할 수 있다는 규칙이에요. (실제로는 더 복잡하지만, 이 글의 범위 내에서는 충분합니다.)\n\n```rust\n// crate a\npub trait Trait {}\npub struct Foo;\n// crate b\nuse a::*;\nimpl Trait for Foo {}\nerror[E0117]: only traits defined in the current crate can be implemented for types defined outside of the crate\n--> src/lib.rs:8:1\n|\n8 | impl Trait for Foo {}\n| ^^^^^^^^^^^^^^^---\n| |\n| `a::Foo` is not defined in the current crate\n|\n= note: impl doesn't have any local type before any uncovered type parameters\n= note: for more information see https://doc.rust-lang.org/reference/items/implementations.html#orphan-rules\n= note: define and implement a trait or new type instead\n```\n\n겹치는 구현이 없어도 고아 규칙 때문에 이 코드는 거절됩니다.\n\n자세한 내용은 [Rust Reference의 \"Trait implementation coherence\"](https://doc.rust-lang.org/reference/items/implementations.html#trait-implementation-coherence)를 보세요.\n\n## 왜 일관성이 필요한가\n\n### HashMap 문제\n\n```rust\n// crate a\n#[derive(PartialEq, Eq)]\npub struct MyData(u8);\n// crate b\nimpl Hash for MyData {\nfn hash(&self) {\nself.0.hash();\n}\n}\npub fn make_hashset() -> HashSet<MyData> {\n// Uses the `Hash` impl defined in this crate to insert\n[MyData(1), MyData(12)].into()\n}\n// crate c\nimpl Hash for MyData {\nfn hash(&self) {\n// You probably don't want this to be your hash function...\n0.hash();\n}\n}\npub fn check_hashset(set: HashSet<MyData>) {\n// Uses the `Hash` impl defined in this crate to lookup\nassert!(set.contains(MyData(1)));\nassert!(set.contains(MyData(12)))\n}\n// crate d\nc::check_hashset(b::make_hashset());\n```\n\n이 예제에서 crate b로 만든 `HashSet`을 crate c의 함수에 넘깁니다. 그런데 crate b에서 사용한 `Hash` 구현과 crate c에서 사용한 `Hash` 구현이 다릅니다.\n\n`Hash` 구현이 다르니 `check_hashset`은 완전히 잘못된 결과를 낼 겁니다. 실제로 포함되어 있는 값들을 찾을 수 없게 되죠.\n\n참고: Niko Matsakis의 글 [\"Coherence and crate-level where clauses\"](https://nikomatsakis.medium.com/coherence-and-crate-level-where-clauses-1a5b2b3cd4a7)에서 \"So wait, how does the orphan rule protect composition\" 섹션을 보세요.\n\n### 건전성(Soundness)\n\n현재 일관성은 타입 시스템의 건전성을 유지하기 위해 정말 중요합니다.\n\n```rust\ntrait Trait {\ntype Assoc;\n}\n// crate a\nimpl Trait for () {\ntype Assoc = *const u8;\n}\npub fn make_assoc() -> <() as Trait>::Assoc {\n// `<() as Trait>::Assoc` is implemented as being `*const u8`\n0x0 as *const u8\n}\n// crate b\nimpl Trait for () {\ntype Assoc = Box<u8>;\n}\nfn drop_assoc(a: <() as Trait>::Assoc) {\n// `<() as Trait>::Assoc` is implemented as being `Box<u8>`\nlet a: Box<u8> = a;\n// free'ing an allocation here\ndrop(a);\n}\n```\n\n일관성 규칙이 없다면 정말 위험한 일이 벌어질 수 있습니다. 같은 타입에 대한 서로 다른 트레이트 구현으로 인해 메모리 안전성을 보장할 수 없게 되거든요."
+        },
+        {
+          "title": "Dune3d: A parametric 3D CAD application",
+          "titleKo": "Dune3D: 파라메트릭 3D CAD 애플리케이션",
+          "summary": "FreeCAD와 Solvespace의 한계를 보완하기 위해 개발된 오픈소스 3D CAD 애플리케이션으로 STEP 임포트/익스포트, 필렛, 샤퍼를 지원합니다. Open CASCADE 기하 커널, Solvespace 제약 솔버, Gtk 4 UI를 조합하여 구현되었습니다.",
+          "keyPoints": [
+            "Open CASCADE를 기하 커널로 사용하여 STEP 호환성과 필렛/샤퍼 기능 제공",
+            "Solvespace의 제약 솔버를 라이브러리로 활용하고 성능 최적화를 위해 패칭",
+            "Horizon EDA의 검증된 3D 뷰포트와 에디터 기반시설을 재사용하여 약 3개월 만에 개발"
+          ],
+          "whyItMatters": "오픈소스 3D CAD 도구가 필요한 전자제품 설계자와 취미 개발자들에게 FreeCAD보다 나은 워크플로우를 제공합니다.",
+          "url": "https://github.com/dune3d/dune3d",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 73,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "dune3d-a-parametric-3d-cad-application",
+          "fullContent": "Dune 3D\nDune 3D is a parametric 3D CAD application that supports STEP import/export, fillets and chamfers.\nMotivation\nSo why another open-source 3D CAD application when FreeCAD and Solvespace exist?\nMy primary use case for 3D CAD is designing 3D-printed enclosures for my electronics projects. I often found myself procrastinating designing the enclosure and attributed that to my dissatisfaction with the available open source 3D CAD applications.\nWhile FreeCAD technically does everything I need, the way it's implemented isn't quite to my liking. My biggest pain points with it are the modal sketcher that only works in 2D, no constraints in 3D for extrusions and the perils of referencing things in the design.\nSolvespace on the other hand gets the workflow part right, but falls short by not importing STEP and the geometry kernel not supporting chamfers and fillets.\nHaving solved the similar problem for PCB CAD by developing Horizon EDA, I began pondering whether I could pull off the same thing for 3D CAD. After all, what does it take to make a 3D CAD?\nGeometry kernel to do extrusions, intersections, chamfers, etc.: While it's not a nice library to work with, Open CASCADE is the only viable choice if we want to have STEP import/export and fillets/chamfers. Fortunately, I have some experience with it from dealing with STEP files in Horizon EDA.\n3D viewport: Obviously, we need a way to put 3D geometry on screen, zoom/pan and select things. The 3D preview in Horizon EDA already does all of this, so I have a well-understood codebase I can reuse.\nConstraint solver: Unlike with Horizon EDA where things just stay where you last moved them, in 3D CAD, it's commonplace to specify where things go by means of constraints that need to be solved. Turns out that Solvespace's solver is available as a library1, so that part's also covered.\nEditor infrastructure: Last but not least, we need code that takes care of the tools, undo/redo and all of the other bits and pieces that make up an interactive editor. While there'll be some differences, I felt confident that I could reuse and adapt the interactive manipulator from Horizon EDA.\nWith all of the building blocks available, I set out to glue them together to form a 3D CAD application. About three months later, it's somewhat presentable.\nHow to build\nSee the build instructions.\nHow to use\nSimilar to Horizon EDA, all tools and actions are available from the spacebar menu.\nUse the \"set workplane\" tool to set a group's workplane.\nAlso check out the documentation.\nWhere to go with questions\nThe project's discussion platforms are a matrix room and GitHub Discussions.\nAnticipated questions\nWhere do I find sample files?\nSee the samples repository.\nDoes it run on Windows?\nSee the build instructions for how to build on Windows.\nDoes it run on macOS?\nSee the build instructions for how to build on macOS.\nWhy not integrate it into Horizon EDA?\nThere's no place in Horizon EDA where a 3D CAD would make sense to implement. Also, I wanted to do some things differently and give Gtk 4 a try.\nWhy not improve Solvespace or FreeCAD?\nMaking FreeCAD parametric in 3D or putting Open CASCADE into Solvespace seemed to be too big a change to pull off as an outside contributor to either project. I also really like writing CAD software, so here we are.\nFootnotes\nI ended up directly using solvespace's solver instead of the suggested wrapper code since it didn't expose all of the features I needed.\nI also had to patch the solver to make it sufficiently fast for the kinds of equations I was generating by symbolically solving equations where applicable. ↩",
+          "category": "tech",
+          "publishedAt": "2026-03-22T08:06:18.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Dune 3D\n\nDune 3D는 STEP 포맷의 가져오기/내보내기, 필렛, 모따기 기능을 지원하는 파라메트릭 3D CAD 애플리케이션입니다.\n\n## 개발 배경\n\n이미 FreeCAD와 Solvespace 같은 오픈소스 3D CAD 프로그램이 있는데, 굳이 또 다른 CAD 애플리케이션을 만들어야 할까요?\n\n제 경우엔 3D CAD를 주로 전자기기 인클로저를 3D 프린팅으로 제작할 때 사용합니다. 그런데 기존 오픈소스 CAD 프로그램들이 마음에 안 들어서 자꾸 인클로저 설계를 미루곤 했어요.\n\n**FreeCAD의 경우**는 기술적으로 제가 필요한 기능은 다 있습니다. 다만 구현 방식이 마음에 안 드는데요. 가장 큰 불만점은 모달 스케처가 2D에서만 작동한다는 점, 3D 압출에서 제약 조건을 지정할 수 없다는 점, 그리고 설계 요소를 참조할 때 자주 문제가 생긴다는 것입니다.\n\n**Solvespace는** 워크플로우 측면에서는 꽤 좋습니다. 하지만 STEP 파일을 가져올 수 없고, 기하학 커널이 필렛과 모따기를 지원하지 않는다는 게 약점이죠.\n\n저는 예전에 PCB CAD 소프트웨어인 Horizon EDA를 개발하면서 비슷한 문제를 해결한 경험이 있습니다. 그래서 같은 방식으로 3D CAD 문제도 풀 수 있을까 생각해보게 됐죠. 결국 3D CAD를 만드는 데 필요한 게 뭘까요?\n\n## 필요한 기술 요소들\n\n**기하학 커널** (압출, 교집합, 모따기 등)\n\nOpen CASCADE는 분명 까다로운 라이브러리긴 하지만, STEP 가져오기/내보내기와 필렛, 모따기 기능이 필요하다면 사실상 유일한 선택지입니다. 다행히 저는 Horizon EDA에서 STEP 파일을 다루면서 이미 경험이 있었어요.\n\n**3D 뷰포트**\n\n3D 기하학을 화면에 표시하고, 줌/팬, 객체 선택 기능이 필요합니다. Horizon EDA의 3D 미리보기가 이미 이 모든 기능을 하고 있으니, 검증된 코드베이스를 재사용할 수 있었어요.\n\n**제약 조건 해석기**\n\nHorizon EDA와 달리, 3D CAD에서는 제약 조건으로 객체의 위치를 지정하는 방식이 일반적입니다. 다행히 Solvespace의 해석기가 라이브러리 형태로 제공되거든요.\n\n**에디터 인프라**\n\n마지막으로 도구, 실행 취소/다시 하기 같은 인터랙티브 에디터의 기본 기능들을 담당하는 코드가 필요합니다. 차이점은 있겠지만, Horizon EDA의 인터랙티브 조작 시스템을 재사용하고 개선할 수 있다고 판단했어요.\n\n모든 구성 요소가 준비됐으니, 이들을 조합해서 3D CAD 애플리케이션을 만들기로 했습니다. 약 3개월 후, 어느 정도 형태 있는 결과물이 나왔네요.\n\n## 빌드 방법\n\n빌드 지침을 참고해주세요.\n\n## 사용 방법\n\nHorizon EDA처럼 모든 도구와 기능은 스페이스바 메뉴에서 접근할 수 있습니다.\n\n\"set workplane\" 도구로 그룹의 작업 평면을 설정하면 됩니다. 상세한 내용은 문서를 확인하세요.\n\n## 질문이 있으신가요?\n\n프로젝트의 소통 채널은 Matrix 룸과 GitHub Discussions입니다.\n\n## 자주 받는 질문들\n\n**샘플 파일은 어디서 찾나요?**\n\n샘플 저장소를 참고하세요.\n\n**Windows에서도 실행되나요?**\n\n빌드 지침에서 Windows 빌드 방법을 확인할 수 있습니다.\n\n**macOS에서는 어떤가요?**\n\n빌드 지침에서 macOS 빌드 방법을 확인할 수 있습니다.\n\n**왜 Horizon EDA에 통합하지 않았나요?**\n\nHorizon EDA에는 3D CAD가 들어갈 만한 자리가 없습니다. 또한 몇 가지를 다르게 구현하고 싶었고, Gtk 4를 시도해보고 싶기도 했어요.\n\n**기존 프로젝트인 Solvespace나 FreeCAD를 개선하면 안 될까요?**\n\nFreeCAD를 3D 환경에서 파라메트릭으로 만들거나, Open CASCADE를 Solvespace에 넣는 건 외부 기여자 입장에선 너무 큰 변화였을 것 같습니다. 그리고 저는 CAD 소프트웨어 개발이 정말 즐거우니까요.\n\n---\n\n## 주석\n\n해석기를 직접 사용할 때 제안된 래퍼 코드 대신 solvespace의 해석기를 직접 사용하게 됐는데, 그 이유는 필요한 모든 기능을 노출하지 않았기 때문입니다.\n\n또한 제가 생성하는 방정식의 종류에 맞춰 충분히 빠르게 작동하도록 해석기를 수정해야 했습니다. 가능한 경우 기호적으로 방정식을 풀어서 최적화했어요."
+        },
+        {
+          "title": "A retro terminal music player inspired by Winamp",
+          "titleKo": "Winamp에서 영감을 받은 레트로 터미널 음악 플레이어",
+          "summary": "Bubbletea와 Lip Gloss를 사용해 Go로 만든 터미널 음악 플레이어로 로컬 파일, 스트림, YouTube, Spotify 등 다양한 소스를 지원하며 스펙트럼 시각화와 파라메트릭 EQ를 제공합니다.",
+          "keyPoints": [
+            "YouTube, SoundCloud, Spotify, Navidrome 등 다양한 음원 플랫폼 지원",
+            "Bubbletea TUI 프레임워크를 활용한 Winamp 스타일의 레트로 인터페이스 구현",
+            "라디오 스트림, 플레이리스트 관리, 가사 표시, MPRIS 지원 등 풍부한 기능"
+          ],
+          "whyItMatters": "Go 기반 TUI 애플리케이션 개발과 다중 음원 API 통합의 실전 예제로 유용합니다.",
+          "url": "https://github.com/bjarneo/cliamp",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 4,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-retro-terminal-music-player-inspired-by-winamp",
+          "fullContent": "██████ ██ ██ █████ ███ ███ ██████\n██ ██ ██ ██ ██ ████ ████ ██ ██\n██ ██ ██ ███████ ██ ████ ██ ██████\n██ ██ ██ ██ ██ ██ ██ ██ ██\n██████ ███████ ██ ██ ██ ██ ██ ██\nA retro terminal music player inspired by Winamp. Play local files, streams, podcasts, YouTube, SoundCloud, Bilibili, Spotify, Xiaoyuzhou (小宇宙), and Navidrome with a spectrum visualizer, parametric EQ, and playlist management.\nBuilt with Bubbletea, Lip Gloss, Beep, and go-librespot.\ncliamp_whips_tty_ass_compressed.mp4\nRadio\nTune in to our radio channel:\ncliamp https://radio.cliamp.stream/lofi/stream.pls\nAdd your own stations to ~/.config/cliamp/radios.toml. See docs/configuration.md.\nWant to host your own radio? Check out cliamp-server.\nInstall\ncurl -fsSL https://raw.githubusercontent.com/bjarneo/cliamp/HEAD/install.sh | sh\nHomebrew\nbrew install bjarneo/cliamp/cliamp\nArch Linux (AUR)\nyay -S cliamp\nPre-built binaries\nDownload from GitHub Releases.\nBuild from source\ngit clone https://github.com/bjarneo/cliamp.git && cd cliamp && go build -o cliamp .\nQuick Start\ncliamp ~/Music # play a directory\ncliamp *.mp3 *.flac # play files\ncliamp https://example.com/stream # play a URL\nPress Ctrl+K to see all keybindings.\nDocs\nConfiguration\nKeybindings\nCLI Flags\nStreaming\nPlaylists\nYouTube, SoundCloud, Bandcamp and Bilibili\nLyrics\nSpotify\nNavidrome\nThemes\nAudio Quality\nMPRIS\nTelemetry\nOmarchy\nAdd this keybind to launch cliamp with Super+Shift+M:\nbindd = SUPER SHIFT, M, Music, exec, omarchy-launch-tui cliamp\nAuthor\nx.com/iamdothash\nDisclaimer\nUse this software at your own risk. We are not responsible for any damages or issues that may arise from using this software.",
+          "category": "tech",
+          "publishedAt": "2026-03-23T20:42:22.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Cliamp - 레트로 감성의 터미널 음악 플레이어\n\nWinamp에서 영감을 받아 만든 터미널 기반 음악 플레이어입니다. 로컬 파일은 물론이고, 스트리밍, 팟캐스트, YouTube, SoundCloud, Bilibili, Spotify, 小宇宙, Navidrome 등 다양한 소스를 지원합니다. 게다가 스펙트럼 비주얼라이저, 파라메트릭 EQ, 플레이리스트 관리 기능까지 갖추고 있네요.\n\nBubbletea, Lip Gloss, Beep, go-librespot 같은 도구들로 구축되었습니다.\n\n## 라디오 스트리밍\n\n우리 라디오 채널을 즐길 수 있습니다:\n\n```\ncliamp https://radio.cliamp.stream/lofi/stream.pls\n```\n\n자신의 라디오 스테이션을 추가하고 싶다면 `~/.config/cliamp/radios.toml` 파일을 편집하면 됩니다. 자세한 내용은 `docs/configuration.md`를 참고하세요.\n\n직접 라디오 서버를 운영하고 싶으신 분들은 cliamp-server를 확인해보세요.\n\n## 설치\n\n### curl로 설치\n\n```bash\ncurl -fsSL https://raw.githubusercontent.com/bjarneo/cliamp/HEAD/install.sh | sh\n```\n\n### Homebrew\n\n```bash\nbrew install bjarneo/cliamp/cliamp\n```\n\n### Arch Linux (AUR)\n\n```bash\nyay -S cliamp\n```\n\n### 미리 컴파일된 바이너리\n\nGitHub Releases에서 다운로드할 수 있습니다.\n\n### 소스코드에서 빌드\n\n```bash\ngit clone https://github.com/bjarneo/cliamp.git && cd cliamp && go build -o cliamp .\n```\n\n## 빠른 시작\n\n디렉토리의 모든 음악을 재생하려면:\n\n```bash\ncliamp ~/Music\n```\n\n특정 파일들을 재생하려면:\n\n```bash\ncliamp *.mp3 *.flac\n```\n\nURL을 통해 스트리밍하려면:\n\n```bash\ncliamp https://example.com/stream\n```\n\n`Ctrl+K`를 누르면 모든 키바인딩을 확인할 수 있습니다.\n\n## 문서\n\n- [Configuration](docs/configuration.md) - 설정\n- [Keybindings](docs/keybindings.md) - 단축키\n- [CLI Flags](docs/cli-flags.md) - 명령어 옵션\n- [Streaming](docs/streaming.md) - 스트리밍\n- [Playlists](docs/playlists.md) - 플레이리스트\n- [YouTube, SoundCloud, Bandcamp, Bilibili](docs/services.md) - 외부 서비스\n- [Lyrics](docs/lyrics.md) - 가사\n- [Spotify](docs/spotify.md)\n- [Navidrome](docs/navidrome.md)\n- [Themes](docs/themes.md) - 테마\n- [Audio Quality](docs/audio-quality.md) - 음질\n- [MPRIS](docs/mpris.md)\n- [Telemetry](docs/telemetry.md) - 원격 측정\n\n## Omarchy로 시스템 단축키 설정\n\nSuper+Shift+M 키를 눌러 cliamp를 실행하도록 설정할 수 있습니다:\n\n```\nbindd = SUPER SHIFT, M, Music, exec, omarchy-launch-tui cliamp\n```\n\n## 제작자\n\n[@iamdothash](https://x.com/iamdothash)\n\n## 면책사항\n\n이 소프트웨어는 \"있는 그대로\" 제공됩니다. 사용으로 인해 발생하는 손해나 문제에 대해 개발자는 책임을 지지 않습니다."
+        },
+        {
+          "title": "affaan-m/everything-claude-code (JavaScript)",
+          "titleKo": "Claude Code를 위한 포괄적 에이전트 최적화 시스템",
+          "summary": "Claude Code, Codex, Cursor 등을 위한 에이전트 성능 최적화 시스템으로, 스킬, 인스턴스, 메모리, 보안, 연구 기반 개발을 제공합니다.",
+          "keyPoints": [
+            "Claude Code와 여러 AI 코드 에디터를 지원하는 통합 최적화 시스템",
+            "메모리, 보안, 성능 최적화를 중심으로 한 다층 기능 구조"
+          ],
+          "whyItMatters": "AI 코드 어시스턴트의 성능과 안정성을 체계적으로 개선할 수 있는 도구입니다.",
+          "url": "https://github.com/affaan-m/everything-claude-code",
+          "sourceName": "GitHub Trending",
+          "engagement": 101781,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "topicId": "claude-code-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 4,
+          "slug": "affaan-meverything-claude-code-javascript",
+          "category": "tech",
+          "publishedAt": "2026-03-23T23:12:19.018Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "TauricResearch/TradingAgents (Python)",
+          "titleKo": "TradingAgents - 다중 에이전트 LLM 금융 거래 프레임워크",
+          "summary": "LLM 기반 다중 에이전트 시스템을 활용한 금융 거래 프레임워크로, 자동화된 거래 전략 개발을 지원합니다.",
+          "keyPoints": [
+            "여러 LLM 에이전트의 협력으로 복잡한 거래 전략 구현",
+            "금융 도메인에 특화된 멀티에이전트 시스템 아키텍처"
+          ],
+          "whyItMatters": "LLM 기반 자동거래 시스템 개발 시 구조화된 프레임워크를 제공합니다.",
+          "url": "https://github.com/TauricResearch/TradingAgents",
+          "sourceName": "GitHub Trending",
+          "engagement": 39195,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "tauricresearchtradingagents-python",
+          "category": "tech",
+          "publishedAt": "2026-03-23T23:12:19.018Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "NousResearch/hermes-agent (Python)",
+          "titleKo": "hermes-agent - 점진적으로 성장하는 에이전트",
+          "summary": "사용자와 함께 성장하고 학습하는 LLM 기반 에이전트 시스템입니다.",
+          "keyPoints": [
+            "사용자 피드백을 통해 지속적으로 개선되는 에이전트 설계",
+            "동적 학습을 통한 개인화된 에이전트 경험 제공"
+          ],
+          "whyItMatters": "적응형 AI 에이전트 개발을 위한 기반 기술과 아키텍처를 제공합니다.",
+          "url": "https://github.com/NousResearch/hermes-agent",
+          "sourceName": "GitHub Trending",
+          "engagement": 11486,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "nousresearchhermes-agent-python",
+          "category": "tech",
+          "publishedAt": "2026-03-23T23:12:19.019Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "hsliuping/TradingAgents-CN (Python)",
+          "titleKo": "TradingAgents-CN: 멀티에이전트 LLM 기반 중문 금융 거래 프레임워크",
+          "summary": "다중 에이전트 LLM 기술을 활용한 중국어 금융 거래 프레임워크로, 자동화된 거래 시스템 구축을 지원한다.",
+          "keyPoints": [
+            "멀티에이전트 LLM 아키텍처를 금융 거래에 적용",
+            "중국어 기반 금융 시스템에 최적화된 구현"
+          ],
+          "whyItMatters": "에이전트 기반 시스템을 금융 도메인에 적용하는 실제 사례를 제공한다.",
+          "url": "https://github.com/hsliuping/TradingAgents-CN",
+          "sourceName": "GitHub Trending",
+          "engagement": 20290,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "hsliupingtradingagents-cn-python",
+          "category": "tech",
+          "publishedAt": "2026-03-23T23:12:19.020Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "iptv-org/iptv (TypeScript)",
+          "titleKo": "iptv-org/iptv",
+          "summary": "전 세계의 공개 IPTV 채널을 수집한 TypeScript 프로젝트이다.",
+          "keyPoints": [
+            "다양한 국가의 IPTV 채널 정보를 포함한 컬렉션 제공",
+            "공개 소스로 제공되어 미디어 애플리케이션 개발에 활용 가능"
+          ],
+          "whyItMatters": "IPTV 또는 스트리밍 관련 애플리케이션 개발 시 채널 데이터 소스로 활용할 수 있다.",
+          "url": "https://github.com/iptv-org/iptv",
+          "sourceName": "GitHub Trending",
+          "engagement": 113546,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "iptv-orgiptv-typescript",
+          "category": "tech",
+          "publishedAt": "2026-03-23T23:12:19.021Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "vxcontrol/pentagi (Go)",
+          "titleKo": "vxcontrol/pentagi",
+          "summary": "Go로 구현된 완전 자율형 AI 에이전트 시스템으로 복잡한 침투 테스트 작업을 자동으로 수행할 수 있다.",
+          "keyPoints": [
+            "자율형 AI를 활용한 자동화된 침투 테스트 수행",
+            "보안 검사 프로세스의 자동화 및 효율화"
+          ],
+          "whyItMatters": "보안 테스팅 팀이 AI 기반 자동화 도구를 활용해 침투 테스트 효율성을 높일 수 있다.",
+          "url": "https://github.com/vxcontrol/pentagi",
+          "sourceName": "GitHub Trending",
+          "engagement": 12960,
+          "contentType": "repo",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "vxcontrolpentagi-go",
+          "category": "tech",
+          "publishedAt": "2026-03-23T23:12:19.017Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Go"
+          ]
+        },
+        {
+          "title": "FujiwaraChoki/MoneyPrinterV2 (Python)",
+          "titleKo": "FujiwaraChoki/MoneyPrinterV2",
+          "summary": "온라인에서 돈을 버는 프로세스를 자동화하는 Python 도구이다.",
+          "keyPoints": [
+            "온라인 수익화 프로세스의 자동화",
+            "Python 기반의 자동화 솔루션"
+          ],
+          "url": "https://github.com/FujiwaraChoki/MoneyPrinterV2",
+          "sourceName": "GitHub Trending",
+          "engagement": 22771,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "fujiwarachokimoneyprinterv2-python",
+          "category": "tech",
+          "publishedAt": "2026-03-23T23:12:19.015Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "BIO: The Bao I/O Coprocessor",
+          "titleKo": "BIO: Bao I/O 코프로세서",
+          "summary": "Bunnie Studios에서 개발한 Bao I/O 코프로세서에 대한 기술 블로그 글입니다. 하드웨어 입출력 처리를 위한 전문화된 코프로세서 설계와 구현에 관한 내용으로 보입니다.",
+          "keyPoints": [
+            "I/O 작업 전용 코프로세서로 메인 프로세서의 부하를 줄이는 아키텍처"
+          ],
+          "whyItMatters": "시스템 성능 최적화와 저전력 설계에 관심 있는 하드웨어 개발자들에게 중요한 참고 자료입니다.",
+          "url": "https://www.bunniestudios.com/blog/2026/bio-the-bao-i-o-coprocessor/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 107,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "bio-the-bao-io-coprocessor",
+          "category": "tech",
+          "publishedAt": "2026-03-20T19:20:49.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "kepano/obsidian-skills",
+          "titleKo": "kepano/obsidian-skills",
+          "summary": "Obsidian용 에이전트 스킬 플러그인으로 Markdown, 베이스, JSON Canvas 작업과 CLI 사용을 지원합니다.",
+          "keyPoints": [
+            "Obsidian의 에이전트 기능을 확장하는 스킬 세트 제공"
+          ],
+          "whyItMatters": "Obsidian 기반 워크플로우를 자동화하려는 개발자들이 에이전트 통합을 쉽게 구현할 수 있게 합니다.",
+          "url": "https://github.com/kepano/obsidian-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 16298,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "kepanoobsidian-skills",
+          "category": "tech",
+          "publishedAt": "2026-03-23T23:12:19.020Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "I built an AI receptionist for a mechanic shop",
+          "titleKo": "정비소를 위한 AI 리셉셔니스트 구축하기",
+          "summary": "개발자가 형의 럭셔리 정비소를 위해 맞춤형 음성 AI 에이전트 'Axle'을 구축했다. RAG 파이프eline을 통해 정확한 가격 정보를 제공하고, Vapi를 사용해 실제 전화 시스템과 연결했으며, FastAPI 웹훅 서버로 통합했다.",
+          "keyPoints": [
+            "MongoDB Atlas 벡터 검색과 Claude를 결합한 RAG 파이프라인으로 환각 없이 정확한 답변 생성",
+            "Vapi 음성 플랫폼(Deepgram, ElevenLabs)과 FastAPI 웹훅으로 실제 전화 통합",
+            "Ngrok을 통한 로컬 개발 환경에서 실시간 테스트 및 프로덕션 배포 준비"
+          ],
+          "whyItMatters": "실제 비즈니스 문제를 LLM과 음성 AI로 해결하는 실전 사례로, 엔드투엔드 AI 시스템 구축 패턴을 보여준다.",
+          "url": "https://www.itsthatlady.dev/blog/building-an-ai-receptionist-for-my-brother/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 192,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-built-an-ai-receptionist-for-a-mechanic-shop",
+          "fullContent": "How I Built an AI Receptionist for a Luxury Mechanic Shop - Part 1 Learn how I built an ai receptionist for my brother's mechanic shop Mar 20, 2026\n#ai\n#coding\n#technical\n#tutorial My brother is a luxury mechanic shop owner, and he’s losing thousands of dollars per month because he misses hundreds of calls per week. He’s under the hood all day. The phone rings, he can’t answer, the customer hangs up and calls someone else. That’s a lost job — sometimes a $450 brake service, sometimes a $2,000 engine repair — just gone because no one picked up.\nSo I’m building him an AI receptionist. I named it Axle — like a car axle — because of course I did. 😏\nThis isn’t a generic chatbot. It’s a custom-built voice agent that answers his phone, knows his exact prices, his hours, his policies, and can collect a callback when it doesn’t know something. To get this right requires a custom build, so first I scraped his website data, created a product requirements document (PRD), and scoped the project into a 3-part build.\nStep 1: Building the Brain (RAG Pipeline)\nThe first step was making sure the AI could actually answer questions accurately — without hallucinating prices or making things up.\nA raw LLM is dangerous here. If a customer asks “how much for brakes?” and the AI guesses $200 when the real answer is $450, that’s a broken expectation and a frustrated customer. The fix is Retrieval-Augmented Generation (RAG): instead of letting the model guess, you give it a knowledge base of real information and make it answer only from that.\nHere’s what I did:\nScraped Dane’s website — I pulled his service pages and pricing into markdown files. From there I built a structured knowledge base covering 21+ documents: every service type, pricing, turnaround times, hours, payment methods, cancellation policies, warranty info, loaner vehicles, and what car makes he specializes in.\nEmbedded the knowledge base into MongoDB Atlas — Each document gets converted into a 1024-dimensional vector using Voyage AI (voyage-3-large). These vectors capture the semantic meaning of each document, not just the keywords. They’re stored in MongoDB Atlas alongside the raw text, with an Atlas Vector Search index on the embedding field.\nBuilt the retrieval pipeline — When a customer asks a question, the query gets embedded using the same Voyage AI model and then run against the Atlas Vector Search index. It returns the top 3 most semantically similar documents — so “how much for a brake job?” correctly retrieves the brake service pricing doc even if those exact words don’t appear together.\nWired up Claude for response generation — The retrieved documents get passed as context to Anthropic Claude (claude-sonnet-4-6) along with a strict system prompt: answer only from the knowledge base, keep responses short and conversational, and if you don’t know — say so and offer to take a message. No hallucinations allowed.\nBy the end of Part 1, I could type a question in the terminal and get a grounded, accurate answer back. “How much is an oil change?” → “$45 for conventional, $75 for synthetic. Includes oil filter, fluid top-off, and tire pressure check. Takes about 30 minutes.”\n💡 I’m learning as I go using the MongoDB AI Learning Hub — and you can too! Check it out to build your own AI Agents!\nStep 2: Connecting It to a Real Phone Number\nNext I had to get this brain onto an actual phone line that customers could call.\nI chose Vapi as the voice platform. It handles everything on the telephony side: purchasing a phone number, speech-to-text (via Deepgram), text-to-speech (via ElevenLabs), and real-time function calling back to my server. The whole voice infrastructure is handled — I just needed to build the webhook it calls.\nBuilt a FastAPI webhook server — Every time a caller asks a question, Vapi sends a tool-calls request to my /webhook endpoint with the caller’s query. The server routes that to the RAG pipeline, gets a response from Claude, and sends it back to Vapi, which reads it aloud to the caller. The whole round trip has to be fast enough to feel like a natural conversation.\nExposed it with Ngrok — During development, the server runs locally on port 8000. Ngrok punches a tunnel through to a public HTTPS URL, which I paste into the Vapi dashboard as the webhook endpoint. Vapi can now reach my local server in real time as calls come in. For production this would move to a cloud host, but for building and testing Ngrok gets the job done in two minutes.\nConfigured the Vapi assistant — In the Vapi dashboard I set up the assistant with a greeting (“Hi, thanks for calling Dane’s Motorsport, how can I help you today?”), wired up two tools (answerQuestion for RAG-backed responses and saveCallback for collecting a name and number when a question can’t be answered), and pointed both at the webhook URL.\nAdded conversation memory — Vapi sends the full conversation history with each request, so the RAG pipeline gets the prior turns as context. If a caller asks “what are you",
+          "category": "insight",
+          "publishedAt": "2026-03-23T10:32:33.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# AI 리셉셔니스트를 만들어보니 - Part 1\n\n형의 고급 정비소를 위해 AI 리셉셔니스트를 만들었던 경험을 공유합니다.\n\n## 왜 이걸 만들게 됐나\n\n형이 운영하는 고급 자동차 정비소가 매달 수천 달러의 손실을 보고 있었어요. 이유는 간단했습니다. 주당 수백 통의 전화를 놓치고 있었거든요.\n\n형은 하루종일 차 밑에서 작업하고 있는데 전화가 울리면 받을 수가 없어요. 그러면 고객은 기다리다 전화를 끊고 다른 정비소를 찾아갑니다. 브레이크 정비($450)든 엔진 수리($2,000)든 관계없이 그냥 일이 날아가는 거죠.\n\n그래서 AI 리셉셔니스트를 만들기로 했습니다. 이름은 \"Axle\"이라고 지었어요. 자동차 액슬(차축)에서 따온 거죠. 😏\n\n## 단순한 챗봇이 아닌 맞춤형 음성 에이전트\n\n이건 일반적인 챗봇이 아닙니다. 형의 정비소 전화를 받을 수 있고, 정확한 가격, 영업시간, 정책을 알고 있으며, 답변하지 못할 때 콜백을 남길 수 있는 맞춤형 음성 에이전트예요.\n\n제대로 만들려면 맞춤형 개발이 필요했습니다. 먼저 형의 웹사이트 데이터를 수집하고 요구사항 문서(PRD)를 작성한 다음, 프로젝트를 3단계로 나눴어요.\n\n## Step 1: AI의 두뇌 만들기 (RAG 파이프라인)\n\n가장 먼저 할 일은 AI가 정확하게 답변하도록 만드는 것이었습니다. 가격을 멋대로 지어내거나 잘못된 정보를 주면 안 되거든요.\n\n기본 LLM만으로는 위험해요. 고객이 \"브레이크 정비 얼마예요?\"라고 물었을 때 AI가 $200이라고 대답했는데 실제로는 $450이라면? 고객은 실망하고 신뢰를 잃게 됩니다. 해결책은 RAG(Retrieval-Augmented Generation)입니다. 즉, AI가 마음대로 답하도록 두지 말고 실제 정보로 이루어진 지식베이스를 제공해서 그 안에서만 답하도록 강제하는 거죠.\n\n### 웹사이트 데이터 수집\n\n먼저 형의 웹사이트를 크롤링했습니다. 서비스 페이지와 가격 정보를 마크다운 파일로 변환했어요. 그 결과 21개 이상의 문서로 된 구조화된 지식베이스를 만들 수 있었습니다. 모든 서비스 종류, 가격, 소요 시간, 영업시간, 결제 수단, 취소 정책, 보증 정보, 대여 차량, 그리고 취급하는 자동차 브랜드까지 포함했어요.\n\n### 벡터 임베딩으로 의미 이해하기\n\n이 지식베이스를 MongoDB Atlas에 저장했습니다. 각 문서는 Voyage AI(voyage-3-large)를 사용해 1024차원 벡터로 변환됩니다. 단순한 키워드가 아니라 문장의 의미를 수치화하는 거예요. 이 벡터는 원본 텍스트와 함께 MongoDB Atlas에 저장되며, 임베딩 필드에는 Atlas Vector Search 인덱스가 설정되어 있습니다.\n\n### 검색 파이프라인 구축\n\n고객이 질문하면 그 질문도 같은 Voyage AI 모델로 벡터화한 후 Atlas Vector Search 인덱스와 비교합니다. 의미가 가장 유사한 문서 3개를 반환하는 방식이에요. 덕분에 \"브레이크 정비 얼마?\"라고 물으면 \"brake job\"이라는 단어가 정확히 일치하지 않더라도 브레이크 서비스 가격 문서를 제대로 찾아냅니다.\n\n### Claude로 답변 생성\n\n검색된 문서들을 Claude(claude-sonnet-4-6)에 컨텍스트로 전달합니다. 여기에 엄격한 시스템 프롬프트를 붙여요. 지식베이스에 있는 정보로만 답변하고, 짧고 자연스럽게 얘기하며, 모르는 건 모른다고 말하고 콜백을 남기도록 강제하는 거죠. 절대 지어낸 답변을 하면 안 됩니다.\n\n결과적으로 터미널에서 질문을 입력하면 정확한 답변이 돌아옵니다. \"오일 교환 얼마예요?\"라고 물으면 \"$45(일반유), $75(합성유). 오일 필터, 액체 토핑, 타이어 공기압 체크 포함. 약 30분 소요\"라고 답하죠.\n\n## Step 2: 실제 전화 연결하기\n\n이제 이 두뇌를 고객이 실제로 걸 수 있는 전화 시스템에 연결해야 했습니다.\n\n음성 플랫폼은 Vapi를 선택했어요. 통신 부분을 모두 처리해줍니다. 전화번호 구매, 음성 인식(Deepgram), 음성 합성(ElevenLabs), 실시간 함수 호출까지요. 내가 할 일은 이 플랫폼이 호출할 웹훅을 만드는 것뿐입니다.\n\n### FastAPI 웹훅 서버 구축\n\n발신자가 질문을 하면 Vapi는 내 서버의 `/webhook` 엔드포인트로 tool-calls 요청을 보냅니다. 여기에는 발신자의 질문이 포함되어 있어요. 서버는 이를 RAG 파이프라인으로 라우팅하고, Claude로부터 응답을 받아 Vapi로 돌려보냅니다. Vapi가 그 응답을 음성으로 읽어주는 거죠. 자연스러운 대화처럼 느껴지려면 전체 왕복 시간이 빨라야 합니다.\n\n### Ngrok으로 로컬 서버 공개\n\n개발 중에는 로컬 포트 8000에서 서버를 실행하고 있었어요. Ngrok을 쓰면 이걸 공개 HTTPS URL로 만들 수 있습니다. 이 URL을 Vapi 대시보드에 웹훅 엔드포인트로 설정하면, Vapi가 전화가 들어올 때 실시간으로 내 로컬 서버에 접근할 수 있어요. 프로덕션으로 가려면 클라우드 호스팅을 사용해야 하지만, 개발과 테스트 단계에서는 Ngrok으로 2분 만에 준비가 됩니다.\n\n### Vapi 어시스턴트 설정\n\nVapi 대시보드에서 어시스턴트를 설정했습니다. 인사말(\"안녕하세요, Dane's Motorsport입니다. 무엇을 도와드릴까요?\")을 정하고, 두 가지 도구를 연결했어요.\n\n첫 번째는 `answerQuestion`으로 RAG 기반 응답을 처리하고, 두 번째는 `saveCallback`으로 답변할 수 없을 때 이름과 전화번호를 수집합니다. 둘 다 웹훅 URL로 연결됩니다.\n\n### 대화 기록으로 맥락 유지\n\nVapi는 매 요청마다 전체 대화 기록을 함께 보냅니다. 그래서 RAG 파이프라인이 이전 대화를 컨텍스트로 이용할 수 있어요. 발신자가 \"당신은 뭐예요?\"라고 물으면 앞의 대화를 기억하고 있는 거죠."
+        },
+        {
+          "title": "How I'm Productive with Claude Code",
+          "titleKo": "Claude Code로 생산성을 높이는 방법",
+          "summary": "개발자가 Claude Code를 도입한 6주간 커밋 수가 크게 증가했으며, 이는 AI 에이전트를 팀 멤버처럼 관리하는 방식 전환, 자동화, 빠른 빌드 시간, 병렬 작업 처리 등 인프라 개선 덕분이라고 설명한다.",
+          "keyPoints": [
+            "git-pr 같은 Claude Code 커스텀 스킬로 PR 생성 자동화하여 멘탈 오버헤드 제거",
+            "SWC로 빌드 시간을 1분에서 1초 이하로 단축해 개발 몰입감 유지",
+            "동적 포트 할당으로 5개 워크트리 병렬 실행 가능하게 해 처리량 극대화"
+          ],
+          "whyItMatters": "AI 코딩 어시스턴트의 진정한 가치는 기술 자체보다 개발 인프라 최적화와 병렬 처리에 있으며, 개발자의 역할 변화를 보여준다.",
+          "url": "https://neilkakkar.com/productive-with-claude-code.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 82,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-code-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 4,
+          "slug": "how-im-productive-with-claude-code",
+          "fullContent": "It’s been about 6 weeks since I joined Tano, and this is what my commit history looks like:\nCommits are a terrible metric for output, but they’re the most visible signal I have. Something real changed in how I work, and the commit count is a side effect.\nSo, what has changed?\nAutomating the grunt work\nWhen I joined Tano, I was making every pull request by hand. Stage changes, write the commit message, craft the PR description, push, create the PR on GitHub. Standard process, it was fine.\nIt took me a while to realize this is grunt work. I was so used to doing it that I’d never questioned it.\nThat was the first real shift: I’m not the implementer anymore. I’m the manager of agents doing the implementation. And managers automate their team’s grunt work.\nThen I wrote my first Claude Code skill: /git-pr.1\nIt does everything I used to do, except it does it better. The PR descriptions are more thorough than what I’d write, because it reads the full diff and summarises the changes properly. I’d gotten so used to the drudgery that I’d stopped noticing it was drudgery.\nThe time saved matters, but the real unlock was the mental overhead removed. Every PR used to be a small context switch: stop thinking about the code, start thinking about how to describe the code. Now I type /git-pr and move on to the next thing.\nKilling the wait\nReviewing changes had this annoying loop.\nPreview changes locally, go away from what I’m working on, kill the dev server, restart it on the new branch, check it all works, review the code.\nThe server build took about a minute, which was agonisingly long when I was mid-context-switch. Long enough to break focus, too short to do anything useful.\nI switched the build to SWC, and server restarts dropped to under a second. This sparked joy.\nIt sounds like a small change. It wasn’t. Sub-second restarts mean you never leave the flow. Save a file, the server’s already up, check the preview. There’s no gap where your attention drifts. It’s the difference between a conversation with awkward pauses and one that flows naturally.\nLet Claude see what happens\nBefore this, I checked every UI change. Preview locally, eyeball it, decide if it matches what I expected. It worked, but it meant I was a bottleneck on every feature.\nAfter the Chrome extension kept crashing, I switched to the preview feature in Claude Code. It lets the agent set up a preview, persist session data, and see how the UI actually looks.\nI wired it into the workflow: a change isn’t “done” until the agent has verified the UI itself. That meant I could delegate verification and only step in for final review — which also meant agents could run much longer without oversight. They’d catch their own mistakes. That mattered more than I realized at the time.\nParallel everything\nFast rebuilds and automated previews made another friction visible: I could only comfortably work on one thing at a time.\nI was reviewing PRs from other agents and teammates. The workflow was painful: check out the PR branch on main, rebuild, test. But that would mess with my uncommitted changes. So I’d stash, checkout, rebuild, test, switch back, pop the stash. Or create a worktree manually, set it up, try to run the preview - only to find the ports clashing with my other running server.\nOur app has a frontend and a backend, each needing its own port. Every worktree shared the same environment variables, so they’d all try to bind to the same ports. Running two things at once was a fight.\nI built a system around this. Whenever a worktree is created, every server gets assigned ports from a unique range. No collisions. I could run ten previews simultaneously if I wanted.\nI went from getting overwhelmed by two parallel branches to running five worktrees at once. My create loop changed: fire off multiple agents on separate worktrees, each building a different feature. They’d only stop once they’d verified the UI themselves.\nI’d be heavily involved in planning. Then I’d disappear until code review. Agents catching their own mistakes mattered a lot more with five running at once.\nReviewing got smoother too. No faffing around with setup. No rebuilding. No port conflicts. Just: read, verify, merge. Next.\nIt’s the infrastructure, not the AI\nMy role has changed. I used to derive joy from figuring out a complicated problem, spending hours crafting the perfect UI. I still do that sometimes, but a lot less now. What’s become more fun is building the infrastructure that makes the agents effective. Being a manager of a team of ten versus being a solo dev. And like any good manager, you get to claim credit for all the work your “team” does.\nThese aren’t glamorous problems. They’re plumbing. But plumbing determines whether you’re in flow or wrestling your environment.\nThe highest-leverage work I’ve done at Tano hasn’t been writing features. It’s been building the infrastructure that turned a trickle of commits into a flood.\nThe loop\nEach of these stages removed a different kind of friction",
+          "category": "insight",
+          "publishedAt": "2026-03-23T20:49:10.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# AI 팀의 매니저가 되니 커밋이 6배 늘었다\n\nTano에 합류한 지 6주쯤 된 지금, 제 커밋 히스토리를 보면 정말 흥미롭습니다. 커밋 수는 좋은 지표는 아니지만, 눈에 띄는 가장 직관적인 신호거든요. 일하는 방식이 뭔가 근본적으로 바뀌었다는 걸 느껴집니다.\n\n그럼 구체적으로 뭐가 달라졌을까요?\n\n## 반복 작업 자동화하기\n\nTano에 처음 왔을 때만 해도 모든 풀 리퀘스트를 손으로 만들고 있었어요. 변경사항 스테이징, 커밋 메시지 작성, PR 설명 작성, 푸시, GitHub에서 PR 생성. 아주 일반적인 프로세스였고, 문제없었습니다.\n\n한참 뒤에야 깨달았는데, 이것도 반복 작업이었더라고요. 너무 익숙해서 의문을 품은 적도 없었습니다.\n\n그게 첫 번째 변화의 시작이었습니다. 저는 더 이상 직접 구현하는 사람이 아니라, 구현을 담당하는 에이전트들을 관리하는 사람이 된 거죠. 좋은 매니저라면 팀의 반복 작업을 자동화하는 법을 압니다.\n\n그렇게 해서 첫 Claude Code 스킬을 만들었어요. `/git-pr`이란 건데요, 저거 이전에 제가 하던 모든 일을 한답니다. 다만 훨씬 잘합니다. PR 설명이 더 꼼꼼한 이유는 전체 diff를 읽고 변경사항을 제대로 정리하거든요. 저는 반복 작업에 너무 익숙해져서, 그게 고역이라는 것도 모르고 있었네요.\n\n시간이 절약되는 것도 있지만, 진짜 큰 이득은 정신적 부담이 줄어든 거예요. 이전에는 매 PR마다 작은 컨텍스트 스위칭이 생겼어요. 코드 생각하다가 갑자기 코드를 어떻게 설명할지 생각하게 되는 식이요. 이제는 `/git-pr`만 치고 다음 작업으로 넘어가면 됩니다.\n\n## 기다리는 시간 없애기\n\n변경사항을 검토하는 과정이 짜증났어요. 로컬에서 미리보기를 확인하고, 현재 작업에서 벗어나고, 개발 서버를 끄고, 새 브랜치에서 다시 시작하고, 모든 게 작동하는지 확인하고, 코드를 리뷰하는 식이었거든요.\n\n서버 빌드가 약 1분 걸렸는데, 컨텍스트 스위칭 와중에는 그게 너무 오래 느껴졌어요. 집중력을 잃기에는 충분한 시간이면서도, 뭔가 다른 걸 하기엔 너무 짧은 시간이었죠.\n\n빌드 도구를 SWC로 바꿨더니 서버 재시작이 1초 미만으로 떨어졌어요. 정말 쾌감입니다.\n\n작은 변화처럼 들릴 수도 있지만, 아니었어요. 1초 미만의 재시작 시간은 당신이 절대 몰입 상태에서 빠져나가지 않는다는 뜻이거든요. 파일을 저장하면 서버가 이미 떠 있고, 미리보기를 확인한다. 주의가 산만해질 수 있는 틈이 없어요. 어색한 침묵이 있는 대화와 자연스럽게 흐르는 대화의 차이 같은 거죠.\n\n## Claude가 화면을 직접 보게 하기\n\n예전에는 모든 UI 변경사항을 제가 직접 확인했어요. 로컬에서 미리보기하고, 눈으로 보고, 예상한 것과 맞는지 판단하는 식이었죠. 작동했지만, 저와 모든 기능이 병목이 되는 상황이었습니다.\n\nChrome 확장프로그램이 계속 멈춘 뒤로, Claude Code의 미리보기 기능으로 넘어갔어요. 이 기능으로는 에이전트가 직접 미리보기를 설정하고, 세션 데이터를 유지하고, UI가 실제로 어떻게 보이는지 확인할 수 있습니다.\n\n이걸 워크플로우에 연결했어요. 변경사항은 에이전트가 UI를 직접 검증할 때까지 \"완료\"로 보지 않는 거죠. 덕분에 저는 검증 작업을 위임하고 최종 리뷰만 담당하면 되었고, 에이전트는 감시 없이 훨씬 더 오래 일할 수 있게 되었어요. 자기 실수를 스스로 잡아냈거든요. 그게 생각보다 훨씬 중요했습니다.\n\n## 모든 걸 동시에 진행하기\n\n빠른 빌드와 자동화된 미리보기 덕분에 또 다른 불편함이 드러났어요. 한 번에 한 가지 일에만 집중할 수밖에 없었던 거예요.\n\n다른 에이전트와 팀원들의 PR을 검토하고 있었거든요. 워크플로우가 번거로웠어요. PR 브랜치를 메인에서 체크아웃하고, 다시 빌드하고, 테스트하는데, 이러면 커밋하지 않은 제 변경사항이 엉망이 되니까요. 그래서 변경사항을 stash하고, 체크아웃하고, 다시 빌드하고, 테스트하고, 돌아가고, stash를 복구하는 식이었어요. 아니면 worktree를 직접 만들고, 설정하고, 미리보기를 실행해보면 포트가 겹치곤 했습니다.\n\n우리 앱은 프론트엔드와 백엔드로 나뉘어 있고, 각각 포트가 필요했어요. 모든 worktree가 같은 환경 변수를 공유하니, 다들 같은 포트에 바인딩하려고 싸웠던 거죠. 한 번에 두 가지를 실행하는 것도 힘든 상황이었습니다.\n\n이 문제를 해결할 시스템을 만들었어요. Worktree가 생성될 때마다, 모든 서버가 고유한 범위에서 포트를 할당받도록요. 충돌이 없습니다. 원한다면 동시에 10개의 미리보기를 실행할 수도 있어요.\n\n2개의 병렬 브랜치로도 벅찼던 저를 생각해보면, 지금은 한 번에 5개의 worktree를 실행합니다. 워크플로우가 완전히 달라졌어요. 여러 에이전트를 동시에 띄워서 각각 다른 기능을 작업하게 하고, 각자가 UI를 검증할 때까지 기다리는 거죠.\n\n저는 계획에는 깊게 관여하고, 그 다음엔 코드 리뷰 때까지 물러서 있어요. 5개를 동시에 돌릴 때는 에이전트가 자기 실수를 스스로 잡아내는 게 훨씬 더 중요했습니다.\n\n리뷰도 훨씬 간단해졌어요. 설정에 시간 쓸 필요도 없고, 빌드도 다시 할 필요 없고, 포트 충돌도 없어요. 그냥 읽고, 확인하고, 머지하고, 다음. 이 반복이었죠.\n\n## 중요한 건 AI가 아니라 인프라다\n\n제 역할이 완전히 바뀌었어요. 저는 복잡한 문제를 풀고, 완벽한 UI를 만드는 데 며칠을 쓸 때의 그 기쁨이 좋았어요. 지금도 가끔 그래요. 하지만 점점 더 재미있어진 건 에이전트들을 효율적으로 만드는 인프라를 짜는 거예요. 솔로 개발자에서 10명 팀의 매니저로 변신한 느낌이 들어요. 좋은 매니저처럼, 팀이 한 일의 공을 다 가져가는 부분도 있고요.\n\n화려하지 않은 작업이에요. 그냥 배관 같은 거죠. 하지만 배관이 당신이 몰입 상태를 유지하는지, 아니면 환경과 계속 싸우는지를 결정합니다.\n\nTano에서 제가 한 가장 높은 수익의 일은 기능 개발이 아니었어요. 커밋의 작은 흐름을 거대한 흐름으로 바꿔놓은 인프라 구축이었습니다.\n\n## 반복되는 사이클\n\n이 각각의 단계가 서로 다른 종류의 불편함을 없애나갔어요."
+        },
+        {
+          "title": "Claude Code Cheat Sheet",
+          "titleKo": "Claude Code 치트시트",
+          "summary": "Claude Code의 키보드 단축키, 슬래시 명령어, MCP 서버 설정, 설정 파일 등을 체계적으로 정리한 레퍼런스 가이드입니다.",
+          "keyPoints": [
+            "150개 이상의 키보드 단축키와 슬래시 명령어를 카테고리별로 정리",
+            "MCP 서버 관리, 메모리 시스템, 워크플로우 팁 등 고급 기능 설명"
+          ],
+          "whyItMatters": "Claude Code의 생산성을 극대화하기 위한 필수적인 리소스입니다.",
+          "url": "https://cc.storyfox.cz",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 47,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-code-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 4,
+          "slug": "claude-code-cheat-sheet",
+          "fullContent": "⌨️ Keyboard Shortcuts\nGeneral Controls\nCtrlC Cancel input/generation\nCtrlD Exit session\nCtrlL Clear screen\nCtrlO Toggle verbose output\nCtrlR Reverse search history\nCtrlG Open prompt in editor\nCtrlB Background running task\nCtrlT Toggle task list\nCtrlV Paste image\nCtrlF Kill background agents (×2)\nEscEsc Rewind / undo\nMode Switching\nShiftTab Cycle permission modes\nAltP Switch model\nAltT Toggle thinking\nInput\n\\Enter Newline (quick)\nCtrlJ Newline (control seq)\nPrefixes\n/ Slash command\n! Direct bash\n@ File mention + autocomplete\nSession Picker\n↑↓ Navigate\n←→ Expand/collapse\nP Preview\nR Rename\n/ Search\nA All projects\nB Current branch\n🔌 MCP Servers\nAdd Servers\n--transport http Remote HTTP (recommended)\n--transport stdio Local process\n--transport sse Remote SSE\nScopes\nLocal ~/.claude.json (per project)\nProject .mcp.json (shared/VCS)\nUser ~/.claude.json (global)\nManage\n/mcp Interactive UI\nclaude mcp list List all servers\nclaude mcp serve CC as MCP server\nElicitation Servers request input mid-taskNEW\n⚡ Slash Commands\nSession\n/clear Clear conversation\n/compact [focus] Compact context\n/resume Resume/switch session\n/rename [name] Name current session\n/branch [name] Branch conversation (/fork alias)\n/cost Token usage stats\n/context Visualize context (grid)\n/diff Interactive diff viewer\n/copy Copy last response\n/export Export conversation\nConfig\n/config Open settings\n/model [model] Switch model (←→ effort)\n/fast [on|off] Toggle fast mode\n/vim Toggle vim mode\n/theme Change color theme\n/permissions View/update permissions\n/effort [level] Set effort (low/med/high)NEW\n/color [color] Set prompt-bar color\nTools\n/init Create CLAUDE.md\n/memory Edit CLAUDE.md files\n/mcp Manage MCP servers\n/hooks Manage hooks\n/skills List available skills\n/agents Manage agents\n/chrome Chrome integration\n/reload-plugins Hot-reload plugins\nSpecial\n/btw <question> Side question (no context)\n/plan [desc] Plan mode (+ auto-start)\n/loop [interval] Schedule recurring task\n/voice Push-to-talk voice (20 langs)\n/doctor Diagnose installation\n/rc Enable remote control\n/pr-comments [PR] Fetch GitHub PR comments\n/stats Usage streaks & prefs\n/insights Analyze sessions report\n/desktop Continue in Desktop app\n/remote-control Bridge terminal to claude.ai/codeNEW\n/stickers Order stickers! 🎉\n📁 Memory & Files\nCLAUDE.md Locations\n./CLAUDE.md Project (team-shared)\n~/.claude/CLAUDE.md Personal (all projects)\n/etc/claude-code/ Managed (org-wide)\nRules & Import\n.claude/rules/*.md Project rules\n~/.claude/rules/*.md User rules\npaths: frontmatter Path-specific rules\n@path/to/file Import in CLAUDE.md\nAuto Memory\n~/.claude/projects/<proj>/memory/\nMEMORY.md + topic files, auto-loaded\n🧠 Workflows & Tips\nPlan Mode\nShiftTab Normal → Auto → Plan\n--permission-mode plan Start in plan mode\nThinking & Effort\nAltT Toggle thinking on/off\n\"ultrathink\" Max effort for turn\nCtrlO See thinking (verbose)\n/effort ○ low · ◐ med · ● highNEW\nGit Worktrees\n--worktree name Isolated branch per feature\nisolation: worktree Agent in own worktree\nsparsePaths Checkout only needed dirsNEW\n/batch Auto-creates worktrees\nVoice Mode\n/voice Enable push-to-talk\nSpace (hold) Record, release to send\n20 languages EN, ES, FR, DE, CZ, PL…\nContext Management\n/context Usage + optimization tips\n/compact [focus] Compress with focus\nAuto-compact ~95% capacity\n1M context Opus 4.6 (Max/Team/Ent)\nCLAUDE.md Survives compaction!\nSession Power Moves\nclaude -c Continue last conv\nclaude -r \"name\" Resume by name\n/btw question Side Q, no context cost\nSDK / Headless\nclaude -p \"query\" Non-interactive\n--output-format json Structured output\n--max-budget-usd 5 Cost cap\ncat file | claude -p Pipe input\nScheduling & Remote\n/loop 5m msg Recurring task\n/rc Remote control\n--remote Web session on claude.ai\n⚙️ Config & Env\nConfig Files\n~/.claude/settings.json User settings\n.claude/settings.json Project (shared)\n.claude/settings.local.json Local only\n~/.claude.json OAuth, MCP, state\n.mcp.json Project MCP servers\nKey Settings\nmodelOverrides Map model picker → custom IDs\nautoMemoryDirectory Custom memory dir\nworktree.sparsePaths Sparse checkout dirsNEW\nKey Env Vars\nANTHROPIC_API_KEY\nANTHROPIC_MODEL\nCLAUDE_CODE_EFFORT_LEVEL low/med/high\nMAX_THINKING_TOKENS 0=off\nANTHROPIC_CUSTOM_MODEL_OPTION Custom /model entry\nCLAUDE_CODE_PLUGIN_SEED_DIR Multiple plugin seed dirs\n🔧 Skills & Agents\nBuilt-in Skills\n/simplify Code review (3 parallel agents)\n/batch Large parallel changes (5-30 worktrees)\n/debug [desc] Troubleshoot from debug log\n/loop [interval] Recurring scheduled task\n/claude-api Load API + SDK reference\nCustom Skill Locations\n.claude/skills/<name>/ Project skills\n~/.claude/skills/<name>/ Personal skills\nSkill Frontmatter\ndescription Auto-invocation trigger\nallowed-tools Skip permission prompts\nmodel Override model for skill\neffort Override effort levelNEW\ncontext: fork Run in subagent\n$ARGUMENTS User input placeholder\n${CLAUDE_SKILL_DIR} Skill's own directory\n!`cmd` Dynamic context injection\nBuilt-in Agents\nExplore Fast read-only (Haiku)\nPlan Re",
+          "category": "insight",
+          "publishedAt": "2026-03-23T21:44:20.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "죄송하지만, 제공하신 내용이 기술 아티클이 아닌 Claude AI의 키보드 단축키 및 설정 가이드 문서로 보입니다.\n\n제가 재구성해드릴 영문 기술 아티클을 다시 제공해주시면, 한국 개발자들이 편하게 읽을 수 있는 자연스러운 한국어 기술 글로 변환해드리겠습니다.\n\n예를 들어, 다음과 같은 형태의 기술 글이 적합합니다:\n- React 최적화 기법\n- 웹 성능 개선 방법\n- 새로운 JavaScript 기능 소개\n- 프론트엔드 아키텍처 패턴\n- 디버깅 팁 등\n\n원문을 다시 올려주시면 바로 시작하겠습니다!"
+        },
+        {
+          "title": "Walmart: ChatGPT checkout converted 3x worse than website",
+          "titleKo": "월마트: ChatGPT 결제 기능이 웹사이트 대비 3배 낮은 전환율 기록",
+          "summary": "월마트가 ChatGPT를 활용한 결제 기능을 테스트했으나 기존 웹사이트보다 3배 낮은 전환율을 기록했다. 이는 AI 챗봇이 e-commerce 환경에서 아직 효율적이지 못함을 시사한다.",
+          "keyPoints": [
+            "ChatGPT 기반 결제 UI의 전환율이 표준 웹 인터페이스 대비 1/3 수준",
+            "AI 챗봇 도입이 항상 사용자 경험을 개선하지는 않음을 보여주는 사례"
+          ],
+          "whyItMatters": "AI 기반 기능 도입 시 실제 사용자 행동 데이터로 검증하고 전통적 방식과의 성능 비교가 필수임을 강조한다.",
+          "url": "https://searchengineland.com/walmart-chatgpt-checkout-converted-worse-472071",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 392,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "walmart-chatgpt-checkout-converted-3x-worse-than-website",
+          "category": "insight",
+          "publishedAt": "2026-03-19T19:42:35.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "“Collaboration” is bullshit",
+          "titleKo": "\"협업\"은 거짓이다",
+          "summary": "현대 기술 산업이 협업 도구(Slack, Notion, Jira 등)에 집착한 결과 실제 생산성보다 협업의 외형에만 집중하게 되었다는 비판 글입니다. 역사적 사례(1944년 Battle of the Bulge, IBM의 20/80 법칙)를 통해 집단 내에서 책임 분산으로 인한 개인 노력의 감소 현상을 설명합니다.",
+          "keyPoints": [
+            "집단 크기가 증가하면서 투명성이 진전으로, 가시성이 책임으로 혼동되는 현상 발생",
+            "협업이 개인 책임을 흐릿하게 하고 실패를 프로세스의 탓으로 돌리는 심리적 안전장치 역할",
+            "Frederick Brooks의 소프트웨어 개발 논문처럼 커뮤니케이션 오버헤드가 기하급수적으로 증가하면서 생산성 감소"
+          ],
+          "whyItMatters": "팀 협업과 도구 도입 시 실제 산출물 창출에 집중해야 함을 상기시키는 관점을 제시합니다.",
+          "url": "https://www.joanwestenberg.com/collaboration-is-bullshit/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 268,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "collaboration-is-bullshit",
+          "fullContent": "This newsletter is free to read, and it’ll stay that way. But if you want more - extra posts each month, access to the community, and a direct line to ask me things - paid subscriptions are $2.50/month. A lot of people have told me it’s worth it.\nUpgrade\nIn 1944, the Wehrmacht launched into Hitler’s last ditch effort to save the Third Reich. The Battle of the Bulge was a doomed campaign and a doomed gamble from a doomed regime, but its brutality was a true second test of the US Army on the Western Front. During the battle, Army historian S.L.A Marshall began interviewing infantry companies who’d been baptised in combat. Published 3 years later in his 1947 book, Men Against Fire, Marshall’s research showed that just 15-20% of riflemen in active combat positions ever fired their weapons - most kept their heads down. They moved when they were ordered and they held their positions, and they mimicked the outward appearance of a soldier in battle - but shoot, they did not. By any standard organisational metric, the men were present and accounted for, but 4 out of 5 never pulled the trigger. You can debate the extent of Marshall’s numbers, and you can debate his methodology, but his ratio shows up, again and again. IBM stumbled onto it in the ‘60s when they discovered that 80% of computer usage came from 20% of the system’s features. The pattern recurs because it describes something real about how effort is distributed inside groups, where a fraction of the people do most of the work, and the rest provide what you might ~charitably call “structural support.”Anyone who has worked in any large organisation knows exactly what I’m talking about. The modern tech industry looked at the problem of human coordination and participation and decided the solution was “collaboration.” If only 20% of us are operating with a “killer instinct” we need to be better at managing the shared instincts of the other 80%. And so collaboration became our shared obsession. We pursue “teamwork” as a holy grail. The teamwork revolution, if you can call it that, gave us Notion for our documents, ClickUp for our tasks, Slack for our conversations, Jira for our tickets, Monday for our boards, Teams for the calls that should been emails, emails for the things that we couldn’t squeeze in anywhere else, and now agents attempting to re-invent the whole stack. The average knowledge worker maintains accounts across system after system, switching between applications hundreds of times per day. And they produce, in aggregate, a staggering amount of coordinated and collaborative activity that never actually becomes anything resembling ~output. When you strip away the product marketing and the dev relations and the blog posts and the funding rounds and the fuckery-upon-fuckery of it all, we’re left with a simulation of collective engagement - but very little else. Transparency got confused with progress, visibility got confused with accountability, and being included in the thread became the same thing, socially and organizationally, as owning the outcome.Once that confusion set in at the cultural level it became nearly impossible to dislodge. The feeling of collaboration is pleasant in a way that personal accountability can never be. Owning something means you, specifically and visibly you, can fail at it, specifically and visibly, in ways that attach to your name.Collaborating means the failure belongs to the process. So everyone chose collaboration, and we called it culture.Marshall's riflemen were ordinary people responding to the diffusion of responsibility that happens inside any group. Maximilien Ringelmann measured the same phenomenon with ropes in 1913, long before there were Slack workspaces to offer an emoji-react to it. Individual effort drops predictably as group size increases. The presence of others dissolves the sense of personal responsibility in a way that feels, to everyone experiencing it, entirely reasonable. You're part of a team, you're contributing, you're also (measurably) pulling less hard than you would if the rope were yours alone. Every single person on the rope is doing this simultaneously, which is why the total force never adds up the way the headcount says it should.Frederick Brooks identified the same dynamic in software development in 1975, watching IBM's System/360 project illustrate his emerging thesis that adding people to a late project makes it later. Communication overhead grows faster than headcount, coordination costs compound, and every new person contributes their capacity along with their relationships to everyone else. Those relationships require maintenance and produce misalignment and generate the need for more meetings to address the misalignment those meetings created.Brooks might as well have described your company's Q3 roadmap planning cycle and your startup's sprint retrospective, all of which have gotten longer every year and produced, relative to their investment, less.The collaboration industry has",
+          "category": "insight",
+          "publishedAt": "2026-03-23T01:43:45.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 협업 도구의 역설: 왜 우리는 더 많이 일하지만 덜 만드는가\n\n이 뉴스레터는 무료로 읽을 수 있으며, 그대로 유지될 예정입니다. 다만 더 많은 콘텐츠를 원하신다면 - 매달 추가 글, 커뮤니티 접근 권한, 그리고 직접 질문할 수 있는 기회 - 월 $2.50의 유료 구독을 고려해보세요. 많은 분들이 충분한 가치가 있다고 말씀하셨습니다.\n\n## 20%의 법칙\n\n1944년 벌지 전투. 제3제국의 마지막 도박이었던 이 전투에서, 미군 역사가 S.L.A 마셜은 전투 경험을 막 하게 된 보병 중대들을 인터뷰했습니다. 3년 뒤 『Men Against Fire』라는 책으로 출판된 그의 연구는 충격적인 결과를 보여줍니다.\n\n**전투 중인 소총수 중 단 15~20%만 실제로 총을 쐈다는 것입니다.** 나머지는 고개를 숙이고 있었어요. 명령이 떨어지면 움직였고, 진지를 지켰으며, 겉으로는 전투 중인 병사처럼 보였습니다. 하지만 총을 당기진 않았어요.\n\n조직의 어떤 지표로 봐도 그들은 현장에 있었고 명부에 올라있었습니다. 그런데 5명 중 4명은 방아쇠를 당기지 않은 거죠.\n\n마셜의 수치가 정확한지, 방법론이 타당한지 논쟁할 여지는 있지만, 이 비율은 계속 나타났습니다. 1960년대 IBM은 컴퓨터 사용량의 80%가 시스템 기능의 20%에서만 나온다는 걸 발견했거든요.\n\n이 패턴이 반복되는 이유는 간단합니다. **집단 내에서 노력이 어떻게 분배되는지를 정확히 설명하기 때문입니다.** 일부 사람들이 대부분의 일을 하고, 나머지는 '구조적 지지'라고 부를 수 있는 것을 제공할 뿐이거든요.\n\n어느 정도 규모 있는 조직에서 일해본 사람이라면, 이게 정확히 무슨 말인지 압니다.\n\n## 협업 도구의 열풍\n\n현대 기술 업계는 인적 조정과 참여의 문제를 마주쳤을 때, 한 가지 해답을 찾았습니다. 바로 \"협업\"이었어요.\n\n20% 정도만 '킬러 본능'으로 움직인다면, 나머지 80%의 공동 본능을 더 잘 관리하면 되지 않을까? 이렇게 생각했습니다. 그래서 협업은 업계의 집단적 집착이 되었습니다. 우리는 \"팀워크\"를 성배처럼 추구했어요.\n\n그 결과물들을 보면:\n- 문서를 위한 Notion\n- 작업을 위한 ClickUp\n- 대화를 위한 Slack\n- 티켓을 위한 Jira\n- 보드를 위한 Monday\n- 이메일이 되어야 할 통화를 위한 Teams\n- 다른 곳에 들어갈 수 없는 것들을 위한 이메일\n- 그리고 이제 전체 스택을 재발명하려는 AI 에이전트까지\n\n평균적인 지식 근로자는 하루에 수백 번 애플리케이션을 전환하며 수많은 시스템에서 계정을 유지합니다. 그리고 그들은 종합적으로 엄청난 규모의 조정되고 협력적인 활동을 생산해냅니다.\n\n**그런데 그것이 실제 산출물이 되는 일은 거의 없습니다.**\n\n## 협업이라는 환상\n\n마케팅 포장지, 개발자 관계, 블로그 글, 펀딩 라운드를 다 제거하면 뭐가 남나요? 집단적 참여의 시뮬레이션일 뿐입니다. 그 이상도 이하도 없어요.\n\n우리가 한 실수가 있습니다. **투명성을 진전으로, 가시성을 책임감으로 착각했어요.** 스레드에 포함되는 것이 마치 그 결과를 책임지는 것처럼 느껴졌습니다.\n\n이 혼동이 문화 수준으로 자리 잡으면, 빼내기가 거의 불가능해집니다.\n\n협업의 느낌은 개인적 책임감이 절대 줄 수 없는 방식으로 쾌적합니다. 무언가를 소유한다는 건, 바로 당신이, 명확하게 드러나면서, 그것에 실패할 수 있다는 뜻입니다. 그리고 그 실패는 당신 이름에 붙어다닙니다.\n\n반면 협업한다면 실패는 \"프로세스\"의 책임이 됩니다. 그래서 모두가 협업을 선택했어요. 그리고 우리는 그것을 \"문화\"라고 불렀습니다.\n\n## 책임감의 확산\n\n마셜의 소총수들은 집단 내에서 일어나는 책임감의 희석에 반응하는 평범한 사람들이었습니다. 1913년 막스밀리앙 링겔만은 줄을 사용해서 같은 현상을 측정했어요. Slack 이모지 반응이 있기 훨씬 전의 일입니다.\n\n**개인의 노력은 집단의 크기가 늘어날수록 예측 가능하게 감소합니다.** 다른 사람의 존재가 개인적 책임감을 녹여내는데, 이게 모두에게 완전히 타당해 보입니다. 당신은 팀의 일원이고, 기여하고 있으며, 동시에 (측정 가능하게) 혼자 줄을 당길 때보다 덜 힘을 쓰고 있습니다.\n\n줄에 달린 모든 사람이 동시에 이렇게 하고 있으니, 총 힘은 인원 수가 시사하는 만큼 합산되지 않습니다.\n\n## 소프트웨어의 세계도 마찬가지\n\n프레더릭 브룩스는 1975년 소프트웨어 개발에서도 같은 역학을 발견했습니다. IBM의 System/360 프로젝트를 관찰하면서 발견한 거였어요.\n\n그의 유명한 결론: **지연된 프로젝트에 인력을 추가하면 더 지연된다는 것입니다.**\n\n커뮤니케이션 오버헤드는 인원 수보다 빠르게 증가합니다. 조정 비용은 복합적으로 증가하고, 새로운 사람은 자신의 역량뿐 아니라 다른 모든 사람과의 관계도 가져옵니다. 그 관계들은 관리가 필요하고, 불일치를 생기게 하며, 그 불일치를 다루기 위한 더 많은 미팅을 만들어냅니다. 그리고 그 미팅들은 또 새로운 불일치를 만들죠.\n\n결국 당신 회사의 Q3 로드맵 계획 사이클이나 스타트업의 스프린트 회고를 보면, 매년 더 길어지는데 투입된 노력에 비해 산출물은 줄어듭니다.\n\n협업 산업이라는 게 결국 이 문제를 해결하려던 거인데..."
+        },
+        {
+          "title": "Autoresearch on an old research idea",
+          "titleKo": "오래된 연구 아이디어에 대한 자동 연구",
+          "summary": "기존 연구 개념을 자동화 도구를 활용해 재검토하고 발전시키는 과정을 다룬다.",
+          "keyPoints": [
+            "자동 연구 도구를 활용한 기존 연구의 재검증 가능성",
+            "오래된 연구 아이디어의 현대적 적용 가능성 탐색"
+          ],
+          "whyItMatters": "AI 자동화 도구가 연구 검증 프로세스를 가속화하면서 반복적 검증 작업의 효율성이 크게 향상될 수 있다.",
+          "url": "https://ykumar.me/blog/eclip-autoresearch/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 228,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "autoresearch-on-an-old-research-idea",
+          "category": "insight",
+          "publishedAt": "2026-03-23T18:40:58.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Designing AI for Disruptive Science",
+          "titleKo": "파괴적 과학을 위한 AI 설계",
+          "summary": "혁신적인 과학 분야에서 AI를 효과적으로 설계하고 적용하는 방법론을 다룬다.",
+          "keyPoints": [
+            "과학 연구의 혁신을 위한 AI 시스템 설계 원칙",
+            "기존 과학적 패러다임을 변화시키는 AI 역할"
+          ],
+          "whyItMatters": "과학 및 연구 분야에서 AI를 활용하는 개발자들이 혁신적인 솔루션 설계 방향을 이해할 수 있다.",
+          "url": "https://www.asimov.press/p/ai-science",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 49,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "designing-ai-for-disruptive-science",
+          "category": "insight",
+          "publishedAt": "2026-03-23T18:19:05.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Migrating to the EU",
+          "titleKo": "EU로의 마이그레이션",
+          "summary": "개인 데이터 보호와 지정학적 우려로 인해 서비스들을 비EU 지역에서 EU 지역으로 전환한 기록입니다. 이메일(Fastmail → Uberspace), 캘린더(NextCloud), 도메인(Namecheap → hosting.de), Git(GitHub → Codeberg) 등 주요 서비스별 마이그레이션 경험을 공유합니다.",
+          "keyPoints": [
+            "Uberspace의 '원하는 만큼 지불' 모델로 이메일, 캘린더, 웹호스팅을 통합 관리",
+            "NextCloud로 CalDAV/CardDAV 기반 캘린더와 파일 공유 기능 구축",
+            "Codeberg, hosting.de 등 EU 기반 오픈소스 친화적 서비스 선택"
+          ],
+          "whyItMatters": "데이터 주권과 개인정보 보호를 중시하는 개발자들이 EU 기반 서비스로 전환할 때 구체적인 선택지와 마이그레이션 경험을 제시합니다.",
+          "url": "https://rz01.org/eu-migration/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 804,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "migrating-to-the-eu",
+          "fullContent": "Migrating to the EU\nPosted on 2026-03-22\nIntroduction\nFor various reasons, I have decided to move as many services and subscriptions as possible from non-EU countries to the EU or to switch to European service providers. The reasons for this are the current global political situation and improved data protection. I don’t want to go into the first point any further for various reasons, but the second point should be immediately obvious, since the EU currently has the most user-friendly laws when it comes to data protection. Below, I will list both the old and new service providers; this is not an advertisement, but simply the result of my research, which was aimed at achieving the same or better quality at affordable prices.\nI would call this post an interim report, and I will expand on it if I end up migrating more services.\nMail\nIn my opinion, Fastmail is one of the best email providers. In all the years I’ve had my email accounts there, I’ve never had any problems. I paid 10 euros a month for two accounts, could use an unlimited number of my own domains, and could not only set up catch-all addresses but also send emails from any email address I wanted. This is important for my email setup. The calendar is also solid and was used within the family. All of this was also available in a well-designed Android app.\nFinding a European alternative that offers all of this proved difficult. First, I tried mailbox.org, which I can generally recommend without reservation. Unfortunately, you can’t send emails from any address on your own domain without a workaround, so the search continued. Eventually, I landed on Uberspace. This “pay what you want” provider offers a shell account, web hosting, email hosting, and more at fair prices. In addition, you can use as many of your own domains as you like for\nboth web and email, and send emails from any sender address. There isn’t a dedicated app, which is why I now use Thunderbird for Android and am very satisfied with it.\nCalendar\nUberspace doesn't offer a built-in calendar solution. So I tried installing various CalDAV servers, but none of them really convinced me. In the end, I simply installed NextCloud on my Uberspace Asteroid, which has CalDAV and CardDAV built in. On my desktop, I use Thunderbird as a client; on Android, I use DAVx5 and Fossil Calendar. It works great, even if NextCloud does come with some overhead. In return, I can now easily share files with others and, in theory, also use NextCloud’s\nonline office functionality.\nWeb\nNow that I’m already using Uberspace for my email and calendar, I was able to host this website there as well. I previously had a VPS with Hetzner for this purpose, which I no longer need. The only minor hurdle was that I use SSI on this site to manage the header centrally. I had previously used Nginx, but Uberspace hosts on Apache, where the SSI implementation is handled slightly differently. However, adapting my HTML code\nwas quite simple, so I was able to quickly migrate the site to Uberspace.\nDomains and DNS\nFor a long time, I was a satisfied Namecheap customer. They offer good prices, a wide selection of available domains, their DNS management has everything you need, and their support team has helped me quickly on several occasions. But now it was time to look for a comparable provider in the EU. In the end, I settled on hosting.de. Some of the reasons were the prices, reviews, the location in Germany, and the availability of .is domains. So far, everything has been running smoothly; support helped me quickly and competently with one issue; and while prices for non-German domains are slightly higher, they’re still within an acceptable range.\nGit\nAt some point, pretty much everyone had their code on GitHub (or still does). I was no exception, though I had also hosted my own Gitea instance. Eventually, I got tired of that too and migrated all my Git repositories to codeberg.org. Codeberg is a German-based nonprofit organization, and it’s hard to imagine going wrong with this choice.\nVPN\nNo changes here. I’ve always been a happy Mullvad customer. For 5 euros a month, I pay a Swedish company that has proven it doesn’t log any data and doesn’t even require me to create an account. No subscription traps, no weird Black Friday deals, no discounts: just 5 euros a month for a reliable, trustworthy service.\nAndroid, Chromebook and Google\nFor many years, I used my work smartphone for personal use as well. I was more than satisfied with the Pixel 6, but understandably, I wasn’t allowed to install a custom ROM or use alternative app stores like F-Droid. That’s why I decided to buy a separate personal smartphone. I chose the Pixel 9a, which is supported by Graphene OS. I still installed the Google Play Store so I could install a significant number of apps that are only available there. However, I can now use alternative\napp stores, which allows me to install and use apps like NewPipe. This way, I can enjoy YouTube ad-free and without an account",
+          "category": "insight",
+          "publishedAt": "2026-03-23T10:17:32.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# EU로 서비스 이전하기\n\n2026년 3월 22일 작성\n\n## 들어가며\n\n여러 이유로 지금까지 사용 중인 서비스들을 가능한 한 EU 지역으로 옮기거나 유럽 제공자로 바꾸기로 결정했습니다. 첫 번째 이유는 현재의 국제 정치 상황이고, 두 번째는 데이터 보호 강화 때문입니다. 첫 번째 이유는 여기서 자세히 다루지 않겠지만, 두 번째 이유는 금방 이해할 겁니다. EU는 현재 사용자 중심의 데이터 보호 법규가 가장 잘 갖춰진 곳이거든요.\n\n아래 목록에는 기존 서비스와 새로운 서비스를 나열했는데, 이건 광고가 아니라 단순히 합리적인 가격에 같거나 더 나은 품질을 찾으려는 제 조사 결과입니다. 이 글을 일단 중간 보고 차원으로 봐주시면 좋겠고, 추후 더 많은 서비스를 옮기게 되면 계속 업데이트할 계획입니다.\n\n## 이메일\n\n제 생각엔 Fastmail이 최고의 이메일 제공자 중 하나입니다. 수년간 이용해오면서 별다른 문제가 없었거든요. 월 10유로에 두 개의 계정을 쓸 수 있었고, 자신의 도메인을 무제한으로 추가할 수 있었습니다. 또한 catch-all 주소를 설정할 수 있었을 뿐만 아니라, 자신의 도메인에 속한 어떤 이메일 주소에서든 메일을 보낼 수 있었습니다. 제 이메일 설정에는 이 기능이 정말 중요했거든요. 달력 기능도 훌륭했고, 가족들과 함께 사용했습니다. 게다가 이 모든 게 잘 만들어진 Android 앱에서도 지원됐습니다.\n\n그런데 이 모든 기능을 제공하는 유럽 기반 대체 서비스를 찾는 건 생각보다 어려웠습니다. 먼저 mailbox.org를 시도했는데, 일반적으로는 추천할 만한 서비스입니다. 다만 자신의 도메인에서 어떤 주소로든 메일을 보내는 게 우회 방법을 써야만 가능했거든요. 결국 Uberspace를 선택했습니다. 이 \"원하는 만큼 지불하기\" 방식의 제공자는 셸 계정, 웹 호스팅, 이메일 호스팅 등을 합리적인 가격에 제공합니다. 게다가 자신의 도메인을 웹과 이메일 둘 다에서 무제한으로 사용할 수 있고, 어떤 발신 주소에서든 메일을 보낼 수 있습니다.\n\n별도의 앱은 없지만, 저는 이제 Android용 Thunderbird를 쓰고 있으며 매우 만족하고 있습니다.\n\n## 달력\n\nUberspace는 기본 제공하는 달력 솔루션이 없습니다. 그래서 여러 CalDAV 서버를 설치해봤지만, 딱히 마음에 드는 게 없었어요. 결국 Uberspace의 Asteroid 서버에 NextCloud를 설치하기로 결정했습니다. NextCloud는 CalDAV와 CardDAV가 기본으로 내장돼 있거든요. 데스크톱에서는 Thunderbird를, Android에서는 DAVx5와 Fossil Calendar를 클라이언트로 사용합니다. 잘 작동하는데, NextCloud가 약간의 오버헤드를 가져오긴 합니다. 하지만 대신 파일을 다른 사람과 쉽게 공유할 수 있고, 이론상으로는 NextCloud의 온라인 오피스 기능도 쓸 수 있습니다.\n\n## 웹사이트\n\n이미 이메일과 달력을 위해 Uberspace를 쓰고 있었으니, 이 웹사이트도 거기 옮길 수 있었습니다. 이전에는 이 목적으로 Hetzner에서 VPS를 임차했는데, 이제 더 이상 필요가 없어졌습니다. 한 가지 작은 문제가 있었는데, 제가 이 사이트에서 헤더를 중앙에서 관리하기 위해 SSI를 사용하고 있었거든요. 이전에는 Nginx를 썼지만, Uberspace는 Apache에서 호스팅되며 SSI 구현이 약간 다릅니다. 다행히 HTML 코드를 수정하는 건 꽤 간단했고, 빠르게 사이트를 Uberspace로 이전할 수 있었습니다.\n\n## 도메인과 DNS\n\n오랫동안 저는 Namecheap의 만족스러운 고객이었습니다. 좋은 가격대, 풍부한 도메인 선택지, 필요한 모든 기능이 갖춰진 DNS 관리, 그리고 여러 번 빠르게 도와준 훌륭한 지원팀이 있었거든요. 하지만 이제 EU 내에서 이에 견줄 만한 제공자를 찾아야 했습니다. 최종적으로 hosting.de를 선택했습니다. 가격, 평가, 독일 소재라는 점, 그리고 .is 도메인 가용성 등 여러 이유 때문이었습니다. 지금까지 모든 게 순조롭게 진행 중입니다. 한 가지 문제로 지원팀에 연락했을 때 빠르고 유능하게 도와줬습니다. 독일 외 도메인의 가격이 조금 비싼 편이지만, 여전히 받아들일 만한 범위입니다.\n\n## Git\n\n어느 시점부터인가 거의 모든 개발자가 자신의 코드를 GitHub에 올렸습니다(지금도 많은 사람이 그렇죠). 저도 예외는 아니었지만, 직접 Gitea 인스턴스도 호스팅하고 있었습니다. 결국 그것도 지겹더라고요. 그래서 모든 Git 저장소를 codeberg.org로 이전했습니다. Codeberg는 독일 기반 비영리 조직이고, 이 선택이 잘못될 리 없다고 생각합니다.\n\n## VPN\n\n여기선 변화가 없습니다. 저는 항상 Mullvad의 만족스러운 고객이었으니까요. 월 5유로에 스웨덴 회사에 돈을 내는데, 이들은 로그를 남기지 않으며 계정 생성도 요구하지 않는다는 걸 증명했습니다. 구독함정도 없고, 이상한 블랙프라이데이 딜도 없고, 할인도 없습니다. 단지 월 5유로로 신뢰할 수 있는 안정적인 서비스를 제공할 뿐이죠.\n\n## Android, Chromebook 그리고 Google\n\n여러 해 동안 저는 회사 스마트폰을 개인용으로도 함께 사용했습니다. Pixel 6는 훌륭했지만, 당연히 커스텀 ROM을 설치하거나 F-Droid 같은 대체 앱 스토어를 사용할 수 없었습니다. 그래서 개인용 스마트폰을 따로 구매하기로 결정했습니다. Graphene OS를 지원하는 Pixel 9a를 선택했어요. 여전히 많은 앱들이 Google Play Store에만 있기 때문에 그곳도 설치했습니다. 하지만 이제는 대체 앱 스토어를 사용할 수 있게 됐고, 덕분에 NewPipe 같은 앱을 설치해서 쓸 수 있습니다. 이제 계정 없이 광고 없이 YouTube를 즐길 수 있게 됐거든요."
+        },
+        {
+          "title": "An unsolicited guide to being a researcher [pdf]",
+          "titleKo": "연구자가 되기 위한 불청객 가이드",
+          "summary": "연구 활동에 참여하는 개발자와 과학자들을 위한 실용적 가이드 문서이다.",
+          "keyPoints": [
+            "연구 수행 시 필요한 방법론과 모범 사례 제시",
+            "학계와 산업계 개발자를 위한 연구 활동 가이드"
+          ],
+          "whyItMatters": "연구 기반 개발이나 학술 프로젝트에 참여하는 개발자들이 효과적인 연구 방법을 학습할 수 있다.",
+          "url": "https://emerge-lab.github.io/papers/an-unsolicited-guide-to-good-research.pdf",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 150,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "an-unsolicited-guide-to-being-a-researcher-pdf",
+          "category": "insight",
+          "publishedAt": "2026-03-19T10:00:42.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Digs: iOS app that syncs your Discogs collection and lets you browse it offline",
+          "titleKo": "Digs: Discogs 컬렉션을 동기화하고 오프라인으로 검색할 수 있는 iOS 앱",
+          "summary": "React Native와 Expo로 만든 iOS 앱으로 Discogs의 비닐 컬렉션을 폰에 동기화하여 오프라인에서 빠르게 검색할 수 있습니다. SQLite와 Drizzle ORM을 사용하며 OAuth를 통해 Discogs API와 연동됩니다.",
+          "keyPoints": [
+            "Discogs API의 초당 60개 요청 제한을 토큰 버킷 알고리즘으로 관리하여 in-flight 요청을 추적",
+            "폴더 구조, 기본 정보, 상세 정보를 단계별로 동기화하는 프로그레시브 동기화 파이프라인 구현",
+            "React Query와 SQLite를 조합하여 로컬 데이터베이스를 단일 소스로 사용해 즉각적인 검색 성능 달성"
+          ],
+          "whyItMatters": "API 레이트 제한 처리, 증분 동기화, 오프라인 우선 설계 등 실제 프로덕션 모바일 앱 개발의 복잡한 문제들을 해결한 사례를 제시합니다.",
+          "url": "https://lustin.fr/blog/building-digs/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 38,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "digs-ios-app-that-syncs-your-discogs-collection-and-lets-you-browse-it-offline",
+          "fullContent": "I’ve been collecting vinyl for years and Discogs is where I catalog everything. But browsing my collection on the go never really worked for me. The official app is quite full of features, but some basics were missing for me: folder navigation, offline mode. I wanted something simpler, fast and offline to dig through my records, organized the way I already organize them on my shelves.\nIt syncs your entire collection to your phone and lets you browse it offline. You still manage everything on Discogs. Digs just gives you a fast, mobile copy to dig through.\nAfter the initial sync, your whole collection is available offline. You can browse by folder, search across artists, albums and labels, or hit the random picker to rediscover something you forgot you owned. Subsequent syncs are incremental – only what’s changed gets fetched.\nI built this for a specific use case. If you organize your records into folders and want to quickly browse them without signal, it might be useful. If you want wantlist management, marketplace features, and digging through the many versions of a release this isn’t that.\nIt’s a React Native app built with Expo and TypeScript. Data lives in SQLite, with Drizzle ORM on top. Authentication goes through the official Discogs API using OAuth, with tokens stored in the iOS Keychain.\nThe sync pipeline was more interesting to build. It starts by fetching your folder structure, then does a paginated download of every release in your collection – artist, title, year, format, thumbnail. Once that’s done you can already browse everything. From there it progressively fetches full details for each release (tracklist, high-res images, ratings, videos) and caches images to disk. Each phase can be paused or cancelled, and the whole thing can run as a background task.\nThe rate limiter gave me the most trouble. Discogs allows 60 requests per minute. The naive approach, counting your requests and stopping at 60, doesn’t work when you have multiple requests in flight. By the time request 58 comes back and tells you you’ve hit the limit, requests 59 through 65 are already on their way.\nThe solution I found is a token-bucket limiter that accounts for in-flight requests. It watches the X-Discogs-Ratelimit-Remaining header on every response, tracks how many requests are currently pending, and adjusts. When tokens run out, it probes with a single request to refresh the count from the response header. If it does hit a 429, it backs off exponentially using the Retry-After header.\nAll reads come from SQLite. I configured React Query with infinite stale time because the local DB is the source of truth, not a cache. In practice everything is instant: search, folder browsing, the random picker are all just SQLite queries.\nI built the whole thing with Claude Code. It took longer than I expected, but not how I expected.\nThe code part was fast. Claude Code is good at turning a clear idea into working code. What took time was figuring out what I actually wanted to build. Should sync be cancellable? Should the random picker filter by folder? Wantlists, yes or no? Editing, yes or no? Those product decisions are where I spent the most time. And then even once you know what you want and the code is written, you’re still testing on device, tweaking layouts, rethinking flows, going through App Store review. Making an app just takes time.\nDigs is free on the App Store. No ads, no tracking whatsoever, no account beyond your Discogs login.",
+          "category": "insight",
+          "publishedAt": "2026-03-23T09:02:05.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Chat GPT 5.2 cannot explain the German word \"geschniegelt\"",
+          "titleKo": "Chat GPT 5.2가 독일어 단어 'geschniegelt'을 설명할 수 없음",
+          "summary": "ChatGPT 5.2가 독일어 단어 'geschniegelt'의 의미를 설명하지 못했다는 사용자 보고이다. 이는 대형 언어 모델의 언어 이해에 한계가 있음을 보여준다.",
+          "keyPoints": [
+            "ChatGPT 5.2가 특정 독일어 단어 설명에 실패",
+            "대형 언어 모델의 비영어권 언어 처리 능력의 제약 존재"
+          ],
+          "whyItMatters": "AI 모델의 다국어 지원 범위와 한계를 이해하는 데 도움이 된다.",
+          "url": "https://old.reddit.com/r/ChatGPT/comments/1r4goxh/chat_gpt_52_cannot_explain_the_word_geschniegelt/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 31,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "chat-gpt-52-cannot-explain-the-german-word-geschniegelt",
+          "category": "insight",
+          "publishedAt": "2026-03-23T21:47:42.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Is it a pint?",
+          "titleKo": "그게 파인트인가요?",
+          "summary": "단위 변환이나 측정을 확인하는 웹서비스로 보인다. 정확한 내용은 URL 구조만으로는 파악이 어렵다.",
+          "keyPoints": [
+            "단위 확인 도구로 추정"
+          ],
+          "url": "https://isitapint.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 167,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "is-it-a-pint",
+          "category": "insight",
+          "publishedAt": "2026-03-23T16:13:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "FCC Updates Covered List to Include Foreign-Made Consumer Routers",
+          "titleKo": "FCC, 외국산 소비자 라우터를 규제 대상에 포함",
+          "summary": "미국 FCC가 외국산 소비자 라우터를 규제 목록에 추가했다. 이는 보안 및 통신 인프라 보호를 목적으로 한 정책 변화로 보인다.",
+          "keyPoints": [
+            "FCC가 규제 대상 목록을 외국산 라우터로 확대",
+            "네트워크 보안 및 국가 통신 인프라 보호 강화"
+          ],
+          "whyItMatters": "개발자가 IoT 및 네트워크 장치 개발 시 규제 준수 요건을 고려해야 한다.",
+          "url": "https://www.fcc.gov/document/fcc-updates-covered-list-include-foreign-made-consumer-routers",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 61,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "fcc-updates-covered-list-to-include-foreign-made-consumer-routers",
+          "category": "insight",
+          "publishedAt": "2026-03-23T21:28:02.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "989: State of JS 2025",
+          "titleKo": "State of JS 2025 - 최신 JavaScript 생태계 분석",
+          "summary": "2025년 JavaScript 생태계 설문 결과를 분석하는 팟캐스트로, 라이브러리, 프레임워크, 도구의 인기도 변화를 다룹니다.",
+          "keyPoints": [
+            "프론트엔드 프레임워크, 메타 프레임워크의 트렌드 분석",
+            "JavaScript 런타임과 호스팅 서비스의 최신 현황 파악"
+          ],
+          "whyItMatters": "현재 JavaScript 개발 커뮤니티의 선호도 변화를 이해하고 기술 스택 선택에 참고할 수 있습니다.",
+          "url": "https://syntax.fm/989",
+          "sourceName": "Syntax.fm",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "989-state-of-js-2025",
+          "category": "video",
+          "publishedAt": "2026-03-23T11:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Claude Code tried to improve /init... Is it any better?",
+          "titleKo": "Claude Code가 /init를 개선 시도했습니다. 더 나아졌을까요?",
+          "summary": "Claude Code의 /init 명령어 개선 사항을 실제로 테스트한 영상",
+          "keyPoints": [
+            "Claude Code의 초기화 기능 개선 평가"
+          ],
+          "whyItMatters": "Claude Code 도구의 실제 성능 향상을 확인할 수 있다.",
+          "url": "https://www.youtube.com/watch?v=llwTBpPqo9A",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "topicId": "claude-code-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 4,
+          "slug": "claude-code-tried-to-improve-init-is-it-any-better",
+          "category": "video",
+          "publishedAt": "2026-03-23T15:02:28+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Did Cursor really just rebrand Kimi???",
+          "titleKo": "Cursor가 정말로 Kimi를 리브랜딩했나?",
+          "summary": "YouTube 동영상으로 Cursor와 Kimi 간의 리브랜딩 의혹에 대한 분석 또는 토론 콘텐츠입니다.",
+          "keyPoints": [
+            "AI 코딩 도구 시장의 경쟁 상황과 제품 전략 변화에 관한 내용"
+          ],
+          "whyItMatters": "AI 개발 도구 생태계의 변화를 이해하려는 개발자들에게 관련 정보를 제공합니다.",
+          "url": "https://www.youtube.com/watch?v=QGnKTRtEH50",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "did-cursor-really-just-rebrand-kimi",
+          "category": "video",
+          "publishedAt": "2026-03-22T17:32:47+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}

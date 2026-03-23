@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Winamp에서 영감을 받은 레트로 터미널 음악 플레이어 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/23/">2026-03-23</a> &gt; Winamp에서 영감을 받은 레트로 터미널 음악 플레이어...
+      </div>
+
+      <h1>Winamp에서 영감을 받은 레트로 터미널 음악 플레이어</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">A retro terminal music player inspired by Winamp</p>
+      <div class="article-meta">
+        <span>📅 2026-03-23</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 4</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Bubbletea와 Lip Gloss를 사용해 Go로 만든 터미널 음악 플레이어로 로컬 파일, 스트림, YouTube, Spotify 등 다양한 소스를 지원하며 스펙트럼 시각화와 파라메트릭 EQ를 제공합니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>YouTube, SoundCloud, Spotify, Navidrome 등 다양한 음원 플랫폼 지원</li><li>Bubbletea TUI 프레임워크를 활용한 Winamp 스타일의 레트로 인터페이스 구현</li><li>라디오 스트림, 플레이리스트 관리, 가사 표시, MPRIS 지원 등 풍부한 기능</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>Go 기반 TUI 애플리케이션 개발과 다중 음원 API 통합의 실전 예제로 유용합니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Cliamp - 레트로 감성의 터미널 음악 플레이어</h2>
+<p>Winamp에서 영감을 받아 만든 터미널 기반 음악 플레이어입니다. 로컬 파일은 물론이고, 스트리밍, 팟캐스트, YouTube, SoundCloud, Bilibili, Spotify, 小宇宙, Navidrome 등 다양한 소스를 지원합니다. 게다가 스펙트럼 비주얼라이저, 파라메트릭 EQ, 플레이리스트 관리 기능까지 갖추고 있네요.</p>
+<p>Bubbletea, Lip Gloss, Beep, go-librespot 같은 도구들로 구축되었습니다.</p>
+<h3>라디오 스트리밍</h3>
+<p>우리 라디오 채널을 즐길 수 있습니다:</p>
+<pre><code>cliamp https://radio.cliamp.stream/lofi/stream.pls</code></pre>
+<p>자신의 라디오 스테이션을 추가하고 싶다면 <code>~/.config/cliamp/radios.toml</code> 파일을 편집하면 됩니다. 자세한 내용은 <code>docs/configuration.md</code>를 참고하세요.</p>
+<p>직접 라디오 서버를 운영하고 싶으신 분들은 cliamp-server를 확인해보세요.</p>
+<h3>설치</h3>
+<h4>curl로 설치</h4>
+<pre><code class="language-bash">curl -fsSL https://raw.githubusercontent.com/bjarneo/cliamp/HEAD/install.sh | sh</code></pre>
+<h4>Homebrew</h4>
+<pre><code class="language-bash">brew install bjarneo/cliamp/cliamp</code></pre>
+<h4>Arch Linux (AUR)</h4>
+<pre><code class="language-bash">yay -S cliamp</code></pre>
+<h4>미리 컴파일된 바이너리</h4>
+<p>GitHub Releases에서 다운로드할 수 있습니다.</p>
+<h4>소스코드에서 빌드</h4>
+<pre><code class="language-bash">git clone https://github.com/bjarneo/cliamp.git &amp;&amp; cd cliamp &amp;&amp; go build -o cliamp .</code></pre>
+<h3>빠른 시작</h3>
+<p>디렉토리의 모든 음악을 재생하려면:</p>
+<pre><code class="language-bash">cliamp ~/Music</code></pre>
+<p>특정 파일들을 재생하려면:</p>
+<pre><code class="language-bash">cliamp *.mp3 *.flac</code></pre>
+<p>URL을 통해 스트리밍하려면:</p>
+<pre><code class="language-bash">cliamp https://example.com/stream</code></pre>
+<p><code>Ctrl+K</code>를 누르면 모든 키바인딩을 확인할 수 있습니다.</p>
+<h3>문서</h3>
+<ul>
+<li>[Configuration](docs/configuration.md) - 설정</li>
+<li>[Keybindings](docs/keybindings.md) - 단축키</li>
+<li>[CLI Flags](docs/cli-flags.md) - 명령어 옵션</li>
+<li>[Streaming](docs/streaming.md) - 스트리밍</li>
+<li>[Playlists](docs/playlists.md) - 플레이리스트</li>
+<li>[YouTube, SoundCloud, Bandcamp, Bilibili](docs/services.md) - 외부 서비스</li>
+<li>[Lyrics](docs/lyrics.md) - 가사</li>
+<li>[Spotify](docs/spotify.md)</li>
+<li>[Navidrome](docs/navidrome.md)</li>
+<li>[Themes](docs/themes.md) - 테마</li>
+<li>[Audio Quality](docs/audio-quality.md) - 음질</li>
+<li>[MPRIS](docs/mpris.md)</li>
+<li>[Telemetry](docs/telemetry.md) - 원격 측정</li>
+</ul>
+<h3>Omarchy로 시스템 단축키 설정</h3>
+<p>Super+Shift+M 키를 눌러 cliamp를 실행하도록 설정할 수 있습니다:</p>
+<pre><code>bindd = SUPER SHIFT, M, Music, exec, omarchy-launch-tui cliamp</code></pre>
+<h3>제작자</h3>
+<p>[@iamdothash](https://x.com/iamdothash)</p>
+<h3>면책사항</h3>
+<p>이 소프트웨어는 &quot;있는 그대로&quot; 제공됩니다. 사용으로 인해 발생하는 손해나 문제에 대해 개발자는 책임을 지지 않습니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://github.com/bjarneo/cliamp" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-23%20Winamp%EC%97%90%EC%84%9C%20%EC%98%81%EA%B0%90%EC%9D%84%20%EB%B0%9B%EC%9D%80%20%EB%A0%88%ED%8A%B8%EB%A1%9C%20%ED%84%B0%EB%AF%B8%EB%84%90%20%EC%9D%8C%EC%95%85%20%ED%94%8C%EB%A0%88%EC%9D%B4%EC%96%B4&labels=feedback%2Cliked&body=**Article**%3A%20Winamp%EC%97%90%EC%84%9C%20%EC%98%81%EA%B0%90%EC%9D%84%20%EB%B0%9B%EC%9D%80%20%EB%A0%88%ED%8A%B8%EB%A1%9C%20%ED%84%B0%EB%AF%B8%EB%84%90%20%EC%9D%8C%EC%95%85%20%ED%94%8C%EB%A0%88%EC%9D%B4%EC%96%B4%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Fbjarneo%2Fcliamp%0A**Date**%3A%202026-03-23%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
