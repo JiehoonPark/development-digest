@@ -1,0 +1,145 @@
+---
+title: "가정, 정반대, 종합: Hegel 속성 기반 테스팅 라이브러리 소개"
+tags: [dev-digest, insight, typescript]
+type: study
+tech:
+  - typescript
+level: ""
+created: 2026-03-24
+aliases: []
+---
+
+> [!info] 원문
+> [Hypothesis, Antithesis, synthesis](https://antithesis.com/blog/2026/hegel/) · Hacker News (Top)
+
+## 핵심 개념
+
+> [!abstract]
+> Hypothesis 개발자가 Antithesis에 합류하여 속성 기반 테스팅을 모든 프로그래밍 언어에 제공하기 위해 Hegel 라이브러리를 출시했다. Rust 버전이 먼저 공개되었으며, Go, C++, OCaml, TypeScript 버전이 곧 출시될 예정이다.
+
+## 상세 내용
+
+- Hegel은 속성 기반 테스팅으로 '0으로 나누기' 같은 엣지 케이스 버그를 자동으로 발견
+- Rust, Go, C++, OCaml, TypeScript 등 다양한 언어 지원 계획
+- 버그 분류: 0을 잊음, 데이터 타입 문제, 구조적 불변성 오류
+
+> [!tip] 왜 중요한가
+> 개발자는 수작업 테스트 작성 대신 자동화된 속성 기반 테스팅으로 더 많은 버그를 발견할 수 있다.
+
+## 전문 번역
+
+# Hegel: 모든 언어를 위한 Property-Based Testing
+
+안녕하세요. 저는 Hypothesis를 만들었고, 지난 11월에 Antithesis에 합류했습니다. 그 직후 Hypothesis의 핵심 유지보수자인 Liam DeVoe도 함께했어요. 자연스러운 결과는 합성이었고, 그래서 오늘 새로운 property-based testing 라이브러리 패밀리인 Hegel을 소개하게 됐습니다.
+
+Hegel은 Hypothesis에서 제공하는 고품질의 property-based testing을 모든 언어로 가져오면서, 동시에 Antithesis와 완벽하게 통합해서 버그 발견 능력을 높이려는 시도입니다. 오늘은 Rust 버전을 출시하는데요, 이건 시작일 뿐입니다. 앞으로 1~2주 안에 Go 버전을 출시할 예정이고, C++, OCaml, TypeScript 버전도 앞으로 몇 주에서 몇 개월에 걸쳐 순차적으로 릴리스할 계획입니다.
+
+Rust용 Hegel의 예시를 한 번 살펴볼까요:
+
+```rust
+#[hegel::test(test_cases = 1000)]
+fn test_fraction_parse_robustness(tc: hegel::TestCase) {
+    let s: String = tc.draw(generators::text());
+    let _ = Fraction::from_str(&s); // should never panic
+}
+```
+
+이 테스트는 fraction 크레이트의 버그를 찾아냅니다. `from_str("0/0")`을 호출하면 에러 값을 반환해야 하는데 패닉을 일으키거든요.
+
+더 알아보고 싶으시다면 [Hegel 레포지토리](https://github.com/Antithesis/hegel)를 확인해보세요.
+
+지금부터 property-based testing이 정확히 뭔지, 그리고 특히 Hegel이 왜 정말 훌륭한지 설명해드리겠습니다.
+
+## Property-Based Testing이란?
+
+위에서 본 Rust 예시가 바로 property-based testing입니다. 구체적인 테스트 케이스를 일일이 작성하는 대신, 라이브러리를 사용해서 테스트가 통과해야 하는 값의 범위를 명시하는 방식이거든요.
+
+우리의 fraction 예시에서는 흔한 주장을 했습니다: 파서는 절대 크래시되면 안 된다는 것. 항상 유효한 결과를 반환하거나 에러 값을 반환해야 한다는 뜻입니다.
+
+이 property-based 테스트를 생각해보면, 다음 테스트가 각각 다른 문자열로 수천 개 실행되는 셈입니다:
+
+```rust
+#[test]
+fn test_fraction_parse_robustness() {
+    let s: String = "0/0";
+    let _ = Fraction::from_str(&s); // should never panic
+}
+```
+
+property-based testing 라이브러리의 가치는 바로 여기에 있습니다. 그 수많은 문자열을 일일이 직접 만들 필요가 없거든요.
+
+"크래시하지 않는다"는 건 아마 제일 단순한 property 테스트일 겁니다. 그런데 생각보다 유용합니다. Python에서 오신 분들이라면 더욱 공감할 텐데, 크래시하지 않는 Python 프로그램을 작성하는 게 정말 어렵거든요. 하지만 이 문제는 Rust 같은 언어에서도 발생합니다.
+
+조금 더 흥미로운 property의 예시를 보겠습니다:
+
+```rust
+use hegel::generators::{self, Generator, integers, booleans};
+use rust_decimal::Decimal;
+use std::str::FromStr;
+
+#[hegel::composite]
+fn decimal_gen(tc: hegel::TestCase) -> Decimal {
+    let int_part = tc.draw(integers::<i64>());
+    let has_frac = tc.draw(booleans());
+    if has_frac {
+        let frac_digits = tc.draw(integers::<u32>()
+            .min_value(1).max_value(28));
+        let frac_val = tc.draw(integers::<u64>()
+            .max_value(10u64.saturating_pow(frac_digits.min(18))));
+        let s = format!("{}.{:0>width$}", int_part, frac_val,
+            width = frac_digits as usize);
+        Decimal::from_str(&s).unwrap_or(Decimal::from(int_part))
+    } else {
+        Decimal::from(int_part)
+    }
+}
+
+#[hegel::test(test_cases = 1000)]
+fn test_decimal_scientific_roundtrip(tc: hegel::TestCase) {
+    let d = tc.draw(decimal_gen());
+    let sci = format!("{:e}", d);
+    let parsed = Decimal::from_scientific(&sci)
+        .expect(&format!("Failed to parse {:?} from {}", sci, d));
+    assert_eq!(d, parsed);
+}
+```
+
+여기서는 Hegel의 제너레이터 합성 기능을 활용해 Decimal용 커스텀 제너레이터를 직접 정의했습니다. 그 다음에는 "round tripping"이라는 흔한 property를 테스트했어요. 값을 어떤 형식으로 직렬화한 후 다시 읽어들이면 원래대로 돌아와야 한다는 의미입니다.
+
+이건 대부분의 소프트웨어에서 테스트할 가치가 있는 property입니다. 결국 대부분의 소프트웨어는 데이터를 여러 형식 사이에서 변환하거든요. 이 경우 rust_decimal이 숫자를 과학 표기법으로 변환할 때 0을 제대로 처리하지 못하는데, 이 테스트가 정확히 그 버그를 잡아냅니다.
+
+## Property-Based Testing이 찾는 버그들
+
+Property-based testing으로 발견되는 버그들을 세 가지 범주로 대략 분류해볼 수 있습니다:
+
+1. **영(zero)을 빠뜨렸다**: 특정 엣지 케이스를 처리하지 못한 경우
+2. **이 데이터 타입은 저주받았다**: 자료 구조나 표준 라이브러리의 예상 밖 동작
+3. **복잡한 구조적 불변식에서 실수했다**: 알고리즘 로직 자체의 오류
+
+Antithesis에서는 세 번째 범주에 가장 관심이 높습니다만, 일반적으로 초기 단계에서는 처음 두 범주의 버그를 발견하는 것만으로도 엄청난 가치를 얻게 됩니다. 이런 종류의 버그는 정말 찾기 쉬우니까요.
+
+예를 들어, 이건 heck 라이브러리가 Unicode의 복잡함에 걸려 넘어진 사례입니다:
+
+```rust
+use heck::ToTitleCase;
+
+#[hegel::test(test_cases = 1000)]
+fn test_title_case_idempotent(tc: hegel::TestCase) {
+    let s: String = tc.draw(generators::text());
+    let once = s.to_title_case();
+    let twice = once.to_title_case();
+    assert_eq!(once, twice);
+}
+```
+
+이 테스트는 직관적인 property를 검증합니다. 문자열을 title case로 변환하면, 그건 이미 title case이므로 다시 변환해도 같은 결과가 나와야 한다는 의미입니다. 그런데 "ß" 문자를 뽑았을 때 실패합니다. 첫 번째 `to_title_case()` 호출이 예상과 다르게 동작하기 때문입니다.
+
+## 참고 자료
+
+- [원문 링크](https://antithesis.com/blog/2026/hegel/)
+- via Hacker News (Top)
+- engagement: 174
+
+## 관련 노트
+
+- [[2026-03-24|2026-03-24 Dev Digest]]

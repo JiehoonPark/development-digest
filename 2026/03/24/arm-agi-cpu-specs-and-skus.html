@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARM AGI CPU: 사양 및 SKU — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/24/">2026-03-24</a> &gt; ARM AGI CPU: 사양 및 SKU...
+      </div>
+
+      <h1>ARM AGI CPU: 사양 및 SKU</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">ARM AGI CPU: Specs and SKUs</p>
+      <div class="article-meta">
+        <span>📅 2026-03-24</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 84</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>ARM은 2026년 3월 자사 최초 프로덕션 실리콘인 ARM AGI CPU를 발표했으며, 이는 AI 인프라 규모 운영을 위해 최대 136개 Neoverse V3 코어, 3nm 공정, 최대 420W TDP를 제공한다. 3가지 SKU로 제공되며 Supermicro와의 액체냉각 설계로 45,000개 이상의 코어를 수용할 수 있다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>ARM AGI CPU는 Armv9.2 아키텍처로 bfloat16과 INT8 AI 명령어를 지원하며 최대 3.7GHz 부스트 속도를 제공한다.</li><li>3가지 SKU(136코어, 128코어, 64코어)로 최대 성능, TCO 최적화, 메모리 대역폭 최적화 등 다양한 요구에 대응한다.</li><li>10U, 2노드 설계로 표준 공냉 36kW 랙에 272코어 블레이드 30개로 총 8,160코어를 구성할 수 있다.</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>ARM이 x86 외 아키텍처로 데이터센터 AI 인프라 시장에 본격 진입하면서 서버 CPU 선택지와 성능 경쟁이 확대된다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>ARM AGI CPU: ARM의 첫 자체 설계 데이터센터 프로세서</h2>
+<p>ARM은 그동안 CPU와 GPU 설계를 다른 제조사에 라이선스해주는 사업 모델을 유지해왔는데요. 이번에는 자신들의 손으로 직접 만든 실리콘을 선보였습니다. 특정 데이터센터와 AI 인프라 용도를 겨냥한 제품이죠.</p>
+<h3>ARM AGI CPU란?</h3>
+<p>2026년 3월 24일 ARM Everywhere Keynote에서 공식 발표된 ARM AGI CPU는 ARM이 직접 생산하는 첫 번째 프로세서입니다. AI 인프라를 대규모로 구축하려는 데이터센터를 위해 설계되었으며, 에이전트 AI 운영에 필요한 높은 성능과 라크 수준의 극한 밀도를 제공합니다.</p>
+<h3>주요 사양</h3>
+<ul>
+<li><strong>코어</strong>: 최대 136개 Neoverse V3 코어 (2x 128 SVE, 코어당 2MB L2 캐시)</li>
+<li><strong>아키텍처</strong>: Armv9.2 (bfloat16 및 INT8 AI 명령어 지원)</li>
+<li><strong>클럭 속도</strong>: 최대 3.7GHz 부스트</li>
+<li><strong>PCIe</strong>: PCIe Gen6 96레인, CXL 3.0 Type 3 지원</li>
+<li><strong>공정</strong>: 3nm</li>
+<li><strong>TDP</strong>: 최대 420W</li>
+<li><strong>메모리</strong>: DDR5-8800 최대 6TB (12채널)</li>
+<li><strong>설계</strong>: 듀얼 칩릿 구조</li>
+</ul>
+<h3>SKU 라인업</h3>
+<p>ARM AGI CPU는 세 가지 모델로 구성되어 있습니다.</p>
+<p><strong>SP113012</strong> - 136코어 플래그십 모델로, 최대 코어 수를 필요로 하는 환경에 적합합니다.</p>
+<p><strong>SP113012S</strong> - 128코어로 구성되었으며, 총소유비용(TCO) 최적화에 중점을 두었습니다.</p>
+<p><strong>SP113012A</strong> - 64코어 모델인데, 코어당 메모리 대역폭을 극대화하는 데 초점을 맞췄습니다.</p>
+<h3>서버 구성</h3>
+<p>ARM의 레퍼런스 서버는 10U, 2노드 설계로 이루어져 있습니다. 한 블레이드에 칩 2개와 전용 메모리, I/O가 들어가 총 272개 코어를 제공하죠. 이런 블레이드 30개를 표준 공랭식 36kW 랙에 모두 채우면 총 8,160개 코어를 갖춘 시스템이 완성됩니다.</p>
+<p>한편 ARM은 Supermicro와 협력해 액랭 방식의 200kW 설계도 준비했습니다. 이 설계에는 ARM AGI CPU 336개를 장착할 수 있어 45,000개가 넘는 코어를 구축할 수 있습니다.</p>
+<p>더 자세한 정보는 [공식 ARM AGI CPU 페이지](https://www.arm.com)나 Product Brief를 참고하시기 바랍니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://sbcwiki.com/docs/soc-manufacturers/arm/arm-silicon/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-24%20ARM%20AGI%20CPU%3A%20%EC%82%AC%EC%96%91%20%EB%B0%8F%20SKU&labels=feedback%2Cliked&body=**Article**%3A%20ARM%20AGI%20CPU%3A%20%EC%82%AC%EC%96%91%20%EB%B0%8F%20SKU%0A**URL**%3A%20https%3A%2F%2Fsbcwiki.com%2Fdocs%2Fsoc-manufacturers%2Farm%2Farm-silicon%2F%0A**Date**%3A%202026-03-24%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
