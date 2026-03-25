@@ -1,0 +1,844 @@
+{
+  "date": "2026-03-25",
+  "intro": "안녕하세요! 오늘은 AI와 개발자 도구의 급속한 발전과 함께 플랫폼 책임성이 화두가 되는 날입니다. Next.js 16.2의 출시와 AI 에이전트 생태계의 확장이 주목할 만한 반면, Meta와 Apple 같은 거대 기업들의 안전 및 정책 문제도 계속 대두되고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Apple randomly closes bug reports unless you \"verify\" the bug remains unfixed",
+          "titleKo": "Apple, \"확인\" 없으면 버그 리포트 무조건 종료",
+          "summary": "Apple이 개발자들의 버그 리포트를 장시간 방치한 후 갑자기 검증을 요구하고, 검증 기한을 맞추지 못하면 실제 수정 여부와 상관없이 버그를 해결됨으로 표시하는 관행을 지적합니다. 이는 실제로 수정되지 않은 버그까지 종료시키는 결과를 초래합니다.",
+          "keyPoints": [
+            "Apple이 3년간 응답 없던 버그 리포트에 2주 내 검증을 강요하고 미응시 시 강제 종료",
+            "개발자들이 베타 테스트에 투입할 시간과 자원이 부족한데도 검증 책임을 전가",
+            "버그 리포트 수를 인위적으로 줄여 내부 품질 지표를 좋게 보이게 하는 구조적 문제"
+          ],
+          "whyItMatters": "Apple 플랫폼 개발자들의 버그 리포팅이 실질적 효과를 거두기 어려워 생태계 품질 개선이 정체될 수 있습니다.",
+          "url": "https://lapcatsoftware.com/articles/2026/3/11.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 210,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "apple-randomly-closes-bug-reports-unless-you-verify-the-bug-remains-unfixed",
+          "fullContent": "Why do I file bug reports with Apple Feedback Assistant? I plead insanity. Or perhaps addiction. I seesaw between phases of abstinence and falling off the wagon. I’ve even tried organizing a public boycott of Feedback Assistant, with a list of demands to improve the experience for users, but the boycott never caught on with other developers. Regardless, an incentive still exists to file bug reports, because Apple actually fixes some of my bugs. My main complaint about the bug reporting process is not the unfixed bugs but rather the disrespect for bug reports and the people who file them. Apple intentionally wastes our time with no regrets, as if our time had no value, as if we had some kind of duty to serve Apple.\nIn March 2023, I filed FB12088655 “Privacy: Network filter extension TCP connection and IP address leak.” I mentioned this bug report at the time in a blog post, which included the same steps to reproduce and example Xcode project that I provided to Apple. In the three years since I filed the bug report, I received no response whatsoever from Apple… until a couple of weeks ago, when Apple asked me to “verify” the issue with macOS 26.4 beta 4 and update my bug report.\nI install the WWDC betas every year in June but don’t run OS betas after September when the major OS updates are released. I don’t have enough time or indeed enough Apple devices to be an unpaid tester year round. Thus, verifying issues in betas is a hassle for me. I’ve been burned by such requests in the past, asked by Apple to verify issues in betas that were not fixed, so I asked Apple directly whether beta 4 fixed the bug: they should already know, since they have my steps to reproduce! However, their response was evasive, never directly answering my question. Moreover, they threatened to close my bug report and assume the bug is fixed if I didn’t verify within two weeks! Again, this is after Apple silently sat on my bug report for three years.\nAlthough I didn’t install the beta myself, I spoke to the developers of Little Snitch, who do run the macOS betas, and they kindly informed me that in their testing, they could still reproduce my issue with macOS 26.4 beta 4. It was no surprise, then, that when I updated to macOS 26.4, released to the public yesterday by Apple, I could still reproduce the bug with my instructions and example project. It appears that Apple knowingly sent me on a wild goose chase, demanding that I “verify” a bug they did nothing to fix, perhaps praying that the bug had magically disappeared on its own, with no effort from Apple.\nBy the way, a few weeks ago I published a blog post about another bug, FB22057274 “Pinned tabs: slow-loading target=\"_blank\" links appear in the wrong tab,” which is also 100% reproducible but nonetheless was marked by Apple with the resolution “Investigation complete - Unable to diagnose with current information.” On March 9, I updated the bug report, asking what additional information Apple needs from me—they never asked for more information—but I’ve yet to receive a response.\nI can only assume that some bozos in Apple leadership incentivize underlings to close bug reports, no matter whether the bugs are fixed. Out of sight, out of mind. Apple’s internal metrics probably tell them that they have no software quality problem, because the number of open bug reports is kept lower artificially.\nIronically, the iPadOS 26.4 betas introduced a Safari crashing bug that I reported a month ago, but Apple failed to fix the bug before the public release. What’s the purpose of betas? As far as I can tell, the purpose is just to annoy people who file bugs, without doing anything useful.",
+          "category": "hot",
+          "publishedAt": "2026-03-25T19:14:42.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Apple Feedback Assistant에 버그 리포트를 제출하는 이유? 미쳤거나 중독됐다고 봐야 할 것 같아요\n\n솔직히 말하면, 저는 버그 리포트 제출을 끊었다 다시 시작했다를 반복하고 있습니다. 심지어 Feedback Assistant를 개선하라는 공개 보이콧까지 주도해봤지만 다른 개발자들은 참여하지 않았어요. 그럼에도 계속 버그를 보고하는 이유는 단순합니다. Apple이 실제로 일부 버그를 수정하거든요.\n\n다만 저의 불만은 고쳐지지 않은 버그 때문이 아닙니다. 문제는 Apple이 버그 리포트와 그것을 작성하는 사람들을 얼마나 무시하느냐는 겁니다. Apple은 우리의 시간을 의도적으로 낭비하면서도 전혀 미안해하지 않습니다. 마치 우리의 시간이 가치가 없다거나, Apple을 위해 봉사할 의무가 있는 것처럼요.\n\n## 3년간 아무 답도 없다가\n\n2023년 3월에 저는 FB12088655 \"Privacy: Network filter extension TCP connection and IP address leak\" 버그를 보고했습니다. 당시 제 블로그에서 이 버그에 대해 언급했는데, 재현 방법과 예제 Xcode 프로젝트를 모두 Apple에 제공했었죠.\n\n그런데 3년이 지났습니다. 아무런 연락이 없다가 2주 전, 갑자기 Apple에서 macOS 26.4 베타 4에서 이 문제를 \"검증\"해달라고 요청했어요.\n\n저는 매년 6월 WWDC 베타를 설치하긴 합니다. 하지만 9월 이후에는 베타를 돌리지 않아요. 무료 테스터로 일 년 내내 활동할 만큼 시간이나 Apple 기기가 충분하지 않거든요. 그래서 베타에서 이슈를 검증하는 것은 저에게 매우 번거로운 일입니다.\n\n과거에 Apple이 \"베타에서 검증해달\"고 요청한 버그들이 결국 수정되지 않은 적도 있었어요. 이번엔 직접 물었습니다. \"베타 4에서 버그가 수정됐나요? 당신들은 이미 제 재현 단계를 가지고 있지 않습니까?\"\n\n그들의 답변은 회피적이었고, 제 질문에 직접 답하지 않았습니다. 게다가 2주 안에 검증하지 않으면 버그 리포트를 닫겠다며 위협했어요. 3년을 침묵하다가 이제 와서 이런 요구를 하다니요.\n\n## 실제로는 아무것도 수정되지 않았다\n\n저는 직접 베타를 설치하지 않았지만, Little Snitch 개발자들과 이야기했습니다. 그들은 정기적으로 macOS 베타를 테스트하는데, 친절하게도 macOS 26.4 베타 4에서도 제 버그를 여전히 재현할 수 있다고 알려줬어요.\n\n어제 Apple이 공개 배포한 macOS 26.4를 받으니, 저도 제 지침과 예제 프로젝트로 버그를 재현할 수 있었습니다. Apple은 알면서도 저를 헛고생하게 만들었던 겁니다. 마치 버그가 저절로 사라질 거라고 기도하듯이, Apple은 아무 노력도 하지 않으면서 저에게 \"검증\"을 요구했던 거네요.\n\n## 또 다른 경우\n\n몇 주 전에 저는 다른 버그에 대해 블로그 글을 올렸습니다. FB22057274 \"Pinned tabs: slow-loading target=\"_blank\" links appear in the wrong tab\"인데, 이것도 100% 재현 가능하지만 Apple은 이를 \"Investigation complete - Unable to diagnose with current information\"으로 표시했어요.\n\n3월 9일에 저는 Apple에게 \"추가로 어떤 정보가 필요한가요?\"라고 질문했습니다. 애초에 Apple이 더 많은 정보를 요청한 적이 없었는데도요. 아직까지 답변을 받지 못했습니다.\n\n## 지표 조작이 아닐까\n\n저는 Apple 경영진이 하위 직원들에게 버그가 수정됐든 아니든 상관없이 버그 리포트를 닫으라고 인센티브를 주고 있다고 생각할 수밖에 없습니다. 눈에 띄지 않으면 신경 쓰지 않는다는 식이죠. Apple의 내부 지표상 그들은 소프트웨어 품질 문제가 없는 것처럼 보일 겁니다. 열린 버그 리포트 수를 인위적으로 낮게 유지하면 되니까요.\n\n재미있는 건, iPadOS 26.4 베타가 1달 전에 제가 보고한 Safari 크래시 버그를 재현했는데, Apple은 공개 배포 전에 이것도 수정하지 못했다는 점입니다.\n\n그러면 베타의 목적이 뭘까요? 제가 보기엔 버그를 보고하는 사람들을 귀찮게 하는 것일 뿐, 실제로 유용한 역할은 하지 않는 것 같습니다."
+        },
+        {
+          "title": "Jury finds Meta liable in case over child sexual exploitation on its platforms",
+          "titleKo": "배심원단, Meta의 아동 성적 학대 관련 법 위반 판정",
+          "summary": "뉴멕시코 법원의 배심원단이 Meta가 플랫폼의 위험성에 대해 사용자에게 경고하지 않고 아동을 성 착취자로부터 보호하지 못한 혐의로 유죄를 판정하고 3억 7,500만 달러의 손해배상을 명령했습니다. 이는 회사가 배심원 재판에서 아동 안전 문제로 책임을 진 첫 사례입니다.",
+          "keyPoints": [
+            "Meta가 모든 혐의(부정직한 거래 관행, 부당 거래 관행)에 대해 유죄 판정 받고 3억 7,500만 달러 손해배상 명령",
+            "뉴멕시코 검찰이 Facebook과 Instagram에서의 아동 성적 착취 실태를 적발해 3명 체포",
+            "소셜 미디어 플랫폼들이 직면한 광범위한 법적 압박의 일환이며, 향후 플랫폼 변경 명령 및 추가 벌금 가능성"
+          ],
+          "whyItMatters": "소셜 미디어 및 플랫폼 개발자들이 아동 보호 기능 구현의 법적 책임을 명확히 이해해야 합니다.",
+          "url": "https://www.cnn.com/2026/03/24/tech/meta-new-mexico-trial-jury-deliberation",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 268,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "topicId": "social-media-addiction",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "jury-finds-meta-liable-in-case-over-child-sexual-exploitation-on-its-platforms",
+          "fullContent": "A recording of Meta CEO Mark Zuckerberg's deposition is played for the jurors on March 4, 2026, in Santa Fe, New Mexico.\nJim Weber/Santa Fe New Mexican/Pool/AP\nTech giants\nCrime\nSocial media\nSee all topics\nFollow\nNew York —\nA jury on Tuesday found Meta violated New Mexico law in a case accusing it of failing to warn users about the dangers of its platforms and protect children from sexual predators.\nThe jury found Meta liable on all counts, including for willfully engaging in “unfair and deceptive” and “unconscionable” trade practices, and ordered the company to pay $375 million in damages.\nMeta for years has faced concerns about risks to kids and teens on its platforms from parents, whistleblowers, advocates and lawmakers. Tuesday’s decision marks the first time the company has been held accountable in a jury trial for those issues.\nA Meta spokesperson said the company “respectfully” disagrees and plans to appeal the decision.\nNew Mexico Attorney General Raúl Torrez sued Meta in 2023 for allegedly creating a “breeding ground” for child predators on Facebook and Instagram, claims that the company denies. The jury’s award was smaller than the billions in damages New Mexico had sought, but a later portion of the case to be presented directly to the judge could also force Meta to make changes to its platforms and pay additional penalties.\nThe case is part of a wave of legal pressure Meta and other social media platforms are facing over the safety of young users. As jurors in New Mexico state court delivered a verdict, jurors in Los Angeles are considering a separate case against Meta and YouTube accusing them of intentionally creating addictive features that harmed a young woman’s mental health. Social media giants are also facing hundreds of other cases from individuals, school districts and state attorneys general — some of which are set to go to trial later this year.\nClosing arguments on Monday followed a six-week trial that included testimony from Meta executives and former employees-turned-whistleblowers. Details from the attorney general’s undercover investigation into child sexual exploitation on Meta’s platforms, which led to three arrests, were also discussed in the courtroom.\nThe New Mexico jury was tasked with deciding whether Meta willfully made false and misleading statements about the safety of its platforms or engaged in “unconscionable” practices by knowingly designing its platforms to harm young people.\n“We work hard to keep people safe on our platforms and are clear about the challenges of identifying and removing bad actors or harmful content,” the Meta spokesperson said in a statement Tuesday. “We will continue to defend ourselves vigorously, and we remain confident in our record of protecting teens online.”\nTorrez called the decision “a historic victory for every child and family who has paid the price for Meta’s choice to put profits over kids’ safety.”\n“Meta executives knew their products harmed children, disregarded warnings from their own employees, and lied to the public about what they knew. Today the jury joined families, educators, and child safety experts in saying enough is enough,” Torrez said in a statement Tuesday.\nAhead of the decision, a Meta spokesperson on Monday pointed to an earlier statement saying that the New Mexico lawsuit “makes sensationalist, irrelevant and distracting arguments by cherry picking select documents” and disregarding the company’s “longstanding commitment to supporting young people.”\nMeta attorney Kevin Huff argued in court that the company has been honest with users that some bad actors and inappropriate content can slip through its safety filters. But he said 40,000 people at Meta are responsible for making Facebook and Instagram safe, and that the company invests heavily in measures to protect young users.\nJury considered if Meta willfully misleads and harms kids\nThe New Mexico attorney general’s office created multiple fake Facebook and Instagram profiles posing as children as part of its investigation into Meta. Those test accounts encountered sexually suggestive content and requests to share pornographic content, the suit alleges.\nThe fake child accounts were allegedly contacted and solicited for sex by the three New Mexico adult men who were arrested in May of 2024. Two of the three men were arrested at a motel, where they allegedly believed they would be meeting up with a 12-year-old girl, based on their conversations with the decoy accounts.\nDuring the trial, the state argued Meta failed to do enough to prevent bad actors on its platforms from contacting kids.\nNew Mexico Attorney General Raúl Torrez speaks during a rally on holding social media companies accountable for protecting teens on January 31, 2024 in Washington, DC. Torrez accuses Meta of failing to keep New Mexico teens safe.\nJemal Countess/Getty Images for Accountable Tech\nEx-Meta engineering director-turned-whistleblower Arturo Bejar testified about his efforts to warn Meta exec",
+          "category": "hot",
+          "publishedAt": "2026-03-24T21:54:27.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Meta, 뉴멕시코 배심원단에 유죄 판정받다: 아동 보호 실패 책임\n\n지난 화요일, 뉴멕시코 배심원단은 Meta가 플랫폼의 위험성을 사용자에게 경고하지 않고 아이들을 성적 포식자로부터 보호하지 못했다는 혐의로 뉴멕시코 법을 위반했다고 판결했습니다. 배심원단은 모든 혐의에서 Meta에 유죄를 선고했고, 회사에 3억 7,500만 달러의 손해배상을 지급하도록 명령했습니다.\n\n여기에는 \"불공정하고 기만적인\" 그리고 \"부도덕한\" 거래 행위를 의도적으로 한 혐의도 포함됩니다. 이번 판결은 Meta가 배심원단 재판에서 아동 안전 문제로 책임을 지게 된 첫 번째 사례입니다.\n\nMeta 대변인은 이 판결에 \"존중하면서도\" 동의하지 않으며 항소할 계획이라고 밝혔습니다.\n\n## 수년간 쌓인 우려, 드디어 법정에서 다뤄지다\n\nMeta와 다른 소셜 미디어 플랫폼들은 오랫동안 부모, 내부 고발자, 아동 보호 단체, 그리고 정치인들로부터 플랫폼의 아동 위험 문제에 대한 우려를 받아왔습니다. 이번 판결은 이런 문제들로 회사가 배심원단 재판에서 처음으로 책임을 지게 된 것입니다.\n\n뉴멕시코 주 검찰총장 라울 토레즈는 2023년 Meta를 고소했습니다. 혐의는 Facebook과 Instagram을 아동 포식자의 \"번식지\"로 만들었다는 것인데, Meta는 이를 부인하고 있습니다. 배심원단이 내린 배상액은 뉴멕시코가 청구한 수십억 달러보다 작지만, 나중에 판사 앞에서 진행될 사건의 다음 부분에서 Meta에 플랫폼 변경과 추가 벌금을 강제할 수도 있습니다.\n\n## 거세지는 법적 압박\n\n이 사건은 Meta와 다른 소셜 미디어 플랫폼이 마주하고 있는 광범위한 법적 압박의 일부입니다. 뉴멕시코에서 판결이 나오는 동시에, 로스앤젤레스의 배심원단은 Meta와 YouTube를 상대로 한 별도의 사건을 검토 중입니다. 그 사건은 두 회사가 의도적으로 중독성 있는 기능을 만들어 한 젊은 여성의 정신 건강을 해쳤다고 주장합니다.\n\n소셜 미디어 거인들은 개인, 학교 지구, 주 검찰총장들로부터 수백 건의 다른 사건도 직면하고 있는데, 그 중 일부는 올해 안에 재판에 들어갈 예정입니다.\n\n## 6주간의 재판, 내부 고발자들의 증언\n\n월요일의 최종 변론은 6주간의 재판을 마무리했습니다. 재판 과정에서 Meta 경영진과 내부 고발자로 변신한 전직 직원들이 증언했습니다. 뉴멕시코 검찰총장실이 실시한 비밀 수사에서 나온 세부 사항들도 법정에서 논의되었는데, 이 수사는 Meta 플랫폼의 아동 성적 착취에 관한 것이었고 3건의 체포로 이어졌습니다.\n\n뉴멕시코 배심원단은 Meta가 플랫폼의 안전성에 대해 고의적으로 거짓이고 오도하는 진술을 했는지, 또는 젊은 사람들에게 해를 끼칠 의도를 가지고 플랫폼을 설계함으로써 \"부도덕한\" 행위에 관여했는지를 판단해야 했습니다.\n\n## 수사 결과: 가짜 아동 계정에 성적 접근\n\n뉴멕시코 검찰총장실은 Meta에 대한 수사의 일환으로 아동으로 위장한 여러 개의 가짜 Facebook과 Instagram 프로필을 만들었습니다. 이 테스트 계정들은 성적으로 노골적인 콘텐츠와 음란물 공유 요청을 받았다고 소송에서 주장합니다.\n\n이 가짜 아동 계정들은 2024년 5월에 체포된 세 명의 뉴멕시코 성인 남성으로부터 접근과 성행위 요구를 받았습니다. 이 중 두 명은 모텔에서 체포되었는데, 그들은 위장 계정과의 대화를 바탕으로 12세 소녀를 만날 것으로 예상하고 있었습니다.\n\n재판 중 뉴멕시코 주는 Meta가 플랫폼의 나쁜 행위자들이 아이들과 연락하는 것을 충분히 방지하지 못했다고 주장했습니다.\n\n## Meta의 입장: \"안전에 투자하고 있다\"\n\nMeta의 변호사 케빈 허프는 법정에서 회사가 일부 나쁜 행위자들과 부적절한 콘텐츠가 안전 필터를 통과할 수 있다는 점을 사용자에게 솔직하게 알려왔다고 주장했습니다. 하지만 Meta에는 Facebook과 Instagram을 안전하게 유지하는 책임을 지는 4만 명의 직원이 있으며, 회사는 젊은 사용자를 보호하기 위한 조치에 많은 투자를 하고 있다고 덧붙였습니다.\n\nMeta 대변인은 월요일 성명에서 뉴멕시코 소송이 \"선택적으로 문서를 골라내며 선동적이고 관련 없으며 산만한 주장을 한다\"고 지적했습니다. 또한 회사의 \"오랜 세월에 걸친 젊은이 지원 약속\"을 간과한다고 주장했습니다.\n\n## 검찰총장, \"충분해\"라고 선언\n\n토레즈 뉴멕시코 주 검찰총장은 이번 판결을 \"Meta의 이익을 아이들의 안전보다 우선시한 선택으로 인해 대가를 치른 모든 아이와 가족을 위한 역사적 승리\"라고 표현했습니다.\n\n\"Meta 경영진들은 자신들의 제품이 아이들에게 해를 끼친다는 것을 알았고, 자신들의 직원으로부터의 경고를 무시했으며, 자신들이 알고 있던 것에 대해 대중에게 거짓말을 했습니다. 오늘 배심원단은 가족들, 교육자들, 그리고 아동 안전 전문가들과 함께 '이제 충분하다'고 말했습니다\"라고 토레즈는 화요일 성명에서 밝혔습니다."
+        },
+        {
+          "title": "Updates to GitHub Copilot interaction data usage policy",
+          "titleKo": "GitHub Copilot 상호작용 데이터 사용 정책 업데이트",
+          "summary": "GitHub Copilot의 데이터 사용 정책이 업데이트되었습니다.",
+          "keyPoints": [
+            "사용자 상호작용 데이터의 수집 및 사용에 관한 정책 변경"
+          ],
+          "whyItMatters": "Copilot 사용자는 자신의 코드 데이터가 어떻게 활용되는지 명확히 이해하고 결정할 수 있습니다.",
+          "url": "https://github.blog/news-insights/company-news/updates-to-github-copilot-interaction-data-usage-policy/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 180,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "devops"
+          ],
+          "topicId": "github-copilot-policy",
+          "isTopicPrimary": true,
+          "slug": "updates-to-github-copilot-interaction-data-usage-policy",
+          "category": "hot",
+          "publishedAt": "2026-03-25T19:09:16.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Meta and YouTube found negligent in landmark social media addiction case",
+          "titleKo": "Meta와 YouTube, 소셜미디어 중독 소송에서 과실 판정",
+          "summary": "미국 법원이 landmark 소송에서 Meta와 YouTube가 소셜미디어 중독 문제에 대해 과실이 있다고 판정했습니다.",
+          "keyPoints": [
+            "소셜미디어 플랫폼이 중독성 설계에 대해 법적 책임 인정",
+            "플랫폼 기업들의 알고리즘 및 설계 방식이 사용자 해악을 초래했음이 법적으로 입증"
+          ],
+          "whyItMatters": "소셜미디어 및 온라인 플랫폼 기업들의 책임을 묻는 법적 선례로, 향후 서비스 설계와 투명성 요구사항이 강화될 가능성이 있습니다.",
+          "url": "https://www.nytimes.com/2026/03/25/technology/social-media-trial-verdict.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 377,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "topicId": "social-media-addiction",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "meta-and-youtube-found-negligent-in-landmark-social-media-addiction-case",
+          "category": "hot",
+          "publishedAt": "2026-03-25T17:29:33.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "ARC-AGI-3",
+          "titleKo": "ARC-AGI-3: 인터랙티브 추론 벤치마크",
+          "summary": "ARC-AGI-3는 AI 에이전트가 새로운 환경을 탐험하고, 목표를 학습하며, 적응형 세계 모델을 구축하는 능력을 측정하는 인터랙티브 추론 벤치마크입니다. 정적 퍼즐이 아닌 경험 기반 학습과 장기 계획 능력을 평가합니다.",
+          "keyPoints": [
+            "인간 수준의 지능을 측정하기 위해 최종 답이 아닌 시간경과에 따른 학습 효율성 평가",
+            "100% 인간 해결 가능한 환경에서 메모리 압축, 신념 업데이트 능력 등 측정",
+            "개발자 도구킷과 인터랙티브 UI로 에이전트 통합 및 테스트 지원"
+          ],
+          "whyItMatters": "AI와 인간 학습 능력의 격차를 정량적으로 측정할 수 있는 표준 벤치마크로 AGI 달성 여부를 객관적으로 평가할 수 있습니다.",
+          "url": "https://arcprize.org/arc-agi/3",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 187,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "arc-agi-3",
+          "fullContent": "ResearchARC-AGI-3The first interactive reasoning benchmark designed to measure human-like intelligence in AI agents.Play [Humans]Build [AI]LinksWhat is ARC-AGI-3?ARC-AGI-3 is an interactive reasoning benchmark which challenges AI agents to explore novel environments, acquire goals on the fly, build adaptable world models, and learn continuously.A 100% score means AI agents can beat every game as efficiently as humans.Instead of solving static puzzles, agents must learn from experience inside each environment—perceiving what matters, selecting actions, and adapting their strategy without relying on natural-language instructions.How it measures intelligence100% human-solvable environmentsSkill-acquisition efficiency over timeLong-horizon planning with sparse feedbackExperience-driven adaptation across multiple stepsAs long as there is a gap between AI and human learning, we do not have AGI.ARC-AGI-3 makes that gap measurable by testing intelligence across time, not just final answers—capturing planning horizons, memory compression, and the ability to update beliefs as new evidence appears.Design principlesEasy for humans to pick up quicklyNo pre-loaded knowledge or hidden promptsClear goals + meaningful feedbackNovelty that prevents brute-force memorizationFeaturesARC-AGI-3 includes replayable runs, a developer toolkit for agent integration, and a UI designed for transparent evaluation.Replays + EvaluationInspect agent behavior through preview replays—track decisions, actions, and reasoning in a structured timeline.Browse a sample replayTools + UIIntegrate your agent using the ARC-AGI-3 toolkit, then use the interactive UI to test and iterate.Play and testDocsEverything you need to build agents: environments, API usage, and integration guidance.Read the docsPUTPUT YOUR YOUR AGENT AGENT TO THE TO THE TEST! TEST!",
+          "category": "hot",
+          "publishedAt": "2026-03-25T18:16:03.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# ARC-AGI-3: 인간 수준의 지능을 측정하는 상호작용형 벤치마크\n\n## ARC-AGI-3란 무엇인가요?\n\nARC-AGI-3는 AI 에이전트가 미지의 환경을 탐색하고, 즉흥적으로 목표를 설정하고, 적응 가능한 세계 모델을 구축하며, 지속적으로 학습할 수 있는지 평가하는 상호작용형 벤치마크입니다.\n\n100점을 받는다는 것은 AI 에이전트가 인간만큼 효율적으로 모든 게임을 클리어할 수 있다는 뜻입니다.\n\n정적인 퍼즐을 푸는 방식과 다르게, 에이전트는 각 환경 내에서의 경험으로 배워야 합니다. 자연어 지시를 받지 않고도 무엇이 중요한지 인지하고, 행동을 선택하며, 전략을 조정해야 하는 거죠.\n\n## 어떻게 지능을 측정하나요?\n\n**측정 기준:**\n- 인간이 100% 해결 가능한 환경\n- 시간에 따른 기술 습득 효율\n- 피드백이 적은 장기 계획 수립\n- 여러 단계에 걸친 경험 기반 적응\n\n여기서 핵심은 이겁니다. AI와 인간의 학습 능력 차이가 존재하는 한, 우리는 아직 진정한 AGI(범용 인공지능)를 달성하지 못한 것입니다.\n\nARC-AGI-3는 최종 답변만 측정하는 게 아니라 시간의 흐름에 따른 지능을 측정함으로써 그 간극을 정량화합니다. 계획 범위, 메모리 압축, 새로운 증거가 나타날 때 신념을 업데이트하는 능력까지 모두 포착해내는 거죠.\n\n## 설계 원칙\n\n- **인간이 쉽게 배울 수 있어야 함** — 복잡한 전제 조건 없이\n- **사전 지식이나 숨겨진 프롬프트 금지** — 순수한 능력만 측정\n- **명확한 목표와 의미 있는 피드백** — 에이전트가 학습할 수 있도록\n- **기억에 의존할 수 없는 참신성** — 단순 암기를 방지\n\n## 주요 기능\n\n**재생 가능한 실행 기록 + 평가**\n에이전트의 행동을 미리보기 재생으로 검사하세요. 의사결정, 행동, 추론을 구조화된 타임라인으로 추적할 수 있습니다.\n\n**도구 + UI**\nARC-AGI-3 툴킷을 사용해 에이전트를 통합하고, 상호작용형 UI로 테스트하고 반복 개선하세요.\n\n**문서**\n에이전트를 만들기 위해 필요한 모든 것을 다룹니다. 환경, API 사용법, 통합 가이드까지 제공됩니다.\n\n---\n\n**지금 바로 당신의 에이전트를 테스트해보세요!**"
+        },
+        {
+          "title": "The EU still wants to scan  your private messages and photos",
+          "titleKo": "EU는 여전히 당신의 개인 메시지와 사진을 스캔하고 싶어합니다",
+          "summary": "EU가 개인 메시지와 사진에 대한 스캔 권한을 요구하는 논쟁적 정책에 관한 내용입니다.",
+          "keyPoints": [
+            "EU의 채팅 통제 정책에 대한 개인정보 보호 우려"
+          ],
+          "whyItMatters": "개발자들이 엔드-투-엔드 암호화 및 개인정보 보호 정책을 설계할 때 규제 환경을 고려해야 합니다.",
+          "url": "https://fightchatcontrol.eu/?foo=bar",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 515,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "eu-privacy-scan",
+          "isTopicPrimary": true,
+          "slug": "the-eu-still-wants-to-scan-your-private-messages-and-photos",
+          "category": "hot",
+          "publishedAt": "2026-03-25T20:27:03.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Running Tesla Model 3's computer on my desk using parts from crashed cars",
+          "titleKo": "중고 부품으로 테슬라 Model 3 컴퓨터를 책상 위에서 실행하기",
+          "summary": "보안 연구자가 테슬라 버그 바운티 프로그램에 참여하기 위해 eBay에서 충돌 차량 부품을 구입해 MCU와 자동조종 컴퓨터를 책상 위에서 부팅했습니다. Tesla 공개 전기 회로도를 활용해 필요한 케이블을 식별하고 Ethernet 연결로 시스템의 SSH 서버와 웹 서버에 접근했습니다.",
+          "keyPoints": [
+            "eBay에서 중고 Tesla 부품($200-$300)을 구입해 MCU와 터치스크린 조립 및 부팅 성공",
+            "Tesla 공개 'Electrical Reference' 문서를 활용해 6핀 Rosenberger 커넥터 대신 LVDS 케이블 대체 사용",
+            "192.168.90.X/24 네트워크에 Ethernet으로 연결해 SSH와 웹서버 발견"
+          ],
+          "whyItMatters": "자동차 시스템 보안 연구 방법과 공개된 기술 문서 활용의 중요성을 보여줍니다.",
+          "url": "https://bugs.xdavidhu.me/tesla/2026/03/23/running-tesla-model-3s-computer-on-my-desk-using-parts-from-crashed-cars/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 163,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "running-tesla-model-3s-computer-on-my-desk-using-parts-from-crashed-cars",
+          "fullContent": "23 March 2026\nRunning Tesla Model 3's Computer on My Desk Using Parts From Crashed Cars\nTesla runs a bug bounty program that invites researchers to find security vulnerabilities in their vehicles. To participate, I needed the actual hardware, so I started looking for Tesla Model 3 parts on eBay. My goal was to get a Tesla car computer and touchscreen running on my desk, booting the car’s operating system.\nThe car computer consists of two parts - the MCU (Media Control Unit) and the autopilot computer (AP) layered on top of each other. In the car, the computer is located in front of the passenger seat, roughly behind the glovebox. The part itself is the size of an iPad and the thickness of a ~500 page book and is covered in a water-cooled metal casing:\nBy searching for “Tesla Model 3 MCU” on Ebay, I found quite a lot of results in the $200 - $300 USD price range. Looking at the listings, I found that many of these sellers are “salvaging” companies who buy crashed cars, take them apart, and list all parts for sale individually. Sometimes, they even include a photo of the original crashed car and a way to filter their listings for parts extracted from the same vehicle.\nTo boot the car up and interact with it, I needed a few more things:\nA DC power supply capable of providing 12V\nA touchscreen module from a salvaged Model 3\nThe display cable to connect them together\nFor the power supply, I went with an adjustable 0-30V model from Amazon. There was a 5 ampere and a 10A version available, at the time, I figured it’s safer to have some headroom and went with the 10A version – it was a very good decision, as it later turned out, the full setup could consume up to 8A at peak times. The Model 3 screens were surprisingly expensive on Ebay, I assume that is because it is a popular part to replace. I found a pretty good deal for 175 USD.\nThe last and most difficult part to order was the cable which connects the MCU to the screen. I needed this because both the computer and a screen were being sold with the cables cut a few centimeters after the connector (interestingly most sellers did that, instead of just unplugging the cables).\nThis is when I discovered that Tesla publishes the wiring “Electrical Reference” for all of its cars publicly. On their service website, you can look up a specific car model, search for a component (such as the display), and it will show you exactly how the part should be wired up, what cables/connectors are used, and even what the different pins are responsible for inside a single connector:\nTurns out the display uses a 6-pin cable (2 for 12V and ground, 4 for data) with a special Rosenberger 99K10D-1D5A5-D connector. I soon discovered that unless you are a car manufacturer ordering in bulk, there is no way you are buying a single Rosenberger cable like this. No Ebay listings, nothing on Aliexpress, essentially no search results at all.\nAfter digging around a bit, I found that this cable is very similar to a more widely used automotive cable called “LVDS”, which is used to transfer video in BMW cars. At first sight, the connectors looked like a perfect match to my Rosenberger, so I placed an order:\nThe computer arrived first. To attempt to power it on, I looked up which pin of which connector I needed to attach 12V and ground to using the Tesla schematics & the few pictures online of people doing the same desk-MCU setup. Since the computer included the shortly cut cables, I was able to strip the relevant wires and attach the power supply’s clips to the right ones:\nI saw a couple of red LEDs start flashing, and the computer started up! Since I had no screen yet, there were not many ways to interact with the car. Reading @lewurm’s previous research on GitHub I knew that, at least in older car versions, there was a network inside the car, with some components having their own webserver. I connected an Ethernet cable to the port next to the power connector and to my laptop.\nThis network does not have DHCP, so you have to manually set your IP address. The IP you select has to be 192.168.90.X/24, and should be higher than 192.168.90.105 to not conflict with other hosts on the network. On Reddit, I found the contents of an older /etc/hosts file from a car which shows the hosts that are normally associated with specific IPs:\n192.168.90.100 cid ice # mcu\n192.168.90.100 ic # only in Model X/S | IC = instrument cluster\n192.168.90.102 gw # gateway\n192.168.90.103 ap ape # ap = autopilot\n192.168.90.104 lb # no clue\n192.168.90.105 ap-b ape-b # also autopilot\n192.168.90.30 tuner # Also no clue\n192.168.90.60 modem # this has the ftp server\n@lewurm’s blog mentioned that SSH on port :22 and a webserver on :8080 was open on 192.168.90.100, the MCU. Was this still the case on newer models? Yes!\nI had already found 2 services to explore on the MCU:\nAn SSH server which states “SSH allowed: vehicle parked” - quite funny given the circumstances\nThis SSH server requires specially signed SSH keys which only Tesla is su",
+          "category": "hot",
+          "publishedAt": "2026-03-25T21:11:57.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 중고 부품으로 테슬라 Model 3 컴퓨터를 책상 위에서 실행하기\n\n2026년 3월 23일\n\n테슬라는 차량의 보안 취약점을 찾는 버그 바운티 프로그램을 운영 중입니다. 이 프로그램에 참여하려면 실제 하드웨어가 필요했는데, 그래서 eBay에서 테슬라 Model 3 부품을 찾기 시작했습니다. 제 목표는 테슬라 차량용 컴퓨터와 터치스크린을 책상 위에서 구동하고, 차의 운영체제를 부팅하는 것이었습니다.\n\n## 하드웨어 구성 알아보기\n\n차량용 컴퓨터는 두 부분으로 이루어져 있습니다. 하단의 MCU(Media Control Unit)와 그 위에 겹쳐진 자동조종 컴퓨터(AP)인데요. 실제 차량에서는 조수석 앞, 대략 글러브박스 뒤쪽에 위치합니다. 부품 자체의 크기는 iPad 정도이고 두께는 약 500페이지 책 정도이며, 수냉식 금속 케이싱으로 덮여 있습니다.\n\n## 부품 구하기\n\neBay에서 \"Tesla Model 3 MCU\"를 검색하니 $200~$300 가격대의 제품들이 꽤 많이 나왔습니다. 리스팅을 살펴보니 대부분의 판매자들이 사고난 자동차를 사서 분해한 후 부품을 개별로 판매하는 \"자동차 부품 해체 회사\"였어요. 흥미롭게도 몇몇 회사는 원래 충돌한 차의 사진까지 포함시켰고, 같은 차량에서 추출한 부품으로 필터링하는 방법도 제공했습니다.\n\n차량을 부팅하고 상호작용하려면 몇 가지가 더 필요했습니다.\n\n- 12V를 공급할 수 있는 DC 전원 공급장치\n- 해체된 Model 3의 터치스크린 모듈\n- 둘을 연결하는 디스플레이 케이블\n\n전원 공급장치는 Amazon에서 0~30V 조절 가능한 모델을 골랐습니다. 당시 5A와 10A 버전이 있었는데, 여유가 있는 게 안전하다고 생각해 10A 버전을 선택했어요. 나중에 알고 보니 이건 정말 좋은 판단이었습니다. 실제로 전체 시스템이 최대 전력 상태에서 8A까지 소비했거든요.\n\nModel 3 화면은 eBay에서 생각보다 비쌌는데, 아마 인기 있는 교체 부품이라서 그런 것 같습니다. 결국 $175에 꽤 좋은 딜을 찾았습니다.\n\n## 가장 까다로웠던 부분: 케이블\n\n마지막이자 가장 어려웠던 부분은 MCU를 화면에 연결하는 케이블이었습니다. 구매한 컴퓨터와 화면 모두 커넥터에서 몇 센티미터 떨어진 곳에서 케이블이 잘려 있었거든요. (흥미롭게도 대부분의 판매자들이 케이블을 분리하지 않고 이렇게 자른 채로 팔았습니다.)\n\n다행히 테슬라는 모든 차량에 대한 배선 \"Electrical Reference\"를 공개하고 있었습니다. 서비스 웹사이트에서 특정 차종을 찾아 컴포넌트(예: 디스플레이)를 검색하면, 부품이 어떻게 배선되어야 하는지, 어떤 케이블과 커넥터를 사용하는지, 그리고 각 커넥터 내부의 핀이 무엇을 담당하는지 정확히 보여줍니다.\n\n디스플레이가 6핀 케이블(12V와 그라운드 2개, 데이터 4개)을 사용한다는 걸 알았는데, 특수한 Rosenberger 99K10D-1D5A5-D 커넥터를 써야 했습니다. 그런데 자동차 제조사처럼 대량으로 주문하지 않는 이상, 이런 단일 Rosenberger 케이블을 구할 방법이 없다는 걸 곧 발견했습니다. eBay에도 없고, Aliexpress에도 없고, 검색해도 거의 나오지 않았어요.\n\n이것저것 찾아다니다가 이 케이블이 BMW 자동차에서 비디오를 전송하는 데 쓰이는 \"LVDS\"라는 더 널리 사용되는 자동차 케이블과 매우 유사하다는 걸 발견했습니다. 처음 봤을 땐 커넥터가 제 Rosenberger와 완벽하게 맞아 보여서 주문해봤습니다.\n\n## 전원 켜기\n\n컴퓨터가 먼저 도착했습니다. 전원을 켜려고 테슬라 회로도와 온라인의 몇 가지 사진(같은 책상-MCU 설정을 한 사람들의 사진)을 참고해서 어느 커넥터의 어느 핀에 12V와 그라운드를 연결해야 하는지 찾아봤습니다. 컴퓨터에 짧게 잘린 케이블이 포함되어 있었으니, 관련 전선을 벗겨내서 전원 공급장치의 클립을 올바른 위치에 연결했습니다.\n\n빨간색 LED가 깜빡이기 시작했고 컴퓨터가 부팅되었습니다! 아직 화면이 없었으니 차량과 상호작용할 방법이 별로 없었어요. @lewurm이 GitHub에서 한 이전 연구를 읽어보니, 최소한 이전 차량 버전에는 차 내부에 네트워크가 있고, 일부 컴포넌트는 자체 웹서버를 가지고 있다는 걸 알 수 있었습니다. 전원 커넥터 옆의 포트에 이더넷 케이블을 연결했고, 다른 쪽 끝은 제 노트북에 연결했습니다.\n\n이 네트워크에는 DHCP가 없어서 IP 주소를 수동으로 설정해야 합니다. 선택한 IP는 192.168.90.X/24 범위여야 하고, 다른 호스트와 충돌하지 않으려면 192.168.90.105보다 높아야 합니다. Reddit에서 이전 차량의 `/etc/hosts` 파일 내용을 찾았는데, 일반적으로 특정 IP에 연결된 호스트들이 나열되어 있었습니다.\n\n```\n192.168.90.100 cid ice # mcu\n192.168.90.100 ic # Model X/S에만 있음 | IC = 계기판\n192.168.90.102 gw # 게이트웨이\n192.168.90.103 ap ape # ap = 자동조종\n192.168.90.104 lb # 알 수 없음\n192.168.90.105 ap-b ape-b # 역시 자동조종\n192.168.90.30 tuner # 역시 알 수 없음\n192.168.90.60 modem # FTP 서버가 있음\n```\n\n@lewurm의 블로그에서는 MCU인 192.168.90.100에서 포트 22의 SSH와 8080의 웹서버가 열려 있다고 했습니다. 최신 모델에서도 여전히 그럴까요? 네, 맞았습니다!\n\n이미 MCU에서 탐색할 수 있는 2가지 서비스를 찾았습니다.\n\n- \"SSH allowed: vehicle parked\"라고 표시되는 SSH 서버 (현재 상황을 고려하면 꽤 웃기네요)\n- 이 SSH 서버는 테슬라만이 소유한 특수하게 서명된 SSH 키를 요구합니다"
+        },
+        {
+          "title": "Antimatter has been transported for the first time",
+          "titleKo": "반물질이 처음으로 운송되다",
+          "summary": "CERN의 과학자들이 자기장으로 입자를 가두는 특수 병을 사용하여 반양성자 92개를 트럭으로 운송하는 데 성공했다. 이는 반물질과 일반 물질이 접촉하면 완전히 소멸되기 때문에 매우 어려운 업적으로, 향후 반입자를 더 높은 정밀도로 연구할 수 있는 길을 열었다.",
+          "keyPoints": [
+            "CERN은 3월 24일 자기장 병을 이용해 반양성자를 트럭으로 30분간 운송했으며, 이는 인류가 처음 시도한 것",
+            "반물질 운송을 통해 실험 잡음이 없는 장소에서 반입자를 더 정밀하게 연구할 수 있게 됨",
+            "반물질은 우주의 깊은 미스터리를 풀기 위한 핵심 연구 대상으로, 이번 성과는 30년 전의 꿈을 현실화한 것"
+          ],
+          "url": "https://www.nature.com/articles/d41586-026-00950-w",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 314,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "antimatter-has-been-transported-for-the-first-time",
+          "fullContent": "Scientists successfully transported 92 antiprotons in a truck around CERN, Europe’s particle physics laboratory, using specialized bottles which prevent contact with matter.Credit: CERNAntimatter is matter’s equal and opposite. If the two meet, they annihilate each other, turning entirely into energy. This makes it incredibly difficult to store or move antimatter.On 24 March, a team at CERN, the European particle-physics laboratory near Geneva, Switzerland, transported 92 antiprotons in a specially designed bottle that traps the particles using magnetic fields. The bottle travelled on the back of a truck, taking a 30-minute journey around the lab’s site.The experiment’s ultimate goal is to take the antiparticles to a location free of experimental noise, where antiprotons can be studied with greater precision than is possible in the CERN ‘antimatter factory’ where they are created.CERN is the only place in the world that produces usable quantities of antiprotons. Many staff members turned out with their mobile-phone cameras to capture the truck as it travelled more than 8 kilometres around the site, reaching a maximum speed of 42 kilometres per hour.“It is something humanity has never done before, it is historic,” says team member Stefan Ulmer, a physicist at Heinrich Heine University Düsseldorf (HHU) in Germany. “We bought a lot of champagne, and we invited the entire antimatter community to celebrate with us today.”How to transport antimatter — stick it on the back of a vanAntimatter can be used to study other phenomena, such as the structure of radioactive nuclei, or researched itself to unravel some of the Universe’s deepest mysteries. Physicists who created the antimatter factory more than 30 years ago dreamed that someday it might be possible to transport the material, says Christian Smorra, a physicist at the HHU who led the project. “Now it’s finally possible.”“This is a great technological achievement,” says Tara Shears, a physicist at the University of Liverpool, UK. Antimatter is the most fragile type of matter there is, so storing it, let alone driving it around CERN, is “a technological marvel”, she says.“I love the idea of CERN becoming the Deliveroo [a food-delivery company] of antimatter,” she adds.Antimatter DeliverooAntiparticles are like their ordinary counterparts, except with their charge and magnetic properties reversed. Although matter is abundant, antimatter occurs naturally only very rarely. No one knows why this disparity exists, when both should have been created in equal amounts during the Big Bang.CERN makes antimatter by colliding beams of protons into a dense metal, then using electric and magnetic fields to slow and capture the antiprotons that emerge. Most particles are lost in the painstaking process.Simulation of matter–antimatter creation on quantum platforms\nEnjoying our latest content?\nLog in or create an account to continue\nAccess the most recent journalism from Nature's award-winning team\nExplore the latest features & opinion covering groundbreaking research\nAccess through your institution\nor\nSign in or create an account\nContinue with Google\nContinue with ORCiD\ndoi: https://doi.org/10.1038/d41586-026-00950-w\nReprints and permissions\nRelated Articles\nSubjects\nParticle physics\nPhysics\nLatest on:\nParticle physics\nPhysics\nPhysics at risk: UK science leader on what’s wrong with the latest funding cuts\nNews Q&A 11 MAR 26\nParticle collisions cast light on how matter forms from seemingly empty space\nNews & Views 04 FEB 26\nMeasuring spin correlation between quarks during QCD confinement\nArticle 04 FEB 26\nLong-distance quantum link generates entanglement faster than it is lost\nNews & Views 25 MAR 26\nStructural basis of supercoiling-induced CRISPR–Cas9 off-target activity\nArticle 25 MAR 26\nElusive ‘nuclear clocks’ tick closer to reality — after decades in the making\nNews 20 MAR 26\nJobs\nPostdoctoral Fellow\nA postdoctoral fellow position is available at NIH for translational research on neural mechanisms of frustration/irritability in mice and humans\nBethesda, Maryland (US)\nNational Institute of Mental Health, National Institutes of Health\nPostdoctoral Fellowship in Neural Engineering Section, Behavioral Neuroscience Research Branch\nThe Intramural Research Program (IRP), National Institute on Drug Abuse (NIDA)\nBethesda, Maryland\nNational Institute on Drug Abuse (NIDA)\nJunior Professorship (W1) for „Public Child Mental Health“ (f/m/d\nThe Medical Faculty Mannheim of Heidelberg University invites applications for the   Junior Professorship (W1) for “Public Child Mental Health” (f/...\nMannheim, Baden-Württemberg (DE)\nMedizinische Fakultät Mannheim der Universität Heidelberg\nFaculty Positions at City University of Hong Kong (Dongguan)\nProfessors, Associate Professors, and Assistant Professors\nDongguan, Guangdong, China\nCity University of Hong Kong (Dongguan)\nAssociate or Senior Editor, Scientific Reports\nJob Title: Associate or Senior Editor, Scientific Reports Location: New York, Jerse",
+          "category": "hot",
+          "publishedAt": "2026-03-25T14:56:28.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# CERN이 반물질을 트럭에 실어 운송하다 — 역사적인 순간\n\nCERN의 연구원들이 자기장으로 반입자를 격리한 특수 용기에 반양성자 92개를 담아 트럭 뒷부분에 실었다. 지난 3월 24일, 이 트럭은 연구소 부지를 30분간 돌아다니며 역사상 처음으로 반물질 운송에 성공했다.\n\n## 왜 이게 그렇게 어려웠을까?\n\n반물질은 일반 물질과 정반대다. 반물질과 물질이 만나면 둘 다 에너지로 변환되면서 소멸해버린다. 때문에 반물질을 보관하거나 운반하는 것은 엄청나게 복잡한 작업이다.\n\n스위스 제네바 인근의 유럽 입자물리 연구소인 CERN은 세계 유일하게 실용 가능한 규모의 반양성자를 생산한다. 이번 운송 실험의 목표는 반입자들을 실험 잡음이 적은 장소로 옮기는 것이다. 그러면 반양성자를 훨씬 더 정밀하게 연구할 수 있게 된다.\n\n## 역사가 만들어진 순간\n\n트럭은 시속 42km의 속도로 부지 곳곳을 누비며 8km 이상을 주행했다. 직원들은 휴대폰 카메라를 들고 이 역사적인 장면을 기록했다.\n\n\"인류가 처음으로 해내는 일입니다. 정말 역사적인 순간이에요,\" 독일 하인리히 하이네 대학의 물리학자 스테판 울머는 이렇게 말했다. \"샴페인도 사두고 반물질 연구 커뮤니티 전체를 초대해 축하하고 있습니다.\"\n\n## 기술적 성취의 의미\n\n30년 이상 전에 반물질 생산 시설을 만들었던 물리학자들은 언젠가 이런 일이 가능해질 거라고 꿈꿨다고 프로젝트를 주도한 하인리히 하이네 대학의 크리스티안 스모라는 설명했다. \"이제 마침내 현실이 됐습니다.\"\n\n영국 리버풀 대학의 물리학자 타라 시어스는 이를 \"기술적 경이로움\"이라고 평가했다. 반물질은 존재하는 물질 중 가장 취약한 것 거든요. 보관하는 것도 어려운데, CERN 부지에서 이를 운반하다니요.\n\n\"CERN이 반물질 배송 업체 같다는 생각이 들어요,\" 그녀는 농담 삼아 덧붙였다.\n\n## 반물질은 어떻게 만들어질까?\n\n반입자는 일반 입자와 비슷하지만 전하와 자기 성질이 정반대다. 물질은 충분히 많지만, 반물질은 자연 상태에서 거의 찾아볼 수 없다. 빅뱅 때 물질과 반물질이 동등한 양으로 생성되어야 하는데도 이런 불균형이 생긴 이유는 아무도 모른다.\n\nCERN은 양성자 빔을 밀도 높은 금속에 충돌시킨 다음, 전기장과 자기장을 이용해 튀어나온 반양성자를 감속하고 포획한다. 이 과정에서 대부분의 입자가 손실되는 지루한 작업이다.\n\n반물질은 방사성 핵의 구조를 연구하는 데 쓸 수도 있고, 우주의 가장 깊은 신비를 풀기 위해 연구할 수도 있다. 이제 인류는 그 첫걸음을 내디딛게 된 것이다."
+        },
+        {
+          "title": "Sodium-ion EV battery breakthrough delivers 11-min charging and 450 km range",
+          "titleKo": "나트륨 이온 EV 배터리 획기적 진전, 11분 충전과 450km 주행거리 달성",
+          "summary": "중국의 BAIC Group이 에너지 밀도 170Wh/kg 이상의 나트륨 이온 배터리 프로토타입을 완성했으며, 4C 초고속 충전으로 약 11분 만에 완전 충전되고 450km 주행거리를 제공한다. 나트륨 이온 배터리는 리튬보다 저렴하고 -40°C에서 60°C의 넓은 온도 범위에서 성능을 유지한다.",
+          "keyPoints": [
+            "BAIC의 나트륨 이온 배터리는 170Wh/kg의 에너지 밀도로 업계 최고 수준이며, 11분 충전으로 450km 주행 가능",
+            "CATL도 'Naxtra' 나트륨 이온 배터리로 175Wh/kg을 달성해 리튬 인산철(LFP) 배터리와 동등한 성능을 제공",
+            "글로벌 나트륨 이온 배터리 출하량이 2025년 150% 증가했으며 향후 4년간 1,000GWh를 초과할 것으로 예상되므로, 리튬 가격 상승의 대안이 될 것으로 기대됨"
+          ],
+          "url": "https://electrek.co/2026/03/25/sodium-ion-ev-battery-delivers-11-min-charging-450-km-range/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 73,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "sodium-ion-ev-battery-breakthrough-delivers-11-min-charging-and-450-km-range",
+          "fullContent": "Sodium-ion Battery\nSodium-ion EV battery breakthrough delivers 11-min charging and 450 km range\nPeter Johnson | Mar 25 2026 - 9:58 am PT\nThe next generation of electric vehicle batteries is arriving, promising to be more efficient, safer, and lower cost. After another breakthrough, sodium-ion batteries for passenger EVs are nearing mass production.\nSodium-ion EV batteries begin rolling out in China\nJust over a month after CATL and Changan Automobile unveiled the world’s first mass-produced EV with a sodium-ion battery, another “breakthrough” was announced this week.\nChina’s Beijing Automotive Group (BAIC Group) revealed its latest progress with the new battery tech this week. The company’s R&D unit (BAIC R&D) shared on its WeChat account that it had achieved a “significant breakthrough,” completing its first sodium-ion battery prototype.\nBAIC’s Aurora battery series now spans lithium-ion, solid-state, and sodium-ion batteries. The sodium-ion battery pack features prismatic cells with an energy density of over 170Wh/kg, placing it among the best in the industry.\nIn an update on Tuesday, BAIC Group revealed that the sodium-ion EV battery can achieve a CLTC driving range of 450 km (280 miles), again among the industry’s best.\nWith 4C ultra-fast charging, the sodium-ion battery can fully recharge in about 11 minutes. One of the biggest takeaways is that the battery maintains performance across a wide temperature range, from -40°C (-40°F) to 60°C (140°F).\nBAIC said the sodium-ion battery maintained an energy retention rate of over 92% at -20°C (-4°F). The company announced on March 19 that it had completed a sodium-ion battery prototype and established a mass-production method for prismatic batteries.\nThe achievement comes just over a month after CATL showcased its sodium-ion batteries in the Changan Nevo A06.\n(Source: CATL)\n“The breakthroughs in sodium-ion technology bring greater resilience, a wider operating temperature range, and more sustainable growth to electrification,” CATL’s chief tech officer, Gao Huan, said during a press conference in February.\nCATL’s “Naxtra” sodium-ion batteries achieve an energy density of up to 175 Wh/kg, the company said, putting it on par with lithium iron phosphate (LFP) batteries.\n(Source: Changan Automotive)\nPassenger EVs will draw power from a 45-kWh sodium-ion battery pack, providing up to 400 km (248 mi) of range under CLTC conditions. As battery technology advances over the next few months and years, CATL expects that range to increase to around 500-600 km (310-372 miles).\nSodium offers a lower-cost, less price-sensitive alternative to lithium. For that reason, CATL, BYD, and several other leading Chinese battery manufacturers are betting on sodium-ion batteries to combat rising lithium prices.\nLast year, global sodium-ion battery shipments reached 9 GWh, up 150% from 2024. Over the next four years, that number is expected to reach over 1,000 GWh.\nStay up to date with the latest content by subscribing to Electrek on Google News.\nYou’re reading Electrek— experts who break news about Tesla, electric vehicles, and green energy, day after day. Be sure to check out our homepage for all the latest news, and follow Electrek on Twitter, Facebook, and LinkedIn to stay in the loop. Don’t know where to start? Check out our YouTube channel for the latest reviews.\nSubscribe to Electrek on YouTube for exclusive videos and subscribe to the podcast.\nComments\nAuthor\nPeter Johnson\nEVPeteJohnson\nPeter Johnson is covering the auto industry’s step-by-step transformation to electric vehicles. He is an experienced investor, financial writer, and EV enthusiast. His enthusiasm for electric vehicles, primarily Tesla, is a significant reason he pursued a career in investments. If he isn’t telling you about his latest 10K findings, you can find him enjoying the outdoors or exercising",
+          "category": "hot",
+          "publishedAt": "2026-03-25T20:19:58.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 나트륨 이온 배터리가 온다: 11분 충전, 450km 주행거리\n\n전기차 배터리의 차세대 기술이 등장하고 있습니다. 더 효율적이고 안전하며 저렴한 나트륨 이온 배터리가 곧 대량 생산 단계에 진입할 예정입니다.\n\n## 중국에서 시작되는 나트륨 이온 배터리 시대\n\nCATL과 창안자동차가 세계 최초 나트륨 이온 배터리 탑재 양산 전기차를 공개한 지 한 달이 채 안 되어, 또 다른 \"획기적 성과\"가 발표되었습니다.\n\n중국의 베이징자동차그룹(BAIC)이 이번 주 나트륨 이온 배터리 기술의 최신 진전 상황을 공개했거든요. BAIC의 R&D 부서가 위챗을 통해 \"중요한 돌파구를 달성\"했으며 첫 나트륨 이온 배터리 프로토타입을 완성했다고 알렸습니다.\n\n## BAIC 오로라 배터리, 세 가지 기술 통합\n\nBAIC의 오로라(Aurora) 배터리 시리즈는 이제 리튬 이온, 전고체, 나트륨 이온 배터리까지 아우르고 있습니다. 특히 새로운 나트륨 이온 배터리는 프리즘 셀 구조를 채택했으며, 에너지 밀도가 170Wh/kg을 넘어 업계 최고 수준입니다.\n\nBAIC는 화요일 발표를 통해 이 나트륨 이온 배터리가 CLTC 기준으로 450km의 주행거리를 달성할 수 있다고 밝혔습니다. 역시 업계 최상위 수준이죠.\n\n## 극저온에서도 우수한 성능\n\n4C 초급속 충전 방식으로 약 11분 만에 완전 충전이 가능한데요, 가장 주목할 만한 점은 -40°C부터 60°C까지 매우 넓은 온도 범위에서 안정적인 성능을 유지한다는 것입니다.\n\nBAIC가 발표한 자료에 따르면 -20°C의 저온 환경에서도 에너지 보유율이 92% 이상을 유지합니다. 회사는 3월 19일 나트륨 이온 배터리 프로토타입 완성과 프리즘 셀의 대량 생산 방식 확립을 선언했습니다.\n\n## CATL도 나트륨 이온 배터리 상용화 시작\n\n이러한 성과는 CATL이 창안자동차의 네보 A06에 나트륨 이온 배터리를 탑재한 것으로부터 한 달 남짓한 뒤에 나왔습니다.\n\nCATL의 최고 기술 책임자 가오 환(Gao Huan)은 2월 발표회에서 \"나트륨 이온 기술의 혁신은 전동화에 더욱 큰 탄력성, 넓은 작동 온도 범위, 그리고 지속 가능한 성장을 가져올 것\"이라고 언급했습니다.\n\nCATL의 \"나깈스트라(Naxtra)\" 나트륨 이온 배터리는 에너지 밀도가 175 Wh/kg에 달하며, 이는 리튬철인산화물(LFP) 배터리와 동등한 수준입니다.\n\n## 실제 전기차 성능은?\n\n승용 전기차에 탑재되는 45kWh 나트륨 이온 배터리 팩은 CLTC 기준 최대 400km의 주행거리를 제공합니다. CATL은 앞으로 몇 개월에서 수년에 걸쳐 배터리 기술이 계속 발전하면서 주행거리가 500~600km까지 증가할 것으로 예상하고 있습니다.\n\n## 리튬 가격 상승을 대체할 솔루션\n\n나트륨은 리튬보다 훨씬 저렴하고 가격 변동성도 적습니다. 때문에 CATL, BYD를 포함한 여러 중국 배터리 제조업체들이 계속 오르는 리튬 가격에 대응하기 위해 나트륨 이온 배터리에 베팅하고 있습니다.\n\n지난해 전 세계 나트륨 이온 배터리 출하량은 9GWh로, 2024년의 150% 증가했습니다. 앞으로 4년 동안 이 수치는 1,000GWh를 넘어설 것으로 전망되고 있습니다. 나트륨 이온 배터리 시대가 생각보다 빠르게 다가오고 있는 셈입니다."
+        },
+        {
+          "title": "Goodbye to Sora",
+          "titleKo": "Sora와의 작별",
+          "summary": "OpenAI의 Sora 공식 계정이 서비스를 종료했다.",
+          "keyPoints": [
+            "Sora 공식 앱/서비스 종료 공지"
+          ],
+          "whyItMatters": "AI 비디오 생성 도구의 변화를 이해하는 데 필요합니다.",
+          "url": "https://twitter.com/soraofficialapp/status/2036532795984715896",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 1080,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "goodbye-to-sora",
+          "category": "hot",
+          "publishedAt": "2026-03-24T20:01:05.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Turbopack: What's New in Next.js 16.2",
+          "titleKo": "Turbopack: Next.js 16.2의 새로운 기능",
+          "summary": "Next.js 16.2의 Turbopack은 더 빠른 빌드 속도, SRI(부분 자원 무결성) 지원, postcss.config.ts 지원, 동적 import의 트리 셰이킹, 서버 Fast Refresh, 인라인 로더 설정 등의 기능을 제공합니다. 또한 200개 이상의 버그 수정을 포함하여 안정성과 성능을 크게 향상시켰습니다.",
+          "keyPoints": [
+            "빌드 성능 최적화: Turbopack의 번들링 속도가 개선되어 개발 및 프로덕션 빌드 시간을 단축할 수 있습니다.",
+            "SRI 지원 추가: Subresource Integrity 지원으로 외부 리소스의 무결성을 보장하여 보안성을 강화했습니다.",
+            "PostCSS 설정 파일 지원: postcss.config.ts를 통해 TypeScript로 PostCSS 설정을 작성할 수 있어 타입 안전성이 개선되었습니다.",
+            "동적 import 트리 셰이킹: 동적으로 import된 코드에서 사용되지 않는 부분을 자동으로 제거하여 번들 크기를 감소시킵니다.",
+            "서버 Fast Refresh: 서버 컴포넌트 코드 변경 시 빠른 새로고침이 가능해져 개발 경험이 향상됩니다.",
+            "인라인 로더 설정: Turbopack 설정 내에서 직접 로더를 인라인으로 정의할 수 있는 기능이 추가되었습니다.",
+            "200개 이상의 버그 수정: 안정성과 호환성 향상으로 프로덕션 환경에서의 신뢰도가 증가했습니다."
+          ],
+          "whyItMatters": "Turbopack의 개선은 Next.js 개발자의 빌드 시간을 단축하고 개발 속도를 높이며, 보안성과 번들 최적화를 동시에 달성할 수 있게 해줍니다.",
+          "url": "https://nextjs.org/blog/next-16-2-turbopack",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "devops"
+          ],
+          "topicId": "nextjs-16-2",
+          "isTopicPrimary": true,
+          "relatedCount": 3,
+          "slug": "turbopack-whats-new-in-nextjs-162",
+          "category": "tech",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Next.js 16.2",
+          "titleKo": "Next.js 16.2",
+          "summary": "Next.js 16.2는 Adapters, 렌더링 성능 개선, 디버깅 및 에러 페이지 개선 등의 주요 기능을 포함합니다.",
+          "keyPoints": [
+            "Adapters 지원: 다양한 배포 환경에 맞는 어댑터를 통해 유연한 호스팅 옵션을 제공합니다.",
+            "렌더링 성능 향상: 페이지 렌더링 속도와 효율성이 개선되어 사용자 경험이 향상됩니다.",
+            "디버깅 및 에러 페이지 개선: 개발 중 에러 추적과 디버깅이 더 용이해졌으며, 에러 페이지의 가독성이 증가했습니다."
+          ],
+          "whyItMatters": "이러한 개선사항들은 Next.js 개발자의 생산성을 높이고 애플리케이션의 성능을 최적화하며 배포 유연성을 증대시킵니다.",
+          "url": "https://nextjs.org/blog/next-16-2",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "nextjs-16-2",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "nextjs-162",
+          "category": "tech",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Next.js 16.2: AI Improvements",
+          "titleKo": "Next.js 16.2: AI 개선사항",
+          "summary": "Next.js 16.2는 AI 기능 강화를 위해 create-next-app에 AGENTS.md를 포함하고, 브라우저 로그 포워딩, dev 서버 락 파일(PID 포함), AI 에이전트 디버깅용 next-browser 도구를 추가했습니다.",
+          "keyPoints": [
+            "AGENTS.md 문서: create-next-app 생성 시 AI 에이전트 구현에 대한 가이드 문서가 제공되어 개발자가 더 쉽게 AI 기능을 통합할 수 있습니다.",
+            "브라우저 로그 포워딩: 브라우저에서 발생하는 로그를 서버로 전송할 수 있어 AI 모니터링과 디버깅이 용이해졌습니다.",
+            "Dev 서버 락 파일 (PID): 프로세스 ID를 포함한 락 파일로 개발 서버의 상태 관리와 중복 실행 방지가 개선되었습니다.",
+            "next-browser 도구: AI 에이전트 디버깅 전용 도구로, 자동화된 에이전트의 동작을 추적하고 검증할 수 있습니다."
+          ],
+          "whyItMatters": "AI 에이전트를 Next.js 기반 애플리케이션에 통합하려는 개발자들에게 공식 지원과 디버깅 도구를 제공함으로써 AI 기반 웹 애플리케이션 개발의 진입 장벽을 낮춥니다.",
+          "url": "https://nextjs.org/blog/next-16-2-ai",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "ai"
+          ],
+          "topicId": "nextjs-16-2",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "nextjs-162-ai-improvements",
+          "category": "tech",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "TurboQuant: Redefining AI efficiency with extreme compression",
+          "titleKo": "TurboQuant: 극단적 압축으로 AI 효율성 재정의",
+          "summary": "Google은 TurboQuant, QJL, PolarQuant 등의 양자화 알고리즘을 제시하여 LLM과 벡터 검색의 극단적 압축을 가능하게 했습니다. 이는 메모리 오버헤드를 최소화하면서 정확도 손실이 거의 없는 KV 캐시 압축을 실현합니다.",
+          "keyPoints": [
+            "PolarQuant는 극좌표 변환으로 메모리 오버헤드를 해결하고, QJL은 1비트만 사용해 남은 오류를 보정",
+            "벡터 검색 속도를 높이고 KV 캐시 병목을 해결하여 메모리 비용을 대폭 절감"
+          ],
+          "whyItMatters": "대규모 LLM을 더 작고 빠르게 실행할 수 있어 추론 비용과 지연시간을 크게 줄일 수 있습니다.",
+          "url": "https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 469,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "turboquant-redefining-ai-efficiency-with-extreme-compression",
+          "fullContent": "TurboQuant: Redefining AI efficiency with extreme compression\nMarch 24, 2026Amir Zandieh, Research Scientist, and Vahab Mirrokni, VP and Google Fellow, Google Research\nWe introduce a set of advanced theoretically grounded quantization algorithms that enable massive compression for large language models and vector search engines.\nQuick links\nTurboQuant\nQuantized Johnson-Lindenstrauss\nPolarQuant\nVectors are the fundamental way AI models understand and process information. Small vectors describe simple attributes, such as a point in a graph, while “high-dimensional” vectors capture complex information such as the features of an image, the meaning of a word, or the properties of a dataset. High-dimensional vectors are incredibly powerful, but they also consume vast amounts of memory, leading to bottlenecks in the key-value cache, a high-speed \"digital cheat sheet\" that stores frequently used information under simple labels so a computer can retrieve it instantly without having to search through a slow, massive database.Vector quantization is a powerful, classical data compression technique that reduces the size of high-dimensional vectors. This optimization addresses two critical facets of AI: it enhances vector search, the high-speed technology powering large-scale AI and search engines, by enabling faster similarity lookups; and it helps unclog key-value cache bottlenecks by reducing the size of key-value pairs, which enables faster similarity searches and lowers memory costs. However, traditional vector quantization usually introduces its own \"memory overhead” as most methods require calculating and storing (in full precision) quantization constants for every small block of data. This overhead can add 1 or 2 extra bits per number, partially defeating the purpose of vector quantization.Today, we introduce TurboQuant (to be presented at ICLR 2026), a compression algorithm that optimally addresses the challenge of memory overhead in vector quantization. We also present Quantized Johnson-Lindenstrauss (QJL), and PolarQuant (to be presented at AISTATS 2026), which TurboQuant uses to achieve its results. In testing, all three techniques showed great promise for reducing key-value bottlenecks without sacrificing AI model performance. This has potentially profound implications for all compression-reliant use cases, including and especially in the domains of search and AI.\nHow TurboQuant works\nTurboQuant is a compression method that achieves a high reduction in model size with zero accuracy loss, making it ideal for supporting both key-value (KV) cache compression and vector search. It accomplishes this via two key steps:High-quality compression (the PolarQuant method): TurboQuant starts by randomly rotating the data vectors. This clever step simplifies the data's geometry, making it easy to apply a standard, high-quality quantizer (a tool that maps a large set of continuous values, like precise decimals, to a smaller, discrete set of symbols or numbers, like integers: examples include audio quantization and jpeg compression) to each part of the vector individually. This first stage uses most of the compression power (the majority of the bits) to capture the main concept and strength of the original vector.Eliminating hidden errors: TurboQuant uses a small, residual amount of compression power (just 1 bit) to apply the QJL algorithm to the tiny amount of error left over from the first stage. The QJL stage acts as a mathematical error-checker that eliminates bias, leading to a more accurate attention score.To fully understand how TurboQuant achieves this efficiency, we take a closer look into how the QJL and PolarQuant algorithms work.\nQJL: The zero-overhead, 1-bit trick\nQJL uses a mathematical technique called the Johnson-Lindenstrauss Transform to shrink complex, high-dimensional data while preserving the essential distances and relationships between data points. It reduces each resulting vector number to a single sign bit (+1 or -1). This algorithm essentially creates a high-speed shorthand that requires zero memory overhead. To maintain accuracy, QJL uses a special estimator that strategically balances a high-precision query with the low-precision, simplified data. This allows the model to accurately calculate the attention score (the process used to decide which parts of its input are important and which parts can be safely ignored).\nPolarQuant: A new “angle” on compression\nPolarQuant addresses the memory overhead problem using a completely different approach. Instead of looking at a memory vector using standard coordinates (i.e., X, Y, Z) that indicate the distance along each axis, PolarQuant converts the vector into polar coordinates using a Cartesian coordinate system. This is comparable to replacing \"Go 3 blocks East, 4 blocks North\" with \"Go 5 blocks total at a 37-degree angle”. This results in two pieces of information: the radius, which signifies how strong the core data is, and the angle indicating the da",
+          "category": "tech",
+          "publishedAt": "2026-03-25T05:00:54.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# TurboQuant: AI 효율성을 극단적 압축으로 재정의하다\n\n2026년 3월 24일\nAmir Zandieh(구글 리서치 과학자), Vahab Mirrokni(구글 부사장 겸 펠로우)\n\n대규모 언어 모델과 벡터 검색 엔진을 위한 획기적인 압축 알고리즘을 소개합니다.\n\n---\n\n벡터는 AI 모델이 정보를 이해하고 처리하는 가장 기본적인 방식입니다. 간단한 속성을 나타내는 작은 벡터도 있지만, 고차원 벡터는 이미지의 특성, 단어의 의미, 데이터셋의 성질처럼 복잡한 정보를 담아냅니다.\n\n고차원 벡터는 매우 강력하지만 엄청난 메모리를 소비한다는 문제가 있습니다. 특히 key-value 캐시 병목이 심각한데요. Key-value 캐시는 자주 사용하는 정보를 간단한 레이블로 저장했다가 필요할 때 즉시 꺼내쓸 수 있는 고속 메모리 시스템입니다. 느린 데이터베이스를 매번 뒤질 필요가 없다는 뜻이죠.\n\n## 벡터 양자화의 한계와 해결책\n\n벡터 양자화는 고차원 벡터 크기를 줄이는 전형적인 데이터 압축 기법입니다. 벡터 검색 속도를 높이고 key-value 캐시 부하를 줄여서 메모리 비용도 절감할 수 있죠.\n\n그런데 기존 방식에는 숨겨진 문제가 있습니다. 대부분의 기법이 데이터 블록마다 양자화 상수를 풀 정밀도로 계산하고 저장해야 하거든요. 이런 오버헤드 때문에 실제로는 숫자마다 1~2비트가 추가로 필요해져서, 압축의 이점이 상당히 상쇄됩니다.\n\n저희는 이 문제를 해결하기 위해 세 가지 새로운 기법을 선보입니다:\n\n- **TurboQuant** (ICLR 2026 발표 예정): 벡터 양자화의 메모리 오버헤드를 근본적으로 해결한 압축 알고리즘\n- **Quantized Johnson-Lindenstrauss (QJL)**: TurboQuant의 핵심 기술\n- **PolarQuant** (AISTATS 2026 발표 예정): 독창적인 좌표 변환 기법\n\n실험 결과, 세 기법 모두 AI 모델 성능 손실 없이 key-value 캐시 병목을 크게 완화할 수 있었습니다. 특히 검색과 AI 분야의 압축 기반 응용들에 광범위한 영향을 미칠 것으로 예상됩니다.\n\n## TurboQuant의 작동 원리\n\nTurboQuant는 모델 크기를 대폭 줄이면서도 정확도 손실이 없는 압축 방식입니다. Key-value 캐시 압축과 벡터 검색 모두에 이상적이죠. 두 가지 단계로 작동합니다:\n\n**1단계: 고품질 압축 (PolarQuant 기법)**\n\n먼저 데이터 벡터를 무작위로 회전시킵니다. 이 영리한 초기 단계가 데이터의 기하학적 구조를 단순화해서, 표준 양자화 도구를 벡터의 각 부분에 독립적으로 적용할 수 있게 됩니다.\n\n양자화란 연속적인 값들(예: 정밀한 소수)을 더 적은 개수의 이산 기호나 정수로 변환하는 과정입니다. 오디오 압축이나 JPEG 이미지 압축이 그 예죠. 이 단계에서 대부분의 압축 용량(비트)을 사용해 원본 벡터의 핵심 개념과 강도를 포착합니다.\n\n**2단계: 오류 제거 (QJL 기법)**\n\n남은 아주 작은 오차에 대해 QJL 알고리즘을 단 1비트만 사용해 적용합니다. QJL은 수학적 오류 검증자 역할을 해서 편향을 제거하고, 결과적으로 더 정확한 어텐션 스코어를 얻을 수 있게 합니다.\n\n## QJL: 메모리 오버헤드 없는 1비트 기법\n\nQJL은 Johnson-Lindenstrauss 변환이라는 수학 기법을 사용합니다. 복잡한 고차원 데이터를 축소하면서도 데이터 포인트 간의 거리와 관계를 보존하는 방식이죠.\n\n각 벡터의 숫자를 단일 부호 비트(+1 또는 -1)로 축소합니다. 실질적으로 메모리 오버헤드가 0인 고속 단축 표기를 만드는 셈입니다.\n\n정확도를 유지하기 위해 QJL은 특수한 추정기를 사용합니다. 이 추정기는 높은 정밀도의 쿼리와 낮은 정밀도의 단순화된 데이터 사이의 균형을 전략적으로 맞춥니다. 덕분에 모델이 어텐션 스코어(입력의 어느 부분이 중요한지 판단하는 과정)를 정확하게 계산할 수 있게 되는 겁니다.\n\n## PolarQuant: 압축의 새로운 \"각도\"\n\nPolarQuant는 메모리 오버헤드 문제를 완전히 다른 접근으로 해결합니다. 벡터를 표준 좌표계(X, Y, Z처럼 각 축을 따른 거리를 나타내는)로 보는 대신, 극좌표 시스템으로 변환합니다.\n\n쉽게 말해 \"동쪽으로 3블록, 북쪽으로 4블록 가세요\"라고 하는 대신 \"총 5블록을 37도 각도로 가세요\"라고 하는 방식이죠.\n\n그러면 두 가지 정보가 남습니다: 핵심 데이터의 강도를 나타내는 반지름과, 데이터의 방향을 가리키는 각도입니다."
+        },
+        {
+          "title": "Quantization from the Ground Up",
+          "titleKo": "양자화 기초부터 배우기",
+          "summary": "양자화(Quantization) 기술을 통해 LLM을 4배 작게, 2배 빠르게 만들면서 5-10% 정도의 정확도 손실만으로 노트북에서도 강력한 모델을 실행할 수 있습니다. 이 글은 파라미터, 부동소수점 표현, 양자화 개념을 시각적으로 설명합니다.",
+          "keyPoints": [
+            "LLM은 수십억 개의 파라미터로 구성되며, 이들은 주로 작은 값들로 이루어져 있음",
+            "32비트 부동소수점은 넓은 범위와 정확도를 제공하지만 메모리 비효율적이므로, 양자화로 압축 가능"
+          ],
+          "whyItMatters": "양자화의 원리를 이해하면 LLM 배포 시 메모리 효율성과 성능의 트레이드오프를 최적화할 수 있습니다.",
+          "url": "https://ngrok.com/blog/quantization",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 160,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "quantization-from-the-ground-up",
+          "fullContent": "Qwen-3-Coder-Next is an 80 billion\nparameter model 159.4GB in size. That's roughly how much RAM you\nwould need to run it, and that's before thinking about long context windows.\nThis is not considered a big model. Rumors have it that frontier models have\nover 1 trillion parameters, which would require at least 2TB of RAM. The\nlast time I saw that much RAM in one machine was never.\nBut what if I told you we can make LLMs 4x smaller and 2x faster, enough to run very capable models on your laptop, all while losing only 5-10% accuracy.\nThat's the magic of quantization.\nIn this post, you are going to learn:\nIf you already know what parameters are and how floats are stored, feel free to skip straight to\nquantization.\nParameters, also called \"weights,\" are the majority of what an LLM is when it's in memory or on disk. In\nmy prompt caching post I wrote that LLMs are an \"enormous graph of billions of carefully arranged\noperations.\" What do those graphs look like? Let's start with the simplest example: 1 input, 1\nparameter, 1 output.\nIt doesn't look like much, but this is the fundamental building block of modern AI.\nIt takes the input of 2.0, multiplies it by the parameter 0.5, and gets the output 1.0.\nLLMs, though, are much bigger. They have billions of these parameters in practice. One of the ways they get so big is that they have \"layers.\" Here's how that looks.\nThese two nodes in the middle are a layer. They both show 1.0 because both connections have a parameter of 0.5, and so they are the result of 2.0 * 0.5. Every connection between two nodes gets a parameter, so we have 4 in total above. When 2 connections end at the same node, the values are added together. So to get the output of 1.5 we add together 1.0 * 1.0 and 0.5 * 1.0.\nPlay with the slider next to the input below to get a feel for how it affects the output.\nThis is still only 6 parameters, we're a long way from the billions seen in modern LLMs. The example below has 2 inputs, 3 layers, and 2 outputs. In total it has 64 parameters, hover or tap a node to see its parameters.\nModern LLMs have hundreds of thousands of inputs and outputs. They have many dozens of layers, each with thousands of nodes, all densely connected together. This all multiplies out to result in billions, sometimes trillions of parameters.\nComputers work in 1s and 0s, called \"bits.\" Here's what a whole number, or\n\"integer,\" looks like when stored as bits. Drag the slider to change the value.\nYou can also tap on individual bits to flip them.\nEach bit represents a power-of-2 number which when summed together gives the\nfinal answer.\nIntegers are nice to work with because they are discrete. Between 1 and 3\nthere is exactly one number: 2. This is great for computers, they can represent\ndiscrete values no problem.\nIt gets trickier when you start thinking about decimal places. How many decimal\nplace numbers are there between 1 and 3? There are an infinite number of them.\nThis is not good for computers, because computers can't represent an infinite\nnumber of things.\nWhat computers do is they compromise. They promise to be accurate up to so many\nsignificant figures, and anything after that is best-effort.\nFor example, 32-bit floating point numbers span the range ±3.40×1038\nwith 7 significant figures of accuracy. They do this by dividing the 32 bits up\ninto 3 parts: 1 sign bit, 8 exponent bits, and 23 significand bits. More exponent bits results in a larger range, while more significand bits results in more significant figures of accuracy.\nPlay with the example below. Sliding left and right explores the full range of values. The plus and minus buttons at the top jump to the next higher or lower representable number. The 7 significant figures that are promised to be accurate are underlined. Press reset to return to the default value of 1.5.\nWhenever you press plus, it takes you to the next highest\nrepresentable value. Pay attention to the digit after the underlined digits, it will sometimes skip over a number. This is the precision compromise in action.\nPressing plus when you're on a very small\nvalue moves you forward a small amount. Pressing it when you're on a very large\nvalue moves you forward a larger amount. The size of the jump changes depending on where\nyou are in the range, the values are not evenly distributed.\nTo illustrate this point further, below is a histogram. Each bar shows you a\nslice of the 32-bit floating point range. There are over 2 billion unique values\nthat can be represented between -0.5 and 0.5.\nHistogram of representable float32 values between negative ten and ten. Most finite values cluster close to zero. Use the controls below to switch the y-axis between linear and log scale and to view absolute counts or percentages.\nA lot of the representable 32-bit floats are small values. This is fantastic for LLMs, because parameters also tend to be small. Small parameters have been found to result in models that generalise better to problems they haven't seen before, so models a",
+          "category": "tech",
+          "publishedAt": "2026-03-25T16:06:34.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 양자화로 LLM을 4배 작게, 2배 빠르게 만들기\n\nQwen-3-Coder-Next는 800억 개의 파라미터를 가진 모델인데, 용량이 159.4GB입니다. 이 정도면 실행하기 위해 필요한 RAM 양이 대략 그 정도라고 보면 됩니다. 여기에 긴 컨텍스트 윈도우까지 고려하면 더 필요하죠.\n\n참고로 이 정도 크기는 큰 모델이 아닙니다. 최첨단 모델들은 1조 개 이상의 파라미터를 가지고 있다는 소문이 있는데, 그러려면 최소 2TB의 RAM이 필요합니다. 제 경험상 한 대의 머신에 그만큼의 RAM이 있는 걸 본 적이 없네요.\n\n그런데 혹시 LLM을 4배 작게, 2배 빠르게 만들 수 있다면 어떨까요? 게다가 정확도는 고작 5~10% 정도만 떨어진다면요? 그게 바로 **양자화(quantization)**의 마법입니다.\n\n이 글에서 배우게 될 내용들을 정리하면:\n\n- 파라미터가 뭔지\n- 부동소수점 수가 어떻게 저장되는지\n- 양자화가 어떻게 작동하는지\n\n이미 파라미터와 부동소수점 저장 방식을 알고 있다면, 양자화 섹션으로 바로 넘어가셔도 됩니다.\n\n## 파라미터란 뭘까요?\n\n**파라미터**(가중치라고도 부름)는 LLM이 메모리나 디스크에 있을 때 차지하는 공간의 대부분입니다. 제가 이전에 쓴 프롬프트 캐싱 글에서 LLM을 \"수십억 개의 정교하게 배열된 연산들로 이루어진 거대한 그래프\"라고 표현했는데요. 이 그래프가 어떻게 생겼을까요?\n\n가장 간단한 예부터 시작해봅시다. 입력 1개, 파라미터 1개, 출력 1개입니다.\n\n별 거 아닌 것처럼 보이지만, 이게 현대 AI의 가장 기본적인 빌딩 블록입니다. 입력값 2.0을 파라미터 0.5로 곱하면 출력값 1.0을 얻죠.\n\n하지만 LLM은 훨씬 더 큽니다. 실제로는 수십억 개의 파라미터를 가지고 있거든요. 이렇게 커질 수 있는 이유 중 하나가 \"층(layer)\"이라는 개념 때문입니다.\n\n위 그림의 중간에 있는 두 노드가 한 층을 이룹니다. 둘 다 1.0으로 표시되는 이유는 두 연결 모두 파라미터값이 0.5이기 때문이고, 결과적으로 2.0 * 0.5 = 1.0이 됩니다. 두 노드 사이의 모든 연결이 하나의 파라미터이므로, 위 예제에서는 총 4개입니다. 같은 노드로 끝나는 연결이 여러 개일 때는 값들을 더합니다. 그래서 최종 출력값이 1.5가 되려면 1.0 * 1.0과 0.5 * 1.0을 더하면 되는 것이죠.\n\n지금은 겨우 6개의 파라미터에 불과하니까, 현대 LLM의 수십억 개와는 거리가 멉니다. 아래 예제는 입력 2개, 층 3개, 출력 2개로 총 64개의 파라미터를 가지고 있습니다. 노드에 마우스를 올리거나 탭하면 각 파라미터를 확인할 수 있습니다.\n\n현대 LLM은 수십만 개의 입출력을 가지고 있습니다. 몇십 개의 층이 있고, 각 층마다 수천 개의 노드가 있으며, 모두가 촘촘하게 연결되어 있죠. 이 모든 게 곱해지면 결국 수십억 개, 때로는 수조 개의 파라미터가 나오는 겁니다.\n\n## 컴퓨터는 수를 어떻게 저장할까요?\n\n컴퓨터는 1과 0(비트)로 작동합니다. 여기 정수가 비트로 저장되는 모습을 보여줄게요.\n\n슬라이더를 움직이면 값이 변합니다. 개별 비트를 탭해서 바꿀 수도 있어요.\n\n각 비트는 2의 거듭제곱을 나타내고, 이들을 모두 합하면 최종 값이 됩니다.\n\n정수는 다루기 좋습니다. 이산적이기 때문이죠. 1과 3 사이에는 정확히 2라는 수가 하나 있습니다. 컴퓨터도 이런 이산적인 값들은 문제없이 표현할 수 있습니다.\n\n## 소수점은 문제가 된다\n\n소수점이 들어가면 얘기가 달라집니다. 1과 3 사이에 몇 개의 소수가 있을까요? 무한 개입니다. 이건 컴퓨터 입장에서는 곤란합니다. 무한 개의 것을 표현할 수 없거든요.\n\n그래서 컴퓨터는 타협합니다. 정확도를 일정한 유효숫자까지만 보장하고, 그 이후는 최선을 다하는 방식으로 처리하는 거죠.\n\n예를 들어 32비트 부동소수점 수는 ±3.40×10³⁸의 범위를 가지면서 7자리의 유효숫자 정확도를 제공합니다. 32비트를 3부분으로 나누는 방식으로 이를 구현합니다. 부호 비트 1개, 지수 비트 8개, 유효숫자 비트 23개입니다. 지수 비트가 많을수록 더 넓은 범위를 표현할 수 있고, 유효숫자 비트가 많을수록 더 정확한 값을 나타낼 수 있습니다.\n\n아래 예제를 가지고 놀아보세요. 좌우로 슬라이더를 움직이면 전체 범위의 값들을 탐색할 수 있습니다. 위의 더하기, 빼기 버튼은 다음으로 표현 가능한 더 높은 값이나 낮은 값으로 이동합니다. 정확하다고 보장되는 7자리 유효숫자는 밑줄이 그어져 있습니다. 리셋을 누르면 기본값 1.5로 돌아갑니다.\n\n더하기를 누를 때마다 다음으로 높은 표현 가능한 값으로 이동합니다. 밑줄 이후의 자리수를 주의 깊게 보세요. 가끔 어떤 수를 건너뛸 겁니다. 이게 바로 정밀도 타협을 실제로 보여주는 거예요.\n\n매우 작은 값에서 더하기를 누르면 조금씩 앞으로 이동합니다. 반면 매우 큰 값에서 누르면 더 큰 폭으로 이동하죠. 어디에 있는지에 따라 점프의 크기가 달라집니다. 값들이 균등하게 분포된 게 아니거든요.\n\n이를 더 잘 이해하기 위해 아래 히스토그램을 봐보세요. 각 막대는 32비트 부동소수점 범위의 일부를 보여줍니다. -0.5와 0.5 사이에는 20억 개가 넘는 고유한 값들이 표현 가능합니다.\n\n음수 10과 10 사이의 float32 표현 가능 값들의 히스토그램입니다. 대부분의 유한 값들이 0 근처에 몰려 있네요. 아래 컨트롤로 y축을 선형 또는 로그 스케일로 전환하거나, 절대값 또는 백분율로 볼 수 있습니다.\n\n표현 가능한 32비트 부동소수점 수의 대부분이 작은 값들입니다. 이건 LLM에게 정말 좋은 소식인데요. 파라미터들도 대체로 작은 값이거든요. 작은 파라미터들이 모델이 이전에 본 적 없는 문제에 더 잘 일반화되도록 한다는 것이 밝혀졌으니까요."
+        },
+        {
+          "title": "ruvnet/ruflo (TypeScript)",
+          "titleKo": "Claude를 위한 에이전트 오케스트레이션 플랫폼 ruflo",
+          "summary": "ruflo는 Claude 기반의 멀티 에이전트 시스템을 배포하고 조율하는 플랫폼입니다. 분산 에이전트 스웜, RAG 통합, Claude Code 연동 등 엔터프라이즈급 기능을 제공합니다.",
+          "keyPoints": [
+            "멀티 에이전트 스웜과 자율 워크플로우 조율 기능으로 복잡한 AI 작업을 자동화",
+            "Claude Code와 네이티브 통합으로 코딩 작업 자동화 지원"
+          ],
+          "whyItMatters": "Claude를 활용한 멀티 에이전트 시스템을 프로덕션 환경에서 쉽게 배포할 수 있는 기반을 제공합니다.",
+          "url": "https://github.com/ruvnet/ruflo",
+          "sourceName": "GitHub Trending",
+          "engagement": 26143,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ruvnetruflo-typescript",
+          "category": "tech",
+          "publishedAt": "2026-03-25T23:13:56.621Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Show HN: Optio – Orchestrate AI coding agents in K8s to go from ticket to PR",
+          "titleKo": "Optio - Kubernetes 기반 AI 코딩 에이전트 오케스트레이션",
+          "summary": "Optio는 AI 코딩 에이전트를 Kubernetes에서 자동으로 실행하여 GitHub 이슈/Linear 티켓을 PR로 변환하는 자동 CI/CD 시스템입니다. CI 실패, 코드 리뷰 피드백 등에 자동으로 대응하며 통과 시 자동 병합합니다.",
+          "keyPoints": [
+            "CI 실패, 리뷰 피드백 등에 자동으로 재개되는 피드백 루프로 사람의 개입 없이 작업 완료",
+            "Pod-per-repo 아키텍처로 워크트리를 통한 격리된 환경에서 여러 작업 동시 처리 가능"
+          ],
+          "whyItMatters": "개발자가 코딩 작업을 제시하면 에이전트가 PR 병합까지 완전히 자동화하므로 개발 생산성이 크게 향상됩니다.",
+          "url": "https://github.com/jonwiggins/optio",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 4,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-optio-orchestrate-ai-coding-agents-in-k8s-to-go-from-ticket-to-pr",
+          "fullContent": "Optio\nAutonomous CI/CD for AI coding agents.\nOptio turns coding tasks into merged pull requests — without human babysitting. Submit a task (manually, from a GitHub Issue, or from Linear), and Optio handles the rest: provisions an isolated environment, runs an AI agent, opens a PR, monitors CI, triggers code review, auto-fixes failures, and merges when everything passes.\nThe feedback loop is what makes it different. When CI fails, the agent is automatically resumed with the failure context. When a reviewer requests changes, the agent picks up the review comments and pushes a fix. When everything passes, the PR is squash-merged and the issue is closed. You describe the work; Optio drives it to completion.\nDashboard — real-time overview of running agents, pod status, costs, and recent activity\nTask detail — live-streamed agent output with pipeline progress, PR tracking, and cost breakdown\nHow It Works\nYou create a task Optio runs the agent Optio closes the loop\n───────────────── ────────────────────── ──────────────────────\nGitHub Issue Provision repo pod CI fails?\nManual task ──→ Create git worktree ──→ → Resume agent with failure context\nLinear ticket Run Claude Code / Codex Review requests changes?\nOpen a PR → Resume agent with feedback\nCI passes + approved?\n→ Squash-merge + close issue\nIntake — tasks come from the web UI, GitHub Issues (one-click assign), or Linear tickets\nProvisioning — Optio finds or creates a Kubernetes pod for the repo, creates a git worktree for isolation\nExecution — the AI agent (Claude Code or OpenAI Codex) runs with your configured prompt, model, and settings\nPR lifecycle — Optio polls the PR every 30s for CI status, review state, and merge readiness\nFeedback loop — CI failures, merge conflicts, and review feedback automatically resume the agent with context\nCompletion — PR is squash-merged, linked issues are closed, costs are recorded\nKey Features\nAutonomous feedback loop\nThe core differentiator. Optio doesn't just run an agent and walk away — it monitors the PR and drives it to completion:\nAuto-resume on CI failure — agent is re-queued with the names of failed checks\nAuto-resume on merge conflicts — agent is told to rebase and force-push\nAuto-resume on review feedback — reviewer comments are passed as the resume prompt\nAuto-merge — when CI passes and reviews are approved, the PR is squash-merged\nAuto-close issues — linked GitHub Issues are closed with a comment linking the merged PR\nPod-per-repo architecture\nOne long-lived Kubernetes pod per repository. The pod clones the repo once, then stays alive. Each task gets its own git worktree, so multiple tasks run concurrently without interference.\nMulti-pod scaling — repos can scale beyond a single pod (maxPodInstances up to 20)\nPersistent volumes — installed tools and caches survive pod restarts\nIdle cleanup — pods are reclaimed after 10 minutes of inactivity (configurable)\nHealth monitoring — crashed/OOM-killed pods are auto-detected and restarted\nWorktree lifecycle — automatic cleanup with grace periods for retries\nCode review agent\nOptio can automatically launch a review agent as a subtask of the original coding task:\nTriggered on CI pass, on PR open, or manually\nRuns with a separate review-specific prompt and model (use a cheaper model for reviews)\nBlocking — the parent task waits for the review to complete before merging\nConfigurable per-repo with custom review prompt templates\nPer-repo agent tuning\nEach repository can be individually configured:\nClaude model — Opus or Sonnet, with context window (200k or 1M), thinking on/off, effort level\nContainer image — auto-detected from repo contents (Node, Python, Go, Rust, Full) or custom Dockerfile\nPrompt templates — Handlebars-style templates with {{variables}} and {{#if}} conditionals\nConcurrency — max concurrent tasks per repo, max pods per repo, max agents per pod\nExtra packages and setup commands — apt packages and shell commands run at pod startup\n.optio/setup.sh — repo-level setup script run after clone\nTask management\nPriority queue — integer priorities with drag-to-reorder\nBulk operations — retry all failed, cancel all active\nSubtask system — child tasks, sequential pipeline steps, and review subtasks\nCost tracking — per-task cost in USD, with analytics dashboard (daily trends, per-repo breakdown, top tasks)\nError classification — failures are categorized (auth, network, timeout, resource, etc.) with human-readable descriptions and suggested remedies\nIntegrations\nGitHub Issues — browse issues in the UI, one-click assign to Optio, auto-label and comment back with PR links\nLinear — fetch actionable tickets, sync status, add comments\nMulti-provider OAuth — GitHub, Google, and GitLab authentication for the web UI\nClaude Code + OpenAI Codex — API key or Max Subscription (OAuth token) auth\nReal-time UI\nLive log streaming — structured agent output streamed via WebSocket\nPipeline progress — visual stage tracker (queued → setup → running → PR → CI → review → merge → done)\nEvent timeline",
+          "category": "tech",
+          "publishedAt": "2026-03-25T17:10:21.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Optio: AI 코딩 에이전트를 위한 자동화된 CI/CD\n\nOptio는 코딩 작업을 자동으로 완료하고 PR을 머지하는 시스템입니다. 인간의 개입 없이 말이죠. 작업을 한 번만 제출하면(수동 입력, GitHub Issue, 또는 Linear 티켓으로), 나머지는 Optio가 알아서 처리합니다. 격리된 환경을 준비하고, AI 에이전트를 실행하고, PR을 열고, CI를 모니터링하고, 코드 리뷰를 촉발하고, 실패를 자동으로 수정하고, 모든 게 통과하면 병합하는 식으로요.\n\nOptio의 핵심은 **피드백 루프**입니다. CI가 실패하면 에이전트가 자동으로 재개되는데, 실패 컨텍스트를 함께 받게 됩니다. 리뷰어가 변경을 요청하면, 에이전트가 리뷰 코멘트를 읽고 수정본을 올립니다. 모든 게 통과하고 승인받으면 PR은 squash-merge되고 이슈가 닫힙니다. 당신이 해야 할 일은 작업 설명뿐이고, Optio가 완성까지 책임집니다.\n\n## 대시보드와 상세 보기\n\n**대시보드**에서는 실시간으로 실행 중인 에이전트, Pod 상태, 비용, 최근 활동을 한눈에 볼 수 있습니다.\n\n**작업 상세 보기**는 에이전트 출력을 라이브 스트리밍하고, 파이프라인 진행 상황, PR 추적, 비용 분석을 보여줍니다.\n\n## 어떻게 동작하는가\n\n```\n작업 생성              에이전트 실행           루프 종료\n───────────────────  ──────────────────────  ──────────────────────\nGitHub Issue    →  Repo pod 준비      →  CI 실패?\n수동 입력           git worktree 생성      → 에이전트 재개 (실패 컨텍스트 포함)\nLinear 티켓        Claude Code / Codex 실행  리뷰 변경 요청?\n                                          → 에이전트 재개 (피드백 포함)\n                  PR 오픈 → CI 통과 + 승인?\n                           → Squash-merge + 이슈 닫기\n```\n\n**Intake(입수)**: 작업은 웹 UI, GitHub Issues(원클릭 할당), 또는 Linear 티켓에서 옵니다.\n\n**Provisioning(준비)**: Optio는 저장소용 Kubernetes pod를 찾거나 생성하고, 격리를 위해 git worktree를 만듭니다.\n\n**Execution(실행)**: AI 에이전트(Claude Code 또는 OpenAI Codex)가 설정된 프롬프트, 모델, 옵션으로 돌아갑니다.\n\n**PR 라이프사이클**: Optio는 30초마다 PR을 폴링해서 CI 상태, 리뷰 상태, 머지 준비 상황을 확인합니다.\n\n**Feedback loop(피드백 루프)**: CI 실패, 머지 충돌, 리뷰 피드백이 발생하면 자동으로 에이전트가 컨텍스트와 함께 재개됩니다.\n\n**Completion(완성)**: PR은 squash-merge되고, 연결된 이슈는 닫히며, 비용이 기록됩니다.\n\n## 핵심 기능들\n\n### 자동화된 피드백 루프\n\n이게 Optio를 다른 솔루션과 구별하는 가장 중요한 특징입니다. 에이전트를 실행하고 떠나는 게 아니라, PR을 계속 모니터링하면서 완성까지 주도합니다:\n\n- **CI 실패 시 자동 재개** — 실패한 체크의 이름과 함께 에이전트가 다시 큐에 들어갑니다\n- **머지 충돌 시 자동 재개** — 에이전트에게 리베이스하고 force-push하도록 지시합니다\n- **리뷰 피드백 시 자동 재개** — 리뷰어 코멘트가 재개 프롬프트로 전달됩니다\n- **자동 머지** — CI를 통과하고 리뷰가 승인되면 PR을 squash-merge합니다\n- **자동 이슈 종료** — 연결된 GitHub Issues는 머지된 PR 링크와 함께 닫힙니다\n\n### Pod-per-repo 아키텍처\n\n각 저장소마다 하나의 장기 실행 Kubernetes pod가 있습니다. Pod는 저장소를 한 번 클론한 후 계속 살아있게 됩니다. 각 작업은 자신만의 git worktree를 받으므로, 여러 작업이 동시에 실행되어도 서로 간섭하지 않습니다.\n\n- **다중 pod 스케일링** — 저장소는 단일 pod를 넘어 확장 가능합니다(maxPodInstances는 최대 20)\n- **영구 볼륨** — 설치된 도구와 캐시는 pod 재시작 후에도 유지됩니다\n- **유휴 정리** — pod는 10분간 비활성화된 후 회수됩니다(설정 가능)\n- **헬스 모니터링** — 충돌하거나 OOM으로 죽은 pod는 자동 감지되어 재시작됩니다\n- **Worktree 라이프사이클** — 재시도를 위한 유예 기간을 포함하여 자동으로 정리됩니다\n\n### 코드 리뷰 에이전트\n\nOptio는 원본 코딩 작업의 하위 작업으로 자동으로 리뷰 에이전트를 시작할 수 있습니다:\n\n- CI 통과, PR 오픈, 또는 수동으로 촉발됩니다\n- 별도의 리뷰 전용 프롬프트와 모델로 실행됩니다(리뷰는 더 저렴한 모델 사용 가능)\n- 차단 방식 — 부모 작업은 리뷰 완료 전까지 머지를 기다립니다\n- 저장소별로 설정 가능하며 커스텀 리뷰 프롬프트 템플릿을 지원합니다\n\n### 저장소별 에이전트 튜닝\n\n각 저장소는 개별적으로 설정할 수 있습니다:\n\n- **Claude 모델** — Opus 또는 Sonnet, 컨텍스트 윈도우(200k 또는 1M), thinking 온/오프, effort level\n- **컨테이너 이미지** — 저장소 내용에서 자동 감지(Node, Python, Go, Rust, Full) 또는 커스텀 Dockerfile\n- **프롬프트 템플릿** — Handlebars 스타일 템플릿에 {{variables}} 및 {{#if}} 조건문 지원\n- **동시성** — 저장소당 최대 동시 작업 수, 저장소당 최대 pod 수, pod당 최대 에이전트 수\n- **추가 패키지와 설정 명령** — pod 시작 시 실행되는 apt 패키지와 셸 명령\n- **.optio/setup.sh** — 클론 후 실행되는 저장소 레벨 설정 스크립트\n\n### 작업 관리\n\n- **우선순위 큐** — 정수 우선순위와 드래그로 재정렬 가능\n- **대량 작업** — 실패한 작업 모두 재시도, 활성 작업 모두 취소\n- **하위 작업 시스템** — 자식 작업, 순차적 파이프라인 단계, 리뷰 하위 작업\n- **비용 추적** — 작업별 USD 비용, 분석 대시보드(일일 트렌드, 저장소별 분석, 상위 작업)\n- **오류 분류** — 실패는 분류되며(인증, 네트워크, 타임아웃, 리소스 등), 인간이 읽을 수 있는 설명과 제안된 해결책을 제공합니다\n\n## 통합\n\n- **GitHub Issues** — UI에서 이슈 탐색, 원클릭 Optio 할당, 자동 라벨링 및 PR 링크 코멘트\n- **Linear** — 실행 가능한 티켓 가져오기, 상태 동기화, 코멘트 추가\n- **다중 제공자 OAuth** — GitHub, Google, GitLab 인증\n- **Claude Code + OpenAI Codex** — API 키 또는 Max Subscription(OAuth 토큰) 인증\n\n## 실시간 UI\n\n- **라이브 로그 스트리밍** — 구조화된 에이전트 출력을 WebSocket으로 스트리밍\n- **파이프라인 진행률** — 시각적 단계 추적(대기 → 설정 → 실행 → PR → CI → 리뷰 → 머지 → 완료)\n- **이벤트 타임라인**"
+        },
+        {
+          "title": "Show HN: Automate your workflow in plain English",
+          "titleKo": "평문 영어로 워크플로우 자동화하기",
+          "summary": "Operator23는 복잡한 로직 없이 평문 영어로 워크플로우를 설명하면 AI 에이전트가 자동으로 도구들을 연결하고 실행하는 자동화 플랫폼입니다. 900개 이상의 통합을 지원하며 신용카드 없이 30초 내에 배포할 수 있습니다.",
+          "keyPoints": [
+            "자연언어 기반 자동화로 드래그앤드롭이나 스크립트 작성 없이 워크플로우 구성 가능",
+            "AI 에이전트가 실제 이벤트를 대기하고 에러를 자동 처리하므로 지속적인 감시 불필요",
+            "Gmail, HubSpot, Slack 등 900+ 통합 지원으로 기존 도구와 자유롭게 연결"
+          ],
+          "whyItMatters": "개발자와 비개발자 모두 코딩 없이 복잡한 자동화를 구성할 수 있어 반복 작업에 소요되는 시간을 대폭 절감할 수 있습니다.",
+          "url": "https://www.operator23.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 5,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-automate-your-workflow-in-plain-english",
+          "fullContent": "Automate your workflows in plain English.\nAutomate your workflows in plain English.\nSkip the complex logic trees. Just tell our AI what to do, approve the steps, and put your busywork on autopilot\nJust explain your wanted automation, and in seconds, safe agents connects your tools, and and self improves. No drag and drop, or scripts.\nOur agents connect your tools, wait for real-world events, and automatically handle errors so you never have to babysit them.\nNo credit card · 900+ integrations · Deploy in 30 seconds\nNo credit card required · Free forever plan · Deploy in 30 seconds\nEverytime I get a new calendar invitation. Enrich the participants with\nEverytime I get a new calendar invitation. Enrich the participants with\nto find more up to date information on the company\nand prospect. Then the team them in #salesteam\n\"I used to waste 10 hours a week manually routing support to the right projects because Zapier couldn't handle the 'nuance' of our client list. Operator23 isn't a tool I configured, it’s an operator I explained & gave feedback to that wait for my approval.\"\nEric Åkermo - Partnership ManagerSSEBL\n\"In a two-person dev team, time is our only currency. We were about to waste weeks building custom Claude agents and 'herding cats' across Linnear, and Github. Operator23 let us skip the boilerplate. We just describe the logic,\"\nCorey T - Business DeveloperMeetgoran\n\"I used to spend 25% of my week 'babysitting' support emails and manually assigning tasks because I didn't trust a tool to handle the nuance of our client list. Operator23 feels more like a partner than a tool. I don't have to 'configure' it; I just explained my process once. Now, it handles the judgment calls perfectly,\"\nSam T - Marketing Specialist Aurora Marketing\n\"I’m juggling three people's jobs; I don't have time for help articles. Operator23 gives me a 'shipment tracking' view of every asset it processes in real-time. I can finally step away from the screen without worrying about an automation breaking quietly.\"\nNo coding. No flowcharts. Total control\nEverytime I get a new calendar invitation. Enrich the participants with\nDescribe your outcome in plain English.\nTell the AI exactly what you need done in plain\nEnglish. Treat it like a teammate. Explain the edge\ncases, the tools involved, and the desired outcome.\nEverytime I get a new calendar invitation. Enrich the participants with\nOngoing training and support to ensure your\nautomation keeps delivering results over time.\nHow o23 agents Can save you hours\nDescribe what you want. AI agents execute across platforms and the web. They stay on task, follow through, and work across 900+ integrations.\nEnrich transcripts with playbook\nEnrich with updated information\nHandover to the most suited sales rep\nEnrich with updated information\nHandover to the most suited sales rep\nEnrich transcripts with playbook\nAdd layers or components to swipe between.\nMulti-Channel Campaign Orchestration\nOrganize when new file is added\nMulti-Channel Campaign Orchestration\nOrganize when new file is added\nNot just AI. A system built for trust.\na system that gives you step-by-step visibility\nIntegrates seamlessly with the tools you already use\nLet your agent pull context from Gmail, update HubSpot, and ping Slack—so you never have to copy-paste between tabs again.\nLet your agent pull context from Gmail, update HubSpot, and ping Slack—so you never have to copy-paste between tabs again.\nWait for everyones reply, then write a report\nSend the NDA. Once signed, share the deck\nPost the job. Score applications.\nLong-running tasks that wait for real-world events.\nReal work requires waiting for approvals, signatures, and replies. It pauses for real-world events and automatically takes the next step days later.\nGet agent updates right in Slack or WhatsApp\nGet agent updates and plan new workflows, right in Slack.\nBuild agents together. Share workflows across your team.\nBuild agents together. Share workflows across your team.\nAgents visit websites, click through pages, fill out forms, and pull data.\nBuild agents together. Share workflows across your team.\nNot just AI. A system built for trust.\nIntegrates seamlessly with the tools you already use\nLet your agent pull context from Gmail, update HubSpot, and ping Slack—so you never have to copy-paste between tabs again.\nWait for everyones reply, then write a report\nSend the NDA. Once signed, share the deck\nPost the job. Score applications.\nLong-running tasks that wait for real-world events.\nReal work requires waiting for approvals, signatures, and replies. It pauses for real-world events and automatically takes the next step days later.\nGet agent updates right in Slack or WhatsApp\nBuild agents together. Share workflows across your team.\nAgents visit websites, click through pages, fill out forms, and pull data.\nSteal these workflows Save hours every week.\nSkip the setup and deploy our highest-converting GTM automations in one click. Just copy the agent, securely connect your tools,\nDes",
+          "category": "tech",
+          "publishedAt": "2026-03-25T21:39:55.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 영어로 설명하는 만큼 간단하게 업무 자동화하기\n\n복잡한 로직 트리는 버리세요. AI에게 하고 싶은 일을 말하고, 단계를 승인한 후, 반복적인 작업을 자동화하면 됩니다.\n\n자동화하고 싶은 업무를 설명하면 몇 초 안에 AI가 필요한 도구들을 연결하고 스스로 개선됩니다. 드래그 앤 드롭도, 코딩도 필요 없습니다.\n\n## AI 에이전트가 처리하는 일들\n\n우리의 AI 에이전트는 여러 도구를 연결하고, 실제 업무 이벤트가 발생하길 기다렸다가 자동으로 오류를 처리합니다. 더 이상 수동으로 감시할 필요가 없거든요.\n\n- 신용카드 불필요\n- 900개 이상의 통합 지원\n- 30초 안에 배포 가능\n\n## 실제 사용 사례\n\n**\"매주 10시간을 캘린더 초대장 참석자 정보를 수동으로 찾느라 낭비했는데요. Zapier는 고객 리스트의 미묘한 차이를 처리하지 못했습니다. 하지만 이 도구는 설정하는 게 아니라, 프로세스를 설명하고 피드백을 주는 협력자 같습니다.\"**\n— Eric Åkermo, 파트너십 매니저, SSEBL\n\n**\"2명의 개발팀이라 시간이 곧 돈입니다. 우리는 Claude 에이전트를 직접 만들고 여러 도구를 연결하는 데 몇 주를 쏟으려고 했어요. 이제는 로직만 설명하면 되니까 보일러플레이트 코드 작성을 건너뛸 수 있습니다.\"**\n— Corey T, 비즈니스 개발자, Meetgoran\n\n**\"매주 업무 시간의 25%를 지원 이메일을 수동으로 확인하고 할당하는 데 썼습니다. 고객 리스트의 복잡한 상황을 도구가 제대로 처리할지 확신이 없었거든요. 이제는 도구라기보다 진짜 파트너 같습니다. 한 번 프로세스를 설명하니 판단력이 필요한 상황도 완벽하게 처리합니다.\"**\n— Sam T, 마케팅 스페셜리스트, Aurora Marketing\n\n**\"3명의 업무를 혼자 보고 있어서 도움말 문서를 읽을 여유도 없어요. 이 도구가 처리하는 모든 자산을 실시간으로 추적할 수 있어서, 이제 화면을 떠나도 자동화가 조용히 깨질까 봐 걱정할 필요가 없습니다.\"**\n— Aurora Marketing의 담당자\n\n## 코딩 없이, 플로우차트도 없이, 완전한 제어\n\n### 1단계: 영어로 원하는 결과를 설명하세요\n\n팀원에게 말하듯이 AI에게 설명하면 됩니다. 어떤 도구를 써야 하고, 어떤 예외 상황이 있는지, 최종 결과가 무엇인지 설명하세요.\n\n예를 들어: \"새로운 캘린더 초대장이 올 때마다 참석자 정보를 최신 데이터로 보강하고 #salesteam 채널에 알려줘\"\n\n### 2단계: AI 에이전트가 실행합니다\n\nAI 에이전트가 여러 플랫폼과 웹사이트에서 작업을 수행합니다. 한번 시작하면 계속 진행되고, 900개 이상의 통합 도구를 활용합니다.\n\n### 3단계: 지속적인 훈련과 지원\n\n시간이 지나도 자동화가 계속 좋은 결과를 내도록 지원합니다.\n\n## AI 에이전트로 절약할 수 있는 시간들\n\n### 영업 프로세스 자동화\n\n- 통화 녹음을 플레이북으로 보강\n- 최신 정보로 데이터 보강\n- 가장 적합한 영업담당자에게 인계\n\n### 멀티채널 캠페인 오케스트레이션\n\n- 새 파일이 추가되면 자동으로 정리\n- 여러 채널에서 캠페인 실행\n\n## 신뢰할 수 있는 시스템입니다\n\n단순한 AI가 아닙니다. 각 단계를 명확하게 볼 수 있도록 만들어진 시스템입니다.\n\n### 이미 쓰는 도구들과 매끄럽게 연결됩니다\n\n에이전트가 Gmail에서 정보를 가져오고, HubSpot을 업데이트하고, Slack에 메시지를 보냅니다. 더 이상 탭 사이를 오가며 복사·붙여넣기 할 필요가 없습니다.\n\n### 실제 일처럼 기다렸다가 진행합니다\n\n모든 사람의 답장을 기다렸다가 보고서 작성\nNDA를 보냈다가 서명 후 자료 공유\n채용공고 올렸다가 지원서 채점\n\n현실의 일은 승인을 기다리고, 서명을 기다리고, 답장을 기다립니다. 에이전트가 이런 실제 이벤트를 감지하고 며칠 뒤에 자동으로 다음 단계를 진행합니다.\n\n### Slack이나 WhatsApp에서 바로 업데이트받기\n\n에이전트의 진행 상황을 Slack에서 바로 확인하고, 새로운 자동화를 계획할 수 있습니다.\n\n### 팀과 함께 에이전트를 만들고 공유하기\n\n웹사이트를 방문하고, 페이지를 클릭하고, 양식을 작성하고, 데이터를 추출하는 에이전트를 팀과 함께 만들 수 있습니다.\n\n## 지금 바로 써먹을 수 있는 자동화들\n\n가장 성과가 좋은 마케팅 자동화를 한 클릭으로 배포하세요. 에이전트를 복사하고 도구들을 안전하게 연결하면 됩니다."
+        },
+        {
+          "title": "BerriAI/litellm (Python)",
+          "titleKo": "litellm - 100+ LLM API를 OpenAI 형식으로 호출하는 Python SDK",
+          "summary": "litellm은 100개 이상의 LLM API를 통일된 OpenAI 형식으로 호출할 수 있는 Python SDK 및 AI Gateway로, 비용 추적, 가드레일, 로드 밸런싱, 로깅 기능을 제공합니다.",
+          "keyPoints": [
+            "Bedrock, Azure, OpenAI, VertexAI, Cohere, Anthropic 등 다양한 LLM 제공자를 단일 인터페이스로 통합",
+            "비용 추적, 로드 밸런싱, 로깅 등 프로덕션 환경에 필요한 기능 내장"
+          ],
+          "whyItMatters": "개발자가 여러 LLM 제공자를 쉽게 전환하거나 비교할 수 있으며, 비용 관리와 신뢰성을 높일 수 있습니다.",
+          "url": "https://github.com/BerriAI/litellm",
+          "sourceName": "GitHub Trending",
+          "engagement": 40622,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "berriailitellm-python",
+          "category": "tech",
+          "publishedAt": "2026-03-25T23:13:56.620Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "letta-ai/claude-subconscious (TypeScript)",
+          "titleKo": "letta-ai/claude-subconscious - Claude에 잠재의식 부여",
+          "summary": "Claude 코드에 잠재의식 기능을 추가하는 TypeScript 라이브러리입니다.",
+          "keyPoints": [
+            "Claude AI에 상태 관리 및 메모리 기능 추가 가능"
+          ],
+          "whyItMatters": "Claude와의 상호작용에서 더 복잡한 상태 관리와 지속적인 메모리 유지를 가능하게 합니다.",
+          "url": "https://github.com/letta-ai/claude-subconscious",
+          "sourceName": "GitHub Trending",
+          "engagement": 1423,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "letta-aiclaude-subconscious-typescript",
+          "category": "tech",
+          "publishedAt": "2026-03-25T23:13:56.621Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "supermemoryai/supermemory (TypeScript)",
+          "titleKo": "supermemoryai/supermemory - AI 시대의 메모리 엔진",
+          "summary": "AI용 고속, 확장성 메모리 API 및 애플리케이션으로, 효율적인 정보 저장과 검색을 제공합니다.",
+          "keyPoints": [
+            "AI 애플리케이션을 위한 전문화된 메모리 엔진",
+            "높은 성능과 확장성 제공"
+          ],
+          "whyItMatters": "AI 애플리케이션이 장기 메모리와 컨텍스트를 효율적으로 관리할 수 있게 합니다.",
+          "url": "https://github.com/supermemoryai/supermemory",
+          "sourceName": "GitHub Trending",
+          "engagement": 19183,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "supermemoryaisupermemory-typescript",
+          "category": "tech",
+          "publishedAt": "2026-03-25T23:13:56.623Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Ensu – Ente’s Local LLM app",
+          "titleKo": "Ensu - Ente의 로컬 LLM 앱",
+          "summary": "Ente가 개인정보보호를 중시하는 로컬 LLM 앱 Ensu를 출시했습니다. 디바이스에서 완전히 작동하며 오픈소스이고, 향후 엔드투엔드 암호화된 동기화 기능을 지원할 예정입니다.",
+          "keyPoints": [
+            "개인정보보호와 사용자 제어를 최우선으로 중앙화된 LLM 제공자의 의존성을 제거",
+            "iOS, Android, macOS, Linux, Windows 등 다양한 플랫폼에서 완전히 로컬에서 작동하며 ChatGPT 수준은 아니지만 실용적인 수준의 기능 제공"
+          ],
+          "whyItMatters": "프라이빗한 LLM 기술이 대기업 독점에서 벗어나 사용자 통제 하에서 발전할 수 있는 길을 열어줍니다.",
+          "url": "https://ente.com/blog/ensu/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 318,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ensu-entes-local-llm-app",
+          "fullContent": "LLMs are too important to be left to big tech. There is a gap between frontier models and models that can run on your device, but local models improve each day, and once they cross a certain capability threshold, they will be good enough for most purposes; and will come with full privacy and control.Based on these assumptions, we've been working on Ensu, Ente's offline LLM app. Today is our first release.Download it here.In the rest of this post, we'll explain why we think the assumptions hold, what we're doing, and how you can get involved.WhyLLMs are too important to be left to big tech. We've written in depth about this earlier, here and here.Briefly, those posts come at it from two angles:If you're someone who hates LLMs, you would still be able to recognize in clearer moments of thought that LLMs are a technology that can't just be wished away.If you're someone who finds joy in interacting with LLMs, you would recognize the lack of privacy and the high dependency (arbitrary bans, content shaping, non-portable memory) you have on centralized providers.And in both cases it is also clear that LLMs can be used to manipulate people en masse. Ergo, we can't be at the mercy of big tech controlling them.The issue is that there is a capability gap between large centralized models and smaller models that can be run offline on your device.But we're problem solvers, and this is not our first rodeo. When we first started Ente Photos, it seemed unthinkable that we'd be able to deliver face recognition, person clustering and natural language image search all running locally on your device. People called us crazy.It took many years, but we did it. Our users enjoy these features every day. Everything is done locally on device, and also synced, end-to-end encrypted, across all your devices. Full privacy, full control, without loss of convenience; technology in service of people, not as a tool of surveillance.In the same vein, while we have been itching for a long time to do something about local LLMs, it is only recently that smaller models are becoming feasible to run on consumer devices. We now think there are actionable steps we can take.This is where the second assumption comes in. While smaller decentralized models improve every day, so do the larger centralized models. However, we think the gap is not what is important - instead, it is about a threshold, and about how the model's capabilities are used. Once smaller models will cross a certain threshold, they will be sufficient to provide joy, utility and convenience in the life of people.WhatToday we're releasing Ensu. It is a chatgpt-like app that runs completely on your device with full privacy and zero cost. Soon, you'll also be able to backup and sync your chats across your devices by connecting your Ente account (or self hosting), with full end-to-end encryption.This is not the beginning, nor is this the end. This is just a checkpoint.Ensu is currently an Ente Labs project. For now, we want to only iterate on the product and its direction, without bringing pricing and stability too early into the picture.Just to set expectations right, it is currently not as powerful as ChatGPT or Claude Code. Still, it is already quite fun! Here are some things we've been doing with it:Introspecting about thoughts we wouldn’t risk putting into a non-private LLM.Talking about books (Ensu currently doesn't have web search, but you'll be surprised how well it knows classics like the Gita or the Bible)Jabbering with it on flights when there is no internet.The app is open source, and available for iOS, Android, macOS, Linux and Windows. We also have an experimental web based version. Image attachments are also supported. The core logic is written in Rust, and for each platform we have native (mobile) and Tauri (desktop) apps that use the same shared logic.We've already implemented (optional) E2EE syncing and backups so that you can access your chats across devices. This uses the Ente account you already have, and it can also be self hosted just like Ente Photos. However, at the last minute we decided not to enable sync in the checkpoint we're releasing today. That's the story of the next section.What nextWe're viewing Ensu as a journey. There is a precise destination - a private, personal LLM with encrypted sync - however the path to it is hazy. There are multiple directions we could take:Instead of general chat, we shape Ensu to have a more specialized interface, say like a single, never-ending note you keep writing on, while the LLM offers suggestions, critiques, reminders, context, alternatives, viewpoints, quotes. A second brain, if you will.A more utilitarian take, say like an Android Launcher, where the LLM is an implementation detail behind an existing interaction that people are already used to.Your agent, running on your phone. No setup, no management, no manual backups. An LLM that grows with you, remembers you, your choices, manages your tasks, and has long-term memory",
+          "category": "tech",
+          "publishedAt": "2026-03-25T12:49:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 로컬 LLM의 시대가 왔다 - Ensu 첫 출시를 알리며\n\n대형 기술 기업에만 LLM을 맡길 수는 없습니다. 현재 최첨단 모델과 개인 기기에서 실행되는 모델 사이에는 분명 격차가 있지만, 로컬 모델은 매일 발전하고 있거든요. 어느 순간 그 격차가 충분히 좁혀지면, 대부분의 용도에는 충분할 것입니다. 그리고 무엇보다 완전한 프라이버시와 통제권을 가질 수 있게 됩니다.\n\n이런 생각으로 우리는 Ente의 오프라인 LLM 앱인 Ensu를 개발해왔습니다. 오늘 첫 출시를 알립니다.\n\n[여기서 다운로드하세요](링크)\n\n이 글에서는 우리가 왜 이렇게 생각하는지, 무엇을 하고 있는지, 그리고 당신이 어떻게 함께할 수 있는지 설명하겠습니다.\n\n## 왜 지금 이 일을 하는가\n\nLLM은 너무 중요해서 대형 기술 기업의 손에만 맡길 수 없습니다. 우리는 이 주제에 대해 [이전에 자세히 글을 썼는데](링크), 요점을 정리하면 두 가지 관점이 있습니다.\n\n**LLM을 싫어하는 사람도**, 냉철하게 생각해보면 이것은 단순히 무시할 수 없는 기술이라는 걸 인정할 수밖에 없습니다.\n\n**LLM과의 상호작용을 즐기는 사람도**, 중앙화된 서비스 제공자에 대한 심각한 프라이버시 침해와 의존성(자의적인 차단, 콘텐츠 조정, 옮길 수 없는 기록)을 피할 수 없습니다.\n\n둘 다 명백한 사실이 하나 더 있습니다. LLM은 대규모로 사람들을 조종하는 데 사용될 수 있다는 거죠. 그래서 우리는 대형 기술 기업이 이를 독점하도록 내버둘 수 없는 겁니다.\n\n### 격차는 있지만, 해결할 수 있다\n\n물론 대형 중앙화 모델과 개인 기기에서 실행되는 소규모 모델 사이의 성능 격차는 실제로 존재합니다. 하지만 우리는 문제 해결을 하는 회사입니다. 이게 처음은 아니거든요.\n\nEnte Photos를 처음 시작했을 때만 해도 사람들은 우리가 얼굴 인식, 사람 그룹화, 자연어 이미지 검색을 모두 기기에서 실행하려는 시도를 미쳤다고 생각했습니다.\n\n하지만 많은 시간이 걸렸어도 우리는 해냈습니다. 지금 우리 사용자들은 매일 이 기능들을 쓰고 있어요. 모든 것이 기기에서만 처리되고, 동시에 모든 기기에 걸쳐 엔드-투-엔드 암호화로 동기화됩니다. 완전한 프라이버시, 완전한 통제, 편의성 손실 없이요. 기술이 사람을 위해 봉사하는 형태입니다.\n\n우리는 로컬 LLM에 대해 오래전부터 무언가 하고 싶었습니다. 이제야 소규모 모델을 소비자 기기에서 실행 가능하게 만들 수 있는 수준에 도달했으니까요. 실제로 해볼 수 있는 단계가 보입니다.\n\n### 임계값을 넘으면 충분하다\n\n두 번째 가정이 여기서 나옵니다. 소규모 분산 모델이 매일 발전하는 것처럼 대형 중앙화 모델도 발전합니다. 하지만 우리가 주목하는 건 그 격차가 아닙니다. 중요한 건 **임계값**입니다. 그리고 그 모델의 능력이 **어떻게 사용되는가**입니다.\n\n소규모 모델이 일정한 임계값을 넘으면, 사람들의 삶에 기쁨과 유용함과 편의함을 충분히 줄 수 있을 것입니다.\n\n## Ensu, 첫 번째 체크포인트\n\n오늘 우리가 출시하는 Ensu는 완전히 당신의 기기에서만 작동하는 ChatGPT 같은 앱입니다. 프라이버시는 완벽하고, 비용은 0입니다. 곧 Ente 계정을 연결(또는 직접 호스팅)하면 모든 기기에서 대화를 백업하고 동기화할 수 있게 될 예정이고, 여기에도 엔드-투-엔드 암호화가 적용됩니다.\n\n이건 시작도 끝도 아닙니다. 그저 하나의 체크포인트일 뿐입니다.\n\nEnsu는 현재 Ente Labs 프로젝트입니다. 지금은 제품 방향을 반복하는 데만 집중하고 싶어서 가격 책정이나 안정성 보장은 아직 하지 않겠습니다.\n\n현실적인 기대치를 설정하자면, 지금은 ChatGPT나 Claude Code만큼 강력하지는 않습니다. 하지만 이미 꽤 재미있습니다! 우리가 Ensu로 하고 있는 것들을 몇 가지 들어보면:\n\n- 일반적인 LLM에 올리고 싶지 않은 개인적인 생각들을 깊게 자기성찰하기\n- 책 얘기하기 (Ensu는 지금 웹 검색이 없지만, 기타나 성경 같은 고전을 놀랍도록 잘 알고 있습니다)\n- 비행기에서 인터넷이 없을 때 막 수다 떨기\n\n### 오픈소스이고 다양한 플랫폼을 지원합니다\n\n이 앱은 오픈소스이며 iOS, Android, macOS, Linux, Windows에서 사용할 수 있습니다. 실험 단계의 웹 버전도 있고요. 이미지 첨부도 지원합니다.\n\n핵심 로직은 Rust로 작성되었고, 각 플랫폼마다 네이티브(모바일) 또는 Tauri(데스크톱) 앱으로 제공되지만 모두 같은 공유 로직을 사용합니다.\n\n우리는 이미 선택적 E2EE 동기화와 백업을 구현했어서, 기기 간에 대화에 접근할 수 있습니다. 이미 가지고 있는 Ente 계정을 쓰면 되고, Ente Photos처럼 직접 호스팅할 수도 있습니다. 그런데 마지막 순간에 오늘 출시하는 버전에서는 동기화 기능을 활성화하지 않기로 결정했어요. 이건 다음 섹션의 이야기입니다.\n\n## 앞으로의 방향\n\n우리는 Ensu를 하나의 여정으로 봅니다. 분명한 목적지가 있습니다 - 암호화된 동기화 기능이 있는 개인 LLM 말입니다. 하지만 거기 가는 길은 아직 명확하지 않습니다. 여러 방향이 있거든요:\n\n**방향 1: 특화된 인터페이스**\n일반적인 채팅 대신, 끊임없이 써내려가는 하나의 노트 같은 특화된 형태로 발전시킬 수 있습니다. LLM이 제안, 비판, 알림, 맥락, 대안, 관점, 인용구를 제공하는 식으로요. 일종의 '제2의 뇌'처럼 말이죠.\n\n**방향 2: 실용적인 도구**\n안드로이드 런처처럼 사람들이 이미 익숙한 인터페이스 뒤에 LLM을 구현 세부사항으로 숨길 수도 있습니다.\n\n**방향 3: 당신의 에이전트**\n휴대폰에서 작동하는 당신의 에이전트입니다. 설정도, 관리도, 수동 백업도 필요 없습니다. 당신과 함께 성장하고, 당신을 기억하고, 당신의 선택을 관리하고, 장기 기억을 가진 LLM이죠."
+        },
+        {
+          "title": "bytedance/deer-flow (Python)",
+          "titleKo": "bytedance/deer-flow - 슈퍼에이전트 프레임워크",
+          "summary": "deer-flow는 오픈소스 슈퍼에이전트 프레임워크로 연구, 코딩, 콘텐츠 생성을 자동화합니다. 샌드박스, 메모리, 도구, 스킬, 서브에이전트 등을 통해 분 단위부터 시간 단위의 작업을 처리합니다.",
+          "keyPoints": [
+            "서브에이전트와 메시지 게이트웨이를 통한 계층적 작업 관리로 복잡한 문제 해결",
+            "다양한 수준의 작업을 단계적으로 처리할 수 있는 유연한 아키텍처"
+          ],
+          "whyItMatters": "Python 개발자가 복잡한 멀티 에이전트 워크플로우를 쉽게 구축할 수 있는 오픈소스 도구를 제공합니다.",
+          "url": "https://github.com/bytedance/deer-flow",
+          "sourceName": "GitHub Trending",
+          "engagement": 46082,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "bytedancedeer-flow-python",
+          "category": "tech",
+          "publishedAt": "2026-03-25T23:13:56.620Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "90% of Claude-linked output going to GitHub repos w <2 stars",
+          "titleKo": "Claude Code 활동의 90%가 스타 2개 미만 저장소에 집중",
+          "summary": "Claude Code 출시 이후의 채택 현황을 분석한 데이터로, 주당 8% 성장, 61일 이중화 주기를 기록 중이며 총 2천만 건 이상의 커밋이 생성되었습니다. TypeScript(34.8%), Python(18.9%), JavaScript(10.2%)가 주요 언어입니다.",
+          "keyPoints": [
+            "Weekly 8% 성장, 주당 11.4만 개의 새로운 저장소가 Claude Code를 채택하고 있음",
+            "50억 줄 이상의 코드가 생성되었으며 약 198억 줄이 리팩토링됨"
+          ],
+          "whyItMatters": "Claude Code의 빠른 채택과 광범위한 프로젝트 적용은 AI 코딩 에이전트의 실제 개발 영향을 보여주며, 개발 커뮤니티의 AI 도구 수용이 가속화되고 있음을 의미합니다.",
+          "url": "https://www.claudescode.dev/?window=since_launch",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 113,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "90-of-claude-linked-output-going-to-github-repos-w-2-stars",
+          "fullContent": "Interesting ObservationsA quick read on momentum, adoption, and where the current activity is clustering.Growth+8%W/WAcceleration-17.9ppDoubling Time61 daysEarly Adopter CommitsThese are the earliest observed public-era Claude Code commits we can verify after launch. Multiple same-day candidates may exist, so this is suggestive rather than definitive.Feb 24, 2025Earliest observed launch-day candidates for Claude Code adoptionmoinmir/ClashOfCansChange initial game setup to always have exactly 1 correct can\nThis improves the starting condition by ensuring players always begin with exactly\none can in the correct position, making the initial game state more consistent.\n🤖 Generated with Claude Code\nCo-Authored-By: Claude <[email protected]>1 of 5 candidatesRotates every 5sNew Repos This Week114,785Original repos (non-forks) with their first observed Claude Code commit in the last 7 daysNet Code Delta+30.7BLines added minus lines deleted for the current sliceTop 3 Languages01TypeScript34.8%7.25M commits02Python18.9%3.92M commits03JavaScript10.2%2.13M commitsTotal Commits20,807,124Global activityLines Added+50,442,790,274New code generatedLines Deleted-19,767,154,942Refactored codeActive Repos1,087,408Contributing projectsViewActivity Over TimeSystem Activity LogSince Launch · All · Mar 25, 9:12 PMdaf269a03/25/2026, 19:59:4603/25, 19:59standardbeagle/agntclaim: Mdkq6bztAPFj by beagle-ab2-1591895\nCo-Authored-By: Claude Opus 4.6 (1M context) <[email protected]>1dddc1503/25/2026, 19:59:2503/25, 19:59bencrane/data-engine-x-apidocs: update all documentation to reflect completed Global Entity Model project\nCo-Authored-By: Claude Opus 4.6 <[email protected]>998df9703/25/2026, 19:58:5703/25, 19:58it-mannetje/hogenesAuth: magic link login, allowed_admins whitelist, server-side RLSc4039a203/25/2026, 19:58:5603/25, 19:58it-mannetje/hogenesAuth: magic link login, allowed_admins whitelist, server-side RLS106a6e803/25/2026, 19:58:5503/25, 19:58it-mannetje/hogenesAuth: magic link login, allowed_admins whitelist, server-side RLScc0e4e603/25/2026, 19:58:3503/25, 19:58zseramnay/Formants9 principes orchestration, doublures par registre, commentaires registre 16 instruments, encadré profil vs carte376890303/25/2026, 19:57:0103/25, 19:57thefiredev-cloud/Protocol-Guidefix: enable adaptive threshold + add 22 bridge chunks for top failure protocols\n- Enable adaptive threshold retry for ALL agency searches (not just high-accuracy)\n- Add dense bridge chunks for top 20 failing protocols covering ~130 test failures\n- Protocols: 1203 1209 1210 1211 1212 1213 1215 1216 1219 1220 1222 1223 1225 1229 1232 1237 1241 1244 1302 510 518 519226418103/25/2026, 19:56:3903/25, 19:56gvinsot/PulsarTeamfeat: add project statistics with charts (bugs created vs resolved, resolution time evolution)\n- Backend: add getTimeSeries() to globalTaskStore for day-by-day created/resolved\ncounts, resolution time evolution, and open tickets over time\n- Backend: add GET /api/agents/tasks/stats/timeseries?project=X&days=N endpoint\n- Frontend: new ProjectStats component with Chart.js graphs (created vs resolved\nbar chart, resolution time line chart, open tickets area chart, state durations)\n- Frontend: integrate ProjectStats into ProjectsView - clicking any project card\nopens the statistics panel with all charts\n- Frontend: add getProjectTaskStats and getProjectTimeSeries API methods\n(by CLAUDIO)8fbe3ab03/25/2026, 19:56:1603/25, 19:56ydesjardins200-coder/wavesfinancialfix: remove stray closing div breaking Support mega menu on apply pagee2082f903/25/2026, 19:56:0903/25, 19:56kuzmich89/AI-brokerUse NHTSA instead of AutoAstat for VIN data loading in CarCaseDetail\nReplace the removed fetchAutoAstat button with a new 'Завантажити з NHTSA'\nbutton that calls vinApi.decode(vin) and updates the case fields directly.\nShows warning toast when mock data is returned (VIN not in NHTSA DB).\nhttps://claude.ai/code/session_01XNhJmFU2Jzmc5B1FZTwGWK950ddb403/25/2026, 19:55:5403/25, 19:55Dicklesworthstone/frankenscipyfeat(all): add DBSCAN clustering, FFT plan caching, RBF/Akima interpolation, BFGS optimizer, and expand constants/special/stats\nCluster (+126 lines): DBSCAN density-based clustering with configurable eps\nand min_samples, returning cluster labels with -1 for noise points.\nConstants (+108 lines): Comprehensive physical constants module (speed of\nlight, Planck, Boltzmann, Avogadro, electron mass, proton mass, elementary\ncharge, gravitational constant, etc.) matching scipy.constants surface.\nFFT (+94 lines): Plan caching for repeated FFT sizes, reducing planning\noverhead for iterative algorithms. Adds real-to-complex (rfft/irfft)\noptimized paths.\nInterpolate (+216 lines): RBF (radial basis function) interpolation with\nmultiquadric/inverse_multiquadric/gaussian/linear/cubic kernels. Akima\ninterpolation (subspline with reduced overshoot). RegularGridInterpolator\nfor N-dimensional interpolation on regular grids.\nLinalg (+32/-32): Refactors matrix operation signatures for consistency,\n",
+          "category": "insight",
+          "publishedAt": "2026-03-25T18:16:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Claude Code 초기 도입 현황, 지금 어디까지 왔나?\n\n지난 몇 주간 Claude Code의 성장 추이와 개발자들의 반응을 살펴봤습니다. 흥미로운 지표들이 나왔는데요, 함께 살펴보겠습니다.\n\n## 급속도로 성장 중인 Claude Code\n\n**주간 성장률**: +8%  \n**성장 가속도**: -17.9pp  \n**현재 배증 주기**: 61일\n\n아직 초기 단계지만 확실한 모멘텀을 감지할 수 있습니다. 특히 주간 성장률이 꾸준히 유지되고 있다는 점이 주목할 만합니다.\n\n## 가장 먼저 Claude Code를 도입한 개발자들\n\nClaude Code 출시 이후 공개된 저장소 중 가장 먼저 사용한 사례들을 확인했습니다. 같은 날 여러 사례가 있을 수 있기에 완전히 정확하진 않지만, 초기 도입 추세를 파악하는 데는 충분합니다.\n\n**2월 24일 출시 직후 관찰된 사례**\n\n`moinmir/ClashOfCans` 저장소에서는 게임의 초기 설정을 개선하는 커밋이 기록됐습니다. 항상 정확히 1개의 캔만 올바른 위치에 배치되도록 하는 변경으로, 게임의 초기 상태를 더 일관성 있게 만들었네요.\n\n```\n🤖 Generated with Claude Code\nCo-Authored-By: Claude <[email protected]>\n```\n\n5개 후보 중 첫 번째이며, 5초마다 갱신됩니다.\n\n## 이번 주 통계: 숫자로 보는 Claude Code의 영향\n\n**신규 저장소**: 114,785개  \n(포크가 아닌 원본 저장소 기준으로, 지난 7일간 Claude Code 커밋이 처음 기록된 것)\n\n**순 코드 변화량**: +30.7B  \n(추가된 라인 수에서 삭제된 라인 수를 뺀 값)\n\n### 가장 많이 사용되는 언어 Top 3\n\n1. **TypeScript** - 34.8% (725만 커밋)\n2. **Python** - 18.9% (392만 커밋)\n3. **JavaScript** - 10.2% (213만 커밋)\n\n**총 커밋 수**: 2,080만 7,124개  \n**전체 활성 저장소**: 1,087,408개\n\n### 코드 변화 규모\n\n- **추가된 코드**: 504억 4,279만 274줄 (신규 코드)\n- **삭제된 코드**: 197억 6,715만 4,942줄 (리팩토링)\n\n## 실시간 활동 로그\n\n시스템에 기록된 최근 활동들을 보면, 다양한 분야에서 Claude Code가 활용되고 있음을 알 수 있습니다.\n\n**프로토콜 관리 개선** - 적응형 임계값을 활성화하고 22개의 브릿지 청크를 추가해 상위 실패 프로토콜을 처리하는 커밋이 있었습니다. 약 130개의 테스트 실패를 커버하는 규모입니다.\n\n**프로젝트 통계 기능** - 버그 생성 대비 해결 현황, 해결 시간 추이 등을 시각화하는 대시보드가 추가됐습니다. 백엔드의 시계열 데이터 수집부터 프론트엔드의 Chart.js 그래프까지 전체 스택이 한 번에 구현된 사례네요.\n\n**UI 버그 수정** - 지원 메뉴가 깨지는 문제를 해결한 간단하지만 중요한 수정도 있었습니다.\n\n**데이터 소스 통합** - AutoAstat 대신 NHTSA를 사용해 VIN 데이터를 로드하도록 변경하고, 사용자 피드백을 위한 토스트 메시지도 추가됐습니다.\n\n**과학 계산 라이브러리 확장** - DBSCAN 클러스터링, FFT 플랜 캐싱, RBF/Akima 보간, BFGS 옵티마이저 등 scipy 수준의 기능들이 추가되는 대규모 작업도 진행 중입니다. 각 기능별로 100줄대의 코드가 신규 추가되는 수준입니다.\n\n---\n\n초기 도입자들의 활동 양상을 보면, Claude Code는 단순한 자동완성을 넘어 실제 기능 개발과 리팩토링에 활발히 사용되고 있습니다. 특히 다양한 프로젝트 규모와 언어 생태계 전반에서 골고루 채택되는 모습이 인상적입니다."
+        },
+        {
+          "title": "TypeScript 6.0, Next.js 16.2, and a new Node.js runtime",
+          "titleKo": "TypeScript 6.0, Next.js 16.2 및 새로운 Node.js 런타임",
+          "summary": "JavaScript Weekly #778호(2026년 3월 24일)에서는 6개월 이상의 개발 과정을 거친 TypeScript 6.0의 출시를 주요 뉴스로 다룹니다. TypeScript 6.0은 자체 호스팅되는 컴파일러와 TypeScript 7.0의 Go 기반 네이티브 컴파일러 사이의 간극을 메우기 위해 설계되었습니다.",
+          "keyPoints": [
+            "TypeScript 6.0 출시: 6개월 이상의 개발 기간을 거쳐 완성된 주요 메이저 버전으로, 자체 호스팅 컴파일러와 미래의 Go 기반 네이티브 컴파일러 간의 호환성을 지향합니다.",
+            "컴파일러 로드맵: TypeScript 7.0에서 Go 기반 네이티브 컴파일러 도입을 준비하기 위한 중간 단계로의 역할을 합니다.",
+            "Next.js 16.2와의 연계: TypeScript 6.0과 Next.js 16.2의 동시 출시는 최신 JavaScript 생태계의 발전을 반영합니다."
+          ],
+          "whyItMatters": "TypeScript의 메이저 버전 업데이트와 함께 차세대 Go 기반 컴파일러로의 전환 전략을 이해하는 것은 장기적인 프로젝트 계획과 기술 스택 선택에 중요합니다.",
+          "url": "https://javascriptweekly.com/issues/778",
+          "sourceName": "JavaScript Weekly",
+          "contentType": "article",
+          "labels": [
+            "typescript",
+            "frontend"
+          ],
+          "topicId": "nextjs-16-2",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "typescript-60-nextjs-162-and-a-new-nodejs-runtime",
+          "category": "insight",
+          "publishedAt": "2026-03-24T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "The Great CSS Expansion: Replacing JS with native features",
+          "titleKo": "대규모 CSS 확대: JavaScript를 네이티브 기능으로 대체",
+          "summary": "현대 CSS의 기능 확장으로 과거 JavaScript에 의존하던 많은 기능들을 네이티브 CSS로 대체할 수 있음을 보여주는 가이드입니다.",
+          "keyPoints": [
+            "CSS 발전으로 동적 기능과 상태 관리 등을 JavaScript 없이 처리 가능",
+            "여전히 CSS만으로는 해결할 수 없는 영역이 존재"
+          ],
+          "whyItMatters": "JavaScript 번들 크기를 줄이고 성능을 개선할 수 있는 기회를 제공합니다.",
+          "url": "https://frontendfoc.us/issues/734",
+          "sourceName": "Frontend Focus",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-great-css-expansion-replacing-js-with-native-features",
+          "category": "insight",
+          "publishedAt": "2026-03-25T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Health NZ staff told to stop using ChatGPT to write clinical notes",
+          "titleKo": "뉴질랜드 보건부, ChatGPT 등으로 임상 기록 작성 금지",
+          "summary": "Health NZ가 직원들이 ChatGPT, Claude, Gemini 같은 무료 AI 도구로 임상 기록을 작성하는 것을 발견하고 이를 금지했으며, 위반 시 징계 조치를 취할 수 있다고 경고했습니다. 다만 직원 노조는 과도한 업무 압박으로 인한 조치라며 비판하고 있습니다.",
+          "keyPoints": [
+            "데이터 보안, 개인정보보호, 책임성 이유로 미승인 AI 도구 사용 전면 금지",
+            "임상 기록 완성 후 수기 또는 타이핑으로 옮기는 것도 엄격히 금지",
+            "직원 노조는 불충분한 자원과 과도한 업무 압박이 근본 원인이라며 적절한 도구와 훈련 투자 요구"
+          ],
+          "whyItMatters": "의료 데이터의 민감성으로 인해 AI 도구 사용이 제한되고 있으나, 근본적인 시스템 개선 부재가 직원들의 무단 도구 사용으로 이어지는 악순환을 보여줍니다.",
+          "url": "https://www.rnz.co.nz/news/national/590645/health-nz-staff-told-to-stop-using-chatgpt-to-write-clinical-notes",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 47,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "health-nz-staff-told-to-stop-using-chatgpt-to-write-clinical-notes",
+          "fullContent": "Photo: RNZ\nHealth NZ (HNZ) says staff have been caught using free AI tools like ChatGPT and Gemini to write clinical notes, a move it says could result in formal disciplinary action.\nA memo seen by RNZ was sent this week from a senior manager to all Mental Health and Addiction Services staff in the Rotorua Lakes district, reminding them not to use tools like ChatGPT, Claude or Gemini in their work.\n\"It has come to my attention that there has been instances where it appears that AI (artificial intelligence) drafting tools have been used to prepare clinical notes,\" it says.\n\"The use of free AI tools (e.g. ChatGPT, Claude, Gemini) for clinical purposes is strictly prohibited due to data security, privacy and accountability concerns. You are also not allowed to use AI tools to draft notes and then transcribing it to handwritten or typed notes, even if you anonymise the patient information.\"\nDoing so could result in formal disciplinary action, it said.\nAccording to the HNZ-wide AI policy, any AI tools must be registered with the Health NZ National Artificial Intelligence and Algorithm Expert\nAdvisory Group (NAIAEAG) - this would include Heidi, an AI scribe tool being rolled out across EDs.\nSonny Taite, HNZ director of digital innovation and AI, said free AI tools presented risks to data security, privacy and accountability, and \"any possible exemptions are assessed case by case\".\n\"As with any new process in healthcare, we are working with our clinicians on new ways of working and this is an ongoing process.\"\nHNZ did not answer questions about how many instances there had been of staff using unapproved AI software, or whether anyone had been disciplined.\nStaff turning to AI tools under 'enormous pressure' - union\nFleur Fitzsimons, national secretary for the Public Service Association, which represents many health and addiction service workers, said clinical staff were turning to AI tools because of the \"enormous pressure\" they were under.\nA memo which opened by threatening formal disciplinary action was the wrong approach, she said.\n\"It's a warning shot that will make staff afraid to ask questions or seek help.\"\nHNZ should be investing in proper training and approved tools, she said.\n\"Let's not forget that HNZ has been cutting the very teams responsible for digital systems and IT support. If staff are improvising with free tools, HNZ needs to examine why that is the case, not simply threatening staff with a breach of the Code of Conduct.\"\nSign up for Ngā Pitopito Kōrero, a daily newsletter curated by our editors and delivered straight to your inbox every weekday.\nTags:\nhealth\ntechnology\nCopyright © 2026, Radio New Zealand\nNew Zealand\nLive: Floods close highways as heavy rain hits North Island\nPerson arrested, another in hospital after Waikato high school put in lockdown\nPoliticians and defamation in an election year - How far can you go?\nHealth NZ staff told to stop using ChatGPT to write clinical notes\nBurst pipe cuts water to three Wellington suburbs\nPerson critically hurt in kindergarten carpark fight\nGet the RNZ app\nfor ad-free news and current affairs\nTop News stories\nLive: Floods close highways as heavy rain hits North Island\nPerson arrested, another in hospital after Waikato high school put in lockdown\nPoliticians and defamation in an election year - How far can you go?\nStephen Colbert to write next Lord of the Rings movie after leaving late night\nHealth NZ staff told to stop using ChatGPT to write clinical notes\nSubscribe",
+          "category": "insight",
+          "publishedAt": "2026-03-25T20:58:43.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Health NZ, ChatGPT로 진료 기록 작성하는 직원 적발…징계 처분 경고\n\n뉴질랜드 보건청(Health NZ)이 직원들이 ChatGPT, Gemini 같은 무료 AI 도구로 임상 기록을 작성하다 적발됐다고 밝혔습니다. 보건청은 이런 행위가 정식 징계 처분으로 이어질 수 있다고 경고했어요.\n\nRNZ가 입수한 메모에 따르면 이번 주 보건청 고위 관리자가 로토루아 호수 지역의 모든 정신건강 및 중독 서비스 직원에게 ChatGPT, Claude, Gemini 같은 도구 사용을 자제하라는 내용의 공식 공지를 보냈습니다.\n\n\"임상 기록 작성에 AI 드래프팅 도구가 사용된 사례들이 있었던 것으로 파악됩니다\"라고 메모에 적혀 있습니다.\n\n## 엄격한 금지 규정\n\n보건청은 무료 AI 도구 사용을 엄격히 금지하고 있습니다. 데이터 보안, 개인정보 보호, 책임성 문제 때문인데요.\n\n특히 주목할 점은 \"환자 정보를 익명 처리한 후에도 AI 도구로 작성한 내용을 손글씨나 타이핑으로 옮겨 적는 행위 역시 허용되지 않는다\"는 부분입니다. 이런 우회 방식도 정식 징계 대상이 될 수 있다는 뜻이죠.\n\n보건청 전사 AI 정책에 따르면, 모든 AI 도구는 보건청 국가 AI 및 알고리즘 전문가 자문단(NAIAEAG)에 등록되어야 합니다. 응급실에 도입 중인 AI 기록 작성 도구 '하이디(Heidi)'도 이 범주에 포함됩니다.\n\n## \"승인되지 않은 도구는 보안 위험\"\n\nSonny Taite 보건청 디지털 혁신 및 AI 담당 이사는 무료 AI 도구가 데이터 보안, 개인정보 보호, 책임성에 위험을 초래한다고 설명했습니다. 그러면서 \"모든 예외 사항은 사안별로 검토한다\"고 덧붙였어요.\n\n\"의료 현장의 모든 새로운 프로세스처럼, 우리는 임상의들과 함께 새로운 업무 방식을 모색하고 있으며 이는 지속적인 과정입니다.\"\n\n다만 보건청은 미승인 AI 소프트웨어를 사용한 직원이 몇 명인지, 실제로 징계를 받은 사람이 있는지에 대한 질문에는 답하지 않았습니다.\n\n## 직원들은 과도한 업무 부담으로 인한 선택\n\n공공 부문 노동조합인 공공 서비스 협회(Public Service Association)의 Fleur Fitzsimons 전국 사무국장은 임상 직원들이 과도한 업무 압박 속에서 AI 도구에 의존하고 있다고 지적했습니다.\n\n\"징계 경고로 문을 여는 방식은 잘못된 접근입니다. 직원들이 질문을 하거나 도움을 청하는 것을 두려워하게 만들 뿐입니다.\"\n\nFitzsimons는 보건청이 적절한 교육과 공식 승인 도구에 투자해야 한다고 강조했어요.\n\n\"잊지 말아야 할 점은 보건청이 디지털 시스템과 IT 지원을 담당하는 팀들의 예산을 대폭 삭감했다는 것입니다. 직원들이 무료 도구로 상황을 모면하려고 한다면, 보건청은 그 원인이 무엇인지 먼저 살펴봐야 합니다. 단순히 직원들을 위협하기보다는요.\""
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "AI has a subsidization problem",
+          "titleKo": "AI의 보조금 문제",
+          "summary": "동영상 콘텐츠로 AI 서비스의 경제성 문제에 대해 다룹니다.",
+          "keyPoints": [
+            "AI 서비스의 지속 불가능한 경제 모델에 대한 분석"
+          ],
+          "whyItMatters": "AI 기반 서비스의 장기적 생존 가능성과 비즈니스 모델에 대한 이해가 필요합니다.",
+          "url": "https://www.youtube.com/watch?v=w62xTVuyu3s",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ai-has-a-subsidization-problem",
+          "category": "video",
+          "publishedAt": "2026-03-25T09:04:59+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I'm mad at OpenAI right now",
+          "titleKo": "지금 OpenAI에 화났습니다",
+          "summary": "동영상 콘텐츠로 OpenAI에 대한 불만사항을 다룹니다.",
+          "keyPoints": [
+            "OpenAI의 정책 또는 서비스에 대한 비판적 관점"
+          ],
+          "whyItMatters": "OpenAI의 주요 서비스 이용자들의 불만 사항을 파악할 필요가 있습니다.",
+          "url": "https://www.youtube.com/watch?v=j1YOVwviBLs",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "im-mad-at-openai-right-now",
+          "category": "video",
+          "publishedAt": "2026-03-25T20:12:27+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Neat container query unit trick",
+          "titleKo": "컨테이너 쿼리 단위 팁",
+          "summary": "컨테이너 쿼리 단위 활용에 대한 유용한 팁을 소개하는 짧은 영상 콘텐츠입니다.",
+          "keyPoints": [
+            "CSS 컨테이너 쿼리의 단위 관련 실용적인 기법 소개"
+          ],
+          "whyItMatters": "반응형 웹 디자인을 구현할 때 컨테이너 쿼리의 효율적 활용법을 배울 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=nJWBU7M6RdA",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "neat-container-query-unit-trick",
+          "category": "video",
+          "publishedAt": "2026-03-25T15:25:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I need you guys to trust me on this (sorry Anthropic)",
+          "titleKo": "너희들이 나를 믿어야 한다는 것을 이해해 주길 바란다 (죄송합니다 Anthropic)",
+          "summary": "YouTube 영상으로, 제목에서 드러나는 신뢰와 AI 윤리에 관한 내용으로 추정됩니다.",
+          "keyPoints": [
+            "Anthropic과 관련된 AI 신뢰 문제에 대한 영상 논의"
+          ],
+          "whyItMatters": "AI 윤리와 기업 신뢰성에 관심 있는 개발자들을 위한 시청 자료입니다.",
+          "url": "https://www.youtube.com/watch?v=RIkSlHgQYog",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-need-you-guys-to-trust-me-on-this-sorry-anthropic",
+          "category": "video",
+          "publishedAt": "2026-03-24T00:54:30+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
