@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenBSD와 pf를 이용한 홈 네트워크 취침시간 관리 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/26/">2026-03-26</a> &gt; OpenBSD와 pf를 이용한 홈 네트워크 취침시간 관리...
+      </div>
+
+      <h1>OpenBSD와 pf를 이용한 홈 네트워크 취침시간 관리</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">My home network observes bedtime with OpenBSD and pf</p>
+      <div class="article-meta">
+        <span>📅 2026-03-26</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 106</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>OpenBSD의 pf 패킷 필터를 사용하여 취침시간에 자동으로 인터넷 접근을 제한하는 홈 게이트웨이를 구축한 프로젝트입니다. 일부 서버와 기기는 예외 처리하여 백업과 업데이트를 수행하도록 설정했습니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>$60대의 저가 팬리스 미니PC(Qotom Q305p)를 OpenBSD 라우터로 구성</li><li>pf 기반 시간대별 트래픽 제어로 네트워크 보안 자동화</li><li>unbound를 이용한 로컬 DNS 캐싱과 DNS 싱크홀 기능 구현</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>개발자들이 상용 라우터 대신 오픈소스 OS로 네트워크를 완전히 제어할 수 있는 실제 사례를 보여주며, 홈 인프라 구축의 교육적 가치가 높습니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>OpenBSD로 홈 네트워크 라우터 만들기</h2>
+<p>이 글에서 다루는 파일들은 'pf-bedtime' 저장소에서 확인하거나 클론할 수 있습니다.</p>
+<h3>목표</h3>
+<p>집에서 자녀들이 자기 전에 인터넷을 쓸 수 없도록 자동으로 차단하고 싶었어요. 완전히 자동화되어야 하고, 정해진 시간에 작동해야 합니다. 다만 백업과 업데이트를 하는 특정 서버와 기기들은 밤에도 인터넷을 쓸 수 있게 해야 하죠.</p>
+<p>보너스로 원하던 건 로컬 네트워크의 DNS를 내가 직접 관리하는 거였어요. Pi-hole처럼 원치 않는 도메인을 차단할 수도 있고, 집의 컴퓨터들에 멋진 로컬 도메인 이름을 붙여줄 수 있거든요.</p>
+<p>이를 위해 ISP와 홈 네트워크 사이에 메인 라우터로 작동할 컴퓨터를 구축했습니다. 일반 소비자용 라우터처럼 DHCP, NAT, DNS 캐싱, 방화벽 기능을 모두 하지만, 낯익은 PC 하드웨어에서 돌아가죠.</p>
+<p>이 기계는 기존의 Ubiquiti UniFi Security Gateway USG-3P를 대체합니다. 그 장비도 플러그 앤 플레이 라우터로 잘 작동했고, 아마 SSH로 접속해서 여러 기능을 구현할 수도 있었을 거예요. 그런데 시간을 들이는 거라면 차라리 오픈소스 기술을 배우고 싶었어요. OpenBSD를 더 깊이 있게 학습하기에 좋은 기회였죠.</p>
+<h3>하드웨어 선택</h3>
+<p>(참고: 처음 이 글을 썼을 때는 다른 미니 PC를 사용했는데, RealTek 이더넷 지원에 문제가 있었어요. Linux에서는 잘 돌던 게 OpenBSD에서는 안 됐거든요. 결국 새로운 컴퓨터를 구입했고, 이 글의 사진에 보이는 기계를 쓰고 있습니다. 좀 더 크긴 하지만 Intel 이더넷이 달려 있어서 Linux와 OpenBSD 모두에서 잘 작동해요.)</p>
+<p>라우터는 결국 이더넷 포트가 두 개 이상 달린 컴퓨터이고 적절한 소프트웨어만 있으면 됩니다. 거의 모든 컴퓨터를 라우터로 만들 수 있다는 뜻이에요. 이미 아는 운영체제를 쓴다면, 라우터의 작동 원리도 이해할 수 있겠죠. 저는 일단 뭔가를 이해하는 걸 좋아합니다.</p>
+<p>선택한 기계는 <strong>Qotom Q305p 3205u</strong>입니다. 1.5Ghz Celeron 프로세서, 완전한 패시브 쿨링(컴퓨터 전체가 방열판), 4GB RAM, 기가비트 이더넷 포트 2개를 갖추고 있어요. 32GB SSD도 달려있습니다. 라우터로서는 충분한 스펙이에요. 약간 오버스펙일 수도 있지만, 이 컴퓨터가 앞으로 오래 쓰일 거라고 생각했거든요.</p>
+<p>(다른 팬 없는 미니 컴퓨터처럼 이 기계도 시리얼 포트가 많이 달려있어요. 이런 컴퓨터들은 보통 산업용 제어, 임베디드 키오스크, 24/7 디지털 사인보드에 쓰입니다. 산업용이고 움직이는 부품이 없다는 특징이 있어서, 이런 기계들은 대체로 오래오래 작동하더라고요.)</p>
+<p>전원 어댑터 포함해서 <strong>60달러</strong>에 샀습니다. 정말 좋은 가성비라고 생각해요. 이런 작은 컴퓨터들 정말 좋아합니다.</p>
+<h3>OpenBSD 기본 라우터 설정</h3>
+<p>먼저 OpenBSD 안정화 버전을 설치했습니다.</p>
+<pre><code>$ uname -a
+OpenBSD treebeard.local 7.8 GENERIC.MP#54 amd64</code></pre>
+<p>저는 지난 몇 년간 OpenBSD를 배워오고 있어요. 점점 친해지고 있죠. OpenBSD 설치는 &quot;그냥 Enter 키만 누르면 된다&quot;는 농담이 있을 정도인데, 저도 이제 그 정도 수준이에요. 기본 설정이 뭘 하는지 이해하니까요.</p>
+<p>본격적인 라우터 설정은 [OpenBSD Handbook의 가이드](https://openbsdhandbook.com)를 따랐습니다. 놀랍도록 짧은 페이지인데 다음 기능들을 모두 설정할 수 있어요:</p>
+<ul>
+<li>IP 포워딩 (sysctl로 커널 설정)</li>
+<li>두 개의 네트워크 인터페이스 설정</li>
+<li>dhcpd를 통한 DHCP 서비스</li>
+<li>unbound를 통한 DNS 캐싱</li>
+<li>pf를 통한 NAT (IPv4 주소 변환)</li>
+<li>pf를 통한 기본적인 패킷 필터링 (방화벽)</li>
+</ul>
+<p>나중에 홈 컴퓨터들을 위한 DNS 항목들을 설정했는데, 이건 제 다른 글 [Setting up .home.arpa names with OpenBSD's unbound](로컬 링크)을 참고하세요.</p>
+<p>그 이후 <strong>The Book of PF</strong>를 읽으면서 pf.conf를 완전히 처음부터 다시 작성했어요. 이게 다음 섹션입니다.</p>
+<h3>pf 설정하기</h3>
+<p>pf 패킷 필터는 OpenBSD 커널에 내장되어 있고, OpenBSD에서 비롯된 훌륭한 기술입니다.</p>
+<p>pf의 설정은 주로 <code>/etc/pf.conf</code> 파일에서 이루어집니다. <strong>The Book of PF, 4th Edition</strong>을 읽으면서 완전히 처음부터 구성했어요.</p>
+<p>전체 설정은 저장소의 [pf.conf](링크)에서 확인할 수 있습니다. (자주 건드리지 않을 부분에는 상세한 주석을 달아놨어요. pf를 변경한 후 업데이트하는 방법도 포함되어 있습니다.)</p>
+<p>기본 원칙은 권장되는 방식대로 설정했습니다. 모든 트래픽을 기본으로 차단하고, 선택적으로만 허용하는 거예요.</p>
+<p>낮 시간에는 이런 규칙을 사용합니다:</p>
+<pre><code>pass proto tcp from &lt;leased_ips&gt;</code></pre>
+<p>밤시간이 되면 이 규칙이 바뀝니다:</p>
+<pre><code>pass proto tcp ...</code></pre></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://ratfactor.com/openbsd/pf-gateway-bedtime" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-26%20OpenBSD%EC%99%80%20pf%EB%A5%BC%20%EC%9D%B4%EC%9A%A9%ED%95%9C%20%ED%99%88%20%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%20%EC%B7%A8%EC%B9%A8%EC%8B%9C%EA%B0%84%20%EA%B4%80%EB%A6%AC&labels=feedback%2Cliked&body=**Article**%3A%20OpenBSD%EC%99%80%20pf%EB%A5%BC%20%EC%9D%B4%EC%9A%A9%ED%95%9C%20%ED%99%88%20%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%20%EC%B7%A8%EC%B9%A8%EC%8B%9C%EA%B0%84%20%EA%B4%80%EB%A6%AC%0A**URL**%3A%20https%3A%2F%2Fratfactor.com%2Fopenbsd%2Fpf-gateway-bedtime%0A**Date**%3A%202026-03-26%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

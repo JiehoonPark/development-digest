@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>테이블에서 얼마나 많은 정밀도를 짜낼 수 있나? — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/26/">2026-03-26</a> &gt; 테이블에서 얼마나 많은 정밀도를 짜낼 수 있나?...
+      </div>
+
+      <h1>테이블에서 얼마나 많은 정밀도를 짜낼 수 있나?</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">How much precision can you squeeze out of a table?</p>
+      <div class="article-meta">
+        <span>📅 2026-03-26</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 32</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>보간(interpolation)을 통해 표의 값들 사이에서 함수값을 추정할 때, Lagrange 보간 정리로 오차의 상한을 계산할 수 있다. 표의 정밀도보다는 점 사이의 간격이 오차의 주요 원인이며, 과도한 고차 보간은 오히려 오차를 증가시킬 수 있다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>n차 보간의 오차는 ch^(n+1) + λδ 형태이며, h는 점 간 간격, δ는 표의 오차로 정의됨</li><li>표의 정밀도보다 나은 정확도를 얻을 수 없으므로, ch^(n+1)이 δ보다 작아지는 최적의 n을 선택해야 함</li><li>λ는 n에 대해 지수적으로 증가하므로, 과도한 고차 보간은 오히려 정확도를 악화시킬 수 있음</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>수치 계산과 데이터 근사에서 언제 더 높은 차수의 보간을 멈춰야 하는지 판단하기 위한 이론적 기초를 제공한다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>표 조회에서 보간법으로 정확도를 높이기</h2>
+<p>리처드 파인만이 말했듯이, 깊이 있게 들어가보면 거의 모든 것이 흥미로워진다고 합니다. 표에서 숫자를 찾는 일도 표면적으로는 별로 흥미롭지 않지만, 표에 없는 값들을 얼마나 잘 채워 넣을 수 있는지 살펴보면 훨씬 재미있어진다는 뜻이죠.</p>
+<p>표에 있는 x 값 사이에서 함수값을 알고 싶다면 <strong>보간법</strong>(interpolation)을 써야 합니다. 선형 보간으로도 충분할 때가 많지만, 더 높은 차수의 보간법을 사용하면 훨씬 정확한 결과를 얻을 수 있어요.</p>
+<h3>보간법의 선택</h3>
+<p>예를 들어보겠습니다. x = 3.00, 3.01, 3.02, …, 3.99, 4.00에서 표로 정리된 함수 f(x)가 있고, π에서의 함수값을 근사하려면 어떻게 할까요?</p>
+<p>가장 간단한 방법은 f(3.14)와 f(3.15)를 이용해 선형 보간으로 f(π)를 구하는 것입니다. 하지만 더 많은 데이터를 활용할 수도 있습니다. 예를 들어 f(3.13), f(3.14), f(3.15), f(3.16)을 사용한 3차 보간법이 더 정확할 거예요. 또는 f(3.00)부터 f(3.29)까지 30개 점을 이용한 29차 보간법도 가능합니다.</p>
+<p>그렇다면 몇 차의 보간법을 써야 할까요?</p>
+<h3>오차 한계와 최적 차수 결정</h3>
+<p>라그랑주 보간 정리(Lagrange interpolation theorem)를 사용하면 보간 오차의 상한을 계산할 수 있습니다. 다만 이 정리는 표의 각 점에서의 값이 정확하다고 가정합니다. 일반적으로 이 가정은 타당합니다. 보통 가장 큰 오차 원인은 표에 나열된 x 값들 사이의 간격이지, 표 자체의 정밀도가 아니거든요. 사실 표는 이렇게 되도록 설계되어 있었답니다.</p>
+<p>n차 보간의 오차 한계는 다음과 같은 형태입니다:</p>
+<pre><code>c h^(n+1) + λ δ</code></pre>
+<p>여기서:</p>
+<ul>
+<li><strong>h</strong>: 보간 점들 사이의 간격</li>
+<li><strong>δ</strong>: 표에 나열된 값의 오차</li>
+<li><strong>c</strong>: 보간하려는 함수의 도함수에 따라 결정되는 상수</li>
+<li><strong>λ</strong>: 최소값이 1인 상수 (λδ는 표의 점에서의 &quot;보간&quot; 오차)</li>
+</ul>
+<p>일반적으로 보간된 값의 정확도는 δ보다 나을 수 없습니다. 따라서 <strong>c h^(n+1)이 δ보다 작아지는 n을 선택해야 해요.</strong> 더 높은 n은 도움이 안 될 뿐 아니라 오히려 해롭습니다. 왜냐하면 λ가 n에 대해 지수적으로 증가하기 때문입니다.</p>
+<h3>실제 사례들</h3>
+<h4>자연로그 표</h4>
+<p>A&amp;S(Abramowitz and Stegun)의 자연로그 표를 보겠습니다. 이 표는 h = 10^(-3)의 간격을 가지고 있어요.</p>
+<p>선형 보간의 오차는 대략 h² = 10^(-6) 정도입니다. 그런데 표의 오차가 10^(-15)이므로, 4차 보간법 정도면 충분할 것 같습니다. 실제로 5차 보간법을 사용하면 오차가 약 10^(-8) 정도가 되며, 이 정도가 달성할 수 있는 최대 정확도예요.</p>
+<h4>삼각함수 표</h4>
+<p>A&amp;S의 사인 함수 표는 소수점 이하 23자리까지 정밀하게 정리되어 있고, h = 0.001라디안 간격으로 배열되어 있습니다. 대략적인 추정으로는 7차 보간법이 적당할 것 같은데, 실제로도 책에서 7차 보간법으로 9자리 정확도를 얻을 수 있다고 명시되어 있어요.</p>
+<h4>베셀 함수 표</h4>
+<p>A&amp;S의 베셀 함수 J₀ 표는 15자리 정밀도로 h = 0.1 간격으로 정리되어 있습니다. 이 경우 11차 보간법을 사용해야 4자리 정확도를 얻을 수 있어요.</p>
+<p>여기서 흥미로운 점은 표의 간격이 넓을수록 더 높은 차수의 보간법이 필요하다는 것입니다. 또한 원하는 출력 정확도에 비해 표에 담긴 정밀도가 훨씬 커야 한다는 의미이기도 합니다.</p>
+<h3>마치며</h3>
+<p>요즘 우리는 거의 표에서 함수값을 직접 찾아보지 않습니다. 하지만 보간법은 여전히 널리 쓰이고 있어요. 단지 사람이 직접 하는 게 아니라 컴퓨터가 대신할 뿐이죠. 이런 배경 원리를 이해하면 숫자 표 조회라는 평범해 보이는 작업도 꽤 흥미로워집니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://www.johndcook.com/blog/2026/03/26/table-precision/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-26%20%ED%85%8C%EC%9D%B4%EB%B8%94%EC%97%90%EC%84%9C%20%EC%96%BC%EB%A7%88%EB%82%98%20%EB%A7%8E%EC%9D%80%20%EC%A0%95%EB%B0%80%EB%8F%84%EB%A5%BC%20%EC%A7%9C%EB%82%BC%20%EC%88%98%20%EC%9E%88%EB%82%98%3F&labels=feedback%2Cliked&body=**Article**%3A%20%ED%85%8C%EC%9D%B4%EB%B8%94%EC%97%90%EC%84%9C%20%EC%96%BC%EB%A7%88%EB%82%98%20%EB%A7%8E%EC%9D%80%20%EC%A0%95%EB%B0%80%EB%8F%84%EB%A5%BC%20%EC%A7%9C%EB%82%BC%20%EC%88%98%20%EC%9E%88%EB%82%98%3F%0A**URL**%3A%20https%3A%2F%2Fwww.johndcook.com%2Fblog%2F2026%2F03%2F26%2Ftable-precision%2F%0A**Date**%3A%202026-03-26%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

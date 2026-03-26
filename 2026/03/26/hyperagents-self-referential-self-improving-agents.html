@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HyperAgents: 자기참조적 자기개선 에이전트 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/26/">2026-03-26</a> &gt; HyperAgents: 자기참조적 자기개선 에이전트...
+      </div>
+
+      <h1>HyperAgents: 자기참조적 자기개선 에이전트</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">HyperAgents: Self-referential self-improving agents</p>
+      <div class="article-meta">
+        <span>📅 2026-03-26</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 105</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Facebook Research의 HyperAgents는 모든 계산 가능한 작업에 대해 자동으로 최적화하는 자기개선 에이전트 시스템입니다. 메타 에이전트가 태스크 에이전트를 반복적으로 개선하는 구조로 설계되었습니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>메타 에이전트가 task 에이전트의 코드를 생성하고 개선하는 자기개선 메커니즘</li><li>OpenAI, Anthropic, Gemini 등 여러 기초 모델 지원으로 확장성 확보</li><li>생성된 모델 코드 실행으로 인한 보안 위험 존재 - 신뢰할 수 없는 코드 실행 주의 필요</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>에이전트 자체가 다른 에이전트를 설계·개선할 수 있는 메타 수준의 자동화 기술로, 다양한 도메인에서 에이전트 성능을 지속적으로 향상시킬 수 있습니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>HyperAgents</h2>
+<p>모든 계산 가능한 작업을 최적화할 수 있는 자기 참조적 자기 개선 에이전트</p>
+<h3>설치하기</h3>
+<p>먼저 API 키를 <code>.env</code> 파일에 설정해야 합니다.</p>
+<pre><code>OPENAI_API_KEY=...
+ANTHROPIC_API_KEY=...
+GEMINI_API_KEY=...</code></pre>
+<p>그 다음 필요한 패키지들을 설치합니다.</p>
+<pre><code class="language-bash">sudo dnf install -y python3.12-devel
+sudo dnf install -y graphviz graphviz-devel cmake ninja-build bzip2-devel zlib-devel ncurses-devel libffi-devel</code></pre>
+<p>Python 가상 환경을 만들어서 의존성을 설치하세요.</p>
+<pre><code class="language-bash">python3.12 -m venv venv_nat
+source venv_nat/bin/activate
+pip install -r requirements.txt
+pip install -r requirements_dev.txt</code></pre>
+<p>Docker를 사용하려면 다음 명령어로 이미지를 빌드하면 됩니다.</p>
+<pre><code class="language-bash">docker build --network=host -t hyperagents .</code></pre>
+<p>초기 에이전트들을 설정합니다.</p>
+<pre><code class="language-bash">bash ./setup_initial.sh</code></pre>
+<h3>HyperAgents 실행하기</h3>
+<p>메인 진입점인 <code>generate_loop.py</code> 스크립트로 알고리즘을 실행할 수 있습니다.</p>
+<pre><code class="language-bash">python generate_loop.py --domains &lt;domain&gt;</code></pre>
+<p>기본적으로 결과물은 <code>outputs/</code> 디렉토리에 저장됩니다. 스크립트의 인자와 기본 설정은 스크립트 자체에서 확인하세요.</p>
+<h3>파일 구조</h3>
+<ul>
+<li><code>agent/</code> - 기초 모델을 사용하기 위한 코드</li>
+<li><code>analysis/</code> - 플롯과 분석에 사용되는 스크립트</li>
+<li><code>domains/</code> - 각 도메인별 코드</li>
+<li><code>utils/</code> - 저장소 전체에서 사용되는 공통 코드</li>
+<li><code>run_meta_agent.py</code> - 메타 에이전트를 실행하고 diff를 얻기 위한 스크립트</li>
+<li><code>meta_agent.py</code> - 메타 에이전트의 주요 구현</li>
+<li><code>task_agent.py</code> - 태스크 에이전트의 주요 구현</li>
+<li><code>generate_loop.py</code> - 알고리즘 실행을 위한 진입점</li>
+</ul>
+<h3>실험 로그</h3>
+<p>실험 로그는 분할된 ZIP 아카이브 형태로 저장됩니다. 추출하려면 <code>.z01</code>, <code>.z02</code> 같은 모든 파일이 <code>.zip</code> 파일과 같은 디렉토리에 있어야 합니다.</p>
+<pre><code class="language-bash">zip -s 0 outputs_os_parts.zip --out unsplit_logs.zip
+unzip unsplit_outputs.zip</code></pre>
+<h3>보안 관련 주의사항</h3>
+<p>⚠️ <strong>경고</strong>: 이 저장소는 모델이 생성한 신뢰할 수 없는 코드를 실행합니다. 관련된 보안 위험을 충분히 인식하고 사용하시기 바랍니다.</p>
+<p>현재의 설정과 모델을 기준으로 생각할 때 명백하게 악의적인 행동을 할 가능성은 매우 낮습니다. 다만 모델의 능력 부족이나 정렬 문제로 인해 파괴적인 동작을 할 수도 있습니다. 이 저장소를 사용함으로써 여러분은 이러한 위험을 인지하고 수용하는 것입니다.</p>
+<h3>인용하기</h3>
+<p>이 프로젝트가 유용하다면 다음과 같이 인용해주세요.</p>
+<pre><code class="language-bibtex">@misc{zhang2026hyperagents,
+  title={Hyperagents},
+  author={Jenny Zhang and Bingchen Zhao and Wannan Yang and Jakob Foerster and Jeff Clune and Minqi Jiang and Sam Devlin and Tatiana Shavrina},
+  year={2026},
+  eprint={2603.19461},
+  archivePrefix={arXiv},
+  primaryClass={cs.AI},
+  url={https://arxiv.org/abs/2603.19461},
+}</code></pre></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://github.com/facebookresearch/hyperagents" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-26%20HyperAgents%3A%20%EC%9E%90%EA%B8%B0%EC%B0%B8%EC%A1%B0%EC%A0%81%20%EC%9E%90%EA%B8%B0%EA%B0%9C%EC%84%A0%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8&labels=feedback%2Cliked&body=**Article**%3A%20HyperAgents%3A%20%EC%9E%90%EA%B8%B0%EC%B0%B8%EC%A1%B0%EC%A0%81%20%EC%9E%90%EA%B8%B0%EA%B0%9C%EC%84%A0%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Ffacebookresearch%2Fhyperagents%0A**Date**%3A%202026-03-26%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
