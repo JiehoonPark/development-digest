@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neovim 0.12.0 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/29/">2026-03-29</a> &gt; Neovim 0.12.0...
+      </div>
+
+      <h1>Neovim 0.12.0</h1>
+      
+      <div class="article-meta">
+        <span>📅 2026-03-29</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 256</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Neovim 0.12.0이 릴리스되었으며, LuaJIT 2.1.1774638290을 포함합니다. Windows, macOS(x86_64/arm64), Linux(x86_64/arm64) 플랫폼용 설치 파일이 제공되며, 각 플랫폼별 구체적인 설치 방법이 안내되어 있습니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>Windows 플랫폼에서 MSI 설치 프로그램과 Zip 파일 두 가지 설치 방법이 제공되며, ARM64 버전도 지원됩니다. Server OS에서는 vcruntime140.dll 설치가 필요할 수 있습니다.</li><li>macOS는 x86_64와 arm64 아키텍처 모두 지원되며, 다운로드 후 `xattr -c` 명령으로 '알려지지 않은 개발자' 경고를 피할 수 있고, tar 압축 해제 후 실행합니다.</li><li>Linux AppImage와 Tarball 두 가지 형식이 제공되며, FUSE가 없는 경우 AppImage를 추출하여 사용할 수 있습니다. glibc 버전이 낮은 경우 레거시 빌드도 제공됩니다.</li><li>ARM64 Linux 지원으로 Raspberry Pi 등 ARM 기반 싱글보드 컴퓨터에서도 Neovim을 사용할 수 있습니다.</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>다양한 플랫폼과 아키텍처 지원으로 Neovim을 어디서나 실행할 수 있으며, 구체적인 설치 가이드는 초보자도 쉽게 설정할 수 있게 합니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Nvim v0.12.0</h2>
+<p><strong>빌드 타입:</strong> Release</p>
+<p><strong>LuaJIT:</strong> 2.1.1774638290</p>
+<p>[릴리스 노트](https://github.com/neovim/neovim/releases/tag/v0.12.0) | [변경 사항 (수정 및 신기능)](https://github.com/neovim/neovim/blob/master/CHANGELOG.md) | [뉴스 (:help news in Nvim)](https://neovim.io/news/)</p>
+<h3>설치</h3>
+<h4>Windows</h4>
+<p><strong>ZIP 파일</strong></p>
+<ul>
+<li>nvim-win64.zip (ARM의 경우 nvim-win-arm64.zip) 다운로드</li>
+<li>ZIP 파일 압축 해제</li>
+<li>터미널에서 nvim.exe 실행</li>
+</ul>
+<p><strong>MSI 설치 프로그램</strong></p>
+<ul>
+<li>nvim-win64.msi (ARM의 경우 nvim-win-arm64.msi) 다운로드</li>
+<li>MSI 파일 실행</li>
+<li>터미널에서 nvim.exe 실행</li>
+</ul>
+<p>&gt; <strong>참고:</strong> Windows Server에서는 vcruntime140.dll을 설치해야 할 수 있습니다.</p>
+<h4>macOS (x86_64)</h4>
+<pre><code class="language-bash"># 파일 다운로드
+curl -LO https://github.com/neovim/neovim/releases/download/v0.12.0/nvim-macos-x86_64.tar.gz
+
+# &quot;알 수 없는 개발자&quot; 경고 피하기
+xattr -c ./nvim-macos-x86_64.tar.gz
+
+# 압축 해제 및 실행
+tar xzvf nvim-macos-x86_64.tar.gz
+./nvim-macos-x86_64/bin/nvim</code></pre>
+<h4>macOS (arm64)</h4>
+<pre><code class="language-bash"># 파일 다운로드
+curl -LO https://github.com/neovim/neovim/releases/download/v0.12.0/nvim-macos-arm64.tar.gz
+
+# &quot;알 수 없는 개발자&quot; 경고 피하기
+xattr -c ./nvim-macos-arm64.tar.gz
+
+# 압축 해제 및 실행
+tar xzvf nvim-macos-arm64.tar.gz
+./nvim-macos-arm64/bin/nvim</code></pre>
+<h4>Linux (x86_64)</h4>
+<p>시스템의 glibc 버전이 맞지 않다면 이전 버전용 빌드를 사용해 보세요.</p>
+<p><strong>AppImage</strong></p>
+<pre><code class="language-bash">wget https://github.com/neovim/neovim/releases/download/v0.12.0/nvim-linux-x86_64.appimage
+chmod u+x nvim-linux-x86_64.appimage
+./nvim-linux-x86_64.appimage</code></pre>
+<p>FUSE가 없는 시스템의 경우 AppImage를 직접 추출할 수 있습니다.</p>
+<pre><code class="language-bash">./nvim-linux-x86_64.appimage --appimage-extract
+./squashfs-root/usr/bin/nvim</code></pre>
+<p><strong>Tarball</strong></p>
+<pre><code class="language-bash">wget https://github.com/neovim/neovim/releases/download/v0.12.0/nvim-linux-x86_64.tar.gz
+tar xzvf nvim-linux-x86_64.tar.gz
+./nvim-linux-x86_64/bin/nvim</code></pre>
+<h4>Linux (arm64)</h4>
+<p><strong>AppImage</strong></p>
+<pre><code class="language-bash">wget https://github.com/neovim/neovim/releases/download/v0.12.0/nvim-linux-arm64.appimage
+chmod u+x nvim-linux-arm64.appimage
+./nvim-linux-arm64.appimage</code></pre>
+<p>FUSE가 없는 시스템의 경우:</p>
+<pre><code class="language-bash">./nvim-linux-arm64.appimage --appimage-extract
+./squashfs-root/usr/bin/nvim</code></pre>
+<p><strong>Tarball</strong></p>
+<pre><code class="language-bash">wget https://github.com/neovim/neovim/releases/download/v0.12.0/nvim-linux-arm64.tar.gz
+tar xzvf nvim-linux-arm64.tar.gz
+./nvim-linux-arm64/bin/nvim</code></pre>
+<h4>다른 방법</h4>
+<p>패키지 관리자로 설치하기</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://github.com/neovim/neovim/releases/tag/v0.12.0" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-29%20Neovim%200.12.0&labels=feedback%2Cliked&body=**Article**%3A%20Neovim%200.12.0%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Fneovim%2Fneovim%2Freleases%2Ftag%2Fv0.12.0%0A**Date**%3A%202026-03-29%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
