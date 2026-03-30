@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MacBook을 1달러 하드웨어로 터치스크린으로 만들기 (2018) — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/30/">2026-03-30</a> &gt; MacBook을 1달러 하드웨어로 터치스크린으로 만들기 (2018)...
+      </div>
+
+      <h1>MacBook을 1달러 하드웨어로 터치스크린으로 만들기 (2018)</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Turning a MacBook into a touchscreen with $1 of hardware (2018)</p>
+      <div class="article-meta">
+        <span>📅 2026-03-30</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 132</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Project Sistine은 간단한 거울과 컴퓨터 비전 기술을 사용하여 MacBook을 터치스크린으로 변환하는 프로젝트이다. 손가락과 그 반사상의 접촉을 감지하여 터치 입력을 인식하는 방식으로 작동한다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>거울, 종이 접시, 경첩, 핫글루 등 1달러 이하의 재료로 터치 입력 시스템 구현</li><li>기존 앱과 호환 가능하도록 마우스 이벤트로 변환하여 즉시 터치 기능 추가</li><li>피부 색상 필터링과 등고선 감지 등 고전적 컴퓨터 비전 기법으로 손가락 위치 인식</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>낮은 비용으로 하드웨어 기반 입력 시스템을 구현하는 창의적 방식과 컴퓨터 비전 알고리즘 적용 사례를 학습할 수 있다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>1달러짜리 하드웨어로 맥북을 터치스크린으로 만들기</h2>
+<p>맥북을 겨우 1달러짜리 부품과 컴퓨터 비전 기술만 이용해 터치스크린으로 개조했습니다. &quot;Project Sistine&quot;이라고 이름 붙인 이 개념 증명 프로젝트는 저(Kevin), Guillermo, Logan 네 명이 약 16시간 만에 만들었습니다.</p>
+<h3>기본 원리</h3>
+<p>Sistine의 원리는 간단합니다. 각도를 달리해서 보는 표면은 반짝거리는데, 손가락이 화면에 닿으면 자기 반사상과 겹치게 된다는 점을 이용하는 거죠.</p>
+<p>Kevin은 중학교 때 이 현상을 발견하고 ShinyTouch라는 시스템을 만들었는데, 외부 웹캠을 이용해 거의 셋업 없이 터치 입력을 받을 수 있었습니다. 우리는 이 아이디어를 더 작게 만들고 외부 웹캠 없이 작동하게 할 수 있을까 생각했습니다.</p>
+<p>우리의 접근 방식은 맥북의 기본 내장 웹캠 앞에 작은 거울을 설치하는 것이었습니다. 그러면 웹캠이 화면을 예각으로 내려다볼 수 있게 되거든요. 카메라는 화면 위에서 손가락이 떠 있거나 닿아 있는 것을 감지할 수 있고, 컴퓨터 비전을 사용해 비디오 피드를 터치 이벤트로 변환할 수 있습니다.</p>
+<h3>하드웨어</h3>
+<p>우리가 준비한 부품 목록은 매우 간단했습니다.</p>
+<ul>
+<li>작은 거울</li>
+<li>견고한 종이 접시</li>
+<li>도어 힌지</li>
+<li>핫글루</li>
+</ul>
+<p>여러 번 개선하면서 결국 칼과 핫글루건만 있으면 몇 분 안에 조립할 수 있는 디자인에 정착했습니다.</p>
+<h3>손가락 감지</h3>
+<p>비디오 프레임을 처리하는 첫 번째 단계는 손가락을 감지하는 것입니다. 웹캠이 보는 전형적인 화면은 이렇습니다.</p>
+<p>손가락 감지 알고리즘은 터치 또는 호버 포인트를 찾아서 다음 단계로 넘겨야 합니다. 우리는 고전적인 컴퓨터 비전 기법을 사용했습니다. 처리 과정은 다음과 같습니다.</p>
+<ul>
+<li>피부색으로 필터링하고 이진 임계값 처리</li>
+<li>윤곽선(contour) 찾기</li>
+<li>크기가 가장 큰 두 개의 윤곽선을 찾고, 그들이 수평 방향으로 겹치며 작은 것이 큰 것보다 위에 있는지 확인</li>
+<li>터치/호버 포인트를 아래쪽 윤곽선의 맨 위와 위쪽 윤곽선의 맨 아래를 잇는 직선의 중점으로 식별</li>
+<li>두 윤곽선 사이의 수직 거리를 기반으로 터치와 호버 구분</li>
+</ul>
+<p>처리 결과는 이렇게 나타납니다. 손가락과 그 반사상(윤곽선)은 초록색으로, 경계 상자는 빨간색으로, 터치 포인트는 자홍색으로 표시됩니다.</p>
+<h3>매핑과 캘리브레이션</h3>
+<p>입력 처리의 마지막 단계는 웹캠 좌표에서 화면 좌표로 터치/호버 포인트를 변환하는 것입니다. 이 두 좌표계는 호모그래피(homography)로 연결됩니다.</p>
+<p>호모그래피 매트릭스는 캘리브레이션 과정을 통해 계산합니다. 사용자가 화면의 특정 포인트를 터치하도록 안내하고, 웹캠 좌표와 화면 좌표 데이터를 모은 뒤 RANSAC을 사용해 호모그래피를 견고하게 추정합니다. 이렇게 하면 웹캠 좌표를 화면 좌표로 변환해주는 투영 매트릭스를 얻을 수 있습니다.</p>
+<p>캘리브레이션 과정에서는 사용자가 화면의 초록 점을 따라다녀야 합니다. 웹캠의 실시간 영상 위에 디버그 정보가 표시되는데, 웹캠 좌표의 터치 포인트는 자홍색으로 보입니다. 캘리브레이션이 완료되면 투영 매트릭스가 빨간 선으로 시각화되고, 소프트웨어는 추정된 터치 포인트를 파란 점으로 표시하는 모드로 전환됩니다.</p>
+<h3>응용</h3>
+<p>현재 프로토타입에서는 호버와 터치를 마우스 이벤트로 변환합니다. 덕분에 기존 애플리케이션이 별다른 수정 없이 터치 기능을 지원하게 됩니다.</p>
+<p>만약 우리만의 터치 지원 앱을 직접 만든다면, 호버 높이 같은 정보까지 포함해 터치 데이터를 바로 활용할 수 있을 것입니다.</p>
+<h3>마치며</h3>
+<p>Project Sistine은 단 1달러의 부품으로 노트북을 터치스크린으로 만들 수 있다는 것을 증명했습니다. 프로토타입 치고는 꽤 잘 작동하거든요. 해상도가 더 높은 웹캠(우리 것은 480p였음)이나 전체 화면을 캡처할 수 있는 곡면 거울 같은 간단한 개선만으로도 Sistine은 실제로 쓸 수 있는 저비용 터치스크린 시스템이 될 수 있을 것 같습니다.</p>
+<h3>소스 코드</h3>
+<p>Sistine 프로토타입은 MIT 라이선스 하에 오픈소스로 공개되어 있습니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://anishathalye.com/macbook-touchscreen/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-30%20MacBook%EC%9D%84%201%EB%8B%AC%EB%9F%AC%20%ED%95%98%EB%93%9C%EC%9B%A8%EC%96%B4%EB%A1%9C%20%ED%84%B0%EC%B9%98%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%9C%BC%EB%A1%9C%20%EB%A7%8C%EB%93%A4%EA%B8%B0%20(2018)&labels=feedback%2Cliked&body=**Article**%3A%20MacBook%EC%9D%84%201%EB%8B%AC%EB%9F%AC%20%ED%95%98%EB%93%9C%EC%9B%A8%EC%96%B4%EB%A1%9C%20%ED%84%B0%EC%B9%98%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%9C%BC%EB%A1%9C%20%EB%A7%8C%EB%93%A4%EA%B8%B0%20(2018)%0A**URL**%3A%20https%3A%2F%2Fanishathalye.com%2Fmacbook-touchscreen%2F%0A**Date**%3A%202026-03-30%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

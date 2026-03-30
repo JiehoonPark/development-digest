@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple Keychain 복구하기 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/30/">2026-03-30</a> &gt; Apple Keychain 복구하기...
+      </div>
+
+      <h1>Apple Keychain 복구하기</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Recover Apple Keychain</p>
+      <div class="article-meta">
+        <span>📅 2026-03-30</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 41</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>MacBook 비밀번호 재설정 후 암호화된 keychain 데이터가 손실된 문제를 해결한 경험담이다. 이전 keychain 파일로 복구하여 모든 저장된 비밀번호와 데이터를 복원할 수 있음을 보여준다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>macOS 비밀번호 재설정 시 이전 keychain이 login_renamed_*.keychain-db로 백업되며 새 keychain 파일이 생성됨</li><li>~/Library/Keychains 디렉토리에서 파일을 교체하고 이전 비밀번호로 인증하면 데이터 복구 가능</li><li>keychain 데이터는 사용자 비밀번호로 암호화되어 재설정 시 자동 재암호화되지 않음</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>macOS 시스템 보안 메커니즘과 데이터 복구 방법을 이해하는 데 도움이 되며, 시스템 관리자에게 유용한 문제해결 기법이다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>macOS 잠금 해제 후 키체인 데이터 복구하기</h2>
+<p><strong>작성일:</strong> 2026년 3월 28일</p>
+<p><strong>카테고리:</strong> Apple</p>
+<p><strong>태그:</strong> Apple, keychain, password, recovery, macOS</p>
+<hr>
+<p>업무용 MacBook에 잠겨버렸습니다. 정말 어이없는 상황인데요.</p>
+<p>&quot;매일 쓰는 기기 아닌가?&quot;라고 물으실 수 있겠죠. 맞습니다. 아마 필요 이상으로 자주 쓰고 있을 정도예요. 문제는 여러 가지였어요. 우선 Touch ID에만 의존하다 보니 손가락 인식이 안 되면 막혔거든요. 그리고 습관처럼 회사 Active Directory(AD) 비밀번호를 자꾸 입력했습니다. 뭔가 잘못됐다는 걸 깨달았을 땐 이미 너무 많이 실패한 후였어요.</p>
+<p>그래서 흔한 직장인처럼 IT 팀에 연락했습니다. 그 결정이 얼마나 도움이 됐는지는... 자세히 언급하지 않겠습니다.</p>
+<h3>문제의 시작: 비밀번호 재설정</h3>
+<p>macOS 복구 옵션을 사용해서 노트북 비밀번호를 재설정했어요. 그때는 뭔가 이상할 줄 몰랐습니다. 새 비밀번호로 로그인했을 땐 깜짝 놀랐습니다. 키체인 데이터와 일부 로컬 사용자 데이터가 모두 사라졌거든요. 동기화도 멈춰 있었습니다.</p>
+<p>알고 보니 이 데이터는 이전 비밀번호로 암호화되어 있었어요. 재설정 유틸리티는 그걸 해독하고 새 비밀번호로 다시 암호화하지 않습니다. 생각해보니 보안 관점에서는 맞는 동작이죠. 하지만 비밀번호 재설정할 때 자동으로 처리해주는 마스터 키 같은 게 있을 줄 알았거든요.</p>
+<h3>복구 불가능한 상황</h3>
+<p>재설정 후 macOS는 이전 데이터와 다시 동기화할 수 있다는 옵션을 제시했습니다. 그런데 이미 이전 비밀번호 입력 시도를 다 써버렸어요. 다시 동기화하려 할 때마다 &quot;iCloud 데이터 삭제&quot; 프롬프트만 나타났습니다.</p>
+<pre><code>delete_data</code></pre>
+<p>오래전부터 Linux(Arch Linux)를 만지작거려온 사람으로서 뭔가 방법이 있을 거라고 생각했어요. 실패한 로그인 시도 카운터를 리셋하거나, 아니면 데이터를 직접 복구하는 방법 말이죠. 다만 Apple이니 만큼 쉽진 않을 거라는 건 예상했습니다.</p>
+<h3>해결책 찾기</h3>
+<p>조사 결과, 키체인 데이터는 여기에 저장되어 있었어요:</p>
+<pre><code>~/Library/Keychains</code></pre>
+<p>핵심 파일은 이것입니다:</p>
+<pre><code>login.keychain-db</code></pre>
+<p>비밀번호 재설정 과정에서 macOS는 원본 키체인을 다음과 같이 옮겨놨습니다:</p>
+<pre><code>login_renamed_1.keychain-db</code></pre>
+<p>그리고 새로운 <code>login.keychain-db</code>를 만들었거든요.</p>
+<h3>의외로 간단한 복구 방법</h3>
+<p>결국 복구 방법은 생각보다 간단했습니다. 새 키체인 파일을 옛날 것으로 바꾸면 되는 거였어요.</p>
+<h4>키체인 데이터 복구 단계</h4>
+<p><strong>1단계:</strong> 다음 위치로 이동합니다:</p>
+<pre><code>~/Library/Keychains</code></pre>
+<p><strong>2단계:</strong> 새로 만들어진 키체인을 제거합니다 (중요한 데이터가 없는지 확인하고):</p>
+<pre><code class="language-bash">rm login.keychain-db</code></pre>
+<p><strong>3단계:</strong> 이전 키체인 파일을 원래 이름으로 돌립니다:</p>
+<pre><code class="language-bash">mv login_renamed_1.keychain-db login.keychain-db</code></pre>
+<p>끝입니다. 데이터가 복구되었어요.</p>
+<p>키체인 접근(Keychain Access) 앱을 열면 이전 비밀번호를 물었습니다. 입력하자 모든 게 제대로 동기화되고, 이후로는 새 비밀번호를 사용하도록 업데이트됐거든요.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://arkoinad.com/posts/apple_keychain_recovery.html" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-30%20Apple%20Keychain%20%EB%B3%B5%EA%B5%AC%ED%95%98%EA%B8%B0&labels=feedback%2Cliked&body=**Article**%3A%20Apple%20Keychain%20%EB%B3%B5%EA%B5%AC%ED%95%98%EA%B8%B0%0A**URL**%3A%20https%3A%2F%2Farkoinad.com%2Fposts%2Fapple_keychain_recovery.html%0A**Date**%3A%202026-03-30%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
