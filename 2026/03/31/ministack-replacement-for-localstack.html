@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ministack - LocalStack의 무료 대체 솔루션 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/31/">2026-03-31</a> &gt; Ministack - LocalStack의 무료 대체 솔루션...
+      </div>
+
+      <h1>Ministack - LocalStack의 무료 대체 솔루션</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Ministack (Replacement for LocalStack)</p>
+      <div class="article-meta">
+        <span>📅 2026-03-31</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 75</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>LocalStack이 유료화됨에 따라 등장한 오픈소스 대체제로, 33개의 AWS 서비스를 단일 포트에서 실행하며 실제 PostgreSQL, Redis, Docker 컨테이너를 사용합니다. 계정이나 라이선스 없이 무료로 사용 가능합니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>RDS, ElastiCache, ECS 등 핵심 AWS 서비스를 실제 인프라(Docker)로 구현</li><li>LocalStack 대비 낮은 비용과 리소스 사용량, 완전 무료</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>AWS 로컬 개발 환경 구성 시 비용 부담을 크게 줄일 수 있는 실용적인 솔루션입니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>LocalStack 유료화, 이제는 MiniStack으로 가세요</h2>
+<p>LocalStack이 유료화되면서 대안을 찾는 개발자들이 많아졌는데요. 바로 <strong>MiniStack</strong>이 그 대안입니다.</p>
+<h3>MiniStack은 뭐가 다른가요?</h3>
+<p>MiniStack은 단 하나의 포트에서 33개의 AWS 서비스를 제공합니다. 여기서 중요한 건 단순한 &quot;모의 서비스&quot;가 아니라는 거예요. 실제 Postgres, Redis, Docker 컨테이너가 동작합니다. 게다가 계정도, 라이선스 키도, 원격 추적(telemetry)도 필요 없습니다.</p>
+<h3>진짜 인프라에서 동작한다는 게 무슨 뜻?</h3>
+<ul>
+<li><strong>RDS</strong>: 실제 데이터베이스가 돌아갑니다</li>
+<li><strong>ElastiCache</strong>: 진짜 Redis 인스턴스를 실행합니다</li>
+<li><strong>ECS</strong>: 실제 Docker 컨테이너를 시작합니다</li>
+<li><strong>Athena</strong>: DuckDB를 통해 실제 SQL 쿼리를 실행합니다 (설치된 경우)</li>
+</ul>
+<p>즉, 가짜 엔드포인트도 없고 스텁 응답도 없다는 거죠. 개발 환경에서 프로덕션과 똑같이 테스트할 수 있다는 의미입니다.</p>
+<h3>핵심 장점</h3>
+<p>개발자 경험은 LocalStack과 동일하면서도 비용과 리소스 사용량은 몇 분의 일 수준입니다. 정말로 중요한 부분들—RDS, ElastiCache, ECS—에서는 실제 Docker 컨테이너를 돌리니까요.</p>
+<p>한 줄로 요약하면? <strong>한 명령어. 33개 서비스. 진짜 인프라. 무료.</strong></p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://ministack.org/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-31%20Ministack%20-%20LocalStack%EC%9D%98%20%EB%AC%B4%EB%A3%8C%20%EB%8C%80%EC%B2%B4%20%EC%86%94%EB%A3%A8%EC%85%98&labels=feedback%2Cliked&body=**Article**%3A%20Ministack%20-%20LocalStack%EC%9D%98%20%EB%AC%B4%EB%A3%8C%20%EB%8C%80%EC%B2%B4%20%EC%86%94%EB%A3%A8%EC%85%98%0A**URL**%3A%20https%3A%2F%2Fministack.org%2F%0A**Date**%3A%202026-03-31%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

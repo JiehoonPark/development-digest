@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Combinators - 함수형 프로그래밍 패턴 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/31/">2026-03-31</a> &gt; Combinators - 함수형 프로그래밍 패턴...
+      </div>
+
+      <h1>Combinators - 함수형 프로그래밍 패턴</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Combinators</p>
+      <div class="article-meta">
+        <span>📅 2026-03-31</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 126</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>TinyAPL 문서에서 소개하는 Combinator는 인자와 피연산자만 참조하고 수정하지 않는 함수 또는 연산자이다. Identity, Kestrel, Warbler, Cardinal 등 다양한 조합자가 조류 이름으로 명명되어 있으며 함수형 프로그래밍에서 핵심 패턴을 구성한다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>조합자(Combinator)는 순수 함수 개념으로 부작용이 없으며 함수형 프로그래밍의 기본 블록</li><li>Raymond Smullyan의 'To Mock a Mockingbird'에서 영감을 받아 조류 이름으로 표기</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>함수형 프로그래밍에서 재사용 가능한 고차 함수 패턴을 이해하고 활용할 수 있다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>컴비네이터(Combinator)</h2>
+<p>컴비네이터는 자신의 인자나 피연산자를 수정하지 않고 오직 그것들만을 참조하는 함수나 연산자입니다.</p>
+<h3>주요 컴비네이터 목록</h3>
+<div class="table-wrapper"><table><thead><tr><th>기호</th><th>APL 표현</th><th>새 이름(Bird Name)</th><th>TinyAPL</th></tr></thead><tbody><tr><td>I</td><td>\mathrm I</td><td>Identity</td><td>⊣/⊢</td></tr><tr><td>K</td><td>\mathrm K</td><td>Kestrel</td><td>⊣</td></tr><tr><td>κ</td><td>\kappa</td><td>Kite</td><td>⊢</td></tr><tr><td>W</td><td>\mathrm W</td><td>Warbler</td><td>⍨</td></tr><tr><td>C</td><td>\mathrm C</td><td>Cardinal</td><td>⍨</td></tr><tr><td>B</td><td>\mathrm B</td><td>Bluebird</td><td>∘/⍤/⍥</td></tr><tr><td>Q</td><td>\mathrm Q</td><td>Queer</td><td>⍛</td></tr><tr><td>B₁</td><td>{\mathrm B}_1</td><td>Blackbird</td><td>⍤</td></tr><tr><td>Ψ</td><td>\Psi</td><td>Psi</td><td>⍥</td></tr><tr><td>S</td><td>\mathrm S</td><td>Starling</td><td>⟜/⇽</td></tr><tr><td>Σ</td><td>\Sigma</td><td>Violet Starling</td><td>⊸/⇾</td></tr><tr><td>D</td><td>\mathrm D</td><td>Dove</td><td>∘/⟜</td></tr><tr><td>Δ</td><td>\Delta</td><td>Zebra Dove</td><td>⍛/⊸</td></tr><tr><td>Φ</td><td>\Phi</td><td>Phoenix</td><td>«»</td></tr><tr><td>Φ₁</td><td>\Phi_1</td><td>Pheasant</td><td>«»</td></tr><tr><td>D₂</td><td>{\mathrm D}_2</td><td>Dovekie</td><td>⊸ + ⟜</td></tr><tr><td>P</td><td>\mathrm P</td><td>Parrot</td><td>⸚</td></tr><tr><td>N</td><td>\mathrm N</td><td>Eastern Nicator</td><td>⇽</td></tr><tr><td>ν</td><td>\mathrm \nu</td><td>Western Nicator</td><td>⇾</td></tr></tbody></table></div>
+<h3>컴비네이터 유사 동작</h3>
+<p>일부 다른 기본 연산자들도 컴비네이터와 유사한 행동을 보입니다.</p>
+<div class="table-wrapper"><table><thead><tr><th>APL 표현</th><th>TinyAPL</th><th>다이어그램</th></tr></thead><tbody><tr><td>n⍨</td><td>n⍨</td><td>F y⁖x G y⁖</td></tr></tbody></table></div>
+<h3>참고</h3>
+<p>몇몇 컴비네이터는 Raymond Smullyan의 저서 『To Mock a Mockingbird』에서 유래한 새의 이름을 갖고 있습니다. 일부 새 이름은 Uiua 컴비네이터 페이지에서 차용했습니다. 그 외의 일부는 직접 만들어낸 것입니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://tinyapl.rubenverg.com/docs/info/combinators" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-31%20Combinators%20-%20%ED%95%A8%EC%88%98%ED%98%95%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D%20%ED%8C%A8%ED%84%B4&labels=feedback%2Cliked&body=**Article**%3A%20Combinators%20-%20%ED%95%A8%EC%88%98%ED%98%95%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D%20%ED%8C%A8%ED%84%B4%0A**URL**%3A%20https%3A%2F%2Ftinyapl.rubenverg.com%2Fdocs%2Finfo%2Fcombinators%0A**Date**%3A%202026-03-31%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

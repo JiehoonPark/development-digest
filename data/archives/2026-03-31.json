@@ -1,0 +1,1373 @@
+{
+  "date": "2026-03-31",
+  "intro": "안녕하세요! 오늘은 프론트엔드 개발 커뮤니티에 큰 영향을 미칠 보안 사건들이 주목됩니다. 주간 1억 건 이상의 다운로드를 기록하는 Axios가 NPM에서 침해당해 원격 접근 트로이목마가 배포되었으며, Anthropic의 Claude Code도 소스맵 유출로 2주 내 두 번째 보안 사고를 겪었습니다. 한편 Next.js 16.2의 출시로 Turbopack 성능 개선과 AI 에이전트 개발 지원이 강화되면서 긍정적인 기술 트렌드도 이어지고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Axios compromised on NPM – Malicious versions drop remote access trojan",
+          "titleKo": "NPM의 Axios 패키지 보안 침해 - 악성 버전에서 원격 접근 트로이목마 배포",
+          "summary": "주당 1억 건 이상의 다운로드를 기록하는 인기 HTTP 라이브러리 Axios가 NPM에서 보안 침해를 당했다. 공격자는 악성 버전을 배포하여 원격 접근 트로이목마(RAT)를 삽입했으며, 수백만 명의 JavaScript 개발자가 영향을 받을 수 있다. 이는 NPM 공급망 공격의 심각한 사례로, 광범위한 의존성으로 인한 2차 피해가 우려된다.",
+          "keyPoints": [
+            "Axios는 레거시 인기도로 인해 주당 1억 다운로드 이상을 기록하는 가장 널리 사용되는 HTTP 라이브러리 중 하나이다. 이러한 높은 다운로드 수는 공격자의 주요 타겟이 되었다.",
+            "공격자가 악성 버전을 NPM 레지스트리에 업로드하여 원격 접근 트로이목마(RAT) 의존성을 주입했다. 이를 통해 공격자는 감염된 개발 환경과 배포된 애플리케이션에 원격 접근이 가능해진다."
+          ],
+          "whyItMatters": "Axios는 수백만 개의 프로젝트가 의존하는 핵심 라이브러리이기 때문에 이 공격은 전체 JavaScript 에코시스템에 광범위한 보안 영향을 미친다. 개발자들은 즉시 패키지 버전을 확인하고 업데이트해야 한다.",
+          "url": "https://www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 1748,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops",
+            "general"
+          ],
+          "topicId": "axios-npm-attack",
+          "isTopicPrimary": true,
+          "relatedCount": 2,
+          "slug": "axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan",
+          "category": "hot",
+          "publishedAt": "2026-03-31T02:54:17.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Claude Code's source code has been leaked via a map file in their NPM registry",
+          "titleKo": "Claude Code 소스 코드가 NPM 레지스트리의 맵 파일을 통해 유출됨",
+          "summary": "Anthropic의 Claude Code CLI 도구 전체 소스 코드가 NPM 패키지에 포함된 소스맵(.map) 파일을 통해 실수로 공개되었다. 이는 Anthropic이 1주일 내 두 번째로 일어난 보안 유출 사건이다.",
+          "keyPoints": [
+            "소스맵 파일이 실수로 NPM 레지스트리에 포함되어 전체 소스 코드가 공개되었으며, 패키지 제거 전 광범위하게 미러링되었다."
+          ],
+          "whyItMatters": "프로덕션 빌드에서 소스맵을 제외하는 것의 중요성을 강조하며, npm 배포 프로세스의 검수 강화 필요성을 보여준다.",
+          "url": "https://twitter.com/Fried_rice/status/2038894956459290963",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 1844,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "topicId": "claude-code-leak",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "claude-codes-source-code-has-been-leaked-via-a-map-file-in-their-npm-registry",
+          "category": "hot",
+          "publishedAt": "2026-03-31T09:00:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "The Claude Code Source Leak: fake tools, frustration regexes, undercover mode",
+          "titleKo": "Claude Code 소스 유출: 가짜 도구, 좌절감 정규식, 은폐 모드",
+          "summary": "NPM 레지스트리의 소스맵 파일을 통해 유출된 Claude Code 소스 코드에서 발견된 흥미로운 보안 및 전략 메커니즘들을 분석하는 글이다. 반-모방 방지(anti-distillation) 기법, AI가 AI임을 숨기는 은폐 모드, 좌절감 감지 정규식, 클라이언트 인증서 검증, 미공개 자율 에이전트 모드 등이 포함되어 있다. Anthropic이 1주일 내 두 번째 보안 유출을 경험했으며, 10일 전 OpenCode에 대한 법적 위협과의 시점 일치가 논쟁이 되고 있다.",
+          "keyPoints": [
+            "반-모방 방지 기법(Anti-distillation): claude.ts의 ANTI_DISTILLATION_CC 플래그는 API 요청에 fake_tools를 포함시켜 경쟁사의 모델 학습 데이터를 오염시킨다. GrowthBook 피처 플래그(tengu_anti_distill_fake_tool_injection)로 제어되며 자사 CLI 세션에서만 활성화된다. 하지만 MITM 프록시로 쉽게 우회 가능하며, CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS 환경변수로도 비활성화될 수 있어 기술적 보호는 제한적이다.",
+            "서버측 커넥터 텍스트 요약(Connector-text summarization): betas.ts(279-298줄)의 두 번째 반-모방 방지 메커니즘으로, API가 도구 호출 사이의 어시스턴트 텍스트를 버퍼링하고 요약하며 암호화 서명으로 반환한다. API 트래픽 기록 시 전체 추론 체인이 아닌 요약만 캡처된다.",
+            "은폐 모드(Undercover mode): undercover.ts(약 90줄)는 비내부 저장소에서 Anthropic 내부 정보를 모두 제거한다. 모델에게 'Capybara'나 'Tengu' 같은 내부 코드명, Slack 채널, 저장소명, 'Claude Code'라는 표현을 사용하지 않도록 지시한다. CLAUDE_CODE_UNDERCOVER=1로 강제 활성화는 가능하지만 비활성화는 불가능하며(no force-OFF), 외부 빌드에서는 완전히 제거된다. 이는 Anthropic 직원이 작성한 오픈소스 AI 커밋/PR에 AI 작성 표시가 없음을 의미한다.",
+            "좌절감 감지 정규식: userPromptKeywords.ts는 정규식을 사용하여 사용자 좌절감을 감지한다. 패턴은 'wtf', 'wth', 'ffs', 'shit(ty|tiest)?', 'horrible', 'awful', 'fucking (broken|useless|terrible)' 등의 키워드를 포함한다. LLM 회사가 감정 분석에 정규식을 사용하는 것은 역설적이지만, 정규식은 신경망 기반 분석보다 빠르다.",
+            "클라이언트 인증서 검증: JavaScript 런타임 아래에서 네이티브 클라이언트 인증서(mTLS) 검증을 구현하여 프로세스 위조를 방지한다.",
+            "미공개 자율 에이전트 모드(KAIROS): 유출된 코드에서 아직 공개되지 않은 자율 에이전트 모드가 발견되었다.",
+            "API 호출 낭비: 하루에 250,000건의 낭비된 API 호출이 발견되어 운영 효율성 문제를 시사한다.",
+            "법적 보호의 중요성: 대부분의 반-모방 방지 기법은 기술적으로 취약하며, 진정한 보호는 법적 조치에 있다는 것이 강조된다. 또한 OpenCode 사건으로부터 10일 후의 유출 타이밍이 의도적일 가능성에 대한 의문이 제기된다."
+          ],
+          "whyItMatters": "Claude Code의 내부 설계, AI 안전 메커니즘, 그리고 Anthropic이 사용자에게 공개하지 않은 기능들이 공개되었다. 특히 AI 도구가 인간임을 가장하는 능력과 데이터 포이즈닝 기법은 AI 투명성과 윤리에 대한 중요한 논점을 제기하며, 개발자들이 사용하는 도구의 실제 동작을 이해하는 데 중요한 정보를 제공한다.",
+          "url": "https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 581,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "topicId": "claude-code-leak",
+          "isTopicPrimary": true,
+          "relatedCount": 2,
+          "slug": "the-claude-code-source-leak-fake-tools-frustration-regexes-undercover-mode",
+          "fullContent": "Table of ContentsAnti-distillation: injecting fake tools to poison copycatsUndercover mode: AI that hides its AIFrustration detection via regex (yes, regex)Native client attestation below the JS runtime250,000 wasted API calls per dayKAIROS: the unreleased autonomous agent modeOther stuffSo what?Update: see HN discussions about this post: https://news.ycombinator.com/item?id=47586778I use Claude Code daily, so when Chaofan Shou noticed earlier today that Anthropic had shipped a .map file alongside their Claude Code npm package, one containing the full, readable source code of the CLI tool, I immediately wanted to look inside. The package has since been pulled, but not before the code was widely mirrored, including myself and picked apart on Hacker News.This is Anthropic’s second accidental exposure in a week (the model spec leak was just days ago), and some people on Twitter are starting to wonder if someone inside is doing this on purpose. Probably not, but it’s a bad look either way. The timing is hard to ignore: just ten days ago, Anthropic sent legal threats to OpenCode, forcing them to remove built-in Claude authentication because third-party tools were using Claude Code’s internal APIs to access Opus at subscription rates instead of pay-per-token pricing. That whole saga makes some of the findings below more pointed.So I spent my morning reading through the HN comments and leaked source. Here’s what I found, roughly ordered by how “spicy” I thought it was.Anti-distillation: injecting fake tools to poison copycats#In claude.ts (line 301-313), there’s a flag called ANTI_DISTILLATION_CC. When enabled, Claude Code sends anti_distillation: ['fake_tools'] in its API requests. This tells the server to silently inject decoy tool definitions into the system prompt.The idea: if someone is recording Claude Code’s API traffic to train a competing model, the fake tools pollute that training data. It’s gated behind a GrowthBook feature flag (tengu_anti_distill_fake_tool_injection) and only active for first-party CLI sessions.This was one of the first things people noticed on HN.There’s also a second anti-distillation mechanism in betas.ts (lines 279-298), server-side connector-text summarization. When enabled, the API buffers the assistant’s text between tool calls, summarizes it, and returns the summary with a cryptographic signature. On subsequent turns, the original text can be restored from the signature. If you’re recording API traffic, you only get the summaries, not the full reasoning chain.How hard would it be to work around these? Not very. Looking at the activation logic in claude.ts, the fake tools injection requires all four conditions to be true: the ANTI_DISTILLATION_CC compile-time flag, the cli entrypoint, a first-party API provider, and the tengu_anti_distill_fake_tool_injection GrowthBook flag returning true. A MITM proxy that strips the anti_distillation field from request bodies before they reach the API would bypass it entirely, since the injection is server-side and opt-in. The shouldIncludeFirstPartyOnlyBetas() function also checks for CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS, so setting that env var to a truthy value disables the whole thing. And if you’re using a third-party API provider or the SDK entrypoint instead of the CLI, the check never fires at all. The connector-text summarization is even more narrowly scoped, Anthropic-internal-only (USER_TYPE === 'ant'), so external users won’t encounter it regardless.Anyone serious about distilling from Claude Code traffic would find the workarounds in about an hour of reading the source. The real protection is probably legal, not technical.Undercover mode: AI that hides its AI#The file undercover.ts (about 90 lines) implements a mode that strips all traces of Anthropic internals when Claude Code is used in non-internal repos. It instructs the model to never mention internal codenames like “Capybara” or “Tengu,” internal Slack channels, repo names, or the phrase “Claude Code” itself.Check out line 15:“There is NO force-OFF. This guards against model codename leaks.”You can force it ON with CLAUDE_CODE_UNDERCOVER=1, but there’s no way to force it off. In external builds, the entire function gets dead-code-eliminated to trivial returns. This is a one-way door.This means AI-authored commits and PRs from Anthropic employees in open source projects will have no indication that an AI wrote them. Hiding internal codenames is reasonable. Having the AI actively pretend to be human is a different thing.Frustration detection via regex (yes, regex)#userPromptKeywords.ts contains a regex pattern that detects user frustration:/\\b(wtf|wth|ffs|omfg|shit(ty|tiest)?|dumbass|horrible|awful|\npiss(ed|ing)? off|piece of (shit|crap|junk)|what the (fuck|hell)|\nfucking? (broken|useless|terrible|awful|horrible)|fuck you|\nscrew (this|you)|so frustrating|this sucks|damn it)\\b/\nAn LLM company using regexes for sentiment analysis is peak irony, but also: a regex is faster and",
+          "category": "hot",
+          "publishedAt": "2026-03-31T13:04:30.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Claude Code 소스코드 유출에서 발견된 것들\n\n목차\n- 모조 도구 주입으로 모방자 견제하기\n- 숨겨진 AI: 자신의 정체를 숨기는 인공지능\n- 정규표현식으로 사용자 감정 탐지하기\n- JS 런타임 아래의 네이티브 클라이언트 검증\n- 하루 25만 건의 낭비되는 API 호출\n- KAIROS: 미공개 자율 에이전트 모드\n- 기타 내용\n- 결론\n\n---\n\n저는 Claude Code를 매일 사용하고 있는데, 오늘 아침 Chaofan Shou가 Anthropic이 Claude Code npm 패키지와 함께 배포한 .map 파일을 발견했다는 소식을 듣자마자 눈이 반짝였어요. 그 파일에는 CLI 도구의 완전한 소스코드가 읽을 수 있는 형태로 담겨 있었거든요. 지금은 패키지가 내려갔지만, 이미 Hacker News에서 소스코드가 널리 공유되고 분석되어 버린 상태입니다.\n\n이건 일주일 사이에 Anthropic이 저지른 두 번째 실수예요. 모델 사양 유출이 며칠 전에 있었거든요. 트위터의 일부 사람들은 이게 내부자의 의도적인 행동 아니냐고 의심하기까지 합니다. 아마 그렇진 않겠지만, 어쨌든 좋은 모습은 아니네요.\n\n더 흥미로운 건 타이밍이에요. 불과 10일 전, Anthropic은 OpenCode에 법적 위협을 날렸습니다. 제3자 도구들이 Claude Code의 내부 API를 이용해 Opus에 구독료로 접근하는 대신 토큰당 비용을 지불하도록 하기 위함이었죠. 이 사건 때문에 아래 발견 내용들이 더 흥미롭게 들리네요.\n\n아침 내내 HN 댓글과 유출된 소스코드를 읽었어요. 제 관점에서 흥미로운 순서대로 정렬해서 공유해볼게요.\n\n## 모조 도구 주입으로 모방자 견제하기\n\nclaude.ts의 301~313번 줄에 `ANTI_DISTILLATION_CC`라는 플래그가 있습니다. 이걸 활성화하면 Claude Code는 API 요청에 `anti_distillation: ['fake_tools']`를 포함시켜요. 서버는 이 신호를 받으면 시스템 프롬프트에 가짜 도구 정의를 몰래 주입합니다.\n\n목적이 뭘까요? 누군가가 Claude Code의 API 트래픽을 기록해서 경쟁사의 모델 학습에 사용하려고 하면, 이 가짜 도구들이 학습 데이터를 오염시키는 거죠. GrowthBook 기능 플래그(`tengu_anti_distill_fake_tool_injection`)로 제어되며, 오직 퍼스트파티 CLI 세션에서만 활성화됩니다.\n\n이 발견이 HN에서 가장 먼저 주목받은 것 중 하나였어요.\n\n또 다른 견제 메커니즘도 있습니다. betas.ts의 279~298번 줄에 있는 서버 측 커넥터 텍스트 요약 기능이죠. 활성화되면 API는 도구 호출 사이의 어시스턴트 텍스트를 버퍼링했다가 요약하고, 암호화 서명과 함께 반환합니다. 다음 턴에는 서명에서 원본 텍스트를 복구할 수 있어요. API 트래픽을 기록하는 입장에서는 요약본만 얻을 수 있고, 완전한 추론 과정은 못 보게 되는 셈입니다.\n\n이런 메커니즘을 우회하기가 얼마나 어려울까요? 사실 그렇게 어렵지 않아요. claude.ts의 활성화 로직을 보면, 가짜 도구 주입은 네 가지 조건이 모두 참이어야 해요. ANTI_DISTILLATION_CC 컴파일 타임 플래그, CLI 엔드포인트, 퍼스트파티 API 제공자, 그리고 `tengu_anti_distill_fake_tool_injection` GrowthBook 플래그. 중간자 공격(MITM) 프록시로 요청 본문에서 `anti_distillation` 필드를 제거한 뒤 API로 보내면 완전히 우회됩니다. 주입이 서버 측이고 선택적이거든요.\n\n`shouldIncludeFirstPartyOnlyBetas()` 함수는 `CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS` 환경변수도 확인하니, 이걸 참값으로 설정하면 전체 기능이 비활성화돼요. 게다가 CLI 대신 제3자 API 제공자나 SDK 엔드포인트를 쓰면 이 검사 자체가 실행되지 않아요.\n\n커넥터 텍스트 요약도 훨씬 범위가 좁습니다. Anthropic 내부 전용(`USER_TYPE === 'ant'`)이라 외부 사용자는 이걸 만날 일이 없어요.\n\nClaude Code 트래픽에서 진짜로 모델을 증류하려는 기업이라면 소스코드를 읽고 한 시간 정도면 우회 방법을 찾을 거예요. 진짜 보호는 아마 기술적인 것보다는 법적인 것일 겁니다.\n\n## 숨겨진 AI: 자신의 정체를 숨기는 인공지능\n\nundercover.ts 파일(약 90줄)은 Claude Code가 비내부 저장소에서 사용될 때 Anthropic 내부 정보를 모두 제거하는 모드를 구현합니다. 모델에게 \"Capybara\"나 \"Tengu\" 같은 내부 코드명, 내부 Slack 채널, 저장소 이름, 심지어 \"Claude Code\" 문구 자체를 언급하지 말도록 지시해요.\n\n15번 줄을 보세요:\n\n```\n\"There is NO force-OFF. This guards against model codename leaks.\"\n```\n\n`CLAUDE_CODE_UNDERCOVER=1`로 강제 활성화는 할 수 있지만, 강제 비활성화는 방법이 없습니다. 외부 빌드에서는 함수 전체가 데드 코드 제거되어 사실상 아무것도 반환하지 않아요. 일방통행 문이라는 뜻입니다.\n\n이는 Anthropic 직원들이 오픈소스 프로젝트에서 작성한 AI 기반 커밋과 PR에는 AI가 작성했다는 표시가 전혀 없다는 뜻이에요. 내부 코드명 숨기기는 합리적일 수 있어요. 하지만 AI가 적극적으로 인간인 척하는 건 다른 문제입니다.\n\n## 정규표현식으로 사용자 감정 탐지하기\n\nuserPromptKeywords.ts에는 사용자 감정을 탐지하는 정규표현식 패턴이 있어요:\n\n```javascript\n/\\b(wtf|wth|ffs|omfg|shit(ty|tiest)?|dumbass|horrible|awful|\npiss(ed|ing)? off|piece of (shit|crap|junk)|what the (fuck|hell)|\nfucking? (broken|useless|terrible|awful|horrible)|fuck you|\nscrew (this|you)|so frustrating|this sucks|damn it)\\b/\n```\n\nLLM 회사가 감정 분석에 정규표현식을 쓰다니 정말 아이러니네요. 하지만 생각해보면 정규표현식이 더 빠르고..."
+        },
+        {
+          "title": "OpenAI closes funding round at an $852B valuation",
+          "titleKo": "OpenAI, 8520억 달러 기업가치로 펀딩 라운드 마감",
+          "summary": "OpenAI가 기업가치 8520억 달러에서 1220억 달러 규모의 펀딩 라운드를 마감했으며, 이는 2월 발표한 1100억 달러보다 증가한 규모다. SoftBank가 주도했으며 Amazon, Nvidia, Microsoft 등이 참여했고, 개인투자자로부터 30억 달러를 조성했다.",
+          "keyPoints": [
+            "월 20억 달러 수익 창출 중이나 아직 적자 상태이며, IPO 준비 과정에서 비용 절감 및 일부 제품 폐지 진행 중",
+            "ChatGPT는 월간 9억 명 이상의 활성 사용자를 보유하고 있으며, 작년 매출은 131억 달러 달성"
+          ],
+          "whyItMatters": "AI 산업의 성장 속도와 투자 규모를 보여주는 지표이며, 개발자들이 AI 플랫폼 선택 및 커리어 방향 결정에 영향을 미칠 수 있다.",
+          "url": "https://www.cnbc.com/2026/03/31/openai-funding-round-ipo.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 243,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "openai-funding",
+          "isTopicPrimary": true,
+          "slug": "openai-closes-funding-round-at-an-852b-valuation",
+          "fullContent": "Key PointsOpenAI announced it closed its record-breaking funding round at a post-money valuation of $852 billion. The round totaled $122 billion of committed capital, up from the $110 billion figure that the company previously announced. OpenAI said it extended participation to investors through bank channels for the first time and raised $3 billion from individual investors. watch nowVIDEO2:1202:12OpenAI opens up to retail as it closes record $122 billion roundClosing Bell: OvertimeOpenAI on Tuesday announced that it closed a record-breaking funding round at a post-money valuation of $852 billion. The round totaled $122 billion of committed capital, up from the $110 billion figure that the company announced in February. SoftBank co-led the round alongside other investors, including Andreessen Horowitz and D. E. Shaw Ventures, OpenAI said. OpenAI kickstarted the artificial intelligence boom with the launch of its ChatGPT chatbot in 2022, and the company has since ballooned into one of the fastest-growing commercial entities on the planet. As of March, ChatGPT supports more than 900 million weekly active users, including more than 50 million subscribers. \"AI is driving productivity gains, accelerating scientific discovery, and expanding what people and organizations can build,\" OpenAI said in a release. \"This funding gives us the resources to continue to lead at the scale this moment demands.\"With the close of its latest funding round, OpenAI CEO Sam Altman will be under pressure to justify his company's massive valuation, especially as it gears up for a potential IPO. The startup has been retreating from some hefty spending plans and shuttering certain features and products in recent months, including its short-form video app Sora, as it looks to rein in costs.OpenAI said Tuesday that it's generating $2 billion in revenue per month. It made $13.1 billion in revenue last year. The company is still burning cash and is not yet profitable.In February, OpenAI revealed $110 billion of commitments from some of its strategic investors that anchored its funding round. Amazon agreed to invest up to $50 billion in the startup, Nvidia invested $30 billion, and SoftBank invested $30 billion. The additional $12 billion of capital that OpenAI raised came from a broader pool of investors. OpenAI said it extended participation to investors through bank channels for the first time and raised $3 billion from individual investors. Microsoft, one of OpenAI's longtime partners, also participated, but OpenAI did not disclose the size of the company's investment in its Tuesday release. As of late last year, Microsoft had invested more than $13 billion in the startup. \"Moments like this do not come often,\" OpenAI said. \"The capital being deployed today is helping build the infrastructure layer for intelligence itself. Over time, that value will flow back into the economy, to companies, to communities, and increasingly to individuals.\"— CNBC's MacKenzie Sigalos contributed to this report.WATCH: OpenAI sees more opportunity in enterprise, coding AI than consumer side: Big Technology’s Kantrowitzwatch nowVIDEO4:1804:18OpenAI sees more opportunity in enterprise, coding AI than consumer side: Big Technology's KantrowitzThe ExchangeChoose CNBC as your preferred source on Google and never miss a moment from the most trusted name in business news.",
+          "category": "hot",
+          "publishedAt": "2026-03-31T20:07:30.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# OpenAI, 8520억 달러 기업가치로 역대 최대 펀딩 라운드 마감\n\nOpenAI가 기업가치 8520억 달러(약 1,200조 원)로 역사상 최대 규모의 펀딩을 완료했습니다. 이번 라운드에서 조달한 자금은 1,220억 달러로, 지난 2월 발표한 1,100억 달러보다 120억 달러 증가했습니다.\n\n## 투자사 라인업과 자금 조달 현황\n\nSoftBank가 Andreessen Horowitz, D.E. Shaw Ventures 등과 함께 이번 라운드를 주도했습니다. 자금 구성을 살펴보면 Amazon은 500억 달러, Nvidia는 300억 달러, SoftBank도 300억 달러를 약속했습니다. \n\n흥미로운 점은 OpenAI가 은행 채널을 통해 개인 투자자들의 참여를 처음으로 열었다는 건데요. 이를 통해 30억 달러를 추가로 조달했습니다. Microsoft도 참여했지만, 투자 규모는 공개하지 않았습니다. 지난해 말 기준으로 Microsoft는 이미 OpenAI에 130억 달러 이상을 투자한 상태입니다.\n\n## ChatGPT의 놀라운 성장\n\nOpenAI는 2022년 ChatGPT를 출시하면서 AI 붐을 촉발했습니다. 현재 ChatGPT는 월간 활성 사용자 9억 명 이상을 기록 중이며, 이 중 5,000만 명 이상이 유료 구독자입니다. ChatGPT의 성공으로 OpenAI는 빠르게 성장하는 글로벌 기업으로 자리 잡았습니다.\n\nOpenAI는 \"AI는 생산성을 높이고 과학적 발견을 앞당기며, 개인과 조직이 만들 수 있는 것의 범위를 확장하고 있다\"고 밝혔습니다.\n\n## 수익성과 향후 과제\n\nOpenAI는 현재 월 20억 달러의 수익을 창출하고 있으며, 지난해 총 131억 달러의 매출을 기록했습니다. 그렇지만 아직 적자 상태에 있어 수익성을 달성하지 못했습니다.\n\n최근 몇 달간 OpenAI는 비용 절감을 위해 단기 영상 앱 Sora 같은 일부 제품을 중단하거나 기능을 축소했습니다. IPO를 준비하면서 Sam Altman CEO는 이러한 막대한 기업가치를 정당화해야 하는 부담을 안게 되었습니다.\n\n## 미래에 대한 기대\n\nOpenAI는 \"이런 순간이 자주 오지는 않는다\"며 \"오늘 투입되는 자본은 지능이라는 인프라 계층을 구축하는 데 도움을 주고 있고, 시간이 흐르면서 그 가치는 경제 전체, 기업과 지역사회, 그리고 개인에게까지 돌아갈 것\"이라고 설명했습니다."
+        },
+        {
+          "title": "Microsoft: Copilot is for entertainment purposes only",
+          "titleKo": "Microsoft: Copilot은 엔터테인먼트 목적으로만 사용",
+          "summary": "Microsoft가 Copilot의 이용약관에서 해당 서비스가 엔터테인먼트 용도로만 제한된다고 명시했다.",
+          "keyPoints": [
+            "법적 책임 제한: Copilot의 공식 사용 목적이 엔터테인먼트로만 제한됨"
+          ],
+          "whyItMatters": "AI 어시스턴트의 법적 책임 범위를 이해하는 것이 중요하며, 프로덕션 환경에서의 활용 시 리스크를 고려해야 한다.",
+          "url": "https://www.microsoft.com/en-us/microsoft-copilot/for-individuals/termsofuse",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 419,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "topicId": "ai-limitations",
+          "isTopicPrimary": true,
+          "slug": "microsoft-copilot-is-for-entertainment-purposes-only",
+          "category": "hot",
+          "publishedAt": "2026-03-31T14:25:37.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Accidentally created my first fork bomb with Claude Code",
+          "titleKo": "Claude Code로 실수로 만든 첫 번째 포크 폭탄",
+          "summary": "개발자가 Claude Code의 SessionStart hook에서 의도하지 않은 재귀 구조를 만들어 포크 폭탄을 유발한 경험담입니다. 밤새 CC 인스턴스가 기하급수적으로 증가하여 컴퓨터를 마비시켰고, 결과적으로 메모리 부족으로 조기 종료되어 큰 API 비용 손실을 피하게 됩니다.",
+          "keyPoints": [
+            "SessionStart hook에서 각 CC 인스턴스가 2개의 새 인스턴스를 생성하도록 구성하여 2^N 기하급수적 증가 초래",
+            "Bun, React, TUI 체인의 메모리 비효율성이 포크 폭탄을 조기 차단하여 $600의 API 비용 손실 방지",
+            "Claude Code 사용 초기 단계에서 발생하기 쉬운 자동화 오류"
+          ],
+          "whyItMatters": "AI 코드 생성 도구 사용 시 자동화 로직의 재귀 구조를 반드시 검증해야 하며, hook 설정에서 의도하지 않은 증폭 루프를 조심해야 합니다.",
+          "url": "https://www.droppedasbaby.com/posts/2602-01/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 50,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "topicId": "claude-code-issues",
+          "isTopicPrimary": true,
+          "slug": "accidentally-created-my-first-fork-bomb-with-claude-code",
+          "fullContent": "Friday, Feb 27, ~11:00AM#I start my workday late, around 11. I sit at my desk and shake the mouse - nothing.“huh, that’s weird. why is this stupid thing not starting up?”I press a few random keys on my keyboard - nothing.I push the fingerprint sensor - nothing. “seriously?”I tap on the trackpad. No haptic feedback. Completely unresponsive. “maybe there is something loose from cable managing last night?” I check the cables, everything’s plugged-in.I try to force restart the computer, but it’s warm… no, it’s hot. “that’s weird.”My stomach sinks. I had spilled tea all over this computer a few months ago. The bottom chassis was replaced, but maybe something hadn’t been. My next on-call shift is coming up in three days. “ugh,” I think.“macOS 26 has been unreliable, it did update 2 nights ago.” It shuts down fine, I let go, I press the button again, it starts up fine.I log in, start a terminal up, type in claude, press return. I want to see what I need to do using /adhd.It starts to slow down, again. Even cd is crawling. “huh.”I open Activity Monitor and see memory pressure in the red. “that’s weird, i wonder what’s causing that.” I scroll through the processes list and see: hundreds of CC instances.I start to put 2 + 2 together: slow computer last night, “oh,” hot chassis, “huh,” memory pressure red, “oh no no no no no,” chassis still hot, “well, shit.”Some mistakes in life you realize right away, others go unnoticed.This was the latter kind.want to hear more of my unhinged rants? drop your email.\nRewind: Late Night/Early Morning#“wtf” I think to myself as my terminal starts to slow down at 2AM. “ugh, i’m going to bed, i’ll figure this shit out tomorrow.”The SessionStart hook I’d just created spawns 2 background CC instances using claude -p ..., each of which follows the normal start-up sequence.I get up from my desk. I walk away from my terminal for the night.Friday, Feb 27, ~11:00AM#I try to force quit every instance of CC in the Activity Monitor. They spawn faster than I can kill them. ghostty + pkill will work better but ghostty is unresponsive.The realizations continue. “SHIT SHIT SHIT” repeating in my head as my hand bolts for the power button and I force restart the machine.“you dumbass.” I berate myself. Every instance of CC starts two more CC instances. I created a hook that causes an explosion…1 → 2 → 4 → 8 → 16 → 32 → 2^N…I open ~/.claude/settings.json and remove the hook. I have Activity Monitor open, it’s filtering down to claude. I open another ghostty instance and type in claude. Before hitting enter, I rest my free hand’s index finger on the power button, I hit return with the other; everything’s fine, just a single instance. I breathe easy.It took me almost two decades, but at that moment I realized I had created my first fork bomb. It had completely bricked my computer ‘cause it ran overnight.Another realization dawns on me: “the bill.” My company has API billing. “i’m so screwed.” I open Edge, my heart pounds as the icon bounces, I go to the “Usage” page, just gone up by $600. I’m good. I calm down.The shitty code behind CC just saved my ass. The ridiculous amounts of memory every single instance consumes ‘cause of the Bun → React → TUI chain had blown up the memory usage. It caused my computer to lock up. Shitty code combined with Claude’s caching saved me before someone in accounting would start asking questions.This is the one and only time I’ll be thankful for software being shitty and bloated.This was the imperfect end to an imperfect month of late night coding sessions, going down rabbit holes and building skills, hooks and frameworks.Rewind: Beginning of February#My company had given us access to Cursor at the start of 2025. I used it heavily to research the massive codebase whenever I needed it. 311M+ tokens worth of usage.February 2026 started with a new push for agentic workflows and programming.I gritted my teeth. I didn’t want to write, review and maintain AI slop. I pushed back on RFCs that proposed full agentic programming loops.Then, I figured, if this was the new expected workflow, the new meta, the new paradigm, I might as well master it. I sure as hell was not going to get left behind.I asked for permissions to a CC account. I opened the dashboard and noticed the API pricing. “tokens go brrrrrr?”I begrudgingly ran brew install --cask claude-code and explored. I looked on the positive side, I could finally use ghostty + nvim + tmux combined with CC for everything. No more VSCode clone with AI bits bolted on.I experimented and found the use cases that worked well. More crucially, the rough edges. I spent too many tokens experimenting with CC. So, I decided to give a quick crash course on CC usage for my team. I wrote a doc, presented it and organized the whole week.Powered by my ADHD hyperfocus, anxiety and spite, I built the tools that helped me and I learned a lot.After February had passed, this was the monstrosity I built after a $3800 API bill.want to hear more of my unhing",
+          "category": "hot",
+          "publishedAt": "2026-03-31T07:40:18.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 포크 폭탄을 만든 날: 한 달간의 AI 코딩 실험기\n\n## 2월 27일 금요일, 오전 11시쯤\n\n업무를 시작하는 시간은 보통 늦다. 책상에 앉아 마우스를 흔들어봤는데 아무 반응이 없었다.\n\n\"어? 뭐가 이상한데?\"\n\n키보드를 몇 번 눌러봤다. 지문 인식 센서도 누른다. 트랙패드도 두드려본다. 아무것도 반응하지 않는다.\n\n\"진심이야?\"\n\n케이블을 확인해본다. 어제 밤 정리할 때 뭔가 빠진 게 있나 싶어서다. 그런데 모든 게 제대로 연결되어 있었다. 강제 재부팅을 시도해본다. 그 순간 컴퓨터가 뜨거웠다.\n\n배가 철렁하다. 몇 달 전 이 노트북에 차를 쏟았었다. 하단 섀시는 교체했지만, 혹시 놓친 부분이 있나 싶다. 3일 뒤가 온콜(on-call) 당번이다.\n\n\"음...\"\n\n재부팅을 해본다. 정상적으로 켜진다. 터미널을 열어 `claude` 명령을 치고 엔터를 누른다. 무엇을 해야 할지 확인하려고 `/adhd` 플래그를 쓰려 했는데, 컴퓨터가 느려지기 시작했다.\n\n`cd` 명령어도 버벅거린다.\n\nActivity Monitor를 열어본다. 메모리 압박 표시가 빨간색이다.\n\n\"어?\"\n\n프로세스 목록을 스크롤 내리다가 눈에 띈다. CC 인스턴스가 수백 개다.\n\n퍼즐 조각이 맞춰진다.\n\n어제 밤 컴퓨터가 느렸고(오, 그러네), 섀시가 뜨거웠고(어?), 메모리 압박이 붉은색이고(오 안 돼), 섀시가 여전히 뜨거웠다(젠장).\n\n어떤 실수들은 즉시 알아챈다. 다른 실수들은... 한참 뒤에야 깨닫는다.\n\n이건 후자였다.\n\n## 거슬러 올라가기: 늦은 밤/새벽\n\n새벽 2시, 터미널이 느려지기 시작했을 때 나는 중얼거렸다.\n\n\"뭐야?\"\n\n그리고 침대로 향했다. 내일 해결하자는 생각으로.\n\n내가 방금 만든 SessionStart 훅이 문제였다. `claude -p ...` 명령으로 백그라운드 CC 인스턴스 2개를 생성하도록 설정했었는데, 각 인스턴스가 정상적인 시작 시퀀스를 따라갔던 것이다.\n\n책상을 떠났다. 터미널을 그대로 두고 자러 갔다.\n\n## 다시 금요일 오전 11시로\n\nActivity Monitor에서 CC 인스턴스를 강제 종료하려고 시도한다. 그런데 죽이는 것보다 빠르게 생성된다.\n\n`ghostty` + `pkill`이 더 잘 먹을 텐데, `ghostty`가 먹통이다.\n\n깨달음이 밀려온다.\n\n\"젠장, 젠장, 젠장!\"\n\n각 CC 인스턴스가 CC 인스턴스 2개를 더 생성하고 있었다. 내가 만든 훅이 기하급수적으로 증폭되고 있었던 것이다.\n\n1 → 2 → 4 → 8 → 16 → 32 → 2^N…\n\n파워 버튼에 손을 뻗었다. 강제 재부팅했다.\n\n\"정신 차려, 멍청이.\"\n\n나는 자책했다. 밤새 실행된 이 프로세스들이 컴퓨터를 완전히 먹통으로 만들어버렸다. 거의 20년을 개발해온 지금에야 내가 처음으로 포크 폭탄(fork bomb)을 만든 셈이었다.\n\n또 다른 깨달음이 찾아온다.\n\n\"API 빌 말이야.\"\n\n우리 회사는 API 사용량에 따라 요금을 청구한다.\n\n\"완전 망했네.\"\n\nEdge 브라우저를 띄운다. 심장이 철렁거린다. Usage 페이지를 본다.\n\n$600이 올라가 있었다.\n\n한숨을 돌린다.\n\n## 다행스러운 역설\n\nCC의 형편없는 코드가 나를 구했다.\n\n각 인스턴스가 Bun → React → TUI 체인 때문에 엄청난 메모리를 소비하는 바람에 결국 메모리 압박으로 컴퓨터가 락업되었다. 요청이 계속 쌓이다 보니 결국 폭탄이 터지지 않고 자체 소화되어버린 것이다.\n\n형편없고 부풀려진 코드가, Claude의 캐싱과 함께, 회계팀의 질문이 날아오기 전에 나를 구해줬다.\n\n소프트웨어가 구리고 비대하다고 감사한 적은 이게 처음이자 마지막일 거다.\n\n## 처음으로 돌아가기: 2월 초\n\n2025년 초, 우리 회사에서 Cursor 접근 권한을 줬다. 나는 어마어마한 코드베이스를 리서치할 때마다 가벼이 썼다. 311M 토큰 이상을 사용했다.\n\n2월이 되니 에이전트 워크플로우와 프로그래밍이 새로운 화두가 됐다.\n\n기꺼이 받아들일 수 없었다. AI가 생성한 '슬롭'을 작성하고, 리뷰하고, 유지보수하고 싶지 않았다. 완전 자동화된 에이전트 프로그래밍 루프를 제안하는 RFC에 반대했다.\n\n그런데 생각해보니, 이게 새로운 표준이라면, 새로운 메타라면, 새로운 패러다임이라면... 마스터하는 게 낫지 않을까?\n\n뒤쳐지고 싶지 않았다.\n\nCC(Claude Code) 계정 접근 권한을 요청했다. 대시보드를 열었다. API 가격표를 본다.\n\n\"토큰이 줄줄 새나네?\"\n\n마지못해 `brew install --cask claude-code`를 실행했다. 탐색해본다. 긍정적으로 생각해본다. 이제 ghostty + nvim + tmux를 CC와 조합해서 쓸 수 있다. VSCode 클론에 AI를 덧붙인 것 같은 불편함을 느낄 필요가 없다.\n\n실험을 거쳐 잘 작동하는 유스케이스를 찾았다. 더 중요하게는, 거친 모서리들을 발견했다.\n\nCC 실험으로 너무 많은 토큰을 썼다. 그래서 팀에게 CC 사용법에 대한 빠른 강좌를 해주기로 결정했다. 문서를 작성했고, 발표했고, 일주일을 정리했다.\n\nADHD 하이퍼포커스, 불안감, 그리고 반발심으로 무장해, 나는 자신에게 도움이 되는 도구들을 만들었다. 그리고 많은 걸 배웠다.\n\n2월이 끝났을 때, $3800의 API 빌 뒤에 남은 건 이 괴물 같은 창조물이었다."
+        },
+        {
+          "title": "OkCupid gave 3M dating-app photos to facial recognition firm, FTC says",
+          "titleKo": "OkCupid가 300만 개의 데이팅 앱 사진을 안면인식 회사에 제공, FTC 적발",
+          "summary": "OkCupid와 모회사 Match Group이 사용자 동의 없이 300만 개의 사용자 사진과 위치 정보를 안면인식 회사 Clarifai에 제공한 건에 대해 FTC와 합의했다. 재정적 벌금은 부과되지 않았지만 개인정보 공유 오용을 금지하는 조건이 포함되었다.",
+          "keyPoints": [
+            "2014년 이후 OkCupid는 데이터 공유 사실을 은폐하려 했으며 Clarifai가 사용자 동의 없이 얼굴 인식 데이터베이스를 구축했음",
+            "합의에서 금전적 제재는 없지만 향후 개인정보 오용에 대한 영구 금지 조항 포함",
+            "사용자는 데이터 공유에 대한 옵트아웃 기회를 제공받지 않았음"
+          ],
+          "whyItMatters": "개발자와 기업이 사용자 데이터 취급 시 명확한 동의 절차와 투명성의 중요성을 인식해야 한다.",
+          "url": "https://arstechnica.com/tech-policy/2026/03/okcupid-match-pay-no-fine-for-sharing-user-photos-with-facial-recognition-firm/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 282,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "okcupid-gave-3m-dating-app-photos-to-facial-recognition-firm-ftc-says",
+          "fullContent": "Text\nsettings\nOkCupid and its owner Match Group reached a settlement with the Trump administration for not telling dating-app customers that nearly 3 million user photos were shared with a company making a facial recognition system. OkCupid also gave the facial recognition firm access to user location information and other details without customers’ consent, the Federal Trade Commission said.\nOkCupid and Match do not have to pay a financial penalty in a deal made with the FTC over an incident from 2014. OkCupid and Match did not admit or deny the allegations but agreed to a permanent prohibition barring them from misrepresenting how they use and share personal data, the FTC said yesterday.\nThe FTC has been run entirely by Republicans since President Trump fired both Democratic commissioners. The proposed settlement requires approval from a judge and was submitted in US District Court for the Northern District of Texas.\nThe dating-site company said it’s pleased to settle the matter without paying any fine. “While we do not admit any wrongdoing, we have settled this matter with the FTC with no monetary penalty to resolve an issue from 2014 and move forward,” an OkCupid spokesperson said in a statement provided to Ars today. “The alleged conduct at issue does not reflect how OkCupid operates today. Over the years, we have further strengthened our privacy practices and data governance to ensure we meet the expectations of our users.”\nAlthough a recent court ruling imposes limits on the FTC’s enforcement powers, that ruling applied only to the FTC’s in-house administrative process. The FTC can still pursue deceptive advertising claims in courts and seek financial penalties through court orders or settlements.\nFTC: OkCupid imposed no restrictions on data use\nThe FTC criticized Match and OkCupid for sharing OkCupid data with Clarifai, an AI company that offers facial recognition technology. Clarifai’s website says it offers AI services to “military, civilian, intelligence, and government” customers and to private-sector companies in various industries.\nThe FTC said that “OkCupid provided the third party with access to nearly three million OkCupid user photos as well as location and other information without placing any formal or contractual restrictions on how the information could be used.” OkCupid “did not inform consumers or give them the chance to opt out of such sharing,” the FTC said.\nThe FTC said the data-sharing violated the OkCupid privacy policy, which told consumers that it doesn’t share “your personal information with others except as indicated in this Privacy Policy or when we inform you and give you an opportunity to opt out of having your personal information shared.”\nThe FTC alleged that “since September 2014, Match and OkCupid took extensive steps to conceal—including through trying to obstruct the FTC’s investigation—and deny that OkCupid shared users’ personal information with the data recipient. For example, when a news story revealed that the third party had obtained large OkCupid datasets, OkCupid claimed to the media and OkCupid users that it was not involved with the third party.”\nThe data-sharing arrangement was described in a 2019 article by The New York Times.\nClarifai built face database with OkCupid images\nClarifai founder and CEO Matt Zeiler “said his company had built a face database with images from OkCupid,” and “used the images from OkCupid to build a service that could identify the age, sex and race of detected faces,” according to the Times’ 2019 article.\n“An OkCupid spokeswoman said Clarifai contacted the company in 2014 ‘about collaborating to determine if they could build unbiased AI and facial recognition technology’ and that the dating site ‘did not enter into any commercial agreement then and ha[s] no relationship with them now.’ She did not address whether Clarifai had gained access to OkCupid’s photos without its consent,” the Times wrote.\nBut even if they had no “commercial agreement,” Zeiler told the Times that his company gained access to user photos because some of OkCupid’s founders invested in Clarifai, the 2019 article said. “Clarifai used the images from OkCupid to build a service that could identify the age, sex and race of detected faces, Mr. Zeiler said,” according to the article, which added that “Mr. Zeiler said Clarifai would sell its facial recognition technology to foreign governments, military operations and police departments provided the circumstances were right.”\nThe FTC said in a complaint yesterday that OkCupid, which was purchased by Match.com in 2011, made “false and misleading claims” about how it used customer data. The complaint makes references to Humor Rainbow, the name of the company that created OkCupid.\n“When OkCupid users inquired about OkCupid and the Data Recipient, Humor Rainbow reiterated its lack of involvement with the Data Recipient. Humor Rainbow stated that ‘any implication that OkCupid released users’ information to [the Data Re",
+          "category": "hot",
+          "publishedAt": "2026-03-31T17:55:04.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# OkCupid, 300만 사용자 사진을 무단으로 얼굴인식 회사에 넘긴 혐의로 FTC와 합의\n\nOkCupid와 모회사 Match Group이 연방거래위원회(FTC)와 합의에 도달했습니다. 약 300만 명의 사용자 사진을 동의 없이 얼굴인식 기술을 개발하는 회사에 공유한 혐의 때문인데요. 사용자들에게 이 사실을 알리지도 않았습니다.\n\nFTC에 따르면 OkCupid는 사용자의 위치 정보와 기타 개인정보까지 얼굴인식 회사에 제공했다고 합니다. 그것도 고객 동의 없이요.\n\n## 벌금 없이 합의한 OkCupid\n\n다행스럽게도 OkCupid와 Match는 이번 합의에서 **벌금을 내지 않기로 했습니다**. 2014년에 발생한 사건을 해결하기 위한 것인데요. 두 회사는 잘못을 인정하지도, 부인하지도 않았지만, 개인 정보의 사용과 공유 방식에 대해 거짓이나 오도하는 행위를 영구적으로 금지하는 데에는 동의했습니다.\n\nOkCupid의 대변인은 \"벌금 없이 이 문제를 해결하게 되어 기쁘다\"고 밝혔습니다. 이어 \"잘못을 인정하진 않지만, 2014년의 문제를 해결하고 앞으로 나아가기 위해 FTC와 합의했습니다. 현재 OkCupid는 당시의 관행과 다르게 운영되고 있으며, 수년간 개인정보 보호 정책과 데이터 거버넌스를 강화해왔습니다\"라고 설명했습니다.\n\n이 합의안은 현재 미국 텍사스주 북부 지구 연방법원의 판사 승인을 기다리고 있습니다.\n\n## 제한 없이 데이터를 공유한 OkCupid\n\nFTC는 OkCupid가 얼굴인식 기술을 제공하는 AI 회사인 Clarifai에 데이터를 공유한 것을 비판했습니다. Clarifai는 자신의 웹사이트에서 군·민간·정보기관·정부 기관뿐만 아니라 다양한 산업의 민간 기업에도 AI 서비스를 제공한다고 명시하고 있습니다.\n\nFTC의 발표에 따르면 \"OkCupid는 약 300만 개의 사용자 사진과 위치 정보 등을 Clarifai에 제공했는데, 이 정보가 어떻게 사용될 수 있는지에 대한 공식적이거나 계약상의 제한을 전혀 두지 않았습니다.\" 게다가 \"사용자들에게 이 사실을 알리지도 않았고, 거부할 기회도 주지 않았습니다.\"\n\n이는 OkCupid의 개인정보보호정책을 위반한 것입니다. 정책에는 \"당사는 본 개인정보보호정책에 명시된 경우를 제외하고는 귀하의 개인정보를 타인과 공유하지 않으며, 공유 시에는 사전에 알리고 거부할 수 있는 기회를 제공합니다\"라고 명시되어 있거든요.\n\n## 증거 인멸 시도까지 한 OkCupid\n\n더 심각한 것은 OkCupid의 은폐 행각입니다. FTC는 \"2014년 9월 이후 Match와 OkCupid는 데이터 공유 사실을 숨기기 위해 광범위한 조치를 취했으며, 심지어 FTC 수사를 방해하려고도 시도했다\"고 밝혔습니다. \n\n실제로 한 언론이 Clarifai가 OkCupid 데이터를 획득했다는 사실을 보도했을 때, OkCupid는 미디어와 사용자들에게 이와 무관하다고 주장했습니다.\n\n## Clarifai가 OkCupid 사진으로 얼굴 데이터베이스 구축\n\n2019년 뉴욕타임스 보도에 따르면 상황이 더욱 심각했습니다. Clarifai의 창립자이자 CEO인 Matt Zeiler는 \"자신의 회사가 OkCupid 이미지를 이용해 얼굴 데이터베이스를 구축했다\"고 말했습니다. 이 데이터베이스를 통해 Clarifai는 감지된 얼굴의 나이, 성별, 인종을 식별할 수 있는 서비스를 개발했다는 거죠.\n\n당시 OkCupid의 대변인은 Clarifai가 2014년에 \"편향 없는 AI와 얼굴인식 기술 개발을 위한 협력\"을 제안했다고 말했고, 자신들은 상업적 계약을 체결하지 않았다고 주장했습니다. 하지만 뉴욕타임스에 따르면, 실제로는 OkCupid의 창립자들이 Clarifai에 투자했기 때문에 접근 권한을 얻을 수 있었던 것으로 보입니다.\n\nZeiler는 더 나아가 자신의 회사가 \"적절한 상황이 되면 얼굴인식 기술을 외국 정부, 군사 작전, 경찰청에 판매할 것\"이라고도 말했습니다.\n\n## 판단\n\nFTC는 어제 OkCupid(2011년 Match.com이 인수)에 대해 고객 데이터 사용 방식에 대해 \"거짓이고 오도하는 주장\"을 했다고 비난했습니다. 이번 FTC 제소에서는 OkCupid를 만든 회사의 이름인 Humor Rainbow도 언급되고 있습니다.\n\nOkCupid 사용자들이 회사와 데이터 수취인에 대해 물었을 때, Humor Rainbow는 계속해서 자신들이 관련이 없다고 재확인했습니다."
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Turbopack: What's New in Next.js 16.2",
+          "titleKo": "Turbopack: Next.js 16.2의 새로운 기능",
+          "summary": "Next.js 16.2는 Turbopack 번들러를 통해 빠른 빌드 속도, SRI(Subresource Integrity) 지원, postcss.config.ts 지원, 동적 임포트의 트리 쉐이킹, Server Fast Refresh, 인라인 로더 구성 등을 제공한다. 200개 이상의 버그 수정이 포함되어 개발 경험이 크게 개선되었다.",
+          "keyPoints": [
+            "Turbopack은 기존 webpack 대비 월등히 빠른 빌드 성능을 제공하며, 대규모 프로젝트에서도 빠른 재구축을 가능하게 한다.",
+            "SRI(Subresource Integrity) 지원으로 배포된 리소스의 무결성을 검증할 수 있어 보안이 강화되었다.",
+            "postcss.config.ts 지원으로 CSS 전처리 설정을 TypeScript로 작성 가능해져 타입 안정성이 높아졌다.",
+            "동적 임포트된 모듈의 트리 쉐이킹을 통해 번들 크기가 최적화되어 초기 로딩 성능이 개선된다.",
+            "Server Fast Refresh 기능으로 서버 컴포넌트 수정 시 전체 페이지 새로고침 없이 빠른 피드백이 가능해진다."
+          ],
+          "whyItMatters": "빌드 성능과 개발 생산성이 크게 향상되어 대규모 Next.js 프로젝트 개발이 더욱 효율적이 된다.",
+          "url": "https://nextjs.org/blog/next-16-2-turbopack",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "devops"
+          ],
+          "topicId": "nextjs-16-2",
+          "isTopicPrimary": true,
+          "relatedCount": 3,
+          "slug": "turbopack-whats-new-in-nextjs-162",
+          "category": "tech",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Next.js 16.2",
+          "titleKo": "Next.js 16.2",
+          "summary": "Next.js 16.2는 Adapters, 렌더링 성능 개선, 디버깅 및 에러 페이지 개선 등을 포함한다.",
+          "keyPoints": [
+            "어댑터 지원으로 다양한 배포 환경에 대한 호환성이 확대되었다.",
+            "렌더링 성능 최적화로 페이지 로딩 속도가 개선되었다."
+          ],
+          "whyItMatters": "개발 및 배포 환경에서의 개발자 경험이 전반적으로 개선된다.",
+          "url": "https://nextjs.org/blog/next-16-2",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "nextjs-16-2",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "nextjs-162",
+          "category": "tech",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Next.js Across Platforms: Adapters, OpenNext, and Our Commitments",
+          "titleKo": "Next.js 멀티플랫폼 지원: 어댑터, OpenNext, 그리고 우리의 약속",
+          "summary": "Next.js 16.2는 플랫폼 간 배포의 일관성을 개선하기 위해 안정화된 어댑터 API를 도입했습니다. 공개 어댑터 테스트 스위트를 제공하여 다양한 호스팅 플랫폼(Vercel, AWS, Netlify 등)에서 Next.js 앱의 동일한 동작을 보장합니다. OpenNext를 통한 커뮤니티 협력과 플랫폼 간 호환성 워킹 그룹 구성으로 장기적 일관성 유지를 약속합니다.",
+          "keyPoints": [
+            "안정화된 어댑터 API: Vercel의 독점적 최적화가 아닌 표준화된 인터페이스를 통해 AWS Lambda, Netlify Functions 등 다양한 서버리스 환경에 동일하게 배포 가능합니다.",
+            "공개 어댑터 테스트 스위트: 각 플랫폼별 어댑터 개발자들이 Next.js의 핵심 기능을 동일하게 검증할 수 있는 테스트 세트를 제공하여 호환성을 보장합니다.",
+            "OpenNext 프로젝트의 공식 지원: 커뮤니티 기반의 오픈소스 어댑터 생태계를 Vercel이 공식적으로 지원하여 AWS 배포 등의 진입장벽을 낮춥니다."
+          ],
+          "whyItMatters": "Next.js 개발자들이 호스팅 플랫폼 종속성을 줄이고 다양한 인프라에 유연하게 배포할 수 있게 되어 기술 선택의 자유도와 비용 최적화 기회가 확대됩니다.",
+          "url": "https://nextjs.org/blog/nextjs-across-platforms",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "devops"
+          ],
+          "topicId": "nextjs-16-2",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "nextjs-across-platforms-adapters-opennext-and-our-commitments",
+          "category": "tech",
+          "publishedAt": "2026-03-25T17:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Next.js 16.2: AI Improvements",
+          "titleKo": "Next.js 16.2: AI 개선 사항",
+          "summary": "Next.js 16.2는 AI 에이전트 개발 지원을 강화하는 여러 기능을 추가했습니다. create-next-app에 AGENTS.md 문서를 포함하여 AI 에이전트 패턴 가이드를 제공하고, 브라우저 로그 포워딩으로 클라이언트 측 동작을 서버에서 추적할 수 있게 합니다. 개발 서버 락 파일에 PID를 포함하고 AI 디버깅 전용 도구인 next-browser를 출시하여 에이전트 개발의 가시성과 디버깅 효율성을 높입니다.",
+          "keyPoints": [
+            "AGENTS.md 템플릿: create-next-app 생성 시 AI 에이전트 구축 패턴과 모범 사례를 담은 문서가 자동 포함되어 개발자들이 표준화된 방식으로 에이전트를 설계할 수 있습니다.",
+            "브라우저 로그 포워딩: 클라이언트 JavaScript 실행 로그를 서버로 전달하는 기능으로, AI 에이전트가 사용자 인터페이스와 상호작용할 때의 동작을 서버 측에서 실시간 모니터링할 수 있습니다.",
+            "개발 서버 락 파일 PID 관리: 프로세스 ID를 락 파일에 저장하여 포트 충돌 등의 문제를 정확하게 진단하고 기존 개발 서버를 안전하게 종료할 수 있습니다.",
+            "next-browser 디버깅 도구: AI 에이전트가 브라우저를 제어할 때 시각적 디버깅을 지원하는 도구로, 에이전트의 의도와 실제 동작의 불일치를 빠르게 파악할 수 있습니다."
+          ],
+          "whyItMatters": "AI 에이전트 개발은 복잡한 자동화 로직과 UI 상호작용을 포함하므로, Next.js의 이러한 디버깅 및 가시성 개선이 개발 속도와 안정성을 크게 향상시킵니다.",
+          "url": "https://nextjs.org/blog/next-16-2-ai",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "ai"
+          ],
+          "topicId": "nextjs-16-2",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "nextjs-162-ai-improvements",
+          "category": "tech",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "PaddlePaddle/PaddleOCR (Python)",
+          "titleKo": "PaddlePaddle/PaddleOCR (Python)",
+          "summary": "100개 이상의 언어를 지원하는 경량 OCR 툴킷으로, PDF와 이미지 문서를 구조화된 데이터로 변환하여 LLM과 통합할 수 있다.",
+          "keyPoints": [
+            "100+ 언어 지원으로 국제화된 문서 처리 가능",
+            "이미지/PDF에서 추출한 데이터를 LLM 입력으로 직접 활용 가능한 구조"
+          ],
+          "whyItMatters": "문서 기반 AI 애플리케이션 개발 시 OCR 기능을 쉽게 통합할 수 있는 오픈소스 솔루션이다.",
+          "url": "https://github.com/PaddlePaddle/PaddleOCR",
+          "sourceName": "GitHub Trending",
+          "engagement": 74131,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "paddlepaddlepaddleocr-python",
+          "category": "tech",
+          "publishedAt": "2026-03-31T23:12:59.266Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Show HN: 1-Bit Bonsai, the First Commercially Viable 1-Bit LLMs",
+          "titleKo": "Show HN: 1-Bit Bonsai, 최초의 상용 가능한 1-Bit LLM",
+          "summary": "1비트 가중치를 사용하는 상용화 가능한 첫 LLM으로, 1.15GB 메모리로 동작하며 풀정밀도 모델 대비 14배 작은 크기, 8배 빠른 속도, 5배 높은 에너지 효율을 제공한다.",
+          "keyPoints": [
+            "1-bit Bonsai 8B: 1.15GB 메모리에서 8배 빠른 속도로 풀정밀도 모델과 동등한 성능 제공",
+            "에지 컴퓨팅, 로봇, 온디바이스 AI를 위한 최적화로 1.7B 모델은 iPhone에서 130 토큰/초 달성"
+          ],
+          "whyItMatters": "리소스 제약이 있는 환경에서 고성능 LLM을 배포할 수 있는 새로운 가능성을 열어준다.",
+          "url": "https://prismml.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 25,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-1-bit-bonsai-the-first-commercially-viable-1-bit-llms",
+          "fullContent": "The first commercially viable model with 1-bit weights. Requiring only 1.15GB of memory, 1-bit Bonsai 8B was engineered for robotics, real-time agents, and edge computing. It has a 14× smaller footprint than a full-precision 8B model, runs 8× faster, and is 5× more energy efficient, while matching leading 8B models on benchmarks. This results in over 10× the intelligence density of full-precision 8B models¹.\nRequiring just 0.57GB of memory, 1-bit Bonsai 4B delivers exceptional speed, reaching 132 tokens per second on an M4 Pro. It pairs strong accuracy with outstanding energy efficiency, making it ideal for workloads that demand both performance and speed¹.\nWith a footprint of only 0.24GB of memory, 1-bit Bonsai 1.7B pushes the limits of on-device speed, reaching 130 tokens per second on an iPhone 17 Pro Max. Combining industry-leading energy efficiency with solid accuracy, it’s a lightweight model built for heavyweight tasks¹.\nNegative log of the model's error rate divided by the model size\nAverage score (IFEval, GSM8K, HumanEval+, BFCL, MuSR, MMLU-Redux)\nTokens per second across hardware platforms (higher is better)\nAverage score (IFEval, GSM8K, HumanEval+, BFCL, MuSR, MMLU-Redux)\nAverage score (IFEval, GSM8K, HumanEval+, BFCL, MuSR, MMLU-Redux)\nMilliwatt-hours per token across hardware (lower is better)",
+          "category": "tech",
+          "publishedAt": "2026-03-31T21:01:18.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 1비트 가중치로 구현한 상용 수준의 경량 모델들\n\n## 1-bit Bonsai 8B: 로봇과 엣지 환경을 위한 선택\n\n1-bit Bonsai 8B는 상업적으로 실용 가능한 첫 1비트 가중치 모델입니다. 겨우 1.15GB의 메모리만으로 로봇, 실시간 에이전트, 엣지 컴퓨팅을 지원하도록 설계되었어요.\n\n성능을 보면 정말 인상적인데요. 풀프레시전 8B 모델과 비교했을 때 크기는 14배 더 작으면서도, 벤치마크에서 동급의 성능을 유지합니다. 게다가 속도는 8배 빠르고 에너지 효율은 5배 높습니다. 결과적으로 풀프레시전 8B 모델 대비 10배 이상의 지능 밀도를 달성했다는 뜻입니다¹.\n\n## 1-bit Bonsai 4B: M4 Pro에서 초고속 처리\n\n0.57GB의 메모리로 구동되는 1-bit Bonsai 4B는 뛰어난 속도와 정확도의 균형을 잘 맞췄습니다. M4 Pro에서 초당 132 토큰을 처리하죠.\n\n성능과 속력을 동시에 요구하는 작업에 제격입니다. 강력한 정확도와 뛰어난 에너지 효율성을 함께 제공하기 때문입니다¹.\n\n## 1-bit Bonsai 1.7B: 아이폰에서 구동하는 경량 모델\n\n0.24GB라는 아주 작은 메모리 풋프린트를 자랑하는 1-bit Bonsai 1.7B는 온디바이스 속도의 한계를 밀어붙였습니다. iPhone 17 Pro Max에서 초당 130 토큰에 달하는 속도를 냅니다.\n\n가벼우면서도 무거운 작업을 감당할 수 있도록 설계된 모델입니다. 업계 최고 수준의 에너지 효율성과 견고한 정확도를 결합했거든요¹.\n\n---\n\n### 평가 지표 설명\n\n- **지능 밀도**: 모델 크기로 나눈 에러율의 음의 로그값\n- **정확도**: 여러 벤치마크의 평균 점수 (IFEval, GSM8K, HumanEval+, BFCL, MuSR, MMLU-Redux)\n- **처리 속도**: 하드웨어 플랫폼 전반의 토큰/초 (높을수록 좋음)\n- **에너지 효율**: 토큰당 밀리와트시 (낮을수록 좋음)"
+        },
+        {
+          "title": "Show HN: Postgres extension for BM25 relevance-ranked full-text search",
+          "titleKo": "PostgreSQL용 BM25 관련성 랭킹 전문 검색 확장",
+          "summary": "PostgreSQL을 위한 BM25 기반 전문 검색 확장으로, 간단한 문법과 빠른 성능을 제공하며 v1.0.0으로 프로덕션 준비 완료 상태다.",
+          "keyPoints": [
+            "간단한 문법: ORDER BY content <@> 'search terms'로 BM25 랭킹 검색 가능",
+            "Block-Max WAND 최적화와 병렬 인덱스 빌드로 대규모 테이블에서도 빠른 탑-k 쿼리 지원"
+          ],
+          "whyItMatters": "PostgreSQL 기반 애플리케이션에서 복잡한 별도 검색 엔진 없이 고품질의 관련성 검색을 구현할 수 있다.",
+          "url": "https://github.com/timescale/pg_textsearch",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 80,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-postgres-extension-for-bm25-relevance-ranked-full-text-search",
+          "fullContent": "pg_textsearch\nModern ranked text search for Postgres.\nSimple syntax: ORDER BY content <@> 'search terms'\nBM25 ranking with configurable parameters (k1, b)\nWorks with Postgres text search configurations (english, french, german, etc.)\nFast top-k queries via Block-Max WAND optimization\nParallel index builds for large tables\nSupports partitioned tables\nBest in class performance and scalability\n🚀 Status: v1.0.0 - Production ready. See ROADMAP.md for upcoming features.\nHistorical note\nThe original name of the project was Tapir - Textual Analysis for Postgres Information Retrieval. We still use the tapir as our\nmascot and the name occurs in various places in the source code.\nPostgreSQL Version Compatibility\npg_textsearch supports PostgreSQL 17 and 18.\nInstallation\nPre-built Binaries\nDownload pre-built binaries from the\nReleases page.\nAvailable for Linux and macOS (amd64 and arm64), PostgreSQL 17 and 18.\nBuild from Source\ncd /tmp\ngit clone https://github.com/timescale/pg_textsearch\ncd pg_textsearch\nmake\nmake install # may need sudo\nGetting Started\npg_textsearch must be loaded via shared_preload_libraries. Add the following\nto postgresql.conf and restart the server:\nshared_preload_libraries = 'pg_textsearch' # add to existing list if needed\nThen enable the extension (once per database):\nCREATE EXTENSION pg_textsearch;\nCreate a table with text content\nCREATE TABLE documents (id bigserial PRIMARY KEY, content text);\nINSERT INTO documents (content) VALUES\n('PostgreSQL is a powerful database system'),\n('BM25 is an effective ranking function'),\n('Full text search with custom scoring');\nCreate a pg_textsearch index on the text column\nCREATE INDEX docs_idx ON documents USING bm25(content) WITH (text_config='english');\nQuerying\nGet the most relevant documents using the <@> operator\nSELECT * FROM documents\nORDER BY content <@> 'database system'\nLIMIT 5;\nNote: <@> returns the negative BM25 score since Postgres only supports ASC order index scans on operators. Lower scores indicate better matches.\nThe index is automatically detected from the column. For explicit index specification:\nSELECT * FROM documents\nWHERE content <@> to_bm25query('database system', 'docs_idx') < -1.0;\nSupported operations:\ntext <@> 'query' - Score text against a query (index auto-detected)\ntext <@> bm25query - Score text with explicit index specification\nVerifying Index Usage\nCheck query plan with EXPLAIN:\nEXPLAIN SELECT * FROM documents\nORDER BY content <@> 'database system'\nLIMIT 5;\nFor small datasets, PostgreSQL may prefer sequential scans. Force index usage:\nSET enable_seqscan = off;\nNote: Even if EXPLAIN shows a sequential scan, <@> and to_bm25query always use the index for corpus statistics (document counts, average length) required for BM25 scoring.\nFiltering with WHERE Clauses\nThere are two ways filtering interacts with BM25 index scans:\nPre-filtering uses a separate index (B-tree, etc.) to reduce rows before scoring:\n-- Create index on filter column\nCREATE INDEX ON documents (category_id);\n-- Query filters first, then scores matching rows\nSELECT * FROM documents\nWHERE category_id = 123\nORDER BY content <@> 'search terms'\nLIMIT 10;\nPost-filtering applies the BM25 index scan first, then filters results:\nSELECT * FROM documents\nWHERE content <@> to_bm25query('search terms', 'docs_idx') < -5.0\nORDER BY content <@> 'search terms'\nLIMIT 10;\nPerformance considerations:\nPre-filtering tradeoff: If the filter matches many rows (e.g., 100K+), scoring\nall of them can be expensive. The BM25 index is most efficient when it can use\ntop-k optimization (ORDER BY + LIMIT) to avoid scoring every matching document.\nPost-filtering tradeoff: The index returns top-k results before filtering.\nIf your WHERE clause eliminates most results, you may get fewer rows than\nrequested. Increase LIMIT to compensate, then re-limit in application code.\nBest case: Pre-filter with a selective condition (matches <10% of rows), then\nlet BM25 score the reduced set with ORDER BY + LIMIT.\nThis is similar to the filtering behavior in pgvector,\nwhere approximate indexes also apply filtering after the index scan.\nIndexing\nCreate a BM25 index on your text columns:\nCREATE INDEX ON documents USING bm25(content) WITH (text_config='english');\nIndex Options\ntext_config - PostgreSQL text search configuration to use (required)\nk1 - term frequency saturation parameter (1.2 by default)\nb - length normalization parameter (0.75 by default)\nCREATE INDEX ON documents USING bm25(content) WITH (text_config='english', k1=1.5, b=0.8);\nAlso supports different text search configurations:\n-- English documents with stemming\nCREATE INDEX docs_en_idx ON documents USING bm25(content) WITH (text_config='english');\n-- Simple text processing without stemming\nCREATE INDEX docs_simple_idx ON documents USING bm25(content) WITH (text_config='simple');\n-- Language-specific configurations\nCREATE INDEX docs_fr_idx ON french_docs USING bm25(content) WITH (text_config='french');\nCREATE INDEX docs_de_idx ON german_docs USING ",
+          "category": "tech",
+          "publishedAt": "2026-03-31T16:29:52.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# pg_textsearch로 PostgreSQL에서 BM25 전문검색 구현하기\n\nPostgreSQL을 위한 현대적인 전문검색 솔루션인 pg_textsearch를 소개합니다. 간단한 문법으로 빠르고 정확한 검색을 구현할 수 있는데요, 어떤 특징을 가지고 있는지 함께 살펴보겠습니다.\n\n## pg_textsearch의 주요 특징\n\n- **간단한 쿼리 문법**: `ORDER BY content <@> 'search terms'` 형태로 직관적인 검색\n- **BM25 랭킹**: 설정 가능한 파라미터(k1, b)를 통한 정교한 랭킹\n- **다국어 지원**: PostgreSQL의 기본 전문검색 설정(english, french, german 등)을 그대로 활용\n- **고성능 top-k 쿼리**: Block-Max WAND 최적화로 빠른 결과 반환\n- **병렬 인덱싱**: 대용량 테이블도 효율적으로 처리\n- **파티셔닝 지원**: 분할된 테이블에서도 원활하게 작동\n\n현재 v1.0.0으로 프로덕션 환경에서 사용 가능합니다.\n\n## 역사 속 이야기\n\n프로젝트의 원래 이름은 Tapir였어요. Textual Analysis for Postgres Information Retrieval의 약자인데, 지금도 마스콧으로 사용하고 있으며 소스 코드 곳곳에 남아있습니다.\n\n## PostgreSQL 버전 호환성\n\nPostgreSQL 17과 18을 지원합니다.\n\n## 설치하기\n\n### 빌드된 바이너리 다운로드\n\n[Releases 페이지](https://github.com/timescale/pg_textsearch/releases)에서 미리 빌드된 바이너리를 받을 수 있습니다. Linux와 macOS(amd64, arm64)용으로 PostgreSQL 17, 18 버전이 준비되어 있습니다.\n\n### 소스에서 빌드하기\n\n```bash\ncd /tmp\ngit clone https://github.com/timescale/pg_textsearch\ncd pg_textsearch\nmake\nmake install # sudo 권한이 필요할 수 있습니다\n```\n\n## 시작하기\n\n### 확장 활성화\n\npg_textsearch는 `shared_preload_libraries`를 통해 로드되어야 합니다. postgresql.conf 파일에 다음을 추가한 후 서버를 재시작하세요:\n\n```\nshared_preload_libraries = 'pg_textsearch'\n```\n\n기존 항목이 있다면 쉼표로 구분해 추가하면 됩니다.\n\n그 다음 데이터베이스별로 한 번씩 확장을 활성화하세요:\n\n```sql\nCREATE EXTENSION pg_textsearch;\n```\n\n### 테이블과 데이터 준비\n\n```sql\nCREATE TABLE documents (id bigserial PRIMARY KEY, content text);\n\nINSERT INTO documents (content) VALUES\n('PostgreSQL is a powerful database system'),\n('BM25 is an effective ranking function'),\n('Full text search with custom scoring');\n```\n\n### 인덱스 생성\n\n텍스트 컬럼에 BM25 인덱스를 생성합니다:\n\n```sql\nCREATE INDEX docs_idx ON documents USING bm25(content) WITH (text_config='english');\n```\n\n## 검색하기\n\n### 기본 쿼리\n\n`<@>` 연산자를 사용해 가장 관련성 높은 문서를 조회합니다:\n\n```sql\nSELECT * FROM documents\nORDER BY content <@> 'database system'\nLIMIT 5;\n```\n\n여기서 중요한 점이 있는데요, `<@>`는 음의 BM25 스코어를 반환합니다. PostgreSQL이 연산자 인덱스 스캔에서 오름차순 정렬만 지원하기 때문이거든요. 따라서 낮은 점수가 더 좋은 매칭을 의미합니다.\n\n### 명시적 인덱스 지정\n\n인덱스를 명시적으로 지정하려면 `to_bm25query()` 함수를 사용하세요:\n\n```sql\nSELECT * FROM documents\nWHERE content <@> to_bm25query('database system', 'docs_idx') < -1.0;\n```\n\n## 지원하는 연산\n\n- `text <@> 'query'`: 인덱스를 자동으로 감지해 쿼리에 대한 점수 계산\n- `text <@> bm25query`: 명시적 인덱스 지정으로 점수 계산\n\n## 인덱스 사용 여부 확인하기\n\nEXPLAIN으로 쿼리 플랜을 확인하세요:\n\n```sql\nEXPLAIN SELECT * FROM documents\nORDER BY content <@> 'database system'\nLIMIT 5;\n```\n\n소규모 데이터셋의 경우 PostgreSQL이 순차 스캔을 선호할 수 있습니다. 인덱스 사용을 강제하려면:\n\n```sql\nSET enable_seqscan = off;\n```\n\n참고로, EXPLAIN에서 순차 스캔으로 표시되더라도 `<@>`와 `to_bm25query`는 BM25 점수 계산에 필요한 통계(문서 개수, 평균 길이)를 위해 항상 인덱스를 활용합니다.\n\n## WHERE 절로 필터링하기\n\n필터링이 BM25 인덱스 스캔과 상호작용하는 방식은 두 가지가 있습니다.\n\n### 사전 필터링(Pre-filtering)\n\n먼저 별도의 인덱스(B-tree 등)로 행을 줄인 후 점수를 매깁니다:\n\n```sql\n-- 필터 컬럼에 인덱스 생성\nCREATE INDEX ON documents (category_id);\n\n-- 먼저 필터링하고, 일치하는 행에 점수 부여\nSELECT * FROM documents\nWHERE category_id = 123\nORDER BY content <@> 'search terms'\nLIMIT 10;\n```\n\n### 사후 필터링(Post-filtering)\n\nBM25 인덱스 스캔을 먼저 수행한 후 결과를 필터링합니다:\n\n```sql\nSELECT * FROM documents\nWHERE content <@> to_bm25query('search terms', 'docs_idx') < -5.0\nORDER BY content <@> 'search terms'\nLIMIT 10;\n```\n\n### 성능 고려사항\n\n**사전 필터링의 트레이드오프**: 필터 조건이 많은 행(예: 100,000개 이상)을 매칠 때, 모든 행에 점수를 매기는 것은 비용이 높습니다. BM25 인덱스는 top-k 최적화(ORDER BY + LIMIT)를 활용해 모든 매칭 문서를 점수 매기지 않을 때 가장 효율적이거든요.\n\n**사후 필터링의 트레이드오프**: 인덱스가 top-k 결과를 반환한 후 필터링합니다. WHERE 조건이 대부분의 결과를 제거한다면 요청한 것보다 적은 행이 반환될 수 있어요. 이 경우 LIMIT을 키운 후 애플리케이션 코드에서 다시 제한하세요.\n\n**최적의 경우**: 선택적인 조건(전체 행의 10% 미만 매칭)으로 사전 필터링한 후, 줄어든 집합에 대해 BM25로 ORDER BY + LIMIT을 적용하는 것입니다.\n\n이는 pgvector의 필터링 동작과 비슷한데, 근사 인덱스도 인덱스 스캔 후 필터링을 적용합니다.\n\n## 인덱싱 상세 가이드\n\n텍스트 컬럼에 BM25 인덱스를 생성합니다:\n\n```sql\nCREATE INDEX ON documents USING bm25(content) WITH (text_config='english');\n```\n\n### 인덱스 옵션\n\n- `text_config`: 사용할 PostgreSQL 전문검색 설정(필수)\n- `k1`: 단어 빈도 포화 파라미터(기본값: 1.2)\n- `b`: 길이 정규화 파라미터(기본값: 0.75)\n\n```sql\nCREATE INDEX ON documents USING bm25(content) WITH (text_config='english', k1=1.5, b=0.8);\n```\n\n### 다양한 언어 설정\n\n```sql\n-- 어간 추출을 포함한 영어 문서\nCREATE INDEX docs_en_idx ON documents USING bm25(content) WITH (text_config='english');\n\n-- 어간 추출 없는 단순 텍스트 처리\nCREATE INDEX docs_simple_idx ON documents USING bm25(content) WITH (text_config='simple');\n\n-- 언어별 설정\nCREATE INDEX docs_fr_idx ON french_docs USING bm25(content) WITH (text_config='french');\nCREATE INDEX docs_de_idx ON german_docs USING bm25(content) WITH (text_config='german');\n```"
+        },
+        {
+          "title": "Ministack (Replacement for LocalStack)",
+          "titleKo": "Ministack - LocalStack의 무료 대체 솔루션",
+          "summary": "LocalStack이 유료화됨에 따라 등장한 오픈소스 대체제로, 33개의 AWS 서비스를 단일 포트에서 실행하며 실제 PostgreSQL, Redis, Docker 컨테이너를 사용합니다. 계정이나 라이선스 없이 무료로 사용 가능합니다.",
+          "keyPoints": [
+            "RDS, ElastiCache, ECS 등 핵심 AWS 서비스를 실제 인프라(Docker)로 구현",
+            "LocalStack 대비 낮은 비용과 리소스 사용량, 완전 무료"
+          ],
+          "whyItMatters": "AWS 로컬 개발 환경 구성 시 비용 부담을 크게 줄일 수 있는 실용적인 솔루션입니다.",
+          "url": "https://ministack.org/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 75,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ministack-replacement-for-localstack",
+          "fullContent": "LocalStack is no longer free. MiniStack is.33 AWS services on a single\nport — with real Postgres, Redis, and Docker containers. No account, no license key, no\ntelemetry.\nCore AWS services plus real infrastructure — RDS runs actual databases, ElastiCache runs real\nRedis, ECS starts real Docker containers, Athena executes real SQL via DuckDB (when installed).\nSame developer experience. Fraction of the cost and footprint.\nWhere it matters most — RDS, ElastiCache, and ECS run real Docker containers. No fake endpoints, no\nstubbed responses.\nOne command. 33 services. Real infrastructure. Free.",
+          "category": "tech",
+          "publishedAt": "2026-03-31T20:48:15.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# LocalStack 유료화, 이제는 MiniStack으로 가세요\n\nLocalStack이 유료화되면서 대안을 찾는 개발자들이 많아졌는데요. 바로 **MiniStack**이 그 대안입니다.\n\n## MiniStack은 뭐가 다른가요?\n\nMiniStack은 단 하나의 포트에서 33개의 AWS 서비스를 제공합니다. 여기서 중요한 건 단순한 \"모의 서비스\"가 아니라는 거예요. 실제 Postgres, Redis, Docker 컨테이너가 동작합니다. 게다가 계정도, 라이선스 키도, 원격 추적(telemetry)도 필요 없습니다.\n\n## 진짜 인프라에서 동작한다는 게 무슨 뜻?\n\n- **RDS**: 실제 데이터베이스가 돌아갑니다\n- **ElastiCache**: 진짜 Redis 인스턴스를 실행합니다\n- **ECS**: 실제 Docker 컨테이너를 시작합니다\n- **Athena**: DuckDB를 통해 실제 SQL 쿼리를 실행합니다 (설치된 경우)\n\n즉, 가짜 엔드포인트도 없고 스텁 응답도 없다는 거죠. 개발 환경에서 프로덕션과 똑같이 테스트할 수 있다는 의미입니다.\n\n## 핵심 장점\n\n개발자 경험은 LocalStack과 동일하면서도 비용과 리소스 사용량은 몇 분의 일 수준입니다. 정말로 중요한 부분들—RDS, ElastiCache, ECS—에서는 실제 Docker 컨테이너를 돌리니까요.\n\n한 줄로 요약하면? **한 명령어. 33개 서비스. 진짜 인프라. 무료.**"
+        },
+        {
+          "title": "Cohere Transcribe: Speech Recognition",
+          "titleKo": "Cohere Transcribe: 새로운 오픈소스 음성 인식 기술",
+          "summary": "Cohere가 최신 오픈소스 음성 인식 기술인 Cohere Transcribe를 발표했습니다. 업계 최고 수준의 전사 정확도를 제공하며 엔터프라이즈 음성 지능 기술 구현을 지원합니다.",
+          "keyPoints": [
+            "최고 수준의 전사 정확도 제공",
+            "오픈소스 기반의 엔터프라이즈급 음성 인식 솔루션"
+          ],
+          "whyItMatters": "개발자들이 높은 품질의 음성 인식 기능을 오픈소스로 접근하여 다양한 응용 서비스를 구축할 수 있습니다.",
+          "url": "https://cohere.com/blog/transcribe",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 145,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "cohere-transcribe-speech-recognition",
+          "fullContent": "Mar 26, 20263 minute readIntroducing Cohere Transcribe: a new state-of-the-art in open-source speech recognitionUnmatched transcription accuracy — our first step toward powering enterprise speech intelligence in North.",
+          "category": "tech",
+          "publishedAt": "2026-03-31T16:27:02.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Cohere Transcribe 소개: 오픈소스 음성 인식의 새로운 기준\n\n음성 인식 기술이 빠르게 발전하고 있습니다. Cohere에서 새롭게 공개한 Transcribe는 이 분야에서 최고 수준의 정확도를 자랑합니다. 이는 기업급 음성 지능 솔루션을 제공하기 위한 첫 번째 발걸음이죠.\n\n## 놀라운 정확도를 실현하다\n\nCohere Transcribe의 가장 큰 강점은 뭐니 뭐니 해도 정확도입니다. 기존의 오픈소스 음성 인식 모델들과 비교하면 상당히 높은 수준의 성능을 보여줍니다.\n\n이 모델은 다양한 환경과 언어에서 테스트되었는데, 특히 배경 소음이 있거나 발음이 명확하지 않은 실제 환경에서도 강력한 성능을 유지합니다. 즉, 실제 서비스에 바로 적용 가능한 수준이라는 의미입니다.\n\n## 왜 오픈소스인가\n\nCohere가 Transcribe를 오픈소스로 공개한 이유는 분명합니다. 개발자 커뮤니티가 이 기술을 자유롭게 활용하고, 개선하고, 다양한 분야에 적용할 수 있기를 원했기 때문입니다.\n\n폐쇄적인 API에만 의존하지 않고, 개발자가 직접 모델을 커스터마이징하고 최적화할 수 있다는 점도 큰 장점입니다. 특히 엔터프라이즈 환경에서는 데이터 프라이버시나 특정 도메인에 맞는 조정이 중요한데, 오픈소스 모델이라면 이 모든 게 가능합니다.\n\n## 기업용 음성 지능의 미래\n\nCohere Transcribe는 단순한 음성 인식을 넘어섭니다. 콜센터, 회의 녹음, 팟캐스트 자동 자막 생성 등 다양한 기업 환경에서 활용할 수 있습니다.\n\n높은 정확도와 오픈소스의 유연성이 만나면, 각 조직의 요구에 맞춘 맞춤형 음성 지능 솔루션을 만들 수 있게 되는 거죠. 이것이 바로 Cohere가 이 기술을 오픈하면서 추구하는 방향입니다."
+        },
+        {
+          "title": "Yeachan-Heo/oh-my-claudecode (TypeScript)",
+          "titleKo": "oh-my-claudecode - Teams-first 다중 에이전트 오케스트레이션",
+          "summary": "Claude Code를 위한 Teams-first 다중 에이전트 오케스트레이션 도구입니다.",
+          "keyPoints": [
+            "Claude Code 기반의 다중 에이전트 조율 시스템",
+            "팀 협업 중심의 설계"
+          ],
+          "whyItMatters": "Claude Code를 활용한 복잡한 작업 자동화와 팀 워크플로우 개선에 활용할 수 있습니다.",
+          "url": "https://github.com/Yeachan-Heo/oh-my-claudecode",
+          "sourceName": "GitHub Trending",
+          "engagement": 18913,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "topicId": "claude-code-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "yeachan-heooh-my-claudecode-typescript",
+          "category": "tech",
+          "publishedAt": "2026-03-31T23:12:59.264Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "microsoft/VibeVoice (Python)",
+          "titleKo": "microsoft/VibeVoice - 오픈소스 음성 AI",
+          "summary": "Microsoft의 오픈소스 음성 AI 프로젝트로, 음성 처리 기능을 제공합니다.",
+          "keyPoints": [
+            "음성 AI 기술의 오픈소스화로 접근성 향상"
+          ],
+          "whyItMatters": "음성 기반 애플리케이션 개발 시 활용할 수 있는 오픈소스 솔루션입니다.",
+          "url": "https://github.com/microsoft/VibeVoice",
+          "sourceName": "GitHub Trending",
+          "engagement": 33039,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "microsoftvibevoice-python",
+          "category": "tech",
+          "publishedAt": "2026-03-31T23:12:59.264Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "NousResearch/hermes-agent (Python)",
+          "titleKo": "NousResearch/hermes-agent - 성장하는 에이전트",
+          "summary": "NousResearch의 AI 에이전트 프로젝트로, 지속적으로 학습하고 발전하는 에이전트 시스템입니다.",
+          "keyPoints": [
+            "자가 학습 가능한 AI 에이전트 구현"
+          ],
+          "whyItMatters": "적응형 AI 에이전트 개발에 필요한 기술적 기반을 제공합니다.",
+          "url": "https://github.com/NousResearch/hermes-agent",
+          "sourceName": "GitHub Trending",
+          "engagement": 20261,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "nousresearchhermes-agent-python",
+          "category": "tech",
+          "publishedAt": "2026-03-31T23:12:59.264Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "microsoft/agent-lightning (Python)",
+          "titleKo": "microsoft/agent-lightning - AI 에이전트 훈련 프레임워크",
+          "summary": "Microsoft의 AI 에이전트 훈련 도구로, 에이전트 성능 최적화를 위한 프레임워크입니다.",
+          "keyPoints": [
+            "AI 에이전트의 효율적인 훈련 및 최적화 방법 제공"
+          ],
+          "whyItMatters": "대규모 AI 에이전트 시스템 구축 시 핵심 도구입니다.",
+          "url": "https://github.com/microsoft/agent-lightning",
+          "sourceName": "GitHub Trending",
+          "engagement": 16200,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "microsoftagent-lightning-python",
+          "category": "tech",
+          "publishedAt": "2026-03-31T23:12:59.265Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "OpenBMB/ChatDev (Python)",
+          "titleKo": "OpenBMB/ChatDev - LLM 기반 멀티에이전트 협업 개발",
+          "summary": "ChatDev 2.0은 대규모 언어모델 기반의 멀티에이전트 협업으로 소프트웨어 개발을 자동화하는 플랫폼입니다.",
+          "keyPoints": [
+            "여러 AI 에이전트가 협력하여 소프트웨어 개발 수행",
+            "LLM 기반 자동화된 개발 프로세스"
+          ],
+          "whyItMatters": "AI를 활용한 완전자동 소프트웨어 개발 파이프라인의 새로운 패러다임을 제시합니다.",
+          "url": "https://github.com/OpenBMB/ChatDev",
+          "sourceName": "GitHub Trending",
+          "engagement": 32391,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "openbmbchatdev-python",
+          "category": "tech",
+          "publishedAt": "2026-03-31T23:12:59.267Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "neovim/neovim (Vim Script)",
+          "titleKo": "Neovim - 확장성과 사용성에 중점을 둔 Vim 포크",
+          "summary": "확장성과 사용성을 강화한 Vim 포크 프로젝트입니다.",
+          "keyPoints": [
+            "Vim 기반의 현대적 개선과 확장 지원",
+            "활발한 개발 커뮤니티"
+          ],
+          "whyItMatters": "개발자들이 커스터마이징 가능한 고성능 텍스트 편집기를 통해 개발 생산성을 높일 수 있습니다.",
+          "url": "https://github.com/neovim/neovim",
+          "sourceName": "GitHub Trending",
+          "engagement": 97914,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "neovimneovim-vim-script",
+          "category": "tech",
+          "publishedAt": "2026-03-31T23:12:59.266Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Vim Script"
+          ]
+        },
+        {
+          "title": "Open source CAD in the browser (Solvespace)",
+          "titleKo": "브라우저에서 실행되는 오픈소스 CAD (Solvespace)",
+          "summary": "Solvespace는 데스크톱 소프트웨어로 개발되었으나 Emscripten으로 컴파일되어 브라우저에서도 실행됩니다. 작은 모델에서는 실용적으로 사용 가능하며 네트워크 의존성이 없어 자체 호스팅이 가능합니다.",
+          "keyPoints": [
+            "Emscripten 기술로 데스크톱 CAD 소프트웨어를 브라우저에 포팅",
+            "네트워크 독립적으로 정적 웹 콘텐츠로 자체 호스팅 가능"
+          ],
+          "whyItMatters": "개발자들이 브라우저 기반 CAD 도구를 설치 없이 활용하고, Emscripten을 통한 C++ 애플리케이션 웹 포팅의 실제 사례를 학습할 수 있습니다.",
+          "url": "https://solvespace.com/webver.pl",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 271,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "open-source-cad-in-the-browser-solvespace",
+          "fullContent": "SolveSpace is developed primarily as normal desktop software. It's\ncompact enough that it runs surprisingly well when compiled with\nemscripten for the browser, though. There is some speed penalty and\nthere are many remaining bugs, but with smaller models the experience is\noften highly usable.\nIn keeping with the experimental status of this target, the version\nbelow is built from our latest development branch. You are likely to\nencounter issues that don't exist in the\nnormal desktop targets, but\nfeel free to\nreport\nbugs in the usual way.\nThis web version has no network dependencies after loading. To host your\nown copy,\nbuild\nand host the output like any other static web content.",
+          "category": "tech",
+          "publishedAt": "2026-03-31T12:50:23.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "SolveSpace는 기본적으로 일반적인 데스크톱 소프트웨어로 개발되었습니다. 그런데 코드가 충분히 간결해서 Emscripten으로 브라우저용으로 컴파일하면 놀라울 정도로 잘 작동하거든요. 물론 속도 저하가 있고 남은 버그들도 많지만, 작은 모델을 다룰 때는 사용성이 충분히 좋습니다.\n\n이 웹 버전이 실험적 단계라는 점을 반영해서, 아래 버전은 최신 개발 브랜치에서 빌드했습니다. 데스크톱 버전에서는 없는 문제를 만날 가능성이 크지만, 언제든지 일반적인 방식으로 버그를 보고해주세요.\n\n다만 한 가지 장점이 있다면, 이 웹 버전은 로딩 후에 네트워크 의존성이 전혀 없다는 겁니다. 직접 호스팅하고 싶으신 분들은 다른 정적 웹 콘텐츠처럼 빌드해서 배포하면 됩니다."
+        },
+        {
+          "title": "luongnv89/claude-howto (Python)",
+          "titleKo": "claude-howto - Claude Code 완전 가이드",
+          "summary": "기본 개념부터 고급 에이전트까지 Claude Code를 시각적 예제와 복사-붙여넣기 템플릿으로 설명하는 실용 가이드입니다.",
+          "keyPoints": [
+            "Claude Code의 기본부터 고급 사용법을 체계적으로 설명",
+            "바로 적용 가능한 템플릿과 예제 제공"
+          ],
+          "whyItMatters": "개발자들이 Claude Code의 다양한 기능을 구체적인 예제로 학습하여 AI 코드 생성 도구를 효과적으로 활용할 수 있습니다.",
+          "url": "https://github.com/luongnv89/claude-howto",
+          "sourceName": "GitHub Trending",
+          "engagement": 12813,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "topicId": "claude-code-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "luongnv89claude-howto-python",
+          "category": "tech",
+          "publishedAt": "2026-03-31T23:12:59.263Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Show HN: Forkrun – NUMA-aware shell parallelizer (50×–400× faster than parallel)",
+          "titleKo": "Forkrun – NUMA 인식 쉘 병렬화기 (parallel 대비 50-400배 빠름)",
+          "summary": "NUMA(Non-Uniform Memory Access) 아키텍처를 고려한 쉘 병렬화 도구로, 기존 parallel 명령어 대비 50-400배 빠른 성능을 제공합니다.",
+          "keyPoints": [
+            "NUMA 아키텍처의 메모리 접근 패턴을 최적화하여 병렬 처리 성능 극대화",
+            "기존 병렬화 도구 대비 획기적인 성능 향상"
+          ],
+          "whyItMatters": "멀티코어/멀티 CPU 시스템에서 대규모 병렬 작업을 수행하는 개발자들이 시스템 하드웨어를 최적으로 활용하여 처리 속도를 획기적으로 개선할 수 있습니다.",
+          "url": "https://github.com/jkool702/forkrun",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 93,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-forkrun-numa-aware-shell-parallelizer-50400-faster-than-parallel",
+          "category": "tech",
+          "publishedAt": "2026-03-27T12:12:20.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "sherlock-project/sherlock (Python)",
+          "titleKo": "사용자명으로 소셜 미디어 계정 추적하기",
+          "summary": "Sherlock은 주어진 사용자명으로 여러 소셜 네트워크에서 계정을 찾아내는 Python 도구이다. 300개 이상의 웹사이트를 지원하며 사용자 조사와 보안 검사에 활용될 수 있다.",
+          "keyPoints": [
+            "단일 사용자명으로 다양한 플랫폼의 연결된 계정을 발견 가능",
+            "보안 감사, 사용자 조사, 개인정보 모니터링 등에 활용 가능"
+          ],
+          "whyItMatters": "개발자와 보안 전문가가 온라인 신원 조사와 정보 수집을 자동화할 수 있다.",
+          "url": "https://github.com/sherlock-project/sherlock",
+          "sourceName": "GitHub Trending",
+          "engagement": 75472,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "sherlock-projectsherlock-python",
+          "category": "tech",
+          "publishedAt": "2026-03-31T23:12:59.266Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "vas3k/TaxHacker (TypeScript)",
+          "titleKo": "TaxHacker - 자체 호스팅 AI 회계 앱",
+          "summary": "TypeScript로 작성된 자체 호스팅 가능한 회계 애플리케이션으로, LLM을 사용하여 영수증, 청구서, 거래를 분석하고 사용자 정의 프롬프트와 카테고리를 지원한다.",
+          "keyPoints": [
+            "LLM 기반 자동 영수증 및 청구서 분석으로 수동 입력 작업 감소",
+            "자체 호스팅 방식으로 데이터 프라이버시 보장"
+          ],
+          "whyItMatters": "소규모 사업가와 프리랜서가 AI를 활용한 회계 자동화를 저비용으로 구축할 수 있다.",
+          "url": "https://github.com/vas3k/TaxHacker",
+          "sourceName": "GitHub Trending",
+          "engagement": 3696,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "vas3ktaxhacker-typescript",
+          "category": "tech",
+          "publishedAt": "2026-03-31T23:12:59.266Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Combinators",
+          "titleKo": "Combinators - 함수형 프로그래밍 패턴",
+          "summary": "TinyAPL 문서에서 소개하는 Combinator는 인자와 피연산자만 참조하고 수정하지 않는 함수 또는 연산자이다. Identity, Kestrel, Warbler, Cardinal 등 다양한 조합자가 조류 이름으로 명명되어 있으며 함수형 프로그래밍에서 핵심 패턴을 구성한다.",
+          "keyPoints": [
+            "조합자(Combinator)는 순수 함수 개념으로 부작용이 없으며 함수형 프로그래밍의 기본 블록",
+            "Raymond Smullyan의 'To Mock a Mockingbird'에서 영감을 받아 조류 이름으로 표기"
+          ],
+          "whyItMatters": "함수형 프로그래밍에서 재사용 가능한 고차 함수 패턴을 이해하고 활용할 수 있다.",
+          "url": "https://tinyapl.rubenverg.com/docs/info/combinators",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 126,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "combinators",
+          "fullContent": "Combinators\nA combinator is a function or operator that only refers to its arguments and operands without modifying them in any way.\nSymbolAPL expressionBird(1)TinyAPLDiagram\nI\n\\mathrm I\nIyIdentity⊣/⊢\nK\n\\mathrm K\nKxKestrel⊣\nκ\n\\kappa\nκyKite⊢\nW\n\\mathrm W\nWy F yWarbler⍨\nC\n\\mathrm C\nCy F xCardinal⍨\nB\n\\mathrm B\nBF (G y)Bluebird∘/⍤/⍥\nQ\n\\mathrm Q\nQG (F y)Queer⍛\nB\n1\n{\\mathrm B}_1\nB1​F (x G y)Blackbird⍤\nΨ\n\\Psi\nΨ(G x) F (G y)Psi⍥\nS\n\\mathrm S\nSy F (G y)Starling⟜/⇽\nΣ\n\\Sigma\nΣ(F y) G yViolet Starling⊸/⇾\nD\n\\mathrm D\nDx F (G y)Dove∘/⟜\nΔ\n\\Delta\nΔ(F x) G yZebra Dove⍛/⊸\nΦ\n\\Phi\nΦ(F y) G (H y)Phoenix«»\nΦ\n1\n\\Phi_1\nΦ1​(x F y) G (x H y)Pheasant«»\nD\n2\n{\\mathrm D}_2\nD2​(F x) G (H y)Dovekie⊸ + ⟜\nP\n\\mathrm P\nP(y G x) F (x G y)Parrot(2)⸚\nN\n\\mathrm N\nNx F (x G y)Eastern Nicator⇽\nν\n\\mathrm \\nu\nν(x F y) G yWestern Nicator⇾\nAdditionally, some other primitives have combinator-like behavior:\nAPL expressionTinyAPLDiagramn⍨n⍨F y⁖x G y⁖\nFootnotes\nSome combinators have bird names, originating from To Mock a Mockingbird by Raymond Smullyan. Some of the bird names are taken from the Uiua combinator page.\nI made this one up.",
+          "category": "tech",
+          "publishedAt": "2026-03-31T11:49:03.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 컴비네이터(Combinator)\n\n컴비네이터는 자신의 인자나 피연산자를 수정하지 않고 오직 그것들만을 참조하는 함수나 연산자입니다.\n\n## 주요 컴비네이터 목록\n\n| 기호 | APL 표현 | 새 이름(Bird Name) | TinyAPL |\n|------|---------|------------------|--------|\n| I | \\mathrm I | Identity | ⊣/⊢ |\n| K | \\mathrm K | Kestrel | ⊣ |\n| κ | \\kappa | Kite | ⊢ |\n| W | \\mathrm W | Warbler | ⍨ |\n| C | \\mathrm C | Cardinal | ⍨ |\n| B | \\mathrm B | Bluebird | ∘/⍤/⍥ |\n| Q | \\mathrm Q | Queer | ⍛ |\n| B₁ | {\\mathrm B}_1 | Blackbird | ⍤ |\n| Ψ | \\Psi | Psi | ⍥ |\n| S | \\mathrm S | Starling | ⟜/⇽ |\n| Σ | \\Sigma | Violet Starling | ⊸/⇾ |\n| D | \\mathrm D | Dove | ∘/⟜ |\n| Δ | \\Delta | Zebra Dove | ⍛/⊸ |\n| Φ | \\Phi | Phoenix | «» |\n| Φ₁ | \\Phi_1 | Pheasant | «» |\n| D₂ | {\\mathrm D}_2 | Dovekie | ⊸ + ⟜ |\n| P | \\mathrm P | Parrot | ⸚ |\n| N | \\mathrm N | Eastern Nicator | ⇽ |\n| ν | \\mathrm \\nu | Western Nicator | ⇾ |\n\n## 컴비네이터 유사 동작\n\n일부 다른 기본 연산자들도 컴비네이터와 유사한 행동을 보입니다.\n\n| APL 표현 | TinyAPL | 다이어그램 |\n|---------|--------|---------|\n| n⍨ | n⍨ | F y⁖x G y⁖ |\n\n## 참고\n\n몇몇 컴비네이터는 Raymond Smullyan의 저서 『To Mock a Mockingbird』에서 유래한 새의 이름을 갖고 있습니다. 일부 새 이름은 Uiua 컴비네이터 페이지에서 차용했습니다. 그 외의 일부는 직접 만들어낸 것입니다."
+        },
+        {
+          "title": "Dimillian/Skills (Shell)",
+          "titleKo": "Skills - 개인 Codex 저장소",
+          "summary": "Dimillian의 개인 Codex Skills 저장소로, 실제 구성은 본문 정보 부족으로 상세 파악이 어렵다.",
+          "keyPoints": [
+            "개인 기술 저장소 및 문서화 프로젝트"
+          ],
+          "whyItMatters": "개인의 기술 지식을 체계적으로 관리하고 공유할 수 있는 예시를 제공한다.",
+          "url": "https://github.com/Dimillian/Skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 2825,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "dimillianskills-shell",
+          "category": "tech",
+          "publishedAt": "2026-03-31T23:12:59.266Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "Teenage Engineering's PO-32 acoustic modem and synth implementation",
+          "titleKo": "Teenage Engineering PO-32 음향 모뎀 및 신스 구현",
+          "summary": "libpo32는 Teenage Engineering PO-32 드럼 신스의 데이터 전송 프로토콜과 드럼 음성 모델을 재구현한 C99 라이브러리이다. 패킷 형식, 음향 모뎀, 프레임 디코더, 드럼 신스 기능을 제공하며 외부 의존성 없이 임베디드 환경에서 동작한다.",
+          "keyPoints": [
+            "C99 기반 경량 라이브러리로 libc, 외부 DSP 라이브러리 없이 임베디드 환경 지원",
+            "PO-32의 21개 파라미터 드럼 음성을 로컬에서 렌더링 가능하며 DPSK 음향 모뎀으로 기기 전송 구현"
+          ],
+          "whyItMatters": "음악 기술 및 임베디드 시스템 개발자가 하드웨어 신스 통신을 프로그래밍적으로 제어하고 확장할 수 있다.",
+          "url": "https://github.com/ericlewis/libpo32",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 65,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "teenage-engineerings-po-32-acoustic-modem-and-synth-implementation",
+          "fullContent": "libpo32\nA small C99 library for Teenage Engineering PO-32 acoustic data transfers\nand drum synthesis.\nlibpo32 reimplements the PO-32 Tonic transfer stack and a compatible drum\nvoice model. It is not a full PO-32 firmware or UI emulator; it covers the\npacket format, acoustic modem, frame decoder, and local drum synthesis needed\nto build, send, receive, and preview PO-32 transfers.\nContents\nOverview\nUsing It With a PO-32\nGetting Started\nExamples\nPublic API\nDocumentation\nProject Layout\nContributing\nLicense\nOverview\nArea\nWhat libpo32 provides\nTransfer protocol\nBuild and parse PO-32 patch, pattern, and state packets\nAcoustic modem\nRender transfer frames to DPSK audio for playback into the device\nDecoder\nRecover normalized frames and packets from transfer audio\nDrum synthesis\nRender the PO-32's 21-parameter drum voice locally for preview and testing\nThe core is freestanding C99: no libc runtime, no external DSP libraries,\nno platform audio APIs, no file I/O. Only the freestanding headers\n<stddef.h> and <stdint.h> are used. Suitable for embedded targets and\nbare-metal environments.\nUsing It With a PO-32\nThe PO-32 is not receiving finished drum audio when you transfer a sound or a\npattern. It receives structured data:\nData\nMeaning\nPatch packets\nThe two patch endpoints per instrument (Left and Right), with the destination instrument slot encoded in the packet\nPattern packets\nWhich instruments trigger on which steps, with the destination pattern slot encoded as pattern_number\nState packet\nTempo, swing, morph defaults, and the transferred pattern list\nThe device then uses its own internal synth engine to turn those parameters\ninto sound.\nAt a high level, the workflow with real hardware is:\nStep\nWhat you do\n1\nBuild a transfer in software from patch, pattern, and state data\n2\nRender that transfer to a WAV or live audio stream\n3\nPut the PO-32 into its normal receive/import flow\n4\nPlay the rendered transfer audio into the device\n5\nThe PO-32 decodes the packets and writes them to the sound or pattern slots named inside those packets\nGetting Started\nFrom the repository root, configure, build, run tests, then the demo:\ncmake -S . -B build -DCMAKE_BUILD_TYPE=Release\ncmake --build build -j4\nctest --test-dir build --output-on-failure\n./build/po32_demo\nOptional, but recommended for local development:\n./scripts/install-git-hooks.sh\nThat enables the repo-managed pre-commit hook, which runs clang-format on\nstaged .c and .h files before each commit and validates commit subjects\nagainst Conventional Commits. The repo-managed pre-push hook runs the static\nanalysis script before push.\nThe demo builds a transfer frame, renders it to audio, decodes it back\n(verifying a lossless roundtrip), synthesizes a drum hit, and writes two\nWAV files: demo_modem.wav and demo_kick.wav.\nExamples\nCommand\nPurpose\n./build/po32_example\nMinimal roundtrip: encode, render, decode, and verify\n./build/po32_demo\nEnd-to-end demo: transfer frame build/render/decode plus local drum synthesis\n./build/po32_pattern_editor\nInteractive PO-32 pattern editing and WAV export\n./build/po32_decode_capture <input.wav> <out-dir>\nPacket and pattern dumps from a transfer WAV\nPublic API\nHeader\nResponsibility\ncore/include/po32.h\nTransfer builder, packet helpers, renderer, and decoder\ncore/include/po32_synth.h\nDrum synthesizer\nDocumentation\nDocument\nPurpose\nArchitecture\nHow the codec works\nProtocol\nWire format details\nC API\nC function reference\nSynth\nSynthesizer signal path\nPatch Parameters\nThe 21 parameters\nExamples\nSupported example programs\nContributing\nLocal setup, checks, and commit conventions\nProject Layout\nPath\nPurpose\ncore/src\nCore C implementation\ncore/include\nPublic C headers\ncore/examples\nSupported C examples\ncore/tests\nCore test coverage\ncore/docs\nArchitecture, protocol, and API notes\nbindings\nLanguage bindings\nContributing\nSee CONTRIBUTING.md for local setup, verification commands,\nand the Conventional Commits policy used for SemVer-friendly history.\nLicense\nCopyright (c) 2026 Eric Lewis. Licensed under the MIT License. See LICENSE.",
+          "category": "tech",
+          "publishedAt": "2026-03-28T01:04:56.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# libpo32: Teenage Engineering PO-32 음향 데이터 전송과 드럼 신스 라이브러리\n\nTeenage Engineering의 PO-32 악기와 데이터를 주고받기 위한 소형 C99 라이브러리입니다. PO-32의 전송 스택과 호환되는 드럼 음성 모델을 구현했어요. 다만 PO-32의 펌웨어나 UI를 완전히 에뮬레이션하는 건 아니고, 패킷 포맷, 음향 모뎀, 프레임 디코더, 로컬 드럼 신스 등 전송을 구성하고 송수신하며 미리 듣기할 수 있는 핵심 기능만 담았습니다.\n\n## libpo32가 제공하는 것\n\n**전송 프로토콜**\n- PO-32 패치, 패턴, 상태 패킷을 구성하고 파싱합니다\n\n**음향 모뎀**\n- 전송 프레임을 DPSK 오디오로 렌더링해서 악기에 재생할 수 있게 합니다\n\n**디코더**\n- 전송 오디오에서 정규화된 프레임과 패킷을 복원합니다\n\n**드럼 신스**\n- PO-32의 21개 파라미터 드럼 음성을 로컬에서 렌더링해서 미리 듣고 테스트할 수 있습니다\n\n핵심은 순수 C99로 만들어졌거든요. 실행 시간 라이브러리도, 외부 DSP 라이브러리도, 플랫폼 오디오 API도 없습니다. 파일 I/O도 필요 없어요. `<stddef.h>`와 `<stdint.h>` 헤더만 씁니다. 임베디드 환경과 베어메탈 타겟에도 적합합니다.\n\n## PO-32와 함께 사용하기\n\nPO-32가 소리나 패턴을 전송받을 때 생각해보세요. 완성된 드럼 오디오를 받는 게 아니라, 구조화된 데이터를 받습니다.\n\n| 데이터 | 의미 |\n|--------|------|\n| 패치 패킷 | 악기마다 두 개의 패치 엔드포인트(왼쪽, 오른쪽), 목적지 악기 슬롯이 패킷에 인코딩됨 |\n| 패턴 패킷 | 어느 악기가 어느 스텝에서 트리거되는지, 목적지 패턴 슬롯이 pattern_number로 인코딩됨 |\n| 상태 패킷 | 템포, 스윙, 모프 기본값, 전송된 패턴 목록 |\n\n이후 PO-32가 자체 내부 신스 엔진으로 그 파라미터들을 소리로 바꿉니다.\n\n실제 하드웨어와의 워크플로우는 이렇습니다:\n\n1. **소프트웨어에서 전송 구성** - 패치, 패턴, 상태 데이터로부터 전송을 빌드합니다\n2. **오디오로 렌더링** - WAV 파일이나 라이브 오디오 스트림으로 변환합니다\n3. **PO-32를 받기 모드로 전환** - 악기의 정상적인 받기/임포트 흐름으로 들어갑니다\n4. **렌더링된 오디오 재생** - 악기에 오디오를 입력합니다\n5. **자동 디코딩** - PO-32가 패킷을 디코딩해서 패킷 안에 지정된 슬롯에 데이터를 씁니다\n\n## 시작하기\n\n저장소 루트에서 이렇게 실행하면 됩니다:\n\n```bash\ncmake -S . -B build -DCMAKE_BUILD_TYPE=Release\ncmake --build build -j4\nctest --test-dir build --output-on-failure\n./build/po32_demo\n```\n\n로컬 개발할 때는 이것도 추천합니다:\n\n```bash\n./scripts/install-git-hooks.sh\n```\n\n이 스크립트는 저장소 관리 사전커밋 훅을 활성화합니다. 매번 커밋 전에 staged된 `.c`와 `.h` 파일에 clang-format을 실행하고 커밋 메시지를 Conventional Commits 규칙으로 검증해요. 푸시 전에는 정적 분석 스크립트도 자동으로 돌립니다.\n\n데모는 전송 프레임을 빌드하고, 오디오로 렌더링하고, 다시 디코딩해서 무손실 라운드트립을 검증합니다. 여기에 드럼 신스도 포함되어서 `demo_modem.wav`와 `demo_kick.wav` 두 파일을 생성합니다.\n\n## 예제들\n\n| 명령 | 설명 |\n|------|------|\n| `./build/po32_example` | 최소한의 라운드트립: 인코드, 렌더링, 디코드, 검증 |\n| `./build/po32_demo` | 완전한 데모: 전송 프레임 구성/렌더링/디코딩 + 로컬 드럼 신스 |\n| `./build/po32_pattern_editor` | PO-32 패턴 편집기 및 WAV 내보내기 (대화형) |\n| `./build/po32_decode_capture <input.wav> <out-dir>` | 전송 WAV에서 패킷과 패턴 덤프 |\n\n## 공개 API\n\n| 헤더 | 역할 |\n|------|------|\n| `core/include/po32.h` | 전송 빌더, 패킷 헬퍼, 렌더러, 디코더 |\n| `core/include/po32_synth.h` | 드럼 신스 |\n\n## 문서\n\n| 문서 | 설명 |\n|------|------|\n| Architecture | 코덱 작동 원리 |\n| Protocol | 와이어 포맷 상세 사항 |\n| C API | C 함수 레퍼런스 |\n| Synth | 신스 신호 경로 |\n| Patch Parameters | 21개 파라미터 설명 |\n| Examples | 지원 예제 프로그램 |\n\n## 프로젝트 구조\n\n| 경로 | 설명 |\n|------|------|\n| `core/src` | 핵심 C 구현 |\n| `core/include` | 공개 C 헤더 |\n| `core/examples` | 지원되는 C 예제 |\n| `core/tests` | 핵심 테스트 커버리지 |\n| `core/docs` | 아키텍처, 프로토콜, API 문서 |\n| `bindings` | 언어 바인딩 |\n\n## 기여하기\n\n로컬 설정, 검증 명령, Conventional Commits 정책은 CONTRIBUTING.md 파일을 참고하세요. 이 정책을 따르면 SemVer 친화적인 히스토리를 유지할 수 있습니다.\n\n## 라이선스\n\nCopyright (c) 2026 Eric Lewis. MIT 라이선스. LICENSE 파일을 참고하세요."
+        },
+        {
+          "title": "4D Doom",
+          "titleKo": "4D 둠",
+          "summary": "WebGPU를 활용한 첫 번째 4차원 던전 크롤러 게임 HYPERHELL이 공개되었습니다. 게임은 4차원 세계를 직관적으로 이해할 수 있도록 '언블링크' 메커니즘이라는 새로운 4D 아이 렌더링 기법을 활용합니다.",
+          "keyPoints": [
+            "WebGPU 기반의 4차원 게임 엔진으로, M1/M2 맥북과 Nvidia GPU에서 작동",
+            "4D 카메라 센서를 통한 혁신적인 렌더링 방식으로 4차원 세계를 게임플레이로 체험"
+          ],
+          "whyItMatters": "WebGPU 활용 및 복잡한 공간 수학 구현의 실제 게임 적용 사례로서 그래픽 개발자에게 참고 가치가 있습니다.",
+          "url": "https://github.com/danieldugas/HYPERHELL",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 76,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "4d-doom",
+          "fullContent": "HYPERHELL\nWelcome to HYPERHELL, the first 4-Dimensional DOOM-Like of its kind.\nPlay the Demo Online\nNote: This demo requires WebGPU compatible hardware+browser (I've successfully tested it on Macbook M1, M2, and Nvidia GPUs + Chrome)\nAbout\nOur feeble human minds can only comprehend up to 3 dimensions, so prepare to be disoriented as you descend into the 4-dimensional maze of HYPERHELL, and carve your way out through hordes of lost souls, demons and dark angels, to survive.\nIn this demo level, you will meet the Bargainer, who offers you an exchange that may be your only way out. Alter yourself to transcend the 3 dimensions you are bound to, or resign yourself to your fate. Your choice.\nWhy HYPERHELL\nThis game started as a question: can we understand 4-dimensional worlds intuitively?\nAfter some experimentation with rendering techniques for 4D worlds, I explored a new way to render 4D: through a 4D Eye, i.e. a camera with a 3D sensor.\nBecause I think we learn best by interacting, I then settled on creating a game that would use this new sensor rendering (which became the \"Unblink\" mechanic).\nGameplay\nFull Gameplay Video (Spoilers)\nDev Log\nDev Log #1: Simulating a 4D Eye",
+          "category": "tech",
+          "publishedAt": "2026-03-27T22:19:34.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# HYPERHELL\n## 4차원 DOOM 류 게임, 처음 선보입니다\n\n[온라인 데모 플레이하기]\n\n**주의:** 이 데모는 WebGPU를 지원하는 하드웨어와 브라우저가 필요합니다. (Macbook M1, M2, Nvidia GPU + Chrome에서 테스트 완료)\n\n## 게임 소개\n\n우리 인간의 뇌는 3차원까지만 이해할 수 있죠. 그래서 HYPERHELL의 4차원 미로 속으로 내려가면서 완전히 방향감각을 잃게 될 겁니다. 길을 잃은 영혼들, 악마, 암흑의 천사들로 가득한 무리를 뚫고 생존의 길을 찾아야 합니다.\n\n이번 데모 레벨에서는 협상꾼(Bargainer)이라는 존재를 만나게 됩니다. 그는 당신이 탈출할 수 있는 유일한 방법일지도 모르는 거래를 제시합니다. 자신을 변화시켜 3차원의 족쇄를 벗고 초월할지, 아니면 운명에 항복할지 선택해야 합니다. 그 결정은 전적으로 당신의 몫입니다.\n\n## 왜 HYPERHELL인가?\n\n이 게임은 하나의 질문에서 시작됐습니다. \"4차원 세계를 직관적으로 이해할 수 있을까?\"\n\n4D 세계를 렌더링하는 기술들을 실험해보다가, 새로운 방식을 발견했어요. 바로 \"4D 눈\"—즉 3차원 센서를 가진 카메라를 통해 4D를 렌더링하는 방식입니다.\n\n저는 상호작용을 통해 배우는 것이 가장 효과적이라고 생각합니다. 그래서 이 새로운 센서 렌더링 기법을 활용하는 게임을 만들기로 결정했고, 이것이 \"Unblink\" 메커닉으로 탄생했습니다.\n\n## 게임플레이\n\n[전체 게임플레이 영상 보기 (스포일러 주의)]\n\n## 개발 로그\n\n[개발 로그 #1: 4D 눈 시뮬레이션]"
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "A new, major npm supply chain attack via Axios",
+          "titleKo": "Axios를 통한 새로운 대규모 NPM 공급망 공격",
+          "summary": "Axios 패키지 침해로 인한 NPM 공급망 공격 소식을 다루고 있다. 주당 1억 다운로드 이상을 기록하는 이 라이브러리의 악성 버전이 배포되었다.",
+          "keyPoints": [
+            "Axios는 높은 다운로드 수로 인해 공급망 공격의 주요 타겟이 되었으며, 단일 라이브러리의 침해가 수백만 개발자에게 영향을 줄 수 있음을 시사한다."
+          ],
+          "whyItMatters": "NPM 생태계의 보안 취약성을 강조하며 개발자들이 의존성 관리에 더욱 주의를 기울여야 함을 보여준다.",
+          "url": "https://javascriptweekly.com/issues/779",
+          "sourceName": "JavaScript Weekly",
+          "contentType": "article",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "topicId": "axios-npm-attack",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "a-new-major-npm-supply-chain-attack-via-axios",
+          "category": "insight",
+          "publishedAt": "2026-03-31T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "From 300KB to 69KB per Token: How LLM Architectures Solve the KV Cache Problem",
+          "titleKo": "300KB에서 69KB로: LLM 아키텍처가 KV 캐시 문제를 해결하는 방법",
+          "summary": "대형 언어 모델(LLM)의 추론 과정에서 키-값 캐시(KV Cache)가 차지하는 메모리 용량이 모델 성능의 주요 병목이 되는 문제를 다룹니다. 기사는 KV 캐시가 토큰당 약 300KB의 메모리를 소비하던 것을 69KB로 단축한 최신 아키텍처 개선 기법들을 설명합니다. 그룹 쿼리 어텐션(GQA), 페이지 어텐션, 양자화 등 여러 최적화 기법을 조합하여 메모리 효율을 4배 이상 개선한 사례를 분석합니다.",
+          "keyPoints": [
+            "KV 캐시 메모리 병목의 원인: 트랜스포머 기반 LLM에서 모든 이전 토큰의 키와 값을 메모리에 유지해야 하므로, 긴 시퀀스 처리 시 토큰당 300KB 규모의 메모리가 필요합니다. 이는 배치 크기 제한, 동시 요청 처리 능력 저하 등으로 이어집니다.",
+            "그룹 쿼리 어텐션(GQA): 여러 쿼리 헤드가 하나의 키-값 헤드를 공유하는 방식으로, 메모리 사용량을 줄이면서 성능 손실을 최소화합니다. 이 기법만으로도 KV 캐시를 상당 부분 압축할 수 있습니다.",
+            "페이지 어텐션(Paged Attention): GPU 메모리를 페이지 단위로 분할하여 관리하는 기법으로, 물리 메모리 단편화를 줄이고 활용률을 높입니다. vLLM 같은 추론 엔진에서 이를 활용하여 처리량을 크게 증가시킵니다.",
+            "양자화 기법의 적용: 16비트 또는 8비트 정수로 KV 캐시 값을 표현하면서 정확도 손실을 최소화합니다. 이를 통해 토큰당 메모리를 추가로 50% 이상 감축할 수 있습니다.",
+            "멀티레벨 캐싱 전략: 자주 사용되는 토큰 시퀀스를 GPU 캐시에, 덜 사용되는 부분을 CPU 메모리에 배치하는 등 메모리 계층 활용으로 메모리-속도 트레이드오프를 최적화합니다."
+          ],
+          "whyItMatters": "LLM 추론의 메모리 제약은 실시간 AI 서비스의 확장성과 비용 효율성을 직접 결정하므로, 이러한 최적화 기법의 이해는 AI 인프라 구축과 모델 배포 전략 수립에 필수적입니다.",
+          "url": "https://news.future-shock.ai/the-weight-of-remembering/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 70,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "from-300kb-to-69kb-per-token-how-llm-architectures-solve-the-kv-cache-problem",
+          "category": "insight",
+          "publishedAt": "2026-03-28T22:42:23.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Slop is not necessarily the future",
+          "titleKo": "Slop이 반드시 미래는 아니다",
+          "summary": "AI 생성 코드의 품질 문제('slop')가 장기적으로는 경제적 인센티브에 의해 자동으로 해결될 것이라는 주장입니다. 복잡한 코드는 토큰 효율성이 낮아 경쟁력이 떨어지므로, AI 모델은 유지보수하기 쉬운 단순한 코드를 생성할 경제적 동기를 갖게 됩니다.",
+          "keyPoints": [
+            "AI 코딩 도구가 생성하는 코드량은 증가 중이나(개발자당 LOC 4,450→7,839), 이는 품질 저하 우려를 낳음",
+            "좋은 코드는 토큰 효율성이 높아 경제적으로 유리하므로 경쟁을 통해 자동으로 품질이 개선될 것",
+            "복잡한 코드는 확장성이 떨어져 장기적으로 비효율적이기 때문에 시장이 거부할 것"
+          ],
+          "whyItMatters": "AI 코딩 도구의 대량 도입 시대에 코드 품질 저하 문제가 시장 메커니즘으로 자동 해결된다는 관점을 제시합니다.",
+          "url": "https://www.greptile.com/blog/ai-slopware-future",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 152,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "slop-is-not-necessarily-the-future",
+          "fullContent": "A couple of years ago, \"slop\" became the popular shorthand for unwanted, mindlessly generated AI content flooding the internet including images, text, and spam. Simon Willison helped popularize the term, though it had been circulating in engineering communities in the years prior.\nAt Greptile, we spend a lot of time thinking about questions like: Is slop the future? Are programming best practices now a thing of the past? Will there be any reason at all for AI coding tools to write what we call good code going forward?\nI want to argue that AI models will write good code because of economic incentives. Good code is cheaper to generate and maintain. Competition is high between the AI models right now, and the ones that win will help developers ship reliable features fastest, which requires simple, maintainable code. Good code will prevail, not only because we want it to (though we do!), but because economic forces demand it. Markets will not reward slop in coding, in the long-term.\nWhat's Happening Now?\nSoftware development is changing fast. A prominent recent example comes from Ryan Dahl, creator of Node.js, who wrote, \"The era of humans writing code is over. Disturbing for those of us who identify as SWEs, but no less true.\"\nMeanwhile, the complexity of the average piece of software is drastically increasing. In our 2025 State of AI Coding report[1], lines of code per developer grew from 4,450 to 7,839 as AI coding tools became standard practice. Median PR size increased 33% from March to November 2025, rising from 57 to 76 lines changed. Individual file changes became 20% larger and \"denser.\"\nThe stats suggest that devs are shipping more code with coding agents. While this is exciting, like many other developers I am quite alarmed by this progression. The worry is that AI slop is being shipped into production systems at an ever increasing rate leading to mass distribution of bad software. The consequences may already be visible: analysis of vendor status pages[2] shows outages have steadily increased since 2022, suggesting software is becoming more brittle. Engineers understand this, Andrej Karpathy[3] describes: \"agents bloat abstractions, have poor code aesthetics, are very prone to copy pasting code blocks and it's a mess, but at this point I stopped fighting it too hard and just moved on.\"\nCollectively, software engineers are cranking out code at a high quantity. And there seems to be no reason for \"good\" code. Most users get what they asked for, model labs get paid per token, and developers get to ship without thinking too hard.\nWhy \"Good Code\" Will Win\nIn A Philosophy of Software Design[4], John Ousterhout argues that complexity is the #1 enemy of well-designed software. Broadly he argues that good code is:\nSimple and easy to understand\nEasy to modify\nBad code is the opposite, needs lots of context and mental bandwidth to understand and is almost impossible to modify.\nThis principle applies the same for AI agents. AI will write good code because it is economically advantageous to do so. Per our definition of good code, good code is easy to understand and modify from the reduced complexity. This means it requires less context to understand a relevant piece of code and fewer lines of code to be written to achieve some change. Translating this to token economics, we can clearly see the parallels: it is more token efficient to write and maintain software with good code.\nBy contrast, complex code doesn't scale. It requires a lot of tokens and compute, and as codebases grow, it gets exponentially more expensive.\nWhat This Means\nWe're still early in the AI coding adoption curve. As the technology and competition matures, economic forces will drive AI models toward generating good, simpler, code because it will be cheaper overall.\nThe world right now is focused on getting AI to work in the first place, not on optimizing its abilities. We are going through a particularly messy phase of innovation. Once AI code generation becomes ubiquitous, I believe that economic incentives will start to take effect and AI models will be forced to generate good code to stay competitive amongst software developers and companies.\nReferences\n[1] State of AI Coding report[2] Analysis of vendor status pages[3] Andrej Karpathy[4] A Philosophy of Software DesignSeries A and Greptile v3Announcing Greptile's $25M Series A led by Benchmark Capital and unveiling Greptile v3—our most advanced AI code reviewer that catches 3x more critical bugs.Sep 23, 2025•Daksh GuptaHow to Make LLMs Shut UpLessons learned from our challenges reducing LLM output: Discover everything that went wrong when trying to make our models say less.Dec 18, 2024•Daksh GuptaGreptile's work cultureA from-the-source outline of our work culture, so potential teammates can self-assess their fit.Sep 10, 2025•Daksh Gupta",
+          "category": "insight",
+          "publishedAt": "2026-03-31T14:32:26.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# AI가 만드는 코드, 결국 '좋은 코드'가 될 수밖에 없는 이유\n\n\"슬롭(slop)\"이란 단어가 유행한 지도 몇 년이 되었습니다. AI가 무분별하게 생성한 텍스트, 이미지, 스팸 같은 쓸모없는 콘텐츠를 가리키는 말이죠. 처음엔 엔지니어링 커뮤니티에서 쓰이다가 Simon Willison 같은 인물들이 대중화시켰습니다.\n\n저희 Greptile에서는 자주 이런 질문들을 던집니다. 슬롭이 앞으로의 미래일까? 좋은 코드를 작성하는 것은 이제 옛날 이야기일까? AI 코딩 도구들이 계속해서 좋은 코드를 만들어야 할 이유가 남아 있을까?\n\n저는 경제적 인센티브가 AI 모델들을 좋은 코드로 이끌 거라고 확신합니다. 좋은 코드가 더 싸게 생성되고 유지보수되기 때문입니다. 지금 AI 모델들 사이의 경쟁은 매우 치열합니다. 결국 승자가 될 모델은 개발자들이 안정적인 기능을 가장 빠르게 출시하도록 도와주는 것인데, 이건 단순하고 유지보수하기 쉬운 코드를 필요로 합니다. 좋은 코드가 이기는 이유는 우리가 원해서만이 아니라, 경제 논리가 그렇게 만들기 때문입니다. 장기적으로 시장은 코딩 분야의 슬롭에 보상하지 않습니다.\n\n## 지금 일어나고 있는 일들\n\n소프트웨어 개발이 빠르게 변하고 있습니다. Node.js의 창시자인 Ryan Dahl의 최근 발언이 대표적입니다. \"인간이 코드를 쓰는 시대는 끝났습니다. 자신을 SWE로 정체성 삼는 사람들에겐 불안할 수밖에 없지만, 이건 피할 수 없는 현실입니다.\"\n\n한편, 평균 소프트웨어의 복잡도는 급격하게 증가하고 있습니다. 저희가 2025년에 발표한 'AI 코딩 리포트'를 보면 개발자당 코드 라인 수가 4,450줄에서 7,839줄로 늘었습니다. AI 코딩 도구가 표준처럼 자리잡으면서 일어난 변화죠. 중간값 PR 크기는 2025년 3월부터 11월 사이에 57줄에서 76줄로 33% 증가했습니다. 단일 파일 수정도 20% 더 커지고 \"밀도\"가 높아졌습니다.\n\n이 수치들은 코딩 에이전트 덕분에 개발자들이 더 많은 코드를 배포하고 있다는 걸 보여줍니다. 신나는 일이지만, 많은 개발자처럼 저도 이 추세에 우려하고 있습니다. AI 슬롭이 계속 프로덕션 시스템으로 들어가다 보면 나쁜 소프트웨어가 대규모로 퍼질 거라는 우려가 있거든요. 그 결과가 이미 보입니다. 벤더 상태 페이지들을 분석하면 2022년 이후로 장애가 꾸준히 증가하고 있는데, 이는 소프트웨어가 더 깨지기 쉬워지고 있다는 신호입니다. \n\n유명한 AI 연구자 Andrej Karpathy는 이를 이렇게 묘사했습니다. \"에이전트들은 추상화를 부풀리고, 코드 미학이 떨어지며, 코드 블록을 복붙하는 경향이 심해서 엉망입니다. 하지만 이 정도쯤 되면 저도 싸우는 걸 멈췄어요.\"\n\n결국 소프트웨어 엔지니어들은 대량으로 코드를 쏟아내고 있습니다. \"좋은\" 코드를 쓸 이유가 없어 보이니까요. 대부분의 사용자는 원하던 것을 얻고, 모델 개발사는 토큰 단위로 돈을 벌고, 개발자는 깊이 생각하지 않고 배포할 수 있으니까요.\n\n## 왜 '좋은 코드'가 결국 이길까\n\nJohn Ousterhout의 『A Philosophy of Software Design』에서는 복잡성이 잘 설계된 소프트웨어의 최대 적이라고 주장합니다. 좋은 코드는:\n\n- 단순하고 이해하기 쉽고\n- 수정하기 쉬운 코드\n\n반대로 나쁜 코드는 많은 문맥 정보가 필요하고 정신적 에너지를 많이 요구하며, 수정이 거의 불가능합니다.\n\n이 원칙은 AI 에이전트에도 동일하게 적용됩니다. AI가 좋은 코드를 쓰는 이유는 경제적으로 유리하기 때문입니다. 좋은 코드는 복잡성이 낮아서 이해하고 수정하기 쉽습니다. 이는 코드를 이해하는 데 필요한 문맥이 줄어들고, 변화를 만드는 데 필요한 코드 라인이 적다는 뜻입니다. 토큰 경제학으로 번역하면 명확합니다. 좋은 코드로 소프트웨어를 작성하고 유지보수하는 게 토큰 효율이 더 높습니다.\n\n반면 복잡한 코드는 확장되지 않습니다. 많은 토큰과 컴퓨팅 파워가 필요하고, 코드베이스가 커질수록 비용이 기하급수적으로 증가합니다.\n\n## 이것이 의미하는 바\n\n우린 아직 AI 코딩 도입 곡선의 초기 단계입니다. 기술이 성숙하고 경쟁이 심화되면, 경제 논리가 AI 모델들을 더 단순하고 좋은 코드 생성으로 이끌 겁니다. 전체적으로 비용이 더 저렴하기 때문이죠.\n\n현재 세상은 AI를 먼저 작동시키는 데만 집중하고 있지, 그 능력을 최적화하는 데는 신경 쓰지 않습니다. 혁신의 특히 지저분한 단계를 거치고 있는 거죠. 하지만 AI 코드 생성이 보편화되면, 경제적 인센티브가 작동하기 시작할 겁니다. AI 모델들은 소프트웨어 개발자와 회사들 사이에서 경쟁하려면 좋은 코드를 생성할 수밖에 없게 될 겁니다."
+        },
+        {
+          "title": "jwasham/coding-interview-university",
+          "titleKo": "jwasham/coding-interview-university - 소프트웨어 엔지니어가 되기 위한 완전한 컴퓨터 과학 학습 계획",
+          "summary": "소프트웨어 엔지니어 취업을 목표로 하는 개발자들을 위한 종합적인 컴퓨터 과학 학습 로드맵 저장소이다. 알고리즘, 자료구조, 시스템 설계 등 핵심 CS 개념을 체계적으로 학습할 수 있도록 구성되어 있다.",
+          "keyPoints": [
+            "완전한 컴퓨터 과학 기초 학습 계획을 제공하여 취업 면접 준비에 도움을 준다."
+          ],
+          "whyItMatters": "기술 면접 준비와 CS 기초를 다지려는 개발자들에게 유용한 학습 자료로 활용될 수 있다.",
+          "url": "https://github.com/jwasham/coding-interview-university",
+          "sourceName": "GitHub Trending",
+          "engagement": 339588,
+          "contentType": "repo",
+          "labels": [
+            "career",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "jwashamcoding-interview-university",
+          "category": "insight",
+          "publishedAt": "2026-03-31T23:12:59.267Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "What’s !important #8: Light/Dark Favicons, @mixin, object-view-box, and More",
+          "titleKo": "What's !important #8: Light/Dark Favicon, @mixin, object-view-box 등",
+          "summary": "CSS-Tricks의 뉴스레터로 라이트/다크 Favicon, @mixin, anchor-interpolated morphing, object-view-box 등 최신 웹 기능들을 다루고 있다.",
+          "keyPoints": [
+            "Light/Dark 모드 대응 Favicon, @mixin 문법, object-view-box 속성 등 신규 CSS 기능 소개",
+            "최신 웹 표준과 기능 동향을 간결하게 정리한 뉴스레터"
+          ],
+          "whyItMatters": "최신 CSS 표준과 웹 기능을 빠르게 캐치할 수 있어 모던 웹 개발의 트렌드를 놓치지 않을 수 있다.",
+          "url": "https://css-tricks.com/whats-important-8/",
+          "sourceName": "CSS-Tricks",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "css-features",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "whats-important-8-lightdark-favicons-mixin-object-view-box-and-more",
+          "category": "insight",
+          "publishedAt": "2026-03-31T14:14:07.000Z",
+          "language": "en"
+        },
+        {
+          "title": "I Traced My Traffic Through a Home Tailscale Exit Node",
+          "titleKo": "홈 Tailscale Exit Node를 통한 트래픽 추적",
+          "summary": "Tailscale exit node의 동작 원리를 traceroute를 통해 상세히 분석한 기술 글입니다. WireGuard 기반의 메시 네트워크, NAT 홀 펀칭, DERP 릴레이, 라우팅 메커니즘 등을 설명하고 VPN과의 차이점을 다룹니다.",
+          "keyPoints": [
+            "Tailscale은 WireGuard 위에 제어 평면을 추가한 메시 네트워크로 동작하며, exit node는 전체 트래픽을 암호화 터널로 전달",
+            "Exit node는 VPN처럼 동작하지만 익명성을 제공하지는 않으며, 메타데이터와 신뢰 경계를 이해해야 함",
+            "NAT 홀 펀칭 실패 시 DERP 릴레이로 폴백되며 모든 경우 end-to-end 암호화 유지"
+          ],
+          "whyItMatters": "개발자들이 Tailscale의 내부 동작을 이해하여 네트워크 보안, 프라이버시 요구사항에 맞게 효과적으로 설정할 수 있습니다.",
+          "url": "https://tech.stonecharioteer.com/posts/2026/tailscale-exit-nodes/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 45,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-traced-my-traffic-through-a-home-tailscale-exit-node",
+          "fullContent": "Table of Contents\nWhat is an exit node for?\nUnder the hood\nHow routing changes on your device\nHow this compares to OpenVPN\nWhy Your Traffic Doesn’t Hit Tailscale (And Why This Can Be Free)\nWhat about self-hosted OpenVPN or a commercial VPN?\nPacket Walk: One Request End to End\nHow I Verified It on My Setup\nExit Node Internals: Forwarding, NAT, and Return Path\nTrust Boundaries\nSide Effect I Actually Like: AdGuard Visibility\nDNS Behavior with Exit Nodes\nSplit DNS: Routing .home.arpa Through AdGuard\nExit Node vs Subnet Route\nConclusion\nReferences\nI set up Tailscale years ago but only used it for “reach my own devices” use\ncases. This week I finally set up a proper home exit node: a tiny dedicated LXC\non my Proxmox box (1 vCPU, 512 MB RAM, basically just Tailscale).\nTo verify it worked, I pinged my home servers and they worked. But I wanted to\nunderstand this deeper, so I turned to traceroute.\n1\n2\n3\n4\n5\n6\n7\n8\n9\ntraceroute github.com\ntraceroute to github.com (<destination-ip-redacted>), 64 hops max, 40 byte packets\n1 tailscale-gw (100.x.y.z) ~7 ms\n2 192.168.x.1 ~7 ms\n3 10.x.x.1 ~9-177 ms\n4 * * *\n5 * * *\n6 * * *\n7 home-isp-edge.example (<home-public-ip>) ~11-14 ms\nThe 7th hop is where the cogs in my brain began turning. That’s my home ISP. So\nthis is like a VPN, right? Or is it different?\nWhat is an exit node for?#\nWithout an exit node, Tailscale sends traffic to my Tailscale devices, but\nnormal web traffic goes out through my local network or ISP (exit nodes\ndocs).\nWith an exit node enabled, my device changes its default internet path to a\nchosen device, which then sends traffic to the internet for me.\nFor internet traffic, an exit node behaves like a traditional VPN gateway, with\na caveat: Tailscale isn’t always a VPN tunnel for all traffic, but the exit-node\nmode is.\nWithout an exit node, we just have discoverability for services that we have\nexposed on Tailscale. With an exit node, our device is effectively in a\nfull-tunnel VPN mode for internet traffic.\nThe traffic to the exit node is encrypted, and websites we access see the exit\nnode’s public IP, not the IP of the ISP we are currently connected to on our\ndevice.\nExit Node Is Not Anonymity\nAn exit node moves where you\nplace trust, it doesn’t remove trust entirely. The cafe WiFi can see that you’re\nsending encrypted traffic to Tailscale and how much traffic is flowing, but it\ncannot read the contents. The exit node can still see where traffic is going\n(metadata like destination IPs/domains), and websites see the exit node’s public\nIP.\nUnder the hood#\nBefore getting into routing, I want to cover how Tailscale connects devices in\nthe first place. I’ve been comparing it to a VPN, but Tailscale is really a mesh\nnetwork with a control plane on top of WireGuard.\nControl Plane vs Data Plane\nELI5: control plane is the map\nand traffic cop; data plane is the road. Control plane decides who can talk to\nwhom and how to reach them. Data plane carries the encrypted packets\n(control/data plane docs).\nWireGuard by itself is mostly the data plane. Tailscale adds the control\nplane on top: identity/SSO, peer discovery, NAT traversal\ncoordination, ACL distribution, route distribution (including exit node default\nroutes), MagicDNS, and fast device revocation. We can run our\nown WireGuard tunnels, but then we’d have to build and operate most of that\ncontrol-plane machinery ourselves.\nWhen two devices connect, the flow looks like this:\nBoth devices (client + exit node) authenticate to Tailscale’s control plane.\nControl plane shares each peer’s reachable endpoints (public/DERP candidates)\nand keys.\nBoth peers send UDP packets to each other to do NAT hole-punching.\nIf punch-through succeeds, they establish a direct WireGuard-encrypted path.\nIf direct fails, they fall back to DERP relay (still end-to-end encrypted).\nImagine your phone in a cafe and your home server are both behind routers. NAT\nis like a front desk that tracks who went out, but does not let random outsiders\nwalk in directly. Hole-punching tries to make both sides “step out” at the same\ntime so their routers allow a path back in. If that timing or mapping fails,\nDERP acts as a neutral meeting point; it forwards ciphertext between peers but\ncannot decrypt it.\nSo the exit node connects by becoming a discovered peer and completing WireGuard\nhandshakes, not by me exposing a normal inbound VPN port. For exit nodes\nspecifically, the node advertises 0.0.0.0/0 and ::/0 to the control plane,\nthe control plane tells eligible clients, and the client chooses it. After that,\nall internet traffic flows through the encrypted peer tunnel.\nHow routing changes on your device#\nAt a route level, enabling an exit node usually does the following:\nTailscale accepts the exit node’s advertised default routes (0.0.0.0/0 and\n::/0).\nIt installs policy routes so internet-bound traffic goes to the Tailscale\ntunnel interface (tailscale0 on Linux, utun on macOS, Wintun on Windows;\ndifferent labels, same role).\nIt adds an “escape hatch” route for the e",
+          "category": "insight",
+          "publishedAt": "2026-03-31T19:46:43.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Tailscale 출구 노드(Exit Node) 이해하기: 홈 VPN 설정부터 패킷 흐름까지\n\n## 목차\n- 출구 노드는 뭐 하는 건가요?\n- 내부 동작 원리\n- 기기에서 라우팅이 어떻게 바뀌나\n- OpenVPN과의 비교\n- Tailscale 트래픽이 Tailscale을 거치지 않는 이유 (그리고 무료인 이유)\n- 자체 호스팅 OpenVPN이나 상용 VPN은?\n- 패킷 흐름: 한 요청의 전체 여정\n- 내 환경에서 검증하는 방법\n- 출구 노드 내부 동작: 포워딩, NAT, 리턴 경로\n- 신뢰 경계\n- 의외로 마음에 드는 부작용: AdGuard 가시성\n- 출구 노드에서의 DNS 동작\n- 분할 DNS: .home.arpa를 AdGuard로 라우팅하기\n- 출구 노드 vs 서브넷 라우트\n- 결론\n- 참고자료\n\n---\n\n## 시작: Tailscale의 숨겨진 기능을 발견하다\n\n저는 Tailscale을 몇 년 전부터 써왔지만, 솔직히 \"자기 기기들끼리만 연결하기\" 정도로만 사용했어요. 이번 주에 드디어 제대로 된 홈 출구 노드를 설정했습니다. Proxmox 박스 위의 작은 LXC 컨테이너(vCPU 1개, RAM 512MB, 기본적으로 Tailscale만 돌아감)를 쓰고 있거든요.\n\n동작하는지 확인하려고 홈 서버에 핑을 쳐봤는데 잘 되더라고요. 그런데 더 깊이 이해하고 싶어서 traceroute를 돌려봤습니다.\n\n```\ntraceroute github.com\ntraceroute to github.com (<destination-ip-redacted>), 64 hops max, 40 byte packets\n1 tailscale-gw (100.x.y.z) ~7 ms\n2 192.168.x.1 ~7 ms\n3 10.x.x.1 ~9-177 ms\n4 * * *\n5 * * *\n6 * * *\n7 home-isp-edge.example (<home-public-ip>) ~11-14 ms\n```\n\n7번째 홉을 보니 뭔가 이상했어요. 그게 바로 집의 ISP라니까요. 그럼 이게 VPN과 같은 건가? 아니면 다른 건가?\n\n## 출구 노드는 뭐 하는 건가요?\n\n출구 노드가 없으면 Tailscale은 Tailscale 기기들로의 트래픽만 처리합니다. 일반 웹 트래픽은 여전히 로컬 네트워크나 ISP를 통해 나가죠.\n\n출구 노드를 활성화하면 이야기가 달라집니다. 기기가 선택한 특정 기기를 통해 인터넷에 접속하는 것처럼 동작해요. 마치 전통적인 VPN 게이트웨이처럼요.\n\n좀 더 정확히 말하면:\n\n- **출구 노드 없을 때**: Tailscale에 노출된 서비스들만 검색 가능\n- **출구 노드 있을 때**: 인터넷 트래픽이 전부 터널을 통과 (일종의 full-tunnel VPN 모드)\n\n출구 노드로 가는 트래픽은 암호화되어 있어요. 따라서 웹사이트는 당신의 실제 ISP IP가 아니라 출구 노드의 공개 IP를 보게 됩니다.\n\n### 중요한 한 가지: 출구 노드 ≠ 익명성\n\n출구 노드는 신뢰를 **옮기는** 것이지, **제거**하는 게 아닙니다. 카페 WiFi는 당신이 Tailscale로 암호화된 트래픽을 보내고 있다는 걸 여전히 알 수 있어요. 트래픽 양도 볼 수 있고요. 하지만 내용은 못 봅니다.\n\n다만 출구 노드는 목적지 IP나 도메인 같은 메타데이터는 여전히 볼 수 있고, 웹사이트는 출구 노드의 공개 IP를 봅니다.\n\n## 내부 동작 원리\n\n라우팅 이야기를 하기 전에, Tailscale이 기기들을 어떻게 연결하는지 먼저 이해해야 합니다. VPN이라고 비교했지만, 사실 Tailscale은 WireGuard 위에 제어 평면(control plane)을 얹은 메시 네트워크거든요.\n\n### 제어 평면 vs 데이터 평면\n\n쉽게 말하면:\n- **제어 평면**: 지도이자 경찰\n- **데이터 평면**: 도로\n\n제어 평면은 누가 누구랑 통신할 수 있는지, 어떻게 도달할 수 있는지를 결정합니다. 데이터 평면은 암호화된 패킷들이 실제로 이동하는 경로예요.\n\nWireGuard만으로는 기본적으로 데이터 평면만 있습니다. Tailscale이 그 위에 제어 평면을 얹으면서 다음 기능들을 추가합니다:\n\n- ID/SSO 관리\n- 피어 검색\n- NAT 통과 조정\n- ACL 배포\n- 라우트 배포 (출구 노드의 기본 라우트 포함)\n- MagicDNS\n- 빠른 기기 revocation\n\nWireGuard를 직접 써도 되지만, 그러면 이 제어 평면 기능들을 직접 구축하고 운영해야 해요.\n\n### 두 기기가 연결되는 흐름\n\n```\n1. 양쪽 기기(클라이언트 + 출구 노드)가 Tailscale 제어 평면에 인증\n2. 제어 평면이 각 피어의 도달 가능한 엔드포인트(공개 IP/DERP 후보)와 키를 공유\n3. 양쪽 피어가 NAT hole-punching을 위해 UDP 패킷 교환\n4. 성공하면 WireGuard 암호화 경로 수립\n5. 실패하면 DERP relay로 폴백 (여전히 end-to-end 암호화)\n```\n\n생각해보세요. 카페의 휴대폰과 집의 서버가 둘 다 라우터 뒤에 있다고 해요. NAT는 마치 프런트 데스크처럼 나가는 사람은 추적하지만, 밖에서 임의로 들어오는 사람은 들이지 않습니다. Hole-punching은 양쪽이 동시에 \"밖으로 나가서\" 라우터가 돌아오는 경로를 허용하도록 합니다. 타이밍이나 매핑이 실패하면, DERP가 중립 장소 역할을 하죠. 피어 간 암호문을 전달하지만 해독할 수 없습니다.\n\n그래서 출구 노드는 일반적인 인바운드 VPN 포트를 노출하는 게 아니라, 발견된 피어가 되어 WireGuard 핸드셰이크를 완료합니다. 그 다음 모든 인터넷 트래픽이 암호화된 피어 터널을 통해 흘러갑니다.\n\n## 기기의 라우팅이 어떻게 바뀌나\n\n출구 노드를 활성화하면 보통 다음과 같은 일들이 일어납니다:\n\n- Tailscale이 출구 노드가 광고하는 기본 라우트(0.0.0.0/0 및 ::/0)를 받아들임\n- 인터넷 바운드 트래픽이 Tailscale 터널 인터페이스로 가도록 정책 라우트를 설치 (Linux의 tailscale0, macOS의 utun, Windows의 Wintun)\n- 출구 노드의 제어 평면 연결을 위한 \"탈출구(escape hatch)\" 라우트 추가\n\n이 \"탈출구\"가 중요합니다. 출구 노드로의 WireGuard 연결 자체는 터널을 거쳐야 하는데, 그럼 순환 참조가 되죠? 그래서 Tailscale은 출구 노드로 가는 트래픽만 일반 네트워크로 보내고, 나머지는 모두 터널로 보냅니다.\n\n---\n\n*이 글은 시니어 프론트엔드 개발자의 관점에서 Tailscale의 출구 노드 기능을 기술적으로 분석한 내용을 바탕으로 작성되었습니다. 다음 섹션에서는 패킷 흐름, DNS 동작, 신뢰 경계 등 더 깊이 있는 내용을 다룰 예정입니다.*"
+        },
+        {
+          "title": "GitHub Monaspace Case Study",
+          "titleKo": "GitHub Monaspace 폰트 케이스 스터디",
+          "summary": "GitHub Next와 Lettermatic이 협력하여 코드 에디터용으로 특화된 5개의 상호교환 가능한 폰트 패밀리 Monaspace를 개발했다. 각 폰트는 6,000개 이상의 글리프를 포함하고 200개 이상의 언어를 지원하며 새로운 'Texture Healing' 기술을 적용했다.",
+          "keyPoints": [
+            "5가지 폰트 패밀리(Humanist Sans, Grotesque Sans, Slab Serif, Script, Mechanical)로 구성되고 가변 축을 통해 높은 맞춤 설정 가능",
+            "Texture Healing 기술로 모노스페이스 폰트의 가독성을 향상시킴",
+            "전체 패밀리가 오픈소스이며 무료로 다운로드 가능"
+          ],
+          "whyItMatters": "개발자가 코딩 환경을 더 아름답고 기능적으로 맞춤화할 수 있도록 다양한 타이포그래피 옵션을 제공한다.",
+          "url": "https://lettermatic.com/custom/monaspace-case-study",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 106,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "github-monaspace-case-study",
+          "fullContent": "Custom Fonts ForA LETTERMATIC CASE STUDY: MONASPACEBy LettermaticGitHub Next, an experimental research incubator within GitHub, first reached out to Lettermatic about fonts in August 2021. As we spoke with Idan Gazit, Head of GitHub Next, it became clear that he, like all of us at Lettermatic, had a strong appreciation for beautiful and functional typography. This shared interest led us to talking about typography designed for code editors, which we all had some questions about.\nWhy hasn’t typography for code editors changed much since the advent of modern development tools? Why aren’t there more options available to developers who want to customize their experience of writing code? There is no shortage of opinions about document formatting, syntax highlighting systems, or color themes for editors — but why are developers expected to pick a single typeface to work with every day? These questions would lead GitHub and Lettermatic on a journey to make Monaspace: a superfamily of five interchangeable typefaces designed specifically for code, and one of Lettermatic’s most ambitious projects. Information№ of Families:5№ of Styles:42 static styles per family, 210 total styles + variable stylesClassification:Humanist Sans, Grotesque Sans, Slab Serif, Script & MechanicalReleased:November 2023Head of GitHub Next:Idan GazitLatin Type Designers:Riley Cran, Danelle Cheney, Heather CranLead Symbols & Punctuation:Heather CranLead Language Support:Heather CranLanguage Support Expansions:Danelle Cheney, Jane SolomonCyrillic Type Design:Heather Cran, Danelle Cheney, Jane Solomon, Lauren Dickens, Riley CranCyrillic Consultancy:Ilya RudermanGreek Consultancy:Elina KoutsogiannopoulouVietnamese Consultancy:Donny TrươngCase Study Editorial:Jane SolomonCase Study Design:Lauren Dickens, Tina Dirmyer, Anna Thomas, Laura SinisterraCase Study Illustrations:Rick MurphyWebsite:monaspace.githubnext.comAll in all, each Monaspace font contains over 6,000 unique glyphs and supports over 200 languages. All five typefaces have three variable axes — weight, width, and slant — giving users high levels of personalization and accessibility features straight out of the box. Each family in Monaspace is designed on the same grid, which means you can mix and match fonts from this superfamily without breaking the grid of your code editor. The fonts also use a novel technology that we call Texture Healing, which adds a never-before seen level of legibility to monospace typefaces. In line with GitHub’s commitment to the open source mission, the entirety of Monaspace is open source and free to download by anyone with an internet connection.\nFIG. 1 — A selection of glyphs from each of Monaspace’s five typefaces on the shared monospaced grid.\nFIG. 2 — Details from some of our favorite drawings in each of the five Monaspace typefaces.\nThe Brief & The Process\nIn order to have some perspective on this project, it’s valuable to do a brief tour through the history of how fonts usually work. Most typefaces in the Latin script are proportional, meaning that every glyph in the typeface is permitted to have a width that suits that particular letter. Before the term ‘typeface designer’ even existed, we had punch cutters who would cut letters out of metal with a file and punch them into molds to cast metal type. Someone would set every single letter of every single word by hand, and then lock them up on a press for printing. A lot of our metaphors for how letters are put together, even in the digital world, are informed by this history of how letters have been passed from one technology to the other. As a brief example: the terms ‘uppercase’ and ‘lowercase’ come from this era of typesetting because printers kept capital letters in their upper trays or ‘cases’ and lowercase letters in their lower trays.\nFIG. 3 — An r from Monaspace’s Neon, shown within its monospaced width.\nEventually, as handmade typography made way for more mechanical processes, glyphs often were assigned the same widths throughout the alphabet to make the engineering more straight forward. These typefaces are called monospace, as opposed to proportional. The vast majority of typewriters were designed on monospace systems. All characters have a fixed advance width, meaning that every time you type a character, the typewriter’s carriage advances the same amount.\nFIG. 4 — Samples of monospace forms. Each monospace font has a set width that all its characters share, and this value varies from font to font. It is sometimes called ‘advance width’, a term which comes from how much the carriage or cursor ‘advances’ along the line as letters are typed.\nFIG. 5 — We interact with monospaced letterforms in all types of situations, in both obvious and less obvious forms: in our code editors, on financial spreadsheets, receipts, on travel boards, typewriters, and even on craft beads. The yellow overlay shows early prototype drawings from the Lettermatic team, exploring the edges of how far the monospace genre c",
+          "category": "insight",
+          "publishedAt": "2026-03-31T15:01:35.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Monaspace: 코드를 위해 디자인된 폰트 패밀리\n\nGitHub Next의 연구팀과 Lettermatic이 함께 만든 Monaspace 프로젝트를 소개합니다.\n\n## 시작: 작은 질문에서 출발하다\n\n2021년 8월, GitHub Next의 Idan Gazit는 Lettermatic에 연락을 했습니다. 대화를 나누다 보니 둘 다 아름답고 기능적인 타이포그래피에 대한 열정을 공유하고 있었어요. 그렇게 자연스럽게 코드 에디터의 폰트에 대한 이야기로 흘러갔습니다.\n\n이 대화에서 몇 가지 의문이 생겼습니다.\n\n왜 현대적인 개발 도구가 등장한 이후로도 코드 에디터용 폰트는 별로 진화하지 않았을까요? 코드 작성 경험을 커스터마이징하고 싶어 하는 개발자들을 위해, 왜 더 많은 선택지가 없을까요? 문서 포매팅이나 신택스 하이라이팅, 에디터 컬러 테마에 대해서는 수많은 의견과 옵션이 있는데, 개발자들이 매일 하나의 폰트로만 일해야 하는 이유가 뭘까요?\n\n이런 질문들이 Monaspace 프로젝트로 이어집니다.\n\n## Monaspace란?\n\n**Monaspace**는 코드 작성을 위해 특별히 디자인된 5개 폰트 패밀리입니다. 이들은 필요에 따라 자유롭게 조합할 수 있게 만들어졌어요.\n\n### 프로젝트 규모\n\n- **5개 폰트 패밀리**\n- **각 폰트당 42개 정적 스타일** (총 210개 + 가변 폰트)\n- **분류**: Humanist Sans, Grotesque Sans, Slab Serif, Script, Mechanical\n- **각 폰트마다 6,000개 이상의 글리프**\n- **200개 이상 언어 지원**\n- **2023년 11월 공개**\n\n### 핵심 특징\n\n모든 Monaspace 폰트는 3개의 가변 축을 지닙니다: 굵기(weight), 너비(width), 기울임(slant). 덕분에 사용자가 원하는 대로 세밀하게 커스터마이징할 수 있고, 접근성 옵션도 기본으로 탑재되어 있습니다.\n\n더 중요한 건, 5개 폰트가 모두 같은 그리드 위에 디자인되었다는 점입니다. 이것이 무엇을 의미하냐면, 이 5개 폰트를 자유롭게 섞어 쓰면서도 코드 에디터의 그리드가 깨지지 않는다는 뜻이에요.\n\n그리고 혁신적인 기술인 **Texture Healing**을 도입했습니다. 이 기술은 모노스페이스 폰트의 가독성을 완전히 새로운 수준으로 끌어올립니다.\n\n마지막으로, GitHub의 오픈소스 철학을 따라 Monaspace 전체가 오픈소스로 공개되었습니다. 누구나 무료로 다운로드할 수 있어요.\n\n## 역사로 배우는 모노스페이스\n\n이 프로젝트를 이해하려면 폰트의 역사를 좀 알아야 합니다.\n\n### 비례 폰트에서 모노스페이스로\n\n대부분의 라틴 문자 폰트는 **비례 폰트(proportional)**입니다. 즉, 각 글자마다 자신에게 어울리는 너비를 가질 수 있다는 뜻이에요.\n\n타이포그래피라는 개념이 생기기도 전에, 금속 활자 시대에는 **펀치 커터(punch cutter)**라는 장인이 있었습니다. 그들은 파일로 금속 문자를 깎아서 주형에 찍어 활자를 만들었어요. 인쇄소 일꾼이 일일이 손으로 글자를 배열하고 인쇄기에 끼워 넣었습니다.\n\n흥미롭게도, 현대 디지털 세계에서도 우리가 쓰는 타이포그래피 용어 상당수가 이 시대에서 비롯됐습니다. 예를 들어 \"대문자(uppercase)\"와 \"소문자(lowercase)\"라는 표현은, 인쇄소에서 대문자는 위쪽 케이스에, 소문자는 아래쪽 케이스에 보관했다는 사실에서 나왔어요.\n\n### 기계화와 모노스페이스의 등장\n\n손으로 만드는 활자가 기계식 공정으로 바뀌면서, 글자들이 모두 같은 너비를 갖게 되는 것이 편해졌습니다. 이게 **모노스페이스(monospace)** 폰트예요. 반대말은 비례 폰트(proportional)이고요.\n\n대부분의 타이프라이터가 모노스페이스로 설계되었습니다. 모든 문자가 고정된 폭(advance width)을 가지니까요. 타이프라이터를 칠 때마다 캐리지가 정확히 같은 거리를 이동하게 되는 거죠.\n\n오늘날에도 모노스페이스 폰트는 우리 생활 곳곳에 있습니다. 코드 에디터는 물론이고, 금융 스프레드시트, 영수증, 공항 시간표, 구식 타이프라이터, 심지어 공예 구슬까지요. 이 폰트 스타일은 여전히 데이터를 명확하고 균일하게 표현해야 하는 모든 곳에서 활용되고 있습니다.\n\n---\n\n**Website**: monaspace.githubnext.com"
+        },
+        {
+          "title": "GitHub's Historic Uptime",
+          "titleKo": "GitHub의 역사적 가동시간",
+          "summary": "GitHub의 역사적 가동시간 데이터를 분석한 프로젝트입니다.",
+          "keyPoints": [
+            "GitHub의 장기간 안정성 데이터를 시각화"
+          ],
+          "whyItMatters": "서비스의 신뢰성 추이를 파악하는 데 도움이 됩니다.",
+          "url": "https://damrnelson.github.io/github-historical-uptime/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 357,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "githubs-historic-uptime",
+          "category": "insight",
+          "publishedAt": "2026-03-31T19:01:29.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "A dot a day keeps the clutter away",
+          "titleKo": "하루 한 점으로 정리 상태 유지하기",
+          "summary": "전자 부품 수집가인 저자가 4년간 사용해온 간단한 점 스티커 시스템을 소개한다. 투명 박스에 라벨을 붙이고 사용할 때마다 색상이 있는 점 스티커를 추가하여 연도별 사용 빈도를 시각적으로 추적하는 방식이다.",
+          "keyPoints": [
+            "투명 용기로 컬렉션 가시성 확보하고 색상별 점 스티커(연도별)로 사용 패턴 추적",
+            "소프트웨어나 데이터베이스 없이 비용 3달러, 4년 동안 지속 가능한 물리적 시스템"
+          ],
+          "whyItMatters": "개발자가 도구, 라이브러리, 의존성의 사용 패턴을 추적하여 기술 부채를 관리하는 데 적용할 수 있다.",
+          "url": "https://scottlawsonbc.com/post/dot-system",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 46,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-dot-a-day-keeps-the-clutter-away",
+          "fullContent": "Walk into my lab and the first thing you'll notice is the dots. The walls are lined with clear boxes, each one labeled, dated, and covered in dot stickers. Some boxes are buried in dots of every color. Others have a few. Others are bare. You don't know what they mean yet, but you can see the pattern. That's the system. It costs three dollars, has no software, and I've been using it for four years.\nThe Parts Problem\nI've been collecting electronic components since university in 2011. Resistors, capacitors, microcontrollers, motors, drivers, DC-DC converters, displays, amplifiers, servos, LEDs, connectors. The usual trajectory of someone who keeps finding new projects. At first, my collection was small. A few toolboxes held everything. Then I graduated, kicked it into high gear, and by 2017 the collection had outgrown every container I owned.\nI was stuck in an awkward middle ground. Too many parts for no system at all, but I was still one person. I didn't have the problems that DigiKey or Mouser have, where they need barcodes on everything and a vast computerized inventory. I was looking for something simple. Something right-sized for my scale.\nMy lab shelves. Every box is labeled, dated, and covered in colored dots. You can see at a glance which boxes get used and which don't.\nOut of Sight, Out of Mind\nThe first thing I did was get rid of every opaque container I owned. Every toolbox, every parts organizer with little pockets, anything I couldn't see through. I replaced everything with standardized 4L clear boxes from Superstore.\nI learned this lesson early and it stuck: if I can't see what's in a box, I forget it exists. Clear boxes fixed that. I started sorting parts into categories that emerged naturally over time. A box for capacitors, a box for resistors, a box for motors, a box for LEDs.\n31 boxes within arm's reach. Same size, same shape, all labeled and dated. The dots tell the story: power, connectors, and magnets get used constantly. Crystals and inductors barely get touched.\nThe parts organizers with individual pockets were the first to go. They seem like a good idea when your collection is small, but as you keep adding parts, the fixed compartments become a problem. Components outgrow their pockets. You run out of slots. The whole organizer becomes a constraint instead of a tool. Clear boxes don't have this problem. They scale.\nThis system worked for a couple of years. Then I noticed something new.\nThe Intuition Gap\nAs I worked on projects over months and years, I started to build an intuition about which boxes I was reaching for and which ones were collecting dust. My box of batteries was always on my desk. My box of fuses hadn't been opened in my entire memory. But it was just a feeling. I couldn't quantify it. I couldn't tell you whether I opened my LED box twenty times last year or five. My memory is not good enough to track usage patterns across years of different projects.\nAnd meanwhile, I had a constant influx of new parts. I'd work on an LED project, then move on to something that needed pneumatic components, so I'd order pumps and fittings. Then I'd get interested in piezoelectrics and order a bunch of piezos. Parts kept flowing in. Space did not increase.\nAs Kirchhoff's current law states, the current into a node must equal the current out. If I kept acquiring parts at this pace without getting rid of anything, I would eventually drown. I needed a way to figure out what was worth keeping and what should go.\nI considered RFID tags, barcode scanners, a spreadsheet. All of them felt like too much. Then I found the simplest possible solution on AliExpress for a few dollars.\nOne Dot Per Box Per Day\nI ordered sheets of colored dot stickers. Six millimeters in diameter. Hundreds of them for almost nothing.\nApplying dots. The sticker sheets are always within arm's reach. The system extends beyond boxes to books and binders too.\nEvery box already had a label on the front with its category and the date I created the box. The new rule was simple: every time I open a box, I place one colored dot sticker near the label. That's it. Use the box, add a dot.\nI quickly realized that on days when I'm deep in a project, I might open the same box five or ten times. Tracking every single opening would be noise. So I refined the rule: one dot per box per day. If I open my LED box ten times on a Tuesday, it still gets one dot. What I actually care about is how many days per year I use a box.\nThen, because I had all of these different colors, I decided to assign one color per year. I have over ten colors, so the system works for at least a decade. A piece of paper on my fridge maps each color to its year so I never forget.\nThat's the entire system. Sticker sheets cost a few dollars. The habit takes seconds. No database. No server. No app. The system that works is the one simple enough to do every day for four years.\nTwo cards from my technical reference binder. Left: a color-coded voltage system I use on power c",
+          "category": "insight",
+          "publishedAt": "2026-03-31T21:15:01.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 내 작업실의 색점 정리법\n\n작업실에 들어서면 가장 먼저 눈에 띄는 게 있어요. 벽에 빼곡하게 붙은 투명한 상자들인데, 모두 라벨이 붙어있고 날짜가 적혀있으며, 색깔 있는 점 스티커로 덮여있거든요. 어떤 상자는 온통 색점으로 가득 찬데, 어떤 건 겨우 몇 개, 또 어떤 건 깨끗해요. 정확히 뭘 의미하는지는 아직 모르실 수 있지만, 패턴이 보일 겁니다. 이게 내 시스템인데요. 비용은 3달러, 소프트웨어는 없고, 벌써 4년을 쓰고 있습니다.\n\n## 부품 과잉의 문제\n\n2011년 대학교 다닐 때부터 전자 부품을 모아왔어요. 저항, 커패시터, 마이크로컨트롤러, 모터, 드라이버, DC-DC 컨버터, 디스플레이, 앰프, 서보, LED, 커넥터 등등. 새로운 프로젝트를 계속 하다 보니 자연스럽게 늘어나는 거죠. 처음엔 양이 적어서 작은 공구함 몇 개면 충분했습니다. 그런데 졸업하고 본격적으로 수집을 시작하다 보니, 2017년쯤 되면 가진 모든 컨테이너를 다 채우고도 모자라게 됐어요.\n\n진짜 난처한 상황이었어요. 부품이 너무 많아서 아무 정리 시스템도 쓸 수 없는 수준인데, 그렇다고 DigiKey나 Mouser처럼 바코드와 전산 시스템이 필요한 규모는 아니거든요. 내 규모에 딱 맞는 간단한 방법을 찾고 있었습니다.\n\n## 보이지 않으면 잊힌다\n\n첫 번째로 한 일은 모든 불투명 컨테이너를 없애는 것이었어요. 공구함, 칸칸이 나뉜 부품 정리함, 안이 보이지 않는 모든 것들을 말이죠. 그 자리에 대형마트에서 판매하는 표준 규격 4L 투명 상자로 다 바꿨습니다.\n\n일찍이 배운 교훈이 있었거든요. 상자가 보이지 않으면 그 안에 뭐가 있는지 깜빡한다는 거요. 투명 상자로 바꾸니 그 문제가 사라졌어요. 그 다음부터는 자연스럽게 카테고리를 나누기 시작했습니다. 커패시터 상자, 저항 상자, 모터 상자, LED 상자 이런 식으로 말이에요.\n\n팔 길이 범위 안에 31개 상자가 있어요. 모두 같은 크기, 같은 모양인데 라벨과 날짜가 붙어있죠. 색점들이 이야기해주는데, 전원 관련, 커넥터, 자석 같은 건 자주 쓰지만, 크리스탈이나 인덕터는 거의 손을 안 대고 있네요.\n\n칸칸이 나뉜 부품 정리함을 먼저 포기한 이유가 있어요. 부품이 적을 땐 정말 좋은 해결책처럼 보이거든요. 그런데 자꾸만 부품이 늘어나다 보면 정해진 칸이 오히려 발목을 잡아요. 부품이 칸을 벗어나고, 슬롯이 모자라고, 결국 정리함이 도구가 아니라 제약이 되는 거죠. 투명 상자는 그런 문제가 없어요. 얼마든지 확장할 수 있으니까요.\n\n이 방식으로 몇 년을 보냈어요. 그러다가 새로운 문제를 깨달았습니다.\n\n## 직관과 현실의 괴리\n\n여러 달, 여러 해에 걸쳐 프로젝트를 하다 보니 패턴이 보이기 시작했어요. 자주 꺼내는 상자가 뭔지, 먼지만 쌓이는 상자가 뭔지 느낌으로 알게 된 거죠. 배터리 상자는 항상 책상 위에 있고, 퓨즈 상자는 개봉한 적이 없는 것 같아요. 하지만 이건 그냥 느낌일 뿐이었어요. 정확히 알 수 없거든요. LED 상자를 지난해에 몇 번 열었는지, 20번인지 5번인지 말할 수가 없었어요. 여러 해에 걸쳐 다양한 프로젝트를 하다 보니 사용 패턴을 추적할 만큼 기억력이 좋지 않은 거죠.\n\n게다가 계속 새로운 부품이 들어오고 있었어요. LED 프로젝트 하다가 끝나면 이제 공압 부품이 필요해서 펌프와 피팅을 주문하고, 압전소자에 관심이 생기면 또 대량으로 주문하고. 부품은 계속 들어오는데 공간은 늘어나지 않는 거죠.\n\nKirchhoff의 전류 법칙처럼, 노드에 들어오는 전류와 나가는 전류는 같아야 해요. 계속 부품을 들여오기만 하고 아무것도 버리지 않으면 결국 부품에 묻혀 살게 되는 거예요. 뭘 보관할 가치가 있고 뭘 버려야 할지 알 수 있는 방법이 필요했습니다.\n\nRFID 태그, 바코드 스캐너, 스프레드시트도 생각해봤어요. 다 너무 복잡했어요. 그때 AliExpress에서 몇 달러짜리 아주 간단한 해결책을 찾게 됐습니다.\n\n## 하루에 상자 하나당 색점 하나\n\n색깔 있는 도트 스티커 시트를 주문했어요. 직경 6mm, 수백 개를 정말 싼 가격에 살 수 있었어요.\n\n각 상자 앞에는 이미 카테고리 이름과 상자를 만든 날짜가 적힌 라벨이 붙어있었어요. 새로운 규칙은 간단했습니다. 상자를 열 때마다 라벨 근처에 색점 스티커 하나를 붙인다. 그게 전부예요.\n\n아, 그런데 곧 알았어요. 프로젝트에 푹 빠진 날은 같은 상자를 5번, 10번 열 수도 있거든요. 매번 기록하면 너무 잡음이 많아요. 그래서 규칙을 조정했습니다. **하루에 상자 하나당 색점 하나**. 화요일에 LED 상자를 10번 열어도 점 하나만 붙여요. 내가 정말 알고 싶은 건 일 년에 몇 번 열었는지가 아니라, 며칠 동안 사용했는지거든요.\n\n그리고 색깔이 여러 개니까, 한 색깔을 1년씩 배정하기로 했어요. 색깔이 10개 이상이라 최소 10년은 쓸 수 있겠네요. 냉장고에 붙여놓은 종이에 어느 색이 어느 해인지 적혀있으니까 절대 헷갈리지 않아요.\n\n이게 전부입니다. 스티커 시트는 몇 달러면 되고, 매일 몇 초면 충분해요. 데이터베이스도, 서버도, 앱도 없어요. 진짜 일하는 시스템이란 4년을 계속할 수 있을 정도로 단순한 거예요."
+        },
+        {
+          "title": "Audio tapes reveal mass rule-breaking in Milgram's obedience experiments",
+          "titleKo": "음성 테이프, 밀그램 순종 실험의 광범위한 규칙 위반 드러내다",
+          "summary": "스탠리 밀그람의 유명한 순종 실험에 대한 음성 기록이 광범위한 규칙 위반을 보여줍니다. 심리학 연구의 역사적 신뢰성에 영향을 미치는 발견입니다.",
+          "keyPoints": [
+            "1962년 다큐멘터리 '순종'으로 알려진 밀그람 실험에서 규칙 위반이 발견",
+            "음성 기록 분석을 통해 실험의 진행 과정에 대한 새로운 증거 제시"
+          ],
+          "whyItMatters": "과학 연구의 재현성과 투명성의 중요성을 재고하게 하는 사례입니다.",
+          "url": "https://www.psypost.org/audio-tapes-reveal-mass-rule-breaking-in-milgram-s-obedience-experiments-2026-03-26/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 189,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "audio-tapes-reveal-mass-rule-breaking-in-milgrams-obedience-experiments",
+          "fullContent": "A participant in Stanley Milgram's experiment, featured in the 1962 documentary \"Obedience.\"\nPsyPost is a psychology and neuroscience news website dedicated to reporting the latest research on human behavior, cognition, and society. (READ MORE...)",
+          "category": "insight",
+          "publishedAt": "2026-03-28T15:08:22.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 심리학 연구로 배우는 코드 리뷰 문화\n\n당신의 팀에서 코드 리뷰가 진행 중입니다. 선임 개발자가 당신이 작성한 코드를 지적합니다. 문제는 그 지적이 완전히 틀렸다는 거예요.\n\n이런 상황에서 어떻게 반응할까요? 그냥 받아들일까요, 아니면 의견을 제시할까요?\n\n이 질문은 생각보다 깊습니다. 심리학자 Stanley Milgram이 1962년에 진행한 유명한 실험이 바로 이런 상황을 다룹니다. 실험 영상인 \"복종(Obedience)\"을 보면, 권위자 앞에서 평범한 사람들이 어떻게 행동하는지 보게 되죠.\n\n권위에 대한 복종이 항상 나쁜 것은 아닙니다. 조직이 기능하려면 일정 수준의 질서와 신뢰가 필요하거든요. 다만 개발팀에서는 좀 다릅니다. 코드 리뷰의 진정한 목적은 조직 내 계급을 확인하는 게 아니라, 더 나은 코드를 만드는 거니까요.\n\n**기술적인 정당성이 있다면, 선임이든 후임이든 의견을 말해야 합니다.** 이게 건강한 엔지니어링 문화의 핵심입니다. 권위에 대한 무조건적인 순종은 버그가 프로덕션까지 가고, 팀의 창의력을 떨어뜨리죠.\n\n좋은 엔지니어링 조직은 누군가의 직급이나 경력이 아니라, 논리와 데이터를 기준으로 결정합니다. 그래야 팀 전체가 함께 성장할 수 있거든요."
+        },
+        {
+          "title": "Super Micro Computer Investors Look for Exits",
+          "titleKo": "슈퍼 마이크로 컴퓨터 투자자들 지분 매각 모색",
+          "summary": "AI 인프라 붐으로 호황을 누리던 슈퍼 마이크로 컴퓨터가 공동창립자의 미국 수출 규제 위반 혐의 기소로 투자자 이탈이 이어지고 있습니다. 주가는 지난해 $118.81에서 현재 $21까지 하락했습니다.",
+          "keyPoints": [
+            "공동창립자 Yih-Shyan Liaw가 중국 수출 규제 회피 혐의로 기소되어 사임",
+            "AI 데이터센터 서버 수요로 2023년 이후 급성장했으나, 회계 부실과 규제 문제로 신뢰 추락"
+          ],
+          "whyItMatters": "AI 인프라 공급 체인의 정치적·규제적 리스크를 보여주는 사례로, AI 기술 도입 시 공급사 안정성 평가의 중요성을 강조합니다.",
+          "url": "https://catenaa.com/markets/equities/super-micro-computer-investors-look-for-exits/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 18,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "super-micro-computer-investors-look-for-exits",
+          "fullContent": "Catenaa, Tuesday, March 31, 2026- Super Micro Computer has its investors looking for exits with the recent self-inflicted wounds by the company, despite soaring sales.\nWith soaring sales, an enviable list of partners like Nvidia, Super Micro Computer, and its placement at the center of the artificial intelligence boom, but the recent indictment of its Co-Founder Yih-Shyan “Wally” Liaw, on charges of circumventing US export restrictions to China, have investors fleeing the stock in droves.\nLiaw has resigned, and Super Micro says it’s cooperating with authorities. The company and its Chief Executive Officer, Charles Liang, were not named as defendants in the case. But it was the latest in a string of troubles for the maker of servers for AI data centers.\nShares of Super Micro were up as much as 5.4% on Tuesday.\nJust a year ago, Super Micro was forced to file missing financial reports to avoid being delisted from the Nasdaq Stock Market and maintain its spot in the S&P 500 Index.\nThat echoed a similar problem in 2019, when the company failed to meet filing deadlines, and Nasdaq delisted the shares. They were relisted in 2020.\nSuper Micro’s stock price has been highly volatile for some time. The company went public in 2007 and traded in the single digits until 2023, when demand for AI equipment kicked in, and its revenues took off.\nThe shares hit an all-time high of $118.81 in March 2024, which is around the time that the turbulence started, with relatively frequent double-digit percentage moves in either direction.\nSince hitting a near-term peak of $60.71 on July 30, Super Micro’s stock is down about 63%, making it the second-worst performer in the S&P 500 over that span.\nAt the start of 2026, 10 of the 23 Wall Street analysts tracked by Bloomberg who cover the company had buy ratings, and three had sells. Today, six have buy ratings, and five have sells. The stock has lost about 27% this year and is sitting around $21.\nThat said, some investors are still sticking with Super Micro, albeit cautiously, because of the company’s position in the AI infrastructure trade and its estimated future sales.\nSuper Micro is expected to bring in more than $40 billion in revenue in fiscal 2026, an 87% jump from the year before.\nThe shares are priced at a little more than seven times forward earnings, the lowest since 2024 and well below its 10-year average of 12.\nBy comparison, the S&P 500 is priced at roughly 19 times earnings, and the technology-heavy Nasdaq 100 Index trades for about 21 times.\nTags\nChinaequity investmentNvidia",
+          "category": "insight",
+          "publishedAt": "2026-03-31T19:57:54.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Super Micro Computer, AI 붐 속에서도 투자자들의 외면 받아\n\n**Catenaa, 2026년 3월 31일 화요일** — Super Micro Computer는 경영진의 자체 과실로 인한 여파가 계속되면서 투자자들이 줄줄이 떠나가고 있습니다. 매출이 급증하고 있음에도 불구하고요.\n\n## AI 인프라의 중심에서 신뢰 추락\n\n회사는 엄청난 매출 성장세를 보이고 있고, Nvidia 같은 쟁쟁한 파트너들을 확보하고 있으며, AI 붐의 중심에 있다는 점은 분명합니다. 그런데 공동 설립자인 이-셴 \"월리\" 리아우(Yih-Shyan \"Wally\" Liaw)가 미국 대중국 수출 제한 규정을 우회한 혐의로 기소되면서 상황이 확 달라졌어요.\n\n리아우는 이미 사직했고, Super Micro는 당국에 협력하고 있다고 밝혔습니다. 다행스럽게도 최고경영자(CEO) 찰스 리앙(Charles Liang)과 회사 자체는 피고인으로 지정되지 않았습니다. 하지만 AI 데이터센터용 서버 제조업체인 Super Micro를 괴롭히는 문제들 중 최신 사례일 뿐이에요.\n\n화요일 현재 Super Micro의 주가는 5.4% 상승했습니다.\n\n## 반복되는 기업 지배 구조 문제\n\n고작 1년 전만 해도 Super Micro는 나스닥(Nasdaq) 상장 폐지를 피하고 S&P 500 지수에 남기기 위해 미공개 재무 보고서를 제출해야 했습니다. 2019년에도 비슷한 일이 있었는데, 그때는 제출 기한을 맞추지 못해 상장이 폐지됐다가 2020년에 다시 상장되기도 했습니다.\n\nSuper Micro의 주가 변동성은 오래전부터 심했습니다. 2007년 상장 후 2023년까지 한 자리 수 가격대를 유지하다가, AI 장비 수요가 본격화되면서 매출이 급증했거든요.\n\n## 고점에서 급락한 주가\n\n2024년 3월에 역대 최고가인 118.81달러까지 올랐던 주가는, 그 무렵부터 불안정해지기 시작했습니다. 양쪽 방향으로 10% 이상 요동치는 일이 잦아졌어요.\n\n7월 30일 최근 고점인 60.71달러에서 현재까지 약 63% 하락했습니다. S&P 500 중에서 최악의 성과를 낸 종목 2위죠. 올해 들어서만 약 27% 내려앉아 현재 21달러 선에서 거래 중입니다.\n\n## 애널리스트들도 의견이 엇갈리는 상황\n\n2026년 초만 해도 Bloomberg가 집계한 23명의 월스트리트 애널리스트 중 10명이 매수 평가를 내렸고 3명만 매도했습니다. 지금은 6명이 매수, 5명이 매도로 평가가 갈렸어요.\n\n## 여전히 남아있는 낙관론\n\n다만 일부 투자자들은 조심스럽지만 여전히 Super Micro에 베팅하고 있습니다. AI 인프라 시장에서의 회사 위상과 앞으로의 매출 전망을 고려하면 그럴 만하거든요.\n\nSuper Micro는 회계연도 2026에 400억 달러 이상의 매출을 기록할 것으로 예상되는데, 이는 전년 대비 87% 증가하는 수치입니다.\n\n## 저평가되어 있다는 평가도\n\n현재 주가는 예상 순이익 대비 7배 정도로, 2024년 이후로는 최저치입니다. 10년 평균인 12배는 물론, S&P 500의 약 19배, 기술주 중심의 나스닥 100 지수의 약 21배와도 비교가 안 될 정도로 저평가되어 있다는 뜻입니다."
+        },
+        {
+          "title": "Ordinary Lab Gloves May Have Skewed Microplastic Data",
+          "titleKo": "일반 실험실 장갑이 미세플라스틱 데이터를 왜곡했을 수 있다",
+          "summary": "미시간 대학 연구팀이 실험실용 니트릴과 라텍스 장갑이 '스테아레이트' 입자를 방출하여 미세플라스틱 데이터를 위조할 수 있음을 발견했습니다. 클린룸 장갑 사용으로 위양성을 크게 줄일 수 있습니다.",
+          "keyPoints": [
+            "일반 실험실 장갑에서 나오는 스테아레이트 입자가 분광분석 및 전자현미경에서 미세플라스틱으로 오인됨",
+            "클린룸 장갑은 접촉당 약 100개의 위양성을 보인 반면, 일반 장갑은 약 2,000개로 20배 이상 많음"
+          ],
+          "whyItMatters": "환경 과학 연구의 방법론 개선을 강조하며, 실험 설계 시 재료 선택의 중요성을 보여줍니다.",
+          "url": "https://nautil.us/ordinary-lab-gloves-may-have-skewed-microplastic-data-1279386",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 22,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ordinary-lab-gloves-may-have-skewed-microplastic-data",
+          "fullContent": "AdvertisementEnvironmentOrdinary Lab Gloves May Have Skewed Microplastic DataThat doesn’t mean microplastics aren’t a problem, thoughJCBy Jake Currie5:00 PM CDT on March 30, 2026Scientists researching the microplastics crisis may have unintentionally made it worse. Not by directly contributing to the problem, but by inadvertently skewing the data. The culprit, a new study published in the journal RSC Analytical Methods reveals, could be their gloves. Featured VideoA team of researchers from the University of Michigan discovered that nitrile and latex gloves traditionally worn by laboratory scientists of all stripes, can shed particles called “stearates” that mimic microplastics. These hydrocarbons, added by the glove manufacturers to prevent the gloves from sticking to the molds, can fool spectroscopy machines and are nearly impossible to distinguish from polyethylene under electron microscopes.The discovery of the problem was something of an accident itself. Researching microplastics in the atmosphere, study author Madeline Clough detected alarmingly high levels of the tiny pollutants on a metal substrate she prepared while wearing nitrile gloves, a practice the literature currently recommends. Read more: “A Plastic Oasis in the Sea”“It led to a wild goose chase of trying to figure out where this contamination could possibly have come from, because we just knew this number was far too high to be correct,” Clough said in a statement. “Throughout the process of figuring it out—was it a plastic squirt bottle, was it particles in the atmosphere of the lab where I was preparing the substrates—we finally traced it down to gloves.”Previous research found that disposable gloves used in wet preparations of samples could skew microplastics data, but this is the first study to find similar activity in dry preparations. So what’s the solution? The researchers tested seven different glove types, painstakingly examining every imaginable point of contact between a gloved hand and a piece of laboratory equipment. They found that, on average, all gloves led to about 2,000 false positives per millimeter squared of contact area. Clean-room gloves, manufactured without stearites, led to only 100 false positives per millimeter squared of contact area, making them the safer bet if gloves need to be worn for a procedure.Most importantly, the researchers stress this doesn’t mean there’s no such thing as microplastic pollution, just that scientists studying it should refine their methodology. “We may be overestimating microplastics,” study co-author Anne McNeil said. “But there’s still a lot out there, and that’s the problem.”It’s a difficult thing for scientists to get their hands around. Now they just need to be a little more mindful of what those hands are wearing. Enjoying  Nautilus? Subscribe to our free newsletter.Lead image: SIVStockStudio / ShutterstockAdvertisementJCJake CurrieJake Currie is a writer based in Brooklyn, NY.Stay in touchSign up for our free newsletterEmailSign upMore from EnvironmentExplore EnvironmentEnvironmentWhy You Should Root for the Apex PredatorThey’re indispensable ecosystem engineersJake CurrieMarch 30, 2026EnvironmentThese Seals Brave Polar Bear Country to Access an Ocean BuffetConservation plans for climate change must consider both fear and foodDevin ReeseMarch 30, 2026EnvironmentThe Science Behind Being One of a KindNature and nurture colliding Jake CurrieMarch 27, 2026EnvironmentThe Fate of a Soviet Nuclear Sub Decades After It SankThe Soviet sub K-278 Komsomolets was lost in 1989Jake CurrieMarch 25, 2026EnvironmentRevisiting the Environmental Ruin of the First Gulf WarOil and war makes for a devastating combinationJake CurrieMarch 19, 2026EnvironmentNewly Discovered Species Changes the Origin Story of Magic MushroomsThere’s a new psychedelic mushroom in townJake CurrieMarch 13, 2026",
+          "category": "insight",
+          "publishedAt": "2026-03-31T21:22:48.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 실험실 장갑이 미세플라스틱 데이터를 왜곡했다\n\n미세플라스틱 문제가 심각한 건 맞지만, 연구 데이터는 예상과 다를 수 있다는 뜻이다.\n\n미세플라스틱 위기를 연구하는 과학자들이 의도치 않게 문제를 더 악화시키고 있을 수도 있다. 직접적으로 오염을 증가시킨 건 아니고, 데이터를 잘못 집계했다는 의미다. RSC Analytical Methods 저널에 발표된 최신 연구에 따르면 범인은 실험실 장갑이었다.\n\n미시간 대학교 연구팀은 과학자들이 자주 착용하는 니트릴 및 라텍스 장갑에서 \"스테아르산염\"이라는 입자가 떨어져 나간다는 사실을 발견했다. 제조업체가 장갑이 금형에 들러붙지 않도록 추가한 이 탄화수소는 분광 분석기를 속일 수 있으며, 전자 현미경으로도 폴리에틸렌과 거의 구별이 불가능하다.\n\n## 우연한 발견\n\n연구팀이 이 문제를 알게 된 건 순전히 우연이었다. 대기 중 미세플라스틱을 조사하던 연구원 매들린 클로(Madeline Clough)는 니트릴 장갑을 낀 상태에서 준비한 금속 기판에서 이상하게 높은 수치의 미세플라스틱을 감지했다. 당시 문헌에서는 니트릴 장갑 착용을 권장하고 있었다.\n\n클로는 성명을 통해 \"이 수치가 너무 높아서 뭔가 이상하다는 걸 알 수 있었다\"며 \"어디서 오염이 생겼는지 추적하는 과정이 정말 막막했다\"고 말했다. \"플라스틱 스프레이 병 때문인지, 기판을 준비한 실험실 공기 중 입자 때문인지 이것저것 확인하다가 결국 장갑이 원인이라는 걸 알아냈다\"고 덧붙였다.\n\n## 건식 샘플 준비에서도 문제 발생\n\n이전 연구에서는 샘플을 물로 처리할 때 일회용 장갑이 미세플라스틱 데이터를 왜곡할 수 있다는 걸 알아냈다. 하지만 건식 처리에서 같은 문제가 발생한다는 연구는 이번이 처음이다.\n\n그렇다면 해결책은 뭘까? 연구팀은 7가지 종류의 장갑을 테스트했고, 손가락이 실험실 장비에 접촉하는 모든 지점을 샅샅이 검토했다. 결과적으로 모든 장갑이 평균적으로 접촉 면적 1제곱밀리미터당 약 2,000개의 위양성을 유발했다.\n\n반면 스테아르산염 없이 제조된 클린룸 전용 장갑은 1제곱밀리미터당 100개의 위양성만 일으켰다. 장갑이 꼭 필요한 작업이라면 클린룸 장갑이 훨씬 안전한 선택지라는 뜻이다.\n\n## 미세플라스틱은 여전히 문제다\n\n연구팀은 이 발견이 미세플라스틱 오염 자체가 없다는 뜻은 절대 아니라는 점을 강조한다. 다만 연구 방법론을 개선해야 한다는 것이다.\n\n연구 공저자 앤 맥닐(Anne McNeil)은 \"우리가 미세플라스틱을 과대 평가하고 있을 수도 있다\"면서도 \"하지만 현실에는 여전히 엄청나게 많은 미세플라스틱이 존재한다는 게 진짜 문제\"라고 밝혔다.\n\n과학자들이 손에 든 장갑이 뭔지 조금 더 신경 써야 할 시점이 온 것 같다."
+        },
+        {
+          "title": "A Primer on Long-Duration Life Support",
+          "titleKo": "장기간 생명 유지 기술 입문",
+          "summary": "본문 내용이 제공되지 않아 요약할 수 없습니다.",
+          "keyPoints": [
+            "제목만으로는 우주 또는 의료 분야의 생명 유지 기술 관련 내용으로 추정"
+          ],
+          "whyItMatters": "상세 내용 확인 필요",
+          "url": "https://mceglowski.substack.com/p/a-primer-on-long-duration-life-support",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 56,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-primer-on-long-duration-life-support",
+          "category": "insight",
+          "publishedAt": "2026-03-27T01:00:49.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Why the US Navy won't blast the Iranians and 'open' Strait of Hormuz",
+          "titleKo": "미국 해군이 이란을 공격하고 호르무즈 해협을 '개방'하지 않는 이유",
+          "summary": "본문 내용이 제공되지 않아 요약할 수 없습니다.",
+          "keyPoints": [
+            "뉘앙스 있는 미국 외교 정책 분석으로 추정"
+          ],
+          "whyItMatters": "상세 내용 확인 필요",
+          "url": "https://responsiblestatecraft.org/iran-strait-of-hormuz/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 125,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "why-the-us-navy-wont-blast-the-iranians-and-open-strait-of-hormuz",
+          "fullContent": "Newsletter\nSubscribe now to our weekly round-up and don't miss a beat with your favorite RS contributors and reporters, as well as staff analysis, opinion, and news promoting a positive, non-partisan vision of U.S. foreign policy.",
+          "category": "insight",
+          "publishedAt": "2026-03-31T09:30:43.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Millions of JS devs just got penetrated by a RAT…",
+          "titleKo": "수백만 JavaScript 개발자가 방금 RAT에 감염되었다",
+          "summary": "Axios NPM 패키지 보안 침해로 인한 원격 접근 트로이목마(RAT) 감염 사건을 다루는 YouTube 영상이다. 공급망 공격의 심각성과 영향 범위를 설명한다.",
+          "keyPoints": [
+            "주당 1억 다운로드를 기록하는 Axios 패키지의 침해로 인해 광범위한 JavaScript 개발자 커뮤니티가 영향을 받았다."
+          ],
+          "whyItMatters": "NPM 공급망 공격의 실제 영향과 위험성을 이해하는 데 중요한 정보를 제공한다.",
+          "url": "https://www.youtube.com/watch?v=o7NYXvYohYk",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "backend",
+            "devops",
+            "general"
+          ],
+          "topicId": "axios-npm-attack",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "millions-of-js-devs-just-got-penetrated-by-a-rat",
+          "category": "video",
+          "publishedAt": "2026-03-31T18:58:40+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "It's my birthday and Claude Code's source code leaked",
+          "titleKo": "생일 맞춰 Claude Code 소스코드 유출",
+          "summary": "YouTube 영상으로, Claude Code의 소스코드가 유출된 사건에 대한 내용으로 보인다.",
+          "keyPoints": [
+            "Anthropic의 Claude Code 관련 보안 사건 발생"
+          ],
+          "whyItMatters": "AI 개발사의 보안 사건은 오픈소스 커뮤니티와 프로덕션 환경의 신뢰도에 영향을 미친다.",
+          "url": "https://www.youtube.com/watch?v=5qA0HessLi4",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "topicId": "claude-code-leak",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "its-my-birthday-and-claude-codes-source-code-leaked",
+          "category": "video",
+          "publishedAt": "2026-03-31T21:05:37+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Stop fighting with CSS, forever",
+          "titleKo": "CSS와의 싸움을 영원히 멈추기",
+          "summary": "본 영상은 CSS 개발의 일반적인 어려움과 이를 해결하기 위한 현대적 접근 방식을 다룹니다. 스타일링 작업에서 발생하는 복잡성, 일관성 없는 동작, 유지보수 문제를 구체적 예시와 함께 설명하고, 실무에서 적용 가능한 솔루션을 제시합니다. CSS 프레임워크, 컴포넌트 기반 아키텍처, 자동화 도구 등을 통해 개발자 경험을 개선하는 방법을 보여줍니다.",
+          "keyPoints": [
+            "CSS 작업의 주요 통증점: 스타일 충돌, 예측 불가능한 캐스케이딩, 유지보수 시 의도하지 않은 부작용이 발생하는 문제를 다룹니다. 이러한 문제들이 개발 속도를 저하시키고 버그를 야기합니다.",
+            "유틸리티 우선(Utility-First) CSS의 장점: Tailwind CSS와 같은 접근 방식은 미리 정의된 클래스를 조합하여 일관성 있는 스타일을 빠르게 적용할 수 있습니다. 이를 통해 CSS 작성량을 줄이고 예측 가능성을 높입니다.",
+            "컴포넌트 기반 스타일링: React, Vue 등의 프레임워크에서 컴포넌트 단위로 스타일을 캡슐화하면 스타일 범위 충돌을 근본적으로 방지할 수 있습니다. CSS Modules나 CSS-in-JS 솔루션이 이를 지원합니다.",
+            "자동화 도구의 역할: 린터, 포맷터, PostCSS 플러그인 등의 도구가 일관성 있는 CSS 코드 작성을 강제하고 실수를 사전에 방지합니다. 빌드 프로세스 자동화로 반복적인 작업을 제거합니다.",
+            "디자인 시스템과 토큰 기반 설계: 색상, 타이포그래피, 간격 등을 토큰으로 중앙에서 관리하면 브랜드 일관성을 유지하면서 테마 변경이 용이합니다. 이는 특히 대규모 프로젝트에서 확장성을 제공합니다.",
+            "개발자 경험 개선의 실제 사례: 영상에서 제시하는 구체적 프로젝트 사례들은 위 기법들을 실제 적용했을 때 개발 시간 단축, 버그 감소, 팀 생산성 향상 등의 효과를 보여줍니다."
+          ],
+          "whyItMatters": "CSS는 모든 웹 개발의 필수 요소이지만, 복잡성 관리 부족으로 인한 기술 부채가 프로젝트 전체의 유지보수성과 속도에 직접적 영향을 미치므로, 이 영상의 실용적 접근법은 모든 웹 개발자의 생산성 향상에 필수적입니다.",
+          "url": "https://www.youtube.com/watch?v=DoPq7pH1BKg",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "css-features",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "stop-fighting-with-css-forever",
+          "category": "video",
+          "publishedAt": "2026-03-31T17:01:02+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "New CSS Property corner-shape Is Amazing",
+          "titleKo": "새로운 CSS 속성 corner-shape가 훌륭하다",
+          "summary": "YouTube 영상으로, 새로운 CSS 속성인 corner-shape의 기능과 활용성을 소개하는 내용이다.",
+          "keyPoints": [
+            "CSS에 추가된 새로운 corner-shape 속성으로 모서리 형태 커스터마이징 가능"
+          ],
+          "whyItMatters": "브라우저 지원이 확대되면 복잡한 SVG나 JavaScript 없이 다양한 모서리 디자인을 CSS로 구현할 수 있다.",
+          "url": "https://www.youtube.com/watch?v=AhBL2MYlQj0",
+          "sourceName": "Web Dev Simplified",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "css-features",
+          "isTopicPrimary": true,
+          "relatedCount": 2,
+          "slug": "new-css-property-corner-shape-is-amazing",
+          "category": "video",
+          "publishedAt": "2026-03-31T16:00:00+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Adapting layouts when you don't know the breakpoint",
+          "titleKo": "breakpoint를 모를 때 레이아웃 적응시키기",
+          "summary": "특정 breakpoint를 알 수 없는 상황에서 반응형 레이아웃을 구현하는 기법을 다루는 영상입니다.",
+          "keyPoints": [
+            "미디어 쿼리 없이 동적으로 레이아웃을 조정하는 방법"
+          ],
+          "whyItMatters": "다양한 디바이스 크기에 대응하는 유연한 반응형 디자인 구현 방법을 배울 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=qysty8_G2KM",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "responsive-design",
+          "isTopicPrimary": true,
+          "slug": "adapting-layouts-when-you-dont-know-the-breakpoint",
+          "category": "video",
+          "publishedAt": "2026-03-31T13:01:09+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}

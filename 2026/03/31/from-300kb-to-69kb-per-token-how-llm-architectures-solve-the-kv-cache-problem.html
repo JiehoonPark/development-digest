@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>300KB에서 69KB로: LLM 아키텍처가 KV 캐시 문제를 해결하는 방법 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/31/">2026-03-31</a> &gt; 300KB에서 69KB로: LLM 아키텍처가 KV 캐시 문제를 해결하는 ...
+      </div>
+
+      <h1>300KB에서 69KB로: LLM 아키텍처가 KV 캐시 문제를 해결하는 방법</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">From 300KB to 69KB per Token: How LLM Architectures Solve the KV Cache Problem</p>
+      <div class="article-meta">
+        <span>📅 2026-03-31</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 70</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>대형 언어 모델(LLM)의 추론 과정에서 키-값 캐시(KV Cache)가 차지하는 메모리 용량이 모델 성능의 주요 병목이 되는 문제를 다룹니다. 기사는 KV 캐시가 토큰당 약 300KB의 메모리를 소비하던 것을 69KB로 단축한 최신 아키텍처 개선 기법들을 설명합니다. 그룹 쿼리 어텐션(GQA), 페이지 어텐션, 양자화 등 여러 최적화 기법을 조합하여 메모리 효율을 4배 이상 개선한 사례를 분석합니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>KV 캐시 메모리 병목의 원인: 트랜스포머 기반 LLM에서 모든 이전 토큰의 키와 값을 메모리에 유지해야 하므로, 긴 시퀀스 처리 시 토큰당 300KB 규모의 메모리가 필요합니다. 이는 배치 크기 제한, 동시 요청 처리 능력 저하 등으로 이어집니다.</li><li>그룹 쿼리 어텐션(GQA): 여러 쿼리 헤드가 하나의 키-값 헤드를 공유하는 방식으로, 메모리 사용량을 줄이면서 성능 손실을 최소화합니다. 이 기법만으로도 KV 캐시를 상당 부분 압축할 수 있습니다.</li><li>페이지 어텐션(Paged Attention): GPU 메모리를 페이지 단위로 분할하여 관리하는 기법으로, 물리 메모리 단편화를 줄이고 활용률을 높입니다. vLLM 같은 추론 엔진에서 이를 활용하여 처리량을 크게 증가시킵니다.</li><li>양자화 기법의 적용: 16비트 또는 8비트 정수로 KV 캐시 값을 표현하면서 정확도 손실을 최소화합니다. 이를 통해 토큰당 메모리를 추가로 50% 이상 감축할 수 있습니다.</li><li>멀티레벨 캐싱 전략: 자주 사용되는 토큰 시퀀스를 GPU 캐시에, 덜 사용되는 부분을 CPU 메모리에 배치하는 등 메모리 계층 활용으로 메모리-속도 트레이드오프를 최적화합니다.</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>LLM 추론의 메모리 제약은 실시간 AI 서비스의 확장성과 비용 효율성을 직접 결정하므로, 이러한 최적화 기법의 이해는 AI 인프라 구축과 모델 배포 전략 수립에 필수적입니다.</p>
+       </div>
+      
+
+      <div class="original-link">
+        <a href="https://news.future-shock.ai/the-weight-of-remembering/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-31%20300KB%EC%97%90%EC%84%9C%2069KB%EB%A1%9C%3A%20LLM%20%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98%EA%B0%80%20KV%20%EC%BA%90%EC%8B%9C%20%EB%AC%B8%EC%A0%9C%EB%A5%BC%20%ED%95%B4%EA%B2%B0%ED%95%98%EB%8A%94%20%EB%B0%A9%EB%B2%95&labels=feedback%2Cliked&body=**Article**%3A%20300KB%EC%97%90%EC%84%9C%2069KB%EB%A1%9C%3A%20LLM%20%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98%EA%B0%80%20KV%20%EC%BA%90%EC%8B%9C%20%EB%AC%B8%EC%A0%9C%EB%A5%BC%20%ED%95%B4%EA%B2%B0%ED%95%98%EB%8A%94%20%EB%B0%A9%EB%B2%95%0A**URL**%3A%20https%3A%2F%2Fnews.future-shock.ai%2Fthe-weight-of-remembering%2F%0A**Date**%3A%202026-03-31%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
