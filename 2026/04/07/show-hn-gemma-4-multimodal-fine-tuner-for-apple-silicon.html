@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple Silicon을 위한 Gemma 4 멀티모달 파인튜너 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/07/">2026-04-07</a> &gt; Apple Silicon을 위한 Gemma 4 멀티모달 파인튜너...
+      </div>
+
+      <h1>Apple Silicon을 위한 Gemma 4 멀티모달 파인튜너</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Show HN: Gemma 4 Multimodal Fine-Tuner for Apple Silicon</p>
+      <div class="article-meta">
+        <span>📅 2026-04-07</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 98</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Mac에서 NVIDIA GPU 없이 Gemma 모델을 텍스트, 이미지, 오디오로 파인튜닝할 수 있는 도구입니다. GCS/BigQuery에서 스트리밍으로 학습 데이터를 로드하여 대용량 데이터도 로컬 SSD 부담 없이 처리할 수 있습니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>Apple Silicon(MPS) 네이티브 지원으로 고가의 NVIDIA GPU 불필요</li><li>텍스트+이미지, 오디오+텍스트 멀티모달 LoRA 파인튜닝 지원 (유일한 Apple Silicon 구현)</li><li>클라우드 스토리지에서 데이터 스트리밍으로 테라바이트 규모 학습 가능</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>개발자가 Mac만으로 멀티모달 AI 모델을 저비용으로 커스터마이징하고 로컬에서 운영할 수 있습니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Gemma 멀티모달 파인튜닝 도구</h2>
+<p>Mac에서 텍스트, 이미지, 오디오로 Gemma를 파인튜닝하세요. 용량 걱정 없이요.</p>
+<p>🖼️ <strong>이미지 + 텍스트 LoRA</strong> — 로컬 CSV에서 이미지 캡션 생성과 VQA</p>
+<p>🎙️ <strong>오디오 + 텍스트 LoRA</strong> — Apple Silicon에서 네이티브로 돌아가는 유일한 방법</p>
+<p>📝 <strong>텍스트 전용 LoRA</strong> — CSV의 명령어 또는 완성 작업</p>
+<p>☁️ <strong>GCS / BigQuery 스트리밍</strong> — SSD를 채우지 않고 테라바이트 규모 학습</p>
+<p>🍎 <strong>Apple Silicon 지원</strong> — MPS 네이티브, NVIDIA GPU 불필요</p>
+<p>출처: github.com/mattmireles/gemma-tuner-multimodal (오픈소스)</p>
+<h3>Gemma용 LoRA — 다른 도구와 뭐가 다른가요?</h3>
+<div class="table-wrapper"><table><thead><tr><th>기능</th><th>This</th><th>MLX-LM</th><th>Unsloth</th><th>axolotl</th></tr></thead><tbody><tr><td>Gemma 텍스트 전용 파인튜닝 (CSV)</td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>Gemma 이미지 + 텍스트 파인튜닝 (캡션/VQA CSV)</td><td>✅</td><td>⚠️ 불안정</td><td>⚠️ 불안정</td><td>⚠️ 불안정</td></tr><tr><td>Gemma 오디오 + 텍스트 파인튜닝</td><td>✅</td><td>❌</td><td>❌</td><td>⚠️ CUDA만</td></tr><tr><td>Apple Silicon (MPS)에서 실행</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td></tr><tr><td>클라우드에서 학습 데이터 스트리밍</td><td>✅</td><td>❌</td><td>❌</td><td>⚠️ 부분 지원</td></tr><tr><td>NVIDIA GPU 불필요</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td></tr></tbody></table></div>
+<p>H100을 임차하거나 테라바이트급 데이터를 노트북으로 복사하지 않고, 세 가지 모달리티 모두를 Apple Silicon에서 파인튜닝할 수 있는 유일한 도구입니다.</p>
+<h3>지원하는 기능</h3>
+<p><strong>텍스트 전용 파인튜닝</strong> (CSV의 명령어 또는 완성)은 설정 파일에서 <code>modality = text</code>로 지정하고, <code>data/datasets/&lt;name&gt;/</code> 아래 로컬 CSV 파일을 사용하면 됩니다. 자세한 내용은 아래 텍스트 전용 파인튜닝 섹션을 참고하세요.</p>
+<p><strong>이미지 + 텍스트 파인튜닝</strong> (캡션 또는 VQA)은 <code>modality = image</code>, <code>image_sub_mode</code>, <code>image_token_budget</code>을 설정하고 로컬 CSV를 사용합니다. v1은 로컬 CSV만 지원합니다 (텍스트 전용과 동일한 제약).</p>
+<p>내부 구조를 살펴보면, 이 도구는 Hugging Face Gemma 체크포인트와 PEFT LoRA를 활용합니다. 지도 학습은 <code>gemma_tuner/models/gemma/finetune.py</code>에서 진행되고, <code>gemma_tuner/scripts/export.py</code>로 병합된 Hugging Face 또는 SafeTensors 형식으로 내보냅니다. Core ML 변환과 GGUF 추론 도구는 README 가이드를 참고하세요. 이 저장소의 학습 경로는 의도적으로 Gemma만 지원합니다.</p>
+<p>더 깊이 있는 내용: README/guides/README.md · README/specifications/Gemma3n.md</p>
+<h3>이 도구로 만들 수 있는 것들</h3>
+<p><strong>도메인별 ASR</strong> — 의료 구술, 법정 증언, 콜센터 녹음 등 특정 분야의 용어를 Whisper나 Gemma가 잘못 인식하는 경우, 자신의 데이터로 파인튜닝하면 정확도가 올라갑니다.</p>
+<p><strong>도메인별 비전</strong> — 영수증, 차트, 스크린샷, 제조 결함, 의료 이미지 같이 일반 모델이 환각을 일으키는 시각 데이터를 정확히 처리할 수 있습니다.</p>
+<p><strong>문서 및 화면 이해</strong> — 스크린샷에서 구조화된 출력으로 변환하는 쌍으로 학습하면 UI 에이전트, OCR 유사 파이프라인, 차트 QA에 활용할 수 있습니다.</p>
+<p><strong>억양, 방언, 저자원 언어 적응</strong> — 기본 Gemma 모델을 과소 대표된 음성과 언어에 맞게 조정할 수 있습니다. 자체 레이블 오디오 데이터로 파인튜닝하면 되거든요.</p>
+<p><strong>멀티모달 어시스턴트</strong> — Gemma의 텍스트 추론 능력을 이미지나 오디오로 보강해서 전사, 캡션 생성, Q&amp;A 파이프라인을 구축합니다.</p>
+<p><strong>프라이빗 온디바이스 파이프라인</strong> — Mac에서만 학습하고 실행합니다. 데이터는 절대 외부로 나가지 않고, 가중치도 써드파티 API를 거치지 않습니다.</p>
+<p>데이터가 GCS나 BigQuery에 있다면, 테라바이트를 로컬에 복사하지 않고 노트북에서 필요한 샤드만 스트리밍으로 받아서 모든 작업을 할 수 있습니다.</p>
+<h3>지원하는 모델</h3>
+<p>학습은 <code>config/config.ini</code>의 <code>base_model</code>로 로드된 Gemma 멀티모달 (텍스트 + 이미지 + 오디오) 체크포인트를 대상으로 합니다. 기본 설정 파일에 이런 <code>[model:…]</code> 항목들이 포함되어 있습니다 (Hub 가중치 위에 LoRA를 얹은 형태):</p>
+<div class="table-wrapper"><table><thead><tr><th>config.ini의 모델 키</th><th>Hugging Face base_model</th><th>설명</th></tr></thead><tbody><tr><td>gemma-4-e2b-it</td><td>google/gemma-4-E2B-it</td><td>Gemma 4 명령어 모드, ~2B — requirements/requirements-gemma4.txt 필요 (설치 참고)</td></tr><tr><td>gemma-4-e4b-it</td><td>google/gemma-4-E4B-it</td><td>Gemma 4 명령어 모드, ~4B — Gemma 4 스택 필요</td></tr><tr><td>gemma-4-e2b</td><td>google/gemma-4-E2B</td><td>Gemma 4 기본 모델 — Gemma 4 스택 필요</td></tr><tr><td>gemma-4-e4b</td><td>google/gemma-4-E4B</td><td>Gemma 4 기본 모델 — Gemma 4 스택 필요</td></tr><tr><td>gemma-3n-e2b-it</td><td>google/gemma-3n-E2B-it</td><td>Gemma 3n 명령어 모드, ~2B — 기본 pip install -e . 설치 시 기본값</td></tr><tr><td>gemma-3n-e4b-it</td><td>google/gemma-3n-E4B-it</td><td>Gemma 3n 명령어 모드, ~4B</td></tr></tbody></table></div>
+<p>다른 Gemma 3n 또는 Gemma 4 E2B–E4B 체크포인트가 필요하면 <code>[model:your-name]</code> 섹션을 추가하고 <code>group = gemma</code>와 호환되는 <code>base_model</code>을 지정하세요. Hugging Face의 더 큰 Gemma 4 가중치 (26B나 31B 클래스)는 이 학습기의 AutoModelForCausalLM 오디오 경로와 다른 Transformers 아키텍처를 사용하므로 아직 지원되지 않습니다.</p>
+<p>시간과 메모리 추정값은 <code>gemma_tuner/wizard/base.py</code>의 <code>ModelSpecs</code>에서 가져옵니다.</p>
+<h3>아키텍처 (누가 뭘 호출하는지)</h3>
+<div class="table-wrapper"><table><thead><tr><th>구성 요소</th><th>역할</th></tr></thead><tbody><tr><td>gemma_tuner/cli_typer.py</td><td>메인 CLI (gemma-macos-tuner). MPS 환경 변수가 Torch 초기화 전에 설정되도록 core.bootstrap을 먼저 불러옵니다.</td></tr><tr><td>gemma_tuner/core/ops.py</td><td>prepare → scripts.prepare_data, finetune → scripts.finetune, evaluate → scripts.evaluate, export → scripts.export로 작업을 분배합니다.</td></tr><tr><td>gemma_tuner/scripts/finetune.py</td><td>라우터: 이름에 gemma가 포함된 모델만 gemma_tuner/models/gemma/finetune.py로 보냅니다.</td></tr><tr><td>gemma_tuner/utils/device.py</td><td>MPS → CUDA → CPU 선택, 동기화 헬퍼, 메모리 힌트.</td></tr><tr><td>gemma_tuner/utils/dataset_utils.py</td><td>CSV 로드, 패치, 블랙리스트/보호 의미론.</td></tr><tr><td>gemma_tuner/wizard/</td><td>Questionary + Rich UI; 학습은 저장소 루트에서 <code>python -m gemma_tuner.main finetune …</code>로 실행됩니다 (gemma_tuner/wizard/runner 참고).</td></tr></tbody></table></div></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://github.com/mattmireles/gemma-tuner-multimodal" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-07%20Apple%20Silicon%EC%9D%84%20%EC%9C%84%ED%95%9C%20Gemma%204%20%EB%A9%80%ED%8B%B0%EB%AA%A8%EB%8B%AC%20%ED%8C%8C%EC%9D%B8%ED%8A%9C%EB%84%88&labels=feedback%2Cliked&body=**Article**%3A%20Apple%20Silicon%EC%9D%84%20%EC%9C%84%ED%95%9C%20Gemma%204%20%EB%A9%80%ED%8B%B0%EB%AA%A8%EB%8B%AC%20%ED%8C%8C%EC%9D%B8%ED%8A%9C%EB%84%88%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Fmattmireles%2Fgemma-tuner-multimodal%0A**Date**%3A%202026-04-07%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

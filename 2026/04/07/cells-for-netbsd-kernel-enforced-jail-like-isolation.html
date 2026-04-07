@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NetBSD Cells: 커널 기반 격리 시스템 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/07/">2026-04-07</a> &gt; NetBSD Cells: 커널 기반 격리 시스템...
+      </div>
+
+      <h1>NetBSD Cells: 커널 기반 격리 시스템</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Cells for NetBSD: kernel-enforced, jail-like isolation</p>
+      <div class="article-meta">
+        <span>📅 2026-04-07</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 32</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>NetBSD Cells는 커널 기반의 경량 격리 기능으로 chroot와 전체 가상화 사이의 간격을 메우는 시스템입니다. 강력한 프로세스 격리, 시스템 강화, 감시형 서비스 실행, 통합 생명주기 관리를 NetBSD 네이티브로 제공합니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>secmodel_cell 커널 보안 모델로 강제된 격리와 정책 집행을 핵심에서 처리</li><li>cellmgr 제어 평면으로 원하는 상태의 매니페스트 관리와 런타임 조정</li><li>cellui TUI를 통한 직관적 운영 및 cellctl로 CPU, 프로세스, 메모리 등 실시간 텔레메트리 제공</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>NetBSD 기반 시스템 운영자와 컨테이너 기술을 다시 생각하고 있는 개발자에게 커널 수준의 경량 격리 대안을 제시합니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>NetBSD용 Cells: 커널 기반 경량 격리 시스템</h2>
+<p>NetBSD용 Cells는 아직 초기 단계지만 꾸준히 성숙해가고 있는 경량 격리 시스템입니다. chroot 같은 단순한 격리 방식과 Xen 같은 완전한 가상화 플랫폼 사이의 간극을 채워주거든요.</p>
+<p>이 프로젝트는 단일 호스트에서 여러 워크로드를 다음과 같은 기능으로 실행합니다:</p>
+<ul>
+<li>강력한 프로세스 격리</li>
+<li>시스템 강화 프로필</li>
+<li>감시형 서비스 실행</li>
+<li>통합된 생명주기 관리</li>
+<li>중앙식 로깅</li>
+<li>스냅샷 기반 메트릭 수출</li>
+</ul>
+<h3>설계 철학: NetBSD 네이티브</h3>
+<p>가장 중요한 특징은 완전히 NetBSD 네이티브라는 점입니다. 격리와 정책 집행이 커널 보안 프레임워크에 내장되어 있지, 별도의 런타임 레이어에 위임되지 않아요.</p>
+<p>Linux 컨테이너 생태계를 복제하려는 게 아닙니다. 대신 최소한의 의존성으로 명확한 운영 경계를 가진, 외부 제어 서비스가 없는 초점화된 운영 모델을 제공하는 걸 목표로 합니다.</p>
+<p>물론 커널 기반 격리인 만큼, 보안은 커널의 정확성에 달려 있습니다. 더 강력한 신뢰 분리가 필요하면 Xen 같은 가상화를 여전히 고려해야 해요.</p>
+<p>결국 이 프로젝트는 NetBSD 관리 워크플로우에 자연스럽게 들어맞는 실용적인 엔드-투-엔드 격리 스택으로 진화하고 있습니다.</p>
+<h3>핵심 컴포넌트</h3>
+<p><strong>secmodel_cell</strong></p>
+<ul>
+<li>커널 보안 모델로, 셀 식별, 정책 집행, 스냅샷 텔레메트리를 담당합니다.</li>
+</ul>
+<p><strong>cellctl</strong></p>
+<ul>
+<li>create/destroy/exec 작업과 커널 인터페이싱 스냅샷을 위한 저수준 런타임 어댑터입니다.</li>
+</ul>
+<p><strong>cellmgr</strong></p>
+<ul>
+<li>원하는 상태의 매니페스트, 런타임 조정, apply 계획, 백업 워크플로우를 관리하는 호스트 측 제어 평면입니다.</li>
+</ul>
+<p><strong>cellui</strong></p>
+<ul>
+<li>선택사항인 대화형 TUI로, 지속적인 IPC 브리지를 통해 cellmgr 데이터와 작업을 소비합니다.</li>
+</ul>
+<p>Cells for NetBSD는 정책, 관찰성, 일상 운영을 균형있게 강조하면서 실용적이고 운영자 친화적인 격리에 집중합니다.</p>
+<hr>
+<h3>커널 격리의 기초: secmodel_cell</h3>
+<p><strong>secmodel_cell</strong>은 이 시스템의 집행 핵심입니다.</p>
+<p>셀 식별과 프로세스 경계는 커널에서 강제됩니다. 셀 간 프로세스 검사와 신호 전달이 차단되고, 스냅샷 텔레메트리도 같은 집행 계층에서 생성되죠.</p>
+<h4>강화된 접근 프로필</h4>
+<p>보안 프로필(low, medium, high)은 각 셀별로 호스트에 미치는 작업을 제한합니다.</p>
+<ul>
+<li>mount 같은 특권 작업과 호스트 상태 조작을 제한합니다</li>
+<li>강화 정책이 명시적이고 셀별 설정에서 감시 가능하게 유지됩니다</li>
+</ul>
+<h4>호스트 중심 네트워킹과 포트 소유권</h4>
+<p>셀들은 설계상 호스트 네트워크 스택을 공유합니다. 호스트의 라우팅, 방화벽, 인터페이스 워크플로우는 단순하게 유지되죠.</p>
+<p>예약된 포트는 셀마다 할당되어 우발적인 충돌을 방지하고, 커널 수준의 소유권 검사가 서비스 경계를 보호합니다.</p>
+<h4>내장 감시자와 로깅</h4>
+<p>포그라운드 워크로드는 호스트에 보이는 감시 하에서 실행됩니다.</p>
+<ul>
+<li>백오프 재시작과 결정론적 생명주기 제어가 자동으로 작동합니다</li>
+<li>운영자와 프로세스 트리 사이에 숨겨진 런타임 데몬이 없습니다</li>
+<li>stdout/stderr이 syslog로 포워딩되어 호스트 레벨의 중앙식 로그가 형성됩니다</li>
+</ul>
+<h4>런타임 텔레메트리</h4>
+<p>셀은 모니터링과 진단을 위한 경량 런타임 텔레메트리를 제공합니다.</p>
+<ul>
+<li>CPU 틱 (1초 델타와 롤링 10초 평균)</li>
+<li>프로세스 수와 참조 카운트</li>
+<li>샘플링된 가상 메모리 크기와 나이</li>
+</ul>
+<p><code>cellctl list</code>와 <code>cellctl stats</code>로 접근 가능하며, Prometheus 친화적인 출력도 포함합니다.</p>
+<h4>통합 볼륨 관리</h4>
+<p>영속 데이터는 임시 런타임 오버레이 상태와 별개의 1급 객체인 볼륨으로 관리됩니다.</p>
+<ul>
+<li>서비스 런타임과 내구성 있는 데이터가 명확히 분리됩니다</li>
+<li>셀별 볼륨 마운트가 예측 가능한 대상과 모드 제어로 명시됩니다</li>
+<li>셀을 교체하거나 재구성, 조정할 때 생명주기 작업이 더 안전해집니다</li>
+</ul>
+<h4>내장 백업과 복원</h4>
+<p>백업 워크플로우는 사후 대응이 아니라 핵심 도구 체인의 일부입니다.</p>
+<ul>
+<li>영속 데이터를 위한 볼륨 백업/복원</li>
+<li>런타임 파일시스템 상태를 위한 셀 오버레이 백업/복원</li>
+<li>파괴적인 복원과 삭제 경로에 대한 안전 검사와 확인 게이트</li>
+</ul>
+<hr>
+<h3>셀 플릿 운영하기: cellmgr</h3>
+<p><strong>cellmgr</strong>은 원하는 상태와 런타임 상태를 아우르는 통합 호스트 측 제어 평면입니다.</p>
+<ul>
+<li>모듈/설정/베이스 레이아웃 준비를 위한 부트스트랩 워크플로우</li>
+<li>셀과 볼륨을 위한 지속적인 매니페스트 기반 설정</li>
+<li>일관된 읽기 및 생명주기 워크플로우 (list|show|fields, create|set|start|stop|restart)</li>
+<li>상태 검사와 드리프트 처리를 포함한 apply를 통한 선언형 수렴</li>
+</ul>
+<h3>스타일 있게 셀 관리하기: cellui</h3>
+<p><strong>cellui</strong>는 cellmgr 작업 위에 빠른 대화형 TUI 레이어를 추가합니다.</p>
+<ul>
+<li>wscons는 물론 xterm에서도 실행됩니다</li>
+<li>셀, 스토리지, 헬스, 백업에 대한 즉각적인 운영 개요를 제공합니다</li>
+<li>일상적인 타이핑을 줄이면서도 제어를 명시적이고 투명하게 유지합니다</li>
+<li>당신을 바로 80년대로 전송해줄 정성들인 테마 컬렉션도 포함되어 있습니다 ;-)</li>
+</ul>
+<h3>통합된 스택</h3>
+<p>이 모든 것이 합쳐져서 커널 집행부터 일상 운영 UX까지 일관된 스택을 만듭니다. 하나의 모델, 하나의 도구 체인, 그리고 엔드-투-엔드 명확한 경계 말이에요.</p>
+<hr>
+<h3>실무 예제</h3>
+<p>이 섹션에서는 현재 cellmgr 명령 인터페이스를 사용한 최소한의 재현 가능한 워크플로우를 보여줍니다.</p>
+<p>예제는 호스트를 부트스트랩한 뒤, 간단한 HTTP 서비스를 위한 셀 매니페스트를 만들고, 선언형 apply 계획을 추가하고, 런타임 상태를 수렴한 다음, 셀이 실행 중인지 확인합니다.</p>
+<h4>1단계: 호스트 통합 부트스트랩</h4>
+<p>호스트 통합을 초기화하고 베이스를 준비합니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://netbsd-cells.petermann-digital.de/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-07%20NetBSD%20Cells%3A%20%EC%BB%A4%EB%84%90%20%EA%B8%B0%EB%B0%98%20%EA%B2%A9%EB%A6%AC%20%EC%8B%9C%EC%8A%A4%ED%85%9C&labels=feedback%2Cliked&body=**Article**%3A%20NetBSD%20Cells%3A%20%EC%BB%A4%EB%84%90%20%EA%B8%B0%EB%B0%98%20%EA%B2%A9%EB%A6%AC%20%EC%8B%9C%EC%8A%A4%ED%85%9C%0A**URL**%3A%20https%3A%2F%2Fnetbsd-cells.petermann-digital.de%2F%0A**Date**%3A%202026-04-07%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

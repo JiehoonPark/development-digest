@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026년 JavaScript에 대해 알아야 할 것 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/07/">2026-04-07</a> &gt; 2026년 JavaScript에 대해 알아야 할 것...
+      </div>
+
+      <h1>2026년 JavaScript에 대해 알아야 할 것</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">What to know about JavaScript in 2026</p>
+      <div class="article-meta">
+        <span>📅 2026-04-07</span>
+        <span>📰 JavaScript Weekly</span>
+        
+        
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>2026년 JavaScript 생태계의 최신 동향을 종합적으로 정리한 가이드로, Google의 JSIR 중간 표현, 새로운 ECMAScript 기능, 프레임워크, 런타임, 빌드 도구 등을 다룬다. npm 공급망 침해 사건 분석, JetStream 3 벤치마크, 다양한 라이브러리 업데이트 정보도 포함된다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>Google이 오픈소스한 JSIR(중간 표현)은 AST보다 상위 수준의 코드 의미 분석을 제공하며, 향후 더 나은 린터, 번들러, 리팩토링 도구의 기반이 될 수 있다.</li><li>npm 패키지 최소 공개 대기 기간 설정이 공급망 공격 방어의 실용적 기법으로 부상했으며, 소셜 엔지니어링 기법 분석도 공개되었다.</li><li>ESLint v10.2.0의 언어 인식 규칙, Node.js 25.9.0의 최대 힙 크기 설정, Babylon.js 9.0의 향상된 3D 렌더링 등 주요 도구 업데이트가 이루어졌다.</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>JavaScript 개발자가 공급망 보안, 언어 기능 진화, 도구 생태계 변화를 종합적으로 파악할 수 있어 프로젝트 기술 선택과 보안 전략 수립에 필수적이다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>JavaScript 주간 뉴스 (2026년 4월 7일)</h2>
+<h3>핵심 뉴스</h3>
+<h4>Google, JavaScript 중간 표현(IR) 표준 공개</h4>
+<p>Google이 새로운 도구 <strong>JSIR</strong>을 오픈소스로 공개하고 JavaScript 산업 표준 IR(중간 표현)을 제안했습니다. IR이란 코드가 어떻게 생겼는지를 보여주는 AST와 달리, 코드가 실제로 무엇을 하는지를 나타내는 중간 표현이거든요.</p>
+<p>Google은 이미 코드 분석과 변환에 활용하고 있습니다. 이 기초 위에 차세대 개발 도구들이 만들어질 수 있다는 점이 중요합니다. 린터, 번들러, 리팩토링 도구 같은 것들이 더 똑똑해질 토대가 마련된 셈이죠.</p>
+<p>당장은 대부분의 개발자들이 직접적인 영향을 느끼지 못할 겠지만, 장기적으로는 상당한 파급력을 가질 수 있는 작업입니다.</p>
+<h4>Axios 팀, npm 공급망 침해 사건 사후분석 공개</h4>
+<p>지난주 npm 공급망 보안 문제에 대해 Axios 팀이 상세한 사후분석 보고서를 발표했습니다. 특히 소셜 엔지니어링이 어떻게 작동했는지를 함께 설명하고 있으니, 공급망 보안에 관심 있는 개발자라면 읽어볼 가치가 있습니다.</p>
+<h4>주요 소식 한눈에</h4>
+<ul>
+<li><strong>JetStream 3 공개</strong>: WebKit, Google, Mozilla가 함께 브라우저 성능 벤치마크 스위트의 최신 버전을 공개했습니다. JavaScript와 WebAssembly 성능 측정의 표준이 되고 있습니다.</li>
+</ul>
+<ul>
+<li><strong>Cloudflare EmDash 출시</strong>: JavaScript 기반의 WordPress 영적 후계자를 소개했습니다.</li>
+</ul>
+<ul>
+<li><strong>Svelte 월간 업데이트</strong>: Svelte 팀의 최신 진행 현황이 공개됐습니다.</li>
+</ul>
+<hr>
+<h3>릴리스 소식</h3>
+<h4>ESLint v10.2.0</h4>
+<p>새로운 <code>meta.languages</code> 속성으로 언어별 규칙을 지원하게 됐습니다. 이제 Temporal도 지원합니다.</p>
+<h4>Node.js 25.9.0 (현재 버전)</h4>
+<p>프로세스 최대 힙 크기를 지정할 수 있는 <code>--max-heap-size</code> 옵션이 추가되었고, 새로운 실험 기능인 stream/iter(반복 가능한 스트림 API)가 포함됐습니다.</p>
+<hr>
+<h3>주목할 만한 글과 영상</h3>
+<h4>공급망 방어 전략: 최소 릴리스 기간</h4>
+<p>패키지 매니저에서 점점 일반화되는 기능이 있습니다. 바로 패키지의 최소 보유 기간을 지정할 수 있는 것이죠. 잠깐 기다리면 유지보수자나 보안 도구들이 공급망 공격을 탐지할 시간이 생긴다는 아이디어입니다. 완벽한 방어책은 아니지만, 당신의 상황에 맞다면 충분히 의미 있는 전략입니다.</p>
+<p><strong>글쓴이</strong>: Dani Akash</p>
+<h4>TanStack Start: 클라이언트 우선 웹 프레임워크</h4>
+<p>TanStack 창립자의 30분 토크입니다. React와 Solid 개발자들을 위한 완전한 SSR 프레임워크인 TanStack Start의 가치를 설명합니다.</p>
+<p><strong>발표자</strong>: Tanner Linsley</p>
+<h4>오픈소스 유지보수자들의 번아웃</h4>
+<p>Lodash 창립자인 John-David Dalton과의 40분 오디오 인터뷰입니다. JavaScript 생태계의 가장 중요한 라이브러리 중 하나를 관리하며 겪는 어려움들을 직접 들을 수 있습니다.</p>
+<p><strong>제공</strong>: OpenJS Foundation</p>
+<h4>CSS의 대확장</h4>
+<p>웹 개발에서 JavaScript의 영역이었던 것들(툴팁, 다이얼로그, 스크롤 애니메이션 등)이 이제는 현대 CSS에서 훌륭하게 처리할 수 있게 되었습니다. 이 글은 그런 변화들을 꼼꼼히 정리했습니다.</p>
+<p><strong>글쓴이</strong>: Pavel Laptev</p>
+<h4>그 외 추천 글</h4>
+<ul>
+<li><strong>Three.js로 듀얼 씬 유체 X-Ray 효과 구현하기</strong> - Cullen Webber</li>
+<li><strong>팁: Intl로 단위도 지역화하기</strong> - Stefan Judis</li>
+<li><strong>Solid 2.0 마이그레이션으로 배운 것들</strong> - Brenley Dueck</li>
+</ul>
+<hr>
+<h3>개발 도구 &amp; 라이브러리</h3>
+<h4>Fuse.js 7.3: 경량 퍼지 검색</h4>
+<p>백엔드 없이 부정확한 입력에도 견딜 수 있는 검색 기능이 필요하신가요? v7.3은 단어별 퍼지 매칭과 단일 문자열 매칭을 위한 정적 메서드를 추가했습니다. v7.4 베타에서는 워커 기반 분산 검색으로 대규모 데이터셋도 빠르게 처리합니다.</p>
+<p><strong>개발자</strong>: Kiro Risk</p>
+<h4>Babylon.js 9.0 출시</h4>
+<p>Microsoft의 3D 웹 경험 렌더링 엔진이 v9.0으로 업데이트됐습니다. 노드 기반 파티클 에디터, 볼륨트릭 라이팅, 고급 Gaussian splatting 등이 추가되었습니다.</p>
+<p><strong>개발자</strong>: Carter &amp; Lucchini (Microsoft)</p>
+<h4>Marked.js 18.0: 고속 마크다운 파서</h4>
+<p>속도에 최적화된 저수준 마크다운 컴파일러입니다. v18은 주로 버그 수정 릴리스이며 TypeScript 6으로 업그레이드되었습니다.</p>
+<p><strong>개발자</strong>: Christopher Jeffrey</p>
+<h4>TinyBase v8.1: 로컬 우선 앱을 위한 반응형 데이터 저장소</h4>
+<p>반응형 데이터 저장소와 동기화 엔진으로, 많은 앱의 전체 백엔드 역할을 할 수 있습니다. 이제 Svelte 5를 네이티브로 지원합니다.</p>
+<p><strong>개발자</strong>: James Pearce</p>
+<h4>기타 주목할 도구</h4>
+<ul>
+<li><strong>xdk-typescript</strong>: X API의 공식 SDK</li>
+<li><strong>npm-check-updates v20.0.0</strong>: package.json 의존성을 시맨틱 버전 정책을 유지하며 최신으로 업그레이드</li>
+<li><strong>Neutralinojs 6.7</strong>: 크로스플랫폼 데스크톱 앱 프레임워크에 입력 장치 시뮬레이션 API 추가</li>
+<li><strong>SVGInject 2.0</strong>: 빌드 단계 없이 런타임에 SVG 파일을 DOM에 인라인하기</li>
+</ul></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://javascriptweekly.com/issues/780" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-07%202026%EB%85%84%20JavaScript%EC%97%90%20%EB%8C%80%ED%95%B4%20%EC%95%8C%EC%95%84%EC%95%BC%20%ED%95%A0%20%EA%B2%83&labels=feedback%2Cliked&body=**Article**%3A%202026%EB%85%84%20JavaScript%EC%97%90%20%EB%8C%80%ED%95%B4%20%EC%95%8C%EC%95%84%EC%95%BC%20%ED%95%A0%20%EA%B2%83%0A**URL**%3A%20https%3A%2F%2Fjavascriptweekly.com%2Fissues%2F780%0A**Date**%3A%202026-04-07%0A**Source**%3A%20JavaScript%20Weekly" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

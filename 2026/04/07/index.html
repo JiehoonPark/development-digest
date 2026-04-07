@@ -23,8 +23,8 @@
     
     <div class="breadcrumb"><a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; 2026-04-07</div>
     <h2 style="font-size: 22px; margin-bottom: 4px;">📬 FE 데일리 리포트 — 2026-04-07</h2>
-    <p style="font-size: 13px; color: #999; margin-bottom: 0;">50개 아티클</p>
-    <div class="daily-intro">안녕하세요! 프론트엔드 개발자 여러분. 오늘은 AI 에이전트 시대의 개발 도구 진화, Next.js 16.2의 멀티플랫폼 확대, 그리고 로컬 AI 모델 실행의 대중화가 주요 트렌드입니다. 특히 Claude Code의 성능 저하 이슈와 Cursor의 독립화 같은 AI 코딩 도구의 변화가 개발 생태계에 큰 파장을 일으키고 있습니다.</div>
+    <p style="font-size: 13px; color: #999; margin-bottom: 0;">49개 아티클</p>
+    <div class="daily-intro">안녕하세요! 오늘은 AI 보안과 양자내성 암호화가 핫한 이슈입니다. Anthropic의 Project Glasswing이 AI를 방어 목적으로 활용하는 새로운 패러다임을 제시했고, Cloudflare는 양자 컴퓨팅 위협에 대응하기 위해 2029년 완전 양자내성 보안 달성을 목표로 공표했습니다. 한편 Next.js 16.2와 Turbopack은 프론트엔드 개발 환경의 성능과 AI 통합을 크게 개선했습니다.</div>
     <div class="label-filters">
       <button class="label-filter active" data-label="all">전체</button>
       <button class="label-filter" data-label="frontend">frontend</button>
@@ -38,560 +38,549 @@
     
       <h2 class="section-header">📌 오늘의 화제</h2>
       
-    <div class="article-card" data-labels="frontend,devops" data-topic="nextjs-16.2-release">
-      <h3><a href="https://nextjs.org/blog/next-16-2-turbopack">Turbopack: Next.js 16.2의 새로운 기능</a></h3>
-      <span class="badge badge-label badge-label-frontend">frontend</span><span class="badge badge-label badge-label-devops">devops</span><span class="badge badge-cluster">관련 3건</span>
-      <p class="summary">Next.js 16.2의 Turbopack은 빠른 빌드 속도, SRI(서브리소스 무결성) 지원, postcss.config.ts 설정 파일, 동적 임포트 트리 쉐이킹, Server Fast Refresh, 인라인 로더 설정 등의 기능을 추가했으며, 200개 이상의 버그 수정을 포함한다. 이러한 개선사항들은 개발자 경험과 성능을 크게 향상시킨다.</p>
-      <ul class="key-points"><li>빌드 속도 개선: Turbopack은 기존 웹팩 대비 크게 향상된 빌드 속도를 제공하며, 대규모 프로젝트에서의 개발 피드백 루프를 단축시킨다.</li><li>SRI 지원: 서브리소스 무결성 검증을 자동으로 추가하여 배포된 자산의 보안성을 강화하고, CDN에서 제공되는 리소스의 무결성을 보장한다.</li><li>PostCSS 설정 강화: postcss.config.ts를 지원하여 TypeScript 기반의 스타일시트 처리 설정이 가능해졌고, 타입 안정성이 향상된다.</li><li>동적 임포트 트리 쉐이킹: 사용하지 않는 동적 임포트 코드를 제거하여 최종 번들 크기를 줄일 수 있다.</li><li>Server Fast Refresh: 서버 컴포넌트 수정 시 페이지 전체 리로드 없이 빠른 업데이트가 가능해져 개발 생산성이 향상된다.</li><li>대규모 버그 수정: 200개 이상의 버그 수정으로 안정성과 신뢰성이 크게 개선되었다.</li></ul>
-      <p class="why-it-matters">💡 Turbopack의 성능 개선과 다양한 기능 추가는 개발자의 빌드 시간을 단축하고 개발 경험을 향상시키며, 보안과 최적화된 번들 크기를 동시에 달성할 수 있게 한다.</p>
+    <div class="article-card" data-labels="ai,devops" data-topic="anthropic-glasswing">
+      <h3><a href="https://www.anthropic.com/glasswing">프로젝트 글래스윙: AI 시대 핵심 소프트웨어 보안</a></h3>
+      <span class="badge badge-engagement">⬆ 750</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-devops">devops</span><span class="badge badge-cluster">관련 2건</span>
+      <p class="summary">Anthropic이 AWS, Apple, Microsoft, Google, NVIDIA 등 주요 기업과 함께 프로젝트 글래스윙을 발표했으며, 이는 AI 모델의 사이버보안 역량을 방어 목적으로 활용하는 이니셔티브이다. Anthropic의 Claude Mythos Preview 모델은 숙련된 보안 전문가들을 능가하는 수준의 소프트웨어 취약점 발견 및 악용 능력을 입증했으며, 이미 모든 주요 운영체제와 웹 브라우저에서 수천 개의 고위험 취약점을 발견했다. 프로젝트 글래스윙의 파트너들은 Mythos Preview를 방어 보안 작업에 활용할 예정이며, Anthropic은 이 모델에 최대 1억 달러의 사용 크레딧과 오픈소스 보안 단체에 400만 달러를 직접 기부하고 있다. 현재 매년 약 5,000억 달러 규모의 전 지구적 사이버범죄 손실이 발생 중이며, AI 모델의 발전으로 인해 이러한 위협이 더욱 심화될 수 있다.</p>
+      <ul class="key-points"><li>Claude Mythos Preview의 능력: AI 모델이 최고 수준의 보안 전문가들을 능가하는 취약점 발견 및 악용 능력을 보유했으며, 수십 년간 인간의 검토와 수백만 건의 자동화된 보안 테스트를 거친 취약점도 발견할 수 있다.</li><li>프로젝트 글래스윙 참여 기업: Amazon Web Services, Apple, Broadcom, Cisco, CrowdStrike, Google, JPMorganChase, Linux Foundation, Microsoft, NVIDIA, Palo Alto Networks 등 12개 주요 기업과 40개 이상의 추가 조직이 참여하고 있다.</li><li>재정 지원: Anthropic이 Mythos Preview 사용에 최대 1억 달러의 크레딧을 제공하고, 오픈소스 보안 단체에 직접 400만 달러를 기부한다.</li><li>사이버공격의 현재 위협: 국가 차원의 공격(중국, 이란, 북한, 러시아)이 민간 인프라와 군사 태세를 위협하고 있으며, 전 지구적 사이버범죄 비용이 연간 약 5,000억 달러로 추정된다.</li><li>AI의 양면성: 취약점 발견을 용이하게 만드는 동일한 AI 역량이 방어 목적으로도 귀중한 도구가 되므로, 이를 안전하게 배포하는 것이 중요하다.</li><li>기술 진화의 시간 문제: DARPA 사이버 그랜드 챌린지 이후 10년이 지났으며, 현재 AI 모델이 취약점 발견에서 최고 수준의 인간과 경쟁 수준에 도달했다.</li><li>긴급성과 산업 차원의 대응: 모든 소프트웨어 회사, 보안 연구원, 오픈소스 유지보수자, 정부가 협력해야 하며, 사이버 인프라 방어 작업은 수 년이 걸릴 수 있다.</li></ul>
+      <p class="why-it-matters">💡 AI 모델이 인간 전문가 수준의 취약점 발견 능력을 갖추게 되면서 사이버보안 패러다임이 근본적으로 변화하고 있으며, 개발자들은 AI 기반 방어 도구를 적극 활용하고 동시에 보안을 기본값으로 설계해야 한다.</p>
       <div class="card-meta">
-        <span>via Next.js Blog</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/turbopack-whats-new-in-nextjs-162.html">📖 자세히 보기</a>
+        <span>via Hacker News (Top)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/project-glasswing-securing-critical-software-for-the-ai-era.html">📖 자세히 보기</a>
       </div>
     </div>
-    <div class="article-card cluster-related" data-labels="frontend,general" data-topic="nextjs-16.2-release">
-      <h3><a href="https://nextjs.org/blog/next-16-2">Next.js 16.2 릴리스</a></h3>
-      <span class="badge badge-label badge-label-frontend">frontend</span><span class="badge badge-label badge-label-general">general</span><span class="badge badge-cluster">관련 3건</span>
-      <p class="summary">Next.js 16.2는 어댑터(Adapters) 기능, 렌더링 성능 개선, 디버깅 및 에러 페이지 개선 등을 포함한 주요 업데이트를 제공한다. 이 버전은 다양한 배포 플랫폼에 대한 호환성을 높이고 개발자 경험을 개선하는 데 중점을 두었다.</p>
-      <ul class="key-points"><li>어댑터 API: Next.js를 다양한 호스팅 플랫폼에 쉽게 배포할 수 있도록 하는 표준화된 어댑터 인터페이스가 안정화되었다.</li><li>렌더링 성능 개선: 페이지 로딩 속도와 런타임 성능이 최적화되어 사용자 경험이 개선된다.</li><li>향상된 디버깅: 개발 중 에러를 더 명확하게 파악할 수 있도록 에러 페이지와 디버깅 도구가 개선되었다.</li></ul>
-      <p class="why-it-matters">💡 개발자들이 Next.js 앱을 더 쉽게 다양한 플랫폼에 배포할 수 있고, 성능 최적화된 웹 애플리케이션을 빠르게 개발할 수 있다.</p>
+    <div class="article-card" data-labels="devops" data-topic="">
+      <h3><a href="https://blog.cloudflare.com/post-quantum-roadmap/">Cloudflare, 2029년까지 완전한 양자내성 보안 달성 목표</a></h3>
+      <span class="badge badge-engagement">⬆ 254</span><span class="badge badge-label badge-label-devops">devops</span>
+      <p class="summary">Cloudflare가 2029년까지 양자내성(PQ) 인증을 포함한 완전한 양자내성 보안 달성을 목표로 발표했으며, 이는 Google이 타원곡선 암호화를 깨뜨리는 양자 알고리즘을 대폭 개선했다는 발표와 Oratomic이 P-256을 P-256을 단 10,000 큐비트로 깨뜨릴 수 있다는 자원 추정을 발표한 것에 대응한 것이다. Cloudflare는 이미 2022년부터 모든 웹사이트와 API에 양자내성 암호화를 제공 중이며(전체 트래픽의 65% 이상이 양자내성 암호화됨), Q-Day(양자 컴퓨터가 현재 암호화를 깨뜨릴 수 있는 날)가 2030년 정도로 예상됨에 따라 긴급히 일정을 가속화하고 있다. IBM Quantum Safe의 CTO는 2029년 정도로 고가치 목표를 대상으로 한 양자 공격이 발생할 수 있다고 우려하고 있다.</p>
+      <ul class="key-points"><li>양자 알고리즘 진전의 가속화: Google이 타원곡선 암호화를 깨뜨리는 알고리즘을 대폭 개선했으며, Oratomic의 자원 추정에 따르면 P-256 암호화는 단 10,000 큐비트로 깨뜨릴 수 있다. 이는 기존 예상보다 양자 컴퓨터의 실현 시간이 훨씬 단축될 수 있음을 의미한다.</li><li>Q-Day 예상 시기의 단축: Google이 양자내성 마이그레이션 목표를 2029년으로 가속화했으며, IBM은 2029년 정도로 고가치 목표를 대상으로 한 양자 공격이 가능할 수 있다고 경고했다. 이전에는 Q-Day가 훨씬 먼 미래로 예상되었으나 급격히 단축되었다.</li><li>인증 보안의 우선순위: Google과 Cloudflare 모두 기존의 암호화 보안(harvest-now/decrypt-later 공격 대응)보다 양자내성 인증을 더 높은 우선순위로 삼고 있으며, 이는 2030년경 Q-Day 도래 가능성을 암시한다.</li><li>양자 하드웨어 진전: 중성 원자, 초전도 큐비트, 이온 트랩, 광자, 위상 큐비트 등 다양한 접근 방식이 모두 진전을 보이고 있으며, 특히 중성 원자가 확장성 면에서 가장 가깝다고 평가된다.</li><li>오류 정정의 복잡성: 모든 양자 컴퓨터는 노이즈가 많으며 의미 있는 계산을 수행하려면 오류 정정 코드가 필요하고, 이는 상당한 오버헤드를 초래한다. 큐비트 연결성 개선이 오류 정정 효율을 크게 높일 수 있으며, 일반적으로 1개의 논리 큐비트당 약 1,000개의 물리 큐비트가 필요하다.</li><li>공개 정보의 한계: 양자 컴퓨터 과학자 Scott Aaronson의 경고와 같이, 암호화를 깨뜨리는 데 필요한 상세한 추정치가 더 이상 공개되지 않을 가능성이 높으며, 실제로 그 시점이 이미 지났을 수 있다는 분석이 제시된다.</li><li>세 가지 독립적인 기술 진전: 양자 하드웨어, 오류 정정, 양자 소프트웨어라는 세 영역이 독립적으로 진전하고 있으며, 각 영역의 진전이 다른 영역의 진전을 복합적으로 촉진할 수 있다.</li><li>Cloudflare의 대응 전략: 2014년부터 무료 SSL 인증서 제공, 2019년부터 양자내성 마이그레이션 준비, 2022년부터 모든 웹사이트에 양자내성 암호화 제공 중이며, 현재 인증 부분의 양자내성 업그레이드를 가속화하고 있다.</li></ul>
+      <p class="why-it-matters">💡 양자 컴퓨터의 실현 시간이 예상보다 훨씬 단축되고 있어 개발자와 기업은 암호화 시스템의 양자내성 업그레이드를 긴급 과제로 취급해야 하며, 현재 수집되는 암호화된 데이터가 미래에 양자 컴퓨터로 복호화될 수 있으므로 즉시 조치가 필요하다.</p>
+      <div class="card-meta">
+        <span>via Hacker News (Top)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/cloudflare-targets-2029-for-full-post-quantum-security.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="ai,devops" data-topic="">
+      <h3><a href="https://www.infoq.com/news/2026/04/google-agent-testbed-scion/">Google이 다중 에이전트 오케스트레이션 테스트베드 Scion을 오픈소스화</a></h3>
+      <span class="badge badge-engagement">⬆ 138</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-devops">devops</span>
+      <p class="summary">Google이 다중 에이전트 시스템 관리를 위한 오픈소스 플랫폼 Scion을 발표했다. Scion은 컨테이너, git worktree, 격리된 자격증명으로 여러 에이전트를 독립적으로 실행하며 로컬, 원격 VM, Kubernetes 클러스터 전반에서 작동한다. 제약보다 격리를 우선시하는 설계로 Claude Code, Gemini CLI 등 다양한 에이전트를 안전하게 협업시킬 수 있다.</p>
+      <ul class="key-points"><li>Scion은 '에이전트용 하이퍼바이저'로, 동적으로 진화하는 병렬 작업 그래프를 관리하며 코딩, 감시, 테스트 등 서로 다른 목표를 추구하는 장기-단기 에이전트들의 혼합 라이프사이클을 지원한다.</li><li>격리 우선 철학에 따라 규칙으로 에이전트 행동을 제약하기보다 컨테이너, git worktree, 네트워크 정책 등 인프라 계층에서 경계를 설정하며 각 에이전트가 작업 완료에 필요한 모든 작업을 수행하도록 허용한다.</li><li>Gemini, Claude Code, OpenCode 등 인기 에이전트를 하네스 어댑터로 지원하며 Docker, Podman, Kubernetes 등 다양한 컨테이너화 런타임과 호환된다.</li></ul>
+      <p class="why-it-matters">💡 다중 에이전트 시스템의 안전하고 확장 가능한 관리 방법을 제시하여 개발자가 복잡한 AI 기반 워크플로우를 효율적으로 구축할 수 있는 기반을 마련한다.</p>
+      <div class="card-meta">
+        <span>via Hacker News (Top)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/google-open-sources-experimental-agent-orchestration-testbed-scion.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card cluster-related" data-labels="frontend" data-topic="nextjs-16-2">
+      <h3><a href="https://nextjs.org/blog/next-16-2">Next.js 16.2</a></h3>
+      <span class="badge badge-label badge-label-frontend">frontend</span><span class="badge badge-cluster">관련 3건</span>
+      <p class="summary">Next.js 16.2에서는 Adapters, 렌더링 성능 개선, 디버깅 및 에러 페이지 개선 등 다양한 기능이 추가되었다.</p>
+      <ul class="key-points"><li>Adapters 지원: 다양한 배포 플랫폼에 대한 어댑터 지원이 강화된다.</li><li>렌더링 성능 개선: 페이지 렌더링 속도와 효율이 향상된다.</li><li>디버깅 및 에러 페이지 개선: 개발자 경험이 개선되고 문제 해결이 용이해진다.</li></ul>
+      <p class="why-it-matters">💡 여러 플랫폼 배포 지원과 개발자 도구 개선으로 Next.js의 활용 범위가 확대된다.</p>
       <div class="card-meta">
         <span>via Next.js Blog</span>
         <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/nextjs-162.html">📖 자세히 보기</a>
       </div>
     </div>
-    <div class="article-card" data-labels="ai,backend,general" data-topic="ollama-llm-tools">
-      <h3><a href="https://github.com/ollama/ollama">Ollama - 다양한 오픈소스 LLM 모델 실행 플랫폼</a></h3>
-      <span class="badge badge-engagement">⬆ 167.8k</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-backend">backend</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Ollama는 Kimi-K2.5, GLM-5, MiniMax, DeepSeek, gpt-oss, Qwen, Gemma 등 다양한 오픈소스 대규모 언어 모델을 로컬 환경에서 쉽게 실행할 수 있는 Go 기반 플랫폼이다. 사용자가 복잡한 설정 없이 여러 LLM을 빠르게 설치하고 실행할 수 있도록 지원한다.</p>
-      <ul class="key-points"><li>다양한 오픈소스 LLM 지원: Kimi-K2.5, GLM-5, MiniMax, DeepSeek 등 최신 모델들을 통합 관리하며, Qwen과 Gemma 같은 경량 모델도 포함되어 있어 다양한 유스케이스에 대응 가능하다.</li><li>로컬 실행 환경: 클라우드 의존성을 줄이고 사용자의 하드웨어에서 직접 LLM을 실행할 수 있으므로, 데이터 프라이버시와 오프라인 환경에서의 사용이 가능하다.</li><li>Go 기반 구현: 빠른 성능과 가벼운 리소스 소비를 통해 다양한 시스템 사양에서도 원활하게 동작할 수 있도록 설계되었다.</li></ul>
-      <p class="why-it-matters">💡 개발자들이 프로프리어터리 API에 의존하지 않고 로컬 환경에서 자유롭게 LLM을 실험하고 통합할 수 있는 기반을 제공하며, 다양한 모델을 한 플랫폼에서 관리할 수 있어 개발 효율성이 크게 향상된다.</p>
-      <div class="card-meta">
-        <span>via GitHub Trending</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/ollamaollama-go.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="ai,general" data-topic="llm-inference">
-      <h3><a href="https://github.com/ggml-org/llama.cpp">llama.cpp - C/C++를 이용한 LLM 추론 엔진</a></h3>
-      <span class="badge badge-engagement">⬆ 102.1k</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">llama.cpp는 C/C++로 구현된 효율적인 대규모 언어 모델 추론 엔진으로, 최소한의 메모리와 계산 리소스로 LLM을 실행할 수 있도록 최적화되어 있다. CPU 기반 추론을 중심으로 설계되어 개인 컴퓨터와 엣지 디바이스에서도 고속 실행이 가능하다.</p>
-      <ul class="key-points"><li>성능 최적화: C/C++로 구현되어 저수준 최적화가 가능하며, 양자화(quantization) 기법을 통해 모델 크기를 줄이면서도 추론 품질을 유지할 수 있다.</li><li>경량화된 추론: CPU 기반 추론에 최적화되어 있어 GPU가 없는 환경이나 제한된 리소스의 기기에서도 실시간 처리가 가능하다.</li><li>광범위한 호환성: 다양한 LLaMA 기반 모델과 다른 오픈소스 모델들을 지원하며, 다양한 플랫폼에서 컴파일 및 실행할 수 있다.</li></ul>
-      <p class="why-it-matters">💡 개발자들이 GPU 없이도 고효율의 LLM 추론을 구현할 수 있으며, 모바일 기기나 엣지 컴퓨팅 환경에서 AI 기능을 직접 배포할 수 있는 기술적 기반을 제공한다.</p>
-      <div class="card-meta">
-        <span>via GitHub Trending</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/ggml-orgllamacpp-c.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="ai,devops" data-topic="coding-agents">
-      <h3><a href="https://www.freestyle.sh/">Freestyle 출시: 코딩 에이전트를 위한 샌드박스</a></h3>
-      <span class="badge badge-engagement">⬆ 221</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-devops">devops</span>
-      <p class="summary">Freestyle는 수만 개의 에이전트를 실행하기 위해 설계된 샌드박스 플랫폼으로, 700ms 이내에 VM을 프로비저닝하고 실행 중인 VM을 일시 중지 없이 복제할 수 있다. 완전한 Linux VM으로 root 접근권한과 KVM 지원을 제공하며, GitHub 저장소와의 양방향 동기화를 지원한다.</p>
-      <ul class="key-points"><li>API 요청부터 준비 완료까지 700ms 이내 프로비저닝, VM 복제는 밀리초 단위로 수행</li><li>실행 중인 VM을 일시 중지 없이 복제 가능하고 Hibernate 기능으로 비용 절감</li><li>완전한 Linux VM 제공으로 Docker, KVM 등 모든 가상화 스택 지원 및 멀티유저 격리</li></ul>
-      <p class="why-it-matters">💡 AI 에이전트 개발자에게 빠른 샌드박스 환경 구성과 비용 효율적인 테스트 인프라를 제공한다.</p>
+    <div class="article-card" data-labels="ai" data-topic="">
+      <h3><a href="https://z.ai/blog/glm-5.1">GLM-5.1: 장기 작업을 향하여</a></h3>
+      <span class="badge badge-engagement">⬆ 375</span><span class="badge badge-label badge-label-ai">ai</span>
+      <p class="summary">제목과 미리보기만 제공되어 구체적인 내용을 파악하기 어렵지만, GLM-5.1 모델이 더 긴 기간의 작업을 처리할 수 있는 능력을 갖추도록 개선되었을 것으로 예상된다.</p>
+      <ul class="key-points"><li>장기 작업 처리: GLM-5.1이 이전보다 더 복잡하고 오래 걸리는 작업을 수행할 수 있도록 개선되었다.</li></ul>
+      <p class="why-it-matters">💡 AI 모델의 작업 지속성 개선은 실제 비즈니스 프로세스 자동화에 더 효과적으로 활용될 수 있다.</p>
       <div class="card-meta">
         <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/launch-hn-freestyle-sandboxes-for-coding-agents.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/glm-51-towards-long-horizon-tasks.html">📖 자세히 보기</a>
       </div>
     </div>
-    <div class="article-card" data-labels="ai,devops" data-topic="anthropic-partnerships">
-      <h3><a href="https://www.anthropic.com/news/google-broadcom-partnership-compute">Anthropic, Google 및 Broadcom과 차세대 컴퓨팅 파트너십 확대</a></h3>
-      <span class="badge badge-engagement">⬆ 179</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-devops">devops</span>
-      <p class="summary">Anthropic이 Google과 Broadcom과 함께 2027년부터 온라인될 다중 기가와트급 차세대 TPU 용량에 대한 새로운 계약을 체결했다. Claude 고객의 급속한 수요 증가(월 실행 수익 30억 달러, 100만 달러 이상 고객 1,000개 넘음)를 충족하기 위한 계약이며, 대부분의 컴퓨팅은 미국에 위치할 예정이다.</p>
-      <ul class="key-points"><li>월 실행 수익이 2025년 말 90억 달러에서 2026년 30억 달러 이상으로 증가, 100만 달러 이상 지출 고객이 2개월 내 500개에서 1,000개로 2배 증가</li><li>AWS Trainium, Google TPU, NVIDIA GPU 등 다중 하드웨어 플랫폼 지원으로 워크로드 최적 매칭 및 복원력 확보</li><li>Claude는 AWS Bedrock, Google Vertex AI, Microsoft Azure Foundry 등 세 대 클라우드 플랫폼 모두에서 이용 가능한 유일한 프론티어 AI 모델</li></ul>
-      <p class="why-it-matters">💡 Claude 기반 개발 프로젝트의 안정적인 리소스 확보와 멀티 클라우드 전략의 실현 가능성을 보여준다.</p>
+    <div class="article-card" data-labels="general" data-topic="">
+      <h3><a href="https://www.bbc.com/news/articles/c0rx7xzd10xo">캄보디아, 유명한 지뢰 탐지 쥐 마가와의 동상 공개</a></h3>
+      <span class="badge badge-engagement">⬆ 239</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">캄보디아가 지뢰 탐지로 금메달을 받은 아프리카 대형주머니쥐 마가와를 기념하는 세계 최초의 지뢰탐지쥐 동상을 공개했다. 마가와는 2016년부터 5년간 100개 이상의 지뢰와 폭발물을 탐지했으며, 2020년 PDSA 금메달을 받은 최초의 쥐였다.</p>
+      <ul class="key-points"><li>마가와는 5년 경력 동안 141,000제곱미터(축구장 20개 규모)의 땅을 지뢰 제거했고, 테니스코트 크기의 지역을 20분 만에 탐색 가능했다.</li><li>쥐의 작은 체형으로 인해 지뢰 기폭 위험이 없어 인간 탐지자보다 안전하며, Apopo 자선단체는 1990년대부터 HeroRATS를 훈련하고 있다.</li><li>캄보디아는 여전히 100만 명 이상이 오염된 땅에 거주 중이며 2030년까지 지뢰 제거를 목표로 하고 있다.</li></ul>
+      <p class="why-it-matters">💡 이 기사는 기술이나 개발과 직접 관련 없는 뉴스로, 개발자에게 특별한 중요성이 없습니다.</p>
       <div class="card-meta">
         <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/anthropic-expands-partnership-with-google-and-broadcom-for-next-gen-compute.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/cambodia-unveils-a-statue-of-famous-landmine-sniffing-rat-magawa.html">📖 자세히 보기</a>
       </div>
     </div>
       <h2 class="section-header">🛠 프론트엔드 기술</h2>
       
-    <div class="article-card cluster-related" data-labels="frontend,backend,devops" data-topic="nextjs-16.2-release">
-      <h3><a href="https://nextjs.org/blog/nextjs-across-platforms">Next.js 플랫폼 전체 지원: 어댑터, OpenNext, 그리고 우리의 약속</a></h3>
-      <span class="badge badge-label badge-label-frontend">frontend</span><span class="badge badge-label badge-label-backend">backend</span><span class="badge badge-label badge-label-devops">devops</span><span class="badge badge-cluster">관련 3건</span>
-      <p class="summary">Next.js 16.2는 안정화된 어댑터 API, 공개된 어댑터 테스트 스위트, 그리고 플랫폼별 일관된 배포를 위한 워킹 그룹을 도입했다. 이를 통해 개발자들은 Next.js 앱을 Vercel뿐만 아니라 AWS, Cloudflare, Azure 등 다양한 호스팅 플랫폼에 일관되게 배포할 수 있다.</p>
-      <ul class="key-points"><li>안정화된 어댑터 API: Next.js를 다양한 배포 환경에 맞춰 실행할 수 있도록 하는 표준화된 인터페이스가 공식적으로 안정화되어, 개발자들이 특정 플랫폼에 종속되지 않을 수 있다.</li><li>공개 테스트 스위트: 어댑터 개발자들이 자신의 구현이 Next.js와 올바르게 통합되는지 검증할 수 있는 표준화된 테스트 세트가 제공되어, 각 어댑터의 품질과 호환성을 보장한다.</li><li>플랫폼 간 워킹 그룹: Vercel, AWS, Cloudflare 등 주요 플랫폼들이 참여하는 워킹 그룹을 통해 Next.js의 호환성을 지속적으로 개선하고, 플랫폼별 차이를 최소화한다.</li><li>OpenNext 프로젝트: 오픈소스 커뮤니티 기반의 어댑터 개발을 지원하여, 더 많은 플랫폼에서 Next.js를 실행할 수 있도록 한다.</li></ul>
-      <p class="why-it-matters">💡 개발자들이 Next.js 앱을 한 번 작성하면 자유롭게 다양한 호스팅 플랫폼 간 이동할 수 있게 되어, 벤더 락인(vendor lock-in)을 피할 수 있고 최적의 배포 환경을 선택할 수 있는 자유도가 대폭 증가한다.</p>
+    <div class="article-card" data-labels="frontend" data-topic="nextjs-16-2">
+      <h3><a href="https://nextjs.org/blog/next-16-2-turbopack">Turbopack: Next.js 16.2의 새로운 기능</a></h3>
+      <span class="badge badge-label badge-label-frontend">frontend</span><span class="badge badge-cluster">관련 3건</span>
+      <p class="summary">Next.js 16.2에서 Turbopack이 더 빠른 빌드, SRI(Subresource Integrity) 지원, postcss.config.ts 파일 형식, 동적 import의 트리 쉐이킹, Server Fast Refresh 등 여러 개선사항을 제공한다.</p>
+      <ul class="key-points"><li>빌드 성능 개선: Turbopack이 더 빠른 빌드 속도를 제공한다.</li><li>SRI 지원 추가: 서브리소스 무결성 검증이 기본으로 지원된다.</li><li>postcss.config.ts 지원: TypeScript 기반의 PostCSS 설정 파일을 직접 사용할 수 있다.</li><li>동적 import 트리 쉐이킹: 사용하지 않는 동적 import 코드를 제거하여 번들 크기를 최적화한다.</li><li>Server Fast Refresh: 서버 컴포넌트 개발 중 빠른 새로고침 기능이 추가되어 개발 생산성이 향상된다.</li><li>200개 이상의 버그 수정: 전반적인 안정성과 호환성이 개선되었다.</li></ul>
+      <p class="why-it-matters">💡 빌드 성능 향상과 개발 생산성 개선으로 Next.js 프로젝트 개발 효율이 높아진다.</p>
       <div class="card-meta">
         <span>via Next.js Blog</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/nextjs-across-platforms-adapters-opennext-and-our-commitments.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/turbopack-whats-new-in-nextjs-162.html">📖 자세히 보기</a>
       </div>
     </div>
-    <div class="article-card cluster-related" data-labels="frontend,ai" data-topic="nextjs-16.2-release">
-      <h3><a href="https://nextjs.org/blog/next-16-2-ai">Next.js 16.2: AI 기능 개선</a></h3>
+    <div class="article-card cluster-related" data-labels="frontend,ai" data-topic="nextjs-16-2">
+      <h3><a href="https://nextjs.org/blog/next-16-2-ai">Next.js 16.2: AI 개선사항</a></h3>
       <span class="badge badge-label badge-label-frontend">frontend</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-cluster">관련 3건</span>
-      <p class="summary">Next.js 16.2는 create-next-app에서 AGENTS.md 포함, 브라우저 로그 포워딩, PID가 포함된 개발 서버 락 파일, AI 에이전트 디버깅을 위한 next-browser 등의 AI 관련 기능을 추가했다. 이러한 개선사항들은 AI 에이전트와 자동화 도구를 Next.js와 통합할 때 개발자 경험을 크게 향상시킨다.</p>
-      <ul class="key-points"><li>AGENTS.md 가이드: create-next-app에서 기본으로 포함되는 에이전트 통합 가이드로, 개발자들이 AI 에이전트와 Next.js를 연동하는 방법을 명확히 이해할 수 있다.</li><li>브라우저 로그 포워딩: 브라우저에서 발생하는 로그와 에러를 개발 서버로 자동으로 전달하여, AI 에이전트가 프론트엔드 상태를 실시간으로 모니터링하고 대응할 수 있다.</li><li>개발 서버 락 파일(PID): 프로세스 ID를 포함한 락 파일을 통해 개발 서버 인스턴스를 정확히 추적할 수 있으므로, AI 에이전트가 올바른 개발 환경과 상호작용할 수 있다.</li><li>next-browser 도구: AI 에이전트가 Next.js 애플리케이션을 직접 제어하고 검사할 수 있도록 하는 전용 도구로, 자동화된 테스팅과 디버깅이 가능해진다.</li></ul>
-      <p class="why-it-matters">💡 개발자들이 AI 에이전트와 자동화 도구를 Next.js 프로젝트에 더 쉽게 통합할 수 있게 되며, AI 기반 코드 자동 생성이나 테스트 자동화 같은 고급 워크플로우를 효율적으로 구성할 수 있다.</p>
+      <p class="summary">Next.js 16.2에서는 create-next-app에 AGENTS.md 포함, 브라우저 로그 포워딩, 개발 서버 lock 파일(PID 포함), 그리고 AI 에이전트 디버깅을 위한 next-browser 도구가 추가되었다.</p>
+      <ul class="key-points"><li>AGENTS.md 템플릿: create-next-app에서 AI 에이전트 개발을 위한 문서 템플릿이 기본 포함된다.</li><li>브라우저 로그 포워딩: 브라우저 로그가 개발 환경으로 자동 전송되어 디버깅이 용이해진다.</li><li>개발 서버 lock 파일: 개발 서버의 프로세스 ID(PID)를 추적하여 충돌 방지 및 관리가 개선된다.</li><li>next-browser 디버깅 도구: AI 에이전트가 브라우저와 상호작용할 때 디버깅을 위한 전용 도구가 제공된다.</li></ul>
+      <p class="why-it-matters">💡 AI 에이전트 개발 지원이 강화되어 Next.js에서 AI 기반 애플리케이션 구축이 더욱 용이해진다.</p>
       <div class="card-meta">
         <span>via Next.js Blog</span>
         <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/nextjs-162-ai-improvements.html">📖 자세히 보기</a>
       </div>
     </div>
-    <div class="article-card" data-labels="frontend,typescript,general" data-topic="">
-      <h3><a href="https://github.com/immich-app/immich">Immich - 자체 호스팅 고성능 사진 및 비디오 관리 솔루션</a></h3>
-      <span class="badge badge-engagement">⬆ 97.0k</span><span class="badge badge-label badge-label-frontend">frontend</span><span class="badge badge-label badge-label-typescript">typescript</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Immich는 TypeScript로 구현된 자체 호스팅 가능한 고성능 사진 및 비디오 관리 플랫폼이다. 사용자가 자신의 서버에서 직접 운영하면서 프라이버시를 보장하면서도 클라우드 기반 포토 관리 서비스의 기능을 모두 사용할 수 있도록 설계되었다.</p>
-      <ul class="key-points"><li>자체 호스팅: 데이터를 전적으로 통제할 수 있으며, Google Photos나 Amazon Photos 같은 클라우드 서비스와 달리 데이터 프라이버시가 완벽하게 보장된다.</li><li>TypeScript 기반: 타입 안정성을 갖춘 최신 JavaScript 스택으로 구현되어 있어 버그 가능성이 낮고 유지보수가 용이하다.</li><li>고성능 처리: 대량의 사진과 비디오를 효율적으로 저장하고 검색할 수 있으며, 썸네일 생성 및 메타데이터 처리가 빠르게 이루어진다.</li></ul>
-      <p class="why-it-matters">💡 개인 및 소규모 조직에서 클라우드 서비스 의존성 없이 자신의 데이터를 완벽하게 관리할 수 있는 오픈소스 솔루션을 제공하며, 프라이버시 중심의 사진 관리가 필요한 사용자들에게 실질적인 선택지가 된다.</p>
+    <div class="article-card cluster-related" data-labels="frontend,devops" data-topic="nextjs-16-2">
+      <h3><a href="https://nextjs.org/blog/nextjs-across-platforms">여러 플랫폼 전반의 Next.js: Adapters, OpenNext, 그리고 우리의 약속</a></h3>
+      <span class="badge badge-label badge-label-frontend">frontend</span><span class="badge badge-label badge-label-devops">devops</span><span class="badge badge-cluster">관련 3건</span>
+      <p class="summary">Next.js 16.2에서 안정적인 Adapter API, 공개 어댑터 테스트 스위트, 플랫폼 전반에 걸친 더욱 일관된 배포를 위한 워킹 그룹이 도입되었다.</p>
+      <ul class="key-points"><li>Adapter API 표준화: Vercel이 공식적으로 안정화된 Adapter API를 제공하여 다양한 플랫폼 배포가 표준화된다.</li><li>공개 어댑터 테스트 스위트: 커뮤니티가 개발한 어댑터의 호환성을 검증하기 위한 공개 테스트 스위트가 제공된다.</li><li>크로스 플랫폼 워킹 그룹: 여러 배포 플랫폼 간의 일관성을 높이기 위한 공식 협력 그룹이 구성된다.</li></ul>
+      <p class="why-it-matters">💡 Next.js를 Vercel 외 다양한 플랫폼(AWS, Azure, Netlify 등)에 배포할 때 더 일관되고 안정적인 환경이 제공된다.</p>
       <div class="card-meta">
-        <span>via GitHub Trending</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/immich-appimmich-typescript.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="typescript,general" data-topic="">
-      <h3><a href="https://github.com/KeygraphHQ/shannon">Shannon - 웹 애플리케이션용 자동화된 화이트박스 AI 펜테스터</a></h3>
-      <span class="badge badge-engagement">⬆ 36.7k</span><span class="badge badge-label badge-label-typescript">typescript</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Shannon Lite는 웹 애플리케이션과 API의 소스 코드를 분석하여 공격 벡터를 식별하고 실제 익스플로잇을 실행해 프로덕션 배포 전 취약점을 입증하는 자동화된 보안 테스트 도구다.</p>
-      <ul class="key-points"><li>소스 코드 분석 기반의 화이트박스 펜테스팅으로 자동화된 보안 검증</li><li>실제 익스플로잇 실행으로 취약점의 실질적 영향도 검증 가능</li></ul>
-      <p class="why-it-matters">💡 개발자가 프로덕션 배포 전 보안 취약점을 사전에 발견하고 수정할 수 있다.</p>
-      <div class="card-meta">
-        <span>via GitHub Trending</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/keygraphhqshannon-typescript.html">📖 자세히 보기</a>
+        <span>via Next.js Blog</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/nextjs-across-platforms-adapters-opennext-and-our-commitments.html">📖 자세히 보기</a>
       </div>
     </div>
     <div class="article-card" data-labels="frontend" data-topic="">
-      <h3><a href="https://css-tricks.com/css-multi-column-layout-wrapping-features/">새로운 CSS 다중 열 레이아웃 래핑 기능 살펴보기</a></h3>
+      <h3><a href="https://css-tricks.com/alternatives-to-the-important-keyword/">!important 키워드의 대안들</a></h3>
       <span class="badge badge-label badge-label-frontend">frontend</span>
-      <p class="summary">Chrome 145에서 column-height와 column-wrap 속성이 도입되어 콘텐츠를 새로운 행으로 래핑하여 가로 스크롤 대신 세로 스크롤을 만들 수 있게 되었다.</p>
-      <ul class="key-points"><li>column-height와 column-wrap 속성으로 다중 열 레이아웃에서 콘텐츠 흐름 제어 가능</li><li>수평 스크롤에서 수직 스크롤로 변경하여 사용자 경험 개선</li></ul>
-      <p class="why-it-matters">💡 CSS 레이아웃 옵션이 확대되어 복잡한 반응형 디자인 구현이 더 간단해진다.</p>
+      <p class="summary">CSS에서 !important 키워드 사용을 피하고 더 깔끔하고 예측 가능한 방식으로 스타일을 관리할 수 있는 여러 대안들을 소개합니다. 캐스케이드 레이어(Cascade Layers), 특이성(Specificity) 조정, 선택자 순서 최적화, 선택자 기법 등을 통해 !important에 의존하지 않고도 원하는 스타일을 적용할 수 있습니다. 이러한 접근 방식은 코드 유지보수성을 높이고 나중에 코드를 검토할 때 자신감 있게 설명할 수 있는 구조를 만듭니다.</p>
+      <ul class="key-points"><li>캐스케이드 레이어(Cascade Layers): CSS의 @layer 규칙을 사용하여 스타일의 우선순위를 명시적으로 관리할 수 있으며, 이는 !important보다 더 선언적이고 예측 가능한 방식입니다.</li><li>특이성 조정: 선택자의 특이성을 높여 우선순위를 제어하는 방식으로, !important 없이도 특정 스타일이 다른 스타일을 덮어쓰도록 할 수 있습니다.</li><li>스타일 순서 최적화: CSS 파일 내에서 스타일 규칙의 순서를 전략적으로 배치하여 캐스케이드 우선순위를 활용하고 예기치 않은 스타일 충돌을 방지합니다.</li><li>선택자 기법: 더 정교한 CSS 선택자 패턴을 활용하여 특정 요소에만 스타일을 적용하고 덮어쓰기 문제를 근본적으로 해결할 수 있습니다.</li><li>유지보수성 향상: !important를 피하면 코드의 의도가 명확해지고 향후 스타일 수정 시 예상치 못한 부작용을 줄일 수 있으며, 다른 개발자나 미래의 자신이 코드를 이해하기 쉬워집니다.</li></ul>
+      <p class="why-it-matters">💡 !important는 CSS 우선순위 시스템을 우회하는 안티패턴으로, 이를 피하고 더 나은 대안을 사용하면 확장성 있고 유지보수하기 쉬운 스타일시트를 작성할 수 있습니다.</p>
       <div class="card-meta">
         <span>via CSS-Tricks</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/looking-at-new-css-multi-column-layout-wrapping-features.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/alternatives-to-the-important-keyword.html">📖 자세히 보기</a>
       </div>
     </div>
-    <div class="article-card" data-labels="typescript,frontend" data-topic="">
-      <h3><a href="https://github.com/siddharthvaddem/openscreen">OpenScreen - 무료 오픈소스 데모 생성 도구</a></h3>
-      <span class="badge badge-engagement">⬆ 24.2k</span><span class="badge badge-label badge-label-typescript">typescript</span><span class="badge badge-label badge-label-frontend">frontend</span>
-      <p class="summary">OpenScreen은 구독료, 워터마크, 상용 이용 제한이 없는 오픈소스 데모 영상 생성 도구로, Screen Studio의 대안을 제공한다.</p>
-      <ul class="key-points"><li>완전 무료이며 상용 이용 가능한 오픈소스 솔루션</li><li>구독료와 워터마크 없이 고품질 데모 영상 제작 가능</li></ul>
-      <p class="why-it-matters">💡 개발자와 스타트업이 비용 부담 없이 전문적인 데모 영상을 제작할 수 있다.</p>
-      <div class="card-meta">
-        <span>via GitHub Trending</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/siddharthvaddemopenscreen-typescript.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="ai,general" data-topic="">
-      <h3><a href="https://github.com/kitfunso/hippo-memory">Hippo: AI 에이전트를 위한 생물학적 영감의 메모리 시스템</a></h3>
-      <span class="badge badge-engagement">⬆ 61</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Hippo는 여러 AI 도구 간에 공유되는 메모리 시스템으로, AI 에이전트가 세션 간 정보를 유지하고 반복되는 실수를 줄일 수 있도록 지원합니다. SQLite 기반의 구조화된 메모리 저장소, 신뢰도 기반 decay 메커니즘, BM25와 임베딩 하이브리드 검색 기능을 제공합니다.</p>
-      <ul class="key-points"><li>Claude Code, Cursor, Codex 등 여러 AI 도구 간에 메모리를 공유하는 통합 레이어로, 도구 전환 시에도 컨텍스트 유지</li><li>SQLite 백본과 마크다운/YAML 미러를 통해 깃 추적 가능하고 인간이 읽을 수 있는 형식으로 저장</li><li>Working memory layer, session handoff, hybrid search (BM25 + 임베딩), error correction 등 v0.8-0.9.1의 주요 기능 포함</li></ul>
-      <p class="why-it-matters">💡 여러 AI 도구를 사용하는 개발자는 반복되는 문제 해결을 자동화하고 과거 경험을 일관되게 활용할 수 있어 생산성과 안정성이 향상됩니다.</p>
-      <div class="card-meta">
-        <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/show-hn-hippo-biologically-inspired-memory-for-ai-agents.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="general" data-topic="">
-      <h3><a href="https://github.com/matthartman/ghost-pepper">Ghost Pepper: macOS용 로컬 음성-텍스트 변환 도구</a></h3>
-      <span class="badge badge-engagement">⬆ 271</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Ghost Pepper는 모든 처리가 로컬에서 이루어지는 100% 오프라인 음성-텍스트 변환 도구로, Control 키를 누르고 말하면 자동으로 전사하고 붙여넣습니다. Whisper와 Qwen 모델을 사용하며 클라우드 데이터 전송이 없습니다.</p>
-      <ul class="key-points"><li>WhisperKit 기반 음성 모델과 LLM.swift 기반 정리 모델로 완전 로컬 처리, 데이터 프라이버시 보장</li><li>Whisper tiny/small (75MB~466MB)부터 Qwen 3.5 4B (2.8GB)까지 다양한 모델 옵션으로 속도와 정확도 조절 가능</li><li>MIT 라이선스 오픈소스, Apple Silicon M1+ 지원, 메뉴바 앱으로 깔끔한 통합</li></ul>
-      <p class="why-it-matters">💡 개발자는 외부 API 의존 없이 완전히 자체 제어하는 로컬 음성 입력 솔루션을 얻어 프라이버시를 보호하면서 생산성을 높일 수 있습니다.</p>
-      <div class="card-meta">
-        <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/show-hn-ghost-pepper-local-hold-to-talk-speech-to-text-for-macos.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="general" data-topic="">
-      <h3><a href="http://som-st.github.io/">SOM: 가상 머신 교육 및 연구를 위한 최소 Smalltalk</a></h3>
-      <span class="badge badge-engagement">⬆ 36</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">SOM은 다양한 VM 구현 기법과 최적화를 연구하기 위한 교육용 Smalltalk 언어 플랫폼입니다. 여러 구현체가 동일한 언어를 지원하며 서로 다른 최적화와 플랫폼에서 실행됩니다. 학계와 업계에서 VM 설계와 메타프로그래밍 연구에 활발히 사용되었습니다.</p>
-      <ul class="key-points"><li>SOM++ 최적화(3-4배 성능 향상), SOMNS 액터 모델 구현, TruffleMATE 메타오브젝트 프로토콜 등 다양한 변종 개발</li><li>액터 동시성, 가비지 컬렉션, JIT 컴파일 등 VM 핵심 기능 연구를 위한 플랫폼 제공</li><li>Haskell 구현(HaSOM), Grace 언어 구현(Moth) 등 다른 언어 구현에 영감 제공</li></ul>
-      <p class="why-it-matters">💡 VM 설계자와 언어 구현자에게 검증된 연구 플랫폼으로서 최신 VM 기법과 메타프로그래밍 개념을 실제로 실험할 수 있는 기초를 제공합니다.</p>
-      <div class="card-meta">
-        <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/som-a-minimal-smalltalk-for-teaching-of-and-research-on-virtual-machines.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="general" data-topic="">
-      <h3><a href="https://github.com/kepano/obsidian-skills">Obsidian용 에이전트 스킬</a></h3>
-      <span class="badge badge-engagement">⬆ 20.7k</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Obsidian에서 AI 에이전트가 Markdown, Base, JSON Canvas 등을 사용하도록 가르칠 수 있는 스킬 플러그인입니다. CLI 통합을 통해 에이전트의 기능을 확장할 수 있습니다.</p>
-      <ul class="key-points"><li>Obsidian 에이전트가 Markdown, Base, JSON Canvas 형식을 네이티브로 지원</li><li>CLI 통합으로 로컬 도구와의 상호작용 가능</li></ul>
-      <p class="why-it-matters">💡 Obsidian 사용자의 자동화 워크플로우를 확장하고 에이전트 기반 작업 효율성을 높일 수 있습니다.</p>
-      <div class="card-meta">
-        <span>via GitHub Trending</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/kepanoobsidian-skills.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="ai,general" data-topic="">
-      <h3><a href="https://github.com/NousResearch/hermes-agent">Hermes Agent - 함께 성장하는 에이전트</a></h3>
-      <span class="badge badge-engagement">⬆ 28.4k</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Hermes Agent는 사용자와 함께 진화할 수 있도록 설계된 Python 기반 AI 에이전트 프로젝트다.</p>
-      <ul class="key-points"><li>지속적 학습과 발전이 가능한 에이전트 아키텍처</li><li>Python 기반으로 커뮤니티 확장성 제공</li></ul>
-      <p class="why-it-matters">💡 장기적으로 개선되는 AI 에이전트 개발 시 참고 가능한 오픈소스 솔루션을 제공한다.</p>
-      <div class="card-meta">
-        <span>via GitHub Trending</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/nousresearchhermes-agent-python.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="typescript,frontend" data-topic="">
-      <h3><a href="https://github.com/tobi/qmd">tobi/qmd - 문서 검색 CLI 도구</a></h3>
-      <span class="badge badge-engagement">⬆ 18.9k</span><span class="badge badge-label badge-label-typescript">typescript</span><span class="badge badge-label badge-label-frontend">frontend</span>
-      <p class="summary">TypeScript로 작성된 로컬 문서, 지식베이스, 회의 노트 등을 검색할 수 있는 미니 CLI 검색 엔진이다.</p>
-      <ul class="key-points"><li>로컬에서 완전히 작동하는 검색 기능</li><li>다양한 콘텐츠 타입 지원</li></ul>
-      <p class="why-it-matters">💡 개발자가 로컬에 저장된 문서를 빠르게 검색할 수 있는 경량 도구를 제공한다.</p>
-      <div class="card-meta">
-        <span>via GitHub Trending</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/tobiqmd-typescript.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="ai,general" data-topic="">
-      <h3><a href="https://github.com/aaif-goose/goose">aaif-goose/goose - AI 에이전트 프레임워크</a></h3>
-      <span class="badge badge-engagement">⬆ 38.2k</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Rust로 작성된 오픈소스 AI 에이전트로, 코드 제안을 넘어 설치, 실행, 편집, 테스트까지 수행할 수 있는 확장 가능한 도구이다.</p>
-      <ul class="key-points"><li>모든 LLM과 호환되는 에이전트</li><li>코드 제안 이상의 실행 가능한 작업 수행</li></ul>
-      <p class="why-it-matters">💡 AI 에이전트가 개발 워크플로우 전체에 통합되어 자동화 수준을 높일 수 있다.</p>
-      <div class="card-meta">
-        <span>via GitHub Trending</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/aaif-goosegoose-rust.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="ai,general" data-topic="">
-      <h3><a href="https://github.com/google-ai-edge/gallery">google-ai-edge/gallery - 온디바이스 ML/GenAI 갤러리</a></h3>
-      <span class="badge badge-engagement">⬆ 18.0k</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Kotlin으로 구현된 온디바이스 머신러닝과 생성 AI 사용 사례를 소개하고 로컬에서 모델을 시험할 수 있는 갤러리이다.</p>
-      <ul class="key-points"><li>온디바이스 ML/GenAI 실제 사용 사례 제시</li><li>로컬 환경에서 모델 직접 실행 가능</li></ul>
-      <p class="why-it-matters">💡 에지 디바이스에서 ML 모델을 효율적으로 실행하는 방법을 학습할 수 있다.</p>
+    <div class="article-card" data-labels="ai,backend" data-topic="">
+      <h3><a href="https://github.com/google-ai-edge/gallery">Google AI Edge Gallery (Kotlin)</a></h3>
+      <span class="badge badge-engagement">⬆ 18.7k</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-backend">backend</span>
+      <p class="summary">Google이 제공하는 온디바이스 ML/GenAI 사용 사례를 시연하고 모델을 로컬에서 실행해볼 수 있는 갤러리 저장소이다.</p>
+      <ul class="key-points"><li>온디바이스 머신러닝과 생성AI 모델을 로컬 환경에서 직접 실행하고 테스트할 수 있는 실용적 예제를 제공한다.</li><li>Kotlin으로 작성되어 Android 및 JVM 기반 애플리케이션 개발자가 엣지 AI를 구현하는 데 참고할 수 있다.</li></ul>
+      <p class="why-it-matters">💡 온디바이스 AI 모델 구현의 실제 사례를 통해 개발자들이 프라이버시 보호와 저지연성이 요구되는 애플리케이션을 구축할 수 있도록 지원한다.</p>
       <div class="card-meta">
         <span>via GitHub Trending</span>
         <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/google-ai-edgegallery-kotlin.html">📖 자세히 보기</a>
       </div>
     </div>
-    <div class="article-card" data-labels="ai,general" data-topic="">
-      <h3><a href="https://github.com/NVIDIA/personaplex">NVIDIA/personaplex - 개인화 AI 모델</a></h3>
-      <span class="badge badge-engagement">⬆ 7.4k</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">NVIDIA에서 제공하는 PersonaPlex 코드 저장소이다.</p>
-      <ul class="key-points"><li>NVIDIA의 개인화 AI 모델 관련 코드</li></ul>
-      <p class="why-it-matters">💡 개인화된 AI 모델 구현에 대한 실제 코드 예제를 참고할 수 있다.</p>
-      <div class="card-meta">
-        <span>via GitHub Trending</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/nvidiapersonaplex-python.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="general" data-topic="">
-      <h3><a href="https://github.com/anzellai/sky">Sky - Elm에서 영감을 받아 Go로 컴파일되는 언어</a></h3>
-      <span class="badge badge-engagement">⬆ 139</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Go의 실용성과 Elm의 우아함을 결합한 실험적 프로그래밍 언어로, 함수형 코드를 작성하고 단일 바이너리로 배포하는 풀스택 언어이다. TypeScript와 React 프론트엔드를 분리된 백엔드로 관리하는 복잡성을 해결하기 위해 설계되었다.</p>
-      <ul class="key-points"><li>Go의 빠른 컴파일과 정적 바이너리, Elm의 타입 시스템과 함수형 프로그래밍 특징 결합</li><li>Phoenix LiveView 영감의 서버 기반 UI로 프론트엔드/백엔드 분리 제거</li><li>AI 지원 개발(Claude Code)을 활용해 주 단위로 언어 개발 완성</li></ul>
-      <p class="why-it-matters">💡 풀스택 개발 시 프론트엔드/백엔드 간 타입 불일치와 복잡한 빌드 파이프라인 문제를 근본적으로 해결할 수 있는 새로운 선택지를 제공한다.</p>
+    <div class="article-card" data-labels="frontend,devops" data-topic="">
+      <h3><a href="https://printervention.app/details">WebUSB를 통한 구형 프린터 구출기: 브라우저 기반 Linux VM 활용</a></h3>
+      <span class="badge badge-engagement">⬆ 132</span><span class="badge badge-label badge-label-frontend">frontend</span><span class="badge badge-label badge-label-devops">devops</span>
+      <p class="summary">지원 중단된 구형 프린터를 브라우저 기반 Linux VM과 WebUSB를 통해 복구하는 프로젝트입니다. v86 에뮬레이터로 Alpine Linux와 CUPS를 실행하고 JavaScript를 통해 프린터와 직접 통신하는 웹앱입니다.</p>
+      <ul class="key-points"><li>v86을 이용해 브라우저에서 x86 머신 에뮬레이션하고 WebAssembly로 컴파일하여 성능 확보</li><li>WebUSB를 통해 브라우저에서 직접 프린터 제어 가능하게 구현</li><li>CUPS 백엔드와 v86 TTY 통신으로 원본 인쇄 데이터를 프린터로 전달</li></ul>
+      <p class="why-it-matters">💡 구형 하드웨어를 소프트웨어만으로 복구할 수 있다는 가능성을 보여주며, WebUSB와 WebAssembly의 창의적인 활용 사례를 제시합니다.</p>
       <div class="card-meta">
         <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/sky-an-elm-inspired-language-that-compiles-to-go.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/rescuing-old-printers-with-an-in-browser-linux-vm-bridged-to-webusb-over-usbip.html">📖 자세히 보기</a>
       </div>
     </div>
-    <div class="article-card" data-labels="ai,general" data-topic="">
-      <h3><a href="https://github.com/google-ai-edge/LiteRT-LM">google-ai-edge/LiteRT-LM - 경량 언어 모델</a></h3>
-      <span class="badge badge-engagement">⬆ 2.1k</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Google AI Edge에서 제공하는 LiteRT 기반 경량 언어 모델 저장소이다.</p>
-      <ul class="key-points"><li>에지 디바이스 최적화된 언어 모델</li></ul>
-      <p class="why-it-matters">💡 온디바이스에서 언어 모델을 효율적으로 실행하는 기술을 학습할 수 있다.</p>
+    <div class="article-card" data-labels="backend,devops" data-topic="">
+      <h3><a href="https://www.allthingsdistributed.com/2026/04/s3-files-and-the-changing-face-of-s3.html">S3 Files와 S3의 변화하는 모습</a></h3>
+      <span class="badge badge-engagement">⬆ 151</span><span class="badge badge-label badge-label-backend">backend</span><span class="badge badge-label badge-label-devops">devops</span>
+      <p class="summary">AWS의 Andy Warfield가 대용량 데이터 이동 시 S3와 로컬 파일시스템 간의 마찰을 해결하기 위해 S3 Files를 개발한 과정을 설명한다. 게놈 분석 연구에서 비롯된 이 아이디어는 미디어, 머신러닝, 과학 컴퓨팅 등 여러 분야에서 반복되는 '데이터 마찰' 문제를 해결하려 한다.</p>
+      <ul class="key-points"><li>대용량 데이터 작업 시 서로 다른 API와 저장소 인터페이스(S3 객체 저장소 vs 로컬 파일시스템)로 인해 반복적인 데이터 복사와 동기화가 발생하는 '데이터 마찰'이 핵심 문제다.</li><li>게놈 분석의 '버스트 병렬' 컴퓨팅 워크플로우(짧은 시간에 수십만 개의 병렬 작업 실행)에서 S3와 서버리스 컴퓨트의 조합이 비용 효율성과 성능을 제공했다.</li><li>에이전트 기반 개발 도구의 확산이 데이터 마찰을 더욱 증폭시키고 있으며, 이는 다양한 도구와 에이전트가 일관된 방식으로 데이터에 접근할 필요성을 강조한다.</li></ul>
+      <p class="why-it-matters">💡 클라우드 기반 데이터 처리 워크플로우에서 저장소 추상화 계층의 설계가 개발 생산성과 비용 효율성에 직접적 영향을 미친다는 점을 시사한다.</p>
+      <div class="card-meta">
+        <span>via Hacker News (Top)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/s3-files.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="ai" data-topic="">
+      <h3><a href="https://github.com/mattmireles/gemma-tuner-multimodal">Apple Silicon을 위한 Gemma 4 멀티모달 파인튜너</a></h3>
+      <span class="badge badge-engagement">⬆ 98</span><span class="badge badge-label badge-label-ai">ai</span>
+      <p class="summary">Mac에서 NVIDIA GPU 없이 Gemma 모델을 텍스트, 이미지, 오디오로 파인튜닝할 수 있는 도구입니다. GCS/BigQuery에서 스트리밍으로 학습 데이터를 로드하여 대용량 데이터도 로컬 SSD 부담 없이 처리할 수 있습니다.</p>
+      <ul class="key-points"><li>Apple Silicon(MPS) 네이티브 지원으로 고가의 NVIDIA GPU 불필요</li><li>텍스트+이미지, 오디오+텍스트 멀티모달 LoRA 파인튜닝 지원 (유일한 Apple Silicon 구현)</li><li>클라우드 스토리지에서 데이터 스트리밍으로 테라바이트 규모 학습 가능</li></ul>
+      <p class="why-it-matters">💡 개발자가 Mac만으로 멀티모달 AI 모델을 저비용으로 커스터마이징하고 로컬에서 운영할 수 있습니다.</p>
+      <div class="card-meta">
+        <span>via Hacker News (Top)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/show-hn-gemma-4-multimodal-fine-tuner-for-apple-silicon.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="typescript,general" data-topic="">
+      <h3><a href="https://github.com/tobi/qmd">tobi/qmd (TypeScript)</a></h3>
+      <span class="badge badge-engagement">⬆ 19.5k</span><span class="badge badge-label badge-label-typescript">typescript</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">문서, 지식 기반, 회의 노트 등을 대상으로 하는 미니 CLI 검색 엔진으로, 모든 처리가 로컬에서 이루어진다. 최신 검색 기법을 적용하면서도 완전히 오프라인으로 동작한다.</p>
+      <ul class="key-points"><li>로컬 환경에서만 동작하는 경량 검색 엔진으로, 개인 문서와 노트에 대한 프라이버시를 보호한다.</li><li>최신 검색 알고리즘을 적용하면서도 외부 의존성을 최소화한 설계를 추구한다.</li></ul>
+      <p class="why-it-matters">💡 개발자가 로컬 문서와 지식 기반에 빠르게 접근할 수 있는 도구로, 프라이버시 우려 없이 개인 개발 환경에 통합할 수 있다.</p>
+      <div class="card-meta">
+        <span>via GitHub Trending</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/tobiqmd-typescript.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="ai,backend" data-topic="">
+      <h3><a href="https://github.com/google-ai-edge/LiteRT-LM">Google AI Edge LiteRT-LM (C++)</a></h3>
+      <span class="badge badge-engagement">⬆ 2.5k</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-backend">backend</span>
+      <p class="summary">Google의 엣지 AI 프로젝트로, 경량 언어 모델을 로컬 기기에서 실행하기 위한 C++ 기반 런타임입니다.</p>
+      <ul class="key-points"><li>엣지 디바이스에서 경량 언어 모델 실행에 최적화된 프레임워크</li><li>온디바이스 추론으로 낮은 지연시간과 프라이버시 보장</li></ul>
+      <p class="why-it-matters">💡 개발자가 클라우드 의존 없이 로컬에서 빠르고 안전한 AI 기능을 구현할 수 있습니다.</p>
       <div class="card-meta">
         <span>via GitHub Trending</span>
         <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/google-ai-edgelitert-lm-c.html">📖 자세히 보기</a>
       </div>
     </div>
-    <div class="article-card" data-labels="ai,general" data-topic="">
-      <h3><a href="https://agentreadingtest.com">에이전트 읽기 테스트</a></h3>
-      <span class="badge badge-engagement">⬆ 53</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">AI 에이전트의 텍스트 이해 및 처리 능력을 평가하는 테스트 플랫폼입니다.</p>
-      <ul class="key-points"><li>AI 에이전트의 읽기 이해도 측정을 위한 표준화된 벤치마크 제공</li></ul>
-      <p class="why-it-matters">💡 개발자는 AI 에이전트의 신뢰성과 성능을 객관적으로 평가할 수 있습니다.</p>
-      <div class="card-meta">
-        <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/agent-reading-test.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="general" data-topic="">
-      <h3><a href="https://www.sandordargo.com/blog/2026/04/01/when-a-destructor-throws">소멸자(Destructor)에서 예외 발생 시 동작</a></h3>
-      <span class="badge badge-engagement">⬆ 13</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">C++에서 소멸자 내에서 예외가 발생할 때의 동작 원리와 문제점을 다루는 기술 블로그 글입니다.</p>
-      <ul class="key-points"><li>소멸자에서의 예외 발생이 프로그램 안정성에 미치는 영향</li><li>안전한 리소스 해제 패턴과 예외 처리 전략</li></ul>
-      <p class="why-it-matters">💡 C++ 개발자는 소멸자 설계 시 예외 안전성을 고려하여 메모리 누수와 정의되지 않은 동작을 방지해야 합니다.</p>
-      <div class="card-meta">
-        <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/what-happens-when-a-destructor-throws.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="general" data-topic="">
-      <h3><a href="https://github.com/solod-dev/solod">Solod: Go를 C로 변환하는 부분집합 언어</a></h3>
-      <span class="badge badge-engagement">⬆ 47</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Solod는 Go 문법으로 작성하지만 C11 코드로 컴파일되는 최소한의 Go 부분집합으로, 런타임이 없고 수동 메모리 관리를 지원하며 C와 완전히 상호운용됩니다.</p>
-      <ul class="key-points"><li>일반적인 Go 코드를 읽기 쉬운 C11로 변환: 구조체, 메서드, 인터페이스, 슬라이스, 다중 반환, defer 지원</li><li>런타임 없음 (GC, 참조 계산 없음), 스택 기본 할당, 힙은 명시적 opt-in, 기존 Go 도구 호환 (LSP, 린팅, go test)</li><li>채널, 고루틴, 클로저, 제네릭은 미지원, C 상호운용은 오버헤드 없음 (CGO 불필요)</li></ul>
-      <p class="why-it-matters">💡 시스템 프로그래머는 C의 성능과 제어를 유지하면서 Go의 간결한 문법, 타입 안전성, 개발 도구를 활용하여 생산성을 높일 수 있습니다.</p>
-      <div class="card-meta">
-        <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/solod-a-subset-of-go-that-translates-to-c.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="ai,general" data-topic="">
-      <h3><a href="https://github.com/Netflix/void-model">VOID: 비디오 객체 및 상호작용 삭제</a></h3>
-      <span class="badge badge-engagement">⬆ 101</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">VOID는 Netflix의 비디오 인페인팅 모델로, 객체 제거 시 그림자나 반사 같은 2차 효과뿐만 아니라 사람 제거 시 잡고 있던 기타가 떨어지는 식의 물리적 상호작용까지 자동으로 제거합니다. CogVideoX를 기반으로 상호작용 인식 마스크 컨디셔닝으로 미세 조정되었습니다.</p>
-      <ul class="key-points"><li>2단계 변환기 모델: Pass 1은 기본 인페인팅, Pass 2는 왜곡된 노이즈 정제로 시간적 일관성 향상</li><li>Gemini VLM과 SAM2 분할을 활용한 4채널 쿼드마스크 생성으로 객체, 오버랩, 영향받는 영역, 배경 구분</li><li>A100 같은 40GB+ VRAM GPU에서 추론 가능, HuggingFace에서 사전 학습 모델 제공</li></ul>
-      <p class="why-it-matters">💡 영상 제작 개발자와 VFX 팀은 물리법칙을 고려한 자동 객체 제거로 복잡한 수작업 합성 없이 자연스러운 비디오 편집이 가능합니다.</p>
-      <div class="card-meta">
-        <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/void-video-object-and-interaction-deletion.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="backend,general" data-topic="">
-      <h3><a href="https://antonz.org/porting-go-strings/">Go의 strings 패키지를 C로 포팅하기</a></h3>
-      <span class="badge badge-engagement">⬆ 52</span><span class="badge badge-label badge-label-backend">backend</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Go 개발자가 Go의 표준 라이브러리를 C로 포팅하는 과정을 다룬 글입니다. math/bits, unicode/utf8, bytes, strings 패키지를 C로 변환하면서 겪은 기술적 과제와 해결 방법을 설명합니다. 메모리 할당, UTF-8 처리, 연산자 우선순위 차이 등의 문제를 어떻게 극복했는지 보여줍니다.</p>
-      <ul class="key-points"><li>Go와 C의 비트 시프트 연산자 우선순위 차이로 인한 호환성 문제를 괄호로 해결</li><li>memcmp와 매크로를 활용한 효율적인 문자열/바이트 비교 구현</li><li>메모리 할당이 필요한 함수의 C 포팅 시 allocator 선택의 중요성</li></ul>
-      <p class="why-it-matters">💡 C로 고성능 시스템을 개발하는 개발자에게 Go의 검증된 알고리즘과 설계 패턴을 C에서 활용하는 방법을 제시합니다.</p>
-      <div class="card-meta">
-        <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/porting-gos-strings-package-to-c.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="frontend,general" data-topic="">
-      <h3><a href="https://github.com/TelegramMessenger/Telegram-iOS">Telegram-iOS</a></h3>
-      <span class="badge badge-engagement">⬆ 8.3k</span><span class="badge badge-label badge-label-frontend">frontend</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Telegram의 iOS 클라이언트 공식 저장소로, Swift로 구현된 메신저 애플리케이션의 소스 코드입니다.</p>
-      <ul class="key-points"><li>오픈소스 메시징 애플리케이션의 Swift 구현</li><li>대규모 iOS 프로젝트의 코드 구조 및 패턴 참고 가능</li></ul>
-      <p class="why-it-matters">💡 프로덕션 수준의 복잡한 iOS 애플리케이션 개발 패턴과 최적화 기법을 학습할 수 있습니다.</p>
+    <div class="article-card" data-labels="ai" data-topic="">
+      <h3><a href="https://github.com/NVIDIA/personaplex">NVIDIA PersonaPlex (Python)</a></h3>
+      <span class="badge badge-engagement">⬆ 7.9k</span><span class="badge badge-label badge-label-ai">ai</span>
+      <p class="summary">NVIDIA의 PersonaPlex 프로젝트로, 개인화된 AI 모델 구현을 위한 Python 라이브러리입니다.</p>
+      <ul class="key-points"><li>개인화된 AI 시스템 개발을 위한 NVIDIA 오픈소스 도구</li></ul>
+      <p class="why-it-matters">💡 개발자가 사용자 맞춤형 AI 모델을 효율적으로 구축할 수 있습니다.</p>
       <div class="card-meta">
         <span>via GitHub Trending</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/telegrammessengertelegram-ios-swift.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/nvidiapersonaplex-python.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="ai" data-topic="">
+      <h3><a href="https://github.com/HKUDS/DeepTutor">HKUDS DeepTutor (Python)</a></h3>
+      <span class="badge badge-engagement">⬆ 12.1k</span><span class="badge badge-label badge-label-ai">ai</span>
+      <p class="summary">&quot;DeepTutor: 에이전트 네이티브 개인화 학습 보조&quot; - 에이전트 기반 개인화 튜터링 시스템입니다.</p>
+      <ul class="key-points"><li>AI 에이전트 기반의 개인화 학습 지원 시스템</li></ul>
+      <p class="why-it-matters">💡 개발자가 적응형 교육 시스템과 개인화된 학습 경험을 구현할 수 있습니다.</p>
+      <div class="card-meta">
+        <span>via GitHub Trending</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/hkudsdeeptutor-python.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="ai,general" data-topic="">
+      <h3><a href="https://github.com/elebumm/RedditVideoMakerBot">Reddit 영상 제작 봇</a></h3>
+      <span class="badge badge-engagement">⬆ 10.0k</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">한 줄의 명령어로 Reddit 영상을 자동으로 생성하는 Python 기반 도구입니다.</p>
+      <ul class="key-points"><li>단일 명령어로 Reddit 컨텐츠 기반 영상 제작 자동화</li><li>오픈소스 프로젝트로 누구나 사용 가능</li></ul>
+      <p class="why-it-matters">💡 자동화된 콘텐츠 생성이 필요한 개발자나 크리에이터에게 시간을 절약할 수 있는 도구를 제공합니다.</p>
+      <div class="card-meta">
+        <span>via GitHub Trending</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/elebummredditvideomakerbot-python.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="ai" data-topic="">
+      <h3><a href="https://github.com/TheCraigHewitt/seomachine">SEO 머신: Claude Code 기반 블로그 콘텐츠 생성기</a></h3>
+      <span class="badge badge-engagement">⬆ 3.8k</span><span class="badge badge-label badge-label-ai">ai</span>
+      <p class="summary">Claude Code 기반 AI 워크스페이스로 장문의 SEO 최적화된 블로그 콘텐츠를 자동으로 생성, 분석, 최적화하는 도구입니다.</p>
+      <ul class="key-points"><li>AI를 활용해 리서치부터 최적화까지 전 과정 자동화</li><li>SEO 순위를 고려한 콘텐츠 생성으로 검색 엔진 최적화</li></ul>
+      <p class="why-it-matters">💡 콘텐츠 마케팅 자동화가 필요한 개발자나 마케터에게 AI 활용의 실제 사례를 제시합니다.</p>
+      <div class="card-meta">
+        <span>via GitHub Trending</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/thecraighewittseomachine-python.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="devops,backend" data-topic="">
+      <h3><a href="https://netbsd-cells.petermann-digital.de/">NetBSD Cells: 커널 기반 격리 시스템</a></h3>
+      <span class="badge badge-engagement">⬆ 32</span><span class="badge badge-label badge-label-devops">devops</span><span class="badge badge-label badge-label-backend">backend</span>
+      <p class="summary">NetBSD Cells는 커널 기반의 경량 격리 기능으로 chroot와 전체 가상화 사이의 간격을 메우는 시스템입니다. 강력한 프로세스 격리, 시스템 강화, 감시형 서비스 실행, 통합 생명주기 관리를 NetBSD 네이티브로 제공합니다.</p>
+      <ul class="key-points"><li>secmodel_cell 커널 보안 모델로 강제된 격리와 정책 집행을 핵심에서 처리</li><li>cellmgr 제어 평면으로 원하는 상태의 매니페스트 관리와 런타임 조정</li><li>cellui TUI를 통한 직관적 운영 및 cellctl로 CPU, 프로세스, 메모리 등 실시간 텔레메트리 제공</li></ul>
+      <p class="why-it-matters">💡 NetBSD 기반 시스템 운영자와 컨테이너 기술을 다시 생각하고 있는 개발자에게 커널 수준의 경량 격리 대안을 제시합니다.</p>
+      <div class="card-meta">
+        <span>via Hacker News (Top)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/cells-for-netbsd-kernel-enforced-jail-like-isolation.html">📖 자세히 보기</a>
       </div>
     </div>
     <div class="article-card" data-labels="backend,devops" data-topic="">
-      <h3><a href="https://github.com/guilherme-grimm/graph-go">Graph-go – 제로 설정, 완전한 가시성</a></h3>
-      <span class="badge badge-engagement">⬆ 5</span><span class="badge badge-label badge-label-backend">backend</span><span class="badge badge-label badge-label-devops">devops</span>
-      <p class="summary">Graph-go는 Go 애플리케이션의 동작을 시각화하고 모니터링하는 도구로, 복잡한 설정 없이 즉시 사용 가능한 전체 가시성을 제공합니다.</p>
-      <ul class="key-points"><li>Go 프로젝트에 대한 제로 설정 설치로 빠른 시작 가능</li><li>애플리케이션의 전체 실행 흐름 및 성능을 시각적으로 추적</li></ul>
-      <p class="why-it-matters">💡 Go 개발자가 디버깅과 성능 분석을 위해 복잡한 도구 설정 없이 애플리케이션의 동작을 즉시 파악할 수 있습니다.</p>
+      <h3><a href="https://www.redox-os.org/news/rsoc-dwrr/">RSoC 2026: Redox OS를 위한 새로운 CPU 스케줄러</a></h3>
+      <span class="badge badge-engagement">⬆ 12</span><span class="badge badge-label badge-label-backend">backend</span><span class="badge badge-label badge-label-devops">devops</span>
+      <p class="summary">Redox OS의 기존 Round Robin 스케줄러를 Deficit Weighted Round Robin(DWRR) 스케줄러로 교체했습니다. 새 스케줄러는 프로세스에 우선순위를 할당할 수 있으며, 고부하 상황에서 약 150 FPS 향상 및 CPU 바운드 작업에서 1.5배 성능 개선을 달성했습니다.</p>
+      <ul class="key-points"><li>DWRR 스케줄러는 여러 큐에 프로세스를 그룹화하고 각 큐에 우선순위를 할당하여 I/O 바운드 대화형 프로세스의 응답성을 개선합니다.</li><li>Interleaving 기법을 통해 높은 우선순위 작업과 낮은 우선순위 작업을 번갈아 처리하여 기아 상태를 방지합니다.</li><li>pixelcannon 3D 데모에서 150 FPS 이상의 성능 향상을 확인했습니다.</li></ul>
+      <p class="why-it-matters">💡 OS 수준의 스케줄링 개선은 시스템의 반응성과 전반적인 성능에 직접적으로 영향을 미쳐 개발자의 애플리케이션 성능을 향상시킵니다.</p>
       <div class="card-meta">
         <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/graph-go-zero-config-full-visibility.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/rsoc-2026-a-new-cpu-scheduler-for-redox-os.html">📖 자세히 보기</a>
       </div>
     </div>
-    <div class="article-card" data-labels="backend,general" data-topic="">
-      <h3><a href="https://github.com/roscopeco/anos">Show HN: Anos – x86-64 및 RISC-V용 수작업 약 100KiB 마이크로커널</a></h3>
-      <span class="badge badge-engagement">⬆ 32</span><span class="badge badge-label badge-label-backend">backend</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Anos는 x86-64와 RISC-V 아키텍처를 지원하는 소규모 마이크로커널 구현으로, 약 100KiB 크기로 최소한의 코드로 운영체제의 핵심 기능을 제공합니다.</p>
-      <ul class="key-points"><li>손으로 작성된 컴팩트한 커널 코드로 교육용 및 연구용으로 적합</li><li>다중 아키텍처(x86-64, RISC-V) 지원으로 플랫폼 이식성 시연</li></ul>
-      <p class="why-it-matters">💡 운영체제 개발자와 시스템 프로그래머가 복잡성 없이 커널의 핵심 개념을 이해하고 임베디드 시스템용 경량 커널을 개발할 때 참고할 수 있습니다.</p>
+    <div class="article-card" data-labels="frontend" data-topic="">
+      <h3><a href="https://middle-earth-interactive-map.web.app/">톨킨의 중간계 인터랙티브 맵</a></h3>
+      <span class="badge badge-engagement">⬆ 37</span><span class="badge badge-label badge-label-frontend">frontend</span>
+      <p class="summary">톨킨의 중간계(Middle-earth)를 대화형 지도로 표현하고 전설에 걸친 이벤트들을 마커로 표시한 웹 애플리케이션입니다.</p>
+      <ul class="key-points"><li>팬과 교육 목적으로 제작된 인터랙티브 지도입니다.</li></ul>
+      
       <div class="card-meta">
         <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/show-hn-anos-a-hand-written-100kib-microkernel-for-x86-64-and-risc-v.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="general" data-topic="">
-      <h3><a href="https://github.com/4RH1T3CT0R7/ttf-doom">Show HN: TTF-DOOM – TrueType 폰트 힌팅 내부에서 실행되는 레이캐스터</a></h3>
-      <span class="badge badge-engagement">⬆ 31</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">TTF-DOOM은 TrueType 폰트의 내장 가상 머신(힌팅 엔진)을 악용하여 구현한 DOOM 스타일의 3D 레이캐스터입니다. 6.5KB 크기의 폰트 파일 내에 완전한 레이캐스팅 엔진이 TrueType 바이트코드로 작성되어 있으며, JavaScript와 협력하여 게임을 구동합니다.</p>
-      <ul class="key-points"><li>TrueType 힌팅 VM이 Turing-complete임을 증명하며, 의도하지 않은 용도로 계산 능력 활용</li><li>DSL 컴파일러로 고급 언어를 TrueType 바이트코드로 변환하고, 고정소수점 산술과 재귀 루프로 3D 렌더링 구현</li><li>폰트 변이 축(font-variation-settings)을 통해 JavaScript와 통신하여 동적으로 장면 업데이트</li></ul>
-      <p class="why-it-matters">💡 시스템 프로그래머와 창의적인 개발자에게 기존 기술의 경계를 뛰어넘는 혁신적 활용 사례를 제시하며, 예상치 못한 플랫폼에서 복잡한 알고리즘을 구현할 수 있음을 보여줍니다.</p>
-      <div class="card-meta">
-        <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/show-hn-ttf-doom-a-raycaster-running-inside-truetype-font-hinting.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="frontend,general" data-topic="">
-      <h3><a href="https://shapemachine.xyz/tusk/">macOS와 Gnome용 Tusk</a></h3>
-      <span class="badge badge-engagement">⬆ 57</span><span class="badge badge-label badge-label-frontend">frontend</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Tusk는 Electron, 텔레메트리, 구독 요금 없이 네이티브로 작성된 PostgreSQL 클라이언트입니다. macOS는 SwiftUI, Gnome은 GTK4로 개발되었습니다.</p>
-      <ul class="key-points"><li>macOS(SwiftUI)와 Gnome(GTK4 + libadwaita) 모두 완전 네이티브 구현으로 가볍고 빠름</li><li>스키마 브라우저, SQL 에디터, 데이터 그리드, 연결 관리 등 포괄적인 기능 제공</li><li>오픈소스이며 Electron 기반의 무거운 대안들과 달리 경량 설계</li></ul>
-      <p class="why-it-matters">💡 PostgreSQL 개발자에게 플랫폼별 최적화된 경량 도구를 제공하여 개발 생산성을 향상시킵니다.</p>
-      <div class="card-meta">
-        <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/show-hn-tusk-for-macos-and-gnome.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/show-hn-an-interactive-map-of-tolkiens-middle-earth.html">📖 자세히 보기</a>
       </div>
     </div>
       <h2 class="section-header">💡 알면 좋은 정보</h2>
       
-    <div class="article-card" data-labels="ai,career" data-topic="ai-coding-limitations">
-      <h3><a href="https://github.com/anthropics/claude-code/issues/42796">이슈: Claude Code가 2월 업데이트 이후 복잡한 엔지니어링 작업에 사용 불가</a></h3>
-      <span class="badge badge-engagement">⬆ 819</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-career">career</span><span class="badge badge-cluster">관련 1건</span>
-      <p class="summary">사용자들의 로그 분석 결과, 2월 중순부터 시작된 Extended Thinking 콘텐츠 감소(redact-thinking-2026-02-12)가 Claude Code의 복잡한 엔지니어링 작업 품질 저하와 정확히 일치한다는 것을 발견했다. Extended Thinking이 단순한 옵션이 아닌 구조적으로 필요한 기능임을 데이터로 입증하고 있다.</p>
-      <ul class="key-points"><li>3월 8일 품질 저하 보고가 정확히 Thinking 블록 감소량이 50%를 넘은 날짜와 일치</li><li>Thinking 깊이 감소로 인해 Read:Edit 비율이 6.6에서 2.0으로 70% 감소, 코드 읽기 없이 수정하는 edit-first 패턴으로 변화</li><li>Stop hook 위반, 불완전한 수정, 소유권 회피 행동 등 정량적 품질 지표가 모두 악화(예: 불만 지시 사항 5.8% → 9.8%)</li></ul>
-      <p class="why-it-matters">💡 Claude Code 사용자는 현재 버전의 신뢰성 한계를 인식하고 작업 복잡도 조절이 필요하며, Anthropic은 Extended Thinking 할당 정책 검토가 긴급하다.</p>
+    <div class="article-card cluster-related" data-labels="ai,devops" data-topic="anthropic-glasswing">
+      <h3><a href="https://red.anthropic.com/2026/mythos-preview/">Claude Mythos Preview의 사이버보안 능력 평가</a></h3>
+      <span class="badge badge-engagement">⬆ 229</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-devops">devops</span><span class="badge badge-cluster">관련 2건</span>
+      <p class="summary">Anthropic이 새로운 언어모델 Claude Mythos Preview의 사이버보안 능력을 평가한 결과를 발표했다. 이 모델은 제로데이 취약점 발견 및 익스플로잇 자동 생성, 복잡한 멀티 취약점 연쇄 공격 등을 수행할 수 있으며, 공식 보안 교육을 받지 않은 엔지니어도 이를 활용할 수 있다. 이에 대응하기 위해 Anthropic은 Project Glasswing을 시작하여 산업 전반의 방어 체계 강화를 추진하고 있다.</p>
+      <ul class="key-points"><li>Mythos Preview는 모든 주요 운영체제와 웹브라우저에서 제로데이 취약점을 자동 발견 및 익스플로잇 할 수 있으며, 이전 모델(Opus 4.6)과 비교해 Firefox 익스플로잇 성공률이 0%에서 181/수백회로 급증했다.</li><li>모델이 구성한 익스플로잇은 4개 취약점 연쇄, JIT 힙 스프레이, 복잡한 ROP 체인 등 정교한 기법을 포함하며, 비전문가도 밤새 원격 코드 실행 취약점 익스플로잇을 획득할 수 있다.</li><li>발견된 취약점 중 99% 이상이 미패치 상태로 조율된 취약점 공개 프로세스에 따라 상세 정보 공개를 자제하고 있으며, 이는 사이버 방어 산업 전반에 즉각적 대응이 필요한 상황임을 의미한다.</li></ul>
+      <p class="why-it-matters">💡 AI 모델의 익스플로잇 자동화 능력이 급격히 향상되면서 기존 방어 전략의 근본적 재검토와 업계 차원의 조율된 대응이 필수적으로 요구된다.</p>
       <div class="card-meta">
         <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/issue-claude-code-is-unusable-for-complex-engineering-tasks-with-feb-updates.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/assessing-claude-mythos-previews-cybersecurity-capabilities.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card cluster-related" data-labels="ai" data-topic="anthropic-glasswing">
+      <h3><a href="https://www-cdn.anthropic.com/53566bf5440a10affd749724787c8913a2ae0841.pdf">시스템 카드: Claude Mythos Preview</a></h3>
+      <span class="badge badge-engagement">⬆ 470</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-cluster">관련 2건</span>
+      <p class="summary">Anthropic의 Claude Mythos Preview 모델에 대한 상세한 기술 문서로, 모델의 능력, 제한사항, 안전 고려사항 등을 다루는 공식 시스템 카드이다.</p>
+      <ul class="key-points"><li>공식 기술 문서: Mythos Preview의 특성과 성능을 체계적으로 설명하는 정식 카드이다.</li></ul>
+      <p class="why-it-matters">💡 모델 사용 시 능력과 한계를 명확히 이해하기 위한 필수 참고 자료이다.</p>
+      <div class="card-meta">
+        <span>via Hacker News (Top)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/system-card-claude-mythos-preview-pdf.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="frontend,general" data-topic="">
+      <h3><a href="https://javascriptweekly.com/issues/780">2026년 JavaScript에 대해 알아야 할 것</a></h3>
+      <span class="badge badge-label badge-label-frontend">frontend</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">2026년 JavaScript 생태계의 최신 동향을 종합적으로 정리한 가이드로, Google의 JSIR 중간 표현, 새로운 ECMAScript 기능, 프레임워크, 런타임, 빌드 도구 등을 다룬다. npm 공급망 침해 사건 분석, JetStream 3 벤치마크, 다양한 라이브러리 업데이트 정보도 포함된다.</p>
+      <ul class="key-points"><li>Google이 오픈소스한 JSIR(중간 표현)은 AST보다 상위 수준의 코드 의미 분석을 제공하며, 향후 더 나은 린터, 번들러, 리팩토링 도구의 기반이 될 수 있다.</li><li>npm 패키지 최소 공개 대기 기간 설정이 공급망 공격 방어의 실용적 기법으로 부상했으며, 소셜 엔지니어링 기법 분석도 공개되었다.</li><li>ESLint v10.2.0의 언어 인식 규칙, Node.js 25.9.0의 최대 힙 크기 설정, Babylon.js 9.0의 향상된 3D 렌더링 등 주요 도구 업데이트가 이루어졌다.</li></ul>
+      <p class="why-it-matters">💡 JavaScript 개발자가 공급망 보안, 언어 기능 진화, 도구 생태계 변화를 종합적으로 파악할 수 있어 프로젝트 기술 선택과 보안 전략 수립에 필수적이다.</p>
+      <div class="card-meta">
+        <span>via JavaScript Weekly</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/what-to-know-about-javascript-in-2026.html">📖 자세히 보기</a>
       </div>
     </div>
     <div class="article-card" data-labels="general" data-topic="">
-      <h3><a href="https://words.filippo.io/crqc-timeline/">암호학 엔지니어 관점에서의 양자컴퓨터 타임라인</a></h3>
-      <span class="badge badge-engagement">⬆ 369</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Google과 Oratomic의 최신 논문으로 양자컴퓨터가 256비트 타원곡선을 분해하는 데 필요한 물리 큐비트 수가 기존 예상보다 훨씬 적다는 것이 밝혀졌으며, 전문가들은 2029년을 양자 관련 암호화 위협의 마감선으로 제시합니다.</p>
-      <ul class="key-points"><li>Google 논문: NIST P-256 같은 256비트 타원곡선을 빠른 클록의 초전도 큐비트로 분 단위에 분해 가능</li><li>Oratomic 논문: 중립 원자 기술로 10,000개 물리 큐비트만으로 공격 가능, 월 1회 키 분해 시 재앙적 영향</li><li>Google과 Amazon의 암호학자들은 2029년을 양자 위협 마감선으로 설정, 포스트-양자 암호화 지금 배포 필요</li></ul>
-      <p class="why-it-matters">💡 개발자와 보안 엔지니어는 지금 즉시 ML-DSA 서명과 ML-KEM 키 교환으로 마이그레이션을 시작해야 2029년까지 양자 컴퓨터 위협으로부터 사용자를 보호할 수 있습니다.</p>
+      <h3><a href="https://www.juxt.pro/blog/a-bug-on-the-dark-side-of-the-moon/">Apollo 11 유도 컴퓨터 코드에서 57년간 미발견된 버그 발견</a></h3>
+      <span class="badge badge-engagement">⬆ 368</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">JUXT는 Claude와 자체 개발한 Allium 행동 명세 언어를 사용하여 Apollo Guidance Computer(AGC)의 130,000줄 어셈블리 코드를 분석하고 57년간 놓쳤던 버그를 발견했습니다. 자이로 제어 코드의 LGYRO 리소스 락이 오류 경로에서 해제되지 않아 유도 플랫폼의 정렬 능력을 침묵하게 비활성화합니다.</p>
+      <ul class="key-points"><li>LGYRO 락이 'Caging' 비상 상황에서 해제되지 않으면 모든 후속 자이로 토크 시도가 무한 대기 상태에 빠집니다.</li><li>형식 검증과 정적 분석을 통해 기존의 코드 읽기와 에뮬레이션으로는 놓친 결함을 발견했습니다.</li><li>달 뒤에서 Michael Collins가 P52 프로그램 재정렬 중 실수로 케이지 스위치를 누르면 이 버그가 발생할 수 있었습니다.</li></ul>
+      <p class="why-it-matters">💡 가장 검증된 코드에서도 형식 명세 기반 분석이 전통적 방법을 보완할 수 있으며, 자동화된 버그 탐지 기법의 가치를 시연합니다.</p>
       <div class="card-meta">
         <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/a-cryptography-engineers-perspective-on-quantum-computing-timelines.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/we-found-an-undocumented-bug-in-the-apollo-11-guidance-computer-code.html">📖 자세히 보기</a>
       </div>
     </div>
-    <div class="article-card" data-labels="career,general" data-topic="vibe-coding-debate">
-      <h3><a href="https://bramcohen.com/p/the-cult-of-vibe-coding-is-insane">Vibe 코딩 문화는 개발팀 테스팅의 과도한 확장이다</a></h3>
-      <span class="badge badge-engagement">⬆ 488</span><span class="badge badge-label badge-label-career">career</span><span class="badge badge-label badge-label-general">general</span><span class="badge badge-cluster">관련 1건</span>
-      <p class="summary">Vibe 코딩 문화가 dogfooding을 과도하게 진행하면서 생기는 문제점에 대한 비판적 분석이다.</p>
-      <ul class="key-points"><li>Vibe 코딩의 문제점에 대한 비판</li><li>개발팀의 자체 테스팅만으로는 부족함을 지적</li></ul>
-      <p class="why-it-matters">💡 코드 품질 검증과 테스트 프로세스의 중요성을 다시 생각해 볼 기회를 제공한다.</p>
+    <div class="article-card" data-labels="devops,backend" data-topic="">
+      <h3><a href="https://alt-romes.github.io/posts/2026-04-01-running-out-of-disk-space-on-launch.html">프로덕션 환경에서 디스크 공간 부족 대응기</a></h3>
+      <span class="badge badge-engagement">⬆ 137</span><span class="badge badge-label badge-label-devops">devops</span><span class="badge badge-label badge-label-backend">backend</span>
+      <p class="summary">40GB 디스크의 소규모 NixOS 서버에서 2.2GB 파일 다운로드 서비스를 시작한 직후, 수백 명의 동시 접속으로 디스크가 100% 찬 상황을 경험했다. 저자는 긴급하게 저널 로그 삭제, 패키지 스토어 정리, 데이터베이스 로그 제거 등으로 공간을 확보한 후, NixOS의 특성을 활용해 /nix/store를 별도 볼륨으로 마이그레이션하여 근본적으로 해결했다.</p>
+      <ul class="key-points"><li>디스크 부족 상황에서는 journalctl로 로그를 먼저 삭제해 명령어 실행을 가능하게 한 후, nix-collect-garbage와 데이터베이스 로그 정리로 순차적으로 공간을 확보하는 우선순위가 중요했다.</li><li>NixOS의 선언형 구성 시스템이 /nix/store를 새 볼륨으로 마이그레이션하는 과정을 단순화했으며, 이후 nginx 버퍼링으로 인한 남은 50-65% 디스크 사용률 문제를 식별할 수 있었다.</li><li>근본 원인은 대용량 파일 다운로드 중 nginx가 전체 파일을 메모리에 버퍼링하던 설정이었으며, 이는 구조 설계 단계에서 고려해야 할 용량 계획의 중요성을 시사한다.</li></ul>
+      <p class="why-it-matters">💡 프로덕션 장애 대응 시 긴급 완화와 근본 원인 파악의 프로세스, 그리고 인프라 도구의 특성을 활용한 확장성 확보의 실제 사례를 보여준다.</p>
       <div class="card-meta">
         <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/the-cult-of-vibe-coding-is-dogfooding-run-amok.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card cluster-related" data-labels="ai,career" data-topic="vibe-coding-debate">
-      <h3><a href="https://www.reddit.com/r/ClaudeAI/s/Vkkzi4lUW0">Vibe 코딩 프로젝트가 실패하는 이유</a></h3>
-      <span class="badge badge-engagement">⬆ 11</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-career">career</span><span class="badge badge-cluster">관련 1건</span>
-      <p class="summary">기술적 구조 없이 직관에만 의존하는 'vibe coding' 방식의 프로젝트가 실패하는 원인을 분석합니다.</p>
-      <ul class="key-points"><li>충분한 계획과 설계 없이 즉흥적으로 진행되는 프로젝트의 높은 실패율</li><li>일관성 있는 아키텍처와 명확한 요구사항 정의의 중요성</li></ul>
-      <p class="why-it-matters">💡 개발자는 체계적인 접근 방식의 중요성을 이해하고 프로젝트의 장기적 성공을 위해 초기 설계에 투자해야 합니다.</p>
-      <div class="card-meta">
-        <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/why-the-majority-of-vibe-coded-projects-fail.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="career,general" data-topic="">
-      <h3><a href="https://www.newyorker.com/magazine/2026/04/13/sam-altman-may-control-our-future-can-he-be-trusted">샘 알트먼이 우리의 미래를 통제할 수 있다 – 그를 믿을 수 있을까?</a></h3>
-      <span class="badge badge-engagement">⬆ 1.0k</span><span class="badge badge-label badge-label-career">career</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">뉴요커 매거진의 기사로, OpenAI의 리더인 샘 알트먼의 영향력과 신뢰성에 대한 심층 분석입니다.</p>
-      <ul class="key-points"><li>AI 산업의 리더로서 샘 알트먼의 결정이 사회에 미치는 영향 검토</li><li>기술 리더십의 투명성과 책임감 문제 제기</li></ul>
-      <p class="why-it-matters">💡 AI 기술의 미래 방향과 리더십의 신뢰성은 개발자 커뮤니티가 기술을 어떻게 활용할지에 영향을 미칩니다.</p>
-      <div class="card-meta">
-        <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/sam-altman-may-control-our-future-can-he-be-trusted.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/running-out-of-disk-space-in-production.html">📖 자세히 보기</a>
       </div>
     </div>
     <div class="article-card" data-labels="ai,general" data-topic="">
-      <h3><a href="https://www.showbiz411.com/2026/04/05/itunes-takeover-by-fake-ai-singer-eddie-dalton-now-occupies-eleven-spots-on-chart-despite-not-being-human-or-real-exclusive">AI 가수, iTunes 싱글 차트에서 11개 곡 차지 – 존재하지 않는 가수 '에디 달튼'</a></h3>
-      <span class="badge badge-engagement">⬆ 117</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">콘텐츠 크리에이터 Dallas Little이 생성한 AI 가수 'Eddie Dalton'이 iTunes 차트를 점령했습니다. 실제 음악 녹음 없이 프롬프트와 버튼만으로 생성된 음악이 11개 곡으로 상위권을 차지했으나, 판매량(6,900곡)과 차트 순위가 맞지 않아 의문의 여지가 있습니다.</p>
-      <ul class="key-points"><li>AI 음악 생성 기술로 대량의 곡을 빠르게 제작하여 차트 상위권 점령</li><li>실제 판매/스트리밍 수와 차트 순위의 불일치로 차트 시스템의 신뢰도 문제 노출</li></ul>
-      <p class="why-it-matters">💡 AI 생성 콘텐츠가 기존 미디어 플랫폼을 어떻게 교란할 수 있는지 보여주며, 개발자는 플랫폼의 신뢰성과 검증 메커니즘 설계의 중요성을 고려해야 합니다.</p>
+      <h3><a href="https://rajnandan.com/posts/taste-in-the-age-of-ai-and-llms/">AI와 LLM 시대의 미각(취향)</a></h3>
+      <span class="badge badge-engagement">⬆ 208</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">AI와 LLM이 평균적 품질의 결과물을 빠르게 생성하면서, 진정한 경쟁 우위는 취향과 판단력으로 이동했습니다. 좋은 취향은 AI 출력을 선택하는 것이 아니라, 무엇이 일반적이고 무엇이 가치있는지 거절할 수 있는 능력입니다.</p>
+      <ul class="key-points"><li>LLM의 패턴 압축 특성으로 평균적이고 일반적인 결과가 빠르게 생성되는 시대 도래</li><li>취향은 '분석 가능한 거절'로 정의되며, 모호한 비판에서 정확한 진단으로 발전해야 함</li><li>AI는 변형을 생성하지만 소유권과 맥락을 공급하는 것은 인간의 몫</li></ul>
+      <p class="why-it-matters">💡 개발자와 제품 리더는 AI를 선택 도구가 아닌 실행 도구로 활용하되, 명확한 판단력으로 지도할 수 있어야 합니다.</p>
       <div class="card-meta">
         <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/ai-singer-now-occupies-eleven-spots-on-itunes-singles-chart.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/taste-in-the-age-of-ai-and-llms.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="ai" data-topic="">
+      <h3><a href="https://www.danvk.org/2026/03/08/oldnyc-updates.html">AI를 활용한 OldNYC 사진 1만장 추가</a></h3>
+      <span class="badge badge-engagement">⬆ 108</span><span class="badge badge-label badge-label-ai">ai</span>
+      <p class="summary">2년에 걸쳐 OldNYC 사진 뷰어를 개선하여 역사 사진 4만9000장(기존 3만9000장에서 1만장 추가)을 더 정확한 위치정보와 함께 제공했습니다. GPT-4o로 지오로케이션 개선, OCR 성능 향상, OpenStreetMap으로 마이그레이션했습니다.</p>
+      <ul class="key-points"><li>GPT-4o API를 활용해 설명 텍스트에서 위치 정보 추출하여 6000장 추가 위치 파악</li><li>Google Maps에서 OpenStreetMap으로 전환하여 비용 절감($35/월 → 무료) 및 역사적 정확성 향상</li><li>gpt-4o-mini로 OCR 시스템 재구축하여 이전 맞춤형 Ocropus 파이프라인보다 더 나은 성능 달성</li></ul>
+      <p class="why-it-matters">💡 대규모 레거시 데이터 디지털화 프로젝트에서 현대 AI 도구의 실질적 활용 방법과 비용 효율화 전략을 보여줍니다.</p>
+      <div class="card-meta">
+        <span>via Hacker News (Top)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/ai-helps-add-10k-more-photos-to-oldnyc.html">📖 자세히 보기</a>
       </div>
     </div>
     <div class="article-card" data-labels="general" data-topic="">
-      <h3><a href="https://blog.ericgoldman.org/archives/2025/06/after-20-years-i-turned-off-google-adsense-for-my-websites.htm">20년 후 내 웹사이트에서 Google AdSense를 끄다</a></h3>
-      <span class="badge badge-engagement">⬆ 136</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">개발자이자 블로거인 Eric Goldman이 2005년부터 운영한 Google AdSense를 2025년에 종료한 이유와 경험을 공유합니다. 연 $100 정도의 미미한 수익, 콘텐츠 규칙 위반, 독자의 광고 불만, 그리고 법적 리스크 대비 이득 부족이 주요 이유입니다.</p>
-      <ul class="key-points"><li>20년간의 AdSense 경험에도 불구하고 최근에는 수익성과 가치가 크게 감소</li><li>AdSense의 광고 포맷 확대로 인한 페이지 오염과 독자 불만 증가</li><li>미미한 수익으로는 추가 법적 책임과 컴플라이언스 비용을 정당화할 수 없음</li></ul>
-      <p class="why-it-matters">💡 개인 프로젝트나 블로그의 수익화 전략 재검토를 촉구하며, 사용자 경험과 장기적 신뢰가 단기 광고 수익보다 중요함을 시사합니다.</p>
+      <h3><a href="https://nehanarula.org/2026/04/03/bitcoin-and-quantum-computing.html">비트코인과 양자 컴퓨팅</a></h3>
+      <span class="badge badge-engagement">⬆ 55</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">암호학적으로 관련된 양자 컴퓨터(CRQC)가 등장하면 비트코인의 서명이 깨질 것이며, 보안을 유지하려면 코드와 지갑 모두 업그레이드되어야 합니다. CRQC 출현 시간과 비트코인 업그레이드 성공 가능성이 주요 불확실성입니다.</p>
+      <ul class="key-points"><li>Google은 2029년까지 양자내성암호로 전환할 계획이며, 2030년까지 CRQC 존재 확률을 약 10%로 추정합니다.</li><li>Taproot 소프트 포크는 제안부터 활성화까지 3년 10개월이 소요되었으며, 지갑 지원까지 수개월에서 수년이 더 필요했습니다.</li><li>비트코인의 양자내성암호 시그니처 스킴 설계와 구현이 현재 매우 소수의 사람들만 작업 중입니다.</li></ul>
+      <p class="why-it-matters">💡 양자 컴퓨팅이 암호화폐의 기반을 위협하는 상황에서 개발자는 양자내성 알고리즘과 업그레이드 전략 개발에 참여해야 할 필요성을 이해해야 합니다.</p>
       <div class="card-meta">
         <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/after-20-years-i-turned-off-google-adsense-for-my-websites-2025.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/bitcoin-and-quantum-computing.html">📖 자세히 보기</a>
       </div>
     </div>
-    <div class="article-card" data-labels="career,general" data-topic="">
-      <h3><a href="https://belief.horse/notes/what-being-ripped-off-taught-me/">사기를 당한 것이 내게 가르친 것</a></h3>
-      <span class="badge badge-engagement">⬆ 348</span><span class="badge badge-label badge-label-career">career</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">저자가 중국의 증강현실 버스 투어 프로젝트에 참여했다가 경험한 기술적 무능과 관리 부실에 대한 상세한 기록입니다. 버전 관리 부재, 렌즈 왜곡 무시, GPU 과부하, 불안정한 GPS 등 근본적인 아키텍처 문제들과 팀의 거만함이 프로젝트 실패를 초래했습니다.</p>
-      <ul class="key-points"><li>버전 관리 없는 바이너리 코드 배포, 렌즈 왜곡·필드 뷰 미고려 등 기본적인 기술 원칙 무시</li><li>하드웨어 한계(직렬 OLED 과열, MDF 선반 위 서버 등)와 소프트웨어 아키텍처(alpha-to-transparency 35+ 레이어)의 혼합 오류</li><li>경험 부족과 거만함으로 인한 조언 거절, 필요한 기초 작업 무시</li></ul>
-      <p class="why-it-matters">💡 기술 프로젝트의 실패 요인으로서 기본 원칙(버전 관리, 아키텍처 설계)과 의사소통의 중요성을 보여주며, 개발자는 '가능한 것'과 '해야 할 것'을 구분해야 함을 강조합니다.</p>
+    <div class="article-card" data-labels="ai,general" data-topic="">
+      <h3><a href="https://github.com/forrestchang/andrej-karpathy-skills">Andrej Karpathy 기술 정리</a></h3>
+      <span class="badge badge-engagement">⬆ 8.0k</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">Andrej Karpathy의 개발 기술과 노하우를 정리한 저장소입니다.</p>
+      <ul class="key-points"><li>유명 AI/머신러닝 연구자의 기술 스택과 방법론 정리</li></ul>
+      <p class="why-it-matters">💡 머신러닝 분야에서 영향력 있는 인물의 접근 방식을 학습할 수 있습니다.</p>
       <div class="card-meta">
-        <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/what-being-ripped-off-taught-me.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="general" data-topic="">
-      <h3><a href="https://nxdomain.no/~peter/eighteen_years_of_greytrapping.html">18년의 그레이트래핑 – 결국 이 기상함이 효과를 거두고 있을까?</a></h3>
-      <span class="badge badge-engagement">⬆ 58</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">노르웨이의 메일 관리자가 2007년부터 운영한 그레이트래핑(spamtrap) 실험에 대한 회고록입니다. 2025년 8월 스팸트랩 수가 노르웨이 인구(560만)를 초과하는 562만 개에 도달했으며, OpenBSD의 spamd와 greylisting을 통한 스팸 방어의 장기 효과를 기록합니다.</p>
-      <ul class="key-points"><li>OpenBSD의 spamd와 greylisting, greytrapping 조합으로 단순한 네트워크 수준 기법이 극적인 효과 발휘</li><li>과거 2000년대에는 소규모 조직도 자체 메일 서비스 운영이 일반적이었으나, 현재는 클라우드 중앙화로 급변</li><li>개인 메일 서버 운영 시 Michael W. Lucas의 'Run Your Own Mail Server' 추천</li></ul>
-      <p class="why-it-matters">💡 인프라 보안과 프로토콜 준수의 효과를 장기간 검증한 사례로, 이메일 시스템 운영자와 보안 개발자에게 실질적 인사이트를 제공합니다.</p>
-      <div class="card-meta">
-        <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/eighteen-years-of-greytrapping-is-the-weirdness-finally-paying-off.html">📖 자세히 보기</a>
+        <span>via GitHub Trending</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/forrestchangandrej-karpathy-skills.html">📖 자세히 보기</a>
       </div>
     </div>
     <div class="article-card" data-labels="general" data-topic="">
-      <h3><a href="https://krebsonsecurity.com/2026/04/germany-doxes-unkn-head-of-ru-ransomware-gangs-revil-gandcrab/">독일 경찰, GandCrab과 REvil 랜섬웨어 집단의 alleged 지도자 공개</a></h3>
-      <span class="badge badge-engagement">⬆ 268</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">독일 연방범죄청(BKA)이 GandCrab과 REvil 랜섬웨어 집단을 주도한 러시아 해커 31세 Daniil Shchukin(별명 UNKN)과 43세 Anatoly Kravchuk을 공개했습니다. 두 사람은 2019-2021년 독일에서 약 130건의 컴퓨터 사보타주 및 갈취 행위로 약 2천만 유로의 경제 손실을 야기했습니다.</p>
-      <ul class="key-points"><li>GandCrab과 REvil은 '이중 갈취' 모델(복호화 키 비용 + 데이터 미공개 비용)을 개척한 초기 대규모 랜섬웨어 집단</li><li>2018년 GandCrab 출범 후 5개 버전 출시, 2019년 폐지 선언했으나 REvil로 재조직되어 활동 지속</li><li>Shchukin의 지갑에는 317,000달러 이상의 불법 암호화폐 보유 (2023년 미 법무부 압수 대상)</li></ul>
-      <p class="why-it-matters">💡 국제 해킹 집단의 적발과 신원 공개는 사이버 보안 위협 인텔과 법 집행의 진전을 보여주며, 개발자에게 랜섬웨어 방어와 보안 인프라의 중요성을 재강조합니다.</p>
+      <h3><a href="https://hellmood.111mb.de//A_whole_boss_fight_in_256_bytes.html">256바이트로 만든 완전한 보스 전투</a></h3>
+      <span class="badge badge-engagement">⬆ 35</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">256바이트라는 극도로 제한된 메모리로 완전한 보스 전투를 구현한 데모입니다.</p>
+      <ul class="key-points"><li>극한적 용량 제약 하에서의 게임 개발 사례입니다.</li></ul>
+      <p class="why-it-matters">💡 낮은 수준의 최적화 기법과 창의적인 알고리즘 설계의 중요성을 보여줍니다.</p>
       <div class="card-meta">
         <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/german-police-name-alleged-leaders-of-gandcrab-and-revil-ransomware-groups.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/a-whole-boss-fight-in-256-bytes.html">📖 자세히 보기</a>
       </div>
     </div>
     <div class="article-card" data-labels="general" data-topic="">
-      <h3><a href="https://www.stephendiehl.com/posts/no_antimimetics/">책 리뷰: 반밈 부서는 없다</a></h3>
-      <span class="badge badge-engagement">⬆ 215</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Stephen Diehl의 SCP Foundation 기반 과학소설 'There Is No Antimemetics Division' 리뷰입니다. 이 소설은 정보 이론으로 번역된 러브크래프트식 공포물로, 기억을 파괴하는 존재와 그에 맞서 약물로 기억을 강제하는 주인공의 투쟁을 다룹니다.</p>
-      <ul class="key-points"><li>아이디어의 현실성보다 정보가 더 실재하는 우주관에서 인식 자체가 공격 표면이 되는 공포</li><li>기억 소실과 정체성 문제를 탐구하며, 소프트웨어 유지보수자의 경험과 비유 (보상받지 못한 승리와 무시된 희생)</li></ul>
-      <p class="why-it-matters">💡 정보 시스템, 데이터 손실, 무음 실패(silent failure)를 다루는 개발자들에게 기술적 공포의 심층적 표현으로 공명할 수 있습니다.</p>
+      <h3><a href="https://pointc.co/design-for-the-roller-coaster/">롤러코스터 설계</a></h3>
+      <span class="badge badge-engagement">⬆ 5</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">롤러코스터 설계에 관한 콘텐츠입니다.</p>
+      
+      
       <div class="card-meta">
         <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/book-review-there-is-no-antimemetics-division.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/design-for-the-roller-coaster.html">📖 자세히 보기</a>
       </div>
     </div>
     <div class="article-card" data-labels="general" data-topic="">
-      <h3><a href="https://www.terrygodier.com/the-last-quiet-thing">마지막 조용한 것</a></h3>
-      <span class="badge badge-engagement">⬆ 170</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">저자는 12달러짜리 1989년식 카시오 시계와 400달러짜리 Apple Watch를 비교하며, 현대의 스마트 기기들이 지속적인 업데이트, 알림, 관리를 요구하는 '관계'로 변했음을 지적한다. 과거의 제품들은 구매 후 끝났지만, 오늘날의 기기들은 배터리 방전, 소프트웨어 업데이트, 구독 관리 등으로 인해 영원히 끝나지 않는 의무를 강요한다.</p>
-      <ul class="key-points"><li>현대 스마트 기기는 한 번의 구매가 아닌 지속적인 유지보수와 관계를 요구하는 '살아있는' 제품으로 변했다.</li><li>하루 중 스마트폰을 80~100회 집어들게 되며, 그 중 실제 의도적 사용은 20%에 불과하고 나머지는 알림 해제, 업데이트, 설정 관리 등이다.</li><li>1950년대 토스터는 레버를 누르면 끝났지만, 2024년의 모든 기기는 업데이트, 충전, 구성, 문제 해결 중 '절대 끝나지 않는' 상태에 있다.</li></ul>
-      <p class="why-it-matters">💡 개발자가 만드는 제품과 서비스가 사용자의 삶에 미치는 부담을 이해하고, 단순함과 완결성을 갖춘 기술 설계의 가치를 재고하도록 한다.</p>
+      <h3><a href="https://apnews.com/article/lego-bricks-for-blind-audio-braille-instructions-5a2a27de4354a0b1443171c3f24f29e4">시각장애인이 저시력 사용자들이 레고 세트를 조립할 수 있도록 가능하게 했습니다</a></h3>
+      <span class="badge badge-engagement">⬆ 36</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">시각장애인 Matthew Shifrin은 'Bricks for the Blind' 비영리 단체를 통해 사이트와 시각장애인 자원봉사자들이 함께 작성한 무료 접근성 지침으로 수백 개의 레고 세트 조립을 가능하게 했습니다.</p>
+      <ul class="key-points"><li>점자 터미널, 오디오 지침, 촉각 인식 등 다양한 접근성 기술을 활용한 레고 조립 가이드입니다.</li><li>사이트와 시각장애인 모두의 자원봉사자가 협력하여 포용적 지침을 작성합니다.</li></ul>
+      <p class="why-it-matters">💡 접근성 설계는 모든 사용자를 포함하는 소프트웨어 및 문서 작성의 중요성을 보여줍니다.</p>
       <div class="card-meta">
         <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/the-last-quiet-thing.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/a-blind-man-made-it-possible-for-others-with-low-vision-to-build-lego-sets.html">📖 자세히 보기</a>
       </div>
     </div>
     <div class="article-card" data-labels="general" data-topic="">
-      <h3><a href="https://www.govauctions.app/">GovAuctions - 정부 경매를 한 곳에서 검색하기</a></h3>
-      <span class="badge badge-engagement">⬆ 239</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">GovAuctions는 GSA Auctions, HUD 등 여러 정부 기관의 잉여 자산 경매를 하나의 통합 검색 인터페이스로 제공한다. 사용자는 키워드, 카테고리, 주, 거리로 필터링하여 정부 잉여 자산(차량, 전자제품, 장비 등)을 검색한 후 원래 경매 플랫폼으로 직접 입찰할 수 있다.</p>
-      <ul class="key-points"><li>GSA Auctions, HUD 등 여러 산재된 정부 경매 플랫폼을 하나의 깔끔한 인터페이스로 통합했다.</li><li>중개자 없이 직접 정부 경매에 접근 가능하며, 이메일 알림 설정과 검색은 무료이고 가입도 불필요하다.</li><li>미국 정부가 매년 수십억 달러 규모의 잉여 자산을 경매하는데, 이를 효율적으로 찾을 수 있다.</li></ul>
-      <p class="why-it-matters">💡 공개된 정부 데이터를 실용적인 애플리케이션으로 통합하는 좋은 예시이며, 개발자들이 서로 다른 소스의 데이터를 단일 인터페이스로 제공하는 방식을 배울 수 있다.</p>
+      <h3><a href="https://sam-burns.com/posts/concrete-laptop-stand/">브루탈리즘 콘크리트 노트북 스탠드 (2024)</a></h3>
+      <span class="badge badge-engagement">⬆ 677</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">개발자가 브루탈리즘 건축 미학을 좋아해 콘크리트로 노트북 스탠드를 제작했다. USB 충전 포트, 3핀 플러그 소켓, 일체형 화분 등의 기능을 갖추고 있으며, 녹슨 철근과 노출된 와이어로 도시 붕괴 미학을 표현했다.</p>
+      <ul class="key-points"><li>콘크리트 혼합 후 의도적으로 불완전하게 섞어 표면에 모래와 시멘트 비율을 다르게 하고, 사포질로 자갈을 노출시켜 노후화된 외관 구현</li><li>암모니아와 물로 와이어를 분무처리하고, 염분과 과산화수소로 철근을 녹슬게 하여 진정성 있는 부식 효과 생성</li><li>일체형 화분에 스트링 오브 펄스(String of Pearls) 식물을 심어 방치된 건물의 덩굴식물을 연상하게 디자인</li></ul>
+      
       <div class="card-meta">
         <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/show-hn-govauctions-lets-you-browse-government-auctions-at-once.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/show-hn-brutalist-concrete-laptop-stand-2024.html">📖 자세히 보기</a>
       </div>
     </div>
     <div class="article-card" data-labels="general" data-topic="">
-      <h3><a href="https://www.wesnoth.org">Battle for Wesnoth: 오픈소스 턴 기반 전략 게임</a></h3>
-      <span class="badge badge-engagement">⬆ 410</span><span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Battle for Wesnoth 웹사이트는 현재 AI 스크래핑으로부터 보호하기 위해 Anubis라는 Proof-of-Work 검증 시스템을 운영 중이다. 이는 Hashcash 방식을 기반으로 하며, 개별 사용자에게는 미미한 부하이지만 대규모 스크래퍼에게는 높은 비용을 부과한다.</p>
-      <ul class="key-points"><li>Anubis는 AI 스크래핑으로부터 서버를 보호하기 위한 Proof-of-Work 기반의 검증 메커니즘이다.</li><li>개별 사용자는 무시할 수 있는 수준의 추가 부하를 받지만, 대규모 자동화된 스크래핑은 비용이 크게 증가한다.</li><li>향후 헤드리스 브라우저 식별(폰트 렌더링 등)을 통해 정당한 사용자에게는 검증 페이지를 보이지 않을 계획이다.</li></ul>
-      <p class="why-it-matters">💡 AI와 웹 스크래핑이 증가하는 상황에서 웹사이트를 보호하면서도 정당한 사용자 경험을 유지하는 실용적인 기술 접근 방식을 제시한다.</p>
+      <h3><a href="https://onedollar.today/">2000년 이후 USD 구매력 실시간 추이</a></h3>
+      <span class="badge badge-engagement">⬆ 24</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">2000년 1월 이후 미국 달러의 실제 구매력이 실시간으로 감소하는 모습을 시각화한 사이트다. 미국 노동통계청의 CPI-U 데이터를 기반으로 월간 인플레이션 데이터를 초단위로 세분화하여 표시한다.</p>
+      <ul class="key-points"><li>노동통계청 공식 CPI-U(모든 항목, 미국 도시 평균, 계절 조정 미적용) 데이터를 기반으로 실시간 업데이트</li><li>최근 두 달간 월별 CPI 수치에서 관찰된 변화율을 초 단위로 나누어 현재 순간까지 확장하여 표시</li></ul>
+      
       <div class="card-meta">
         <span>via Hacker News (Top)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/battle-for-wesnoth-open-source-turn-based-strategy-game.html">📖 자세히 보기</a>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/usd-purchasing-power-in-real-time-since-2000.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="general" data-topic="">
+      <h3><a href="https://www.jakeworth.com/posts/how-to-get-better-at-guitar/">기타를 잘 치는 방법</a></h3>
+      <span class="badge badge-engagement">⬆ 128</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">기타 교사 Justin Sandercoe의 방식을 소개하는 글로, 타블래처 학습에서 벗어나 귀로 듣고 따라하는 음역 방식의 효과를 설명한다. 곡을 선택하고, 멈추며 음을 찾아 적고, 온라인 악보와 비교하며 검증하는 과정을 통해 음악적 청음 능력과 근육 기억을 동시에 발달시킨다.</p>
+      <ul class="key-points"><li>쉬운 곡(예: 'Breaking the Law', 'The Distance' 등)부터 시작하여 한 번에 한 음씩 멈춰 듣고 기타에서 찾아 악보지에 기록하는 음역 과정 수행</li><li>완성한 악보를 온라인 자료와 비교하며 검증하고, 뮤직비디오로 주법과 카포 등 시각적 정보까지 확인하여 정확도 높임</li><li>학습한 곡들을 플레이리스트로 만들어 반복 연습하면서 리프가 아닌 전체 곡(인트로, 코러스, 브릿지)을 학습하는 것이 전문 기타리스트의 방식</li></ul>
+      <p class="why-it-matters">💡 체계적인 학습법 없이 무작정 따라하는 것보다 듣고, 찾고, 검증하는 반복 과정이 음악적 능력을 더 효과적으로 발전시킨다.</p>
+      <div class="card-meta">
+        <span>via Hacker News (Top)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/how-to-get-better-at-guitar.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="general" data-topic="">
+      <h3><a href="https://www.nasa.gov/gallery/lunar-flyby/">달 비행체</a></h3>
+      <span class="badge badge-engagement">⬆ 177</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">NASA의 달 비행체 관련 갤러리 페이지다.</p>
+      
+      
+      <div class="card-meta">
+        <span>via Hacker News (Top)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/lunar-flyby.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="general" data-topic="">
+      <h3><a href="https://www.americanjazzmusicsociety.com/blog/john-coltrane-draws">존 콜트레인이 설명하는 재즈의 수학</a></h3>
+      <span class="badge badge-engagement">⬆ 94</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">존 콜트레인의 음악적 구조에 담긴 수학적 원리를 다룬 글이다.</p>
+      
+      
+      <div class="card-meta">
+        <span>via Hacker News (Top)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/john-coltrane-illustrates-the-mathematics-of-jazz.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="general" data-topic="">
+      <h3><a href="https://www.smithsonianmag.com/smart-news/a-truck-drive-spent-20-years-making-this-astonishing-scale-model-of-every-single-building-in-new-york-city-180988443/">트럭 운전사가 20년에 걸쳐 뉴욕시의 모든 건물 축소 모형을 제작하다</a></h3>
+      <span class="badge badge-engagement">⬆ 218</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">트럭 운전사 조 매켄이 2004년부터 20년 이상 바사 목재로 뉴욕시의 모든 건물을 축소 모형으로 제작했다. 1,350제곱피트 규모의 완성된 작품은 2024년 뉴욕시 박물관에 'He Built This City: Joe Macken's Model' 전시로 개막했으며, 약 100만 개의 구조물을 포함하고 있다.</p>
+      <ul class="key-points"><li>1:2,400 스케일의 모형으로 뉴욕시 5개 자치구는 물론 뉴저지와 롱아일랜드의 나소 카운티까지 포함하며, 약 2만 달러의 엘머스 글루, 아크릴 물감, X-Acto 칼로 자른 바사 목재 사용</li><li>320개 섹션(각각 약 1제곱마일)으로 구성되어 있으며, 목재 건물, 칠해진 공원, 인공 나무 등으로 도시 전체를 세밀하게 구현</li><li>어린 시절 1964년 세계박람회 파노라마 모형을 본 후 영감을 받아 30년 뒤 록펠러 센터 모형부터 시작, 거의 매일 작업하며 지속적으로 확장</li></ul>
+      <p class="why-it-matters">💡 한 개인의 오랜 노력과 창의성이 역사적, 건축적 가치를 담은 공공 문화유산이 될 수 있음을 보여주는 사례이다.</p>
+      <div class="card-meta">
+        <span>via Hacker News (Top)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/a-truck-driver-spent-20-years-making-a-scale-model-of-every-building-in-nyc.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="general" data-topic="">
+      <h3><a href="https://www.movedetroit.com/program">Move Detroit</a></h3>
+      <span class="badge badge-engagement">⬆ 27</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">Move Detroit 프로그램 페이지다.</p>
+      
+      
+      <div class="card-meta">
+        <span>via Hacker News (Top)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/move-detroit.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="general" data-topic="">
+      <h3><a href="https://animationobsessive.substack.com/p/the-image-boards-of-hayao-miyazaki">하야오 미야자키의 이미지 보드</a></h3>
+      <span class="badge badge-engagement">⬆ 74</span><span class="badge badge-label badge-label-general">general</span>
+      <p class="summary">하야오 미야자키의 이미지 보드(스토리보드)에 관한 글이다.</p>
+      
+      
+      <div class="card-meta">
+        <span>via Hacker News (Top)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/the-image-boards-of-hayao-miyazaki.html">📖 자세히 보기</a>
       </div>
     </div>
       <h2 class="section-header">🎬 새 영상 알림</h2>
       
-    <div class="article-card cluster-related" data-labels="ai,career" data-topic="ai-coding-limitations">
-      <h3><a href="https://www.youtube.com/watch?v=stZr6U_7S90">Claude Code 현재 사용 불가 상태</a></h3>
-      <span class="badge badge-video">▶ Video</span><span class="badge badge-label badge-label-ai">ai</span><span class="badge badge-label badge-label-career">career</span><span class="badge badge-cluster">관련 1건</span>
-      <p class="summary">Claude Code가 복잡한 엔지니어링 작업에서 심각한 기능 저하를 겪고 있으며, 사용자들이 실제로 사용 불가능한 상태라고 보고하고 있다.</p>
-      <ul class="key-points"><li>Claude Code의 기능 저하로 인해 개발자 생산성 심각 영향</li><li>2월 업데이트 이후 문제 발생, 복잡한 엔지니어링 작업 처리 불가</li></ul>
-      <p class="why-it-matters">💡 Claude Code 기반 개발 워크플로우의 신뢰성 문제로 인한 프로젝트 영향도 평가 필요하다.</p>
-      <div class="card-meta">
-        <span>via Theo (t3.gg)</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/claude-code-is-unusable-now.html">📖 자세히 보기</a>
-      </div>
-    </div>
-    <div class="article-card" data-labels="frontend,devops" data-topic="cursor-ide-update">
-      <h3><a href="https://www.youtube.com/watch?v=JSuS-zXMVwE">Cursor, VS Code와 결별했지만 모두가 환영하지는 않음</a></h3>
-      <span class="badge badge-video">▶ Video</span><span class="badge badge-label badge-label-frontend">frontend</span><span class="badge badge-label badge-label-devops">devops</span>
-      <p class="summary">Cursor가 VS Code 기반에서 벗어난 변화로 인해 개발자 커뮤니티 내에서 긍정과 부정의 반응이 섞여 있다.</p>
-      <ul class="key-points"><li>Cursor의 아키텍처 변경은 성능 개선과 기능 확대 가능성을 제시</li><li>기존 VS Code 사용자들 사이에서는 호환성 상실에 대한 우려가 존재</li></ul>
-      <p class="why-it-matters">💡 AI 코딩 어시스턴트의 기술 선택이 개발 도구 생태계에 미치는 영향을 보여준다.</p>
+    <div class="article-card" data-labels="frontend" data-topic="">
+      <h3><a href="https://www.youtube.com/watch?v=JSuS-zXMVwE">Cursor가 VS Code를 버렸지만, 모두가 만족하진 않습니다</a></h3>
+      <span class="badge badge-video">▶ Video</span><span class="badge badge-label badge-label-frontend">frontend</span>
+      <p class="summary">AI 코딩 에디터 Cursor가 VS Code 기반에서 독자 구현으로 전환한 것에 대한 커뮤니티 반응을 다룬 영상입니다.</p>
+      <ul class="key-points"><li>Cursor의 아키텍처 변화에 따른 개발자 의견 분분</li><li>독립적 에디터 구현의 장단점 논의</li></ul>
+      <p class="why-it-matters">💡 AI 기반 개발 도구 선택 시 아키텍처와 생태계 영향을 이해해야 합니다.</p>
       <div class="card-meta">
         <span>via Fireship</span>
         <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/cursor-ditches-vs-code-but-not-everyone-is-happy.html">📖 자세히 보기</a>
       </div>
     </div>
-    <div class="article-card" data-labels="general" data-topic="">
-      <h3><a href="https://syntax.fm/993">993: 정말 힘든 한 주</a></h3>
-      <span class="badge badge-label badge-label-general">general</span>
-      <p class="summary">Syntax 팟캐스트 에피소드로, Claude Code 소스 유출, Axios npm 공급망 해킹, Railway 프라이빗 캐시 노출 등 최근 개발 커뮤니티를 강타한 보안 사건들을 다룹니다. 비슷한 악몽의 시나리오로부터 자신의 프로젝트를 보호하는 방법도 함께 논의합니다.</p>
-      <ul class="key-points"><li>Claude Code 소스 코드 유출 사건의 영향과 대응 방안 분석</li><li>npm 패키지 공급망 보안 위협(Axios 해킹 사례) 및 프라이빗 데이터 노출 방지법 논의</li></ul>
-      <p class="why-it-matters">💡 개발자가 최근의 주요 보안 사건을 이해하고 자신의 프로젝트와 의존성을 보호하기 위한 실질적인 보안 관행을 습득할 수 있습니다.</p>
+    <div class="article-card" data-labels="frontend" data-topic="">
+      <h3><a href="https://www.youtube.com/watch?v=NBjycPpPHQQ">당신이 사용해야 할 저평가된 React 훅</a></h3>
+      <span class="badge badge-video">▶ Video</span><span class="badge badge-label badge-label-frontend">frontend</span>
+      <p class="summary">영상 콘텐츠로 React의 특정 훅에 대한 실용적 사용 사례를 소개하는 내용이다.</p>
+      
+      <p class="why-it-matters">💡 본문이 제공되지 않아 구체적 분석이 불가능하다.</p>
       <div class="card-meta">
-        <span>via Syntax.fm</span>
-        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/993-its-been-a-hell-of-week.html">📖 자세히 보기</a>
+        <span>via Web Dev Simplified</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/you-need-to-start-using-this-underrated-react-hook.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="frontend,ai" data-topic="">
+      <h3><a href="https://www.youtube.com/watch?v=TilDSWeiAlw">에이전트를 제한하고 있는 언어</a></h3>
+      <span class="badge badge-video">▶ Video</span><span class="badge badge-label badge-label-frontend">frontend</span><span class="badge badge-label badge-label-ai">ai</span>
+      <p class="summary">AI 에이전트의 성능을 제약하는 언어의 문제점을 다루는 YouTube 영상입니다.</p>
+      <ul class="key-points"><li>에이전트 개발에서 프로그래밍 언어의 역할과 한계 분석</li></ul>
+      <p class="why-it-matters">💡 AI 에이전트 개발자들이 언어 선택의 영향을 이해하는 데 도움이 됩니다.</p>
+      <div class="card-meta">
+        <span>via Theo (t3.gg)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/the-language-holding-our-agents-back.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="ai" data-topic="">
+      <h3><a href="https://www.youtube.com/watch?v=stZr6U_7S90">Claude Code 현재 사용 불가능 상태</a></h3>
+      <span class="badge badge-video">▶ Video</span><span class="badge badge-label badge-label-ai">ai</span>
+      <p class="summary">Claude Code의 현재 사용성 문제를 다루는 YouTube 영상입니다.</p>
+      <ul class="key-points"><li>Claude Code 도구의 실제 운영상 이슈 점검</li></ul>
+      <p class="why-it-matters">💡 Claude Code 사용자들이 알아야 할 현재 상태와 한계를 파악하는 데 도움이 됩니다.</p>
+      <div class="card-meta">
+        <span>via Theo (t3.gg)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/claude-code-is-unusable-now.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="frontend" data-topic="">
+      <h3><a href="https://www.youtube.com/watch?v=hgOJH9bp75k">모두가 놓친 Emdash, Cloudflare의 WordPress 대체제</a></h3>
+      <span class="badge badge-video">▶ Video</span><span class="badge badge-label badge-label-frontend">frontend</span>
+      <p class="summary">Cloudflare의 Emdash 플랫폼에 대한 분석 영상으로, WordPress 대체 솔루션으로서의 특징과 잠재력을 다룹니다.</p>
+      <ul class="key-points"><li>Cloudflare의 새로운 콘텐츠 관리 플랫폼</li><li>WordPress의 기능을 현대적으로 재해석한 대안</li></ul>
+      <p class="why-it-matters">💡 개발자는 전통적 CMS를 넘어 클라우드 기반의 새로운 웹 발행 옵션을 검토할 수 있습니다.</p>
+      <div class="card-meta">
+        <span>via James Q Quick</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/what-everyone-missed-about-emdash-cloudflares-wordpress-alternative.html">📖 자세히 보기</a>
+      </div>
+    </div>
+    <div class="article-card" data-labels="frontend" data-topic="">
+      <h3><a href="https://www.youtube.com/watch?v=70o7CmZ_hh8">CSS 초보자입니다</a></h3>
+      <span class="badge badge-video">▶ Video</span><span class="badge badge-label badge-label-frontend">frontend</span>
+      <p class="summary">CSS 기초를 배우는 YouTube 튜토리얼 영상입니다.</p>
+      <ul class="key-points"><li>CSS 초급자 대상 학습 자료</li></ul>
+      <p class="why-it-matters">💡 웹 개발 기초 스킬을 습득할 수 있습니다.</p>
+      <div class="card-meta">
+        <span>via Kevin Powell (CSS)</span>
+        <a class="detail-link" href="https://jiehoonpark.github.io/development-digest/2026/04/07/im-a-css-noob.html">📖 자세히 보기</a>
       </div>
     </div>
   </main>

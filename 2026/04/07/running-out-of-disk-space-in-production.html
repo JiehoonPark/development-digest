@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>프로덕션 환경에서 디스크 공간 부족 대응기 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/07/">2026-04-07</a> &gt; 프로덕션 환경에서 디스크 공간 부족 대응기...
+      </div>
+
+      <h1>프로덕션 환경에서 디스크 공간 부족 대응기</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Running out of disk space in production</p>
+      <div class="article-meta">
+        <span>📅 2026-04-07</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 137</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>40GB 디스크의 소규모 NixOS 서버에서 2.2GB 파일 다운로드 서비스를 시작한 직후, 수백 명의 동시 접속으로 디스크가 100% 찬 상황을 경험했다. 저자는 긴급하게 저널 로그 삭제, 패키지 스토어 정리, 데이터베이스 로그 제거 등으로 공간을 확보한 후, NixOS의 특성을 활용해 /nix/store를 별도 볼륨으로 마이그레이션하여 근본적으로 해결했다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>디스크 부족 상황에서는 journalctl로 로그를 먼저 삭제해 명령어 실행을 가능하게 한 후, nix-collect-garbage와 데이터베이스 로그 정리로 순차적으로 공간을 확보하는 우선순위가 중요했다.</li><li>NixOS의 선언형 구성 시스템이 /nix/store를 새 볼륨으로 마이그레이션하는 과정을 단순화했으며, 이후 nginx 버퍼링으로 인한 남은 50-65% 디스크 사용률 문제를 식별할 수 있었다.</li><li>근본 원인은 대용량 파일 다운로드 중 nginx가 전체 파일을 메모리에 버퍼링하던 설정이었으며, 이는 구조 설계 단계에서 고려해야 할 용량 계획의 중요성을 시사한다.</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>프로덕션 장애 대응 시 긴급 완화와 근본 원인 파악의 프로세스, 그리고 인프라 도구의 특성을 활용한 확장성 확보의 실제 사례를 보여준다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>서버 용량 부족 사태, 어떻게 해결했나</h2>
+<p>어제 밤 고객들이 Kanjideck 디지털 파일을 다운로드할 수 있는 간단한 서버를 운영하기 시작했습니다. 서버는 Hetzner의 작은 머신에서 NixOS를 돌리고 있는데, RAM 4GB, 디스크 40GB 정도의 사양이죠. 다운로드 가능한 파일 중에는 2.2GB짜리도 있습니다.</p>
+<p>기술적으로는 간단했습니다. Haskell로 만든 프로그램이 정적 파일을 제공하고(인증 로직은 좀 복잡하지만), nginx 리버스 프록시가 요청을 이 프로그램으로 넘기는 구조였거든요.</p>
+<h3>첫 번째 위기: 갑작스러운 트래픽</h3>
+<p>파일 공개 소식을 알린 지 몇 분도 안 되어 수백 명의 고객이 서버에 몰렸습니다.</p>
+<p>로그가 화면을 휩쓸고 지나가는데, 같은 메시지가 계속 반복되는 게 보였어요.</p>
+<pre><code>Mar 31 20:43:03 mogbit kanjideck-fulfillment[2528300]: user error
+(Unexpected reply to: MAIL &quot;&lt;...&gt; at kanjideck.com&quot;,
+Expected reply code: 250, Got this instead: 452 &quot;4.3.1 Insufficient system storage\r\n&quot;)</code></pre>
+<p>이미 고객 불만 이메일이 들어오고 있었습니다. 서버 문제를 해결 중이라는 메시지를 보냈는데, Grafana를 보니 디스크가 40GB/40GB 완전히 찼다고 뜹니다. <code>df -h</code>도 <code>/dev/sda</code>가 100% 사용 중이라고 표시했어요.</p>
+<p>급하게 <code>du -sh</code>로 용량을 확인해보니 두 가지가 주범이었습니다.</p>
+<ul>
+<li><code>/var/lib</code>의 Plausible Analytics (ClickHouse 데이터베이스): 8.5GB</li>
+<li><code>/nix/store</code> (서버 설정, 설치 파일, 실행 파일): 15GB</li>
+</ul>
+<h3>응급 조치: 디스크 정리</h3>
+<p>일단 <code>/nix/store</code>부터 정리하려고 했습니다. 불필요한 실행 파일과 이전 설정들이 있을 테니까요.</p>
+<pre><code class="language-bash">$ nix-collect-garbage -d</code></pre>
+<p>그런데 이 명령이 실패했습니다.</p>
+<pre><code>removing old generations of profile /nix/var/nix/profiles/system
+error: opening lock file '/nix/var/nix/profiles/system.lock': No space left on device</code></pre>
+<p>디스크가 너무 찼아서 정리 명령 자체도 못 하는 상황이었네요. 한편 고객들은 계속 다운로드 시도를 하고 있고, 서버는 계속 에러를 뱉어내고 있었습니다.</p>
+<p>먼저 로그를 삭제하기로 했습니다.</p>
+<pre><code class="language-bash">journalctl --vacuum-time=1s</code></pre>
+<p>겨우 이 정도로 공간이 조금 확보되었고, 이제 nix 정리가 가능해졌습니다.</p>
+<p>다음으로 ClickHouse 로그 테이블을 정리하려고 했어요.</p>
+<pre><code class="language-bash">clickhouse-client -q &quot;TRUNCATE TABLE system.query_log&quot;</code></pre>
+<p>그런데 또 실패했습니다.</p>
+<pre><code>Code: 243. DB::Exception: Cannot reserve 1.00 MiB, not enough space. (NOT_ENOUGH_SPACE)</code></pre>
+<p>이상했어요. 분명히 nix 스토어를 정리했는데 여전히 부족하다니요. 게다가 사용자 접속이 늘어날수록 더 빠르게 차는 것 같았습니다. 뭔가 계속 쌓이고 있다는 뜻이었죠.</p>
+<h3>해결책: Nix Store를 별도 볼륨으로 분리</h3>
+<p>긴급 상황에서 할 수 있는 가장 빠른 해결책은 공간을 늘리는 것입니다. Hetzner에 더 큰 인스턴스가 없었으므로 별도 Volume을 구매했어요.</p>
+<p><code>/nix/store</code>는 불변 저장소라서 다른 드라이브에 옮길 수 있습니다. 또한 현재 가장 큰 시스템 컴포넌트(12GB)였으니 최적의 후보였죠.</p>
+<p>NixOS 덕분에 이 작업이 정말 부드럽게 진행되었습니다. NixOS Wiki의 &quot;Moving the store&quot; 가이드를 따라가니까 바로 됐거든요.</p>
+<p>새로운 Volume에 ext4 파일 시스템을 만들고:</p>
+<pre><code class="language-bash">mkfs.ext4 -L nix /dev/sdb</code></pre>
+<p>NixOS 설정에 마운트 포인트를 추가했습니다.</p>
+<pre><code class="language-nix">fileSystems.&quot;/nix&quot; = {
+  device = &quot;/dev/disk/by-label/nix&quot;;
+  fsType = &quot;ext4&quot;;
+  neededForBoot = true;
+  options = [ &quot;noatime&quot; ];
+};</code></pre>
+<p>서버를 재부팅한 후, <code>/nix/store</code>가 별도 볼륨에서 정상 작동했고, 루트 드라이브에 충분한 공간이 생겼습니다.</p>
+<p>Grafana 대시보드가 빨간색에서 초록색으로 바뀌었어요. 에러 로그도 멈췄습니다. 디스크 사용률이 50% 정도였고, 사용자들이 2.2GB 파일을 다운로드할 때도 60~65% 정도로만 올라갔습니다. 이제 정상 작동합니다.</p>
+<h3>진짜 문제 발견: Nginx</h3>
+<p>아침에 메일함을 확인했습니다.</p>
+<p>2.2GB 파일 다운로드가 중간에 멈추는 현상에 대한 불만이 몇 건 있었어요. 하지만 대부분의 사용자는 다운로드 페이지에 접속할 수 있었고, 다른 파일들은 정상적으로 받을 수 있었습니다. 상황이 많이 나아졌네요. Grafana도 여전히 초록색입니다.</p>
+<p>지금까지는 일단 불 끈 것 같은데, 2.2GB 파일 다운로드 실패 문제는 별개의 이슈네요. 이건 다음에 파고들어야 할 문제입니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://alt-romes.github.io/posts/2026-04-01-running-out-of-disk-space-on-launch.html" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-07%20%ED%94%84%EB%A1%9C%EB%8D%95%EC%85%98%20%ED%99%98%EA%B2%BD%EC%97%90%EC%84%9C%20%EB%94%94%EC%8A%A4%ED%81%AC%20%EA%B3%B5%EA%B0%84%20%EB%B6%80%EC%A1%B1%20%EB%8C%80%EC%9D%91%EA%B8%B0&labels=feedback%2Cliked&body=**Article**%3A%20%ED%94%84%EB%A1%9C%EB%8D%95%EC%85%98%20%ED%99%98%EA%B2%BD%EC%97%90%EC%84%9C%20%EB%94%94%EC%8A%A4%ED%81%AC%20%EA%B3%B5%EA%B0%84%20%EB%B6%80%EC%A1%B1%20%EB%8C%80%EC%9D%91%EA%B8%B0%0A**URL**%3A%20https%3A%2F%2Falt-romes.github.io%2Fposts%2F2026-04-01-running-out-of-disk-space-on-launch.html%0A**Date**%3A%202026-04-07%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
