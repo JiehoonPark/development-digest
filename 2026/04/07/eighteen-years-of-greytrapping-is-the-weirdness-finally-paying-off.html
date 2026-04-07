@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>18년의 그레이트래핑 – 결국 이 기상함이 효과를 거두고 있을까? — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/07/">2026-04-07</a> &gt; 18년의 그레이트래핑 – 결국 이 기상함이 효과를 거두고 있을까?...
+      </div>
+
+      <h1>18년의 그레이트래핑 – 결국 이 기상함이 효과를 거두고 있을까?</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Eighteen Years of Greytrapping – Is the Weirdness Finally Paying Off?</p>
+      <div class="article-meta">
+        <span>📅 2026-04-07</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 58</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>노르웨이의 메일 관리자가 2007년부터 운영한 그레이트래핑(spamtrap) 실험에 대한 회고록입니다. 2025년 8월 스팸트랩 수가 노르웨이 인구(560만)를 초과하는 562만 개에 도달했으며, OpenBSD의 spamd와 greylisting을 통한 스팸 방어의 장기 효과를 기록합니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>OpenBSD의 spamd와 greylisting, greytrapping 조합으로 단순한 네트워크 수준 기법이 극적인 효과 발휘</li><li>과거 2000년대에는 소규모 조직도 자체 메일 서비스 운영이 일반적이었으나, 현재는 클라우드 중앙화로 급변</li><li>개인 메일 서버 운영 시 Michael W. Lucas의 'Run Your Own Mail Server' 추천</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>인프라 보안과 프로토콜 준수의 효과를 장기간 검증한 사례로, 이메일 시스템 운영자와 보안 개발자에게 실질적 인사이트를 제공합니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>스팸트랩으로 배우는 메일 서버 운영의 역사</h2>
+<p>친구들이 너무 많아졌다. 정확히는 &quot;상상의 친구들&quot;이라고 부르는 스팸트랩(spamtrap)들이 말이다. 2025년 8월 7일, 제 홈 서버에서 운영 중인 스팸트랩의 개수가 노르웨이의 전체 인구를 넘어섰거든요.</p>
+<h3>역사적 순간</h3>
+<p>그날 아침 조깅을 마친 후 확인했을 때, 스팸트랩의 개수는 5,620,384개였습니다. 반면 노르웨이의 공식 인구는 5,601,049명이었죠. 당연히 이 글을 읽고 있는 지금 스팸트랩의 수는 더 늘어났을 겁니다. 이를 기념해 그동안 제 이메일 관련 글들에 대해 독자분들이 물어봤던 그레이트래핑(greytrap) 운영 경험담을 정리해봤습니다.</p>
+<h3>nxdomain.no에서의 장기 실험</h3>
+<p>제가 운영해온 그레이트래핑은 꽤 오랜 시간 진행된 실험입니다. 처음에는 동료들과 함께 사용할 메일 서버를 운영하던 것에서 시작했는데, 이를 단계적으로 업그레이드했어요. Debian Linux 기반에서 출발해 외부 방어선으로 OpenBSD를 배치하고, 내부에는 FreeBSD, OpenBSD 등을 혼합해 구성했습니다.</p>
+<p>OpenBSD에서 기본 PF 룰셋을 실행하게 되면서 저는 블록리스트를 지원하고 그레이리스팅 기능이 있는 spamd를 도입했습니다. 결과는 놀라웠어요. 콘텐츠 필터링으로 인해 울고 있던 메일 서버의 팬 소음이 즉시 멈췄거든요. 그 이후로는 간헐적으로 약한 소음이 날 정도였습니다.</p>
+<h3>그레이트래핑의 시작</h3>
+<p>정확한 전환 시점은 기록하지 않았지만, 2005년 1월의 PF 발표 자료에 이미 SPEWS와 SpamHaus에서 가져온 리스트를 사용하는 spamd 설정이 나와 있습니다. 꽤 오랫동안 운영해온 거라는 뜻이죠.</p>
+<p>그레이트래핑 기능은 나중에 추가되었지만, 사용 가능해진 순간 바로 프로덕션에 투입하고 싶었습니다. 2007년 경에 본격적으로 그레이트래핑 실험을 시작했고, 같은 해 7월 9일 &quot;Hey, spammer! Here's a list for you!&quot;라는 글로 이를 세상에 알렸습니다.</p>
+<h3>지난 20년의 변화</h3>
+<p>아쉽게도 모든 로그와 기록을 보관하지는 못했지만, 남겨진 데이터로도 충분히 흐름을 파악할 수 있습니다. 지난 20년을 되돌아보면 가장 큰 변화는 이거예요.</p>
+<p>2000년대 중반만 해도 제 회사처럼 작은 조직이라도 인터넷 연결만 있으면 자체 메일 서버를 구축하는 것이 지극히 자연스러웠습니다. 하지만 그 이후로 인터넷, 특히 SMTP 이메일은 상상도 못 할 정도로 중앙화되어버렸어요.</p>
+<p>요즘 사람들은 이걸 &quot;클라우드&quot;라고 부르지만, 결국은 다른 사람의 컴퓨터에서 자신의 것을 돌리는 것이거든요. 이메일의 경우는 그 중앙화가 더욱 극심합니다.</p>
+<h3>현재의 상황</h3>
+<p>뒤에 링크한 여러 글들을 읽어보면 클라우드 이메일 분야의 주요 업체들과 그들의 정책이 초래한 결과들을 언급하고 있습니다. 이런 정책들을 보면 그들이 분명히 생각하는 게 있어요. 자신들을 제외하고는 누구도 메일 서버를 운영할 자격이 없다는 거죠.</p>
+<h3>이 글을 읽어야 할 사람들</h3>
+<p>이 글은 현재 자신의 메일 서버를 운영 중인 사람들, 또는 운영을 고려 중인 사람들을 위해 썼습니다. 물론 그들의 주변 사람들도 포함해서요.</p>
+<p>만약 당신의 이메일 관점이 &quot;Outlook에서는 어떻게 하지?&quot;라는 식이라면, 이 글은 당신을 위한 것이 아닙니다. 물론 읽어도 좋지만, 주된 대상은 아니라는 뜻이에요.</p>
+<h3>당신에게 드리는 조언</h3>
+<p>만약 당신이 메일 서버 구축을 고려 중이라면, 이 글과 뒤의 링크들을 훑어본 후에 꼭 해주기 바라는 게 하나 있습니다. Michael W. Lucas의 2024년 저작 &quot;Run Your Own Mail Server&quot;를 구해서 처음부터 끝까지 읽고, 그 책에서 말하는 것을 따라 하세요. 현재 이 주제에 대한 최고의 책이고, 최근 출간되어서 아직 구식이 아니거든요.</p>
+<h3>그레이리스팅과 그레이트래핑의 가치</h3>
+<p>그레이리스팅과 그레이트래핑의 조합이 처음 매력적으로 느껴졌던 이유, 그리고 지금도 그렇게 생각하는 이유는 간단합니다. 실제로 상당히 단순한 네트워크 레벨의 기법과 SMTP 프로토콜 스펙을 꼼꼼하게 해석하는 것만으로도, 메일 서버 운영의 복잡성을 극적으로 줄일 수 있다는 겁니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://nxdomain.no/~peter/eighteen_years_of_greytrapping.html" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-07%2018%EB%85%84%EC%9D%98%20%EA%B7%B8%EB%A0%88%EC%9D%B4%ED%8A%B8%EB%9E%98%ED%95%91%20%E2%80%93%20%EA%B2%B0%EA%B5%AD%20%EC%9D%B4%20%EA%B8%B0%EC%83%81%ED%95%A8%EC%9D%B4%20%ED%9A%A8%EA%B3%BC%EB%A5%BC%20%EA%B1%B0%EB%91%90%EA%B3%A0%20%EC%9E%88%EC%9D%84%EA%B9%8C%3F&labels=feedback%2Cliked&body=**Article**%3A%2018%EB%85%84%EC%9D%98%20%EA%B7%B8%EB%A0%88%EC%9D%B4%ED%8A%B8%EB%9E%98%ED%95%91%20%E2%80%93%20%EA%B2%B0%EA%B5%AD%20%EC%9D%B4%20%EA%B8%B0%EC%83%81%ED%95%A8%EC%9D%B4%20%ED%9A%A8%EA%B3%BC%EB%A5%BC%20%EA%B1%B0%EB%91%90%EA%B3%A0%20%EC%9E%88%EC%9D%84%EA%B9%8C%3F%0A**URL**%3A%20https%3A%2F%2Fnxdomain.no%2F~peter%2Feighteen_years_of_greytrapping.html%0A**Date**%3A%202026-04-07%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

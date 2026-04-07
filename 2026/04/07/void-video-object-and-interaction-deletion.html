@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VOID: 비디오 객체 및 상호작용 삭제 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/07/">2026-04-07</a> &gt; VOID: 비디오 객체 및 상호작용 삭제...
+      </div>
+
+      <h1>VOID: 비디오 객체 및 상호작용 삭제</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">VOID: Video Object and Interaction Deletion</p>
+      <div class="article-meta">
+        <span>📅 2026-04-07</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 101</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>VOID는 Netflix의 비디오 인페인팅 모델로, 객체 제거 시 그림자나 반사 같은 2차 효과뿐만 아니라 사람 제거 시 잡고 있던 기타가 떨어지는 식의 물리적 상호작용까지 자동으로 제거합니다. CogVideoX를 기반으로 상호작용 인식 마스크 컨디셔닝으로 미세 조정되었습니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>2단계 변환기 모델: Pass 1은 기본 인페인팅, Pass 2는 왜곡된 노이즈 정제로 시간적 일관성 향상</li><li>Gemini VLM과 SAM2 분할을 활용한 4채널 쿼드마스크 생성으로 객체, 오버랩, 영향받는 영역, 배경 구분</li><li>A100 같은 40GB+ VRAM GPU에서 추론 가능, HuggingFace에서 사전 학습 모델 제공</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>영상 제작 개발자와 VFX 팀은 물리법칙을 고려한 자동 객체 제거로 복잡한 수작업 합성 없이 자연스러운 비디오 편집이 가능합니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>VOID: 비디오에서 객체와 상호작용 제거하기</h2>
+<p><strong>작성자:</strong> Saman Motamed, William Harvey, Benjamin Klein 외</p>
+<p><strong>소속:</strong> Netflix, INSAIT Sofia University</p>
+<h3>VOID가 뭔가요?</h3>
+<p>VOID는 단순히 비디오에서 객체를 지우는 도구가 아닙니다. 그 객체가 장면과 맺고 있는 모든 상호작용까지 함께 제거합니다. 그림자나 반사 같은 부차적 효과뿐 아니라, 사람을 제거했을 때 들고 있던 기타가 자연스럽게 떨어지는 것처럼 물리적 상호작용도 반영합니다.</p>
+<p>예를 들어볼게요. 기타를 들고 있는 사람을 제거하면, VOID는 그 사람이 기타에 미치던 영향도 함께 없애줍니다. 결과적으로 기타는 자연스럽게 떨어지죠.</p>
+<h3>모델 구성</h3>
+<p>VOID는 두 개의 Transformer 체크포인트로 이루어져 있으며, 순차적으로 학습됩니다. Pass 1만으로도 추론할 수 있지만, 두 단계를 모두 연결하면 시간적 일관성이 훨씬 높아집니다.</p>
+<div class="table-wrapper"><table><thead><tr><th>모델</th><th>설명</th><th>다운로드</th></tr></thead><tbody><tr><td>VOID Pass 1</td><td>기본 inpainting 모델</td><td>HuggingFace</td></tr><tr><td>VOID Pass 2</td><td>Warped-noise 개선 모델</td><td>HuggingFace</td></tr></tbody></table></div>
+<p>체크포인트는 어디든 저장한 후, <code>--config.video_model.transformer_path</code> (Pass 1) 또는 <code>--model_checkpoint</code> (Pass 2)로 경로를 지정하면 됩니다.</p>
+<h3>빠르게 시작하기</h3>
+<p>가장 간단한 방법은 제공되는 노트북을 사용하는 겁니다. 환경 설정부터 모델 다운로드, 샘플 비디오 추론, 결과 확인까지 모두 자동으로 처리해줍니다.</p>
+<p><strong>주의:</strong> GPU 메모리가 40GB 이상 필요합니다 (예: A100).</p>
+<p>더 세밀한 제어가 필요하다면 아래 설정과 전체 가이드를 참고하세요.</p>
+<h3>설치하기</h3>
+<p>먼저 필요한 패키지를 설치합니다.</p>
+<pre><code class="language-bash">pip install -r requirements.txt</code></pre>
+<p>마스크 파이프라인의 첫 번째 단계는 Google AI API를 통해 Gemini를 사용합니다. API 키를 설정하세요.</p>
+<pre><code class="language-bash">export GEMINI_API_KEY=your_key_here</code></pre>
+<p>마스크 생성에 필요한 SAM2도 별도로 설치합니다.</p>
+<pre><code class="language-bash">git clone https://github.com/facebookresearch/sam2.git
+cd sam2 &amp;&amp; pip install -e .</code></pre>
+<p>HuggingFace에서 기본 inpainting 모델을 다운로드합니다.</p>
+<pre><code class="language-bash">hf download alibaba-pai/CogVideoX-Fun-V1.5-5b-InP \
+--local-dir ./CogVideoX-Fun-V1.5-5b-InP</code></pre>
+<p>기본적으로 리포지토리 루트 아래 <code>./CogVideoX-Fun-V1.5-5b-InP</code> 경로에 있다고 가정합니다.</p>
+<p>시스템에 ffmpeg이 없으면 imageio-ffmpeg에 포함된 바이너리를 사용할 수 있습니다.</p>
+<pre><code class="language-bash">ln -sf $(python -c &quot;import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())&quot;) ~/.local/bin/ffmpeg</code></pre>
+<h3>디렉토리 구조</h3>
+<p>모든 자산을 다운로드한 후 디렉토리는 이렇게 구성되어야 합니다.</p>
+<pre><code>VOID/
+├── config/
+├── datasets/
+│ └── void_train_data.json
+├── inference/
+├── sample/                          # 추론용 샘플 영상
+├── scripts/
+├── videox_fun/
+├── VLM-MASK-REASONER/
+├── README.md
+├── requirements.txt
+│
+├── CogVideoX-Fun-V1.5-5b-InP/       # hf download로 받은 모델
+├── void_pass1.safetensors           # HuggingFace에서 다운로드
+├── void_pass2.safetensors           # HuggingFace에서 다운로드
+├── training_data/                   # 데이터 생성 파이프라인으로 생성
+└── data_generation/                 # 데이터 생성 코드</code></pre>
+<h3>입력 포맷</h3>
+<p>각 비디오는 루트 데이터 디렉토리 아래 자신의 폴더에 들어갑니다.</p>
+<pre><code>data_rootdir/
+└── my-video/
+├── input_video.mp4      # 원본 비디오
+├── quadmask_0.mp4       # 마스크 비디오 (4채널)
+└── prompt.json          # 배경 설명</code></pre>
+<p><strong>prompt.json</strong>은 객체를 제거한 후 배경이 어떻게 보여야 하는지 설명합니다. 제거하는 객체에 대해 설명하면 안 되고, 남은 것들을 묘사해야 합니다.</p>
+<pre><code class="language-json">{ &quot;bg&quot;: &quot;A table with a cup on it.&quot; }  // ✅ 깨끗한 배경만 설명</code></pre>
+<pre><code class="language-json">{ &quot;bg&quot;: &quot;A person being removed from scene.&quot; }  // ❌ 제거 과정은 설명하면 안 됨</code></pre>
+<p>포함된 샘플들의 예시를 보면:</p>
+<div class="table-wrapper"><table><thead><tr><th>시퀀스</th><th>제거 객체</th><th>bg 프롬프트</th></tr></thead><tbody><tr><td>lime</td><td>유리잔</td><td>&quot;A lime falls on the table.&quot;</td></tr><tr><td>moving_ball</td><td>고무 오리</td><td>&quot;A ball rolls off the table.&quot;</td></tr><tr><td>pillow</td><td>케틀벨</td><td>&quot;Two pillows are on the table.&quot;</td></tr></tbody></table></div>
+<p><strong>Quadmask</strong>는 픽셀당 4개의 의미 영역을 인코딩합니다.</p>
+<div class="table-wrapper"><table><thead><tr><th>값</th><th>의미</th></tr></thead><tbody><tr><td>0</td><td>제거할 주 객체</td></tr><tr><td>63</td><td>주 객체 + 영향받는 영역의 겹침</td></tr><tr><td>127</td><td>영향받는 영역 (떨어지는 객체, 밀려난 물체 등)</td></tr><tr><td>255</td><td>배경 (유지)</td></tr></tbody></table></div>
+<h3>파이프라인</h3>
+<h4>단계 1 — 마스크 생성하기</h4>
+<p>VLM-MASK-REASONER 파이프라인이 원본 비디오에서 quadmask를 생성합니다. SAM2 분할과 VLM(Gemini)의 상호작용 영역 추론을 조합합니다.</p>
+<h5>단계 0 — 포인트 선택 (GUI)</h5>
+<pre><code class="language-bash">python VLM-MASK-REASONER/point_selector_gui.py</code></pre>
+<p>비디오 목록과 지시사항이 담긴 JSON 설정을 로드한 다음, 제거할 객체를 클릭합니다. <code>*_points.json</code> 파일이 저장됩니다.</p>
+<p>설정 포맷:</p>
+<pre><code class="language-json">{
+  &quot;videos&quot;: [
+    {
+      &quot;video_path&quot;: &quot;path/to/video.mp4&quot;,
+      &quot;output_dir&quot;: &quot;path/to/output/folder&quot;,
+      &quot;instruction&quot;: &quot;remove the person&quot;
+    }
+  ]
+}</code></pre>
+<h5>단계 1~4 — 전체 파이프라인 실행</h5>
+<p>포인트 설정을 저장한 후, 나머지 단계를 자동으로 실행합니다.</p>
+<pre><code class="language-bash">bash VLM-MASK-REASONER/run_pipeline.sh my_config_points.json</code></pre>
+<p>옵션 플래그:</p>
+<pre><code class="language-bash">bash VLM-MASK-REASONER/run_pipeline.sh my_config_points.json \
+--sam2-checkpoint path/to/sam2_hiera_large.pt \
+--device cuda</code></pre>
+<p>이 명령은 나머지 모든 단계를 자동으로 처리합니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://github.com/Netflix/void-model" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-07%20VOID%3A%20%EB%B9%84%EB%94%94%EC%98%A4%20%EA%B0%9D%EC%B2%B4%20%EB%B0%8F%20%EC%83%81%ED%98%B8%EC%9E%91%EC%9A%A9%20%EC%82%AD%EC%A0%9C&labels=feedback%2Cliked&body=**Article**%3A%20VOID%3A%20%EB%B9%84%EB%94%94%EC%98%A4%20%EA%B0%9D%EC%B2%B4%20%EB%B0%8F%20%EC%83%81%ED%98%B8%EC%9E%91%EC%9A%A9%20%EC%82%AD%EC%A0%9C%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2FNetflix%2Fvoid-model%0A**Date**%3A%202026-04-07%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

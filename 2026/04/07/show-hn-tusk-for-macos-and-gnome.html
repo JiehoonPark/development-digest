@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>macOS와 Gnome용 Tusk — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/07/">2026-04-07</a> &gt; macOS와 Gnome용 Tusk...
+      </div>
+
+      <h1>macOS와 Gnome용 Tusk</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Show HN: Tusk for macOS and Gnome</p>
+      <div class="article-meta">
+        <span>📅 2026-04-07</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 57</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Tusk는 Electron, 텔레메트리, 구독 요금 없이 네이티브로 작성된 PostgreSQL 클라이언트입니다. macOS는 SwiftUI, Gnome은 GTK4로 개발되었습니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>macOS(SwiftUI)와 Gnome(GTK4 + libadwaita) 모두 완전 네이티브 구현으로 가볍고 빠름</li><li>스키마 브라우저, SQL 에디터, 데이터 그리드, 연결 관리 등 포괄적인 기능 제공</li><li>오픈소스이며 Electron 기반의 무거운 대안들과 달리 경량 설계</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>PostgreSQL 개발자에게 플랫폼별 최적화된 경량 도구를 제공하여 개발 생산성을 향상시킵니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Tusk: macOS와 Linux를 위한 네이티브 PostgreSQL 클라이언트</h2>
+<p>Electron 없이, 원격 측정 추적도 없고, 구독료도 필요 없습니다.</p>
+<h3>주요 특징</h3>
+<h4>macOS 버전</h4>
+<p><strong>SwiftUI 기반 · macOS 14 이상</strong></p>
+<ul>
+<li>[다운로드 (.dmg)](https://github.com/kiyasov/Tusk/releases)</li>
+<li>첫 실행 시 우클릭 → Open으로 Gatekeeper 우회</li>
+<li>[GitHub 저장소 보기](https://github.com/kiyasov/Tusk)</li>
+</ul>
+<h4>GNOME 버전</h4>
+<p><strong>GTK4 + libadwaita · Python 3.11 이상</strong></p>
+<ul>
+<li>[다운로드](https://github.com/kiyasov/Tusk/releases)</li>
+<li>Flatpak, AppImage, .deb, .rpm 지원</li>
+<li>[GitHub 저장소 보기](https://github.com/kiyasov/Tusk)</li>
+</ul>
+<hr>
+<h3>기능 비교표</h3>
+<h4>연결 관리</h4>
+<div class="table-wrapper"><table><thead><tr><th>기능</th><th>macOS</th><th>GNOME</th></tr></thead><tbody><tr><td>이름이 지정된 연결 프로필</td><td>✓</td><td>✓</td></tr><tr><td>비밀번호 / 키체인 저장</td><td>✓</td><td>✓</td></tr><tr><td>SSH 터널</td><td>✓</td><td>✓</td></tr><tr><td>저장 전 연결 테스트</td><td>✓</td><td>✓</td></tr><tr><td>읽기 전용 모드</td><td>✓</td><td>✓</td></tr><tr><td>PostgreSQL URI 가져오기</td><td>✓</td><td>✓</td></tr><tr><td>SSL/TLS 토글</td><td>✓</td><td>—</td></tr><tr><td>동시 다중 연결</td><td>✓</td><td>—</td></tr><tr><td>연결별 색상 태그</td><td>✓</td><td>—</td></tr><tr><td>.pgpass 가져오기</td><td>—</td><td>✓</td></tr><tr><td>연결을 URI로 복사</td><td>—</td><td>✓</td></tr><tr><td>슈퍼유저 역할 배지</td><td>—</td><td>✓</td></tr></tbody></table></div>
+<h4>스키마 브라우저</h4>
+<div class="table-wrapper"><table><thead><tr><th>기능</th><th>macOS</th><th>GNOME</th></tr></thead><tbody><tr><td>스키마 → 테이블 트리 사이드바</td><td>✓</td><td>✓</td></tr><tr><td>뷰, 열거형, 시퀀스, 함수</td><td>✓</td><td>✓</td></tr><tr><td>테이블 크기 표시</td><td>✓</td><td>✓</td></tr><tr><td>데이터베이스 전환기</td><td>✓</td><td>✓</td></tr><tr><td>테이블 이름 변경 / 초기화 / 삭제</td><td>✓</td><td>✓</td></tr><tr><td>새 테이블 마법사</td><td>✓</td><td>—</td></tr><tr><td>실시간 필터 바</td><td>—</td><td>✓</td></tr><tr><td>스키마 생성 / 이름 변경 / 삭제</td><td>—</td><td>✓</td></tr><tr><td>역할 브라우저</td><td>—</td><td>✓</td></tr></tbody></table></div>
+<h4>테이블 검사자</h4>
+<div class="table-wrapper"><table><thead><tr><th>기능</th><th>macOS</th><th>GNOME</th></tr></thead><tbody><tr><td>컬럼 탭</td><td>✓</td><td>✓</td></tr><tr><td>컬럼 추가 / 이름 변경 / 편집 / 삭제</td><td>✓</td><td>✓</td></tr><tr><td>키 / 제약조건 탭</td><td>✓</td><td>✓</td></tr><tr><td>관계 탭</td><td>✓</td><td>✓</td></tr><tr><td>인덱스 탭</td><td>✓</td><td>✓</td></tr><tr><td>트리거 탭</td><td>✓</td><td>✓</td></tr><tr><td>DDL 탭</td><td>✓</td><td>✓</td></tr><tr><td>관계도 시각화</td><td>✓</td><td>—</td></tr><tr><td>제약조건 추가</td><td>—</td><td>✓</td></tr><tr><td>인덱스 유형 / CONCURRENTLY 옵션으로 생성</td><td>—</td><td>✓</td></tr></tbody></table></div>
+<h4>데이터 브라우저</h4>
+<div class="table-wrapper"><table><thead><tr><th>기능</th><th>macOS</th><th>GNOME</th></tr></thead><tbody><tr><td>페이지네이션된 데이터 그리드</td><td>✓</td><td>✓</td></tr><tr><td>컬럼 텍스트 필터</td><td>✓</td><td>✓</td></tr><tr><td>정렬 가능한 컬럼</td><td>✓</td><td>✓</td></tr><tr><td>새 행 삽입</td><td>✓</td><td>✓</td></tr><tr><td>기존 행 편집</td><td>✓</td><td>✓</td></tr><tr><td>행 삭제</td><td>✓</td><td>✓</td></tr><tr><td>CSV / JSON / INSERT로 복사</td><td>✓</td><td>✓</td></tr><tr><td>전체 테이블을 파일로 내보내기</td><td>✓</td><td>✓</td></tr><tr><td>컬럼 크기 조정 (저장됨)</td><td>✓</td><td>—</td></tr><tr><td>JSON/JSONB 트리 뷰</td><td>✓</td><td>—</td></tr><tr><td>NULL 표시기</td><td>—</td><td>✓</td></tr><tr><td>고정 / 동결 컬럼</td><td>—</td><td>✓</td></tr><tr><td>설정 가능한 페이지 크기</td><td>—</td><td>✓</td></tr></tbody></table></div>
+<h4>SQL 에디터</h4>
+<div class="table-wrapper"><table><thead><tr><th>기능</th><th>macOS</th><th>GNOME</th></tr></thead><tbody><tr><td>문법 강조</td><td>✓</td><td>✓</td></tr><tr><td>전체 실행</td><td>✓</td><td>✓</td></tr><tr><td>선택 영역 / 커서 위치 실행</td><td>✓</td><td>✓</td></tr><tr><td>EXPLAIN / EXPLAIN ANALYZE</td><td>✓</td><td>✓</td></tr><tr><td>다중 쿼리 실행 및 로그</td><td>✓</td><td>✓</td></tr><tr><td>파일 기반 자동 저장</td><td>✓</td><td>✓</td></tr><tr><td>쿼리 히스토리</td><td>✓</td><td>✓</td></tr><tr><td>탭별 연결 선택기</td><td>✓</td><td>—</td></tr><tr><td>실행 중인 쿼리 취소</td><td>—</td><td>✓</td></tr><tr><td>줄 주석 토글</td><td>—</td><td>✓</td></tr></tbody></table></div>
+<h4>파일 탐색기</h4>
+<div class="table-wrapper"><table><thead><tr><th>기능</th><th>macOS</th><th>GNOME</th></tr></thead><tbody><tr><td>.sql 파일용 파일 시스템 사이드바</td><td>✓</td><td>✓</td></tr><tr><td>인라인 생성 / 이름 변경 / 삭제</td><td>✓</td><td>✓</td></tr><tr><td>마지막 위치 기억</td><td>✓</td><td>✓</td></tr></tbody></table></div>
+<h4>활동 모니터</h4>
+<div class="table-wrapper"><table><thead><tr><th>기능</th><th>macOS</th><th>GNOME</th></tr></thead><tbody><tr><td>활성 세션 보기</td><td>✓</td><td>—</td></tr><tr><td>쿼리 취소 / 백엔드 종료</td><td>✓</td><td>—</td></tr></tbody></table></div>
+<h4>외관</h4>
+<div class="table-wrapper"><table><thead><tr><th>기능</th><th>macOS</th><th>GNOME</th></tr></thead><tbody><tr><td>폰트 패밀리 &amp; 크기 설정</td><td>✓</td><td>✓</td></tr><tr><td>시스템 다크 / 라이트 모드</td><td>—</td><td>✓</td></tr></tbody></table></div>
+<hr>
+<h3>지원하기</h3>
+<p>Tusk는 자유롭게 사용할 수 있는 오픈소스 프로젝트입니다. 만약 유용하게 사용하고 있다면, 개발을 지원해 주세요.</p>
+<p>[Tusk 스폰서하기](https://github.com/sponsors/kiyasov)</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://shapemachine.xyz/tusk/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-07%20macOS%EC%99%80%20Gnome%EC%9A%A9%20Tusk&labels=feedback%2Cliked&body=**Article**%3A%20macOS%EC%99%80%20Gnome%EC%9A%A9%20Tusk%0A**URL**%3A%20https%3A%2F%2Fshapemachine.xyz%2Ftusk%2F%0A**Date**%3A%202026-04-07%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

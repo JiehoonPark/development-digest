@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SOM: 가상 머신 교육 및 연구를 위한 최소 Smalltalk — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/07/">2026-04-07</a> &gt; SOM: 가상 머신 교육 및 연구를 위한 최소 Smalltalk...
+      </div>
+
+      <h1>SOM: 가상 머신 교육 및 연구를 위한 최소 Smalltalk</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">SOM: A minimal Smalltalk for teaching of and research on Virtual Machines</p>
+      <div class="article-meta">
+        <span>📅 2026-04-07</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 36</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>SOM은 다양한 VM 구현 기법과 최적화를 연구하기 위한 교육용 Smalltalk 언어 플랫폼입니다. 여러 구현체가 동일한 언어를 지원하며 서로 다른 최적화와 플랫폼에서 실행됩니다. 학계와 업계에서 VM 설계와 메타프로그래밍 연구에 활발히 사용되었습니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>SOM++ 최적화(3-4배 성능 향상), SOMNS 액터 모델 구현, TruffleMATE 메타오브젝트 프로토콜 등 다양한 변종 개발</li><li>액터 동시성, 가비지 컬렉션, JIT 컴파일 등 VM 핵심 기능 연구를 위한 플랫폼 제공</li><li>Haskell 구현(HaSOM), Grace 언어 구현(Moth) 등 다른 언어 구현에 영감 제공</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>VM 설계자와 언어 구현자에게 검증된 연구 플랫폼으로서 최신 VM 기법과 메타프로그래밍 개념을 실제로 실험할 수 있는 기초를 제공합니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>SOM 가상머신: 연구 플랫폼으로서의 여정</h2>
+<p>SOM은 다양한 언어 구현을 지원하는 플랫폼인데요. 각 구현은 동일한 언어를 기반으로 하지만, 최적화 방식과 구현 기법, 실행 환경이 모두 다릅니다. SOM이 주목할 점은 수많은 언어 구현들에 영감을 제공해온 연구 플랫폼이라는 것입니다.</p>
+<p>현재로서는 SOM 전용 교육 자료가 많지 않은 상황이에요. 다만 과거의 여러 슬라이드 모음이 있어서 기본적인 개요를 파악할 수 있고, 좀 더 구체적인 자료들도 시작점이 될 수 있습니다.</p>
+<h3>커뮤니티와 소통하기</h3>
+<p>SOM에 대해 질문하거나 논의하고 싶다면 다음 채널들을 활용할 수 있습니다:</p>
+<ul>
+<li><strong>GitHub</strong>: 모든 코드를 확인할 수 있습니다</li>
+<li><strong>Twitter</strong>: @SOM_VMs를 팔로우하세요</li>
+<li><strong>메일링 리스트</strong>: som-dev 메일링 리스트에서 토론할 수 있습니다</li>
+<li><strong>Slack</strong>: 채팅을 원하신다면 초대를 요청할 수 있습니다 (twitter.com/SOM_VMs를 통해)</li>
+</ul>
+<h3>SOM의 역사와 성과</h3>
+<p>SOM은 여러 대학과 연구기관에서 사용되어온 풍부한 학술 자료를 보유하고 있습니다.</p>
+<p><strong>2023년</strong>: Filip Říha가 Haskell로 작성한 HaSOM을 학사 논문 프로젝트로 완성했습니다.</p>
+<p><strong>2017년</strong>: James Noble이 Grace 언어를 구현하기 위해 SOMNS를 활용하기 시작했고, Richard Roberts는 이를 발전시켜 Moth라는 실제 구현으로 만들었습니다.</p>
+<p><strong>2016년</strong>: IBM의 J9 팀이 JitBuilder라는 새로운 도구를 사용해 SOM++의 성능을 3~4배 향상시켰습니다. JitBuilder는 J9 JIT 컴파일러용 API이며, 나중에 Eclipse OMR 프로젝트의 일부로 오픈소스화되었습니다.</p>
+<p><strong>2015년</strong>: J9 팀이 자신들의 JVM 구현을 지탱하는 플랫폼을 오픈소스하겠다는 계획을 발표했습니다. JavaOne 발표에서 SOM++를 가비지 컬렉터 통합 사례로 활용했습니다.</p>
+<p><strong>2014년 이전</strong>: SOM++ 는 제너레이셔널 가비지 컬렉터로 최적화되었고, ActorSOM 같은 다양한 변형들이 동시성 모델 연구에 활용되었습니다.</p>
+<h3>주요 연구 논문</h3>
+<p>SOM을 기반으로 발표된 주요 학술 자료들입니다:</p>
+<ul>
+<li><strong>Efficient and Deterministic Record &amp; Replay for Actor Languages</strong> (ManLang'18, 2018)</li>
+<li><strong>Few Versatile vs. Many Specialized Collections: How to design a collection library for exploratory programming?</strong> (PX/18, 2018)</li>
+<li><strong>Fully Reflective Execution Environments: Virtual Machines for More Flexible Software</strong> (IEEE TSE, 2018)</li>
+<li><strong>A Concurrency-Agnostic Protocol for Multi-Paradigm Concurrent Debugging Tools</strong> (DLS'17, 2017)</li>
+<li><strong>A Metaobject Protocol for Optimizing Application-Specific Run-Time Variability</strong> (ICOOOLPS'17, 2017)</li>
+<li><strong>Building Efficient and Highly Run-time Adaptable Virtual Machines</strong> (2016)</li>
+<li><strong>Cross-Language Compiler Benchmarking: Are We Fast Yet?</strong> (2016)</li>
+<li><strong>Tracing vs. Partial Evaluation: Comparing Meta-Compilation Approaches for Self-Optimizing Interpreters</strong> (2015)</li>
+<li><strong>Zero-Overhead Metaprogramming: Reflection and Metaobject Protocols Fast and without Compromises</strong> (PLDI, 2015)</li>
+<li><strong>Are We There Yet? Simple Language-Implementation Techniques for the 21st Century</strong> (IEEE Software, 2014)</li>
+</ul>
+<h3>주목할 만한 SOM 변형들</h3>
+<p><strong>SOMNS</strong>: Newspeak 기반의 변형으로, 액터(Actor) 동시성을 완벽하게 지원합니다. 다양한 동시성 모델의 상호작용을 연구하기 위한 플랫폼으로 개발되었습니다.</p>
+<p><strong>TruffleMATE</strong>: Mate 메타객체 프로토콜이 적용된 SOM 변형으로, 완전히 반사적인(fully reflective) 실행 환경을 가능하게 합니다.</p>
+<p>SOM은 단순한 언어 구현을 넘어, VM 설계와 동시성, 메타프로그래밍 같은 다양한 분야의 연구를 이끌어온 중요한 플랫폼이라고 할 수 있습니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="http://som-st.github.io/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-07%20SOM%3A%20%EA%B0%80%EC%83%81%20%EB%A8%B8%EC%8B%A0%20%EA%B5%90%EC%9C%A1%20%EB%B0%8F%20%EC%97%B0%EA%B5%AC%EB%A5%BC%20%EC%9C%84%ED%95%9C%20%EC%B5%9C%EC%86%8C%20Smalltalk&labels=feedback%2Cliked&body=**Article**%3A%20SOM%3A%20%EA%B0%80%EC%83%81%20%EB%A8%B8%EC%8B%A0%20%EA%B5%90%EC%9C%A1%20%EB%B0%8F%20%EC%97%B0%EA%B5%AC%EB%A5%BC%20%EC%9C%84%ED%95%9C%20%EC%B5%9C%EC%86%8C%20Smalltalk%0A**URL**%3A%20http%3A%2F%2Fsom-st.github.io%2F%0A**Date**%3A%202026-04-07%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

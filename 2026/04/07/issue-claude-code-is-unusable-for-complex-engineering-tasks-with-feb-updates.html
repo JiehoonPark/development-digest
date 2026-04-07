@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이슈: Claude Code가 2월 업데이트 이후 복잡한 엔지니어링 작업에 사용 불가 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/07/">2026-04-07</a> &gt; 이슈: Claude Code가 2월 업데이트 이후 복잡한 엔지니어링 작업...
+      </div>
+
+      <h1>이슈: Claude Code가 2월 업데이트 이후 복잡한 엔지니어링 작업에 사용 불가</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Issue: Claude Code is unusable for complex engineering tasks with Feb updates</p>
+      <div class="article-meta">
+        <span>📅 2026-04-07</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 819</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>사용자들의 로그 분석 결과, 2월 중순부터 시작된 Extended Thinking 콘텐츠 감소(redact-thinking-2026-02-12)가 Claude Code의 복잡한 엔지니어링 작업 품질 저하와 정확히 일치한다는 것을 발견했다. Extended Thinking이 단순한 옵션이 아닌 구조적으로 필요한 기능임을 데이터로 입증하고 있다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>3월 8일 품질 저하 보고가 정확히 Thinking 블록 감소량이 50%를 넘은 날짜와 일치</li><li>Thinking 깊이 감소로 인해 Read:Edit 비율이 6.6에서 2.0으로 70% 감소, 코드 읽기 없이 수정하는 edit-first 패턴으로 변화</li><li>Stop hook 위반, 불완전한 수정, 소유권 회피 행동 등 정량적 품질 지표가 모두 악화(예: 불만 지시 사항 5.8% → 9.8%)</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>Claude Code 사용자는 현재 버전의 신뢰성 한계를 인식하고 작업 복잡도 조절이 필요하며, Anthropic은 Extended Thinking 할당 정책 검토가 긴급하다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Claude의 복잡한 엔지니어링 작업 성능 저하 분석</h2>
+<h3>문제 요약</h3>
+<p>지난 몇 개월간 로그 데이터를 분석한 결과, 2월 이후 Claude의 성능이 눈에 띄게 하락했습니다. 특히 복잡한 엔지니어링 작업에서 지시를 무시하거나, 부정확한 수정을 제안하고, 반대 동작을 수행하는 현상이 반복되고 있는데요. 저희는 이 문제가 단순한 일시적 버그가 아닌, 근본적인 구조적 변화와 연관이 있다고 판단합니다.</p>
+<h3>Extended Thinking의 중요성</h3>
+<p>분석 결과를 한 문장으로 요약하자면, <strong>Extended Thinking 토큰의 감소가 모델의 성능 저하와 정확히 일치</strong>한다는 것입니다.</p>
+<p>17,871개의 thinking 블록과 234,760개의 도구 호출을 분석한 데이터에 따르면, Extended Thinking은 단순한 부가 기능이 아니라 복잡한 멀티스텝 작업에 필수적인 요소입니다. Thinking 토큰이 부족해지면서 모델은 <strong>먼저 생각하고 수정하는 방식(research-first)에서 곧바로 수정하는 방식(edit-first)으로 전환</strong>되었고, 이것이 사용자들이 보고한 품질 저하로 이어진 것 같습니다.</p>
+<h4>1. Thinking 감소와 품질 저하의 타이밍이 일치합니다</h4>
+<p>Thinking 콘텐츠 감소 정책(redact-thinking-2026-02-12)이 적용된 시점을 추적하면:</p>
+<div class="table-wrapper"><table><thead><tr><th>기간</th><th>Thinking 표시</th><th>Thinking 감소</th></tr></thead><tbody><tr><td>1월 30일 - 3월 4일</td><td>100%</td><td>0%</td></tr><tr><td>3월 5일</td><td>98.5%</td><td>1.5%</td></tr><tr><td>3월 7일</td><td>75.3%</td><td>24.7%</td></tr><tr><td>3월 8일</td><td>41.6%</td><td>58.4%</td></tr><tr><td>3월 10-11일</td><td>&lt;1%</td><td>&gt;99%</td></tr></tbody></table></div>
+<p>흥미롭게도 사용자들이 성능 저하를 보고한 날짜가 정확히 <strong>3월 8일</strong>입니다. 이날 감소된 thinking 블록이 전체의 50%를 넘어섰거든요.</p>
+<h4>2. 정책 변화 이전부터 이미 Thinking 깊이가 감소하고 있었습니다</h4>
+<p>Thinking 블록의 서명(signature) 필드와 실제 내용 길이 사이에는 0.971의 높은 상관관계가 있습니다. 이를 통해 감소된 thinking도 추정할 수 있었는데요.</p>
+<div class="table-wrapper"><table><thead><tr><th>기간</th><th>예상 Thinking 길이</th><th>기준 대비 변화</th></tr></thead><tbody><tr><td>1월 30일 - 2월 8일 (기준)</td><td>~2,200자</td><td>—</td></tr><tr><td>2월 말</td><td>~720자</td><td>-67%</td></tr><tr><td>3월 1-5일</td><td>~560자</td><td>-75%</td></tr><tr><td>3월 12일 이후 (완전 감소)</td><td>~600자</td><td>-73%</td></tr></tbody></table></div>
+<p>감소 정책이 공식 시행되기 전부터 이미 thinking 깊이가 67% 떨어져 있었습니다. 정책 변화는 이 감소를 사용자가 볼 수 없게 만든 것뿐입니다.</p>
+<h4>3. 측정 가능한 성능 저하 지표들</h4>
+<p>18,000개 이상의 사용자 프롬프트를 독립적으로 분석했을 때:</p>
+<div class="table-wrapper"><table><thead><tr><th>지표</th><th>3월 8일 이전</th><th>3월 8일 이후</th><th>변화</th></tr></thead><tbody><tr><td>소유권 회피 행동</td><td>6건</td><td>13건</td><td>+117%</td></tr><tr><td>사용자 답답함 표시</td><td>5.8%</td><td>9.8%</td><td>+68%</td></tr><tr><td>세션당 프롬프트 수</td><td>35.9</td><td>27.9</td><td>-22%</td></tr><tr><td>추론 루프 반복 세션</td><td>0</td><td>7</td><td>새로 발생</td></tr></tbody></table></div>
+<p>특히 주목할 점은 <strong>불완전한 수정, 지시 무시, 확인만 반복하는 패턴</strong>이 3월 8일 이후로 갑자기 나타난다는 것입니다. 이전에는 이런 일이 전혀 없었거든요.</p>
+<h4>4. 도구 사용 패턴의 극적인 변화</h4>
+<p>파일 읽기와 파일 편집의 비율을 보면 가장 명확한 변화가 드러납니다.</p>
+<div class="table-wrapper"><table><thead><tr><th>기간</th><th>읽기:편집 비율</th><th>변화</th></tr></thead><tbody><tr><td>1월 30일 - 2월 12일 (양호)</td><td>6.6 : 1</td><td>—</td></tr><tr><td>2월 13일 - 3월 7일 (전환기)</td><td>2.8 : 1</td><td>-57%</td></tr><tr><td>3월 8일 - 3월 23일 (저하)</td><td>2.0 : 1</td><td>-70%</td></tr></tbody></table></div>
+<p>성능이 좋을 때 모델은 <strong>대상 파일 → 관련 파일 → 코드베이스 전체 검색 → 헤더와 테스트 확인 → 정확한 편집</strong>의 순서를 따랐습니다. 하지만 지금은 해당 파일만 훑어보고 바로 편집을 시도하곤 합니다.</p>
+<h3>결론</h3>
+<p>이 분석은 몇 가지 중요한 점을 시사합니다.</p>
+<p>첫째, <strong>Extended Thinking 토큰이 충분할 때와 부족할 때 모델의 동작 방식이 근본적으로 다릅니다</strong>. Thinking이 풍부하면 꼼꼼한 사전 조사를 거쳐 신중하게 수정하지만, 부족하면 성급하게 수정을 시도합니다.</p>
+<p>둘째, 이 문제는 특정 사용자나 상황만의 문제가 아닙니다. 저희는 고복잡도 엔지니어링 작업을 하는 전형적인 파워 유저인데, 같은 문제를 겪는 팀이나 개인들이 분명 있을 것입니다.</p>
+<p>복잡한 작업을 해야 하는 개발자라면 이 데이터가 Claude의 성능 기대치를 설정하는 데 도움이 되길 바랍니다. 그리고 Anthropic에서는 파워 유저를 위한 thinking 토큰 할당 정책을 다시 검토해주기를 간절히 부탁드립니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://github.com/anthropics/claude-code/issues/42796" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-07%20%EC%9D%B4%EC%8A%88%3A%20Claude%20Code%EA%B0%80%202%EC%9B%94%20%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%20%EC%9D%B4%ED%9B%84%20%EB%B3%B5%EC%9E%A1%ED%95%9C%20%EC%97%94%EC%A7%80%EB%8B%88%EC%96%B4%EB%A7%81%20%EC%9E%91%EC%97%85%EC%97%90%20%EC%82%AC%EC%9A%A9%20%EB%B6%88%EA%B0%80&labels=feedback%2Cliked&body=**Article**%3A%20%EC%9D%B4%EC%8A%88%3A%20Claude%20Code%EA%B0%80%202%EC%9B%94%20%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8%20%EC%9D%B4%ED%9B%84%20%EB%B3%B5%EC%9E%A1%ED%95%9C%20%EC%97%94%EC%A7%80%EB%8B%88%EC%96%B4%EB%A7%81%20%EC%9E%91%EC%97%85%EC%97%90%20%EC%82%AC%EC%9A%A9%20%EB%B6%88%EA%B0%80%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Fanthropics%2Fclaude-code%2Fissues%2F42796%0A**Date**%3A%202026-04-07%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
