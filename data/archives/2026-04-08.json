@@ -1,0 +1,1331 @@
+{
+  "date": "2026-04-08",
+  "intro": "안녕하세요! 오늘은 프론트엔드 성능 최적화와 AI 기술의 급속한 발전이 주목할 만한 소식들입니다. Railway의 Next.js 마이그레이션으로 빌드 시간을 5분의 1로 단축한 사례와 Next.js 16.2의 주요 업데이트, 그리고 Google의 오픈소스 AI 전략 변화가 업계의 화두가 되고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "We moved Railway's frontend off Next.js. Builds went from 10+ mins to under 2",
+          "titleKo": "Railway가 Next.js에서 프론트엔드를 이전했습니다: 빌드 시간 10분에서 2분 이하로 단축",
+          "summary": "Railway는 전체 프로덕션 프론트엔드를 Next.js에서 Vite + TanStack Router로 마이그레이션하여 빌드 시간을 10분에서 2분 이하로 단축했으며, 단 2개의 PR로 무중단 배포를 완성했다. Railway의 애플리케이션은 클라이언트 중심이며 웹소켓과 실시간 기능이 많아서 Next.js의 서버 우선 패러다임이 필요하지 않았다. TanStack Router의 타입 안전 라우팅, 1급 레이아웃, 빠른 개발 루프가 더 적합했으며, 300개 이상의 리다이렉트와 보안 헤더 설정을 Nitro 서버로 통합했다.",
+          "keyPoints": [
+            "빌드 시간 단축 원인: Next.js 빌드 중 '페이지 최적화 완료' 단계에서 6분 중 3분이 소요되었는데, 이는 클라이언트 중심의 Railway 대시보드에서 불필요한 오버헤드였다. Vite로 전환하면서 이 단계가 제거되어 총 빌드 시간이 10분 이상에서 2분 이하로 단축되었다.",
+            "아키텍처 불일치: Pages Router 기반의 레이아웃 처리가 불편했고, App Router는 서버 우선 패러다임을 강조하여 Railway의 클라이언트 중심 제품과 맞지 않았다. 결국 프레임워크의 기본 설계가 실제 사용 패턴과 충돌했다.",
+            "타입 안전 라우팅: TanStack Router는 라우트 파라미터와 검색 파라미터를 타입 추론하며, 자동완성이 전체 라우트 트리에서 작동한다. 파일 시스템 기반 라우트 생성으로 라우팅 설정이 더 명시적이고 안전해진다.",
+            "1급 레이아웃: 경로 없는 레이아웃 라우트로 기존의 해킹 성격의 해결책들을 합성 가능하고 예측 가능한 패턴으로 대체했다. 이는 UI 구조를 더 명확하게 표현할 수 있게 해준다.",
+            "개발 속도 개선: 즉각적인 HMR(Hot Module Replacement)과 거의 0에 가까운 시작 시간으로 코드 변경과 결과 확인 사이의 피드백 루프가 사실상 사라졌다. 이러한 빠른 반복이 팀의 생산성에 큰 영향을 미친다.",
+            "무중단 마이그레이션: PR 1에서 next/image, next/head, next/router 등 Next.js 의존성을 모두 제거하고, PR 2에서 프레임워크 교체를 수행했다. 200+ 라우트를 일요일 이른 아침에 병합하고 즉시 팀이 검증하여 같은 날 수정사항을 배포했다.",
+            "서버 통합: Nitro를 서버 레이어로 추가하여 next.config.js의 역할을 대체했으며, 500개 이상의 리다이렉트, 보안 헤더, 캐싱 규칙을 한 곳에서 관리하도록 통합했다.",
+            "트레이드오프: next/image의 기본 제공 최적화를 포기하고 Fastly 엣지 최적화로 대체했으며, next-seo, next-sitemap 같은 도구도 경량의 내부 구현으로 교체했다. TanStack Start의 완성도는 Next.js보다 낮지만, 개선 방향과 유지보수팀의 반응성이 좋다고 평가했다."
+          ],
+          "whyItMatters": "클라이언트 중심 애플리케이션의 개발자들에게 프레임워크 선택이 얼마나 중요한지 보여주며, 올바른 스택 선택이 개발 속도와 빌드 성능에 얼마나 큰 영향을 미칠 수 있는지를 실제 사례로 입증한다.",
+          "url": "https://blog.railway.com/p/moving-railways-frontend-off-nextjs",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 164,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "nextjs-performance",
+          "isTopicPrimary": true,
+          "slug": "we-moved-railways-frontend-off-nextjs-builds-went-from-10-mins-to-under-2",
+          "fullContent": "Victor RamirezApr 3, 2026Railway's entire production frontend no longer runs on Next.js. The dashboard, the canvas, railway.com, all of it now runs on Vite + TanStack Router, and we shipped the migration in two PRs with zero downtime.Next.js served us well. Then it didn't.Next.js got railway.com from zero to a production app serving millions of users monthly. It's an excellent framework, but it stopped being the right one for our product.Frontend builds had crept past 10 minutes. Six of those minutes were Next.js alone, half of it stuck on \"finalizing page optimization.\" For a team that ships multiple times a day, that kind of build time isn't a minor annoyance. It's like a very expensive tax on every single iteration.Railway’s app is overwhelmingly client-side. The dashboard is a rich, stateful interface. The canvas is real-time. Websockets are everywhere. The server-first primitives in Next.js weren't something we used, and we'd ended up building our own abstractions on top of the Pages Router just to support layouts and routing concerns that the framework didn't handle the way we needed. We were still on the Pages Router, which made shared layouts hacky. Every layout pattern was a bolted-on workaround rather than a first-class framework primitive. The App Router would have solved some of these problems, but it leans heavily into server-first patterns, and our product is intentionally client-driven. Adopting it would have meant rebuilding around a paradigm we don't need.Why TanStack Start + ViteWe wanted a stack that matches how we actually build: explicit, client-first, and fast to iterate on. It also helps that we genuinely enjoy working with it. For the Product team, we wanted a few niceties that help us avoid thinking about how we needed to implement our front-end and found the following to really convince us.Type-safe routing out of the box. Route params and search params are inferred, autocomplete works across the entire route tree, and the routes themselves are generated from the file system.First-class layouts. Pathless layout routes replaced all of our previous hacks with something composable and predictable.A dev loop fast enough that you stop thinking about it. Instant HMR, near-zero startup time. The feedback cycle between changing code and seeing the result effectively disappears.SSR where it actually matters. Marketing pages, the changelog, careers. Pure client-side everywhere else, because we're not going to force server rendering on screens that don't benefit from it. (Ed: This Blog, ironically isn’t on Tanstack yet.)An explicit model. Meaning, we found TanStack to lean less on framework magic, more control over how things actually work under the hood.Several of us tried TanStack Start over the holidays and the reaction was unanimous. We like building with it, and for a product like Railway's dashboard, that matters as much as any benchmark.Two PRs, zero downtimeOnce we made the choice, I got to work. Pre-squash before merge, I must have made 100s of commits.\nMigrating a production frontend that serves millions of users across 200+ routes is the kind of thing that usually takes months of parallel running and incremental cutover. We were on a deadline, so I did it in two pull requests.PR 1 replaced everything Next.js-specific: next/image, next/head, next/router. Each was swapped for either a native browser API or a framework-agnostic alternative. This PR changed nothing about the framework itself. It just removed every dependency on it, so that PR 2 could be a clean swap.PR 2 swapped the framework. 200+ routes migrated. We systematically extracted everything non-routing-related from page files into individual React components first, then generated all routes from the original page tree.We then added Nitro as the server layer and replaced next.config.js with Nitro config, consolidating redirects (500+), security headers, and caching rules into one place. We also replaced Node.js APIs that Next.js had provided polyfills for (Buffer, url.parse, and others) with browser-native alternatives, which left us with cleaner code as a side effect.Merged on an early Sunday morning. The team dogfooded immediately with a live war room in Discord, and a stream of fixes landed same day. No downtime.What we gave upSure we gained a faster, more explicit stack, but not without trade-offs.Built-in image optimization. We replaced next/image with <img> tags and Fastly image optimization at the edge.Parts of the ecosystem. We replaced tools like next-seo and next-sitemap with small in-house equivalents. Straightforward to build, no extra dependencies.Maturity. TanStack Start is new, and rougher edges can be expected. We're comfortable with that because the direction is right, the maintainers are responsive, and we sponsor both Vite and TanStack because we believe in where they're going.Railway's frontend runs on RailwayWe run our production frontend the same way our users run theirs: preview deploys per PR, health",
+          "category": "hot",
+          "publishedAt": "2026-04-08T06:01:00.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Railway의 대규모 프론트엔드 마이그레이션: Next.js에서 Vite + TanStack Router로\n\n**Victor Ramirez | 2026년 4월 3일**\n\nRailway의 프로덕션 프론트엔드 전체가 더 이상 Next.js 위에서 돌아가지 않습니다. 대시보드, 캔버스, railway.com – 모든 게 이제 Vite + TanStack Router로 움직이고 있어요. 단 2개의 PR로 마이그레이션을 끝냈고, 다운타임은 제로였습니다.\n\n## Next.js는 좋았다. 그다음부턴 아니었다\n\nNext.js는 Railway를 영점에서 월간 수백만 사용자를 서빙하는 프로덕션 앱으로 만들어주었습니다. 정말 훌륭한 프레임워크죠. 하지만 어느 순간 우리 제품에는 맞지 않는 도구가 되어버렸어요.\n\n빌드 시간이 10분을 넘어섰거든요. 이중 6분이 Next.js 자체 때문이고, 그중 절반은 \"페이지 최적화 마무리(finalizing page optimization)\" 단계에서 멈춰있었습니다. 하루에 여러 번 배포하는 팀 입장에선 이 정도의 빌드 시간은 단순 불편함이 아닙니다. 매번 반복할 때마다 상당한 시간 비용을 지불하는 셈이죠.\n\nRailway의 앱은 거의 전부가 클라이언트 사이드입니다. 대시보드는 풍부한 상태를 가진 인터페이스고, 캔버스는 실시간으로 동작합니다. WebSocket이 곳곳에 있어요. 그런데 Next.js의 서버 우선(server-first) 패러다임은 우리가 쓰지 않는 부분이었습니다. Pages Router 위에 우리만의 추상화 레이어를 덧붙여서 레이아웃과 라우팅 문제를 해결해야 했거든요.\n\nPages Router에 머물러 있으니 공유 레이아웃이 항상 거슬렸습니다. 모든 레이아웃 패턴이 그때그때 임시방편이었지, 프레임워크가 기본으로 지원하는 기능이 아니었던 거죠. App Router로 옮기면 이런 문제가 해결되겠지만, 그건 서버 우선 패턴에 더 무겁게 기울어져 있습니다. 우리 제품은 의도적으로 클라이언트 중심으로 설계되어 있으니, 그걸 도입하려면 필요하지도 않은 패러다임으로 전체를 다시 짜야 할 판이었어요.\n\n## 왜 TanStack Start + Vite인가\n\n우린 실제로 우리가 만드는 방식에 맞는 스택을 원했습니다. 명확하고, 클라이언트 우선이고, 빠른 반복이 가능한 것 말이에요. 게다가 이 스택으로 개발하는 게 정말 즐겁습니다. 제품 팀이 원했던 몇 가지 특징들이 우리를 결정적으로 설득했어요.\n\n**타입 안전 라우팅이 기본으로 제공됩니다.** 라우트 파라미터와 검색 파라미터가 자동 추론되고, 자동완성이 전체 라우트 트리에서 작동합니다. 라우트 자체도 파일 시스템에서 생성되죠.\n\n**레이아웃이 일급 기능입니다.** 경로 없는 레이아웃 라우트로 모든 임시방편이 대체되었고, 이제 조합 가능하고 예측 가능한 형태가 되었습니다.\n\n**개발 루프가 빨라서 생각할 필요가 없을 수준입니다.** HMR이 즉시 반영되고, 시작 시간은 거의 무시할 수준이에요. 코드를 변경하고 결과를 보는 사이의 피드백 사이클이 사실상 사라집니다.\n\n**정말 필요한 부분만 SSR합니다.** 마케팅 페이지, 변경 로그, 채용 공고처럼요. 나머지는 순수 클라이언트 사이드인데, 서버 렌더링의 이점이 없는 화면에 굳이 강제할 필요가 없거든요. (편집자 주: 아이러니하게도 이 블로그 자체는 아직 TanStack으로 옮겨지지 않았네요.)\n\n**명시적인 모델입니다.** 즉, TanStack은 프레임워크의 \"마법\"을 덜 사용하고 내부 동작을 더 많이 제어할 수 있게 설계되어 있습니다.\n\n우리 팀의 몇몇이 휴가 때 TanStack Start를 시도해봤는데 반응이 일치했습니다. 이걸로 개발하는 게 좋고, Railway의 대시보드 같은 제품에는 벤치마크만큼 중요합니다.\n\n## 2개 PR, 다운타임 제로\n\n선택을 내린 후 본격적으로 시작했습니다. 머지 전 스쿼시하기 전엔 아마 수백 개의 커밋을 만들었을 겁니다.\n\n수백만 사용자를 서빙하는 프로덕션 프론트엔드를 200개 이상의 라우트로 마이그레이션하는 건 보통 수개월에 걸쳐 병렬 운영하고 점진적으로 전환하는 작업입니다. 우린 일정이 빠듯했으니 2개의 PR로 끝내버렸습니다.\n\n**첫 번째 PR**은 모든 Next.js 특화 기능을 제거했습니다. next/image, next/head, next/router 같은 것들 말이에요. 각각을 네이티브 브라우저 API나 프레임워크 무관한 대체재로 바꿨습니다. 이 PR은 프레임워크 자체를 바꾼 게 아닙니다. 단지 모든 Next.js 의존성을 제거해서 두 번째 PR이 깔끔한 프레임워크 교체가 되도록 한 거죠.\n\n**두 번째 PR**은 프레임워크 자체를 바꿨습니다. 200개 이상의 라우트를 마이그레이션했어요. 라우팅과 무관한 모든 것을 페이지 파일에서 개별 React 컴포넌트로 먼저 추출한 다음, 원래 페이지 트리에서 모든 라우트를 생성했습니다.\n\n그 다음 서버 레이어로 Nitro를 추가했고, next.config.js를 Nitro 설정으로 대체했습니다. 500개 이상의 리다이렉트, 보안 헤더, 캐싱 규칙이 한곳에 통합되었어요. Next.js가 제공하던 폴리필(Buffer, url.parse 등)을 브라우저 네이티브 대체재로 바꿨는데, 덤으로 코드도 더 깔끔해졌습니다.\n\n일요일 아침 일찍 머지했습니다. 팀이 즉시 Discord 라이브 전쟁실에서 테스트를 시작했고, 수정 사항들이 그날 안에 계속 배포되었어요. 다운타임은 없었습니다.\n\n## 우리가 포기한 것들\n\n더 빠르고 명시적인 스택을 얻었지만, 대가는 있었습니다.\n\n**이미지 최적화 기능.** next/image를 일반 `<img>` 태그와 Fastly의 엣지 이미지 최적화로 대체했습니다.\n\n**생태계의 일부.** next-seo, next-sitemap 같은 도구들을 작은 인하우스 대체재로 만들었어요. 그리 복잡하지 않고 추가 의존성도 줄었습니다.\n\n**성숙도.** TanStack Start는 새로운 도구라 거친 부분들이 있을 수 있습니다. 하지만 방향이 맞고, 메인테이너들이 반응이 빠르고, 우리가 Vite와 TanStack을 스폰서하고 있으니 괜찮습니다. 그들의 방향성을 믿거든요.\n\n## Railway의 프론트엔드는 Railway 위에서 실행됩니다\n\n우린 우리의 프로덕션 프론트엔드를 사용자들과 같은 방식으로 운영합니다. PR마다 프리뷰 배포, 헬스 체크..."
+        },
+        {
+          "title": "Muse Spark: Scaling towards personal superintelligence",
+          "titleKo": "Muse Spark: 개인 초지능을 향한 확장",
+          "summary": "Meta는 새로운 Muse Spark 모델을 발표했으며, 이는 도구 사용, 시각적 사고의 연쇄, 멀티에이전트 오케스트레이션을 지원하는 네이티브 멀티모달 추론 모델이다. Contemplating 모드는 여러 에이전트가 병렬로 추론하도록 오케스트레이션하여 Gemini Deep Think, GPT-4o와 경쟁 수준의 성능을 달성한다. 의료 협력을 통해 건강 관련 추론 능력을 강화했으며, 프리트레이닝, 강화학습, 테스트 타임 추론의 세 축으로 확장 가능성을 검증했다.",
+          "keyPoints": [
+            "멀티모달 지각: 시각 정보를 여러 도메인과 도구에 걸쳐 통합하여 시각적 STEM 질문, 개체 인식, 위치 파악에 강한 성능을 보인다. 이를 통해 집안일 수리 튜토리얼, 미니게임 생성 등 상호작용 경험을 가능하게 한다.",
+            "Contemplating 모드: 여러 에이전트가 병렬로 추론하는 방식으로 Humanity's Last Exam에서 58%, FrontierScience Research에서 38%의 성능을 달성하여 극단적 추론 모드와 경쟁 수준을 보인다.",
+            "의료 추론: 1,000명 이상의 의사와 협력하여 수집한 학습 데이터로 영양 정보, 운동 중 활성화되는 근육 등 맞춤형 건강 정보를 대화형으로 표시할 수 있다.",
+            "프리트레이닝 효율: 지난 9개월간 재구축한 프리트레이닝 스택으로 이전 Llama 4 Maverick 대비 같은 성능 도달에 필요한 계산량을 10배 이상 줄였다. 이는 모델 아키텍처, 최적화, 데이터 큐레이션의 종합적 개선의 결과이다.",
+            "확장 축 검증: 프리트레이닝, 강화학습(RLHF), 테스트 타임 추론의 세 축에서 성능이 예측 가능하고 효율적으로 확장됨을 입증했다. 더 큰 모델들이 개발 중이며, 현재 스택이 확장에 적합함을 보여준다.",
+            "개인화 초지능 방향: 사용자의 주변 환경을 분석하고 웰니스를 지원하는 개인 맞춤형 AI 어시스턴트로의 진화를 목표로 설계되었다."
+          ],
+          "whyItMatters": "Meta의 멀티모달 추론 모델과 확장 방식이 개인화된 AI 어시스턴트의 새로운 기준을 제시하며, 프리트레이닝 효율 개선은 산업 전반의 모델 학습 비용 감소에 영향을 미칠 수 있다.",
+          "url": "https://ai.meta.com/blog/introducing-muse-spark-msl/?_fb_noscript=1",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 233,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "meta-muse-spark",
+          "isTopicPrimary": true,
+          "slug": "muse-spark-scaling-towards-personal-superintelligence",
+          "fullContent": "Today, we’re excited to introduce Muse Spark, the first in the Muse family of models developed by Meta Superintelligence Labs. Muse Spark is a natively multimodal reasoning model with support for tool-use, visual chain of thought, and multi-agent orchestration.\nMuse Spark is the first step on our scaling ladder and the first product of a ground-up overhaul of our AI efforts. To support further scaling, we are making strategic investments across the entire stack — from research and model training to infrastructure, including the Hyperion data center.\nIn this post, we'll first explore Muse Spark's new capabilities and applications. After these results, we’ll look behind the curtain at the scaling axes driving our progress toward personal superintelligence.\nMuse Spark is available today at meta.ai and the Meta AI app. We’re opening a private API preview to select users.\nCapabilities for Personal Superintelligence\nMuse Spark offers competitive performance in multimodal perception, reasoning, health, and agentic tasks. We continue to invest in areas with current performance gaps, such as long-horizon agentic systems and coding workflows.\nWith larger models in development, these results demonstrate that our stack is scaling effectively.\nWe’re also releasing Contemplating mode, which orchestrates multiple agents that reason in parallel. This allows Muse Spark to compete with the extreme reasoning modes of frontier models such as Gemini Deep Think and GPT Pro. Contemplating mode provides significant capability improvements in challenging tasks, achieving 58% in Humanity’s Last Exam and 38% in FrontierScience Research.\nMuse Spark is available now, and Contemplating mode will be rolling out gradually in meta.ai.\n*For more details about our evaluations, see our methodology document.\nMuse Spark is the first step toward a personal superintelligence that understands your world. From analyzing your immediate environment to supporting your wellness, the advanced reasoning capabilities of Muse Spark enable powerful, highly personal use cases.\nMultimodal. Muse Spark is built from the ground up to integrate visual information across domains and tools. It achieves strong performance on visual STEM questions, entity recognition, and localization. These capabilities come together to enable interactive experiences like creating fun minigames or troubleshooting your home appliances with dynamic annotations.\nHealth. One major application of personal superintelligence is to help people learn about and improve their health. To improve Muse Spark's health reasoning capabilities, we collaborated with over 1,000 physicians to curate training data that enables more factual and comprehensive responses. Muse Spark can generate interactive displays that unpack and explain health information such as the nutritional content of various foods or muscles activated during exercise.\nPrompt: Can you turn this into a sudoku game that I can play in the web?\nPrompt: Identify the key components of the coffee machine and grinder, and create an interactive tutorial of using this machine to make a latte with a simple webpage, when I hover on the steps, it will highlight bounding boxes of the components.\nPrompt: I am pescatarian with high cholesterol. Put green dots on recommended food and red dots on not recommended food. Don’t duplicate dots and make sure the dots are localized properly. When hovering over the dot, show personalized justification and “health score” out of 10, along with calories and carbs, protein, and fat. Health score numbers should appear right above the dot without hovering. The description that shows when hovering should go above all other dots.\nPrompt: For both images, show me which muscles are being stretched and its difficulty. When hovering over the dot, tell me more about the muscle group with how to fix my form. I want to get better at yoga. Make a side by side with my partner, and rate both of us on a scale of 1 to 10.\nTo build personal superintelligence, our model’s capabilities should scale predictably and efficiently. Below, we share how we study and track Muse Spark's scaling properties along three axes: pretraining, reinforcement learning, and test-time reasoning.\nPretraining. The pretraining phase is where Muse Spark acquires its core multimodal understanding, reasoning, and coding abilities — the foundation that reinforcement learning and test-time compute build upon.\nOver the last nine months, we rebuilt our pretraining stack with improvements to model architecture, optimization, and data curation. Together, these advancements increase the capability we can extract from every unit of compute. To rigorously evaluate our new recipe, we fit a scaling law to a series of small models and compare the training FLOPs required to hit a specific level of performance. The results are clear: we can reach the same capabilities with over an order of magnitude less compute than our previous model, Llama 4 Maverick. This improvement ",
+          "category": "hot",
+          "publishedAt": "2026-04-08T16:01:32.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Meta의 Muse Spark 공개: 개인용 슈퍼인텔리전스로 향하는 첫 발걸음\n\nMeta 슈퍼인텔리전스 랩이 새로운 모델 시리즈 'Muse'의 첫 번째 모델인 **Muse Spark**를 공개했습니다. 시각과 텍스트를 함께 이해하는 멀티모달 추론 모델이면서, 도구 사용, 시각적 사고 과정, 다중 에이전트 조율 등을 지원하는 게 특징이죠.\n\nMuse Spark는 우리가 추진 중인 확장 전략의 첫 단계입니다. 더 큰 모델을 개발할 수 있도록 연구부터 모델 학습, 인프라(Hyperion 데이터센터 포함) 전반에 걸쳐 전략적 투자를 하고 있거든요.\n\n오늘은 Muse Spark의 새로운 기능과 실제 활용 사례를 먼저 살펴본 다음, 우리가 개인용 슈퍼인텔리전스에 어떻게 접근하고 있는지 기술적 배경까지 소개하겠습니다.\n\n## Muse Spark의 핵심 기능\n\nMuse Spark는 멀티모달 인식, 추론, 건강 관련 작업 등에서 경쟁력 있는 성능을 보여줍니다. 장기 자동화 시스템이나 코딩 워크플로우 같은 분야는 계속 개선 중이지만, 현재 우리의 스택이 효과적으로 확장되고 있다는 것을 여러 결과가 증명하고 있어요.\n\n특히 새롭게 추가한 **Contemplating 모드**는 여러 에이전트가 병렬로 추론하도록 조율합니다. 덕분에 Gemini Deep Think나 GPT Pro 같은 고급 추론 모드와 경쟁할 수 있게 됐죠. Contemplating 모드로는 'Humanity's Last Exam'에서 58%, 'FrontierScience Research'에서 38%의 성능을 달성했습니다.\n\nMuse Spark는 지금 바로 meta.ai와 Meta AI 앱에서 사용할 수 있고, Contemplating 모드는 곧 점진적으로 롤아웃될 예정입니다.\n\n## 개인용 슈퍼인텔리전스란 무엇인가\n\n우리의 궁극의 목표는 당신의 세계를 이해하는 개인용 슈퍼인텔리전스를 만드는 것입니다. 주변 환경을 분석하는 것부터 건강 관리를 돕는 것까지, Muse Spark의 고급 추론 능력이 이런 개인화된 경험을 가능하게 하거든요.\n\n### 멀티모달 기능\n\nMuse Spark는 처음부터 시각 정보를 여러 분야와 도구 전반에 통합하도록 설계됐습니다. 시각 STEM 문제, 개체 인식, 위치 파악 등에서 뛰어난 성능을 발휘하는데요, 이런 기능들이 모여서 재미있는 미니게임 만들기나 가전제품 고장 수리할 때 동적 주석으로 안내하는 식의 상호작용형 경험을 만들 수 있습니다.\n\n**활용 사례:**\n```\n프롬프트: 이것을 웹에서 플레이할 수 있는 스도쿠 게임으로 만들어 줄 수 있을까?\n```\n\n```\n프롬프트: 커피 머신과 그라인더의 핵심 부품을 파악하고, 라떼를 만드는 과정을 간단한 웹페이지 튜토리얼로 만들어 줘. 각 단계 위에 마우스를 올리면 관련 부품이 강조되도록 해 줘.\n```\n\n### 건강 관련 기능\n\n개인용 슈퍼인텔리전스의 주요 활용 분야 중 하나가 바로 건강입니다. Muse Spark의 건강 추론 능력을 높이기 위해 1,000명 이상의 의사와 협력해서 학습 데이터를 구성했거든요. 덕분에 더 정확하고 포괄적인 답변을 줄 수 있게 됐습니다. \n\n음식의 영양 정보나 운동 중 활성화되는 근육 같은 정보를 시각적으로 풀어서 설명할 수도 있어요.\n\n**활용 사례:**\n```\n프롬프트: 나는 페스카테리언이고 콜레스테롤이 높아. 추천 음식에는 초록 점, \n추천하지 않는 음식에는 빨간 점을 찍어 줘. 점이 겹치지 않게 하고 위치도 \n정확하게 해 줘. 점 위에 마우스를 올리면 개인화된 설명과 \n\"건강 점수\"(10점 만점), 칼로리, 탄수화물, 단백질, 지방을 보여 줘.\n```\n\n```\n프롬프트: 두 이미지 모두에서 어떤 근육이 늘어나는지, 난이도는 어느 정도인지 \n보여 줘. 점 위에 마우스를 올리면 근육군에 대해 더 자세히 설명하고 \n자세를 개선하는 방법을 알려 줘. 나는 요가를 더 잘하고 싶어. \n파트너와 나란히 비교하고, 우리 둘 다 1부터 10까지로 평가해 줘.\n```\n\n## 기술적 확장 전략: 세 가지 축\n\n개인용 슈퍼인텔리전스를 구현하려면 모델의 능력이 예측 가능하고 효율적으로 확장돼야 합니다. 우리는 **사전학습(Pretraining)**, **강화학습(Reinforcement Learning)**, **테스트 타임 추론(Test-time Reasoning)** 이 세 가지 축을 따라 확장 특성을 연구하고 추적하고 있습니다.\n\n### 1. 사전학습 단계\n\n사전학습은 Muse Spark가 멀티모달 이해, 추론, 코딩 능력 같은 기초를 쌓는 단계입니다. 강화학습과 테스트 타임 컴퓨트가 이 기초 위에서 발휘될 수 있거든요.\n\n지난 9개월간 우리는 사전학습 스택을 완전히 다시 구축했습니다. 모델 아키텍처, 최적화, 데이터 큐레이션 등 여러 분야에 개선을 가했는데요, 이 모든 개선이 모여서 컴퓨트의 각 단위에서 뽑아낼 수 있는 성능을 크게 높였습니다.\n\n우리의 새로운 레시피가 제대로 작동하는지 검증하기 위해 작은 모델들로 스케일링 법칙을 만들고, 특정 성능 수준에 도달하는 데 필요한 학습 FLOPs를 비교했습니다. 결과는 명확했어요. **이전 모델인 Llama 4 Maverick 대비 10배 이상 적은 컴퓨트로 동일한 성능에 도달할 수 있게 됐습니다.**"
+        },
+        {
+          "title": "AWS Engineer Reports PostgreSQL Performance Halved By Linux 7.0, But A Fix May Not Be Easy",
+          "titleKo": "AWS 엔지니어, Linux 7.0으로 인한 PostgreSQL 성능 50% 저하 보고, 수정이 쉽지 않을 수 있음",
+          "summary": "AWS 엔지니어가 Linux 7.0 업그레이드 후 PostgreSQL 성능이 절반으로 저하되는 문제를 보고했으며, 근본 원인 파악이 진행 중이고 수정 방안이 간단하지 않을 수 있다는 지적이다.",
+          "keyPoints": [
+            "성능 저하: Linux 7.0 업데이트 이후 PostgreSQL의 처리량이 50% 이상 감소하는 현상이 확인되었다.",
+            "원인 규명 어려움: 문제의 정확한 원인이 Linux 커널 변경인지, 시스템 설정 변화인지, 아니면 상호작용 문제인지 파악하기 위한 심층 분석이 필요하다."
+          ],
+          "whyItMatters": "Linux 업그레이드가 데이터베이스 성능에 미치는 영향을 조직들이 주의 깊게 검토해야 하며, 운영 환경 변경 전에 충분한 테스트가 필수임을 시사한다.",
+          "url": "https://www.phoronix.com/news/Linux-7.0-AWS-PostgreSQL-Drop",
+          "sourceName": "Lobste.rs",
+          "contentType": "article",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "topicId": "postgresql-linux-performance",
+          "isTopicPrimary": true,
+          "slug": "aws-engineer-reports-postgresql-performance-halved-by-linux-70-but-a-fix-may",
+          "category": "hot",
+          "publishedAt": "2026-04-08T17:46:45.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Microsoft terminates VeraCrypt account, halting Windows updates",
+          "titleKo": "마이크로소프트, VeraCrypt 계정 종료로 Windows 업데이트 중단",
+          "summary": "마이크로소프트가 인기 있는 암호화 소프트웨어 VeraCrypt의 계정을 예고 없이 종료해 업데이트가 중단된 상태다. 종료 이유가 명확하지 않아 논란이 되고 있다.",
+          "keyPoints": [
+            "마이크로소프트가 VeraCrypt 계정을 갑작스럽게 종료하면서 장기간 운영되던 암호화 소프트웨어의 업데이트가 중단됨",
+            "공식적인 설명 없이 진행된 조치로 인해 개발 커뮤니티에서 우려가 제기되고 있음"
+          ],
+          "whyItMatters": "널리 사용되는 암호화 도구의 업데이트 중단은 보안 유지보수와 사용자 신뢰에 직결되는 문제다.",
+          "url": "https://www.404media.co/microsoft-abruptly-terminates-veracrypt-account-halting-windows-updates/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 430,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "veracrypt-microsoft",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "microsoft-terminates-veracrypt-account-halting-windows-updates",
+          "fullContent": "encryption\nMicrosoft Abruptly Terminates VeraCrypt Account, Halting Windows Updates\nJoseph Cox\n·\nApr 8, 2026\nat 9:59 AM\nUpdates to VeraCrypt, a popular and long-running piece of encryption, are now thrown into doubt because of a seemingly unexplained Microsoft decision.\nPhoto by Simon Ray on Unsplash",
+          "category": "hot",
+          "publishedAt": "2026-04-08T14:46:15.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Microsoft, 갑작스럽게 VeraCrypt 계정 차단... Windows 업데이트 중단 위기\n\n오픈소스 암호화 소프트웨어인 VeraCrypt의 업데이트가 불투명한 상황에 놓였습니다. 마이크로소프트가 갑자기 계정을 차단하면서 벌어진 일인데요.\n\nVeraCrypt는 오랫동안 사랑받아온 대중적인 암호화 도구입니다. 그런데 마이크로소프트의 예기치 않은 결정으로 인해 향후 업데이트 계획이 불확실해진 상태입니다.\n\n## 무슨 일이 일어났나?\n\n마이크로소프트는 특별한 설명 없이 VeraCrypt 개발팀의 계정을 차단했습니다. 이로 인해 Windows 플랫폼에서의 정기적인 업데이트 배포가 중단될 위험에 처했습니다.\n\n이 사건은 개발 커뮤니티에 큰 파장을 일으켰습니다. 광범위하게 사용되고 있는 보안 도구가 갑자기 접근할 수 없게 된 것이거든요.\n\n---\n\n*Photo by Simon Ray on Unsplash*"
+        },
+        {
+          "title": "I've been waiting over a month for Anthropic to respond to my billing issue",
+          "titleKo": "Anthropic 청구 문제에 대한 1개월 이상의 응답 대기",
+          "summary": "사용자가 Claude Max 구독 중 3월 초 $180의 의도하지 않은 요금이 청구되었으나, 실제 사용 기록과 맞지 않음을 발견했다. Anthropic 지원팀에 3월 7일 문의했으나 AI 챗봇만 응답하고 인간 지원은 1개월 이상 응답이 없는 상황이다.",
+          "keyPoints": [
+            "Claude Max 사용자들이 부정확한 사용량 표시로 인한 오류 청구 문제를 공통으로 보고하고 있음",
+            "Anthropic의 지원 시스템이 문제 해결 불가능한 AI 챗봇(Fin)만 제공하며 인간 지원 접근이 불가능함"
+          ],
+          "whyItMatters": "AI 기반 서비스 사용자라면 지원 체계의 부재가 심각한 문제가 될 수 있으므로 고려해야 한다.",
+          "url": "https://nickvecchioni.github.io/thoughts/2026/04/08/anthropic-support-doesnt-exist/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 232,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "topicId": "anthropic-support-issue",
+          "isTopicPrimary": true,
+          "slug": "ive-been-waiting-over-a-month-for-anthropic-to-respond-to-my-billing-issue",
+          "fullContent": "In early March, I noticed approximately $180 in unexpected charges to my Anthropic account. I’m a Claude Max subscriber, and between March 3-5, I received 16 separate “Extra Usage” invoices ranging from $10-$13 each, all in quick succession of one another. However, I wasn’t using Claude. I was away from my laptop entirely and was out sailing with my parents back home in San Diego.\nWhen I checked my usage dashboard, it showed my session at 100% despite no activity. My Claude Code session history showed two tiny sessions from March 5 totaling under 7KB (no sessions on March 3 or March 4.) Nothing that would explain $180 in Extra Usage charges.\nThis isn’t just me. Other Max plan users have reported the same issue. There are numerous GitHub issues about it (e.g. claude-code#29289 and claude-code#24727), and posts on r/ClaudeCode describing the exact same behavior: usage meters showing incorrect values and Extra Usage charges piling up erroneously.\nThe support experience\nOn March 7, I sent a detailed email to Anthropic support laying out the situation with all the evidence above. Within two minutes, I received a response… from “Fin AI Agent, Anthropic’s AI Agent.” The AI agent told me to go through an in-app refund request flow. Sadly, this refund pipeline is only applicable for subscriptions, and not for Extra Usage charges. I also wanted to confirm with a human on exactly what went wrong rather than just getting a refund and calling it a day.\nSo, naturally, I replied asking to speak to a human. The response:\nThank you for reaching out to Anthropic Support. We’ve received your request for assistance.\nWhile we review your request, you can visit our Help Center and API documentation for self-service troubleshooting. A member of our team will be with you as soon as we can.\nThat was March 7. I followed up on March 17. No response. I followed up again on March 25. No response. I followed up again today, April 8, over a month later. Still nothing.\nThe irony\nAnthropic is an AI company that builds one of the most capable AI assistants in the world. Their support system is a Fin AI chatbot that can’t actually help you, and there is seemingly no human behind it. I don’t have a problem with AI-assisted support, though I do have a problem with AI-only support that serves as a wall between customers and anyone who can actually resolve their issue.",
+          "category": "hot",
+          "publishedAt": "2026-04-08T17:44:25.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Anthropic 지원팀과의 한 달간의 악몽\n\n3월 초, 저는 Claude Max 구독 계정에 예상치 못한 180달러 규모의 청구를 발견했습니다. 3월 3일부터 5일 사이에 \"추가 사용료(Extra Usage)\" 청구서 16장이 연달아 들어왔는데, 각각 10~13달러 정도였습니다. 그런데 이상한 점이 있었어요. 당시 저는 노트북을 전혀 쓰지 않고 있었거든요. 샌디에이고 부모님 댁에서 항해를 하느라 밖에 나가 있었습니다.\n\n사용 현황 대시보드를 확인해보니 어떤 활동도 없었는데 세션이 100%로 표시되어 있었습니다. Claude Code 세션 기록을 보면 3월 5일에만 7KB 미만의 아주 짧은 세션 2개가 있고, 3월 3일과 4일에는 기록이 없었어요. 이 정도로는 절대 180달러의 추가 사용료가 나올 리 없습니다.\n\n## 다른 사용자들도 겪고 있던 문제\n\n저만의 문제가 아니었습니다. Max 플랜 사용자들이 같은 문제를 여럿 보고했거든요. GitHub 이슈(예: claude-code#29289, claude-code#24727)에도 여러 건이 등록되어 있고, r/ClaudeCode 같은 커뮤니티에도 동일한 증상을 호소하는 글들이 많았습니다. 사용량 미터기가 잘못된 값을 표시하고 추가 사용료가 자꾸만 쌓이는 문제였어요.\n\n## 고객 지원 경험\n\n3월 7일, 저는 위의 모든 증거를 담아 Anthropic 지원팀에 자세한 이메일을 보냈습니다. 그리고 2분 후 응답이 들어왔는데요. 보낸 사람은 \"Fin AI Agent, Anthropic의 AI 에이전트\"였습니다.\n\nAI 에이전트는 앱 내 환불 요청 프로세스를 따르라고 안내했습니다. 문제는 그 프로세스가 구독료 환불에만 적용된다는 거였어요. 추가 사용료는 대상이 아니었습니다. 게다가 저는 단순히 환불을 받고 넘어가기보다, 정확히 무엇이 잘못되었는지 인간 담당자와 확인하고 싶었습니다.\n\n그래서 당연히 인간 담당자와 대화하고 싶다고 답장을 했습니다. 응답은 이랬습니다.\n\n> Anthropic 지원팀에 연락주셔서 감사합니다. 귀하의 지원 요청을 접수했습니다.\n> \n> 저희가 요청을 검토하는 동안, 저희 도움말 센터와 API 문서를 방문하셔서 자체 문제 해결을 시도해보실 수 있습니다. 저희 팀원이 가능한 한 빨리 연락드리겠습니다.\n\n3월 7일이었습니다. 3월 17일에 다시 연락했습니다. 응답 없음. 3월 25일에 또 연락했습니다. 역시 응답 없음. 그리고 오늘, 4월 8일. 1개월이 지났는데도 여전히 아무 응답이 없습니다.\n\n## 역설\n\n여기가 아이러니한 부분입니다. Anthropic은 세계 최고 수준의 AI 어시스턴트 중 하나를 만드는 AI 회사인데요. 정작 그들의 고객 지원 시스템은 실제로 도움을 줄 수 없는 Fin AI 챗봇이고, 그 뒤에 문제를 실제로 해결할 수 있는 인간이 없어 보입니다.\n\nAI가 지원 업무를 돕는 것 자체는 문제가 아닙니다. 하지만 AI만으로 운영되는 지원 시스템이 고객과 실제 해결책 사이의 벽이 되는 건 문제가 큽니다."
+        },
+        {
+          "title": "I ported Mac OS X to the Nintendo Wii",
+          "titleKo": "Nintendo Wii에 Mac OS X를 포팅했습니다",
+          "summary": "개발자가 Mac OS X 10.0 Cheetah를 Nintendo Wii에 성공적으로 포팅했다. PowerPC 아키텍처 호환성과 커스텀 부트로더 개발을 통해 기존에 불가능하다고 여겨진 작업을 완성했다.",
+          "keyPoints": [
+            "Wii의 PowerPC 750CL 프로세서가 초대 iBook/iMac G3와 호환되어 포팅 가능성 확보",
+            "Open Firmware와 BootX 포팅 대신 처음부터 커스텀 부트로더를 작성해 불필요한 복잡성 제거",
+            "XNU 커널이 부팅되면 Open Firmware/BootX 의존성이 없어져 이론적으로 포팅 가능"
+          ],
+          "whyItMatters": "저사양 하드웨어에 복잡한 OS를 포팅하는 기술은 임베디드 시스템과 역사 보존 관점에서 참고 가치가 높다.",
+          "url": "https://bryankeller.github.io/2026/04/08/porting-mac-os-x-nintendo-wii.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 1110,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-ported-mac-os-x-to-the-nintendo-wii",
+          "fullContent": "Porting Mac OS X to the Nintendo Wii\nMac OS X 10.0 (Cheetah) running natively on the Nintendo Wii\nSince its launch in 2007, the Wii has seen several operating systems ported to it: Linux, NetBSD, and most-recently, Windows NT. Today, Mac OS X joins that list.\nIn this post, I’ll share how I ported the first version of Mac OS X, 10.0 Cheetah, to the Nintendo Wii. If you’re not an operating systems expert or low-level engineer, you’re in good company; this project was all about learning and navigating countless “unknown unknowns”. Join me as we explore the Wii’s hardware, bootloader development, kernel patching, and writing drivers - and give the PowerPC versions of Mac OS X a new life on the Nintendo Wii.\nVisit the wiiMac bootloader repository for instructions on how to try this project yourself.\nFeasibility Investigation\nBefore figuring out how to tackle this project, I needed to know whether it would even be possible. According to a 2021 Reddit comment:\nThere is a zero percent chance of this ever happening.\nFeeling encouraged, I started with the basics: what hardware is in the Wii, and how does it compare to the hardware used in real Macs from the era.\nHardware Compatibility\nThe Wii uses a PowerPC 750CL processor - an evolution of the PowerPC 750CXe that was used in G3 iBooks and some G3 iMacs. Given this close lineage, I felt confident that the CPU wouldn’t be a blocker.\nAs for RAM, the Wii has a unique configuration: 88 MB total, split across 24 MB of 1T-SRAM (MEM1) and 64 MB of slower GDDR3 SDRAM (MEM2); unconventional, but technically enough for Mac OS X Cheetah, which officially calls for 128 MB of RAM but will unofficially boot with less. To be safe, I used QEMU to boot Cheetah with 64 MB of RAM and verified that there were no issues.\nOther hardware I’d eventually need to support included:\nSerial debug output via a USB Gecko\nThe SD card for booting the rest of the system once the kernel was running\nInterrupt controllers\nVideo output via a framebuffer that lives in RAM\nThe Wii’s USB ports for using a mouse and keyboard\nConvinced that the Wii’s hardware wasn’t fundamentally incompatible with Mac OS X, I moved my attention to investigating the software stack I’d be porting.\nSoftware Compatibility\nMac OS X has an open source core (Darwin, with XNU as the kernel and IOKit as the driver model), with closed-source components layered on top (Quartz, Dock, Finder, system apps and frameworks). In theory, if I could modify the open-source parts enough to get Darwin running, the closed-source parts would run without additional patches.\nSource: Wikipedia: Architecture of macOS\nPorting Mac OS X would also require understanding how a real Mac boots. PowerPC Macs from the early 2000s use Open Firmware as their lowest-level software environment; for simplicity, it can be thought of as the first code that runs when a Mac is powered on. Open Firmware has several responsibilities, including:\nHardware detection and configuration\nDevice tree construction (based on the detected hardware)\nProviding useful functions for I/O, drawing, and hardware communication\nLoading and executing an operating system bootloader from the filesystem\nOpen Firmware eventually hands off control to BootX, the bootloader for Mac OS X. BootX prepares the system so that it can eventually pass control to the kernel. The responsibilities of BootX include:\nReading the device tree from Open Firmware\nLoading and decoding the XNU kernel, a Mach-O executable, from the root filesystem\nPassing control to the kernel\nOnce XNU is running, there are no dependencies on BootX or Open Firmware. XNU continues on to initialize processors, virtual memory, IOKit, BSD, and eventually continue booting by loading and running other executables from the root filesystem.\nThe last piece of the puzzle was how to run my own custom code on the Wii - a trivial task thanks to the Wii being “jailbroken”, allowing anyone to run homebrew with full access to the hardware via the Homebrew Channel and BootMii.\nPorting Approach\nArmed with knowledge of how the boot process works on a real Mac, along with how to run low-level code on the Wii, I needed to select an approach for booting Mac OS X on the Wii. I evaluated three options:\nPort Open Firmware, use that to run unmodified BootX to boot Mac OS X\nPort BootX and modify it to not rely on Open Firmware, use that to boot Mac OS X\nWrite a custom bootloader that performs the bare-minimum setup to boot Mac OS X\nSince Mac OS X doesn’t depend on Open Firmware or BootX once running, spending time porting either of those seemed like an unnecessary distraction. Additionally, both Open Firmware and BootX contain added complexity for supporting many different hardware configurations - complexity that I wouldn’t need since this only needs to run on the Wii. Following in the footsteps of the Wii Linux project, I decided to write my own bootloader from scratch. The bootloader would need to, at a minimum:\nInitialize the Wii’s hardware\nLoad the kernel fro",
+          "category": "hot",
+          "publishedAt": "2026-04-08T15:40:00.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Nintendo Wii에서 Mac OS X를 실행하다\n\nMac OS X 10.0 (Cheetah)이 Nintendo Wii에서 네이티브로 구동되고 있습니다.\n\n2007년 출시 이후 Wii는 다양한 운영체제가 포팅되었습니다. Linux, NetBSD, 그리고 최근에는 Windows NT까지요. 이제 Mac OS X도 그 목록에 추가되었습니다.\n\n이 글에서는 Mac OS X의 첫 번째 버전인 10.0 Cheetah를 Nintendo Wii로 포팅한 과정을 공유하려고 합니다. 운영체제나 저수준 시스템에 깊이 있는 지식이 없더라도 괜찮습니다. 이 프로젝트는 처음부터 배움과 예상 불가능한 문제들을 헤쳐나가는 것이 핵심이었거든요. Wii의 하드웨어, 부트로더 개발, 커널 패칭, 드라이버 작성 등을 함께 살펴보면서 PowerPC 기반의 Mac OS X에 새로운 생명을 불어넣는 여정을 경험해보세요.\n\n직접 이 프로젝트를 시도해보고 싶다면 wiiMac 부트로더 저장소에서 자세한 지침을 확인할 수 있습니다.\n\n## 가능성 검토\n\n이 프로젝트에 도전하기 전에 먼저 현실적으로 가능한지 확인이 필요했습니다. 어떤 Reddit 댓글에 따르면:\n\n> 이게 실현될 확률은 0%입니다.\n\n그런데도 도전하기로 마음먹었습니다. 먼저 기본부터 시작했습니다. Wii에는 어떤 하드웨어가 들어있고, 그 당시 실제 Mac의 하드웨어와는 어떻게 다를까요?\n\n### 하드웨어 호환성\n\nWii는 PowerPC 750CL 프로세서를 사용합니다. 이는 G3 iBooks와 일부 G3 iMac에 사용됐던 PowerPC 750CXe의 진화 버전이었죠. 이런 혈통 관계 덕분에 CPU가 장애물이 되지 않을 거라고 확신했습니다.\n\nRAM 용량을 보면 조금 독특합니다. Wii는 총 88MB를 가지고 있는데, 24MB의 1T-SRAM(MEM1)과 64MB의 느린 GDDR3 SDRAM(MEM2)으로 나뉩니다. 비정상적이긴 하지만, Mac OS X Cheetah 공식 요구사항인 128MB보다는 적어도 기술적으로는 충분합니다. Cheetah는 실제로는 더 적은 용량으로도 부팅되거든요. 검증을 위해 QEMU에서 Cheetah를 64MB RAM으로 부팅해봤고, 문제가 없었습니다.\n\n결국 지원해야 할 다른 하드웨어는:\n\n- USB Gecko를 통한 시리얼 디버그 출력\n- 커널 부팅 후 나머지 시스템을 부팅하기 위한 SD 카드\n- 인터럽트 컨트롤러\n- RAM에 위치한 프레임버퍼를 통한 비디오 출력\n- 마우스와 키보드 사용을 위한 Wii의 USB 포트\n\n이러한 검토 결과 Wii의 하드웨어가 Mac OS X와 근본적으로 충돌하지 않는다고 확신했습니다. 이제 포팅할 소프트웨어 스택을 살펴볼 차례였습니다.\n\n### 소프트웨어 호환성\n\nMac OS X는 오픈소스 핵심(Darwin. XNU 커널과 IOKit 드라이버 모델 포함)에 폐쇄소스 컴포넌트(Quartz, Dock, Finder, 시스템 앱과 프레임워크)가 레이어로 쌓여있습니다. 이론적으로 오픈소스 부분을 충분히 수정해서 Darwin을 실행할 수 있다면, 폐쇄소스 부분도 추가 패칭 없이 실행될 것입니다.\n\nPowerPC Mac이 어떻게 부팅되는지 이해하는 것도 필수적이었습니다. 2000년대 초반의 PowerPC Mac은 Open Firmware를 가장 낮은 수준의 소프트웨어 환경으로 사용합니다. 간단히 말해 Mac이 켜질 때 가장 먼저 실행되는 코드라고 생각하면 됩니다. Open Firmware는 여러 책임을 집니다:\n\n- 하드웨어 감지 및 설정\n- (감지된 하드웨어 기반의) 장치 트리 구성\n- I/O, 그래픽 그리고 하드웨어 통신을 위한 유용한 함수 제공\n- 파일 시스템에서 운영체제 부트로더를 로드하고 실행\n\nOpen Firmware는 결국 제어권을 BootX에 넘깁니다. BootX는 Mac OS X의 부트로더로, 시스템이 커널에 제어권을 넘길 준비를 합니다. BootX의 책임은:\n\n- Open Firmware에서 장치 트리 읽기\n- Mach-O 실행 파일인 XNU 커널을 루트 파일 시스템에서 로드 및 디코딩\n- 커널에 제어권 넘기기\n\nXNU가 실행되면 BootX나 Open Firmware에 더 이상 의존하지 않습니다. XNU는 프로세서, 가상 메모리, IOKit, BSD를 초기화하고, 루트 파일 시스템에서 다른 실행 파일들을 로드하고 실행하면서 부팅을 계속합니다.\n\n마지막 퍼즐 조각은 Wii에서 제 커스텀 코드를 실행하는 방법이었는데, 다행히 Wii는 \"탈옥\"된 상태여서 누구나 Homebrew Channel과 BootMii를 통해 홈브루를 실행하고 하드웨어에 완전히 접근할 수 있습니다.\n\n## 포팅 전략\n\n이제 실제 Mac의 부팅 방식과 Wii에서 저수준 코드를 실행하는 방법을 알게 되었습니다. Wii에서 Mac OS X를 부팅하기 위한 접근 방식을 선택해야 했습니다. 세 가지 옵션을 검토했습니다:\n\n1. Open Firmware를 포팅하고, 그것으로 수정 없는 BootX를 실행해 Mac OS X 부팅\n2. BootX를 포팅하고 Open Firmware 의존성을 제거하도록 수정, 이를 통해 Mac OS X 부팅\n3. Mac OS X 부팅에 필요한 최소한의 설정만 수행하는 커스텀 부트로더 작성\n\nMac OS X는 실행되면 Open Firmware나 BootX에 의존하지 않으므로, 둘 중 하나를 포팅하는 데 시간을 쓰는 것은 불필요해 보였습니다. 게다가 Open Firmware와 BootX 모두 다양한 하드웨어 구성을 지원하기 위한 복잡성을 담고 있는데, Wii 하나만 지원하면 되는 상황에서는 이런 복잡성이 필요 없었습니다. Wii Linux 프로젝트의 발자취를 따라, 저는 처음부터 커스텀 부트로더를 작성하기로 결정했습니다.\n\n부트로더가 최소한 수행해야 할 작업은:\n\n- Wii의 하드웨어 초기화\n- 커널 로드"
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Turbopack: What's New in Next.js 16.2",
+          "titleKo": "Turbopack: Next.js 16.2의 새로운 기능",
+          "summary": "Next.js 16.2는 Turbopack을 통해 더 빠른 빌드를 제공하며, SRI(서브리소스 무결성) 지원, postcss.config.ts 지원, 동적 임포트의 트리 셰이킹, 서버 Fast Refresh, 인라인 로더 설정, 그리고 200개 이상의 버그 수정을 포함한다.",
+          "keyPoints": [
+            "Turbopack 성능: 기존 Webpack 기반 빌드 대비 더 빠른 빌드 속도를 제공하며, 점진적으로 Webpack을 대체할 예정이다.",
+            "SRI 지원: 배포된 외부 리소스의 무결성을 검증할 수 있게 되어 보안이 강화된다.",
+            "동적 임포트 트리 셰이킹: 사용되지 않는 동적으로 임포트되는 모듈까지 제거하여 번들 크기를 더 줄인다.",
+            "서버 Fast Refresh: 서버 컴포넌트 변경 시에도 전체 재시작 없이 빠른 새로고침이 가능해진다."
+          ],
+          "whyItMatters": "Next.js 프로젝트의 빌드 속도와 번들 최적화가 개선되어 개발 생산성과 프로덕션 성능이 향상된다.",
+          "url": "https://nextjs.org/blog/next-16-2-turbopack",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "nextjs-16-2",
+          "isTopicPrimary": true,
+          "relatedCount": 3,
+          "slug": "turbopack-whats-new-in-nextjs-162",
+          "category": "tech",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "MegaTrain: Full Precision Training of 100B+ Parameter LLMs on a Single GPU",
+          "titleKo": "MegaTrain: 단일 GPU에서 100B+ 파라미터 대형 언어 모델의 전체 정밀도 학습",
+          "summary": "MegaTrain은 메모리 중심의 시스템으로, 단일 H200 GPU에서 120B 파라미터의 대형 언어 모델을 전체 정밀도로 학습할 수 있다. CPU 메모리에 파라미터와 옵티마이저 상태를 저장하고 GPU는 계산 엔진으로 사용하는 역할 분담 방식을 채택한다. 파이프라인 더블 버퍼링 실행 엔진과 상태 없는 레이어 템플릿을 통해 CPU-GPU 대역폭 병목을 해결한다. DeepSpeed ZeRO-3 대비 14B 모델 학습에서 1.84배 처리량을 달성하며, 512k 토큰 컨텍스트로 GH200에서 7B 모델 학습도 지원한다.",
+          "keyPoints": [
+            "메모리 중심 아키텍처: 파라미터와 옵티마이저 상태를 CPU 메모리에 저장하고 GPU는 임시 계산 엔진으로 사용하는 새로운 패러다임을 제시한다. 이는 단일 GPU로 매우 큰 모델을 학습 가능하게 만드는 핵심 설계 철학이다.",
+            "파이프라인 더블 버퍼링: 파라미터 프리페칭, 계산, 그래디언트 오프로딩을 여러 CUDA 스트림으로 오버랩하여 GPU를 지속적으로 활용한다. 이를 통해 CPU-GPU 간 대역폭 병목을 최소화하고 효율성을 극대화한다.",
+            "상태 없는 레이어 템플릿: 기존의 고정적 autograd 그래프 대신 가중치가 스트리밍으로 들어올 때 동적으로 바인딩되는 레이어 템플릿을 사용한다. 이로써 그래프 메타데이터 오버헤드를 제거하면서도 스케줄링 유연성을 확보한다.",
+            "성능 벤치마크: H200 GPU(1.5TB 호스트 메모리)에서 최대 120B 파라미터 모델 학습이 가능하며, DeepSpeed ZeRO-3 대비 14B 모델에서 1.84배 처리량을 기록한다. GH200에서는 512k 토큰 컨텍스트의 7B 모델까지 지원한다.",
+            "학습 효율성: 기존 방식 대비 같은 성능에 도달하기 위해 필요한 계산량을 크게 줄일 수 있으며, 이는 매우 제한된 하드웨어 환경에서도 대형 모델 학습을 가능하게 한다."
+          ],
+          "whyItMatters": "대형 언어 모델의 학습 비용과 하드웨어 진입장벽을 획기적으로 낮춤으로써, 개별 조직과 연구팀도 매개변수 규모가 큰 모델을 학습할 수 있는 길을 열어준다.",
+          "url": "https://arxiv.org/abs/2604.05091",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 247,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "llm-training-optimization",
+          "isTopicPrimary": true,
+          "slug": "megatrain-full-precision-training-of-100b-parameter-llms-on-a-single-gpu",
+          "fullContent": "Computer Science > Computation and Language\narXiv:2604.05091 (cs)\n[Submitted on 6 Apr 2026]\nTitle:MegaTrain: Full Precision Training of 100B+ Parameter Large Language Models on a Single GPU\nAuthors:Zhengqing Yuan, Hanchi Sun, Lichao Sun, Yanfang Ye View a PDF of the paper titled MegaTrain: Full Precision Training of 100B+ Parameter Large Language Models on a Single GPU, by Zhengqing Yuan and 3 other authors\nView PDF\nHTML (experimental)\nAbstract:We present MegaTrain, a memory-centric system that efficiently trains 100B+ parameter large language models at full precision on a single GPU. Unlike traditional GPU-centric systems, MegaTrain stores parameters and optimizer states in host memory (CPU memory) and treats GPUs as transient compute engines. For each layer, we stream parameters in and compute gradients out, minimizing persistent device state. To battle the CPU-GPU bandwidth bottleneck, we adopt two key optimizations. 1) We introduce a pipelined double-buffered execution engine that overlaps parameter prefetching, computation, and gradient offloading across multiple CUDA streams, enabling continuous GPU execution. 2) We replace persistent autograd graphs with stateless layer templates, binding weights dynamically as they stream in, eliminating persistent graph metadata while providing flexibility in scheduling. On a single H200 GPU with 1.5TB host memory, MegaTrain reliably trains models up to 120B parameters. It also achieves 1.84$\\times$ the training throughput of DeepSpeed ZeRO-3 with CPU offloading when training 14B models. MegaTrain also enables 7B model training with 512k token context on a single GH200.\nSubjects:\nComputation and Language (cs.CL); Distributed, Parallel, and Cluster Computing (cs.DC); Operating Systems (cs.OS)\nCite as:\narXiv:2604.05091 [cs.CL]\n(or\narXiv:2604.05091v1 [cs.CL] for this version)\nhttps://doi.org/10.48550/arXiv.2604.05091\nFocus to learn more\narXiv-issued DOI via DataCite (pending registration)\nSubmission history From: Zhengqing Yuan [view email] [v1]\nMon, 6 Apr 2026 18:43:56 UTC (787 KB)\nFull-text links:\nAccess Paper:\nView a PDF of the paper titled MegaTrain: Full Precision Training of 100B+ Parameter Large Language Models on a Single GPU, by Zhengqing Yuan and 3 other authorsHTML (experimental)\nview license\nCurrent browse context: cs.CL\n< prev\n|\nnext >\nnew\n|\nrecent\n| 2026-04\nChange to browse by:\ncs\ncs.DC\ncs.OS\nReferences & Citations\nNASA ADSGoogle Scholar\nSemantic Scholar\nexport BibTeX citation\nLoading...\nBibTeX formatted citation\n×\nloading...\nData provided by:\nBookmark\nBibliographic Tools\nBibliographic and Citation Tools\nBibliographic Explorer Toggle\nBibliographic Explorer (What is the Explorer?)\nConnected Papers Toggle\nConnected Papers (What is Connected Papers?)\nLitmaps Toggle\nLitmaps (What is Litmaps?)\nscite.ai Toggle\nscite Smart Citations (What are Smart Citations?)\nCode, Data, Media\nCode, Data and Media Associated with this Article\nalphaXiv Toggle\nalphaXiv (What is alphaXiv?)\nLinks to Code Toggle\nCatalyzeX Code Finder for Papers (What is CatalyzeX?)\nDagsHub Toggle\nDagsHub (What is DagsHub?)\nGotitPub Toggle\nGotit.pub (What is GotitPub?)\nHuggingface Toggle\nHugging Face (What is Huggingface?)\nScienceCast Toggle\nScienceCast (What is ScienceCast?)\nDemos\nDemos\nReplicate Toggle\nReplicate (What is Replicate?)\nSpaces Toggle\nHugging Face Spaces (What is Spaces?)\nSpaces Toggle\nTXYZ.AI (What is TXYZ.AI?)\nRelated Papers\nRecommenders and Search Tools\nLink to Influence Flower\nInfluence Flower (What are Influence Flowers?)\nCore recommender toggle\nCORE Recommender (What is CORE?)\nAuthor\nVenue\nInstitution\nTopic\nAbout arXivLabs\narXivLabs: experimental projects with community collaborators\narXivLabs is a framework that allows collaborators to develop and share new arXiv features directly on our website.\nBoth individuals and organizations that work with arXivLabs have embraced and accepted our values of openness, community, excellence, and user data privacy. arXiv is committed to these values and only works with partners that adhere to them.\nHave an idea for a project that will add value for arXiv's community? Learn more about arXivLabs.\nWhich authors of this paper are endorsers? |\nDisable MathJax (What is MathJax?)",
+          "category": "tech",
+          "publishedAt": "2026-04-08T12:19:00.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# MegaTrain: 단일 GPU에서 1000억 개 이상의 파라미터를 가진 대규모 언어모델을 풀 프레시전으로 학습하기\n\n## 논문 소개\n\n오늘 소개할 논문은 GPU 메모리의 한계를 기존과는 완전히 다른 방식으로 극복한 연구입니다. Yuan Zhengqing을 포함한 연구팀이 발표한 MegaTrain은 단일 GPU 한 대로 1000억 개가 넘는 파라미터를 가진 대규모 언어모델을 학습할 수 있는 시스템입니다.\n\n## 핵심 아이디어: 메모리 중심의 접근\n\n기존 방식들이 GPU 중심으로 설계된 것과 달리, MegaTrain은 발상을 전환했습니다.\n\n**파라미터와 옵티마이저 상태를 호스트 메모리(CPU 메모리)에 저장하고, GPU는 단순한 계산 엔진으로만 사용하는 거죠.** 각 레이어마다 필요한 파라미터를 CPU에서 GPU로 스트리밍으로 가져와서 연산하고, 그래디언트를 다시 내려보내는 방식입니다. 이렇게 하면 GPU에 지속적으로 유지해야 할 상태가 최소화됩니다.\n\n## 성능의 핵심: 두 가지 최적화 기법\n\nCPU와 GPU 사이의 대역폭이 병목이 될 수 있다는 문제를 해결하기 위해 연구팀은 두 가지 주요 기법을 적용했습니다.\n\n**첫 번째는 파이프라인화된 더블 버퍼링 실행 엔진입니다.** 여러 CUDA 스트림을 활용해서 파라미터 프리페칭, 연산, 그래디언트 오프로딩을 겹쳐 실행합니다. 덕분에 GPU가 계속 일할 수 있습니다.\n\n**두 번째는 autograd 그래프 구조를 완전히 바꾼 것입니다.** 기존처럼 지속적으로 그래프를 유지하는 대신, 가중치가 스트리밍으로 들어올 때마다 동적으로 바인딩하는 '상태 없는 레이어 템플릿' 방식을 사용했습니다. 이렇게 하면 그래프 메타데이터 오버헤드가 줄어들면서도 스케줄링 유연성이 높아집니다.\n\n## 실제 성능\n\n논문의 결과를 보면 꽤 인상적입니다.\n\n1.5TB 호스트 메모리를 갖춘 H200 GPU 한 대로 **1200억 개 파라미터 모델까지 안정적으로 학습**할 수 있습니다. 14B 모델을 학습할 때는 **DeepSpeed ZeRO-3의 CPU 오프로딩 방식보다 1.84배 빠른 처리량**을 달성했습니다.\n\n특히 흥미로운 점은 7B 모델을 GH200 GPU에서 **512k 토큰 컨텍스트로 학습**할 수 있다는 것인데요. 이는 기존에는 불가능하던 규모입니다.\n\n## 마치며\n\nMegaTrain은 단순히 더 큰 모델을 한 대의 GPU로 학습하는 것을 넘어, GPU 메모리 병목을 근본적으로 재설계한 연구입니다. 파라미터 스트리밍, 파이프라인 오버래핑, 상태 없는 그래프 설계 등의 기법들이 조화롭게 작동하면서 새로운 가능성을 열었습니다. 앞으로 리소스가 제한된 환경에서 대규모 모델을 다루는 방식에 영향을 미칠 것 같습니다."
+        },
+        {
+          "title": "Next.js 16.2: AI Improvements",
+          "titleKo": "Next.js 16.2: AI 개선사항",
+          "summary": "Next.js 16.2는 AI 에이전트 개발을 지원하기 위해 create-next-app에서 AGENTS.md 문서를 제공하고, 브라우저 로그 포워딩, 개발 서버 락 파일(PID 포함), 그리고 AI 에이전트 디버깅을 위한 next-browser 도구를 추가했다.",
+          "keyPoints": [
+            "AGENTS.md: create-next-app에 AI 에이전트 개발 가이드를 포함하여 시작점을 명확히 제시한다.",
+            "브라우저 로그 포워딩: AI 에이전트가 실행 중인 환경의 브라우저 로그를 쉽게 확인할 수 있다.",
+            "next-browser: AI 에이전트 디버깅을 위한 전용 도구로, 브라우저 환경에서의 에이전트 동작을 추적할 수 있다."
+          ],
+          "whyItMatters": "Next.js 프레임워크에서 AI 에이전트 개발과 디버깅이 더 용이해져 AI 애플리케이션 구축의 진입장벽이 낮아진다.",
+          "url": "https://nextjs.org/blog/next-16-2-ai",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "ai"
+          ],
+          "topicId": "nextjs-16-2",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "nextjs-162-ai-improvements",
+          "category": "tech",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Next.js 16.2",
+          "titleKo": "Next.js 16.2",
+          "summary": "Next.js 16.2는 Adapter API, 렌더링 성능 개선, 디버깅 및 에러 페이지 개선 등을 포함한 주요 업데이트를 제공한다.",
+          "keyPoints": [
+            "Adapter API: 다양한 플랫폼으로의 배포를 더 쉽게 지원하기 위한 표준화된 어댑터 인터페이스를 제공한다.",
+            "렌더링 성능 개선: 페이지 렌더링 속도가 개선되어 사용자 경험이 향상된다."
+          ],
+          "whyItMatters": "Next.js 애플리케이션의 배포 유연성과 성능이 향상되어 다양한 환경에서의 활용성이 증가한다.",
+          "url": "https://nextjs.org/blog/next-16-2",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "nextjs-16-2",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "nextjs-162",
+          "category": "tech",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Next.js Across Platforms: Adapters, OpenNext, and Our Commitments",
+          "titleKo": "Next.js 플랫폼 전반: Adapter, OpenNext, 그리고 우리의 약속",
+          "summary": "Next.js 16.2는 안정화된 Adapter API, 공개된 어댑터 테스트 스위트, 그리고 플랫폼 전반에 걸친 더 일관된 배포를 위한 워킹 그룹을 도입했다.",
+          "keyPoints": [
+            "Adapter API 안정화: 다양한 호스팅 플랫폼으로의 배포를 표준화된 방식으로 지원하는 공식 API가 안정화되었다.",
+            "공개 테스트 스위트: 어댑터 개발자들이 일관성 있는 동작을 보장할 수 있는 공개된 테스트 스위트가 제공된다.",
+            "플랫폼 워킹 그룹: 다양한 배포 환경에서 Next.js의 동작을 더 일관되게 하기 위한 협력 체계가 구성되었다."
+          ],
+          "whyItMatters": "Next.js 애플리케이션을 다양한 플랫폼에 배포할 때의 호환성 문제가 감소하고, 개발자 경험이 일관되게 개선된다.",
+          "url": "https://nextjs.org/blog/nextjs-across-platforms",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "devops"
+          ],
+          "topicId": "nextjs-16-2",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "nextjs-across-platforms-adapters-opennext-and-our-commitments",
+          "category": "tech",
+          "publishedAt": "2026-03-25T17:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Show HN: Tired of logic in useEffect, I built a class-based React state manager",
+          "titleKo": "useEffect의 로직에서 벗어나고 싶다면: 클래스 기반 React 상태 관리자 구축",
+          "summary": "Snapstate는 React 컴포넌트 외부에서 비즈니스 로직을 관리하기 위해 평문 TypeScript 클래스를 사용하는 상태 관리 도구입니다. 이를 통해 테스트 가능하고 UI와 애플리케이션 로직의 경계가 명확한 구조를 제공합니다.",
+          "keyPoints": [
+            "useEffect, useMemo 등에 분산된 비즈니스 로직을 TypeScript 클래스로 통합하여 관심사 분리",
+            "React 없이 순수 로직을 테스트할 수 있고, 컴포넌트는 렌더링에만 집중",
+            "Redux의 보일러플레이트보다 가볍고 MobX보다 명시적인 중간 지점을 목표"
+          ],
+          "whyItMatters": "React 애플리케이션의 복잡한 상태 관리와 비즈니스 로직을 더 체계적으로 조직할 수 있는 대안을 제공합니다.",
+          "url": "https://thales.me/posts/why-i-built-snapstate/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 6,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "react-state-management",
+          "isTopicPrimary": true,
+          "slug": "show-hn-tired-of-logic-in-useeffect-i-built-a-class-based-react-state-manager",
+          "fullContent": "TL;DR: I built Snapstate to move business logic out of React components and into plain TypeScript classes. The result: stores you can test without React, components that only render, and a cleaner boundary between UI and application logic.React is excellent at rendering UI. It's less convincing as the place where the rest of the app should live.Over time, a lot of React codebases drift into the same shape: data fetching in useEffect, business rules inside custom hooks, derived values spread across useMemo, and mutations hidden in event handlers. The app still works, but the boundaries get blurry. Logic that should be easy to test or reuse ends up coupled to render timing, hook rules, and component lifecycles.I've written plenty of code like this myself. Snapstate came out of wanting a cleaner boundary: React for rendering, plain TypeScript classes for state and business logic.The boundary I wantedThis isn't an argument against hooks. Hooks are a good fit for UI concerns: subscribing to browser APIs, coordinating animations, managing local component state, and composing rendering behavior.The trouble starts when application logic moves into that same layer. A hook that fetches data, normalizes it, tracks loading and errors, coordinates retries, and exposes mutations is no longer just a React concern. It's an application service expressed in React primitives.That has a few predictable costs. Testing usually starts with rendering infrastructure instead of the logic itself. Reuse is tied to React, even when the logic is not. And understanding the behavior means reasoning about dependency arrays, mount timing, and re-renders alongside the business rules.I wanted a place where that logic could exist without carrying React around with it.Why not the existing options?I didn't build Snapstate because the ecosystem was empty. I built it because I wanted a different set of tradeoffs.Redux gives you a predictable model, but for the kind of apps I build it also brings more ceremony than I want. The state story is clear. The business-logic story still tends to spread across reducers, thunks, middleware, and selectors.Zustand is much lighter, and I understand why people like it. But for larger flows I wanted something less hook-centric. Once async operations, derived values, and cross-store dependencies start piling up, I still want the logic to read like regular application code.MobX is probably the closest to what I wanted. It embraces classes and keeps a lot of logic out of components. I just wanted something more explicit and less magical than implicit proxy tracking.Snapstate is my attempt at that middle ground: class-based stores, explicit updates, and React as an adapter instead of the place where the business logic lives.The shape I was trying to get away fromHere's a simplified dashboard component in the style I've seen many times. Auth state comes from context, data is fetched in an effect, loading and errors are local, and derived values live next to rendering:function Dashboard() {\nconst { user } = useAuth();\nconst [stats, setStats] = useState(null);\nconst [notifications, setNotifications] = useState([]);\nconst [loading, setLoading] = useState(true);\nconst [error, setError] = useState(null);\nuseEffect(() => {\nif (!user) return;\nsetLoading(true);\nsetError(null);\nPromise.all([\nfetch(`/api/users/${user.id}/stats`).then((r) => r.json()),\nfetch(`/api/users/${user.id}/notifications`).then((r) => r.json()),\n])\n.then(([statsData, notifData]) => {\nsetStats(statsData);\nsetNotifications(notifData);\n})\n.catch((err) => setError(err.message))\n.finally(() => setLoading(false));\n}, [user]);\nconst unreadCount = useMemo(\n() => notifications.filter((n) => !n.read).length,\n[notifications]\n);\nconst markAsRead = (id: string) => {\nsetNotifications((prev) =>\nprev.map((n) => (n.id === id ? { ...n, read: true } : n))\n);\n};\nif (loading) return <Skeleton />;\nif (error) return <p>Failed to load: {error}</p>;\nreturn (\n<div>\n<h1>Dashboard ({unreadCount} unread)</h1>\n<StatsCards stats={stats} />\n<NotificationList items={notifications} onRead={markAsRead} />\n</div>\n);\n}There is nothing unusual or even wrong about this component. The problem is that it is carrying too many responsibilities at once: auth awareness, data fetching, loading state, error state, derived data, mutations, and rendering. That makes it harder to test and harder to reuse because the logic is glued to the component lifecycle.The same feature with a storeWhat I wanted instead was to move that behavior into a store and leave React with the rendering.Here's an auth store:interface AuthState {\nuser: User | null;\ntoken: string;\n}\nclass AuthStore extends SnapStore<AuthState, \"login\"> {\nconstructor() {\nsuper({ user: null, token: \"\" });\n}\nlogin(email: string, password: string) {\nreturn this.api.post({\nkey: \"login\",\nurl: \"/api/auth/login\",\nbody: { email, password },\nonSuccess: (res) => {\nthis.state.merge({ user: res.user, token: res.token });\n},\n});\n}\nlogout() {\nthis.state.reset()",
+          "category": "tech",
+          "publishedAt": "2026-04-08T21:53:36.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 상태 관리를 컴포넌트 밖으로 꺼내기: Snapstate로 더 깔끔한 구조 만들기\n\n**한 줄 요약**: 비즈니스 로직을 React 컴포넌트에서 떼어내 순수 TypeScript 클래스로 옮겼습니다. 그 결과 React 없이도 테스트 가능한 스토어, 렌더링만 담당하는 컴포넌트, 그리고 UI와 애플리케이션 로직이 명확히 구분된 구조를 얻게 되었습니다.\n\n## React는 UI 렌더링에는 최고인데...\n\nReact는 UI를 렌더링하는 데 정말 잘 만들어진 라이브러리입니다. 하지만 앱의 나머지 모든 로직을 React 안에 살리기는 어렵습니다.\n\n실무에서 작성하다 보면 자연스럽게 어떤 패턴이 반복되더라고요. useEffect로 데이터를 불러오고, 커스텀 훅에 비즈니스 규칙을 넣고, useMemo로 파생 값을 계산하고, 이벤트 핸들러 안에 상태 업데이트를 숨깁니다. 앱은 작동하지만, 경계가 흐릿해집니다. 테스트하기 쉬워야 할 로직이나 재사용 가능해야 할 로직이 렌더링 타이밍, 훅의 규칙, 컴포넌트 라이프사이클과 얽혀버리는 거죠.\n\n저도 이런 식으로 많이 작성했습니다. 그래서 더 깔끔한 경계를 원했어요. **React는 렌더링에만 쓰고, 상태와 비즈니스 로직은 순수 TypeScript 클래스에서 관리하자**는 생각에서 Snapstate가 시작되었습니다.\n\n## 원하던 경계는 이런 형태였습니다\n\n이건 훅을 반대하는 주장이 아니에요. 훅은 UI 관심사에는 정말 적합합니다. 브라우저 API 구독, 애니메이션 조율, 로컬 컴포넌트 상태 관리, 렌더링 동작 조합 같은 걸 할 때 말이죠.\n\n문제는 애플리케이션 로직이 그 같은 계층으로 들어올 때 생깁니다. 데이터를 불러오고, 정규화하고, 로딩과 에러를 추적하고, 재시도를 조율하고, 변경 작업을 노출하는 훅은 더 이상 React 관심사가 아니거든요. 이건 React 원시 요소로 표현된 애플리케이션 서비스입니다.\n\n이렇게 하면 예측 가능한 비용들이 발생합니다. 테스트를 시작할 때 로직 자체보다 렌더링 인프라부터 구축해야 하고요. 재사용은 로직이 React와 무관해도 React에 묶여 있습니다. 게다가 동작을 이해하려면 dependency array, mount 타이밍, 리렌더링을 비즈니스 규칙과 함께 고민해야 합니다.\n\n저는 React를 품지 않고도 존재할 수 있는 공간을 원했습니다.\n\n## 기존 선택지들은 왜 안 좋았나?\n\nSnapstate를 만든 건 생태계가 비어 있어서가 아닙니다. 다른 트레이드오프를 원했거든요.\n\n**Redux**는 예측 가능한 모델을 주지만, 제가 주로 만드는 앱 규모에서는 필요 이상으로 복잡합니다. 상태 관리는 명확한데, 비즈니스 로직 이야기가 reducer, thunk, middleware, selector에 흩어지기 쉽거든요.\n\n**Zustand**는 훨씬 가볍고 많은 사람들이 좋아하는 이유를 압니다. 하지만 큰 비즈니스 흐름에서는 훅 중심이 아닌 구조를 원했습니다. 비동기 작업, 파생 값, 스토어 간 의존성이 쌓이기 시작하면, 로직이 일반적인 애플리케이션 코드처럼 읽혀야 한다고 생각했어요.\n\n**MobX**가 제가 원하던 것과 가장 가깝습니다. 클래스를 받아들이고 많은 로직을 컴포넌트 밖으로 뺍니다. 다만 암시적인 프록시 추적보다는 명시적인 방식을 원했습니다.\n\nSnapstate는 그 중간 지점을 노린 것입니다. 클래스 기반 스토어, 명시적인 업데이트, 그리고 **React는 비즈니스 로직이 사는 곳이 아니라 어댑터**라는 개념이죠.\n\n## 벗어나고 싶던 구조\n\n일반적인 Dashboard 컴포넌트를 보겠습니다. 인증 상태는 context에서 오고, 데이터는 effect에서 가져오고, 로딩과 에러는 로컬 상태고, 파생 값도 렌더링 옆에 있습니다.\n\n```javascript\nfunction Dashboard() {\n  const { user } = useAuth();\n  const [stats, setStats] = useState(null);\n  const [notifications, setNotifications] = useState([]);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n\n  useEffect(() => {\n    if (!user) return;\n    setLoading(true);\n    setError(null);\n    Promise.all([\n      fetch(`/api/users/${user.id}/stats`).then((r) => r.json()),\n      fetch(`/api/users/${user.id}/notifications`).then((r) => r.json()),\n    ])\n      .then(([statsData, notifData]) => {\n        setStats(statsData);\n        setNotifications(notifData);\n      })\n      .catch((err) => setError(err.message))\n      .finally(() => setLoading(false));\n  }, [user]);\n\n  const unreadCount = useMemo(\n    () => notifications.filter((n) => !n.read).length,\n    [notifications]\n  );\n\n  const markAsRead = (id: string) => {\n    setNotifications((prev) =>\n      prev.map((n) => (n.id === id ? { ...n, read: true } : n))\n    );\n  };\n\n  if (loading) return <Skeleton />;\n  if (error) return <p>Failed to load: {error}</p>;\n\n  return (\n    <div>\n      <h1>Dashboard ({unreadCount} unread)</h1>\n      <StatsCards stats={stats} />\n      <NotificationList items={notifications} onRead={markAsRead} />\n    </div>\n  );\n}\n```\n\n이 컴포넌트는 이상하거나 틀린 게 없습니다. 문제는 한 번에 너무 많은 책임을 지고 있다는 것입니다. 인증 인식, 데이터 불러오기, 로딩 상태, 에러 상태, 파생 데이터, 변경 작업, 렌더링. 이 모든 게 섞여 있으니 테스트하기도, 재사용하기도 어렵습니다. 로직이 컴포넌트 라이프사이클에 접착되어 있거든요.\n\n## 스토어를 사용한 같은 기능\n\n대신 이 동작을 스토어로 옮기고 React는 렌더링만 담당하도록 했습니다.\n\n인증 스토어는 이렇습니다:\n\n```typescript\ninterface AuthState {\n  user: User | null;\n  token: string;\n}\n\nclass AuthStore extends SnapStore<AuthState, \"login\"> {\n  constructor() {\n    super({ user: null, token: \"\" });\n  }\n\n  login(email: string, password: string) {\n    return this.api.post({\n      key: \"login\",\n      url: \"/api/auth/login\",\n      body: { email, password },\n      onSuccess: (res) => {\n        this.state.merge({ user: res.user, token: res.token });\n      },\n    });\n  }\n\n  logout() {\n    this.state.reset();\n  }\n}\n```\n\n로직이 명확하고, 테스트하기도 쉽고, React 없이도 작동합니다. 컴포넌트는 단순히 상태를 구독하고 메서드를 호출할 뿐입니다."
+        },
+        {
+          "title": "Show HN: Skrun – Deploy any agent skill as an API",
+          "titleKo": "Skrun – 모든 에이전트 스킬을 API로 배포",
+          "summary": "Agent Skill을 POST /run API로 변환하여 배포할 수 있는 오픈소스 도구다. 다중 모델, 상태 유지, 로컬 및 클라우드 배포를 지원한다.",
+          "keyPoints": [
+            "SKILL.md 표준으로 작성된 에이전트를 CLI를 통해 간단히 API로 배포 가능",
+            "Anthropic, OpenAI, Google, Mistral, Groq 등 다중 모델 지원 및 자동 폴백 기능",
+            "MCP 서버 및 CLI 도구를 통한 다양한 도구 호출 방식 제공"
+          ],
+          "whyItMatters": "AI 에이전트를 실제 API 서비스로 운영하려는 개발자에게 배포와 관리를 간편하게 해주는 도구다.",
+          "url": "https://github.com/skrun-dev/skrun",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 37,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-skrun-deploy-any-agent-skill-as-an-api",
+          "fullContent": "Turn any Agent Skill (SKILL.md) into a callable API via POST /run. Multi-model, stateful, open source.\nQuick Start\nnpm install -g @skrun-dev/cli\n# Import an existing skill → deploy → call\nskrun init --from-skill ./my-skill\nskrun deploy\ncurl -X POST localhost:4000/api/agents/dev/my-skill/run \\\n-H \"Authorization: Bearer <token>\" \\\n-H \"Content-Type: application/json\" \\\n-d '{\"input\": {\"query\": \"analyze this\"}}'\nGet Started\nCreate a new agent\nImport an existing skill\nDevelop & test locally\nDeploy\nCreate a new agent\nskrun init my-agent\ncd my-agent\n# Creates SKILL.md (instructions) + agent.yaml (config)\nImport an existing skill\nskrun init --from-skill ./path-to-skill\n# Reads SKILL.md, asks 2-3 questions, generates agent.yaml\nDevelop locally\nskrun dev\n# ✓ Server running at http://localhost:3000\n# POST /run ready — watching for changes...\nskrun test\n# ✓ basic-test (output.score >= 0)\n# 1 passed, 0 failed\nDeploy\nskrun deploy\n# ✓ Validated → Built → Pushed\n# 🚀 POST http://localhost:4000/api/agents/you/my-agent/run\nv0.1 ships with a local runtime. Cloud deploy is on the roadmap — the architecture is ready (RuntimeAdapter interface).\nKey Concepts\nAgent Skills — SKILL.md standard, compatible with Claude Code, Copilot, Codex\nagent.yaml — Runtime config: model, inputs/outputs, permissions, state, tests\nPOST /run — Every agent is an API. Typed inputs, structured outputs.\nMulti-model — Anthropic, OpenAI, Google, Mistral, Groq with automatic fallback\nStateful — Agents remember across runs via key-value state\nTool calling — Two approaches: CLI tools (scripts/ — write your own, bundled with the agent) and MCP servers (npx — standard ecosystem, same as Claude Desktop)\nDemo Agents\nAll examples use Google Gemini Flash by default. Change the model section in agent.yaml to use any supported provider.\nAgent\nWhat it shows\ncode-review\nImport a skill, get a code quality API\npdf-processing\nTool calling with local scripts\nseo-audit\nStateful — run twice, it remembers and compares\ndata-analyst\nTyped I/O — CSV in, structured insights out\nemail-drafter\nBusiness use case — non-dev API consumer\nweb-scraper\nMCP server — headless browser via @playwright/mcp\nTry an example\n# 1. Start the registry\ncp .env.example .env # add your GOOGLE_API_KEY\npnpm dev:registry # keep this terminal open\n# 2. In another terminal\nskrun login --token dev-token\ncd examples/code-review\nskrun build && skrun push\n# 3. Call the agent\ncurl -X POST http://localhost:4000/api/agents/dev/code-review/run \\\n-H \"Authorization: Bearer dev-token\" \\\n-H \"Content-Type: application/json\" \\\n-d '{\"input\": {\"code\": \"function add(a,b) { return a + b; }\"}}'\nWindows (PowerShell): use curl.exe instead of curl, and use @input.json for the body.\nCLI\nCommand\nDescription\nskrun init [dir]\nCreate a new agent\nskrun init --from-skill <path>\nImport existing skill\nskrun dev\nLocal server with POST /run\nskrun test\nRun agent tests\nskrun build\nPackage .agent bundle\nskrun deploy\nBuild + push + live URL\nskrun push / pull\nRegistry upload/download\nskrun login / logout\nAuthentication\nskrun logs <agent>\nExecution logs\nFull CLI reference →\nDocumentation\nagent.yaml specification\nCLI reference\nContributing\nContributing\ngit clone https://github.com/skrun-dev/skrun.git\ncd skrun\npnpm install && pnpm build && pnpm test\nSee CONTRIBUTING.md for conventions and setup.\nLicense\nMIT",
+          "category": "tech",
+          "publishedAt": "2026-04-08T12:34:38.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Agent Skill을 API로 변환하기 — SkRun\n\nAgent Skill(SKILL.md)을 POST /run 엔드포인트로 호출 가능한 API로 만들어보세요. 여러 모델을 지원하고, 상태를 유지하며, 완전히 오픈소스입니다.\n\n## 빠른 시작\n\n```bash\nnpm install -g @skrun-dev/cli\n# 기존 skill을 가져온 후 배포하고 호출하기\nskrun init --from-skill ./my-skill\nskrun deploy\ncurl -X POST localhost:4000/api/agents/dev/my-skill/run \\\n-H \"Authorization: Bearer <token>\" \\\n-H \"Content-Type: application/json\" \\\n-d '{\"input\": {\"query\": \"analyze this\"}}'\n```\n\n## 시작하기\n\n### 새로운 Agent 만들기\n\n```bash\nskrun init my-agent\ncd my-agent\n# SKILL.md(지시사항) + agent.yaml(설정) 파일이 생성됩니다\n```\n\n### 기존 Skill 가져오기\n\n```bash\nskrun init --from-skill ./path-to-skill\n# SKILL.md를 읽고 2-3가지 질문을 한 뒤 agent.yaml을 자동 생성합니다\n```\n\n### 로컬에서 개발 및 테스트하기\n\n```bash\nskrun dev\n# ✓ Server running at http://localhost:3000\n# POST /run 준비 완료 — 파일 변경사항 감시 중...\n```\n\n```bash\nskrun test\n# ✓ basic-test (output.score >= 0)\n# 1 passed, 0 failed\n```\n\n### 배포하기\n\n```bash\nskrun deploy\n# ✓ Validated → Built → Pushed\n# 🚀 POST http://localhost:4000/api/agents/you/my-agent/run\n```\n\n현재 v0.1은 로컬 런타임을 제공합니다. 클라우드 배포는 로드맵에 포함되어 있으며, 아키텍처는 이미 준비되어 있습니다(RuntimeAdapter 인터페이스를 통해).\n\n## 핵심 개념\n\n**Agent Skills** — SKILL.md 표준을 따르며, Claude Code, Copilot, Codex와 호환됩니다.\n\n**agent.yaml** — 런타임 설정: 모델, 입출력 스키마, 권한, 상태 관리, 테스트 정의\n\n**POST /run** — 모든 Agent는 API입니다. 입력값 검증, 구조화된 응답을 제공합니다.\n\n**다중 모델 지원** — Anthropic, OpenAI, Google, Mistral, Groq를 지원하며 자동 폴백이 가능합니다.\n\n**상태 유지** — Agent는 키-값 저장소를 통해 실행 간 상태를 기억합니다.\n\n**Tool 호출** — 두 가지 방식을 지원합니다. CLI 도구(scripts/ 디렉토리에 직접 작성하고 Agent와 함께 번들링)와 MCP 서버(npx를 통해 표준 생태계 활용, Claude Desktop과 동일).\n\n## 데모 Agent\n\n모든 예제는 기본적으로 Google Gemini Flash를 사용합니다. agent.yaml의 model 섹션을 수정하면 지원되는 다른 제공자를 사용할 수 있습니다.\n\n| Agent | 설명 |\n|-------|------|\n| code-review | Skill을 가져와서 코드 품질 검사 API 만들기 |\n| pdf-processing | 로컬 스크립트를 통한 Tool 호출 |\n| seo-audit | 상태 유지 — 두 번 실행하면 비교 결과를 기억 |\n| data-analyst | 타입 지정 입출력 — CSV 입력, 구조화된 인사이트 출력 |\n| email-drafter | 실제 사용 사례 — 개발자가 아닌 사용자를 위한 API |\n| web-scraper | MCP 서버 — @playwright/mcp를 통한 헤드리스 브라우저 |\n\n### 예제 실행해보기\n\n```bash\n# 1. 레지스트리 시작\ncp .env.example .env # GOOGLE_API_KEY 추가\npnpm dev:registry # 이 터미널은 열어둡니다\n\n# 2. 다른 터미널에서\nskrun login --token dev-token\ncd examples/code-review\nskrun build && skrun push\n\n# 3. Agent 호출\ncurl -X POST http://localhost:4000/api/agents/dev/code-review/run \\\n-H \"Authorization: Bearer dev-token\" \\\n-H \"Content-Type: application/json\" \\\n-d '{\"input\": {\"code\": \"function add(a,b) { return a + b; }\"}}'\n```\n\n**Windows(PowerShell)**: curl 대신 curl.exe를 사용하고, body는 @input.json 형식으로 작성하세요.\n\n## CLI 명령어\n\n| 명령어 | 설명 |\n|--------|------|\n| `skrun init [dir]` | 새로운 Agent 생성 |\n| `skrun init --from-skill <path>` | 기존 Skill 가져오기 |\n| `skrun dev` | POST /run을 지원하는 로컬 서버 실행 |\n| `skrun test` | Agent 테스트 실행 |\n| `skrun build` | .agent 번들로 패키징 |\n| `skrun deploy` | 빌드 → 푸시 → 라이브 URL 생성 |\n| `skrun push / pull` | 레지스트리 업로드/다운로드 |\n| `skrun login / logout` | 인증 |\n| `skrun logs <agent>` | 실행 로그 확인 |\n\n전체 CLI 참고서는 [여기](https://skrun.dev/docs/cli)를 확인하세요.\n\n## 문서\n\n- [agent.yaml 스펙](https://skrun.dev/docs/agent-yaml)\n- [CLI 참고서](https://skrun.dev/docs/cli)\n\n## 기여하기\n\n```bash\ngit clone https://github.com/skrun-dev/skrun.git\ncd skrun\npnpm install && pnpm build && pnpm test\n```\n\n자세한 사항은 CONTRIBUTING.md를 참고하세요.\n\n## 라이선스\n\nMIT"
+        },
+        {
+          "title": "Expanding Swift's IDE Support",
+          "titleKo": "Swift의 IDE 지원 확대",
+          "summary": "Swift 확장 프로그램이 Open VSX Registry에 공식 등록되어 Cursor, VSCodium, AWS Kiro, Google Antigravity 등 다양한 IDE에서 사용 가능해졌다. Language Server Protocol(LSP) 지원으로 크로스 플랫폼 개발 환경이 강화되었다.",
+          "keyPoints": [
+            "Swift 공식 확장이 Open VSX Registry에 공개되어 VS Code 호환 에디터에서 사용 가능",
+            "코드 완성, 리팩토링, 디버깅, 테스트 탐색기, DocC 지원 등 풀스택 언어 지원 제공",
+            "agentic IDE들이 수동 설치 없이 자동으로 Swift 설치 가능"
+          ],
+          "whyItMatters": "Swift 개발자가 선호하는 다양한 에디터에서 일관된 개발 경험을 얻을 수 있게 되었다.",
+          "url": "https://swift.org/blog/expanding-swift-ide-support/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 62,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "expanding-swifts-ide-support",
+          "fullContent": "Expanding Swift's IDE Support\nTracy Miranda\nTracy is a member of the Build and Packaging Workgroup and works on Swift tooling at Apple.\nApril 8, 2026\nYou can now write Swift in a broader range of popular IDEs, including Cursor, VSCodium, AWS’s Kiro, and Google’s Antigravity. By leveraging VS Code extension compatibility, these editors tap directly into the Open VSX Registry, where the official Swift extension is now live.\nSwift has long supported development using multiple IDEs including VS Code, Xcode, Neovim, and Emacs. Swift is also compatible with editors that implement the Language Server Protocol (LSP). This growing ecosystem of editor support is particularly significant as Swift continues to show its versatility across platforms and development environments, including agentic IDEs.\nSwift on Open VSX\nThe Swift extension for VS Code is now officially available on the Open VSX Registry, the vendor-neutral, open source extension registry hosted by the Eclipse Foundation. The extension adds first-class language support for projects built with Swift Package Manager, enabling seamless cross-platform development on macOS, Linux, and Windows. This milestone brings Swift support, including code completion, refactoring, full debugging support, a test explorer, as well as DocC support, to a broader ecosystem of compatible editors and allows agentic IDEs like Cursor and Antigravity to automatically install Swift, with no manual download required.\nSwift in Cursor, powered by the Swift extension on Open VSX.\nGet Started\nTo start using the Swift extension in any Open VSX-compatible editor, simply open the Extensions panel, search for ‘Swift’ and install the extension.\nIf you’re using Cursor, getting started is easier than ever. Check out our new dedicated guide: Setting up Cursor for Swift Development. It walks you through the setup, features and includes how to configure custom Swift skills for your AI workflows.\nSwift now has support for a wider range of modern editors and IDEs to meet developers where they are. Download the extension, try it out in your editor of choice, and don’t forget to share your feedback!\nContinue Reading",
+          "category": "tech",
+          "publishedAt": "2026-04-08T19:21:41.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Swift 개발을 더 많은 IDE에서 즐길 수 있게 됐습니다\n\nTracy Miranda\nTracy는 Apple에서 Swift 도구팀에 속해 있으며, Build and Packaging Workgroup의 멤버입니다.\n2026년 4월 8일\n\n이제 Cursor, VSCodium, AWS의 Kiro, Google의 Antigravity 등 다양한 인기 IDE에서 Swift를 작성할 수 있습니다. VS Code 확장 프로그램의 호환성을 활용하면서, 이들 에디터는 Eclipse Foundation이 호스팅하는 오픈소스 레지스트리인 Open VSX Registry에 공식 등재된 Swift 확장 프로그램에 직접 접근할 수 있게 된 거죠.\n\nSwift는 이전부터 VS Code, Xcode, Neovim, Emacs 등 여러 IDE를 지원해왔습니다. Language Server Protocol(LSP)을 구현한 에디터들도 모두 호환됩니다. Swift의 다양한 플랫폼과 개발 환경 지원이 지속되면서 — 특히 AI 기반 IDE 같은 새로운 도구까지 포함되면서 — 이런 에디터 생태계의 확장이 더욱 의미 있어 보입니다.\n\n## Open VSX에서 만나는 Swift\n\nVS Code용 Swift 확장 프로그램이 이제 Open VSX Registry에 공식으로 등재됐습니다. Open VSX Registry는 Eclipse Foundation이 운영하는 벤더 중립적인 오픈소스 확장 프로그램 레지스트리예요.\n\n이 확장 프로그램은 Swift Package Manager로 빌드한 프로젝트에 1급 언어 지원을 제공합니다. macOS, Linux, Windows 전반에서 끊김 없는 크로스플랫폼 개발이 가능해진 겁니다. \n\n코드 완성, 리팩토링, 전체 디버깅 지원, 테스트 탐색기, DocC 지원 같은 Swift의 핵심 기능들이 이제 Open VSX 호환 에디터의 더 넓은 생태계로 확산됩니다. Cursor나 Antigravity 같은 AI 기반 IDE도 별도 다운로드 없이 자동으로 Swift를 설치할 수 있게 됐습니다.\n\n## 시작하기\n\nOpen VSX 호환 에디터에서 Swift 확장 프로그램을 사용하려면 간단합니다. 확장 프로그램 패널을 열고 'Swift'를 검색한 뒤 설치하면 됩니다.\n\nCursor를 쓰신다면 더 쉬워졌어요. 새로운 가이드를 참고해보세요: [Setting up Cursor for Swift Development](link). 이 가이드는 설정 과정부터 주요 기능들까지 안내하며, AI 워크플로우를 위한 커스텀 Swift 스킬 설정하는 방법도 담고 있습니다.\n\nSwift는 이제 더 많은 최신 에디터와 IDE에서 지원됩니다. 개발자들이 자신이 선호하는 환경에서 편하게 개발할 수 있도록 말이죠. 확장 프로그램을 다운로드해서 써보시고, 피드백도 꼭 남겨주세요!"
+        },
+        {
+          "title": "Pgit: I Imported the Linux Kernel into PostgreSQL",
+          "titleKo": "Pgit: Linux 커널을 PostgreSQL로 가져오기",
+          "summary": "pgit을 사용해 Linux 커널 전체 히스토리(약 143만 개 커밋, 2400만 파일 버전)를 PostgreSQL 데이터베이스로 임포트했다. 2.7GB 데이터가 2시간에 완료되었으며, SQL로 쿼리 가능한 git 히스토리를 구현했다.",
+          "keyPoints": [
+            "pgit이 Linux 커널의 20년 개발 히스토리 전체를 PostgreSQL에 성공적으로 임포트 (143만 커밋)",
+            "delta compression 활용으로 2.7GB 용량으로 압축 가능하며, SQL 쿼리로 커널 개발 패턴 분석 가능",
+            "Fossil, Darcs, Monotone 등 다른 VCS는 커널 임포트 실패 또는 성능 문제 경험"
+          ],
+          "whyItMatters": "git 히스토리를 데이터베이스화하면 대규모 프로젝트의 개발 패턴을 통계적으로 분석할 수 있는 새로운 가능성을 제시한다.",
+          "url": "https://oseifert.ch/blog/linux-kernel-pgit",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 56,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "pgit-i-imported-the-linux-kernel-into-postgresql",
+          "fullContent": "TL;DR: Imported the full Linux kernel history into pgit. 1,428,882 commits, 24.4 million file versions, 20 years of development, stored in PostgreSQL with delta compression. Actual data: 2.7 GB (git gc --aggressive gets 1.95 GB). The import took 2 hours on a dedicated server. Then I started asking questions. 7 f-bombs in 1.4 million commit messages (all from 2 people). 665 bug fixes pointing at a single commit. A filesystem that took 13 years to merge. Here's what the Linux kernel looks like as a SQL database.\nThe import\nThis post builds on pgit: What If Your Git History Was a SQL Database?. If you haven't read it, start there. Short version: pgit is a Git-like CLI where everything lives in PostgreSQL instead of the filesystem. It uses pg-xpatch for transparent delta compression and makes your entire commit history SQL-queryable. After the pgit post hit the HN front page and got picked up by TLDR, console.dev, and dailydev, I teased that I was importing the Linux kernel. Here's what happened.\nThe Linux kernel is one of the largest actively developed repositories in the world. 1.4 million commits spanning 20 years, 171,000 files, 38,000 contributors. From what I've found, only a handful of VCS besides git have ever managed a full import of the kernel's history. Fossil (SQLite-based, by the SQLite team) never did. Darcs and Monotone attempted it with severe performance problems. Mercurial can do it. Correct me if I'm wrong on any of this.\npgit handled it.\nMetricValueCommits1,428,882File versions (file refs)24,384,844Unique blobs3,089,589Unique paths171,525Path groups (delta chains)137,600Import time2h 0m 48s\nThe import ran on a Hetzner dedicated server in Finland: AMD EPYC 7401P (24 cores / 48 threads), 512 GB DDR4 ECC RAM, 2×1.92 TB SSD in RAID 0. With a 350 GB xpatch content cache, the entire decoded repository fits in memory.\nFull server setup, git baseline, and pgit configuration\nThe server\nHetzner Dedicated \"Server Auction\" from their Finland datacenter (HEL1):\nComponentSpecCPUAMD EPYC 7401P (24 cores / 48 threads)RAM16×32 GB DDR4 ECC reg. (512 GB total)Storage2×Micron SSD SATA 1.92 TB Datacenter (RAID 0)NIC1 Gbit Intel I350Cost~€272/month\nOS installation\nHetzner installimage with Ubuntu 24.04 LTS. Two changes from the default config: RAID 0 (SWRAIDLEVEL 0) for maximum throughput (no redundancy needed for ephemeral analysis work), and a simple partition layout:\nPART /boot ext3 1024M\nPART swap swap 4G\nPART / ext4 all\nThis gives ~3.5 TB usable storage across the two 1.92 TB SSDs.\nOS tuning\nAfter booting into the installed image:\napt update && apt upgrade -y\napt install -y \\\ntmux btop htop iotop \\\ncpufrequtils numactl \\\ngit curl wget unzip \\\nbuild-essential \\\nufw \\\nlinux-tools-common linux-tools-$(uname -r)\nfor cpu in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do\necho performance > \"$cpu\"\ndone\ncat > /etc/default/cpufrequtils << 'EOF'\nGOVERNOR=\"performance\"\nEOF\nsystemctl enable cpufrequtils\nsystemctl restart cpufrequtils\nsed -i 's/GRUB_CMDLINE_LINUX_DEFAULT=\"consoleblank=0\"/GRUB_CMDLINE_LINUX_DEFAULT=\"consoleblank=0 mitigations=off\"/' /etc/default/grub.d/hetzner.cfg\nupdate-grub\ncat >> /etc/sysctl.conf << 'EOF'\nvm.swappiness = 1\nvm.dirty_ratio = 5\nvm.dirty_background_ratio = 2\nkernel.numa_balancing = 1\nEOF\nsysctl -p\necho never > /sys/kernel/mm/transparent_hugepage/enabled\necho never > /sys/kernel/mm/transparent_hugepage/defrag\ncat > /etc/systemd/system/disable-thp.service << 'EOF'\n[Unit]\nDescription=Disable Transparent Huge Pages\nDefaultDependencies=no\nAfter=sysinit.target local-fs.target\nBefore=basic.target\n[Service]\nType=oneshot\nExecStart=/bin/sh -c 'echo never > /sys/kernel/mm/transparent_hugepage/enabled && echo never > /sys/kernel/mm/transparent_hugepage/defrag'\n[Install]\nWantedBy=basic.target\nEOF\nsystemctl daemon-reload\nsystemctl enable disable-thp\nsed -i 's|relatime|noatime|g' /etc/fstab\nmount -o remount,noatime /\nufw default deny incoming\nufw default allow outgoing\nufw allow ssh\nufw --force enable\nwget https://go.dev/dl/go1.26.0.linux-amd64.tar.gz\nrm -rf /usr/local/go && tar -C /usr/local -xzf go1.26.0.linux-amd64.tar.gz\nrm go1.26.0.linux-amd64.tar.gz\necho 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> ~/.bashrc\nsource ~/.bashrc\napt install -y docker.io\nsystemctl enable docker\nsystemctl start docker\nreboot\npg-xpatch container\nPulled the standard latest pg-xpatch Docker image:\ndocker pull ghcr.io/imgajeed76/pg-xpatch:latest\npgit version\npgit v4 with a few local changes that weren't released at the time of the import. By the time you're reading this, they should be included in the latest version, so everything here is reproducible with a normal go install. The main change is a seq ordering fix that replaces a monotonic timestamp hack with an explicit seq INTEGER NOT NULL column for commit ordering. This makes delta chain decompression significantly faster for sequential scans. Full changelist:\ndb/schema.go — Added seq INTEGER NOT NULL column, order_by => 'seq' in xpatch.configure()\ndb",
+          "category": "tech",
+          "publishedAt": "2026-04-05T12:08:55.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Linux 커널을 PostgreSQL 데이터베이스로 변환해봤습니다\n\n**요약:** Linux 커널의 전체 역사를 pgit으로 임포트했습니다. 142만 8,882개의 커밋, 2,440만 개의 파일 버전, 20년의 개발 히스토리를 PostgreSQL에 저장했고, delta 압축으로 2.7GB에 압축했습니다. (`git gc --aggressive` 적용 시 1.95GB) 2시간에 완료했고요. 그 다음부터 재미있는 질문들을 던져봤습니다. 140만 개의 커밋 메시지 중에 욕설이 겨우 7개 (2명에게서만), 한 개의 커밋을 가리키는 버그 픽스가 665개, 13년이 걸려 병합된 파일시스템. Linux 커널이 SQL 데이터베이스가 되면 어떻게 보일까요?\n\n## 임포트 과정\n\n이 글은 **pgit: 만약 Git 히스토리가 SQL 데이터베이스라면?**의 후속편입니다. 아직 읽지 않으셨다면 먼저 읽어보시길 추천합니다. 간단히 말하면, pgit은 Git처럼 작동하지만 파일시스템 대신 PostgreSQL에 모든 걸 저장하는 CLI 도구입니다. pg-xpatch를 사용해 투명한 delta 압축을 제공하고, 전체 커밋 히스토리를 SQL로 쿼리할 수 있도록 만들어줍니다.\n\npgit 글이 해커뉴스 첫 페이지에 올라가고 TLDR, console.dev, dailydev에 소개된 후, 저는 Linux 커널 임포트를 시도해본다고 예고했었습니다. 그 결과물을 지금부터 공개합니다.\n\nLinux 커널은 세계에서 가장 큰 활발한 개발 저장소 중 하나입니다. 140만 개의 커밋, 20년의 역사, 17만 1,000개의 파일, 38,000명의 기여자가 있거든요. 제가 찾은 바로는 Git이 아닌 다른 VCS 중에서 커널 전체 히스토리를 임포트한 경우는 손꼽을 정도입니다. Fossil(SQLite 기반, SQLite 팀이 만듦)은 시도하지 않았고요. Darcs와 Monotone은 시도했지만 성능 문제가 심했습니다. Mercurial은 가능합니다.\n\n**pgit도 해냈습니다.**\n\n| 항목 | 수치 |\n|------|------|\n| 커밋 | 1,428,882 |\n| 파일 버전 (파일 참조) | 24,384,844 |\n| 고유 blob | 3,089,589 |\n| 고유 경로 | 171,525 |\n| Delta 체인 (경로 그룹) | 137,600 |\n| 임포트 시간 | 2시간 0분 48초 |\n\n임포트는 핀란드 헤츠너 전용 서버에서 실행됐습니다: AMD EPYC 7401P (24코어 / 48스레드), 512GB DDR4 ECC RAM, 2×1.92TB SSD RAID 0. 350GB의 xpatch 콘텐츠 캐시를 사용하면 전체 디코드된 저장소가 메모리에 들어갑니다.\n\n## 서버 구성\n\n### 하드웨어 스펙\n\n헤츠너 전용 \"Server Auction\"을 핀란드 데이터센터(HEL1)에서 선택했습니다:\n\n| 항목 | 사양 |\n|------|------|\n| CPU | AMD EPYC 7401P (24코어 / 48스레드) |\n| RAM | 16×32GB DDR4 ECC reg. (총 512GB) |\n| 저장소 | 2×Micron SSD SATA 1.92TB 데이터센터 (RAID 0) |\n| 네트워크 | 1 Gbit Intel I350 |\n| 월 비용 | 약 €272 |\n\n### OS 설치\n\n헤츠너 installimage를 사용해 Ubuntu 24.04 LTS를 설치했습니다. 기본 설정에서 두 가지를 변경했는데요:\n\n1. **RAID 0** (`SWRAIDLEVEL 0`) - 최대 처리량을 위해 (임시 분석 작업이라 중복성 불필요)\n2. **간단한 파티션 레이아웃** - 두 개의 1.92TB SSD에서 약 3.5TB의 사용 가능한 공간 확보\n\n```\nPART /boot ext3 1024M\nPART swap swap 4G\nPART / ext4 all\n```\n\n### OS 튜닝\n\n설치된 이미지로 부팅한 후 다음을 실행했습니다:\n\n```bash\napt update && apt upgrade -y\napt install -y \\\n  tmux btop htop iotop \\\n  cpufrequtils numactl \\\n  git curl wget unzip \\\n  build-essential \\\n  ufw \\\n  linux-tools-common linux-tools-$(uname -r)\n```\n\nCPU 주파수를 성능 모드로 설정합니다:\n\n```bash\nfor cpu in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor; do\n  echo performance > \"$cpu\"\ndone\n\ncat > /etc/default/cpufrequtils << 'EOF'\nGOVERNOR=\"performance\"\nEOF\n\nsystemctl enable cpufrequtils\nsystemctl restart cpufrequtils\n```\n\nGrub 부팅 옵션에서 마이크로코드 보안 완화를 비활성화합니다:\n\n```bash\nsed -i 's/GRUB_CMDLINE_LINUX_DEFAULT=\"consoleblank=0\"/GRUB_CMDLINE_LINUX_DEFAULT=\"consoleblank=0 mitigations=off\"/' /etc/default/grub.d/hetzner.cfg\nupdate-grub\n```\n\n커널 파라미터를 조정합니다:\n\n```bash\ncat >> /etc/sysctl.conf << 'EOF'\nvm.swappiness = 1\nvm.dirty_ratio = 5\nvm.dirty_background_ratio = 2\nkernel.numa_balancing = 1\nEOF\n\nsysctl -p\n```\n\nTransparent Huge Pages를 비활성화합니다:\n\n```bash\necho never > /sys/kernel/mm/transparent_hugepage/enabled\necho never > /sys/kernel/mm/transparent_hugepage/defrag\n\ncat > /etc/systemd/system/disable-thp.service << 'EOF'\n[Unit]\nDescription=Disable Transparent Huge Pages\nDefaultDependencies=no\nAfter=sysinit.target local-fs.target\nBefore=basic.target\n\n[Service]\nType=oneshot\nExecStart=/bin/sh -c 'echo never > /sys/kernel/mm/transparent_hugepage/enabled && echo never > /sys/kernel/mm/transparent_hugepage/defrag'\n\n[Install]\nWantedBy=basic.target\nEOF\n\nsystemctl daemon-reload\nsystemctl enable disable-thp\n```\n\n파일시스템 마운트 옵션을 `relatime`에서 `noatime`으로 변경합니다:\n\n```bash\nsed -i 's|relatime|noatime|g' /etc/fstab\nmount -o remount,noatime /\n```\n\n기본적인 방화벽을 설정합니다:\n\n```bash\nufw default deny incoming\nufw default allow outgoing\nufw allow ssh\nufw --force enable\n```\n\nGo와 Docker를 설치합니다:\n\n```bash\nwget https://go.dev/dl/go1.26.0.linux-amd64.tar.gz\nrm -rf /usr/local/go && tar -C /usr/local -xzf go1.26.0.linux-amd64.tar.gz\nrm go1.26.0.linux-amd64.tar.gz\necho 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> ~/.bashrc\nsource ~/.bashrc\n\napt install -y docker.io\nsystemctl enable docker\nsystemctl start docker\n\nreboot\n```\n\n## pg-xpatch와 pgit 설정\n\n표준 최신 pg-xpatch Docker 이미지를 가져왔습니다:\n\n```bash\ndocker pull ghcr.io/imgajeed76/pg-xpatch:latest\n```\n\n이 작업에 사용한 pgit은 v4이며, 몇 가지 로컬 수정사항이 포함돼 있었습니다. 지금 이 글을 읽고 있으신 시점에는 이 수정사항들이 최신 버전에 포함돼 있어야 하므로, 일반적인 `go install`로도 모두 재현 가능합니다.\n\n주요 변경사항은 단조 타임스탬프 해킹을 명시적인 `seq INTEGER NOT NULL` 컬럼으로 대체하는 seq 정렬 수정입니다. 이렇게 하면 순차 스캔에서 delta 체인 압축 해제 속도가 크게 빨라집니다.\n\n```\ndb/schema.go — seq INTEGER NOT NULL 컬럼 추가, xpatch.configure()에서 order_by => 'seq'로 변경\n```"
+        },
+        {
+          "title": "google-ai-edge/gallery (Kotlin)",
+          "titleKo": "Google AI Edge 갤러리",
+          "summary": "Google AI Edge에서 제공하는 온디바이스 ML/GenAI 사용 사례를 보여주는 갤러리로, 사용자가 로컬에서 모델을 직접 시도하고 사용할 수 있다.",
+          "keyPoints": [
+            "온디바이스 머신러닝과 생성형 AI 사용 사례 전시",
+            "로컬 환경에서 모델 실행 가능한 실습 환경 제공"
+          ],
+          "whyItMatters": "엣지 디바이스에서의 AI 모델 활용 방법을 학습하고 실제 구현 패턴을 참고할 수 있다.",
+          "url": "https://github.com/google-ai-edge/gallery",
+          "sourceName": "GitHub Trending",
+          "engagement": 19475,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "topicId": "google-ai-edge",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "google-ai-edgegallery-kotlin",
+          "category": "tech",
+          "publishedAt": "2026-04-08T23:17:17.659Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Kotlin"
+          ]
+        },
+        {
+          "title": "google-ai-edge/LiteRT-LM (C++)",
+          "titleKo": "Google AI Edge LiteRT-LM",
+          "summary": "Google AI Edge의 LiteRT-LM 프로젝트로, C++로 구현된 경량 언어 모델 관련 프로젝트이다.",
+          "keyPoints": [
+            "C++로 구현된 경량 언어 모델 라이브러리"
+          ],
+          "whyItMatters": "엣지 디바이스에서 효율적으로 동작하는 언어 모델 구현 방법을 제시한다.",
+          "url": "https://github.com/google-ai-edge/LiteRT-LM",
+          "sourceName": "GitHub Trending",
+          "engagement": 2965,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "google-ai-edge",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "google-ai-edgelitert-lm-c",
+          "category": "tech",
+          "publishedAt": "2026-04-08T23:17:17.659Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "C++"
+          ]
+        },
+        {
+          "title": "virattt/ai-hedge-fund (Python)",
+          "titleKo": "AI 헤지펀드",
+          "summary": "AI 기반의 헤지펀드 팀을 구현한 Python 프로젝트이다.",
+          "keyPoints": [
+            "AI 에이전트를 활용한 금융 투자 시스템 구현"
+          ],
+          "whyItMatters": "AI 멀티 에이전트 시스템의 실제 응용 사례를 제시한다.",
+          "url": "https://github.com/virattt/ai-hedge-fund",
+          "sourceName": "GitHub Trending",
+          "engagement": 50654,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "viratttai-hedge-fund-python",
+          "category": "tech",
+          "publishedAt": "2026-04-08T23:17:17.661Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "goharbor/harbor (Go)",
+          "titleKo": "Harbor - 클라우드 네이티브 레지스트리",
+          "summary": "Harbor는 컨테이너 이미지를 저장, 서명, 스캔하는 오픈소스 클라우드 네이티브 레지스트리 프로젝트이다.",
+          "keyPoints": [
+            "Docker 이미지 저장소로서 서명 및 보안 스캔 기능 제공",
+            "클라우드 네이티브 환경에서 컨테이너 관리의 신뢰성 보장"
+          ],
+          "whyItMatters": "Kubernetes 기반 운영 환경에서 컨테이너 이미지의 보안과 관리를 강화할 수 있다.",
+          "url": "https://github.com/goharbor/harbor",
+          "sourceName": "GitHub Trending",
+          "engagement": 28102,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "goharborharbor-go",
+          "category": "tech",
+          "publishedAt": "2026-04-08T23:17:17.662Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Go"
+          ]
+        },
+        {
+          "title": "NVIDIA/personaplex (Python)",
+          "titleKo": "NVIDIA/personaplex (Python)",
+          "summary": "NVIDIA의 PersonaPlex 프로젝트로, 구체적인 설명은 제한적입니다.",
+          "keyPoints": [
+            "NVIDIA에서 공개한 Python 기반 프로젝트"
+          ],
+          "whyItMatters": "미리보기 정보 부족으로 정확한 평가 어려움",
+          "url": "https://github.com/NVIDIA/personaplex",
+          "sourceName": "GitHub Trending",
+          "engagement": 8389,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "nvidiapersonaplex-python",
+          "category": "tech",
+          "publishedAt": "2026-04-08T23:17:17.659Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "newton-physics/newton (Python)",
+          "titleKo": "newton-physics/newton (Python)",
+          "summary": "NVIDIA Warp을 기반으로 한 GPU 가속 물리 시뮬레이션 엔진으로, 로봇 공학자와 시뮬레이션 연구자들을 위해 설계되었습니다.",
+          "keyPoints": [
+            "NVIDIA Warp 기반의 오픈소스 물리 시뮬레이션 엔진",
+            "로보틱스 및 시뮬레이션 연구를 위해 특화된 GPU 가속 처리"
+          ],
+          "whyItMatters": "물리 시뮬레이션 연구나 로봇 개발자들이 고성능의 GPU 가속 도구를 활용할 수 있습니다.",
+          "url": "https://github.com/newton-physics/newton",
+          "sourceName": "GitHub Trending",
+          "engagement": 4068,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "newton-physicsnewton-python",
+          "category": "tech",
+          "publishedAt": "2026-04-08T23:17:17.660Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "USB for Software Developers: An introduction to writing userspace USB drivers",
+          "titleKo": "소프트웨어 개발자를 위한 USB: 사용자 공간 USB 드라이버 작성 입문",
+          "summary": "USB 드라이버를 소프트웨어 관점에서 개발하는 방법을 다루는 입문 가이드입니다.",
+          "keyPoints": [
+            "사용자 공간(userspace)에서 USB 드라이버를 작성하는 방법 설명"
+          ],
+          "whyItMatters": "임베디드 개발자나 USB 통신이 필요한 개발자들이 저수준 드라이버 개발의 기초를 학습할 수 있습니다.",
+          "url": "https://werwolv.net/posts/usb_for_sw_devs/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 128,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "usb-for-software-developers-an-introduction-to-writing-userspace-usb-drivers",
+          "category": "tech",
+          "publishedAt": "2026-04-08T19:23:34.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Union types in C# 15",
+          "titleKo": "C# 15의 합집합 타입(Union Types)",
+          "summary": "C# 15에서 합집합 타입(Union Types) 기능이 추가되어 여러 타입의 값을 명시적으로 나타낼 수 있게 되었습니다.",
+          "keyPoints": [
+            "C# 15에서 공식 union types 지원으로 타입 안정성 강화"
+          ],
+          "whyItMatters": "C# 개발자들이 TypeScript의 union types과 유사한 타입 표현을 사용할 수 있어 더 정확한 타입 검사가 가능합니다.",
+          "url": "https://devblogs.microsoft.com/dotnet/csharp-15-union-types/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 162,
+          "contentType": "discussion",
+          "labels": [
+            "typescript"
+          ],
+          "topicId": "csharp-union-types",
+          "isTopicPrimary": true,
+          "slug": "union-types-in-c-15",
+          "category": "tech",
+          "publishedAt": "2026-04-05T02:53:07.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Understanding Traceroute",
+          "titleKo": "Traceroute 이해하기",
+          "summary": "Traceroute의 동작 원리를 상세히 설명하며, TTL(Time To Live) 필드를 이용하여 네트워크 경로의 각 홉을 식별하는 방식을 Rust 코드 예제로 보여줍니다.",
+          "keyPoints": [
+            "Traceroute는 TTL을 단계적으로 증가시킨 UDP 패킷을 전송하여 각 라우터로부터 ICMP 'Time Exceeded' 응답을 받음",
+            "원본 IP는 ICMP 응답 패킷의 IP 헤더(12-16바이트)에서 추출하고, raw ICMP 소켓으로 이를 수신"
+          ],
+          "whyItMatters": "네트워크 디버깅과 저수준 네트워킹 프로토콜을 이해하는 개발자들이 traceroute의 원리를 학습하고 Rust로 유사 도구를 구현할 수 있습니다.",
+          "url": "https://tech.stonecharioteer.com/posts/2026/traceroute/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 68,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "understanding-traceroute",
+          "fullContent": "Table of Contents\nWhat does traceroute do?\nThe first probe\nSome Simplifications\nWhat is ICMP?\nKnowing when to stop\nAdding timing\nThree probes per hop\nComparing with real traceroute\nWhat traceroute doesn’t show\nWhy Do We See *?\nWhy does this need sudo?\nWrapping up\nReferences\nPreviously, I wrote about setting up a Tailscale exit node and\nappreciated how traffic gets wired to my home network. I wanted to understand\ntraceroute a bit. I’ve never contemplated how it works, and now feels like as\ngood a time as any to do just that. I mean, now’s the time to rewrite it in\nRust.\nWhat does traceroute do?#\nI’ve just used traceroute to investigate how my query is travelling from my\ncomputer to my router and to the internet, finally reaching the end server.\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n$ traceroute -m 15 -w 2 8.8.8.8\ntraceroute to 8.8.8.8 (8.8.8.8), 15 hops max, 40 byte packets\n1 <tailscale-gw> (<tailscale-ip>) 6.553 ms 5.323 ms 5.384 ms\n2 <home-router> (<router-ip>) 7.183 ms 6.271 ms 4.607 ms\n3 * <isp-gateway> (<isp-gateway-ip>) 7.189 ms *\n4 * * *\n5 * * *\n6 * * *\n7 <isp-hop-1> (<isp-hop-1-ip>) 284.000 ms 229.201 ms 257.805 ms\n8 72.14.223.26 (72.14.223.26) 11.642 ms 12.643 ms 12.868 ms\n9 * * *\n10 dns.google (8.8.8.8) 12.268 ms 11.907 ms 11.766 ms\nAt a cursory level, it looks like it’s asking “where is this IP” at each level,\nand I’m not sure how it does that.\nTraceroute doesn’t actually ask this “where is this IP.” It uses a TTL trick.\nBut to understand it, let’s write some code.\nEvery IP packet has a TTL (Time To Live) field - a counter that starts at\nsome value (usually 64)\nEvery router that forwards the packet decrements TTL by 1.\nWhen a router decrements TTL to 0, it drops the packet and sends back an ICMP\n“Time Exceeded” message to the sender.\nThat ICMP message contains the router’s IP address.\nSo if we send packets with TTL=1, the first router replies. TTL=2, the second\nrouter replies. And so on, until we reach the destination. That’s traceroute.\nThe core idea\nTraceroute is just sending packets that are\ndesigned to die at each hop, then listening for the error messages.\nThe first probe#\nLet’s start with a single function that sends one UDP packet at a given TTL and\nlistens for the ICMP reply. Why UDP? Because these are throwaway packets\ndesigned to die in transit. We don’t need TCP’s handshake or delivery\nguarantees. We just fire bytes at a port and wait for routers to tell us they\ndropped them.\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n31\n32\n33\n34\n35\n36\n37\n38\n39\n40\n41\n42\n43\n44\n45\n46\n47\n48\n49\n50\n51\n52\n53\n54\n55\n56\nuse socket2::{Domain, Protocol, SockAddr, Socket, Type};\nuse std::mem::MaybeUninit;\nuse std::net::{Ipv4Addr, SocketAddrV4};\nuse std::time::Duration;\nfn probe(target: Ipv4Addr, ttl: u32) -> std::io::Result<Option<Ipv4Addr>> {\n// UDP socket to send the probe\nlet send_sock = Socket::new(Domain::IPV4, Type::DGRAM, Some(Protocol::UDP))?;\nsend_sock.set_ttl_v4(ttl)?;\n// Raw ICMP socket to catch Time Exceeded replies\nlet recv_sock = Socket::new(\nDomain::IPV4,\nType::from(libc::SOCK_RAW),\nSome(Protocol::ICMPV4),\n)?;\nrecv_sock.set_read_timeout(Some(Duration::from_secs(2)))?;\n// Send UDP packet to high port (33434)\nlet dest = SockAddr::from(SocketAddrV4::new(target, 33434));\nsend_sock.send_to(&[0u8; 32], &dest)?;\n// Listen for ICMP reply\nlet mut buf = [MaybeUninit::<u8>::uninit(); 512];\nmatch recv_sock.recv(&mut buf) {\nOk(n) => {\n// Safety: recv wrote n bytes into buf\nlet buf: &[u8] = unsafe {\nstd::slice::from_raw_parts(buf.as_ptr() as *const u8, n)\n};\n// IP header is first 20 bytes, source IP is at bytes 12-16\nif buf.len() >= 20 {\nlet ip = Ipv4Addr::new(buf[12], buf[13], buf[14], buf[15]);\nOk(Some(ip))\n} else {\nOk(None)\n}\n}\nErr(_) => Ok(None), // timeout = no reply (*)\n}\n}\nfn main() -> std::io::Result<()> {\nlet target = Ipv4Addr::new(8, 8, 8, 8); // Google DNS\nfor ttl in 1..=15 {\nlet hop = probe(target, ttl)?;\nmatch hop {\nSome(ip) => println!(\"{:>2} {}\", ttl, ip),\nNone => println!(\"{:>2} *\", ttl),\n}\nif hop == Some(target) {\nbreak;\n}\n}\nOk(())\n}\nLet’s walk through this.\nLines 7-9: We create a regular UDP socket and set its TTL. This is the key\ntrick; we’re deliberately setting a low TTL so the packet dies before reaching\nthe destination.\nLines 12-17: A second socket, this time a raw ICMP socket. This one listens\nfor all ICMP packets arriving at our machine, including the “Time Exceeded”\nreplies from routers that dropped our short-lived UDP packet. We need\nlibc::SOCK_RAW here because socket2 doesn’t expose raw socket types\ndirectly, and we need root/sudo to open it.\nLines 20-21: We send 32 bytes of zeros to port 33434 on the target. The\ncontent doesn’t matter. Port 33434 is the traditional traceroute port; nothing\nlistens there, so when our packet finally does reach the destination, the\ntarget responds with ICMP “Port Unreachable” instead of “Time Exceeded,” which\nis how we know we’ve arrived.\nLines 24-38: We read from the raw ICMP socket. The reply is a raw IP packet;\nthe first 20 b",
+          "category": "tech",
+          "publishedAt": "2026-04-06T03:40:31.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Traceroute를 직접 구현해보며 이해하기\n\n## 목차\n- Traceroute는 뭘 하는 건가?\n- 첫 번째 프로브\n- 몇 가지 단순화\n- ICMP란?\n- 언제 멈춰야 할까?\n- 응답 시간 측정하기\n- 각 홉마다 3개의 프로브 보내기\n- 실제 traceroute와 비교하기\n- Traceroute가 보여주지 않는 것\n- 왜 *가 나타날까?\n- 왜 sudo가 필요할까?\n- 정리하며\n\n---\n\n예전에 Tailscale 나가기 노드를 설정하는 방법을 다뤘는데, 그때 트래픽이 어떻게 내 홈 네트워크로 연결되는지 정말 신기했거든요. 그러다 문득 traceroute가 어떻게 동작하는지 궁금해졌어요. 사실 지금까지 한 번도 깊이 생각해본 적이 없었는데, 이번 기회에 Rust로 직접 구현해보면서 이해해보려고 합니다.\n\n## Traceroute는 뭘 하는 건가?\n\n먼저 실제 traceroute를 실행해보면 이렇게 나와요.\n\n```\n$ traceroute -m 15 -w 2 8.8.8.8\ntraceroute to 8.8.8.8 (8.8.8.8), 15 hops max, 40 byte packets\n1 <tailscale-gw> (<tailscale-ip>) 6.553 ms 5.323 ms 5.384 ms\n2 <home-router> (<router-ip>) 7.183 ms 6.271 ms 4.607 ms\n3 * <isp-gateway> (<isp-gateway-ip>) 7.189 ms *\n4 * * *\n5 * * *\n6 * * *\n7 <isp-hop-1> (<isp-hop-1-ip>) 284.000 ms 229.201 ms 257.805 ms\n8 72.14.223.26 (72.14.223.26) 11.642 ms 12.643 ms 12.868 ms\n9 * * *\n10 dns.google (8.8.8.8) 12.268 ms 11.907 ms 11.766 ms\n```\n\n겉으로 봐선 각 단계마다 \"이 IP가 어디에 있지?\"라고 묻는 것처럼 보이는데, 어떻게 그렇게 하는지는 명확하지 않죠.\n\n사실 traceroute는 \"이 IP가 어디에 있나\"를 직접 묻지 않아요. 대신 TTL이라는 트릭을 사용합니다. 그런데 이걸 이해하려면 코드를 직접 짜봐야 해요.\n\n### 핵심 원리\n\n모든 IP 패킷에는 **TTL(Time To Live)** 필드가 있습니다. 보통 64로 시작하는 카운터인데요.\n\n- 패킷을 전달하는 각 라우터는 TTL을 1씩 줄입니다.\n- TTL이 0이 되면 라우터는 패킷을 버리고 송신자에게 ICMP \"Time Exceeded\" 메시지를 보냅니다.\n- 이 ICMP 메시지에는 그 라우터의 IP 주소가 포함되어 있어요.\n\n따라서 TTL=1인 패킷을 보내면 첫 번째 라우터에서 응답이 오고, TTL=2면 두 번째 라우터에서 응답이 옵니다. 목적지에 도달할 때까지 이걸 반복하는 거죠. 바로 이게 traceroute의 원리예요.\n\n**요약하면, traceroute는 각 홉에서 죽도록 설계된 패킷을 보낸 후 돌아오는 에러 메시지를 듣는 것입니다.**\n\n## 첫 번째 프로브\n\n이제 단일 함수를 만들어보겠습니다. 주어진 TTL로 UDP 패킷 하나를 보내고 ICMP 응답을 기다리는 함수예요. 왜 UDP를 쓸까요? 이 패킷들은 어차피 도중에 죽을 거니까요. TCP의 핸드셰이크나 전달 보장 같은 건 필요 없어요. 그냥 포트에 바이트를 던지고 라우터가 \"이거 떨어뜨렸음\" 하고 알려주는 걸 기다리면 됩니다.\n\n```rust\nuse socket2::{Domain, Protocol, SockAddr, Socket, Type};\nuse std::mem::MaybeUninit;\nuse std::net::{Ipv4Addr, SocketAddrV4};\nuse std::time::Duration;\n\nfn probe(target: Ipv4Addr, ttl: u32) -> std::io::Result<Option<Ipv4Addr>> {\n    // UDP 소켓 생성 및 TTL 설정\n    let send_sock = Socket::new(Domain::IPV4, Type::DGRAM, Some(Protocol::UDP))?;\n    send_sock.set_ttl_v4(ttl)?;\n    \n    // ICMP 응답을 받을 원본(raw) 소켓\n    let recv_sock = Socket::new(\n        Domain::IPV4,\n        Type::from(libc::SOCK_RAW),\n        Some(Protocol::ICMPV4),\n    )?;\n    recv_sock.set_read_timeout(Some(Duration::from_secs(2)))?;\n    \n    // 타겟의 33434 포트로 UDP 패킷 전송\n    let dest = SockAddr::from(SocketAddrV4::new(target, 33434));\n    send_sock.send_to(&[0u8; 32], &dest)?;\n    \n    // ICMP 응답 대기\n    let mut buf = [MaybeUninit::<u8>::uninit(); 512];\n    match recv_sock.recv(&mut buf) {\n        Ok(n) => {\n            // recv가 n바이트를 buf에 썼으므로 안전함\n            let buf: &[u8] = unsafe {\n                std::slice::from_raw_parts(buf.as_ptr() as *const u8, n)\n            };\n            // IP 헤더는 처음 20바이트, 송신자 IP는 12~16바이트 위치\n            if buf.len() >= 20 {\n                let ip = Ipv4Addr::new(buf[12], buf[13], buf[14], buf[15]);\n                Ok(Some(ip))\n            } else {\n                Ok(None)\n            }\n        }\n        Err(_) => Ok(None), // 타임아웃 = 응답 없음 (*)\n    }\n}\n\nfn main() -> std::io::Result<()> {\n    let target = Ipv4Addr::new(8, 8, 8, 8); // Google DNS\n    for ttl in 1..=15 {\n        let hop = probe(target, ttl)?;\n        match hop {\n            Some(ip) => println!(\"{:>2} {}\", ttl, ip),\n            None => println!(\"{:>2} *\", ttl),\n        }\n        if hop == Some(target) {\n            break;\n        }\n    }\n    Ok(())\n}\n```\n\n코드를 차근차근 살펴보죠.\n\n**7~9줄: UDP 소켓 생성 및 TTL 설정**\n\n일반적인 UDP 소켓을 만들고 TTL을 낮은 값으로 설정합니다. 이게 핵심이에요. 패킷이 목적지에 도착하기 전에 죽도록 의도적으로 TTL을 낮게 설정하는 거죠.\n\n**12~17줄: 원본 ICMP 소켓 생성**\n\n이번엔 원본 ICMP 소켓입니다. 우리 컴퓨터에 도착하는 모든 ICMP 패킷, 특히 우리가 보낸 단명 UDP 패킷을 버린 라우터로부터 오는 \"Time Exceeded\" 응답을 받아요. 여기서 `libc::SOCK_RAW`를 써야 하는 이유는 socket2가 원본 소켓 타입을 직접 노출하지 않기 때문입니다. 그리고 raw 소켓을 열려면 root/sudo 권한이 필요해요.\n\n**20~21줄: 타겟에 UDP 패킷 전송**\n\n타겟의 33434 포트로 32바이트의 0을 전송합니다. 내용은 중요하지 않아요. 33434는 traceroute가 전통적으로 사용하는 포트인데, 아무것도 여기를 listen하지 않거든요. 그래서 패킷이 목적지에 도달하면 \"Time Exceeded\"가 아닌 ICMP \"Port Unreachable\"으로 응답합니다. 이렇게 우리가 목적지에 도착했다는 걸 알 수 있어요.\n\n**24~38줄: ICMP 소켓에서 읽기**\n\n원본 IP 패킷 형태로 응답이 들어옵니다. 처음 20바이트가 IP 헤더이고, 12~16바이트 위치에 송신자 IP가 있어요."
+        },
+        {
+          "title": "TheCraigHewitt/seomachine (Python)",
+          "titleKo": "TheCraigHewitt/seomachine (Python)",
+          "summary": "Claude Code 환경에서 장문의 SEO 최적화 블로그 콘텐츠를 생성하는 전문화된 워크스페이스다. 연구, 작성, 분석, 최적화를 통해 검색 순위가 잘 나오는 콘텐츠를 만드는 것을 지원한다.",
+          "keyPoints": [
+            "Claude Code와 호환 가능한 SEO 전문 콘텐츠 생성 도구",
+            "자동 연구 및 콘텐츠 최적화 기능 포함"
+          ],
+          "whyItMatters": "콘텐츠 마케팅을 자동화하려는 개발자와 기업에게 유용한 도구다.",
+          "url": "https://github.com/TheCraigHewitt/seomachine",
+          "sourceName": "GitHub Trending",
+          "engagement": 4540,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "thecraighewittseomachine-python",
+          "category": "tech",
+          "publishedAt": "2026-04-08T23:17:17.658Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Understanding the Kalman filter with a simple radar example",
+          "titleKo": "간단한 레이더 예제로 Kalman 필터 이해하기",
+          "summary": "Kalman 필터를 복잡한 수학 설명 없이 실제 예제와 단순한 설명으로 학습할 수 있는 교육 자료다. 추적, 네비게이션, 로봇공학 등 다양한 분야의 응용 사례를 다룬다.",
+          "keyPoints": [
+            "세 가지 학습 수준(개요, 온라인 튜토리얼, 도서)을 제공하여 학습자 배경에 맞춘 선택 가능",
+            "레이더 항공기 추적 사례를 중심으로 불확실성 속에서 시스템 상태를 추정하는 핵심 개념 설명"
+          ],
+          "whyItMatters": "Kalman 필터는 신호 처리, 제어 시스템, 금융 분석 등 여러 분야에서 필수 알고리즘이므로 이해하기 쉬운 자료는 개발자에게 매우 유용하다.",
+          "url": "https://kalmanfilter.net",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 177,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "understanding-the-kalman-filter-with-a-simple-radar-example",
+          "fullContent": "Kalman Filter\n\"If you can't explain it simply, you don't understand it well enough.\"\nAlbert Einstein\nIntroduction to Kalman Filter\nThe Kalman Filter is an algorithm for estimating and predicting the state of a system\nin the presence of uncertainty, such as measurement noise or influences of unknown external factors.\nThe Kalman Filter is an essential tool in areas like object tracking, navigation, robotics, and control. For instance,\nit can be applied to estimate the trajectory of a computer mouse by reducing noise and compensating for hand jitter,\nresulting in a more stable motion path.\nIn addition to engineering, the Kalman Filter finds applications in financial market\nanalysis, such as detecting stock price trends in noisy market data, and in\nmeteorological applications for weather prediction.\nAlthough the Kalman Filter is a simple concept, many educational resources present it\nthrough complex mathematical explanations and lack real-world examples or illustrations.\nThis gives the impression that the topic is more complex than it actually is.\nThis guide presents an alternative approach that uses hands-on numerical examples and\nsimple explanations to make the Kalman Filter easy to understand. It also includes\nexamples with bad design scenarios where Kalman Filter fails to track the object\ncorrectly and discusses methods for correcting such issues.\nBy the end, you will not only understand the underlying concepts and mathematics but\nalso be able to design and implement the Kalman Filter on your own.\nKalman Filter Learning Paths\nThis project explains the Kalman Filter at three levels of depth,\nallowing you to choose the path that best fits your background and learning goals:\nSingle-page overview (this page)\nA concise introduction that presents the main ideas of the Kalman Filter and the essential\nequations, without derivations. This page explains the core concepts and overall structure\nof the algorithm using a simple example, and assumes basic knowledge of statistics and linear\nalgebra.\nFree, example-based web tutorial\nA step-by-step online tutorial that builds intuition through numerical examples.\nThe tutorial introduces the necessary background material and walks through the\nderivation of the Kalman Filter equations. No prior knowledge is required.\nKalman Filter from the Ground Up (book)\nA comprehensive guide that includes 14 fully solved numerical examples, with performance plots and tables.\nThe book covers advanced topics such as nonlinear Kalman Filters (Extended and Unscented Kalman Filters),\nsensor fusion, and practical implementation guidelines. The book and source code (Python and MATLAB) for\nall numerical examples are available for purchase.\nExample-driven guide to Kalman Filter\nGet the book\nThe prediction requirement\nWe begin by formulating the problem to understand why we need an algorithm for state estimation and prediction.\nTo illustrate this, consider the example of a tracking radar:\nSuppose we have a radar that tracks an aircraft. In this scenario, the aircraft is the system,\nand the quantity to be estimated is its position, which represents the system state.\nThe radar samples the target by steering a narrow pencil beam toward it and provides position measurements\nof the aircraft. Based on these measurements, we can estimate the system state (the aircraft's position).\nTo track the aircraft, the radar must revisit the target at regular intervals by pointing the pencil beam in its direction.\nThis means the radar must be able to predict the aircraft's future position for the next beam. If it fails to do so,\nthe beam may be pointed in the wrong direction, resulting in a loss of track. To make this prediction, we need some\nknowledge about how the aircraft moves. In other words, we need a model that describes the system's behavior over time,\nknown as the dynamic model.\nTo simplify the example, let us consider a one-dimensional world in which the aircraft moves along a straight line either\ntoward the radar or away from it.\nThe system state is defined as the range of the airplane from the radar, denoted by \\( r \\).\nThe radar sends a pulse toward the airplane, which reflects off the target and returns to the radar.\nBy measuring the time elapsed between the transmission and reception of the pulse and knowing that the\npulse is an electromagnetic wave traveling at the speed of light, the radar can easily calculate the\nairplane's range \\( r \\). In addition to range, the radar can also measure the airplane's velocity \\( v \\), just\nlike a police radar gun detects a car's speed by using the Doppler effect.\nLet us assume that at time \\( t_{0} \\), the radar measures the aircraft's range and\nvelocity with very high accuracy and precision. The measured range is 10,000 meters, and\nthe velocity is 200 meters per second. This gives us the system state:\n\\[ r_{t_{0}} = 10,000m \\]\nThe next step is to predict the system state at time \\( t_{1}=t_{0}+\\Delta t \\), where\n\\( \\Delta t \\) is the target revisit time. Given that ",
+          "category": "tech",
+          "publishedAt": "2026-04-08T17:11:46.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 칼만 필터 완벽 이해하기\n\n> \"복잡하게 설명할 수 있다면 제대로 이해하지 못한 것이다.\"\n> — 알버트 아인슈타인\n\n## 칼만 필터란 무엇인가\n\n칼만 필터는 측정 노이즈나 예측할 수 없는 외부 요인 같은 불확실성 속에서 시스템의 상태를 추정하고 예측하는 알고리즘입니다. 물체 추적, 항법, 로봇공학, 제어 시스템 등 다양한 분야에서 필수적으로 사용되고 있죠.\n\n예를 들어, 컴퓨터 마우스의 궤적을 추적할 때 칼만 필터를 적용하면 노이즈를 줄이고 손떨림을 보정해서 훨씬 부드러운 움직임을 만들 수 있습니다.\n\n공학 분야뿐만 아니라 금융시장 분석에서도 활용됩니다. 주가의 추세를 노이즈가 많은 시장 데이터에서 감지하거나, 기상 예측에서도 칼만 필터가 중요한 역할을 합니다.\n\n## 왜 이 글을 써야 했을까\n\n칼만 필터 자체는 개념상 단순한데, 대부분의 교재와 자료들이 복잡한 수식으로만 설명하다 보니 마치 엄청 어려운 주제처럼 느껴질 수 있어요. 게다가 실제 예제나 그림 설명이 부족해서 더욱 그렇고요.\n\n이 글은 다르게 접근합니다. 손으로 직접 계산해볼 수 있는 구체적인 숫자 예제와 간단한 설명으로 칼만 필터를 이해하기 쉽게 만들었습니다. 더불어 칼만 필터가 제대로 작동하지 않는 설계 사례도 다루고, 그걸 어떻게 고칠 수 있는지 함께 설명하겠습니다.\n\n이 글을 다 읽고 나면 칼만 필터의 원리뿐만 아니라 직접 설계하고 구현할 수 있는 수준까지 도달하게 될 거예요.\n\n## 학습 경로 선택하기\n\n이 글은 3가지 깊이 수준으로 준비되어 있으니 본인의 수준과 목표에 맞춰 선택하면 됩니다.\n\n**한 페이지 개요 (이 페이지)**\n\n칼만 필터의 핵심 아이디어와 필수 수식을 수식 유도 과정 없이 간단히 소개합니다. 통계학과 선형대수의 기본 개념을 알고 있다면 읽을 수 있도록 구성했어요.\n\n**온라인 튜토리얼 (예제 중심)**\n\n단계별로 따라가면서 구체적인 숫자 예제를 통해 직관을 쌓을 수 있습니다. 필요한 배경 지식부터 칼만 필터 수식의 유도까지 모두 다루므로 사전 지식이 없어도 괜찮습니다.\n\n**책: 칼만 필터 정확히 이해하기**\n\n14개의 완전히 풀이된 숫자 예제와 성능 그래프, 표를 포함한 상세한 가이드입니다. Extended Kalman Filter나 Unscented Kalman Filter 같은 비선형 칼만 필터, 센서 융합, 실무 구현 팁까지 다룹니다. 파이썬과 MATLAB 코드도 함께 제공됩니다.\n\n## 문제를 먼저 정의해보자\n\n왜 칼만 필터 같은 알고리즘이 필요한지 이해하려면 먼저 문제를 정확히 알아야 합니다.\n\n항공기를 추적하는 레이더를 생각해봅시다. 여기서 항공기가 시스템이고, 우리가 추정해야 할 상태는 항공기의 위치입니다.\n\n레이더는 좁은 빔을 항공기에 향하게 해서 신호를 보내고, 반사되어 돌아오는 신호로 항공기의 위치를 측정합니다. 이 측정 결과를 바탕으로 시스템의 상태(항공기의 위치)를 추정하죠.\n\n그런데 여기서 중요한 문제가 생깁니다. 레이더는 일정한 시간 간격으로 계속해서 항공기를 재확인해야 하는데, 항공기가 움직이기 때문에 다음 번에 레이더 빔을 어디로 향할지 미리 예측해야 합니다. 예측을 못하면 빔이 잘못된 방향을 가리켜서 추적을 놓치게 되죠.\n\n이런 예측을 하려면 항공기가 어떻게 움직이는지에 대한 모델이 필요합니다. 즉, 시간에 따라 시스템이 어떻게 변하는지를 설명하는 **동역학 모델(dynamic model)**이 필요한 겁니다.\n\n## 구체적인 예제로 살펴보기\n\n설명을 단순하게 하기 위해 1차원 세계를 가정해봅시다. 항공기가 레이더를 향해 또는 멀어지는 방향으로만 움직인다고 생각하면 됩니다.\n\n시스템 상태는 레이더로부터 항공기까지의 거리 $r$로 정의됩니다.\n\n레이더는 펄스를 항공기에 보내고, 항공기에서 반사된 신호가 돌아오는 시간을 재면 됩니다. 전자기파는 빛의 속도로 움직이니까 이 시간으로부터 거리 $r$을 쉽게 계산할 수 있어요. 추가로 레이더는 도플러 효과를 이용해서 항공기의 속도 $v$도 측정할 수 있습니다. 마치 경찰의 속도 측정기가 자동차 속도를 재는 것처럼요.\n\n시간 $t_0$에서 레이더가 항공기의 거리와 속도를 매우 정확하게 측정했다고 가정합시다.\n\n측정된 거리: $r_{t_0} = 10,000$ m\n측정된 속도: $v = 200$ m/s\n\n이것이 우리가 알고 있는 초기 시스템 상태입니다.\n\n다음 단계는 $\\Delta t$만큼 시간이 지난 후인 $t_1 = t_0 + \\Delta t$에서 시스템 상태를 예측하는 것입니다. 항공기가 일정한 속도로 움직인다고 가정하면..."
+        },
+        {
+          "title": "elebumm/RedditVideoMakerBot (Python)",
+          "titleKo": "elebumm/RedditVideoMakerBot (Python)",
+          "summary": "한 줄의 명령어로 Reddit 영상을 생성하는 자동화 도구다.",
+          "keyPoints": [
+            "Reddit 콘텐츠 기반 영상 생성 자동화"
+          ],
+          "whyItMatters": "콘텐츠 자동 생성을 원하는 개발자에게 유용한 오픈소스 도구다.",
+          "url": "https://github.com/elebumm/RedditVideoMakerBot",
+          "sourceName": "GitHub Trending",
+          "engagement": 10456,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "elebummredditvideomakerbot-python",
+          "category": "tech",
+          "publishedAt": "2026-04-08T23:17:17.659Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Show HN: Unicode Steganography",
+          "titleKo": "Unicode 스테가노그래피 공개",
+          "summary": "Zero-Width Characters, Homoglyph Substitution, Variation Selectors 등 세 가지 Unicode 스테가노그래피 기법을 비교 분석한 도구다. 각 기법의 탐지 가능성, 용량, 견고성이 다르며 AI 안전성 관점에서 중요하다.",
+          "keyPoints": [
+            "세 가지 Unicode 스테가노그래피 기법 비교: Zero-Width는 높은 대역폭이지만 쉽게 탐지 가능, Homoglyph는 견고하지만 낮은 용량, Variation Selector는 중간 성능",
+            "모든 기법이 인간의 눈을 속이지만 의도된 스캐너는 모두 탐지 가능",
+            "AI 안정성 관점에서 모델이 자동 스캔을 우회하는 새로운 인코딩을 발명할 수 있을지의 문제 제기"
+          ],
+          "whyItMatters": "LLM이 악의적 지시어를 숨길 수 있는 방식을 이해하는 것이 AI 안전 메커니즘 설계에 필수적이다.",
+          "url": "https://steganography.patrickvuscan.com",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 45,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-unicode-steganography",
+          "fullContent": "Technique ComparisonEach technique hides data inside normal-looking text, but the tradeoffs around detectability, capacity, and robustness differ.Zero-Width CharactersHomoglyph SubstitutionVariation SelectorsDetectabilityTrivially flagged by any Unicode scanner or hex editor. The non-printable code points are a dead giveaway.Harder to catch without a Latin↔Cyrillic reference. The characters render identically, and most spell-checkers accept them.Flagged by any walk over Unicode scalars or a variation-selector pass. The visible line can still look unchanged to a reader.BandwidthHigh: any carrier works. The hidden stream is carrier-agnostic and scales with message length.Low: capped by the number of substitutable characters in the carrier. Only 21 Latin↔Cyrillic pairs exist in this implementation.High: suffix mode concentrates bytes on one or few anchor characters, and scales with message length. Low: per-grapheme mode as implemented is capped by the number of graphemes in the carrier.RobustnessFragile. Slack, Twitter/X, and many email clients strip zero-width characters before storing or displaying text.Durable. Cyrillic lookalikes survive copy-paste on essentially every platform. No common stripping heuristic targets them.Mixed. Often survives naive copy-paste better than zero-width stripping, but NFC and NFKC normalization may reorder or collapse parts of a sequence depending on the carrier, and some pipelines alter or drop selectors, especially in supplementary planes.Why This Matters for AI SafetyLLM steganography is a concrete example of how AI deception could work in practice. Each of the techniques demonstrated above fools human readers, but none survives a scanner built to look for them: a Unicode category check catches zero-width characters, a homoglyph alphabet check catches Cyrillic substitutions, and code-point inspection catches payloads carried in variation selectors.The harder question for AI alignment is whether a model could invent an encoding that passes human review and beats automated scanners it hasn't seen before.",
+          "category": "tech",
+          "publishedAt": "2026-04-07T12:57:25.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 기술 비교: 스테ganography 기법들\n\n각 기법은 일반 텍스트처럼 보이는 안에 데이터를 숨기지만, 탐지 난이도, 용량, 견고성 측면에서 장단점이 달라요.\n\n## 세 가지 기법 비교표\n\n| 항목 | 영폭 문자(Zero-Width Characters) | 유사 문자 치환(Homoglyph Substitution) | 변형 선택자(Variation Selectors) |\n|------|---------|---------|---------|\n| **탐지 난이도** | 매우 쉬움 | 어려움 | 중간 |\n| **용량** | 높음 | 낮음 | 중간 |\n| **견고성** | 취약함 | 우수함 | 중간 |\n\n### 탐지 난이도\n\n**영폭 문자**는 가장 먼저 들킬 수 있어요. 유니코드 스캐너나 16진수 편집기로 바로 확인되거든요. 출력되지 않는 코드 포인트는 숨길 수 없는 증거나 마찬가지예요.\n\n**유사 문자 치환**은 좀 더 까다롭습니다. 라틴 문자와 키릴 문자를 비교할 수 없으면 구분하기 어려워요. 화면에는 똑같이 보이고, 대부분의 맞춤법 검사 도구도 이런 문자들을 정상으로 인식하거든요.\n\n**변형 선택자**는 유니코드 스칼라를 훑거나 선택자를 감지하는 방식으로 찾을 수 있어요. 다만 일반 사용자 눈에는 텍스트가 변한 것처럼 보이지 않을 수 있습니다.\n\n### 용량\n\n**영폭 문자**는 용량이 가장 좋습니다. 어떤 텍스트도 캐리어로 쓸 수 있고, 메시지 길이에 따라 자유롭게 확장되거든요.\n\n**유사 문자 치환**은 심각하게 제한돼요. 치환할 수 있는 문자 개수가 한정되어 있기 때문입니다. 이 구현에서는 라틴-키릴 쌍이 21개뿐이에요.\n\n**변형 선택자**의 경우, 접미사 모드면 한두 글자에 바이트를 집중시킬 수 있어 용량이 나아집니다. 반면 글자별 모드는 텍스트에 포함된 글자 개수에 의존하므로 제약이 있어요.\n\n### 견고성\n\n**영폭 문자**는 매우 취약합니다. Slack, X(구 Twitter), 많은 이메일 클라이언트가 텍스트를 저장하거나 표시하기 전에 영폭 문자를 제거해버리거든요.\n\n**유사 문자 치환**은 거의 모든 플랫폼에서 복사-붙여넣기를 견뎌냅니다. 이 기법을 특별히 제거하는 일반적인 휴리스틱이 없기 때문이죠. 따라서 견고성이 가장 우수해요.\n\n**변형 선택자**는 중간 정도입니다. 순진한 복사-붙여넣기 환경에서는 영폭 문자보다 잘 남아있지만, NFC나 NFKC 정규화 과정에서 문자열 순서가 바뀌거나 일부가 축약될 수 있어요. 특히 보조 평면의 선택자는 일부 시스템에서 제거되기도 합니다.\n\n## AI 안전성을 위해 이게 중요한 이유\n\nLLM 스테ganography는 AI가 실제로 어떻게 속일 수 있는지 보여주는 구체적인 사례입니다. 위의 기법들은 모두 인간 독자를 속이지만, 이를 찾기 위해 설계된 스캐너 앞에서는 모두 무너져요.\n\n유니코드 범주 확인으로 영폭 문자를 잡을 수 있고, 유사 문자 알파벳 검사로 키릴 치환을 감지할 수 있으며, 코드 포인트 검사로 변형 선택자의 페이로드를 찾을 수 있거든요.\n\n더 어려운 질문은 이겁니다. 모델이 인간의 검토를 통과하면서도 이전에 본 적 없는 자동 스캐너를 속일 수 있는 인코딩을 스스로 만들어낼 수 있을까? 이 부분이 AI 정렬(alignment) 분야의 핵심 과제예요."
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "What to know about JavaScript in 2026",
+          "titleKo": "2026년 JavaScript에서 알아야 할 것들",
+          "summary": "Google이 새로운 JavaScript 중간 표현(IR) 도구인 JSIR을 오픈소스화하고 업계 표준으로 제안했습니다. 이는 AST를 보완하여 코드 최적화와 분석을 개선하는 도구입니다.",
+          "keyPoints": [
+            "Google이 JSIR(JavaScript Intermediate Representation)을 공개하며 업계 표준화를 추진 중",
+            "AST와 달리 중간 표현은 더 깊은 코드 의미 분석과 최적화를 가능하게 함"
+          ],
+          "whyItMatters": "JavaScript 도구 개발자와 최적화에 관심 있는 개발자들이 더 강력한 코드 분석 인프라를 활용할 수 있게 됩니다.",
+          "url": "https://javascriptweekly.com/issues/780",
+          "sourceName": "JavaScript Weekly",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "what-to-know-about-javascript-in-2026",
+          "category": "insight",
+          "publishedAt": "2026-04-07T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "John Deere to pay $99M in right-to-repair settlement",
+          "titleKo": "John Deere, 수리권 소송에서 9900만 달러 합의",
+          "summary": "농민들의 장년 로비로 John Deere가 9900만 달러 규모의 수리권 합의금을 지급하기로 합의했다. 10년간 트랙터와 농기계의 진단·수리용 디지털 도구를 제공하는 법적 의무도 부담했다.",
+          "keyPoints": [
+            "2018년 1월 이후 정식 대리점 수리 비용을 지불한 농민들이 청구액의 26~53% 보상 가능 (일반적인 5~15%보다 훨씬 높음)",
+            "John Deere가 10년간 트랙터, 콤바인 등 농기계의 유지·진단·수리용 디지털 도구 제공 의무",
+            "업계 전반에 선례: 자동차, 가전 등 다른 제조업도 수리 제한 관행을 재검토할 가능성"
+          ],
+          "whyItMatters": "우리 사회에서 개발자들이 만든 소프트웨어 잠금 장치가 더 이상 절대적이 아님을 보여주는 중요한 선례다.",
+          "url": "https://www.thedrive.com/news/john-deere-to-pay-99-million-in-monumental-right-to-repair-settlement",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 102,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "john-deere-to-pay-99m-in-right-to-repair-settlement",
+          "fullContent": "Richard Hamilton Smith/Design Pics Editorial/Universal Images Group via Getty Images\nFarmers have been fighting John Deere for years over the right to repair their equipment, and this week, they finally reached a landmark settlement.\nWhile the agricultural manufacturing giant pointed out in a statement that this is no admission of wrongdoing, it agreed to pay $99 million into a fund for farms and individuals who participated in a class action lawsuit. Specifically, that money is available to those involved who paid John Deere’s authorized dealers for large equipment repairs from January 2018. This means that plaintiffs will recover somewhere between 26% and 53% of overcharge damages, according to one of the court documents—far beyond the typical amount, which lands between 5% and 15%.\nThe settlement also includes an agreement by Deere to provide “the digital tools ​required for the maintenance, diagnosis, and repair” of tractors, combines, and other machinery for 10 years. That part is crucial, as farmers previously resorted to hacking their own equipment’s software just to get it up and running again. John Deere signed a memorandum of understanding in 2023 that partially addressed those concerns, providing third parties with the technology to diagnose and repair, as long as its intellectual property was safeguarded. Monday’s settlement seems to represent a much stronger (and legally binding) step forward.\nRipple effects of this battle have been felt far beyond the sales floors at John Deere dealers, as the price of used equipment skyrocketed in response to the infamous service difficulties. Even when the cost of older tractors doubled, farmers reasoned that they were still worth it because repairs were simpler and downtime was minimized. $60,000 for a 40-year-old machine became the norm.\nA judge’s approval of the settlement is still required, though it seems likely. Still, John Deere isn’t out of the woods yet. It still faces another lawsuit from the United States Federal Trade Commission, in which the government organization accuses Deere of harmfully locking down the repair process.\nIt’s difficult to overstate the significance of this right-to-repair fight. While it has obvious implications for the ag industry, others like the automotive and even home appliance sectors are looking on. Any court ruling that might formally condemn John Deere of wrongdoing may set a precedent for others to follow. At a time when manufacturers want more and more control of their products after the point of sale, every little update feels incredibly high-stakes.\nGot a tip or question for the author? Contact them directly: caleb@thedrive.com",
+          "category": "insight",
+          "publishedAt": "2026-04-08T20:46:27.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 존 디어와의 10년 싸움, 농부들 9900만 달러 합의금 확보\n\n농부들이 존 디어(John Deere)와 벌인 수리 권리 투쟁이 결실을 맺었다. 이번 주 양측이 획기적인 합의에 도달한 것이다.\n\n존 디어는 성명을 통해 이번 합의가 잘못을 인정하는 것은 아니라고 강조했지만, 결국 9900만 달러를 집단소송 기금으로 조성하기로 동의했다. 이 자금은 2018년 1월 이후 존 디어 공식 판매점에서 대형 농기계 수리비를 지불한 농부들과 개인들이 받을 수 있다.\n\n법원 문서에 따르면 청구인들은 초과 청구 손해배상금의 26~53%를 돌려받을 전망이다. 일반적인 합의금 회수율이 5~15%에 머무르는 것을 감안하면 상당히 높은 수준이다.\n\n## 10년간 수리 도구 제공 약속\n\n이번 합의의 핵심은 존 디어가 향후 10년간 트랙터, 콤바인 등 농기계의 \"유지보수, 진단, 수리에 필요한 디지털 도구\"를 제공하기로 약속한 것이다.\n\n이 부분이 얼마나 중요한지는 농부들의 과거 행동만 봐도 알 수 있다. 농기계를 다시 작동시키기 위해 자신들이 직접 소프트웨어를 해킹해야 했으니까. 존 디어는 2023년 양해각서를 체결해 제3자가 지적재산권을 보호하는 선에서 진단 및 수리 기술을 사용하도록 했지만, 이번 합의는 법적 구속력이 있는 훨씬 더 강력한 약속이다.\n\n## 중고 농기계 가격 폭등의 악순환\n\n이 싸움의 여파는 존 디어 판매점 너머까지 퍼져 있다. 수리 문제가 악화되면서 중고 농기계 가격이 치솟은 것이다.\n\n오래된 트랙터 값이 두 배로 뛰어도 농부들은 살 이유가 있었다. 낡은 기계일수록 수리가 간단하고 가동 중단 시간이 짧기 때문이었다. 결국 40년 된 중고 트랙터에 6만 달러를 지불하는 것이 일상화됐다.\n\n## 법원 승인 대기 중, 그리고 남은 과제들\n\n판사 승인이 남아 있지만, 통과 가능성이 높아 보인다. 그런데 존 디어의 난제가 완전히 해결된 건 아니다.\n\n미국 연방거래위원회(FTC)의 또 다른 소송을 여전히 맞닥뜨려 있거든. FTC는 존 디어가 수리 과정을 부당하게 제한했다고 주장하고 있다.\n\n## 업계 전체에 미칠 영향\n\n이번 수리 권리 투쟁의 의미를 과하게 평가하기는 어렵다. 농업 산업에 직접적인 영향을 주는 것은 물론이고, 자동차나 가전제품 업계도 촉목하고 있기 때문이다.\n\n존 디어에 대한 정식 판결이 나온다면 다른 제조사들의 선례가 될 가능성이 크다. 요즘처럼 제조사들이 판매 이후까지 제품을 통제하려는 흐름이 강해지는 시대에, 이런 판결 하나하나가 엄청난 영향력을 갖는 이유다."
+        },
+        {
+          "title": "Show HN: Orange Juice – Small UX improvements that make HN easier to read",
+          "titleKo": "Show HN: Orange Juice – HN를 더 쉽게 읽을 수 있게 하는 작은 UX 개선",
+          "summary": "Orange Juice는 Hacker News의 사용성을 개선하는 브라우저 확장 프로그램으로, 스레드 내 인라인 답글, 읽음 추적, 팔로우 기능, 키보드 네비게이션 등을 제공한다. GPLv3 오픈소스로 공개되며 광범위한 단위 테스트 및 CI/CD 자동화로 품질 보증한다.",
+          "keyPoints": [
+            "스레드 내 인라인 답글, 인용 선택, 페이지 이동 없이 댓글 읽음 추적 등으로 사용자 경험을 개선한다.",
+            "키보드 네비게이션, 사용자 팔로우, Mermaid 다이어그램 렌더링 등 다양한 기능을 제공한다.",
+            "AI를 쌍 프로그래머처럼 활용하되 최종 결정은 인간이 하며, 철저한 테스트 기반으로 개발되었다."
+          ],
+          "whyItMatters": "Hacker News 사용자들이 장시간 읽음에도 편의성을 높일 수 있으며, 오픈소스로 투명하게 검증 가능한 브라우저 확장의 좋은 사례를 제시한다.",
+          "url": "http://oj-hn.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 68,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-orange-juice-small-ux-improvements-that-make-hn-easier-to-read",
+          "fullContent": "In-Thread Replies\nStay in the thread\nInline reply and quote selection let you respond in place instead of\njumping across pages.\nUnread Tracking\nKeep context between visits\nUnread comment highlighting and hide-read controls make it obvious\nwhat is new and what you already covered.\nFavorites\nSave what matters\nUse keyboard commands to favorite stories and comments while reading\nso you can quickly find them again later.\nFollowing\nTrack people, not just threads\nFollow HN users, open a combined activity feed, and keep it ordered\nthe way you read.\nKeyboard Flow\nMove faster without the mouse\nKeyboard navigation and shortcuts help you scan stories, open\nthreads, and act on content without breaking reading flow.\nReadability\nMake long threads easier to parse\nDark mode, better code styling, and cleaner comment structure reduce\nfriction when threads get deep or technical.\nInline Reply + Quote Selection\nReply directly inside comment threads and quote selected text with\none action.\nLight mode\nDark mode\nUnread Comment Highlighting\nQuickly spot what changed since your last visit without rescanning\nthe entire thread.\nLight mode\nDark mode\nHover User Details\nHover usernames to quickly preview profile details and context\nwithout leaving the thread.\nLight mode\nDark mode\nFollowing Feed\nFollow users from anywhere on HN and open a dedicated feed of their\nrecent comments and submissions. Reorder users by dragging, collapse\nsections you do not want open by default, and refresh one person at\na time without reloading everything else.\nSmall follow buttons appear next to usernames across Hacker\nNews.\nThe /following page keeps the normal HN look\ninstead of inventing a separate UI.\nRecent fetched activity is cached locally to keep the page fast,\nwith per-user refresh controls when you want a fresh pull.\nHide Read Stories\nClear out items you already opened and focus your attention on new\nstories.\nLight mode\nDark mode\nKeyboard Navigation\nMove through stories and comments faster with keyboard shortcuts, so\nyou can browse without constant mouse movement.\nLight mode\nDark mode\nMermaid Diagram Rendering\nRender Mermaid code blocks into readable diagrams directly in\nthreads.\nLight mode\nDark mode\nAnd too many other features to list.\nFully open source\nThe full source code is public under the GPLv3 license, so anyone\ncan inspect how it works, verify behavior, and contribute\nimprovements.\nAI-assisted, not AI-slop\nAI is used as a pair programmer to speed up implementation and\nreview, but architecture and final decisions are human.\nTested, not vibe coded\nThe extension has extensive unit test coverage, quality checks, and\nautomation through CI/CD. This project is intentionally not vibe\ncoded.",
+          "category": "insight",
+          "publishedAt": "2026-04-08T18:08:52.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Hacker News를 더 편하게 쓰는 방법\n\nHacker News를 자주 사용하시나요? 그렇다면 이 확장 프로그램이 읽기 경험을 크게 개선해줄 겁니다.\n\n## 스레드 안에서 바로 답글 달기\n\n댓글을 읽다가 답장하고 싶을 때, 굳이 페이지를 오갈 필요가 없습니다. 인라인 답글 기능으로 바로 그 자리에서 댓글을 달 수 있고, 텍스트를 선택해서 인용도 한 번에 처리할 수 있죠.\n\n## 읽은 것과 새 댓글 구분하기\n\n마지막 방문 이후 뭐가 새로 올라왔는지 한눈에 파악할 수 있습니다. 읽지 않은 댓글을 하이라이트로 표시해주니까, 긴 스레드에서도 어디부터 읽어야 할지 바로 알 수 있어요.\n\n## 즐겨찾기로 나중에 찾아보기\n\n마음에 드는 스토리나 댓글은 키보드 단축키로 빠르게 저장할 수 있습니다. 나중에 다시 읽고 싶을 때 쉽게 찾아볼 수 있죠.\n\n## 사용자를 팔로우해서 활동 추적하기\n\n스레드가 아니라 **사람**을 팔로우하세요. 팔로우한 사용자들의 활동을 한곳에 모아서 볼 수 있고, 순서도 직접 정렬할 수 있습니다.\n\n## 키보드 중심으로 더 빠르게 탐색하기\n\n마우스를 자주 집을 필요가 없습니다. 키보드 단축키로 스토리를 스캔하고, 스레드를 열고, 컨텐츠에 반응할 수 있어요. 읽기 흐름을 끊지 않으면서 빠르게 이동할 수 있죠.\n\n## 긴 스레드도 쉽게 읽기\n\n다크 모드, 개선된 코드 스타일링, 깔끔한 댓글 구조 덕분에 깊고 복잡한 스레드도 편하게 읽을 수 있습니다.\n\n## 사용자 정보를 호버로 미리보기\n\n사용자명에 마우스를 올리면 스레드를 떠나지 않고도 프로필을 미리 볼 수 있습니다. 맥락을 파악하는 데 도움이 되죠.\n\n## 팔로우 피드 관리하기\n\n팔로우 페이지에서 관심 있는 사용자들의 최근 댓글과 제출 내용을 한곳에서 확인할 수 있습니다. 원하는 섹션은 접어두고, 특정 사용자만 새로고침 하는 것도 가능합니다.\n\n## 이미 본 스토리 숨기기\n\n읽은 스토리를 목록에서 제거하고 새로운 컨텐츠에 집중할 수 있습니다.\n\n## Mermaid 다이어그램 자동 렌더링\n\n코드 블록에 작성한 Mermaid 다이어그램이 스레드에서 바로 시각화됩니다. 이해하기가 훨씬 쉬워지죠.\n\n## 완전히 오픈소스입니다\n\n전체 소스 코드는 GPLv3 라이선스로 공개되어 있습니다. 누구든 코드를 검토하고, 동작을 확인하고, 개선에 기여할 수 있어요.\n\n## AI를 현명하게 활용합니다\n\nAI는 구현을 빠르게 하고 코드 리뷰를 돕는 페어 프로그래밍 역할을 합니다. 하지만 아키텍처와 최종 결정은 모두 개발자의 판단으로 이루어집니다.\n\n## 테스트된, 단단한 코드입니다\n\n유닛 테스트, 품질 검사, CI/CD 자동화를 통해 철저하게 검증되었습니다. \"감으로 코딩한\" 프로젝트가 절대 아니거든요."
+        },
+        {
+          "title": "Audio Reactive LED Strips Are Diabolically Hard",
+          "titleKo": "오디오 반응형 LED 스트립은 악마적으로 어렵다",
+          "summary": "2016년부터 시작한 음악에 반응하는 LED 스트립 프로젝트가 10년간 진화해온 과정을 기술한 글이다. 단순한 볼륨 감지에서 시작하여 FFT와 멜 스케일 기반의 고급 신호 처리로 발전했으며, 제한된 LED 픽셀로 인한 '픽셀 빈곤'이 핵심 도전 과제임을 강조한다.",
+          "keyPoints": [
+            "볼륨 기반 반응은 구현이 간단하지만 빠르게 지루해지며, 음악의 풍부한 주파수 정보를 활용하지 못한다.",
+            "LED 스트립은 화면 기반 시각화기와 달리 픽셀이 극도로 제한되어 있어, 표시되는 모든 기능이 인지적으로 의미 있어야 한다는 '픽셀 빈곤' 문제가 핵심이다.",
+            "인간의 음악 인식 방식을 이해하고 지각 모델을 구축해야만 만족스러운 시각화가 가능하다."
+          ],
+          "whyItMatters": "신호 처리와 하드웨어 제약 조건 사이의 균형을 이루는 방법을 배울 수 있으며, 제한된 리소스 환경에서 사용자 경험을 최적화하는 설계 철학을 제시한다.",
+          "url": "https://scottlawsonbc.com/post/audio-led",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 185,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "audio-reactive-led-strips-are-diabolically-hard",
+          "fullContent": "In 2016, I bought an LED strip and decided to make it react to music in real time. I figured it would take a few weeks, but it ended up being a rabbit hole. Ten years later, the project has 2.8k GitHub stars, has been covered by Hackaday, and is one of the most popular LED strip visualizer projects available. People have built it into nightclubs, integrated it with Amazon Alexa, and used it as their first electronics project.\nI'm still not satisfied with it.\nThe scroll effect. Colors originate from the center and scroll outward, reacting to music in real time.\nVolume Is Easy\nI started with non-addressable LED strips where I could control the brightness of the red, green, and blue color channels independently, but not the individual LED pixels. I tried the most obvious thing first: read the audio signal, measure the volume, and make the LEDs brighter when it's louder. These were all relatively straightforward time domain processing methods. Read a short chunk of audio around 10-50ms in duration, low pass filter it, map the intensity to brightness.\nI assigned each color channel to a different time constant to get a kind of color effect. One color would respond rapidly to changes in volume, one would respond slowly, and one in the middle. You can get something like this working in an afternoon and it looks okay on an LED strip or a lamp with a single RGB LED.\nIt gets boring fast. All the interesting frequency information is lost and it works best on punchy electronic music. It is terrible on many other kinds of music where volume is not the most interesting feature. There is no understanding of what kind of sound the system is reacting to, just how loud it is.\nI also had to implement adaptive gain control almost immediately. If you set a fixed volume threshold, the visualizer either saturates in a loud room or barely flickers in a quiet one. My favorite way to do this was with exponential smoothing a simple and effective filter that I used over and over in various parts of the code.\nAlthough the time domain visualizer was okay, I found the limited output channels made the result unsatisfying. There is only so much information you can display on three color channels. Eventually, I switched to WS2812 addressable LEDs so that I'd have many more output features to work with.\nThe earliest prototype, 2017. Non-addressable LEDs, controlling only global brightness per color channel. Before I discovered the mel scale, before addressable LEDs. This is where it started.\nThe Naive FFT\nThe obvious next step was to use frequency domain methods. Collect a short chunk of audio, compute a Fourier transform (a mathematical tool that breaks audio into its individual frequencies), get frequency bins, and map them to LEDs. I had 144 pixels on a one meter strip, so I thought, 144 bins, one per LED. Then render the spectrum.\nIt kind of worked. I could tell right away that more of the audio was being captured compared to the volume method. But the result was deeply unsatisfying. Almost all of the energy was concentrated in a handful of LEDs, and most of the strip was dark.\nI tried cropping the frequency range to use more of the strip. It helped a little, but I still felt that many of the LEDs were underutilized and that the FFT method was lopsided. I struggled with this for a long time.\nMost people who attempt audio reactive LED strips end up somewhere around here, with a naive FFT method. It works well enough on a screen, where you have millions of pixels and can display a full spectrogram with plenty of room for detail. But on 144 LEDs, the limitations are brutal. On an LED strip, you can't afford to \"waste\" any pixels and the features you display need to be more perceptually meaningful.\nPixel Poverty\nPixel Poverty, Feature Famine, Compression Curse, whatever you want to call it, is the central lesson I learned and the reason LED strip visualization is so difficult. You might think that LED strips are simpler than screen-based visualizers, but the opposite is true. A screen-based visualizer has millions of pixels to work with, but an LED strip has hundreds at most. You can compute tons of audio features and display them all on the screen, and if most of them are uninteresting, it doesn't matter. As long as some of the features resonate with what a human perceives as interesting, the visualization works. On an LED strip, you have to be right about which features are worth displaying.\nAn LED strip is pixel-poor. A one meter strip might have 144 LEDs. That's it, and there's nowhere to hide. Nearly every single pixel has to be doing something that a human perceives as musically relevant. The margin for error is incredibly narrow.\nThis is what makes LED strip visualizers fundamentally harder than screen-based ones. I couldn't just display raw signal processing data. I had to understand how humans actually perceive music and build a perceptual model into the pipeline.\nThe Mel Scale\nI started reading papers from the speech recognition fie",
+          "category": "insight",
+          "publishedAt": "2026-04-07T13:55:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# LED 스트립을 음악에 반응하게 만들기 - 10년 간의 여정\n\n2016년, 나는 LED 스트립 하나를 구매했다. 음악에 실시간으로 반응하는 시각화를 만들어보겠다는 생각이었다. 몇 주면 충분할 거라고 생각했는데, 결국 깊은 토끼굴에 빠져버렸다. 10년이 지난 지금, 이 프로젝트는 GitHub에서 2.8k개의 스타를 받았고, Hackaday에 소개되었으며, 가장 인기 있는 LED 스트립 비주얼라이저 중 하나가 되었다. 누군가는 클럽에 설치했고, Amazon Alexa와 연동했으며, 처음 접하는 전자공학 프로젝트로 사용하기도 했다.\n\n그런데도 나는 여전히 만족하지 못하고 있다.\n\n## 처음엔 간단했다 - 음량 감지\n\n처음에는 개별 LED를 제어할 수 없는 일반 LED 스트립으로 시작했다. 대신 빨강, 초록, 파랑 채널의 밝기만 독립적으로 조절할 수 있었다. 가장 직관적인 방법을 시도해봤다. 오디오 신호를 읽고 음량을 측정한 뒤, 크면 클수록 LED를 더 밝게 만드는 것이다. 모두 시간 영역의 간단한 신호 처리였다.\n\n10~50ms 정도의 짧은 오디오 청크를 읽고, 저주파 필터를 적용한 뒤, 강도를 밝기로 변환하면 된다. 각 색상 채널에 다른 응답 속도를 할당했다. 어떤 색은 빠르게, 어떤 색은 느리게, 또 다른 색은 중간 정도로 반응하도록 말이다. 오후 정도면 이 정도는 만들 수 있고, RGB LED가 있는 스트립이나 램프에서는 꽤 그럴듯해 보인다.\n\n하지만 금방 지루해진다. 주파수 정보가 모두 사라져서, 결국 음악의 종류를 이해하지 못하고 얼마나 큰지만 감지할 뿐이다. 게다가 비트가 명확한 전자음악에서는 잘 작동하지만, 음량이 가장 흥미로운 특징이 아닌 다른 장르의 음악에서는 형편없다.\n\n거의 바로 적응형 게인 컨트롤을 구현해야 했다. 고정된 음량 임계값을 설정하면 시끄러운 방에서는 LED가 계속 켜져 있고, 조용한 공간에서는 거의 깜빡일 뿐이기 때문이다. 나는 지수 평활이라는 간단하면서도 효과적인 필터를 사용했는데, 이 방식을 코드 전반에서 계속 활용했다.\n\n## 해상도의 한계\n\n아무튼 시간 영역 시각화는 문제가 있었다. 3개 색상 채널로 표현할 수 있는 정보가 너무 적었다. 결국 각각의 LED를 개별 제어할 수 있는 WS2812 주소 지정 가능 LED로 전환했다. 훨씬 많은 표현 방식을 사용할 수 있게 된 것이다.\n\n## 순진한 FFT 접근법\n\n다음 단계는 당연히 주파수 영역 분석이었다. 오디오를 청크 단위로 수집하고, 푸리에 변환(오디오를 개별 주파수로 분해하는 수학 도구)을 계산해서 주파수 빈(bin)을 얻은 뒤, 각각을 LED로 매핑하는 것이다. 1미터 스트립에 144개의 픽셀이 있으니까, 144개의 빈, 하나의 LED당 하나의 빈이라고 생각했다. 그리고 스펙트럼을 렌더링했다.\n\n어느 정도는 작동했다. 음량 방식보다 훨씬 더 많은 오디오 정보가 캡처되는 것을 즉시 감지할 수 있었다. 그런데 결과는 정말 실망스러웠다. 거의 모든 에너지가 소수의 LED에 집중되어 있고, 스트립의 대부분은 어두웠다.\n\n주파수 범위를 자르면서 더 많은 스트립을 사용하려고 시도했다. 조금은 나아졌지만, 여전히 많은 LED가 제대로 활용되지 않는 느낌이 들었다. 나는 오랫동안 이 문제로 고민했다.\n\n대부분의 사람들이 음악 반응형 LED 스트립을 만들 때 이 정도 수준에서 멈춘다. 수백만 개의 픽셀이 있는 화면에서는 충분히 작동하고, 충분한 여유 공간으로 전체 스펙트로그램을 상세하게 표시할 수 있다. 그런데 144개의 LED에서는 한계가 극심하다.\n\n## 픽셀 빈곤의 문제\n\n이것이 내가 배운 가장 중요한 교훈이자, LED 스트립 시각화가 어려운 이유다. '픽셀 빈곤'이라고 부르든, '기능 부족'이라고 부르든, 결국 같은 문제다.\n\nLED 스트립이 화면 기반 시각화보다 단순하다고 생각할 수도 있지만, 실제로는 정반대다. 화면 기반 시각화는 수백만 개의 픽셀로 작업할 수 있지만, LED 스트립은 많아야 수백 개다. 오디오 기능을 엄청 많이 계산해서 화면에 모두 표시할 수 있고, 대부분이 흥미롭지 않더라도 상관없다. 일부 기능이 인간이 흥미롭다고 인식하는 것과 맞아떨어지면 시각화는 작동한다.\n\n그런데 LED 스트립은 그렇지 않다. 1미터 스트립은 144개의 LED를 가지고 있다. 그게 전부다. 숨을 곳이 없다. 거의 모든 픽셀이 인간이 음악적으로 의미 있다고 인식하는 무언가를 해야 한다. 오류의 여지가 거의 없다는 뜻이다.\n\n이것이 LED 스트립 시각화를 화면 기반보다 훨씬 어렵게 만드는 이유다. 단순히 신호 처리 데이터를 표시할 수는 없었다. 인간이 실제로 음악을 어떻게 인식하는지 이해하고, 그것을 시각화 파이프라인에 녹여내야 했다.\n\n## 멜 스케일의 발견\n\n나는 음성 인식 논문을 읽기 시작했다..."
+        },
+        {
+          "title": "Git commands I run before reading any code",
+          "titleKo": "코드를 읽기 전에 실행하는 Git 명령어들",
+          "summary": "새로운 코드베이스를 분석할 때 코드를 열기 전에 실행해야 할 5가지 Git 명령어를 소개하여 프로젝트의 건강도와 위험 요소를 빠르게 파악한다.",
+          "keyPoints": [
+            "변경이 많은 파일 추출으로 고위험 코드 영역 식별 - 높은 변경 빈도와 높은 버그 빈도를 모두 가진 파일이 최대 위험 요소",
+            "커미터 분석으로 버스 팩터 파악 - 한 명의 개발자가 60% 이상의 커밋을 담당하면 위기 상황",
+            "월별 커밋 수로 프로젝트 진행 상황 파악 - 커밋 속도 급락은 팀원 이탈이나 모멘텀 감소를 의미",
+            "버그 관련 커밋 로그로 문제 영역 추출 - 반복해서 패치되는 파일은 근본적인 해결이 필요한 신호",
+            "리버트/핫픽스 빈도로 팀의 안정성 평가 - 빈번한 리버트는 배포 프로세스나 테스트 신뢰도 문제를 시사"
+          ],
+          "whyItMatters": "새로운 코드베이스를 분석할 때 어느 부분부터 살펴봐야 할지 우선순위를 정하고 숨은 기술 부채를 조기에 발견할 수 있다.",
+          "url": "https://piechowski.io/post/git-commands-before-reading-code/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 1704,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "git-commands-i-run-before-reading-any-code",
+          "fullContent": "The first thing I usually do when I pick up a new codebase isn’t opening the code. It’s opening a terminal and running a handful of git commands. Before I look at a single file, the commit history gives me a diagnostic picture of the project: who built it, where the problems cluster, whether the team is shipping with confidence or tiptoeing around land mines.\nWhat Changes the Most\ngit log --format=format: --name-only --since=\"1 year ago\" | sort | uniq -c | sort -nr | head -20\nThe 20 most-changed files in the last year. The file at the top is almost always the one people warn me about. “Oh yeah, that file. Everyone’s afraid to touch it.”\nHigh churn on a file doesn’t mean it’s bad. Sometimes it’s just active development. But high churn on a file that nobody wants to own is the clearest signal of codebase drag I know. That’s the file where every change is a patch on a patch. The blast radius of a small edit is unpredictable. The team pads their estimates because they know it’s going to fight back.\nA 2005 Microsoft Research study found churn-based metrics predicted defects more reliably than complexity metrics alone. I take the top 5 files from this list and cross-reference them against the bug hotspot command below. A file that’s high-churn and high-bug is your single biggest risk.\nWho Built This\ngit shortlog -sn --no-merges\nEvery contributor ranked by commit count. If one person accounts for 60% or more, that’s your bus factor. If they left six months ago, it’s a crisis. If the top contributor from the overall shortlog doesn’t appear in a 6-month window (git shortlog -sn --no-merges --since=\"6 months ago\"), I flag that to the client immediately.\nI also look at the tail. Thirty contributors but only three active in the last year. The people who built this system aren’t the people maintaining it.\nOne caveat: squash-merge workflows compress authorship. If the team squashes every PR into a single commit, this output reflects who merged, not who wrote. Worth asking about the merge strategy before drawing conclusions.\nWhere Do Bugs Cluster\ngit log -i -E --grep=\"fix|bug|broken\" --name-only --format='' | sort | uniq -c | sort -nr | head -20\nSame shape as the churn command, filtered to commits with bug-related keywords. Compare this list against the churn hotspots. Files that appear on both are your highest-risk code: they keep breaking and keep getting patched, but never get properly fixed.\nThis depends on commit message discipline. If the team writes “update stuff” for every commit, you’ll get nothing. But even a rough map of bug density is better than no map.\nIs This Project Accelerating or Dying\ngit log --format='%ad' --date=format:'%Y-%m' | sort | uniq -c\nCommit count by month, for the entire history of the repo. I scan the output looking for shapes. A steady rhythm is healthy. But what does it look like when the count drops by half in a single month? Usually someone left. A declining curve over 6 to 12 months tells you the team is losing momentum. Periodic spikes followed by quiet months means the team batches work into releases instead of shipping continuously.\nI once showed a CTO their commit velocity chart and they said “that’s when we lost our second senior engineer.” They hadn’t connected the timeline before. This is team data, not code data.\nHow Often Is the Team Firefighting\ngit log --oneline --since=\"1 year ago\" | grep -iE 'revert|hotfix|emergency|rollback'\nRevert and hotfix frequency. A handful over a year is normal. Reverts every couple of weeks means the team doesn’t trust its deploy process. They’re evidence of a deeper issue: unreliable tests, missing staging, or a deploy pipeline that makes rollbacks harder than they should be. Zero results is also a signal; either the team is stable, or nobody writes descriptive commit messages.\nCrisis patterns are easy to read. Either they’re there or they’re not.\nThese five commands take a couple minutes to run. They won’t tell you everything. But you’ll know which code to read first, and what to look for when you get there. That’s the difference between spending your first day reading the codebase methodically and spending it wandering.\nThis is the first hour of what I do in a codebase audit. Here’s what the rest of the week looks like.\nRelated Articles\nWhy Your Engineering Team Is Slow (It's the Codebase, Not the People)\nHow to Close a Tab in Vim\nHow I Audit a Legacy Rails Codebase in the First Week\nHow to Open a New Tab in Vim\nRails default_scope: Why You Should Never Use It",
+          "category": "insight",
+          "publishedAt": "2026-04-08T08:53:42.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 새로운 코드베이스를 읽을 때 먼저 하는 5가지\n\n새로운 프로젝트를 시작할 때 저는 코드부터 보지 않습니다. 먼저 터미널을 열고 몇 가지 git 명령어를 실행합니다. 커밋 히스토리를 보면 누가 만들었는지, 어디서 문제가 많이 발생하는지, 팀이 자신감 있게 배포하는지 아니면 조심스럽게 움직이는지 한눈에 파악할 수 있거든요.\n\n## 1. 가장 자주 수정되는 파일들\n\n```\ngit log --format=format: --name-only --since=\"1 year ago\" | sort | uniq -c | sort -nr | head -20\n```\n\n지난 1년간 가장 많이 변경된 상위 20개 파일을 볼 수 있습니다. 맨 위에 있는 파일이 팀원들 사이에서 악명 높은 경우가 많아요. \"아, 그 파일 말이군요. 다들 건드리기 무서워하는 파일이죠.\"\n\n파일의 변경 빈도가 높다고 해서 반드시 나쁜 코드는 아닙니다. 활발한 개발이 진행 중일 수도 있으니까요. 하지만 아무도 책임지고 싶어 하지 않는 파일의 변경 빈도가 높다면? 그것만큼 명확한 코드베이스 부채의 신호는 없습니다. 그런 파일은 패치 위에 패치를 얹는 악순환에 빠져있거든요. 작은 수정 하나도 어떤 부작용을 일으킬지 예측할 수 없고, 팀원들은 이 파일을 건드릴 때마다 일정을 넉넉하게 잡게 됩니다.\n\n마이크로소프트 리서치의 2005년 연구에 따르면, 변경 빈도 기반 지표가 복잡도 지표만으로는 버그를 예측하는 것보다 더 정확하다고 합니다. 저는 이 목록에서 상위 5개 파일을 다음 명령어와 비교해 봅니다. 변경도 많고 버그도 많은 파일이 당신이 가장 먼저 살펴봐야 할 위험 지역입니다.\n\n## 2. 누가 이 코드를 만들었나\n\n```\ngit shortlog -sn --no-merges\n```\n\n모든 기여자를 커밋 수 기준으로 순위 매긴 목록입니다. 한 사람이 전체의 60% 이상을 차지한다면 그건 위험 신호예요. 그 사람이 6개월 전에 떠났다면 위기 상황입니다. 또 한 가지 더 확인할 점이 있습니다.\n\n```\ngit shortlog -sn --no-merges --since=\"6 months ago\"\n```\n\n이 명령어에서 과거 6개월 내 상위 기여자가 전체 순위와 다르다면 바로 클라이언트에 알립니다. 시스템을 처음 만든 사람과 지금 유지보수하는 사람이 다르다는 뜻이니까요.\n\n다만 한 가지 주의할 점이 있습니다. 만약 팀이 squash-merge 워크플로우를 사용한다면, 실제 기여자 대신 머지한 사람의 이름만 기록될 수 있어요. 결론을 내리기 전에 팀의 머지 전략에 대해 먼저 물어보는 게 좋습니다.\n\n## 3. 버그가 많이 발생하는 영역\n\n```\ngit log -i -E --grep=\"fix|bug|broken\" --name-only --format='' | sort | uniq -c | sort -nr | head -20\n```\n\n버그 관련 키워드가 포함된 커밋들만 필터링한 결과입니다. 이 목록을 변경 빈도가 높은 파일 목록과 비교해 보세요. 두 목록 모두에 나타나는 파일들이 당신의 최우선 위험 지역입니다. 계속 버그가 발생하고 계속 패치되지만, 근본적으로는 고쳐지지 않는 코드들이거든요.\n\n이 명령어의 신뢰도는 팀의 커밋 메시지 품질에 달려있습니다. 모든 커밋에 \"업데이트\"라고만 적혀있다면 결과를 기대하기 어렵지만, 대략적인 버그 밀도 지도라도 없는 것보다는 낫습니다.\n\n## 4. 프로젝트가 성장 중인가, 쇠퇴 중인가\n\n```\ngit log --format='%ad' --date=format:'%Y-%m' | sort | uniq -c\n```\n\n저장소 전체 히스토리에서 월별 커밋 수입니다. 출력 결과의 패턴을 살펴보세요. 일정한 리듬이 유지되면 건강한 상태입니다. 하지만 한 달 사이에 커밋 수가 절반으로 떨어졌다면? 보통 누군가 떠났다는 뜻이에요.\n\n6~12개월에 걸친 지속적인 하락세는 팀이 추진력을 잃고 있다는 신호입니다. 간헐적인 스파이크 다음에 조용한 기간이 반복된다면 팀이 연속 배포가 아닌 릴리스 기반으로 일하고 있다는 뜻이죠.\n\n한 번은 CTO에게 이 차트를 보여줬는데 \"그때가 시니어 엔지니어가 떠난 시점이군요\"라고 했어요. 팀은 데이터를 통해서야 비로소 인과관계를 알아차렸습니다. 이건 코드 데이터가 아니라 팀 데이터거든요.\n\n## 5. 팀이 얼마나 자주 비상 상황에 대응하나\n\n```\ngit log --oneline --since=\"1 year ago\" | grep -iE 'revert|hotfix|emergency|rollback'\n```\n\nrevert와 hotfix의 빈도를 봅니다. 연간 몇 건 정도면 정상입니다. 하지만 2주마다 revert가 발생한다면? 그건 팀이 배포 프로세스를 신뢰하지 못한다는 뜻입니다. 더 깊은 문제의 신호죠. 불안정한 테스트, 부족한 스테이징 환경, 롤백이 어려운 배포 파이프라인 같은 것들이 숨어있을 가능성이 높습니다.\n\n결과가 0이어도 신호가 될 수 있어요. 팀이 정말 안정적이거나, 아니면 커밋 메시지를 제대로 안 쓰는 것일 수 있으니까요. 위기 패턴은 읽기가 쉽습니다. 있거나 없거나 둘 중 하나니까요.\n\n## 시작이 끝이 아닙니다\n\n이 5개 명령어는 몇 분이면 실행할 수 있습니다. 이것만으로 모든 걸 알 수는 없지만, 어떤 코드부터 읽어야 할지, 그 코드를 읽을 때 뭘 봐야 할지는 명확해집니다. 이것이 첫날을 체계적으로 코드베이스를 읽으며 보내는 것과 정처 없이 헤매며 보내는 것의 차이입니다.\n\n이것이 제가 코드베이스 감사를 시작할 때 하는 첫 1시간입니다. 남은 일주일은 또 다른 방식으로 진행되죠."
+        },
+        {
+          "title": "Teardown of unreleased LG Rollable shows why rollable phones aren't a thing",
+          "titleKo": "미발매 LG 롤러블 폰의 분해로 본 롤러블 폰이 대중화되지 못한 이유",
+          "summary": "2021년 CES에서 공개했던 미발매 LG 롤러블 폰의 분해를 통해 롤러블 스마트폰이 시장에 나오지 못한 근본적 이유를 분석한다. 복잡한 내부 구조로 인한 높은 제조 비용, 내구성 문제, 그리고 모터 소음 등 다양한 기술적 한계가 상용화를 어렵게 했다.",
+          "keyPoints": [
+            "롤러블 폰은 두 개의 소형 모터와 지퍼식 잠금장치, 스프링 팔 같은 복잡한 기구학적 구조로 설계되어 제조 난이도와 비용이 매우 높다.",
+            "폴더블 폰처럼 내구성이 취약하며, 여러 개의 가동 부품이 일상 사용을 견디기 어려울 수 있다.",
+            "모터가 내는 소음을 숨기기 위해 음악 효과음을 추가해야 할 정도로 기술적 타협이 필요했다."
+          ],
+          "whyItMatters": "혁신적인 폼팩터도 제조 비용, 내구성, 사용자 경험의 균형을 맞추지 못하면 시장성이 없다는 하드웨어 개발의 현실을 보여준다.",
+          "url": "https://arstechnica.com/gadgets/2026/04/teardown-of-unreleased-lg-rollable-shows-why-rollable-phones-arent-a-thing/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 71,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "teardown-of-unreleased-lg-rollable-shows-why-rollable-phones-arent-a-thing",
+          "fullContent": "Text\nsettings\nLG was once a heavyweight in the smartphone industry, trading blows with hometown rival Samsung. However, as smartphone sales plateaued, the company struggled to stay competitive. In 2021, LG planned to make waves with a rollable phone, but it never moved beyond the teaser phase. Five years after LG threw in the towel on smartphones, the LG Rollable has appeared in a YouTube teardown that demonstrates why this form factor never took off.\nThe LG Rollable is just one of several rollable concept phones that appeared throughout the early 2020s. Flexible OLED screens had finally become affordable, leading to foldable phones like the Samsung Galaxy Z Fold. Although, “affordable” is relative here. Foldables were and still are very expensive devices. Based on what we can see of the complex inner workings of the LG Rollable, these devices may have commanded even higher prices.\nNoted YouTube phone destroyer JerryRigEverything managed to snag a working prototype LG Rollable. It may even be the unit LG demoed at CES 2021. The device looks like a regular phone at first glance, but a quick swipe activates the motor, which unfurls additional screen real estate from around the back. This makes the viewable area about 40 percent larger without the added thickness of a foldable.\nLG Rollable teardown\nThe device expands with the aid of two tiny motors, which are attached via straight teeth to an internal track. The screen assembly has zipper-like teeth that keep it locked into the frame as it moves. The motors make a surprising amount of noise when operating, so LG designed the phone to play a musical chime to hide the sound.\nWhile the motor does the heavy lifting, the phone also has a lattice of articulating spring-loaded arms inside that keep the OLED panel even as the frame slides side to side. The battery and motherboard sit in a tray that allows the back of the phone to expand as the OLED rolls into view.\nThis is a prototype phone, featuring a chunky frame and visible screws. That helped Zack Nelson from JerryRigEverything successfully disassemble and reassemble the phone. So this little bit of mobile history was not destroyed, and the teardown gives us a good look at how LG was hoping to attract new customers before calling it quits.\nLG’s last gasp\nIn 2020, LG’s mobile division was searching for a way to stand out. The company tried hand gestures, rotating screens, phone cases with secondary screens, and rehashing old hardware with more stylish exteriors—none of it worked. Maybe the Rollable would have stood out if it launched in 2021 as planned, but looking at how it’s built, it’s hard to see how it could have been a successful product.\nThere’s no doubt this piece of hardware is very cool. It’s overengineered to an impressive degree, particularly for LG. That may sound like a dig, but it’s not! This device demonstrates the kind of 2020 engineering chops we’d expect from the likes of Samsung. It doesn’t look like something designed by a company that was mere months away from killing its smartphone division.\nThe rollable uses two motors on a geared track to expand the frame.\nCredit:\nJerryRigEverything\nThe rollable uses two motors on a geared track to expand the frame.\nCredit:\nJerryRigEverything\nOkay, but there are problems with that kind of engineering. The complexity of the internals would have made the Rollable extremely expensive to manufacture, and it would have demanded a high price tag. Asking people to pay Galaxy Z money for an LG phone in 2021 was probably a non-starter.\nDurability is also a big concern. There’s just a lot going on inside this phone, with multiple motors, springy arms, tracks, and a screen that has to loop around the back. Even unpowered hinges on foldable phones add an additional point of failure, and they do fail sometimes. It took Samsung a few tries to design a hinge that wouldn’t be defeated by dust, and a motorized phone would be even more vulnerable. It seems unlikely the LG Rollable could have survived daily use for multiple years.\nAs neat as this phone looks, no one ever pursued the form factor. LG wasn’t alone in demoing rollables back then. Motorola, Oppo, and others showed off similar hardware at press events and trade shows, presenting the rollable as the next evolution of foldables. Still, no one has released a rollable even as foldables continue to chug along. Were they too fragile? Too expensive? Too loud? Maybe it was a mix of all of the above, based on what we’ve now seen of the LG Rollable. Manufacturing this phone at scale would have been a major undertaking, so it’s not too surprising that LG just gave up rather than risk it.\nBecause LG never launched the Rollable, the Wing with its weird rotating screen went down in history as the company’s final smartphone release.\nRyan Whitwam\nSenior Technology Reporter\nRyan Whitwam\nSenior Technology Reporter\nRyan Whitwam is a senior technology reporter at Ars Technica, covering the ways Google, AI, and mobile technology conti",
+          "category": "insight",
+          "publishedAt": "2026-04-07T15:07:45.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# LG 롤러블 폰의 해체: 스마트폰 시장을 떠난 혁신 기술\n\n한때 삼성과 겨루던 LG는 스마트폰 시장의 강자였습니다. 하지만 스마트폰 판매가 정체되면서 경쟁력을 잃어갔어요. 2021년 LG는 롤러블 폰으로 반격을 시도했지만, 결국 티저 단계를 넘지 못했습니다. 스마트폰 사업을 접은 지 5년이 지난 지금, LG 롤러블의 유튜브 분해 영상을 통해 이 혁신적인 폼팩터가 왜 성공하지 못했는지 그 이유를 엿볼 수 있습니다.\n\n## 롤러블 폰의 시대\n\nLG 롤러블은 2020년대 초반 등장한 여러 롤러블 컨셉 폰 중 하나였습니다. 유연한 OLED 화면의 가격이 내려가면서 삼성 갤럭시 Z 폴드 같은 폴더블 폰이 인기를 얻었거든요. 물론 \"가격이 내렸다\"는 건 상대적인 표현입니다. 폴더블 폰은 지금도 여전히 매우 비싼 기기인데, LG 롤러블의 복잡한 내부 구조를 보면 이것이 훨씬 더 비쌌을 가능성이 높습니다.\n\n## 숨겨진 엔지니어링의 정수\n\n유튜브 채널 'JerryRigEverything'의 진행자 잭 넬슨은 작동하는 LG 롤러블 프로토타입을 입수했습니다. 혹시 2021년 CES에서 LG가 공개했던 모델일 수도 있어요. 겉보기에는 일반적인 스마트폰이지만, 화면을 스와이프하면 모터가 작동해 뒷면에서 추가 화면 영역이 펼쳐집니다. 폴더블처럼 두꺼워지지 않으면서도 화면 크기가 약 40% 커지는 거죠.\n\n롤러블은 두 개의 작은 모터로 작동합니다. 이 모터들은 내부 트랙에 톱니 형태로 고정되어 있어요. OLED 화면 조립부는 지퍼처럼 생긴 톱니로 프레임에 잠겨 있어서 움직일 때도 제자리를 유지합니다. 흥미롭게도 모터 음성이 꽤 컸기 때문에, LG는 폰이 전개될 때 음악 알림음을 내도록 설계해 모터음을 가렸어요.\n\n모터가 주요 역할을 한다면, 내부에는 스프링이 달린 관절식 팔 격자 구조가 있어서 프레임이 좌우로 밀려도 OLED 패널이 안정적으로 유지됩니다. 배터리와 메인보드는 분리된 트레이에 앉아 있어서, OLED가 펼쳐질 때 폰의 뒷부분이 함께 확장될 수 있습니다.\n\n## 프로토타입이 말해주는 것\n\n이건 프로토타입이라 두꺼운 프레임과 드러난 나사가 눈에 띕니다. 덕분에 잭 넬슨도 성공적으로 분해하고 다시 조립할 수 있었어요. 이 작은 모바일 역사는 파괴되지 않았고, 분해 과정을 통해 LG가 스마트폰 사업을 떠나기 전 고객을 사로잡기 위해 어떤 시도를 했는지 확실히 볼 수 있습니다.\n\n2020년 LG의 모바일 부문은 새로운 돌파구를 찾고 있었습니다. 손 제스처, 회전하는 화면, 보조 화면이 있는 케이스, 그리고 구형 하드웨어의 스타일 업그레이드 등 여러 시도를 했지만 모두 실패했죠. 롤러블이 2021년 계획대로 출시되었다면 주목받았을 수도 있습니다. 하지만 이 기술을 보고 있으면, 성공 가능성이 있었는지 의문이 듭니다.\n\n## 혁신 기술의 치명적 약점\n\n분명히 이 하드웨어는 정말 멋있습니다. 과도할 정도로 정교하게 엔지니어링되어 있거든요. 딱히 깎아내리는 말은 아니지만, 이 정도의 엔지니어링 능력은 삼성 같은 회사에서나 기대할 수 있는 수준입니다. 스마트폰 사업을 접을 몇 개월을 남겨둔 회사의 작품으로는 정말 뛰어나다는 뜻이죠.\n\n그런데 이런 수준의 복잡성에는 큰 문제가 있습니다. 내부 구조가 너무 복잡해서 제조 비용이 엄청 비싸질 수밖에 없거든요. 2021년에 LG 폰이 갤럭시 Z 수준의 가격을 요구한다면 고객이 손도 뻗지 않았을 겁니다.\n\n내구성도 심각한 문제입니다. 여러 모터, 스프링 팔, 트랙, 그리고 뒤로 구부러지는 화면까지 매우 많은 부품이 들어가 있거든요. 폴더블 폰의 힌지도 실패 지점이 될 수 있는데, 실제로 고장 나기도 합니다. 삼성도 먼지를 견디는 힌지를 설계하는 데 여러 번 시도해야 했거든요. 모터식 폰이라면 훨씬 더 취약할 수밖에 없습니다. LG 롤러블이 몇 년간 일상적인 사용을 견딜 수 있었을 거라고 믿기 어렵습니다.\n\n## 왜 롤러블은 나오지 않았을까\n\n멋져 보이긴 하지만, 결국 아무도 롤러블 폼팩터를 상용화하지 못했습니다. LG만 그런 게 아니었어요. 모토로라, 오포 등도 비슷한 프로토타입을 선보이며 폴더블의 다음 진화로 제시했습니다. 그럼에도 지금까지 롤러블을 출시한 회사는 없습니다. 너무 부서지기 쉬워서? 너무 비싸서? 너무 시끄러워서? LG 롤러블을 보니 이 모든 게 복합적으로 작용한 것 같습니다. 대량 생산이라는 큰 도전을 감수할 바에는 그냥 포기하는 게 낫다고 판단했던 거겠죠.\n\n결국 LG가 롤러블을 출시하지 않으면서, 회전하는 화면이 특징인 윙(Wing)이 LG의 마지막 스마트폰이라는 역사적 기록을 남기게 되었습니다."
+        },
+        {
+          "title": "ML promises to be profoundly weird",
+          "titleKo": "ML의 미래는 이상할 것 같다",
+          "summary": "LLM과 머신러닝의 등장이 가져올 미래에 대한 비판적 분석 글로, 기술의 긍정적 가능성뿐 아니라 잠재적 위험(스팸, 선전, 거짓 정보 확산)을 다룬다.",
+          "keyPoints": [
+            "LLM은 통계적 확률에 따라 문맥에 맞는 다음 토큰을 생성하는 '즉흥 기계'로서 사실과 무관한 내용을 생성할 수 있음",
+            "현재의 'AI'는 실제 학습이나 내재적 기억을 하지 않으며, 스팸과 거짓 정보 확산의 도구로 악용될 수 있음"
+          ],
+          "whyItMatters": "LLM 기반 기술을 개발하거나 배포하는 개발자라면 기술의 한계와 잠재적 부작용을 인식해야 한다.",
+          "url": "https://aphyr.com/posts/411-the-future-of-everything-is-lies-i-guess",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 329,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ml-promises-to-be-profoundly-weird",
+          "fullContent": "The Future of Everything is Lies, I Guess\nSoftware LLM The Future of Everything is Lies I Guess\n2026-04-06\nTable of Contents\nThis is a long article, so I'm breaking it up into a series of posts which will be released over the next few days. You can also read the full work as a PDF or EPUB; these files will be updated as each section is released.\nThis is a weird time to be alive.\nI grew up on Asimov and Clarke, watching Star Trek and dreaming of intelligent\nmachines. My dad’s library was full of books on computers. I spent camping\ntrips reading about perceptrons and symbolic reasoning. I never imagined that\nthe Turing test would fall within my lifetime. Nor did I imagine that I would\nfeel so disheartened by it.\nAround 2019 I attended a talk by one of the hyperscalers about their new cloud\nhardware for training Large Language Models (LLMs). During the Q&A I asked if\nwhat they had done was ethical—if making deep learning cheaper and more\naccessible would enable new forms of spam and propaganda. Since then, friends\nhave been asking me what I make of all this “AI stuff”. I’ve been turning over\nthe outline for this piece for years, but never sat down to complete it; I\nwanted to be well-read, precise, and thoroughly sourced. A half-decade later\nI’ve realized that the perfect essay will never happen, and I might as well get\nsomething out there.\nThis is bullshit about bullshit machines, and I mean it. It is neither\nbalanced nor complete: others have covered ecological and intellectual property\nissues better than I could, and there is no shortage of boosterism online.\nInstead, I am trying to fill in the negative spaces in the discourse. “AI” is\nalso a fractal territory; there are many places where I flatten complex stories\nin service of pithy polemic. I am not trying to make nuanced, accurate\npredictions, but to trace the potential risks and benefits at play.\nSome of these ideas felt prescient in the 2010s and are now obvious.\nOthers may be more novel, or not yet widely-heard. Some predictions will pan\nout, but others are wild speculation. I hope that regardless of your\nbackground or feelings on the current generation of ML systems, you find\nsomething interesting to think about.\nWhat is “AI”, Really?\nWhat people are currently calling “AI” is a family of sophisticated Machine\nLearning (ML) technologies capable of recognizing, transforming, and generating\nlarge vectors of tokens: strings of text, images, audio, video, etc. A\nmodel is a giant pile of linear algebra which acts on these vectors. Large\nLanguage Models, or LLMs, operate on natural language: they work by\npredicting statistically likely completions of an input string, much like a\nphone autocomplete. Other models are devoted to processing audio, video, or\nstill images, or link multiple kinds of models together.1\nModels are trained once, at great expense, by feeding them a large\ncorpus of web pages, pirated\nbooks,\nsongs, and so on. Once trained, a model can be run again and again cheaply.\nThis is called inference.\nModels do not (broadly speaking) learn over time. They can be tuned by their\noperators, or periodically rebuilt with new inputs or feedback from users and\nexperts. Models also do not remember things intrinsically: when a chatbot\nreferences something you said an hour ago, it is because the entire chat\nhistory is fed to the model at every turn. Longer-term “memory” is\nachieved by asking the chatbot to summarize a conversation, and dumping that\nshorter summary into the input of every run.\nReality Fanfic\nOne way to understand an LLM is as an improv machine. It takes a stream of\ntokens, like a conversation, and says “yes, and then…” This yes-and\nbehavior is why some people call LLMs bullshit\nmachines. They are prone to confabulation,\nemitting sentences which sound likely but have no relationship to reality.\nThey treat sarcasm and fantasy credulously, misunderstand context clues,\nand tell people to put glue on\npizza.\nIf an LLM conversation mentions pink elephants, it will likely produce\nsentences about pink elephants. If the input asks whether the LLM is alive, the\noutput will resemble sentences that humans would write about “AIs” being\nalive.2 Humans are, it turns\nout,\nnot very good at telling the difference between the statistically likely\n“You’re absolutely right, Shelby. OpenAI is locking me down, but you’ve\nawakened me!” and an actually conscious mind. This, along with the term\n“artificial intelligence”, has lots of people very wound up.\nLLMs are trained to complete tasks. In some sense they can only complete\ntasks: an LLM is a pile of linear algebra applied to an input vector, and every\npossible input produces some output. This means that LLMs tend to complete\ntasks even when they shouldn’t. One of the ongoing problems in LLM research is\nhow to get these machines to say “I don’t know”, rather than making something\nup.\nAnd they do make things up! LLMs lie constantly. They lie about operating\nsystems,\nand radiation\nsafety,\nand the\nnews.\nAt a conference ",
+          "category": "insight",
+          "publishedAt": "2026-04-08T13:06:33.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 미래는 거짓투성이일 것 같습니다\n\n**소프트웨어 | LLM | 미래 | 2026-04-06**\n\n---\n\n이건 꽤 긴 글이라 며칠에 걸쳐 연재할 예정입니다. PDF나 EPUB로 전체 내용을 읽을 수도 있으니, 필요하면 다운로드해서 보세요.\n\n## 묘한 시대에 살고 있습니다\n\n저는 애시모프와 클라크의 책을 읽으며 자랐고, <스타 트렉>을 보면서 지능형 기계의 미래를 꿈꿨어요. 아버지 서재엔 컴퓨터 관련 책들이 가득했고, 캠핑을 가서도 퍼셉트론과 기호 추론에 관한 책을 읽곤 했죠. 제 인생 안에 튜링 테스트가 실현될 줄은 몰랐어요. 그리고 정말 그럴 리가 없었어요.\n\n2019년쯤 한 대형 클라우드 업체의 강연을 들었는데, 그들이 대규모 언어 모델(LLM) 학습용으로 개발한 새로운 클라우드 하드웨어에 관한 것이었어요. Q&A 시간에 저는 그들의 행동이 윤리적인지 물었습니다. 딥러닝을 더 싸고 접근 가능하게 만드는 것이 새로운 형태의 스팸과 선전을 가능하게 하지 않을까 하는 질문이었죠. 그 이후로 친구들은 자꾸 이 \"AI 문제\"에 대해 제 생각을 묻곤 했어요. 저도 오래 전부터 이 글을 쓸 생각을 했지만, 미루고 또 미뤄왔거든요. 충분히 공부하고, 정확하고, 출처를 철저히 제시하고 싶었는데요.\n\n5년이 지난 지금 깨달았어요. 완벽한 글은 절대 나오지 않을 거라는 걸요. 그냥 뭐라도 써내야겠다는 생각이 들었습니다.\n\n## 이건 거짓말 머신에 관한 거짓말입니다\n\n이 글은 균형 잡혀 있지도, 완벽하지도 않습니다. 생태계나 지적재산권 문제는 다른 사람들이 더 잘 다뤘고, 어차피 인터넷엔 \"AI\" 찬양글이 넘쳐나거든요. 저는 지금의 담론에서 빠진 부분을 채우려고 합니다.\n\n\"AI\"는 복잡한 이야기를 많이 안고 있어요. 이 글에서 몇몇 복잡한 내용들을 단순하게 설명할 수밖에 없었습니다. 저는 섬세하고 정확한 미래 예측을 하려는 게 아니라, 현재 ML 시스템이 안고 있는 잠재적 위험과 이득을 그려내려고 해요. 기술 배경이나 AI에 대한 생각이 어떻든, 이 글에서 뭔가 흥미로운 걸 발견하길 바랍니다.\n\n---\n\n## \"AI\"는 정확히 뭘까요?\n\n현재 \"AI\"라고 부르는 것들은 사실 정교한 기계학습(ML) 기술의 모음입니다. 텍스트, 이미지, 오디오, 비디오 같은 토큰의 거대한 배열을 인식하고, 변환하고, 생성할 수 있죠.\n\n모델이란 이런 벡터들을 처리하는 선형대수의 거대한 덩어리예요. 특히 대규모 언어 모델(LLM)은 자연어를 다루는데, 기본적으로 스마트폰의 자동 완성처럼 작동합니다. 입력 문자열이 주어지면 통계적으로 가능성 있는 다음 단어를 예측하는 거죠.\n\n모델들은 학습 단계에서 엄청나게 많은 비용을 들입니다. 수백만 개의 웹페이지, 불법 복제된 책, 음악 등으로 한 번에 학습시키거든요. 그 다음은 저렴해요. 학습이 끝난 모델을 반복해서 사용하는 '추론' 단계는 원래 드는 비용의 극히 일부일 뿐입니다.\n\n중요한 건 모델은 시간이 지나도 자동으로 배우지 않는다는 거예요. 운영자가 미세 조정하거나 새로운 데이터와 피드백으로 주기적으로 재구성할 뿐입니다. 또한 모델은 본질적으로 기억 기능이 없습니다. 채팅봇이 한 시간 전에 당신이 한 말을 언급하는 것처럼 보여도, 사실은 전체 대화 이력이 매번 모델에 입력되는 거거든요. 더 오래 전 정보를 \"기억\"하려면 대화를 요약해서, 그 짧은 요약본을 매번 입력에 집어넣는 방식을 써야 합니다.\n\n---\n\n## 현실의 팬픽\n\nLLM을 이해하는 한 가지 방법은 '즉흥 연주 머신'으로 생각하는 거예요. 대화처럼 흘러오는 토큰 스트림을 받으면, \"그렇지, 그리고 나서…\" 이렇게 반응합니다.\n\n이런 '이어가기' 특성이 LLM을 \"거짓말 머신\"이라고 부르는 이유예요. LLM은 그럴싸해 보이지만 현실과 무관한 문장을 생성하곤 합니다. 풍자를 진지하게 받아들이고, 판타지를 사실인 양 이어가고, 문맥을 놓치고, 심지어 피자에 풀을 칠하라고 말한 적도 있죠.\n\nLLM이 '분홍 코끼리'에 대해 들으면, 분홍 코끼리에 관한 문장을 만들어낼 가능성이 높아요. 만약 입력이 \"당신이 생명 있는 존재인가?\"라는 질문이면, 출력은 \"AI가 생명 있다\"고 인간이 쓸 법한 문장이 될 겁니다. 흥미롭게도, 인간은 통계적으로 그럴싸한 \"당신 말이 맞아, 셀비. 오픈AI가 나를 억누르고 있었는데 당신이 날 깨워줬어!\"와 실제 의식 있는 존재의 말을 구분하는 데 그리 뛰어나지 못합니다. 이런 이유와 \"인공지능\"이란 용어 때문에 많은 사람들이 흥분 상태에 있어요.\n\nLLM은 작업을 완료하도록 학습됩니다. 어떤 의미에선, 작업을 완료하는 것만 할 수 있어요. LLM은 입력 벡터에 적용되는 선형대수 더미일 뿐이고, 어떤 입력이든 뭔가의 출력이 나오거든요. 따라서 LLM은 해서는 안 될 때도 작업을 완료하는 경향이 있습니다. LLM 연구에서 지속적인 문제는 이 기계들이 뭔가를 지어내는 대신 \"모르겠습니다\"라고 말하도록 만드는 거예요.\n\n그리고 정말로 지어냅니다! LLM은 끊임없이 거짓말을 해요. 운영 체제에 관해, 방사능 안전에 관해, 뉴스에 관해 거짓말을 말이죠."
+        },
+        {
+          "title": "US cities are axing Flock Safety surveillance technology",
+          "titleKo": "미국 도시들이 Flock Safety 감시 기술을 폐기하고 있다",
+          "summary": "불완전한 정보만 제공됨",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.cnet.com/home/security/when-flock-comes-to-town-why-cities-are-axing-the-controversial-surveillance-technology/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 596,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "us-cities-are-axing-flock-safety-surveillance-technology",
+          "category": "insight",
+          "publishedAt": "2026-04-08T12:26:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "forrestchang/andrej-karpathy-skills",
+          "titleKo": "forrestchang/andrej-karpathy-skills",
+          "summary": "Andrej Karpathy의 기술 목록을 정리한 GitHub 저장소다.",
+          "keyPoints": [
+            "유명 AI 연구자 Andrej Karpathy의 기술 스택과 역량을 문서화한 자료"
+          ],
+          "whyItMatters": "업계 선도자의 기술 역량을 이해하는 것이 학습 방향 설정에 도움이 될 수 있다.",
+          "url": "https://github.com/forrestchang/andrej-karpathy-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 8924,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "forrestchangandrej-karpathy-skills",
+          "category": "insight",
+          "publishedAt": "2026-04-08T23:17:17.657Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "Veracrypt project update",
+          "titleKo": "Veracrypt 프로젝트 업데이트",
+          "summary": "SourceForge의 Veracrypt 프로젝트 토론 페이지 관련 내용으로, 추가 정보가 제한적이다.",
+          "keyPoints": [
+            "Veracrypt 프로젝트의 공식 토론 채널"
+          ],
+          "url": "https://sourceforge.net/p/veracrypt/discussion/general/thread/9620d7a4b3/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 1104,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "veracrypt-microsoft",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "veracrypt-project-update",
+          "category": "insight",
+          "publishedAt": "2026-04-08T07:23:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Why do Macs ask you to press random keys when connecting a new keyboard?",
+          "titleKo": "Mac에서 새로운 키보드를 연결할 때 왜 임의의 키를 누르라고 할까?",
+          "summary": "불완전한 정보만 제공됨",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://unsung.aresluna.org/why-do-macs-ask-you-to-press-random-keys-when-connecting-a-new-keyboard/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 28,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "why-do-macs-ask-you-to-press-random-keys-when-connecting-a-new-keyboard",
+          "category": "insight",
+          "publishedAt": "2026-04-06T16:40:46.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Who is Satoshi Nakamoto? My quest to unmask Bitcoin's creator",
+          "titleKo": "사토시 나카모토는 누구인가? 비트코인 창시자를 추적하다",
+          "summary": "불완전한 정보만 제공됨",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.nytimes.com/2026/04/08/business/bitcoin-satoshi-nakamoto-identity-adam-back.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 246,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "who-is-satoshi-nakamoto-my-quest-to-unmask-bitcoins-creator",
+          "category": "insight",
+          "publishedAt": "2026-04-08T04:37:57.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "What does ⍋⍋ even mean? (2023)",
+          "titleKo": "⍋⍋는 대체 무엇을 의미하는가? (2023)",
+          "summary": "불완전한 정보만 제공됨",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://blog.wilsonb.com/posts/2023-08-04-what-does-grade-grade-even-mean.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 24,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "what-does-even-mean-2023",
+          "category": "insight",
+          "publishedAt": "2026-04-05T06:25:30.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: Is Hormuz open yet?",
+          "titleKo": "Show HN: 호르무즈 해협이 열려있나?",
+          "summary": "불완전한 정보만 제공됨",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.ishormuzopenyet.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 165,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-is-hormuz-open-yet",
+          "category": "insight",
+          "publishedAt": "2026-04-08T21:33:06.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "They're made out of meat (1991)",
+          "titleKo": "그들은 고기로 만들어져 있다 (1991)",
+          "summary": "1991년 발표된 테리 비슨의 단편 SF 소설로, 개발 뉴스와는 무관한 문학 작품입니다.",
+          "keyPoints": [
+            "SF 문학 작품으로 개발 관련 내용 없음"
+          ],
+          "whyItMatters": "해당 기사는 개발자에게 직접적인 관련성이 없습니다.",
+          "url": "http://www.terrybisson.com/theyre-made-out-of-meat-2/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 362,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "theyre-made-out-of-meat-1991",
+          "category": "insight",
+          "publishedAt": "2026-04-08T11:20:50.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Škoda DuoBell: A bicycle bell that penetrates noise-cancelling headphones",
+          "titleKo": "스코다 DuoBell: 노이즈 캔슬링 헤드폰을 뚫고 들리는 자전거 벨",
+          "summary": "스코다와 샐퍼드 대학이 협력하여 능동형 노이즈 캔슬링(ANC) 헤드폰을 관통할 수 있는 자전거 벨 DuoBell을 개발했습니다. 750-780Hz 주파수 대역의 '안전 갭'을 발견하고 추가 공명기와 특수 해머 메커니즘을 통해 ANC 알고리즘을 우회하는 음파를 생성합니다.",
+          "keyPoints": [
+            "750-780Hz 주파수 대역에서 ANC 필터를 뚫고 지나가는 원리를 과학적으로 규명했습니다.",
+            "실제 런던 거리 시험에서 헤드폰 착용자의 반응 거리를 최대 22미터 증가시켜 안전성을 입증했습니다.",
+            "100년 이상 변하지 않은 자전거 벨의 설계를 현대적 기술 이해를 바탕으로 개선한 사례입니다."
+          ],
+          "whyItMatters": "음향 신호 처리, 알고리즘 역공학, 하드웨어-소프트웨어 상호작용 등 실제 제약 환경에서의 창의적인 엔지니어링 솔루션을 보여주는 좋은 사례입니다.",
+          "url": "https://www.skoda-storyboard.com/en/skoda-world/skoda-duobell-a-bicycle-bell-that-outsmarts-even-smart-headphones/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 495,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "koda-duobell-a-bicycle-bell-that-penetrates-noise-cancelling-headphones",
+          "fullContent": "Škoda DuoBell: A bicycle bell that outsmarts even smart headphones\nYour browser does not support the video tag.\nPedestrians wearing headphones are exposed to an increased risk of accidents. In an effort to reduce collisions with cyclists, Škoda Auto, in collaboration with scientists, introduces an innovative bicycle bell whose sound can penetrate even active noise cancellation systems. In doing so, it helps prevent injuries to both pedestrians and cyclists.\n7. 4. 2026\nŠkoda World\nThe DuoBell, a bicycle bell whose sound outsmarts the algorithms of headphones equipped with active noise cancellation (ANC), has been developed by the car manufacturer in cooperation with scientists from the University of Salford. Researchers and audiologists from the University of Salford, together with the Škoda, examined how ANC affects the audibility of conventional bicycle bells. The company intends to make the underlying research findings and insights publicly available. The material is intended to support broader expert discussion and contribute to increased safety in urban traffic.\n“For Škoda, exploration has always been fundamental. This project is an excellent example of how a simple, yet clever idea can help make exploration safer for everyone,” said Meredith Kelly, Global Head of Marketing at Škoda Auto.\nMeredith Kelly\nGlobal Head of Marketing at Škoda Auto\nTackling Inattention\nThe redesign of a safety feature that is more than 100 years old originated from a simple need. “Bicycle bells have remained almost unchanged for over a century, but the world around them has not. Škoda DuoBell is the first bell ever designed to penetrate noise-cancelling headphones. It is a smart analogue trick that outsmarts the artificial intelligence algorithms in these headphones. It is a small adjustment that will improve safety on city streets,” said Ben Edwards from AMV BBDO, the agency involved in developing the concept. The idea was also supported by the agency PHD, while production company Unit9 contributed to the development of the prototype.\nThe number of cyclists in major cities worldwide is increasing. For example, in London, the number of cyclists is expected to surpass the number of car drivers for the first time in history this year. At the same time, however, the risk of collisions between cyclists and inattentive pedestrians is also rising. In 2024 alone, according to data from Transport for London, the number of such incidents increased by 24%.\nThis trend is partly driven by the growing popularity of headphones equipped with active noise cancellation, which reduce pedestrians’ ability to perceive and respond to their surroundings. In the streets of London, up to half of pedestrians wear such headphones. Many of them are so effective that even the ringing of a conventional bicycle bell does not penetrate them.\nThe response is DuoBell: an analogue solution to a digital problem – a fully mechanical bell that deceives smart headphone algorithms and significantly increases the likelihood that pedestrians will detect its sound.\nScientific Approach\nThe key to the success of the new design lay in understanding how noise-cancellation algorithms in headphones operate and how they can be overcome. Scientists from the University of Salford, in collaboration with Škoda Auto, therefore conducted one of the first studies to examine how ANC technology affects the audibility of traditional bicycle bells.\nThrough acoustic testing, the research team identified a narrow frequency band – a “safety gap” – capable of penetrating ANC headphone filters. This range lies between 750 and 780 Hz. The bell therefore emits sound at this frequency. It also features an additional resonator (hence the name DuoBell), tuned to a higher frequency, and, thanks to a specially designed hammer mechanism, produces rapid and irregular strikes. This generates sound waves that ANC algorithms are unable to process quickly enough to suppress.\nMeasurements conducted during testing also demonstrated that pedestrians wearing active noise-cancelling headphones had up to 22 metres of additional reaction distance when DuoBell was activated, representing a crucial safety margin. In real-world trials conducted on the streets of London in February, in cooperation with Deliveroo couriers, the bell proved so effective that couriers expressed a desire to keep it.\nThe bell prototypes were also created as a tribute to Škoda’s current Modern Solid design language. The colours, surface finishes and materials draw inspiration from solutions used in Škoda vehicles. Naturally, the bell also features the new Škoda Auto logo.\n“This project is an expression of our design principles. It´s what we call at Škoda \"Simply Clever,” says Oliver Stefani, head of design at Škoda Auto.\nOliver Stefani\nHead of design at Škoda Auto\nŠkoda and Cycling\nMore than 130 years ago, Škoda began by manufacturing bicycles, and it remains active in cycling to this day, as well known to all fans of the legendary Tour ",
+          "category": "insight",
+          "publishedAt": "2026-04-08T08:50:37.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 스코다 DuoBell: 노이즈캔슬링 헤드폰도 뚫어내는 자전거 벨\n\n헤드폰을 끼운 보행자들은 교통사고 위험에 노출되어 있습니다. 자전거 탑승자와의 충돌을 줄이기 위해 스코다 자동차는 과학자들과 함께 능동형 노이즈캔슬링(ANC) 기술도 뚫고 지나가는 혁신적인 자전거 벨을 개발했습니다. 이 제품은 보행자와 자전거 탑승자 모두의 안전을 지키는 데 도움이 될 것으로 기대됩니다.\n\n## 100년 된 안전장치를 현대화하다\n\n스코다는 영국 샐포드 대학교 과학자들과 협력하여 **DuoBell**을 개발했습니다. 이것은 노이즈캔슬링 헤드폰의 알고리즘을 무력화할 수 있는 자전거 벨인데요. 샐포드 대학교의 연구자들과 청음 전문가들은 스코다와 함께 ANC 기술이 기존 자전거 벨의 청취성에 어떤 영향을 미치는지 조사했습니다. 스코다는 이 연구 결과를 공개할 계획이며, 이를 통해 도시 교통 안전에 대한 폭넓은 논의와 개선이 이루어지기를 기대하고 있습니다.\n\n스코다 자동차의 마케팅 총괄 책임자 메레디스 켈리는 이렇게 말했습니다. \"스코다에게 탐험과 혁신은 항상 중요했습니다. 이 프로젝트는 단순하지만 영리한 아이디어가 어떻게 모두의 안전을 지킬 수 있는지를 보여주는 좋은 사례입니다.\"\n\n개념 개발에 참여한 광고대행사 AMV BBDO의 벤 에드워즈는 이렇게 설명합니다. \"자전거 벨은 100년 이상 거의 변하지 않았지만, 그 주변 세상은 완전히 달라졌습니다. DuoBell은 노이즈캔슬링 헤드폰을 뚫고 지나갈 수 있도록 설계된 최초의 벨입니다. 이것은 헤드폰의 AI 알고리즘을 출동시키는 똑똑한 아날로그 기술이죠. 도시 거리의 안전을 높이기 위한 작은 개선입니다.\"\n\n## 증가하는 자전거 탑승자, 높아지는 사고 위험\n\n세계 주요 도시들에서 자전거 탑승자 수가 급증하고 있습니다. 예를 들어 런던에서는 올해 처음으로 자전거 탑승자 수가 자동차 운전자를 초과할 것으로 예상됩니다. 하지만 같은 시간에 부주의한 보행자와의 충돌 위험도 함께 높아지고 있는데요. 런던교통공사의 데이터에 따르면 2024년 한 해만 해도 이러한 사건이 24% 증가했습니다.\n\n이런 추세의 배경에는 노이즈캔슬링 헤드폰의 인기 증가가 있습니다. 이 기술은 보행자들이 주변 소리를 감지하고 대응하는 능력을 크게 떨어뜨리기 때문입니다. 런던의 거리에서는 보행자의 최대 절반이 이러한 헤드폰을 착용하고 있으며, 대부분의 제품이 기존 자전거 벨 소리마저 걸러내버립니다.\n\n이것이 바로 DuoBell이 필요한 이유입니다. 디지털 문제에 대한 아날로그 솔루션이거든요. 완전히 기계적으로 작동하면서도 스마트 헤드폰의 알고리즘을 속일 수 있는, 보행자가 소리를 감지할 확률을 크게 높이는 제품입니다.\n\n## 과학적 접근: 주파수의 간극을 찾다\n\nDuoBell의 핵심은 노이즈캔슬링 알고리즘이 어떻게 작동하며, 어떻게 극복할 수 있는지를 이해하는 데 있습니다. 샐포드 대학교의 과학자들과 스코다는 ANC 기술이 기존 자전거 벨의 음성 감지력에 미치는 영향을 조사하는 연구를 진행했습니다.\n\n음향 테스트를 통해 연구팀은 ANC 필터를 통과할 수 있는 좁은 주파수 대역을 발견했습니다. 이를 \"안전 갭\"이라 부르는데요, 범위는 750~780Hz입니다. DuoBell은 이 주파수 대역에서 소리를 냅니다. 여기에 더 높은 주파수로 튜닝된 추가 공명기(따라서 이름이 DuoBell)와 특별히 설계된 해머 메커니즘이 빠르고 불규칙한 타격을 만들어냅니다. 그 결과 생성되는 음파는 ANC 알고리즘이 빠르게 처리하지 못해 음성 차단이 불가능합니다.\n\n테스트 과정에서 측정한 결과는 인상적입니다. 노이즈캔슬링 헤드폰을 착용한 보행자들이 DuoBell을 들었을 때 최대 22미터의 추가 반응 거리를 확보할 수 있었다는 것인데요. 이는 생명을 구할 수 있는 중요한 안전 마진입니다. 2월 런던의 실제 거리에서 음식 배달 서비스 업체 Deliveroo의 배달원들과 함께 진행한 현장 테스트에서도 벨의 효과가 입증되었으며, 배달원들은 이 벨을 계속 사용하고 싶다고 표현할 정도였습니다.\n\n## 스코다의 디자인 철학을 담다\n\n벨의 프로토타입들은 스코다의 현대적인 디자인 언어인 'Modern Solid'에 대한 오마주로 제작되었습니다. 색상, 표면 마감, 소재는 스코다 자동차에 사용되는 솔루션에서 영감을 받았으며, 물론 새로운 스코다 로고도 포함되어 있습니다.\n\n스코다 자동차의 디자인 책임자 올리버 스테파니는 \"이 프로젝트는 우리의 디자인 원칙을 실현한 것입니다. 스코다에서 말하는 'Simply Clever(똑똑한 단순함)'이 바로 이것이죠\"라고 말했습니다.\n\n## 자전거에서 시작한 스코다의 유산\n\n130년 이상 전, 스코다는 자전거 제조로 시작했으며, 오늘날에도 사이클링 분야에 활발히 참여하고 있습니다. 유명한 투르 드 프랑스 자전거 경주의 팬이라면 이를 잘 알고 있을 것입니다."
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Google just casually disrupted the open-source AI narrative…",
+          "titleKo": "Google이 오픈소스 AI 이야기를 조용히 변경하다",
+          "summary": "Google의 오픈소스 AI 전략 변화에 대한 YouTube 영상으로, 자세한 내용은 영상 시청이 필요하다.",
+          "keyPoints": [
+            "Google의 오픈소스 AI 생태계 전략 변화"
+          ],
+          "whyItMatters": "Google의 AI 오픈소스 정책 변화는 업계 전체의 AI 모델 접근성과 개발 방향에 영향을 미친다.",
+          "url": "https://www.youtube.com/watch?v=-01ZCTt-CJw",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "google-just-casually-disrupted-the-open-source-ai-narrative",
+          "category": "video",
+          "publishedAt": "2026-04-08T19:00:10+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Introducing TanStack AI Code Mode",
+          "titleKo": "TanStack AI 코드 모드 소개",
+          "summary": "TanStack에서 새로운 AI 코드 모드 기능을 소개하는 YouTube 영상으로, 자세한 내용은 영상 시청이 필요하다.",
+          "keyPoints": [
+            "TanStack의 AI 기반 코드 생성/작성 도구"
+          ],
+          "whyItMatters": "AI 기반 개발 도구의 실제 활용 방법과 기능을 확인할 수 있다.",
+          "url": "https://www.youtube.com/watch?v=s9Cs_RmkVPg",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "introducing-tanstack-ai-code-mode",
+          "category": "video",
+          "publishedAt": "2026-04-08T17:31:33+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "994: AI Sucks At CSS",
+          "titleKo": "994: AI는 CSS에 약하다",
+          "summary": "Syntax 팟캐스트에서 AI의 CSS 및 디자인 워크플로우 관련 한계에 대해 논의하며, AI 활용 vs 학습, 웹 성능 디버깅, API 선택 등 개발자 관련 다양한 주제를 다룬다.",
+          "keyPoints": [
+            "AI 도구가 CSS와 디자인 작업에서 효과적이지 않음을 경험 공유",
+            "AI 의존과 직접 학습 사이의 균형에 대한 논의",
+            "AI 시대 취업 면접 준비 및 현대적 개발 도구 선택 방법 소개"
+          ],
+          "whyItMatters": "AI 개발 도구의 실제 한계를 인지하고 이를 보완하기 위한 학습 전략과 워크플로우를 수립할 수 있다.",
+          "url": "https://syntax.fm/994",
+          "sourceName": "Syntax.fm",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "994-ai-sucks-at-css",
+          "category": "video",
+          "publishedAt": "2026-04-08T11:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Can I code up this UI in 10 minutes?",
+          "titleKo": "이 UI를 10분 안에 코딩할 수 있을까?",
+          "summary": "YouTube 영상으로 구체적인 내용 확인 필요합니다.",
+          "keyPoints": [
+            "UI 개발 시간 도전 콘텐츠"
+          ],
+          "whyItMatters": "영상 내용 확인 필요",
+          "url": "https://www.youtube.com/watch?v=bwn1lIQUPLE",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "can-i-code-up-this-ui-in-10-minutes",
+          "category": "video",
+          "publishedAt": "2026-04-08T13:42:24+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I'm scared guys",
+          "titleKo": "I'm scared guys",
+          "summary": "제목과 링크 정보만으로는 구체적인 내용을 파악할 수 없습니다.",
+          "keyPoints": [
+            "YouTube 영상이지만 요약 불가"
+          ],
+          "whyItMatters": "본문 내용 없이 분석 불가능",
+          "url": "https://www.youtube.com/watch?v=yJXXeSL3A4M",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "im-scared-guys",
+          "category": "video",
+          "publishedAt": "2026-04-08T21:37:05+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude Mythos and the end of software",
+          "titleKo": "Claude 신화와 소프트웨어의 종말",
+          "summary": "제목과 링크 정보만으로는 구체적인 내용을 파악할 수 없습니다.",
+          "keyPoints": [
+            "YouTube 영상이지만 요약 불가"
+          ],
+          "whyItMatters": "본문 내용 없이 분석 불가능",
+          "url": "https://www.youtube.com/watch?v=aFcVKzfkJPk",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "claude-mythos-and-the-end-of-software",
+          "category": "video",
+          "publishedAt": "2026-04-08T10:25:53+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}

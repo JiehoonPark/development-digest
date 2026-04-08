@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swift의 IDE 지원 확대 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/08/">2026-04-08</a> &gt; Swift의 IDE 지원 확대...
+      </div>
+
+      <h1>Swift의 IDE 지원 확대</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Expanding Swift's IDE Support</p>
+      <div class="article-meta">
+        <span>📅 2026-04-08</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 62</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Swift 확장 프로그램이 Open VSX Registry에 공식 등록되어 Cursor, VSCodium, AWS Kiro, Google Antigravity 등 다양한 IDE에서 사용 가능해졌다. Language Server Protocol(LSP) 지원으로 크로스 플랫폼 개발 환경이 강화되었다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>Swift 공식 확장이 Open VSX Registry에 공개되어 VS Code 호환 에디터에서 사용 가능</li><li>코드 완성, 리팩토링, 디버깅, 테스트 탐색기, DocC 지원 등 풀스택 언어 지원 제공</li><li>agentic IDE들이 수동 설치 없이 자동으로 Swift 설치 가능</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>Swift 개발자가 선호하는 다양한 에디터에서 일관된 개발 경험을 얻을 수 있게 되었다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Swift 개발을 더 많은 IDE에서 즐길 수 있게 됐습니다</h2>
+<p>Tracy Miranda</p>
+<p>Tracy는 Apple에서 Swift 도구팀에 속해 있으며, Build and Packaging Workgroup의 멤버입니다.</p>
+<p>2026년 4월 8일</p>
+<p>이제 Cursor, VSCodium, AWS의 Kiro, Google의 Antigravity 등 다양한 인기 IDE에서 Swift를 작성할 수 있습니다. VS Code 확장 프로그램의 호환성을 활용하면서, 이들 에디터는 Eclipse Foundation이 호스팅하는 오픈소스 레지스트리인 Open VSX Registry에 공식 등재된 Swift 확장 프로그램에 직접 접근할 수 있게 된 거죠.</p>
+<p>Swift는 이전부터 VS Code, Xcode, Neovim, Emacs 등 여러 IDE를 지원해왔습니다. Language Server Protocol(LSP)을 구현한 에디터들도 모두 호환됩니다. Swift의 다양한 플랫폼과 개발 환경 지원이 지속되면서 — 특히 AI 기반 IDE 같은 새로운 도구까지 포함되면서 — 이런 에디터 생태계의 확장이 더욱 의미 있어 보입니다.</p>
+<h3>Open VSX에서 만나는 Swift</h3>
+<p>VS Code용 Swift 확장 프로그램이 이제 Open VSX Registry에 공식으로 등재됐습니다. Open VSX Registry는 Eclipse Foundation이 운영하는 벤더 중립적인 오픈소스 확장 프로그램 레지스트리예요.</p>
+<p>이 확장 프로그램은 Swift Package Manager로 빌드한 프로젝트에 1급 언어 지원을 제공합니다. macOS, Linux, Windows 전반에서 끊김 없는 크로스플랫폼 개발이 가능해진 겁니다.</p>
+<p>코드 완성, 리팩토링, 전체 디버깅 지원, 테스트 탐색기, DocC 지원 같은 Swift의 핵심 기능들이 이제 Open VSX 호환 에디터의 더 넓은 생태계로 확산됩니다. Cursor나 Antigravity 같은 AI 기반 IDE도 별도 다운로드 없이 자동으로 Swift를 설치할 수 있게 됐습니다.</p>
+<h3>시작하기</h3>
+<p>Open VSX 호환 에디터에서 Swift 확장 프로그램을 사용하려면 간단합니다. 확장 프로그램 패널을 열고 'Swift'를 검색한 뒤 설치하면 됩니다.</p>
+<p>Cursor를 쓰신다면 더 쉬워졌어요. 새로운 가이드를 참고해보세요: [Setting up Cursor for Swift Development](link). 이 가이드는 설정 과정부터 주요 기능들까지 안내하며, AI 워크플로우를 위한 커스텀 Swift 스킬 설정하는 방법도 담고 있습니다.</p>
+<p>Swift는 이제 더 많은 최신 에디터와 IDE에서 지원됩니다. 개발자들이 자신이 선호하는 환경에서 편하게 개발할 수 있도록 말이죠. 확장 프로그램을 다운로드해서 써보시고, 피드백도 꼭 남겨주세요!</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://swift.org/blog/expanding-swift-ide-support/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-08%20Swift%EC%9D%98%20IDE%20%EC%A7%80%EC%9B%90%20%ED%99%95%EB%8C%80&labels=feedback%2Cliked&body=**Article**%3A%20Swift%EC%9D%98%20IDE%20%EC%A7%80%EC%9B%90%20%ED%99%95%EB%8C%80%0A**URL**%3A%20https%3A%2F%2Fswift.org%2Fblog%2Fexpanding-swift-ide-support%2F%0A**Date**%3A%202026-04-08%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
