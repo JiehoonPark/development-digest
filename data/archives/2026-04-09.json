@@ -1,0 +1,1246 @@
+{
+  "date": "2026-04-09",
+  "intro": "안녕하세요! 오늘은 CDN 신뢰성 문제부터 AI 에이전트 혁신까지 프론트엔드 생태계의 중요한 변화들이 이어지고 있습니다. Next.js 16.2의 주요 업데이트와 Turbopack의 빠른 진화가 개발 경험을 크게 개선하고 있으며, 동시에 AI 코딩 도구의 성숙도가 실제 프로젝트에 활용될 수준으로 올라오고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "BunnyCDN has been silently losing our production files for 15 months",
+          "titleKo": "BunnyCDN이 15개월간 조용히 프로덕션 파일을 손실시키고 있었다",
+          "summary": "Reddit 사용자가 BunnyCDN CDN 서비스에서 15개월 동안 프로덕션 파일이 조용히 삭제되는 문제를 겪었다고 보고했다. 심각한 신뢰성 문제다.",
+          "keyPoints": [
+            "상용 CDN 서비스의 파일 손실 문제가 장기간 감지되지 않은 사건",
+            "개발자들이 CDN 제공업체의 신뢰성과 모니터링 체계를 재점검해야 할 필요성 제기"
+          ],
+          "whyItMatters": "프로덕션 인프라 제공업체 선택 시 신뢰성 검증과 정기적 모니터링이 얼마나 중요한지 보여주는 사례다.",
+          "url": "https://old.reddit.com/r/webdev/comments/1sglytg/bunnycdn_has_been_silently_losing_our_production/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 26,
+          "contentType": "discussion",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "bunnycdn-has-been-silently-losing-our-production-files-for-15-months",
+          "category": "hot",
+          "publishedAt": "2026-04-09T22:04:09.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Microsoft is employing dark patterns to goad users into paying for storage?",
+          "titleKo": "Microsoft가 다크 패턴으로 사용자에게 저장소 유료화를 강요하는가?",
+          "summary": "Windows 11이 사용자 동의 없이 기본값으로 데스크톱 파일을 OneDrive로 저장하도록 설정하여, 사용자가 무의식 중에 저장소를 소비하게 만들고, 용량 부족 오류를 통해 유료 구독으로 유도하는 다크 패턴 관행을 비판한다. 저자는 이를 사용자를 대상으로 한 의도적인 사기 행위로 규정한다.",
+          "keyPoints": [
+            "Windows 11은 사용자의 명시적 동의 없이 개인 파일을 자동으로 OneDrive에 저장하도록 설정되어 있으며, 사용자 대부분이 이 사실을 인식하지 못한다.",
+            "무료 5GB 저장소 한도에 도달하면 이메일 수신 불가 등의 오류가 발생하고, 유료 저장소 구독을 제시하는 방식으로 고객을 유도한다.",
+            "저자는 WinUtil 도구와 명령어를 통해 OneDrive를 완전히 제거하고 파일을 로컬 폴더로 복원하는 해결책을 제시한다."
+          ],
+          "whyItMatters": "일반 사용자들이 의도치 않게 가족 사진 등 중요 파일을 삭제하게 될 수 있으므로, Windows 기본 설정의 문제를 인식하고 초기 구성을 올바르게 해야 한다.",
+          "url": "https://lzon.ca/posts/other/microsoft-user-abuse/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 137,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "microsoft-is-employing-dark-patterns-to-goad-users-into-paying-for-storage",
+          "fullContent": "How Microsoft abuses its users Blog Other How Microsoft abuses its users Posted April 09, 2026 7 min read I’d like to tell the story of job I just completed for a customer, so that I can make a point about how I feel Microsoft and other large technology companies are actively hostile to their users.The Story An error message similar to what my customer would have seen. I received a call from my neighbour asking if I would be willing to help her husband with an issue he’d been having with his laptop. As the proud new owner of my own IT services company, I of course agreed to take a look.I spoke with my neighbour’s husband, and immediately saw that he was not tech literate. I learned to identify the type while doing IT work for my previous employer. This made understanding his problem difficult, but through conversation we did manage to come to an understanding about what the real issue was that he was experiencing.What he was seeing was that he was no longer receiving email in Outlook, and that there was an error message claiming he had ‘run out of available storage’, or some other similar nonsense. He is a very light email user, and he knows it. He was confused as to why he’d run out of storage. I was confused as well, at first.Through investigation I discovered that the Outlook email service uses Onedrive for storage of all messages and attachments. He had 5 GB of available storage, the amount that is given with his free account. This had yet to explain why he was seeing that error message, there was no way he had consumed 5 GB of storage with just his email use.Unsurprisingly, his Onedrive storage wasn’t filled by his email, it was filled by the personal files from his Windows 11 desktop. Did he configure Windows to save those files to his Onedrive directory, instead of his local home directory? Of course not, that was done by default. Did he even know that this was happening? Also, no. He had no idea this was happening until he saw that error message, which oh-so-helpfully offered to ‘solve’ his problem by offering him a subscription to additional paid storage capacity on the account.He did manage to loosely understand what was happening, enough at least to start deleting files from his computer to try and make the error message go away. I was never able to confirm with him, but I suspect that he deleted files (including family photos) for which he had no other backup.I will be blunt, this infuriates me. This wasn’t the first time I’ve seen this. I saw it many times while working for my previous employer. Microsoft has intentionally broken a fundamental assumption about how files are stored on a computer running Windows. They do this without asking the user, and without adequately explaining what they have done. Microsoft is very obviously employing dark patterns in order to goad its users into paying for Onedrive storage.I’m a computer nerd, and if you are reading this you probably are as well. We can change that setting ourselves without much thought, and we probably have backups of our important data in case recovery is necessary. I will tell you that many people are extremely utilitarian about their computer use. They use their computers only to the degree that they must to serve their other interests in life. They also trust that their property, the device that cost them hundreds of dollars isn’t trying to cheat them like some back-alley con artist.This isn’t a game. My customer isn’t a number on a spreadsheet, merely an increment towards reaching some useless KPI. He deleted family photos to try and get that error message to go away, so that he could just receive emails again. He may not understand what happened, but he’s not stupid. He suspected that this was a scam to get him to pay for something he didn’t need, he just didn’t understand how the scam worked.The Fix WinUtil, an extremely useful tool made by Chris Titus. First and foremost, I performed a complete backup of his data. I took everything that I could find locally on the machine, as well as everything from the Onedrive account, including the Trash. It wasn’t much, only a few gigabytes, which I transferred to a separate USB drive.I carefully transferred all files out of the Onedrive directory structure and back into his home folder. The Windows file explorer did not make this easy or intuitive.I proceeded to delete everything from the Onedrive account, through the web interface. I did notice that deleting files merely moved them into the Trash, which was still being counted towards total storage usage. I assumed this was yet another subtle dark pattern.I alluded to changing settings as a way to solve this. The approach we often took at my previous employer was to simply disable Onedrive in the Windows startup list. That could have worked in this case but I had a better idea. Remove Onedrive entirely.I have muscle memory at this point for how to do it, if you were wondering this is the procedure I used:Open an admin Terminal and load up t",
+          "category": "hot",
+          "publishedAt": "2026-04-09T21:09:12.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 마이크로소프트는 어떻게 사용자를 착취하는가\n\n**2026년 4월 9일 | 읽는 시간: 7분**\n\n최근에 처리한 한 건의 고객 건을 이야기하고 싶습니다. 마이크로소프트를 비롯한 대형 기술 회사들이 얼마나 의도적으로 사용자에게 적대적으로 행동하는지 보여주기 위해서입니다.\n\n## 사건의 발단\n\n이웃 주민이 전화를 걸어왔습니다. 남편의 노트북에 문제가 있는데 도와줄 수 있냐는 거였어요. 막 개인 IT 서비스 회사를 시작한 저로서는 당연히 한 번 봐주겠다고 했습니다.\n\n그분을 만나보니 기술에 별로 관심이 없으신 분이라는 걸 금방 알 수 있었습니다. 이전 직장에서 IT 업무를 하면서 이런 분들의 패턴을 많이 봤거든요. 문제를 파악하는 게 쉽지 않았지만, 차근차근 이야기를 나누다 보니 실제 문제가 뭔지 알 수 있었습니다.\n\n문제는 Outlook에서 더 이상 이메일을 받을 수 없다는 것이었습니다. 저장 공간이 부족하다는 오류 메시지가 계속 떠 있었거든요. 그분은 이메일을 거의 안 쓰시는데 왜 갑자기 공간이 부족하다고 하는지 의아해하셨어요. 저도 처음엔 이상했습니다.\n\n조사를 진행하다 보니 놀라운 사실을 발견했습니다. Outlook의 이메일과 첨부파일들은 실제로 OneDrive에 저장되고 있었던 거죠. 그분은 무료 계정으로 5GB의 저장 공간을 받고 있었는데, 이메일만으로는 절대 5GB를 다 쓸 수가 없었습니다.\n\n그럼 뭐가 공간을 차지하고 있었나요? Windows 11 바탕화면의 개인 파일들이었습니다. 그분이 의도적으로 이 파일들을 OneDrive 폴더에 저장하도록 설정한 걸까요? 아니요, 이건 Windows의 기본 설정이었어요. 본인도 이런 일이 일어나고 있는지 알고 있었을까요? 역시 아니요. 오류 메시지가 뜰 때까지 아무것도 모르고 있었던 거입니다.\n\n더 황당한 건, 그 오류 메시지는 친절하게도 \"추가 저장 공간 구독을 구매하면 이 문제를 해결할 수 있습니다\"라고 제안하고 있었다는 점입니다.\n\n그분은 상황을 어느 정도 이해했고, 오류 메시지를 없애기 위해 컴퓨터의 파일들을 삭제하기 시작했습니다. 확실하게 확인하진 못했지만, 아마도 가족 사진을 포함해 백업이 없는 파일들을 지운 것 같습니다.\n\n## 분노함을 넘어서\n\n솔직하게 말해서, 저는 화났습니다. 이게 처음이 아니거든요. 이전 직장에서 이런 일을 수없이 봤습니다.\n\n마이크로소프트는 의도적으로 Windows에서 파일이 어떻게 저장되는지에 대한 기본적인 가정을 깨뜨렸습니다. 사용자에게 묻지도, 제대로 설명하지도 않고 말이에요. 마이크로소프트는 명백하게 암묵적 악의(dark pattern)를 사용해서 사용자들을 OneDrive 구독으로 유도하고 있습니다.\n\n저는 컴퓨터 덕후고, 여러분도 아마 그럴 거예요. 우리는 설정을 직접 바꿀 수 있고, 중요한 데이터의 백업도 잘 해두고 있습니다. 하지만 대부분의 사람들은 컴퓨터를 그저 필요한 만큼만 사용할 뿐입니다. 그들은 수백 달러를 들인 자신의 기기가 노상강도처럼 자신을 속일 리는 없다고 믿습니다.\n\n이건 게임이 아닙니다. 제 고객은 스프레드시트의 숫자가 아닙니다. 어떤 KPI를 달성하기 위한 통계 수치가 아니에요. 그분은 단지 이메일을 다시 받기 위해, 그 오류 메시지를 없애기 위해 가족 사진을 삭제했습니다. 자신이 정확히 뭔 일이 있었는지 완전히 이해하지 못했지만, 분명히 자신이 필요 없는 것에 돈을 내도록 강요받는 건 아닌지 의심했어요.\n\n## 문제 해결하기\n\n먼저 저는 그분의 모든 데이터를 완벽하게 백업했습니다. 컴퓨터에 있는 모든 파일과 OneDrive 계정의 파일, 심지어 휴지통까지 포함해서요. USB 드라이브에 몇 GB 정도를 옮겼습니다.\n\n그다음 모든 파일을 OneDrive 폴더에서 홈 폴더로 옮겼습니다. Windows 탐색기는 이 작업을 쉽게 하지 못했어요.\n\nOneDrive 계정의 모든 것을 웹 인터페이스에서 삭제했습니다. 한 가지 흥미롭게 눈에 띈 건, 파일을 삭제해도 휴지통으로 이동될 뿐 여전히 총 저장량에 포함된다는 점입니다. 이것도 또 다른 은밀한 악의 패턴이라고 생각해요.\n\n그다음 저는 OneDrive를 완전히 제거하기로 했습니다. 이전 직장에서는 보통 Windows 시작 프로그램 목록에서 OneDrive를 비활성화하는 방식을 썼는데, 이번에는 더 근본적인 방법을 선택한 거죠.\n\n이 정도면 충분히 할 수 있을 것 같습니다. 다시 말해, 그분은 이제 자신의 파일이 자신의 컴퓨터에만 있다는 기본적인 가정 아래에서 작업할 수 있게 되었습니다."
+        },
+        {
+          "title": "Maine is about to become the first state to ban major new data centers",
+          "titleKo": "메인주가 대규모 데이터센터를 금지하는 첫 번째 주가 될 예정",
+          "summary": "AI 붐으로 인한 전력 소비 증가에 대응하여 메인주는 20메가와트 이상의 새로운 데이터센터 허가를 2027년 11월까지 임시로 중단하는 LD 307 법안을 통과시켰다. 이는 미국 최초의 주 차원 대규모 데이터센터 모라토리움이다.",
+          "keyPoints": [
+            "메인주는 미국에서 가장 높은 주민 전력 요금을 부담 중이며, AI 데이터센터의 추가 전력 수요가 노후 전력망에 미칠 영향을 우려하고 있다.",
+            "Jay, Sanford, Loring Air Force Base 등지의 데이터센터 프로젝트들이 현재 미결 상태이며, 주지사 Janet Mills는 이 일시 중단을 지지한다.",
+            "미시간, 인디애나 등 다른 지역도 유사한 제한을 검토 중이며, 데이터센터는 현재 미국 전력의 약 4%를 소비하고 2030년까지 2배 증가할 것으로 예상된다."
+          ],
+          "whyItMatters": "AI 인프라의 급속한 확장이 지역 전력망과 비용에 미치는 영향을 정책 수준에서 관리해야 한다는 움직임이 시작되었으며, 개발자들이 AI 서비스의 비용 증가를 예상해야 할 수 있다.",
+          "url": "https://www.gadgetreview.com/maine-is-about-to-become-the-first-state-to-ban-major-new-data-centers",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 216,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "maine-is-about-to-become-the-first-state-to-ban-major-new-data-centers",
+          "fullContent": "Your AI chatbot sessions and cloud-stored photos might get more expensive if other states follow Maine’s lead. Lawmakers there just advanced the nation’s first statewide moratorium on large data centers, citing concerns that the AI boom is pushing electricity costs even higher in a state already suffering America’s priciest power bills.The Democratic-controlled legislature advanced bill LD 307, temporarily blocking permits for any new data center requiring more than 20 megawatts. The measure runs until November 2027, buying time for a new Data Center Coordination Council to study how these facilities strain Maine’s aging electrical grid.Political Theater Meets Policy RealityGov. Janet Mills supports the pause while developers scramble for exemptions.The bill gained traction after residents in Wiscasset and Lewiston successfully opposed data center proposals over water usage and safety concerns. Projects now in limbo include facilities planned for:Jay (at an old paper mill site)SanfordLoring Air Force Base“Taking this pause now is going to be crucial,” Rep. Christopher Kessler said, according to Maine Public Radio, reflecting growing legislative concern about grid capacity. Developer Tony McDonald disagrees, calling the proposed restrictions “disastrous” and claiming his team got “caught in this dragnet.”Dominoes Falling Across the MapMaine’s precedent could trigger similar restrictions nationwide.The Pine Tree State isn’t alone in pumping the brakes. Counties in Michigan and Indiana have imposed their own local pauses on data center development, while cities from Denver to Detroit weigh restrictions as hyperscale facilities chase cheap land and reliable power.The timing reflects broader anxiety about AI’s infrastructure appetite. Data centers now consume roughly 4% of U.S. electricity, with projections suggesting that figure could double by 2030. For Mainers already paying some of the nation’s highest residential rates, that mathematical reality hits differently than Silicon Valley’s endless optimization rhetoric.Maine’s move represents what economist Anirban Basu called a “canary in the coal mine” for state-level resistance to Big Tech’s energy demands. Whether that precedent spreads depends on how aggressively other governors follow Maine’s lead—and whether your favorite AI services start charging accordingly.",
+          "category": "hot",
+          "publishedAt": "2026-04-09T19:48:25.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# AI 붐이 전기료를 올린다? 메인주의 데이터센터 모라토리엄이 던지는 경고\n\n당신이 쓰는 AI 챗봇이나 클라우드에 저장한 사진 때문에 요금이 올라갈 수도 있겠는데요. 메인주가 미국 최초로 대규모 데이터센터 건설 금지령을 추진하기 시작했거든요. 이미 미국에서 전기료가 가장 비싼 메인주 의원들은 AI 붐이 전력 비용을 더욱 높이고 있다고 우려하고 있습니다.\n\n민주당이 다수당인 메인주 의회는 20메가와트 이상의 전력을 필요로 하는 새로운 데이터센터 허가를 임시로 차단하는 LD 307 법안을 통과시켰어요. 이 조치는 2027년 11월까지 유효하며, 그 사이에 신설될 데이터센터 조정 위원회가 이런 시설들이 메인주의 노후 전력망에 어떤 부담을 주는지 연구할 시간을 벌 수 있습니다.\n\n## 정책 현실 속의 정치극\n\n주지사 자넷 밀스는 이 유예 조치를 지지하고 있는 반면, 개발업체들은 예외 적용을 위해 분주합니다.\n\n이 법안이 탄력을 받게 된 건 위스캐셋과 루이스턴 주민들이 수자원 이용과 안전 문제를 이유로 데이터센터 건설 계획에 반발하면서부터였어요. 현재 진행 중단된 프로젝트들을 보면:\n\n- Jay (폐지된 제지소 부지)\n- Sanford\n- Loring 공군기지\n\n\"지금 이 유예를 하는 게 정말 중요할 거예요\"라고 메인 공영라디오에 따르면 크리스토퍼 케슬러 하원의원이 말했는데, 이는 전력망 수용 능력을 우려하는 입법부의 관심이 얼마나 커졌는지를 보여줍니다. 한편 개발업자 토니 맥도널드는 이 제한 조치가 \"재앙\"이라고 반박하며, 자신의 팀이 \"광범위한 단속에 걸렸다\"고 주장하고 있습니다.\n\n## 전국으로 번져가는 움직임\n\n메인주의 선례가 전국 각지의 유사한 규제를 촉발할 수 있습니다.\n\n메인주만 데이터센터 개발에 제동을 거는 건 아닙니다. 미시간과 인디애나 카운티들도 자체적인 건설 유예 조치를 내렸거든요. 덴버부터 디트로이트까지, 도시들도 저렴한 부지와 안정적인 전력을 찾아다니는 초대형 데이터센터 시설에 제동을 걸 방법들을 검토 중입니다.\n\n이 움직임은 AI 기술이 얼마나 많은 인프라와 전력을 탐욕스럽게 집어삼키는지에 대한 광범위한 우려를 반영하고 있어요. 현재 데이터센터는 미국 전력의 약 4%를 소비하고 있으며, 2030년까지 이 비율이 두 배로 증가할 수 있다는 전망도 나오고 있습니다. 이미 미국에서 주거용 전기료가 가장 비싼 메인주 주민들 입장에서는 실리콘밸리의 무한한 최적화 담론과는 다르게 느껴질 수밖에 없겠죠.\n\n경제학자 아니르반 바수는 메인주의 움직임을 빅테크의 에너지 수요에 대한 주(State) 차원의 저항이라는 \"탄광의 카나리아\" 신호라고 평가했습니다. 이 선례가 다른 주로 퍼져나갈지는 다른 주지사들이 메인주를 얼마나 적극 따라갈지, 그리고 당신이 자주 쓰는 AI 서비스들이 요금을 인상할지에 달렸다고 볼 수 있습니다."
+        },
+        {
+          "title": "EFF is leaving X",
+          "titleKo": "EFF가 X를 떠나다",
+          "summary": "전자프론티어재단(EFF)이 X 플랫폼을 떠나기로 결정했습니다.",
+          "keyPoints": [
+            "주요 디지털 권리 단체의 X 플랫폼 이탈"
+          ],
+          "whyItMatters": "소셜 미디어 플랫폼의 정책 변화가 주요 기술 커뮤니티에 미치는 영향을 보여줍니다.",
+          "url": "https://www.eff.org/deeplinks/2026/04/eff-leaving-x",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 997,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "eff-is-leaving-x",
+          "category": "hot",
+          "publishedAt": "2026-04-09T17:08:04.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Meta removes ads for social media addiction litigation",
+          "titleKo": "Meta, 소셜 미디어 중독 소송 관련 광고 제거",
+          "summary": "Meta가 소셜 미디어 중독 관련 소송과 관련된 광고를 제거했습니다.",
+          "keyPoints": [
+            "Meta의 광고 정책 변화"
+          ],
+          "whyItMatters": "플랫폼 기업의 법적 리스크 관리 전략이 서비스 운영에 미치는 영향을 보여줍니다.",
+          "url": "https://www.axios.com/2026/04/09/meta-social-media-addiction-ads",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 526,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "meta-removes-ads-for-social-media-addiction-litigation",
+          "category": "hot",
+          "publishedAt": "2026-04-09T13:23:50.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Turbopack: What's New in Next.js 16.2",
+          "titleKo": "Turbopack: Next.js 16.2의 새로운 기능",
+          "summary": "Turbopack이 Next.js의 기본 번들러가 된 후 2개 릴리스만에 성능 개선, 버그 수정, 기능 패리티 향상에 집중하고 있습니다. Server Fast Refresh, Web Worker Origin, Subresource Integrity, 동적 임포트의 Tree Shaking, 인라인 로더 설정, Lightning CSS 설정 등 10개 이상의 주요 기능이 추가되었으며, 200개 이상의 버그 수정과 성능 개선이 포함되어 있습니다.",
+          "keyPoints": [
+            "Server Fast Refresh: 기존 require.cache 전체 초기화 방식 대신 변경된 모듈만 리로드하여 서버 측 핫 리로딩 성능 대폭 개선. 실제 Next.js 애플리케이션에서 67-100% 빠른 리프레시, 400-900% 빠른 컴파일 시간 달성 (Next.js 40ms → 2.7ms, 애플리케이션 19ms → 9.7ms).",
+            "Web Worker Origin: 기존 blob:// URL 부트스트래핑에서 실제 도메인 원점(origin)으로 변경하여 Web Worker 내 WASM 라이브러리 지원 증대. importScripts() 및 fetch()를 사용하는 서드파티 라이브러리가 정상 작동.",
+            "Subresource Integrity (SRI) 지원: JavaScript 파일의 암호화 해시를 빌드 시 생성하여 브라우저가 파일 변조 여부 검증. 동적 렌더링 없이 CSP 정책 구현 가능하여 성능 영향 최소화 (next.config.js에서 algorithm: 'sha256' 설정).",
+            "동적 임포트의 Tree Shaking: 구조화된 동적 임포트(const { cat } = await import('./lib'))에서 사용하지 않는 내보내기 제거. 정적 임포트와 동일한 트리 쉐이킹 적용으로 번들 크기 감소.",
+            "인라인 로더 설정: import attributes의 with 절을 사용하여 개별 임포트마다 로더 설정 가능 (turbopackLoader, turbopackLoaderOptions, turbopackAs, turbopackModuleType 속성). 글로벌 next.config.ts 설정 대신 특정 임포트만 특별 처리할 때 유용.",
+            "Lightning CSS 설정: Rust 기반 고성능 CSS 트랜스포머 Lightning CSS의 실험적 설정 옵션 추가.",
+            "PostCSS TypeScript 지원: postcss.config.ts 파일로 TypeScript 기반 PostCSS 설정 가능.",
+            "로그 필터링: ignoreIssue를 통해 불필요한 로그 및 경고 메시지 필터링 가능.",
+            "200개 이상의 버그 수정 및 성능 개선: 컴파일러 성능 가속화 및 메모리 사용량 감소에 초점.",
+            "Proxy 및 Route Handlers: 현재 기존 시스템 사용 중이며 향후 릴리스에서 Server Fast Refresh 지원 예정."
+          ],
+          "whyItMatters": "Server Fast Refresh를 통한 400-900% 개선된 컴파일 속도와 다양한 개발자 경험 향상 기능들이 개발 생산성을 크게 향상시키며, Subresource Integrity와 Web Worker 개선으로 프로덕션 환경의 보안성과 호환성이 증대됩니다.",
+          "url": "https://nextjs.org/blog/next-16-2-turbopack",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "nextjs-16-2-release",
+          "isTopicPrimary": true,
+          "relatedCount": 3,
+          "slug": "turbopack-whats-new-in-nextjs-162",
+          "fullContent": "Back to BlogWednesday, March 18th 2026Turbopack: What's New in Next.js 16.2Posted byAndrew Imm@setimmediateTim Neutkens@timneutkensTwo releases after Turbopack became the default bundler for Next.js, we're focused on improving performance, fixing bugs, and increasing parity.\nHere are some of the latest features shipping as part of Next.js 16.2.\nServer Fast Refresh: Fine-grained server-side hot reloading\nWeb Worker Origin: Increasing support for WASM libraries in Workers\nSubresource Integrity Support: Subresource Integrity for JavaScript files\nTree Shaking of Dynamic Imports: Unused exports removed from dynamic import()\nInline Loader Configuration: Per-import loader configuration via import attributes\nLightning CSS Configuration: Experimental LightningCSS configuration options\nLog Filtering: Suppressing noisy logs and warnings with ignoreIssue\npostcss.config.ts Support: TypeScript PostCSS configuration\nPerformance Improvements and Bug Fixes: Over 200 changes and bug fixes\nLooking forward towards our next release, we'll be focused on speeding up compiler performance and reducing memory usage.\nServer Fast Refresh\nWe've reworked how server-side code is reloaded during development. The previous system cleared the require.cache for the changed module and all other modules in its import chain. This approach often reloaded more code than necessary, including unchanged node_modules.\nThe new system brings the same Fast Refresh approach used in the browser to your server code. Turbopack's knowledge of the module graph means only the module that actually changed is reloaded, leaving the rest intact. This makes server-side hot reloading significantly more efficient.\nIn real-world Next.js applications, we've seen 67-100% faster application refresh and 400-900% faster compile time inside Next.js. These results scale from the smallest \"hello world\" starter project to large sites like vercel.com.\nServer refresh time on a sample Next.js site375% fasterBefore40ms19ms59msAfter2.7ms9.7ms12.4msNext.js (40ms → 2.7ms)Application (19ms → 9.7ms)\nToday we're enabling this feature for all developers, by default. Proxy and Route Handlers will use the existing system today, but support for those is arriving in a future release. Share your feedback or any issues with this new feature on GitHub.\nWeb Worker Origin\nPreviously, Web Workers were bootstrapped through a blob:// URL. This streamlined loading the worker, but it set an empty location.origin value. Web Worker code that tried to use importScripts() or fetch() (usually in third-party libraries) would have been unable to resolve the request without changes.\nWith the updated Worker bootstrap code, the origin correctly points to your domain name, and relative fetches succeed. This should unblock anyone who had trouble running WASM code inside a Worker in previous versions.\nSubresource Integrity Support\nTurbopack now supports Subresource Integrity (SRI). SRI generates cryptographic hashes of your JavaScript files at build time, allowing browsers to verify that files haven't been modified.\nBrowsers provide a technology called Content Security Policy that allows sites to restrict the JavaScript that can run, eliminating entire classes of security issues. However, the typical nonce-based method for implementing this requires all pages to be dynamically rendered, impacting performance. Subresource Integrity is an alternative that computes a hash of each script ahead of time, and only allows the browser to execute scripts with approved hashes.\nnext.config.jsconst nextConfig = {\nexperimental: {\nsri: {\nalgorithm: 'sha256',\n},\n},\n};\nmodule.exports = nextConfig;\nTree Shaking of Dynamic Imports\nTurbopack now tree shakes destructured dynamic imports the same way it does static imports. Unused exports are removed from the bundle:\nconst { cat } = await import('./lib');\nThis is now equivalent to a static import for tree shaking purposes — any exports from ./lib that aren't used will be tree-shaken.\nInline Loader Configuration\nTurbopack now supports per-import loader configuration via import attributes. Instead of applying loaders globally through turbopack.rules, you can configure them on individual imports using the with clause:\nimport rawText from './data.txt' with {\nturbopackLoader: 'raw-loader',\nturbopackAs: '*.js',\n};\nimport value from './data.js' with {\nturbopackLoader: 'string-replace-loader',\nturbopackLoaderOptions: '{\"search\":\"PLACEHOLDER\",\"replace\":\"replaced value\"}',\n};\nThis is useful when only a specific import needs special treatment, avoiding side effects on other imports of the same file type. The available attributes are turbopackLoader, turbopackLoaderOptions, turbopackAs, and turbopackModuleType.\nYou should still prefer configuring your loaders in next.config.ts when possible, since code using inline loaders is less portable. This option is more useful for code generated from plugins or loaders.\nLightning CSS Configuration\nLightning CSS is a fast, Rust-based CSS transformer used by T",
+          "category": "tech",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en",
+          "translatedContent": "# Turbopack: Next.js 16.2의 새로운 기능들\n\nTurbopack이 Next.js의 기본 번들러가 된 지 두 번의 릴리스가 지난 지금, 우리는 성능 개선과 버그 수정, 그리고 다양한 기능 패리티 달성에 집중하고 있습니다.\n\nNext.js 16.2에서 새롭게 선보이는 주요 기능들을 소개해드리겠습니다.\n\n- **Server Fast Refresh**: 세밀한 서버 측 핫 리로딩\n- **Web Worker Origin**: Workers 내 WASM 라이브러리 지원 확대\n- **Subresource Integrity 지원**: JavaScript 파일에 대한 무결성 검증\n- **동적 임포트 Tree Shaking**: 동적 import()에서 사용하지 않는 내보내기 제거\n- **Inline Loader 설정**: 임포트 어트리뷰트를 통한 개별 로더 설정\n- **Lightning CSS 설정**: 실험적 LightningCSS 설정 옵션\n- **로그 필터링**: ignoreIssue를 통한 불필요한 로그 및 경고 제거\n- **postcss.config.ts 지원**: TypeScript PostCSS 설정\n- **성능 개선 및 버그 수정**: 200여 개의 변경 및 버그 수정\n\n다음 릴리스에서는 컴파일러 성능 향상과 메모리 사용량 감소에 중점을 두겠습니다.\n\n## Server Fast Refresh: 더 똑똑한 서버 핫 리로딩\n\n개발 중 서버 측 코드가 어떻게 리로드되는지 완전히 재설계했습니다.\n\n기존 방식에서는 변경된 모듈의 require.cache를 지웠고, 그 모듈과 연결된 모든 다른 모듈도 함께 초기화했습니다. 이 방식은 변경되지 않은 node_modules까지 포함해서 필요 이상으로 많은 코드를 리로드했거든요.\n\n새로운 시스템은 브라우저에서 사용되던 Fast Refresh 접근 방식을 서버 코드에도 가져왔습니다. Turbopack이 모듈 그래프를 정확히 파악하기 때문에 실제로 변경된 모듈만 리로드되고 나머지는 그대로 유지됩니다. 덕분에 서버 측 핫 리로딩의 효율성이 크게 향상됐습니다.\n\n실제 Next.js 애플리케이션에서 측정한 결과, 애플리케이션 새로고침은 67~100% 더 빨라졌고 Next.js 내 컴파일 시간은 400~900% 개선됐습니다. 이러한 성능 개선은 작은 \"hello world\" 스타터 프로젝트부터 vercel.com 같은 대규모 사이트까지 일관되게 나타났습니다.\n\n| 항목 | 개선 전 | 개선 후 | 개선율 |\n|------|---------|---------|--------|\n| Next.js | 40ms | 2.7ms | **93% 단축** |\n| 애플리케이션 | 19ms | 9.7ms | **49% 단축** |\n\n이제 이 기능을 모든 개발자에게 기본적으로 활성화했습니다. 다만 Proxy와 Route Handlers는 아직 기존 방식을 사용하고 있으며, 향후 릴리스에서 지원할 예정입니다. 새로운 기능에 대한 피드백이나 문제점이 있으면 GitHub에서 알려주세요.\n\n## Web Worker Origin: WASM 라이브러리 호환성 개선\n\n예전에는 Web Workers를 blob:// URL로 부트스트랩했습니다. 워커 로딩을 간단히 할 수 있었지만, location.origin 값이 비어있다는 문제가 있었거든요. 서드파티 라이브러리의 importScripts()나 fetch()를 사용하려던 워커 코드는 수정 없이는 요청을 해결할 수 없었습니다.\n\n이제 업데이트된 Worker 부트스트랩 코드로 origin이 제대로 된 도메인명을 가리키고, 상대 경로 fetch도 정상 동작합니다. 이전 버전에서 Worker 내에서 WASM 코드 실행에 문제가 있었던 분들은 이제 문제없이 사용할 수 있을 겁니다.\n\n## Subresource Integrity 지원: 스크립트 무결성 검증\n\nTurbopack이 이제 Subresource Integrity(SRI)를 지원합니다. SRI는 빌드 시점에 JavaScript 파일의 암호화 해시를 생성해서 브라우저가 파일 변조 여부를 검증할 수 있게 합니다.\n\n브라우저의 Content Security Policy(CSP) 기능을 사용하면 실행할 수 있는 JavaScript를 제한해서 보안 문제의 전체 범주를 없앨 수 있습니다. 다만 nonce 기반의 일반적인 CSP 구현 방식은 모든 페이지를 동적으로 렌더링해야 하기 때문에 성능에 영향을 줍니다. Subresource Integrity는 다른 접근 방식인데요, 각 스크립트의 해시를 미리 계산해서 승인된 해시를 가진 스크립트만 브라우저가 실행하도록 제한합니다.\n\n```javascript\n// next.config.js\nconst nextConfig = {\n  experimental: {\n    sri: {\n      algorithm: 'sha256',\n    },\n  },\n};\nmodule.exports = nextConfig;\n```\n\n## 동적 임포트의 Tree Shaking\n\nTurbopack이 이제 구조 분해 동적 임포트도 정적 임포트처럼 tree shaking합니다. 번들에서 사용하지 않는 내보내기가 제거됩니다.\n\n```javascript\nconst { cat } = await import('./lib');\n```\n\n이제 위 코드는 tree shaking 관점에서 정적 임포트와 동일합니다. ./lib에서 사용되지 않는 내보내기는 모두 제거되죠.\n\n## Inline Loader 설정: 임포트별 로더 커스터마이징\n\nTurbopack이 이제 import 어트리뷰트를 통해 개별 임포트에 로더를 설정할 수 있습니다. turbopack.rules에서 전역으로 로더를 적용하는 대신 with 절을 사용해서 각 임포트에 설정하세요.\n\n```javascript\nimport rawText from './data.txt' with {\n  turbopackLoader: 'raw-loader',\n  turbopackAs: '*.js',\n};\n\nimport value from './data.js' with {\n  turbopackLoader: 'string-replace-loader',\n  turbopackLoaderOptions: '{\"search\":\"PLACEHOLDER\",\"replace\":\"replaced value\"}',\n};\n```\n\n특정 임포트만 특수한 처리가 필요할 때 유용합니다. 같은 파일 타입의 다른 임포트에 영향을 주지 않으니까요. 사용 가능한 어트리뷰트는 turbopackLoader, turbopackLoaderOptions, turbopackAs, turbopackModuleType입니다.\n\n가능하면 next.config.ts에서 로더를 설정하는 것을 권장합니다. inline 로더를 사용한 코드는 이식성이 떨어지거든요. 이 옵션은 플러그인이나 로더로 생성된 코드에서 더 유용합니다.\n\n## Lightning CSS 설정: 빠른 CSS 변환\n\nLightning CSS는 Turbopack이 사용하는 Rust 기반의 빠른 CSS 트랜스포머입니다. 이번 릴리스에서 Lightning CSS 설정 옵션을 실험적으로 노출했습니다."
+        },
+        {
+          "title": "Next.js 16.2",
+          "titleKo": "Next.js 16.2",
+          "summary": "Next.js 16.2는 어댑터, 렌더링 성능 개선, 디버깅 및 에러 페이지 개선 등 여러 기능을 포함하고 있습니다.",
+          "keyPoints": [
+            "어댑터 지원으로 다양한 호스팅 환경에 대한 유연성 증대",
+            "렌더링 성능 개선으로 애플리케이션 속도 최적화",
+            "향상된 디버깅 및 에러 페이지로 개발자 경험 개선"
+          ],
+          "whyItMatters": "Next.js 16.2의 성능 개선과 새로운 기능들은 개발자 생산성 향상과 애플리케이션 성능 최적화를 동시에 달성할 수 있게 합니다.",
+          "url": "https://nextjs.org/blog/next-16-2",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "nextjs-16-2-release",
+          "isTopicPrimary": true,
+          "relatedCount": 3,
+          "slug": "nextjs-162",
+          "category": "tech",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Next.js 16.2: AI Improvements",
+          "titleKo": "Next.js 16.2: AI 개선 사항",
+          "summary": "Next.js 16.2는 create-next-app의 AGENTS.md, 브라우저 로그 포워딩, 개발 서버 락 파일 (PID 포함), AI 에이전트 디버깅을 위한 next-browser 등 AI 관련 기능들을 추가했습니다.",
+          "keyPoints": [
+            "create-next-app에 AGENTS.md 추가로 AI 에이전트 개발자를 위한 가이드 제공",
+            "브라우저 로그 포워딩으로 AI 에이전트가 브라우저 콘솔 로그에 접근 가능",
+            "개발 서버 락 파일에 PID 정보 포함하여 프로세스 관리 개선",
+            "next-browser 도구로 AI 에이전트의 브라우저 상호작용 디버깅 지원"
+          ],
+          "whyItMatters": "AI 에이전트가 Next.js 애플리케이션과 더 효과적으로 상호작용할 수 있도록 지원하며, 개발자 도구와 문서가 강화되어 AI 기반 자동화 개발이 수월해집니다.",
+          "url": "https://nextjs.org/blog/next-16-2-ai",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "ai"
+          ],
+          "topicId": "nextjs-16-2-release",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "nextjs-162-ai-improvements",
+          "category": "tech",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Next.js Across Platforms: Adapters, OpenNext, and Our Commitments",
+          "titleKo": "플랫폼 전반의 Next.js: 어댑터, OpenNext, 그리고 우리의 약속",
+          "summary": "Next.js 16.2에서 안정화된 Adapter API와 공개 어댑터 테스트 스위트를 도입하여 다양한 플랫폼에서의 일관된 배포를 지원합니다. 플랫폼 호환성 워킹그룹도 구성되었습니다.",
+          "keyPoints": [
+            "Adapter API의 안정화로 다양한 호스팅 플랫폼 지원 가능",
+            "공개 테스트 스위트와 워킹그룹으로 장기적 호환성 보장"
+          ],
+          "whyItMatters": "Next.js 애플리케이션의 배포 선택지가 확대되고 플랫폼 간 일관성이 개선됩니다.",
+          "url": "https://nextjs.org/blog/nextjs-across-platforms",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "devops"
+          ],
+          "topicId": "nextjs-16-2-release",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "nextjs-across-platforms-adapters-opennext-and-our-commitments",
+          "category": "tech",
+          "publishedAt": "2026-03-25T17:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Show HN: CSS Studio. Design by hand, code by agent",
+          "titleKo": "CSS Studio: 손으로 디자인하고 에이전트가 코드를 생성",
+          "summary": "사용자가 시각적으로 UI를 디자인하면 AI 에이전트가 자동으로 CSS 코드를 생성하는 도구다. 디자인-개발 간의 갭을 줄여준다.",
+          "keyPoints": [
+            "드래그 앤 드롭 방식의 직관적 디자인 인터페이스와 자동 코드 생성",
+            "AI 에이전트가 디자인 의도를 해석하여 프로덕션급 CSS 코드 생성"
+          ],
+          "whyItMatters": "디자이너와 개발자 간 협업을 가속화하고 CSS 작성 시간을 단축할 수 있다.",
+          "url": "https://cssstudio.ai",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 138,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "ai"
+          ],
+          "topicId": "ai-design-tools",
+          "isTopicPrimary": true,
+          "slug": "show-hn-css-studio-design-by-hand-code-by-agent",
+          "category": "tech",
+          "publishedAt": "2026-04-09T11:23:31.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Instant 1.0, a backend for AI-coded apps",
+          "titleKo": "AI 코딩 앱을 위한 백엔드 Instant 1.0",
+          "summary": "Instant 1.0은 AI로 코딩된 애플리케이션을 위해 특화된 백엔드 아키텍처입니다. AI 생성 코드의 특성에 맞춰 최적화되어 있습니다.",
+          "keyPoints": [
+            "AI 생성 코드 실행을 위한 전문화된 백엔드",
+            "AI 코딩 워크플로우에 최적화된 아키텍처"
+          ],
+          "whyItMatters": "AI 코딩 도구의 후속 환경 구성 시 참고할 수 있는 프로덕션급 백엔드 아키텍처를 제시합니다.",
+          "url": "https://www.instantdb.com/essays/architecture",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 35,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "ai"
+          ],
+          "topicId": "ai-backends",
+          "isTopicPrimary": true,
+          "slug": "instant-10-a-backend-for-ai-coded-apps",
+          "category": "tech",
+          "publishedAt": "2026-04-09T18:30:59.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "coleam00/Archon (TypeScript)",
+          "titleKo": "coleam00/Archon (TypeScript)",
+          "summary": "Archon은 첫 번째 오픈소스 AI 코딩 하네스 빌더로, AI 코딩 프로세스를 결정론적이고 재현 가능하게 만듭니다.",
+          "keyPoints": [
+            "AI 코딩의 비결정론적 특성을 해결하는 하네스 빌더",
+            "결과의 재현성과 일관성 보장"
+          ],
+          "whyItMatters": "AI 코딩 도구의 신뢰성과 예측 가능성을 향상시켜 프로덕션 환경에서의 활용성을 높입니다.",
+          "url": "https://github.com/coleam00/Archon",
+          "sourceName": "GitHub Trending",
+          "engagement": 14374,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "topicId": "ai-coding-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "coleam00archon-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-09T23:18:44.413Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "YishenTu/claudian (TypeScript)",
+          "titleKo": "YishenTu/claudian (TypeScript)",
+          "summary": "Claudian은 Obsidian 플러그인으로 Claude Code를 AI 협업자로 vault에 통합합니다. 문서 작업 중 AI 지원을 직접 활용할 수 있습니다.",
+          "keyPoints": [
+            "Obsidian 에코시스템에 Claude Code 통합",
+            "문서 관리와 AI 코딩 협업을 한 곳에서 수행"
+          ],
+          "whyItMatters": "개발자의 워크플로우 통합으로 문서 작성 중 AI 코딩 지원을 효율적으로 활용할 수 있습니다.",
+          "url": "https://github.com/YishenTu/claudian",
+          "sourceName": "GitHub Trending",
+          "engagement": 6782,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "topicId": "ai-coding-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "yishentuclaudian-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-09T23:18:44.413Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "A WebGPU implementation of Augmented Vertex Block Descent",
+          "titleKo": "Augmented Vertex Block Descent의 WebGPU 구현",
+          "summary": "WebGPU 기반 물리 엔진 프로토타입으로, Augmented Vertex Block Descent(AVBD) 솔버를 사용하여 강체 및 연체 물리 시뮬레이션을 웹에서 구현했다. 현재 Chrome 전용 초기 개념 증명 단계다.",
+          "keyPoints": [
+            "AVBD 논문 알고리즘을 WebGPU로 구현하여 충돌 감지, 제약 해결, 속도 재구성을 GPU에서 병렬 처리",
+            "Broad phase LBVH, narrow phase 매니폴드 생성, 색칠 기반 병렬 求解 등 고급 물리 엔진 기술 적용"
+          ],
+          "whyItMatters": "웹 기반 고성능 물리 시뮬레이션이 필요한 개발자들에게 GPU 가속 솔루션의 가능성을 보여주며, WebGPU 활용 사례를 제공한다.",
+          "url": "https://github.com/jure/webphysics",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 116,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-webgpu-implementation-of-augmented-vertex-block-descent",
+          "fullContent": "Live Demo\nwebphysics-teaser.mp4\nLive Demo\nwebphysics\nThis project is an experimental WebGPU rigid-body / soft-body physics prototype centered on an AVBD-style (Augmented Vertex Block Descent by Giles et al. (2025)) solver. I ❤ working on advanced¹ web graphics² open source experiments³, so if you'd like to see more projects like these, please support my work.️\nSetup\nnpm install\nnpm run dev\nBuild for production:\nnpm run build\nNote: This is not a plug-and-play module yet and browser support (Chrome only for now) is limited, it's an initial proof of concept.\nAVBD Pipeline\nThe current rigid-body pipeline follows the structure of Algorithm 1 from the AVBD paper, with broad phase, narrow phase, warm-started contact state, colored body solves, dual updates, and final velocity reconstruction. Reference paper: Augmented Vertex Block Descent by Giles et al. (2025)\nCollision detection from the current state x^t\nThe paper starts each time step with collision detection from the current positions, before the solver iterations begin. In this codebase that starts in the main substep orchestration in src/physics/PhysicsEngine.ts, then flows into broad phase and narrow phase.\nBroad phase candidate generation\nAs described in Section 4 of the paper, we first build and traverse an LBVH to get candidate body pairs. Code:\nsrc/physics/gpu/broadPhase.ts\nsrc/lvbh/GPULBVHBuilder.ts\nNarrow phase manifold generation and warm-start persistence\nOnce candidate pairs exist, discrete narrow-phase contact generation builds manifolds and preserves per-contact state used for warm starting and friction handling, matching Sections 3.3, 3.7, and 4 of the paper. Code:\nsrc/physics/gpu/contactGeneration.ts\nsrc/physics/gpu/contactRecord.ts\nPer-body constraint list construction\nAlgorithm 1 is written as “for each body / vertex, iterate over each force affecting it.” The runtime representation of that step is the per-body constraint gather built from contacts, joints, and springs. Code:\nsrc/physics/gpu/contactGeneration.ts\nsrc/physics/gpu/avbdState.ts\nColoring\nThe paper uses greedy coloring so all bodies of a given color can be processed in parallel during the primal step. That preparation happens in:\nsrc/physics/gpu/avbdState.ts\nInertial target and primal initialization\nAlgorithm 1 next builds the inertial target y, initializes the primal state, and warm-starts dual / stiffness variables with the alpha and gamma scaling discussed in Sections 3.6 and 3.7. Code:\nsrc/physics/gpu/avbdState.ts\nsrc/physics/PhysicsEngine.ts\nMain AVBD iteration: colored primal body solve\nFor each iteration, and for each color, the solver accumulates inertial and constraint contributions for a body, assembles the local rigid-body system, and applies the AVBD primal update. This corresponds to Algorithm 1 lines 7-25 and the approximate-Hessian discussion in Section 3.5. Code:\nsrc/physics/gpu/avbdState.ts\nDual and stiffness update\nAfter each primal sweep, dual variables and stiffness values are updated in parallel, corresponding to the augmented-Lagrangian / stiffness-ramp rules from the paper. Code:\nsrc/physics/gpu/avbdState.ts\nFinalize velocities\nAfter the AVBD position solve is complete, velocities are reconstructed from the updated state, matching the final stage of Algorithm 1. Code:\nsrc/physics/gpu/avbdState.ts\nsrc/physics/PhysicsEngine.ts\nOptional post-processing\nSleep and diagnostics are outside the core AVBD paper loop and are optional runtime features in this project. The main orchestration remains in:\nsrc/physics/PhysicsEngine.ts\nNote on Current Implementation\nThe broad pipeline matches the paper closely:\ncollision detection -> coloring -> inertial/primal init -> repeated colored primal solves -> dual updates -> finalize velocities\nThis is an initial experimental release and further updates will be focused on stability, performance and ease of use. One important implementation difference is that the paper explicitly describes double-buffered position updates for rare same-color conflicts, whereas the current path is still fundamentally an in-place colored body solve in src/physics/gpu/avbdState.ts.",
+          "category": "tech",
+          "publishedAt": "2026-04-09T12:01:31.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# WebPhysics: WebGPU 기반 물리 엔진 프로토타입\n\n## 프로젝트 소개\n\nWebPhysics는 WebGPU를 활용한 실험적인 강체·연체 물리 시뮬레이션 프로토타입입니다. Giles et al. (2025)의 AVBD(Augmented Vertex Block Descent) 솔버를 중심으로 구현되었습니다. 저는 고급 웹 그래픽과 오픈소스 실험에 열정을 가지고 있거든요. 더 많은 프로젝트를 보고 싶다면 제 작업을 후원해주세요.\n\n## 빠른 시작\n\n설치와 개발은 매우 간단합니다:\n\n```bash\nnpm install\nnpm run dev\n```\n\n프로덕션 빌드:\n\n```bash\nnpm run build\n```\n\n**참고:** 현재는 아직 플러그 앤 플레이 모듈이 아니며, 브라우저 지원도 Chrome에만 제한되어 있습니다. 초기 개념 증명(PoC) 단계라고 보시면 됩니다.\n\n## AVBD 파이프라인 상세 분석\n\n구현된 강체 물리 파이프라인은 AVBD 논문의 Algorithm 1을 따릅니다. 충돌 감지, 색칠하기, 접촉 상태 워밍업, 색상별 강체 솔브, 쌍대 변수 업데이트, 최종 속도 재구성 등 일련의 단계가 있습니다.\n\n### 1단계: 현재 상태에서의 충돌 감지\n\n물리 엔진은 매 타임스텝마다 현재 위치에서 충돌 감지로 시작합니다. 코드상으로는 `src/physics/PhysicsEngine.ts`의 메인 서브스텝 오케스트레이션에서 시작되고, 광역 충돌 감지(broad phase)와 협역 충돌 감지(narrow phase)로 흘러갑니다.\n\n### 2단계: 광역 충돌 감지\n\n논문의 Section 4에서 설명하듯이, 먼저 LBVH(Linear BVH)를 구성하고 탐색해서 충돌 가능성이 있는 강체 쌍들을 찾습니다.\n\n**관련 코드:**\n- `src/physics/gpu/broadPhase.ts`\n- `src/lvbh/GPULBVHBuilder.ts`\n\n### 3단계: 협역 충돌 감지 및 워밍업\n\n후보 쌍들이 확보되면, 이산 협역 충돌 감지가 접촉 다양체(manifold)를 생성합니다. 이때 워밍업(warm-start)과 마찰 처리에 사용될 접촉별 상태 정보도 보존됩니다. 이는 논문의 Section 3.3, 3.7, 4와 일치합니다.\n\n**관련 코드:**\n- `src/physics/gpu/contactGeneration.ts`\n- `src/physics/gpu/contactRecord.ts`\n\n### 4단계: 강체별 제약 조건 목록 구성\n\nAlgorithm 1은 \"각 강체/정점에 대해 이를 영향 주는 각 힘을 반복\"이라고 쓰여 있습니다. 실제 런타임에서는 접촉, 조인트, 스프링으로부터 구성된 강체별 제약 조건 수집(gather)으로 표현됩니다.\n\n**관련 코드:**\n- `src/physics/gpu/contactGeneration.ts`\n- `src/physics/gpu/avbdState.ts`\n\n### 5단계: 색칠하기(Coloring)\n\n논문에서는 탐욕적 색칠(greedy coloring)을 사용해서 같은 색상의 모든 강체를 프리멀 단계에서 병렬로 처리합니다.\n\n**관련 코드:**\n- `src/physics/gpu/avbdState.ts`\n\n### 6단계: 관성 목표 및 프리멀 초기화\n\nAlgorithm 1 다음 단계는 관성 목표 y를 구성하고, 프리멀 상태를 초기화한 다음, Section 3.6과 3.7에서 다룬 알파와 감마 스케일링으로 쌍대 변수와 강성 변수를 워밍업하는 것입니다.\n\n**관련 코드:**\n- `src/physics/gpu/avbdState.ts`\n- `src/physics/PhysicsEngine.ts`\n\n### 7단계: AVBD 반복 - 색상별 프리멀 강체 솔브\n\n각 반복마다, 각 색상마다 솔버는 강체의 관성 및 제약 조건 기여도를 누적하고, 로컬 강체 시스템을 조립한 후 AVBD 프리멀 업데이트를 적용합니다. 이는 Algorithm 1의 라인 7-25와 Section 3.5의 근사 헤시안 논의에 대응됩니다.\n\n**관련 코드:**\n- `src/physics/gpu/avbdState.ts`\n\n### 8단계: 쌍대 변수 및 강성 업데이트\n\n프리멀 스윕(sweep) 후, 쌍대 변수와 강성 값이 병렬로 업데이트됩니다. 이는 논문의 증강 라그랑주 / 강성 램프 규칙에 해당합니다.\n\n**관련 코드:**\n- `src/physics/gpu/avbdState.ts`\n\n### 9단계: 속도 확정\n\nAVBD 위치 솔브가 완료되면, 업데이트된 상태로부터 속도가 재구성됩니다. 이는 Algorithm 1의 최종 단계와 일치합니다.\n\n**관련 코드:**\n- `src/physics/gpu/avbdState.ts`\n- `src/physics/PhysicsEngine.ts`\n\n### 선택적: 후처리\n\n슬립(sleep) 및 진단 기능은 핵심 AVBD 논문 루프 밖에 있으며, 이 프로젝트에서는 선택적 런타임 기능입니다. 메인 오케스트레이션은 여전히 `src/physics/PhysicsEngine.ts`에 있습니다.\n\n## 현재 구현 상태\n\n전체적인 파이프라인은 논문과 잘 일치합니다:\n\n```\n충돌 감지 → 색칠하기 → 관성/프리멀 초기화 → \n반복적 색상별 프리멀 솔브 → 쌍대 업데이트 → 속도 확정\n```\n\n이것이 초기 실험 릴리스이기 때문에, 앞으로는 안정성, 성능, 사용성 개선에 집중할 예정입니다.\n\n한 가지 주목할 점은, 논문에서는 같은 색상의 드문 충돌에 대비해 이중 버퍼링된 위치 업데이트를 명시적으로 설명하지만, 현재 구현은 여전히 기본적으로 `src/physics/gpu/avbdState.ts`의 인플레이스 색상별 강체 솔브 방식입니다."
+        },
+        {
+          "title": "Selecting a Date Range in CSS",
+          "titleKo": "CSS에서 날짜 범위 선택하기",
+          "summary": "CSS의 :nth-child() \"n of selector\" 문법을 활용하여 캘린더에서 여러 날짜를 선택하는 영리한 방법을 소개한다. JavaScript와 CSS 모두에 적용 가능하다.",
+          "keyPoints": [
+            ":nth-child() 선택자의 \"n of selector\" 문법으로 날짜 범위 선택 구현",
+            "JavaScript와 CSS만으로 복잡한 날짜 범위 선택 UI를 간결하게 표현 가능"
+          ],
+          "whyItMatters": "캘린더나 예약 UI를 구현하는 프론트엔드 개발자들이 CSS의 고급 선택자 활용으로 코드를 단순화할 수 있다.",
+          "url": "https://css-tricks.com/selecting-a-date-range-in-css/",
+          "sourceName": "CSS-Tricks",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "css-tutorials",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "selecting-a-date-range-in-css",
+          "category": "tech",
+          "publishedAt": "2026-04-09T13:52:56.000Z",
+          "language": "en"
+        },
+        {
+          "title": "LittleSnitch for Linux",
+          "titleKo": "Linux용 Little Snitch",
+          "summary": "Linux용 Little Snitch는 애플리케이션의 네트워크 연결을 모니터링하고 차단할 수 있는 도구다. eBPF를 기반으로 커널 수준에서 네트워크 활동을 추적하며, 웹 인터페이스를 통해 연결 관리, 규칙 설정, 차단 목록 관리가 가능하다.",
+          "keyPoints": [
+            "eBPF를 활용한 커널 수준 네트워크 모니터링으로 모든 애플리케이션의 연결 활동을 실시간 추적",
+            "도메인 기반 차단 목록과 세밀한 규칙 설정으로 유연한 트래픽 제어 가능",
+            "개인정보 보호에 중점을 두었으며, 보안 용도로는 제한적 (macOS 버전 대비 eBPF의 저장소/복잡도 제한)"
+          ],
+          "whyItMatters": "Linux 사용자가 소프트웨어의 의도하지 않은 네트워크 활동을 감시하고 제어할 수 있는 실용적인 도구를 얻을 수 있다.",
+          "url": "https://obdev.at/products/littlesnitch-linux/index.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 1254,
+          "contentType": "discussion",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "littlesnitch-for-linux",
+          "fullContent": "Every time an application on your computer opens a network connection, it does so quietly, without asking. Little Snitch for Linux makes that activity visible and gives you the option to do something about it. You can see exactly which applications are talking to which servers, block the ones you didn't invite, and keep an eye on traffic history and data volumes over time.\nOnce installed, open the user interface by running littlesnitch in a terminal, or go straight to http://localhost:3031/. You can bookmark that URL, or install it as a Progressive Web App. Any Chromium-based browser supports this natively, and Firefox users can do the same with the Progressive Web Apps extension.\nThe connections view is where most of the action is. It lists current and past network activity by application, shows you what's being blocked by your rules and blocklists, and tracks data volumes and traffic history. Sorting by last activity, data volume, or name, and filtering the list to what's relevant, makes it easy to spot anything unexpected. Blocking a connection takes a single click.\nThe traffic diagram at the bottom shows data volume over time. You can drag to select a time range, which zooms in and filters the connection list to show only activity from that period.\nBlocklists let you cut off whole categories of unwanted traffic at once. Little Snitch downloads them from remote sources and keeps them current automatically. It accepts lists in several common formats: one domain per line, one hostname per line, /etc/hosts style (IP address followed by hostname), and CIDR network ranges. Wildcard formats, regex or glob patterns, and URL-based formats are not supported. When you have a choice, prefer domain-based lists over host-based ones, they're handled more efficiently. Well known brands are Hagezi, Peter Lowe, Steven Black and oisd.nl, just to give you a starting point.\nOne thing to be aware of: the .lsrules format from Little Snitch on macOS is not compatible with the Linux version.\nBlocklists work at the domain level, but rules let you go further. A rule can target a specific process, match particular ports or protocols, and be as broad or narrow as you need. The rules view lets you sort and filter them so you can stay on top of things as the list grows.\nBy default, Little Snitch's web interface is open to anyone — or anything — running locally on your machine. A misbehaving or malicious application could, in principle, add and remove rules, tamper with blocklists, or turn the filter off entirely.\nIf that concerns you, Little Snitch can be configured to require authentication. See the Advanced configuration section below for details.\nLittle Snitch hooks into the Linux network stack using eBPF, a mechanism that lets programs observe and intercept what's happening in the kernel. An eBPF program watches outgoing connections and feeds data to a daemon, which tracks statistics, preconditions your rules, and serves the web UI.\nThe source code for the eBPF program and the web UI is on GitHub.\nThe UI deliberately exposes only the most common settings. Anything more technical can be configured through plain text files, which take effect after restarting the littlesnitch daemon.\nThe default configuration lives in /var/lib/littlesnitch/config/. Don't edit those files directly — copy whichever one you want to change into /var/lib/littlesnitch/overrides/config/ and edit it there. Little Snitch will always prefer the override.\nThe files you're most likely to care about:\nBoth the eBPF program and the web UI can be swapped out for your own builds if you want to go that far. Source code for both is on GitHub. Again, Little Snitch prefers the version in overrides.\nLittle Snitch for Linux is built for privacy, not security, and that distinction matters. The macOS version can make stronger guarantees because it can have more complexity. On Linux, the foundation is eBPF, which is powerful but bounded: it has strict limits on storage size and program complexity. Under heavy traffic, cache tables can overflow, which makes it impossible to reliably tie every network packet to a process or a DNS name. And reconstructing which hostname was originally looked up for a given IP address requires heuristics rather than certainty. The macOS version uses deep packet inspection to do this more reliably. That's not an option here.\nFor keeping tabs on what your software is up to and blocking legitimate software from phoning home, Little Snitch for Linux works well. For hardening a system against a determined adversary, it's not the right tool.\nLittle Snitch for Linux has three components. The eBPF kernel program and the web UI are both released under the GNU General Public License version 2 and available on GitHub. The daemon (littlesnitch --daemon) is proprietary, but free to use and redistribute.",
+          "category": "tech",
+          "publishedAt": "2026-04-09T00:26:08.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Linux용 Little Snitch로 네트워크 활동 모니터링하기\n\n컴퓨터의 애플리케이션들은 아무 말도 없이 조용히 네트워크 연결을 맺습니다. Linux용 Little Snitch는 이런 활동을 눈에 보이게 해주고, 원하지 않는 연결을 막을 수 있게 해줍니다. 어떤 애플리케이션이 어떤 서버와 통신 중인지 정확히 볼 수 있고, 초대하지 않은 연결은 차단하며, 시간별 트래픽 기록과 데이터 양을 추적할 수 있죠.\n\n## 설치 및 실행\n\n설치한 후에는 터미널에서 littlesnitch 명령어를 실행하거나 http://localhost:3031/에 접속하면 됩니다. 이 URL을 북마크해두거나 Progressive Web App으로 설치할 수도 있어요. Chromium 기반 브라우저라면 기본적으로 지원하고, Firefox 사용자라면 Progressive Web Apps 확장 프로그램을 설치하면 됩니다.\n\n## 연결 모니터링\n\n대부분의 작업은 연결 보기(Connections view)에서 이루어집니다. 여기서는 애플리케이션별로 현재와 과거의 네트워크 활동을 보여주고, 규칙과 차단 목록으로 차단된 항목을 표시하며, 데이터 양과 트래픽 기록을 추적합니다.\n\n마지막 활동, 데이터 양, 이름 순으로 정렬하고 관련 항목만 필터링하면 예상치 못한 활동을 쉽게 발견할 수 있습니다. 연결을 차단하려면 한 번의 클릭만 있으면 돼요.\n\n하단의 트래픽 다이어그램은 시간별 데이터 양을 보여줍니다. 특정 시간 범위를 드래그로 선택하면 해당 기간의 활동만 확대해서 볼 수 있습니다.\n\n## 차단 목록(Blocklists)\n\n차단 목록을 사용하면 원치 않는 트래픽의 전체 카테고리를 한 번에 차단할 수 있습니다. Little Snitch는 원격 소스에서 목록을 다운로드하고 자동으로 최신 상태를 유지합니다. 지원하는 형식은 여러 가지인데요. 줄당 하나의 도메인, 줄당 하나의 호스트명, /etc/hosts 형식(IP 주소 다음 호스트명), CIDR 네트워크 범위 같은 것들입니다. 다만 와일드카드 형식, 정규 표현식, glob 패턴이나 URL 기반 형식은 지원하지 않습니다.\n\n도메인 기반 목록이 호스트 기반 목록보다 더 효율적으로 처리되니, 선택지가 있다면 도메인 기반을 선택하는 게 좋습니다. Hagezi, Peter Lowe, Steven Black, oisd.nl 같은 잘 알려진 브랜드들을 시작점으로 삼아보세요.\n\n참고로, macOS용 Little Snitch의 .lsrules 형식은 Linux 버전과 호환되지 않습니다.\n\n## 규칙(Rules)\n\n차단 목록은 도메인 수준에서 작동하지만, 규칙을 사용하면 더 세밀한 제어가 가능합니다. 규칙은 특정 프로세스를 대상으로 할 수 있고, 특정 포트나 프로토콜을 매칭할 수 있으며, 필요한 만큼 광범위하거나 좁게 설정할 수 있어요. 규칙 보기에서는 규칙들을 정렬하고 필터링할 수 있어서, 규칙이 많아져도 관리하기 쉽습니다.\n\n## 보안 설정\n\n기본적으로 Little Snitch의 웹 인터페이스는 로컬 머신에서 실행 중인 모든 것에 열려 있습니다. 문제가 있거나 악의적인 애플리케이션이라면 이론상 규칙을 추가하거나 삭제하고, 차단 목록을 조작하거나 필터를 완전히 끌 수도 있죠.\n\n이것이 걱정된다면 Little Snitch를 인증이 필요하도록 설정할 수 있습니다. 자세한 내용은 아래의 고급 설정 섹션을 참고하세요.\n\n## 작동 원리\n\nLittle Snitch는 eBPF를 사용해서 Linux 네트워크 스택에 후킹됩니다. eBPF는 커널에서 일어나는 일을 관찰하고 가로챌 수 있게 하는 메커니즘이에요. eBPF 프로그램이 나가는 연결을 감시하고 데이터를 데몬으로 전달하면, 이 데몬이 통계를 추적하고 규칙을 전처리한 후 웹 UI를 제공합니다.\n\neBPF 프로그램과 웹 UI의 소스 코드는 GitHub에 공개되어 있습니다.\n\n## 설정\n\nUI는 의도적으로 가장 일반적인 설정만 노출합니다. 더 기술적인 설정이 필요하면 일반 텍스트 파일로 설정할 수 있는데, littlesnitch 데몬을 재시작한 후에 적용됩니다.\n\n기본 설정은 `/var/lib/littlesnitch/config/`에 있습니다. 이 파일들을 직접 수정하지 말고, 변경하고 싶은 파일을 `/var/lib/littlesnitch/overrides/config/`에 복사해서 수정하세요. Little Snitch는 항상 오버라이드 버전을 우선합니다.\n\n가장 주의 깊게 봐야 할 파일들:\n- `config.json` — 데몬 설정\n- `ebpf.json` — eBPF 프로그램 설정\n- `ui.json` — 웹 UI 설정\n\neBPF 프로그램과 웹 UI는 원하면 직접 빌드한 버전으로 바꿀 수 있습니다. 소스 코드는 모두 GitHub에 있으며, 이 경우에도 Little Snitch는 오버라이드에 있는 버전을 우선합니다.\n\n## 보안 vs. 개인정보 보호\n\nLinux용 Little Snitch는 보안이 아닌 개인정보 보호를 염두에 두고 만들어졌는데, 이 구분이 중요합니다. macOS 버전은 더 많은 복잡성을 허용할 수 있어서 더 강력한 보장을 제공할 수 있죠. Linux에서는 기초가 eBPF인데, 이건 강력하지만 한계가 있습니다. 저장소 크기와 프로그램 복잡도에 엄격한 제한이 있거든요.\n\n트래픽이 많을 때는 캐시 테이블이 오버플로우되어 모든 네트워크 패킷을 프로세스나 DNS 이름에 확실하게 연결할 수 없게 됩니다. 그리고 주어진 IP 주소에 대해 원래 조회됐던 호스트명을 복원하려면 추측에 의존해야 합니다. macOS 버전은 깊은 패킷 검사(deep packet inspection)로 이를 더 안정적으로 처리해요. 하지만 Linux에선 그런 방법이 옵션이 아닙니다.\n\n소프트웨어가 뭘 하는지 모니터링하고 정상적인 소프트웨어가 전화를 거는 것을 막으려면 Linux용 Little Snitch가 잘 작동합니다. 하지만 결정된 공격자로부터 시스템을 강화하려면 적절한 도구가 아닙니다.\n\n## 라이선스\n\nLinux용 Little Snitch는 세 가지 컴포넌트로 구성됩니다. eBPF 커널 프로그램과 웹 UI는 GNU General Public License 버전 2로 배포되며 GitHub에서 사용할 수 있습니다. 데몬(littlesnitch --daemon)은 독점이지만 사용과 재배포가 자유입니다."
+        },
+        {
+          "title": "NousResearch/hermes-agent (Python)",
+          "titleKo": "NousResearch/hermes-agent (Python)",
+          "summary": "Hermes Agent는 사용자와 함께 성장하는 AI 에이전트 프로젝트입니다. 확장 가능한 에이전트 아키텍처를 제공합니다.",
+          "keyPoints": [
+            "사용자 요구에 따라 적응하고 발전하는 에이전트 설계",
+            "Python 기반의 오픈소스 구현"
+          ],
+          "whyItMatters": "AI 에이전트 개발 시 확장성 있는 아키텍처 패턴을 제시합니다.",
+          "url": "https://github.com/NousResearch/hermes-agent",
+          "sourceName": "GitHub Trending",
+          "engagement": 44056,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-agents",
+          "isTopicPrimary": true,
+          "relatedCount": 2,
+          "slug": "nousresearchhermes-agent-python",
+          "category": "tech",
+          "publishedAt": "2026-04-09T23:18:44.410Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "HKUDS/DeepTutor (Python)",
+          "titleKo": "HKUDS/DeepTutor (Python)",
+          "summary": "DeepTutor는 에이전트 기반의 개인화된 학습 보조 시스템입니다. 학습자별 맞춤형 지도를 제공합니다.",
+          "keyPoints": [
+            "에이전트 아키텍처 기반의 지능형 학습 시스템",
+            "개인화된 학습 경로 제공"
+          ],
+          "whyItMatters": "AI 에이전트 기술을 교육 영역에 적용한 사례로 에이전트 설계 패턴을 학습할 수 있습니다.",
+          "url": "https://github.com/HKUDS/DeepTutor",
+          "sourceName": "GitHub Trending",
+          "engagement": 14768,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-agents",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "hkudsdeeptutor-python",
+          "category": "tech",
+          "publishedAt": "2026-04-09T23:18:44.411Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Show HN: Druids – Build your own software factory",
+          "titleKo": "Druids: 소프트웨어 팩토리 자동 구축 라이브러리",
+          "summary": "여러 머신에 걸쳐 코딩 에이전트를 조정하고 배포하는 라이브러리로, VM 인프라와 에이전트 통신을 추상화한다. 각 에이전트에 샌드박스 환경을 제공하고 이벤트 기반 제어 흐름으로 자율 소프트웨어 파이프라인을 구축할 수 있다.",
+          "keyPoints": [
+            "async 프로그램 함수로 에이전트 실행 정의 및 이벤트 기반 제어 흐름으로 에이전트 간 조정",
+            "각 에이전트가 고립된 VM 환경에서 독립 실행되며 git 브랜치, 파일 전송, 메시지 기반 통신 지원",
+            "성능 최적화, 코드 리뷰/펜테스트 자동화, 대규모 마이그레이션, 데이터 파이프라인 구축 등에 활용 가능"
+          ],
+          "whyItMatters": "복잡한 다중 에이전트 소프트웨어 개발 작업을 선언적 프로그램으로 정의하고 실행할 수 있어 대규모 자동화 파이프라인 구축을 단순화한다.",
+          "url": "https://github.com/fulcrumresearch/druids",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 14,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-druids-build-your-own-software-factory",
+          "fullContent": "Druids\nDruids is a batteries-included library to coordinate and deploy coding agents across machines. Druids makes it easy to do this by abstracting away all the VM infrastructure, agent provisioning, and communication.\nFor example, here's a Druids program to deploy N task agents on N copies of a software environment and have a judge pick the best output:\nasync def program(ctx, spec=\"\", n=3):\nsubmissions = {}\n# each agent gets its own sandboxed VM with your repo\njudge = await ctx.agent(\"judge\")\n# events define how agents report back to the program\n@judge.on(\"pick\")\nasync def on_pick(winner=\"\"):\nawait ctx.done({\"winner\": winner, \"submissions\": submissions})\n# spawn n workers in parallel — each implements the spec independently\nfor i in range(n):\nworker = await ctx.agent(f\"worker-{i}\", prompt=spec, git=\"write\")\nworker_name = worker.name\n@worker.on(\"submit\")\nasync def on_submit(pr_url=\"\"):\nsubmissions[worker_name] = pr_url\nif len(submissions) == n:\n# all done — send the PRs to the judge\nawait judge.send(f\"Review these PRs and pick the best:\\n\\n{submissions}\")\ndruids exec best_of_n.py spec=\"Refactor the auth module\" n=5\nDruids is useful for things like:\nrunning many agents to do performance optimization\nbuilding custom automated software pipelines for eg code review, pentesting, large-scale migrations, long-running autonomous features\nbuilding data pipelines with agents\nYou can use it locally or deployed on druids.dev.\nWebsite · Docs · Discord\nDemo video\nAgent programs\nA druids program is an async function that defines how your agents should run on your task. You create agents, define events they can trigger, and control what happens when they do. The agent decides when to trigger an event — the program decides what happens.\nEvents allow you to inject deterministic structure and control flow to structure how your agents work towards the task of the program. They are useful for defining controlled steps and flows, like:\nforcing a model to iterate against hard tests and harness signals\nbuilding a verification hierarchy, where agents spawn outputs that are verified and redteamed by other agents until they match a set of properties\ncontrolling distributed task state, like having a lock around the ways agents write to shared resources or user-facing systems\nEach agent gets a sandboxed VM with your repo and dependencies. Agents can share machines (share_machine_with), transfer files (ctx.connect), and work on git branches. On the hosted version, agent.fork() creates instant copy-on-write clones. You can message any agent while it runs, inspect program state, and redirect work without stopping the execution.\nQuickstart\nYou need Docker, uv, and an Anthropic API key.\nbash scripts/setup.sh\nThis builds the Docker image, starts the server, and configures the CLI. Then run a program:\ndruids exec .druids/build.py spec=\"Add a /health endpoint that returns 200 OK\"\nSee the getting started guide for a full walkthrough, or QUICKSTART.md for manual setup and troubleshooting.\nExample programs\nbuild.py — builder + critic + auditor. Three agents iterating until all are satisfied.\nbasher.py — finder scans for tasks, spawns implementor+reviewer pairs.\nreview.py — demo agent tests a PR on a real system, monitor watches for shortcuts.\nmain.py — Claude and Codex racing on the same spec in parallel.\nArchitecture\nserver/ — FastAPI server, execution engine, sandbox management\nclient/ — CLI and Python client library\nruntime/ — program runtime SDK\nfrontend/ — Vue 3 dashboard\ndocs/ — documentation (also served at druids.dev/docs)",
+          "category": "tech",
+          "publishedAt": "2026-04-08T20:12:38.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Druids: 코딩 에이전트를 쉽게 배포하는 방법\n\nDruids는 여러 머신에 걸쳐 코딩 에이전트를 조율하고 배포할 수 있는 올인원 라이브러리예요. VM 인프라, 에이전트 프로비저닝, 통신 같은 복잡한 부분을 모두 추상화해줘서, 개발자는 핵심 로직에만 집중할 수 있습니다.\n\n예를 들어, 다음은 N개의 작업 에이전트를 동일한 소프트웨어 환경의 N개 사본에 배포한 후, 심사자가 최고의 결과물을 선택하는 Druids 프로그램입니다:\n\n```python\nasync def program(ctx, spec=\"\", n=3):\n    submissions = {}\n    # 각 에이전트는 자신의 샌드박스 VM에서 실행됨\n    judge = await ctx.agent(\"judge\")\n    # 이벤트는 에이전트가 프로그램으로 결과를 보고하는 방식 정의\n    @judge.on(\"pick\")\n    async def on_pick(winner=\"\"):\n        await ctx.done({\"winner\": winner, \"submissions\": submissions})\n    # n개의 워커를 병렬로 실행 — 각각 독립적으로 스펙 구현\n    for i in range(n):\n        worker = await ctx.agent(f\"worker-{i}\", prompt=spec, git=\"write\")\n        worker_name = worker.name\n        @worker.on(\"submit\")\n        async def on_submit(pr_url=\"\"):\n            submissions[worker_name] = pr_url\n            if len(submissions) == n:\n                # 모두 완료됨 — PR들을 심사자에게 전송\n                await judge.send(f\"Review these PRs and pick the best:\\n\\n{submissions}\")\n\ndruids exec best_of_n.py spec=\"Refactor the auth module\" n=5\n```\n\n## 어떤 상황에서 유용할까?\n\nDruids는 다음 같은 작업에 특히 좋습니다:\n\n- 성능 최적화를 위해 여러 에이전트를 동시 실행\n- 코드 리뷰, 보안 테스트, 대규모 마이그레이션, 장시간 자동화 작업 같은 맞춤형 소프트웨어 파이프라인 구축\n- 에이전트 기반의 데이터 파이프라인 구성\n\n로컬 환경에서도, druids.dev에 배포해서도 사용할 수 있습니다.\n\n[Website](https://druids.dev) · [Docs](https://druids.dev/docs) · [Discord](https://discord.gg/druids) · [데모 영상](https://youtu.be/demo)\n\n## 에이전트 프로그램이란?\n\nDruids 프로그램은 에이전트들이 어떻게 작업을 진행할지를 정의하는 비동기 함수입니다. 에이전트를 생성하고, 그들이 트리거할 수 있는 이벤트를 정의하고, 이벤트 발생 시 어떤 일이 일어날지를 제어하는 구조예요.\n\n에이전트는 이벤트를 언제 트리거할지 결정하고, 프로그램은 그 이벤트에 대해 어떻게 반응할지 결정합니다.\n\n### 이벤트로 제어 흐름 만들기\n\n이벤트를 사용하면 에이전트들이 어떻게 협력할지에 대한 결정론적 구조를 심을 수 있어요. 특히 다음 같은 상황에서 유용합니다:\n\n- **하드 테스트와 신호에 대한 반복**: 모델이 정해진 테스트를 통과할 때까지 계속 개선하도록 강제\n- **검증 계층 구축**: 어떤 에이전트가 산출물을 만들면, 다른 에이전트들이 이를 검증하고 추가 테스트하는 식의 다단계 검증 프로세스\n- **분산 작업 상태 관리**: 공유 자원이나 사용자 대면 시스템에 접근할 때 락을 두는 방식으로 에이전트들 간의 충돌 방지\n\n### 에이전트 VM과 협력\n\n각 에이전트는 당신의 저장소와 의존성이 미리 설치된 격리된 VM을 할당받습니다. 에이전트들은 머신을 공유할 수도 있고(share_machine_with), 파일을 주고받을 수도 있으며(ctx.connect), git 브랜치에서 작업할 수 있어요.\n\n호스팅 버전에서는 agent.fork()를 호출하면 즉시 복사-온-쓰기(copy-on-write) 클론이 생성됩니다. 실행 중인 에이전트에 메시지를 보내거나 프로그램 상태를 확인하고, 실행을 멈추지 않으면서도 작업을 다시 할당할 수 있습니다.\n\n## 시작하기\n\nDocker, uv, Anthropic API 키가 필요합니다:\n\n```bash\nbash scripts/setup.sh\n```\n\n이 명령어는 Docker 이미지를 빌드하고, 서버를 시작하고, CLI를 설정합니다. 그 다음 프로그램을 실행하면 되어요:\n\n```bash\ndruids exec .druids/build.py spec=\"Add a /health endpoint that returns 200 OK\"\n```\n\n자세한 가이드는 [시작 가이드](https://druids.dev/docs/getting-started)를 참고하거나, 수동 설정과 문제 해결은 QUICKSTART.md 파일을 확인하세요.\n\n## 예제 프로그램들\n\n- **build.py** — 빌더, 비평가, 감시자가 모두 만족할 때까지 반복하는 세 에이전트\n- **basher.py** — 파인더가 작업을 스캔하고, 구현자와 리뷰어 쌍을 생성\n- **review.py** — 에이전트가 실제 시스템에서 PR을 테스트하고, 모니터가 부정행위를 감시\n- **main.py** — Claude와 Codex가 동일한 스펙으로 병렬 경쟁\n\n## 아키텍처\n\n프로젝트는 다음과 같이 구성되어 있습니다:\n\n- **server/** — FastAPI 서버, 실행 엔진, 샌드박스 관리\n- **client/** — CLI 및 Python 클라이언트 라이브러리\n- **runtime/** — 프로그램 런타임 SDK\n- **frontend/** — Vue 3 대시보드\n- **docs/** — 문서 (druids.dev/docs에서도 제공)"
+        },
+        {
+          "title": "forrestchang/andrej-karpathy-skills",
+          "titleKo": "Andrej Karpathy의 LLM 코딩 스킬 가이드",
+          "summary": "Andrej Karpathy의 LLM 코딩 함정 관찰 결과를 Claude Code 동작 개선용 CLAUDE.md 파일로 정리한 프로젝트다. LLM 기반 코딩 어시스턴트 성능 향상 팁을 제공한다.",
+          "keyPoints": [
+            "업계 전문가가 관찰한 LLM 코딩의 일반적인 실수 패턴을 문서화",
+            "Claude Code 같은 AI 코딩 도구의 성능을 최대화하기 위한 구체적 지침 제공"
+          ],
+          "whyItMatters": "AI 코딩 어시스턴트를 효과적으로 활용하려는 개발자들이 성능 최적화 전략을 배울 수 있다.",
+          "url": "https://github.com/forrestchang/andrej-karpathy-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 10373,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "forrestchangandrej-karpathy-skills",
+          "category": "tech",
+          "publishedAt": "2026-04-09T23:18:44.411Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "TheCraigHewitt/seomachine (Python)",
+          "titleKo": "SEOMachine: Claude Code 기반 SEO 최적화 블로그 콘텐츠 생성기",
+          "summary": "Claude Code 워크스페이스에서 동작하는 AI 도구로, 비즈니스를 위한 장형 SEO 최적화 블로그 콘텐츠를 자동으로 작성, 분석, 최적화한다.",
+          "keyPoints": [
+            "연구-작성-분석-최적화의 전체 콘텐츠 제작 파이프라인을 자동화",
+            "검색 엔진 최적화와 타겟 오디언스 만족도를 동시에 고려한 콘텐츠 생성"
+          ],
+          "whyItMatters": "마케팅 개발자나 콘텐츠 생성 자동화가 필요한 팀이 SEO 품질을 유지하면서 제작 효율을 대폭 높일 수 있다.",
+          "url": "https://github.com/TheCraigHewitt/seomachine",
+          "sourceName": "GitHub Trending",
+          "engagement": 5171,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "thecraighewittseomachine-python",
+          "category": "tech",
+          "publishedAt": "2026-04-09T23:18:44.412Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "OpenBMB/VoxCPM (Python)",
+          "titleKo": "OpenBMB/VoxCPM (Python)",
+          "summary": "VoxCPM2는 토크나이저 없는 다국어 음성 생성 TTS로, 창의적인 음성 설계와 진정한 목소리 복제를 지원합니다.",
+          "keyPoints": [
+            "토크나이저 제거로 단순화된 아키텍처",
+            "다국어 지원 및 음성 복제 기능"
+          ],
+          "whyItMatters": "음성 AI 모델의 새로운 기술 방향을 제시하며 멀티모달 AI 애플리케이션 구축에 활용할 수 있습니다.",
+          "url": "https://github.com/OpenBMB/VoxCPM",
+          "sourceName": "GitHub Trending",
+          "engagement": 7604,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "openbmbvoxcpm-python",
+          "category": "tech",
+          "publishedAt": "2026-04-09T23:18:44.411Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "shiyu-coder/Kronos (Python)",
+          "titleKo": "Kronos: 금융시장 언어를 위한 기초 모델",
+          "summary": "금융시장의 언어를 이해하기 위해 설계된 Python 기반 기초 모델이다. 금융 데이터와 시계열 분석에 특화된 AI 모델로 보인다.",
+          "keyPoints": [
+            "금융시장 특화 언어 모델로 금융 텍스트와 데이터 분석에 활용 가능",
+            "Python 기반으로 개발되어 기존 금융 분석 도구와 통합 용이"
+          ],
+          "whyItMatters": "금융 데이터 분석과 예측이 필요한 핀테크 개발자들에게 도메인 특화 모델 활용 기회를 제공한다.",
+          "url": "https://github.com/shiyu-coder/Kronos",
+          "sourceName": "GitHub Trending",
+          "engagement": 12144,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "shiyu-coderkronos-python",
+          "category": "tech",
+          "publishedAt": "2026-04-09T23:18:44.413Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "preact-react-reconciler: turn preact into a react reconciler",
+          "titleKo": "preact-react-reconciler: Preact를 React reconciler로 변환",
+          "summary": "Preact를 React reconciler로 사용할 수 있게 하는 라이브러리이다.",
+          "keyPoints": [
+            "Preact의 경량성을 React 생태계와 호환 가능하게 만듦"
+          ],
+          "whyItMatters": "React 라이브러리 생태계를 활용하면서 Preact의 성능 이점을 얻을 수 있는 방법을 제공한다.",
+          "url": "https://github.com/easrng/preact-react-reconciler",
+          "sourceName": "Lobste.rs",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "preact-react-reconciler-turn-preact-into-a-react-reconciler",
+          "category": "tech",
+          "publishedAt": "2026-04-09T19:24:45.000Z",
+          "language": "en"
+        },
+        {
+          "title": "opendataloader-project/opendataloader-pdf (Java)",
+          "titleKo": "OpenDataLoader PDF: AI 준비 데이터를 위한 PDF 파서",
+          "summary": "PDF를 AI 학습에 최적화된 형식으로 자동 변환하는 오픈소스 도구로, PDF 접근성 자동화를 지원한다.",
+          "keyPoints": [
+            "PDF를 AI 친화적인 구조화된 데이터로 변환",
+            "PDF 접근성 자동화로 장애인 사용성 개선"
+          ],
+          "whyItMatters": "대량의 PDF 문서를 AI 모델 학습 데이터로 효율적으로 준비할 수 있다.",
+          "url": "https://github.com/opendataloader-project/opendataloader-pdf",
+          "sourceName": "GitHub Trending",
+          "engagement": 13711,
+          "contentType": "repo",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "opendataloader-projectopendataloader-pdf-java",
+          "category": "tech",
+          "publishedAt": "2026-04-09T23:18:44.412Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Java"
+          ]
+        },
+        {
+          "title": "Show HN: I built a Cargo-like build tool for C/C++",
+          "titleKo": "Cargo 스타일의 C/C++ 빌드 도구 Craft 소개",
+          "summary": "craft.toml 파일로 프로젝트를 정의하고 CMake 생성, 의존성 관리, 빌드를 자동화하는 C/C++ 빌드 도구이다. Rust의 Cargo처럼 간단한 CLI 인터페이스를 제공한다.",
+          "keyPoints": [
+            "craft.toml 단일 파일로 프로젝트 정의 및 CMakeLists.txt 자동 생성",
+            "git 저장소 및 로컬 경로 의존성을 craft add/remove 명령으로 관리",
+            "project, init, build, run, gen, clean 등 직관적 CLI 명령어로 현대적인 개발 경험 제공"
+          ],
+          "whyItMatters": "C/C++ 개발의 복잡한 빌드 설정 문제를 Rust의 Cargo 수준으로 단순화하여 생산성과 의존성 관리 편의성을 크게 향상시킨다.",
+          "url": "https://github.com/randerson112/craft",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 108,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-i-built-a-cargo-like-build-tool-for-cc",
+          "fullContent": "Craft\nA lightweight build tool for C and C++ projects — think Cargo, but for C/C++.\nC and C++ development has always required wrestling with CMake, configuring build systems, and manually managing dependencies. Craft eliminates that friction. You describe your project in a simple craft.toml file and Craft handles the rest by generating CMake configuration, managing dependencies, and providing a clean command-line interface that feels modern and smooth.\nHow Craft Works\nDefine your project in craft.toml\nCraft generates CMakeLists.txt\nDependencies are fetched automatically\nCMake builds your project behind the scenes\nQuick Example\n# Create a new project\ncraft project my_app\ncd my_app\n# Add a dependency\ncraft add --git https://github.com/raysan5/raylib.git --links raylib\n# Build it\ncraft build\n# Run it\ncraft run\nWhat Craft Solves\nOne file defines your project\nDescribe your project in a simple, readable config:\n[project]\nname = \"my_app\"\nversion = \"0.1.0\"\nlanguage = \"cpp\"\ncpp_standard = 17\n[build]\ntype = \"executable\"\ninclude_dirs = [\"include\"]\nsource_dirs = [\"src\"]\nCraft turns this into a working CMakeLists.txt automatically.\nDependency management that just works\nAdd dependecies to your project with a single command.\ncraft add --path ../PhysicsEngine # local Craft project\ncraft add --git https://github.com/raysan5/raylib --tag 5.5 # git dependency\ncraft remove raylib # remove it just as easily\ncraft update # update all dependencies\nGit repos are cloned automatically\nCMake wiring is handled for you\nTemplates for fast project setup\nSave any project as a reusable template and spin up new projects from it instantly.\ncraft template save my_game_template\ncraft project new_game --template my_game_template\nCraft also comes with a few built-in templates for executables and libraries.\nInstallation\nmacOS & Linux\ncurl -fsSL https://raw.githubusercontent.com/randerson112/craft/main/install.sh | sh\nWindows (PowerShell)\nirm https://raw.githubusercontent.com/randerson112/craft/main/install.ps1 | iex\nRequirements: git, cmake\nVerifying Installation\ncraft --version\ncraft help\nQuick Start\ncraft project my_app\ncd my_app\ncraft build\ncraft run\nCommands and Documentation\ncraft project <path>\nCreates a new project directory at the given path with a full project structure including craft.toml, src/, include/, and a starter main file.\ncraft project my_app\ncraft project --no-git\ncraft project my_app --lang c\ncraft project my_lib --template static-library\ncraft init [path]\nInitializes a Craft project in the current or specified directory. Behavior depends on what is already there:\nEmpty directory — generates craft.toml, CMakeLists.txt, src/, include/, and a starter main file using the specified or default template.\nExisting project — scans the directory to detect language, source dirs, include dirs, and libraries. Generates craft.toml and CMakeLists.txt from what was found. Existing source files are never modified. If a CMakeLists.txt already exists it will be backed up to CMakeLists.backup.cmake before being replaced.\ncraft init\ncraft init my_app\ncraft init my_app --no-git\ncraft init --lang c\ncraft init --template static-library\nIf you are adopting an existing project, Craft will back up your CMakeLists.txt to CMakeLists.backup.cmake.\nTo migrate your dependencies to Craft:\nfind_package(SFML ...) -> craft add --git https://github.com/SFML/SFML --links SFML::Graphics,...\nadd_subdirectory(../MyLib) -> craft add --path ../MyLib\nFetchContent_Declare(...) -> craft add --git <url>\nFor anything else use CMakeLists.extra.cmake as an escape hatch.\ncraft build\nReads craft.toml, regenerates CMakeLists.txt if needed, fetches any missing git dependencies, and builds the project using CMake. Can be run from any subdirectory — Craft walks up the directory tree to find the project root.\ncraft build\ncraft run [executable]\nRuns the project executable. Defaults to the project name from craft.toml. Optionally accepts an executable name to run any binary.\ncraft run\ncraft run my_other_binary\ncraft gen <file>\nGenerates a file with boilerplate code. Places headers in the first include_dir and sources in the first source_dir from craft.toml. Falls back to the current directory if not in a project.\ncraft gen utils.hpp\ncraft gen utils.cpp\ncraft gen math.h\ncraft gen math.c\ncraft clean\nRemoves the build/ directory and all compiled artifacts. Reports how many files and bytes were removed.\ncraft clean\ncraft add\nAdds a dependency to the project. Git dependencies are cloned to .craft/deps/ automatically. Regenerates CMakeLists.txt immediately so the project is always in a consistent state.\n# Local Craft dependency\ncraft add --path ../my_lib\n# Git dependency in registry\ncraft add raylib\n# Git dependencies not in registry\ncraft add --git https://github.com/nlohmann/json --links nlohmann_json::nlohmann_json\ncraft add --git https://github.com/SFML/SFML --tag 3.0.0 --links SFML::Graphics,SFML::Window,SFML::System\ncraft remove <name>\nRemoves a dependency from craft.toml and regene",
+          "category": "tech",
+          "publishedAt": "2026-04-09T16:04:54.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Craft: C/C++ 프로젝트를 위한 경량 빌드 도구\n\nCargo가 Rust를 위한 것처럼, Craft는 C와 C++ 개발을 위한 도구입니다.\n\nC와 C++ 개발이라고 하면 CMake와 씨름하고, 빌드 시스템을 설정하고, 의존성을 일일이 관리하는 고된 작업이 떠오르죠. Craft는 이런 번거로움을 없애줍니다. 간단한 `craft.toml` 파일에 프로젝트를 정의하면, Craft가 알아서 CMake 설정을 생성하고 의존성을 관리하고 현대적이고 매끄러운 명령줄 인터페이스를 제공합니다.\n\n## Craft는 어떻게 작동할까요?\n\n1. `craft.toml`에 프로젝트를 정의합니다\n2. Craft가 `CMakeLists.txt`를 생성합니다\n3. 의존성을 자동으로 가져옵니다\n4. 백그라운드에서 CMake가 프로젝트를 빌드합니다\n\n## 빠른 시작\n\n```bash\n# 새 프로젝트 만들기\ncraft project my_app\ncd my_app\n\n# 의존성 추가\ncraft add --git https://github.com/raysan5/raylib.git --links raylib\n\n# 빌드\ncraft build\n\n# 실행\ncraft run\n```\n\n## Craft가 해결하는 문제들\n\n### 하나의 파일로 프로젝트 전체를 정의한다\n\n프로젝트를 간단하고 읽기 쉬운 설정 파일로 표현합니다.\n\n```toml\n[project]\nname = \"my_app\"\nversion = \"0.1.0\"\nlanguage = \"cpp\"\ncpp_standard = 17\n\n[build]\ntype = \"executable\"\ninclude_dirs = [\"include\"]\nsource_dirs = [\"src\"]\n```\n\nCraft가 이 설정을 바탕으로 `CMakeLists.txt`를 자동으로 생성해줍니다.\n\n### 의존성 관리가 정말 간단하다\n\n의존성을 추가하고 제거하는 것이 한 줄의 명령어면 됩니다.\n\n```bash\ncraft add --path ../PhysicsEngine              # 로컬 Craft 프로젝트\ncraft add --git https://github.com/raysan5/raylib --tag 5.5  # Git 의존성\ncraft remove raylib                             # 제거도 간단\ncraft update                                    # 모든 의존성 업데이트\n```\n\nGit 저장소는 자동으로 복제되고, CMake 연결도 Craft가 처리합니다.\n\n### 템플릿으로 빠르게 프로젝트를 시작한다\n\n기존 프로젝트를 템플릿으로 저장했다가, 새 프로젝트를 그 템플릿으로부터 바로 생성할 수 있습니다.\n\n```bash\ncraft template save my_game_template\ncraft project new_game --template my_game_template\n```\n\nCraft에는 실행 파일과 라이브러리를 위한 내장 템플릿도 포함되어 있습니다.\n\n## 설치하기\n\n### macOS & Linux\n\n```bash\ncurl -fsSL https://raw.githubusercontent.com/randerson112/craft/main/install.sh | sh\n```\n\n### Windows (PowerShell)\n\n```powershell\nirm https://raw.githubusercontent.com/randerson112/craft/main/install.ps1 | iex\n```\n\n**필수 요구사항:** git, cmake\n\n### 설치 확인\n\n```bash\ncraft --version\ncraft help\n```\n\n## 주요 명령어\n\n### `craft project <경로>`\n\n주어진 경로에 새 프로젝트 디렉토리를 생성합니다. `craft.toml`, `src/`, `include/` 폴더와 시작용 메인 파일이 포함됩니다.\n\n```bash\ncraft project my_app\ncraft project my_app --lang c\ncraft project my_lib --template static-library\ncraft project my_app --no-git\n```\n\n### `craft init [경로]`\n\n현재 또는 지정된 디렉토리에서 Craft 프로젝트를 초기화합니다.\n\n- **빈 디렉토리의 경우:** `craft.toml`, `CMakeLists.txt`, `src/`, `include/`와 시작용 메인 파일을 생성합니다.\n- **기존 프로젝트의 경우:** 디렉토리를 스캔해서 언어, 소스 디렉토리, 포함 디렉토리, 라이브러리를 감지합니다. 기존 소스 파일은 수정되지 않으며, 기존의 `CMakeLists.txt`는 `CMakeLists.backup.cmake`로 백업됩니다.\n\n```bash\ncraft init\ncraft init my_app\ncraft init my_app --lang c\ncraft init --template static-library\n```\n\n기존 프로젝트를 마이그레이션할 때는 다음처럼 의존성을 변환하면 됩니다.\n\n```bash\n# 변환 전 → 변환 후\nfind_package(SFML ...) \n  → craft add --git https://github.com/SFML/SFML --links SFML::Graphics,...\n\nadd_subdirectory(../MyLib) \n  → craft add --path ../MyLib\n\nFetchContent_Declare(...) \n  → craft add --git <url>\n```\n\n그 외의 경우엔 `CMakeLists.extra.cmake`를 사용할 수 있습니다.\n\n### `craft build`\n\n`craft.toml`을 읽고, 필요하면 `CMakeLists.txt`를 다시 생성한 후, 없는 의존성을 가져오고, CMake를 사용해 프로젝트를 빌드합니다. 프로젝트의 어느 하위 디렉토리에서나 실행 가능하며, Craft가 자동으로 루트 디렉토리를 찾습니다.\n\n```bash\ncraft build\n```\n\n### `craft run [실행파일]`\n\n프로젝트 실행 파일을 실행합니다. 기본값은 `craft.toml`의 프로젝트 이름입니다.\n\n```bash\ncraft run\ncraft run my_other_binary\n```\n\n### `craft gen <파일>`\n\n보일러플레이트 코드가 포함된 파일을 생성합니다. 헤더는 첫 번째 include 디렉토리에, 소스는 첫 번째 source 디렉토리에 저장됩니다.\n\n```bash\ncraft gen utils.hpp\ncraft gen utils.cpp\ncraft gen math.h\ncraft gen math.c\n```\n\n### `craft clean`\n\n`build/` 디렉토리와 모든 컴파일된 파일을 제거합니다.\n\n```bash\ncraft clean\n```\n\n### `craft add`\n\n프로젝트에 의존성을 추가합니다. Git 의존성은 자동으로 `.craft/deps/`에 복제되고, `CMakeLists.txt`가 즉시 다시 생성되므로 프로젝트는 항상 일관된 상태를 유지합니다.\n\n```bash\n# 로컬 Craft 의존성\ncraft add --path ../my_lib\n\n# 레지스트리의 Git 의존성\ncraft add raylib\n\n# 레지스트리에 없는 Git 의존성\ncraft add --git https://github.com/nlohmann/json --links nlohmann_json::nlohmann_json\ncraft add --git https://github.com/SFML/SFML --tag 3.0.0 --links SFML::Graphics,SFML::Window,SFML::System\n```\n\n### `craft remove <이름>`\n\n의존성을 `craft.toml`에서 제거하고 `CMakeLists.txt`를 다시 생성합니다."
+        },
+        {
+          "title": "Progressive encoding and decoding of 'repeated' protobuffer fields",
+          "titleKo": "Protobuffer 반복 필드의 점진적 인코딩/디코딩",
+          "summary": "Protobuffer의 반복된(repeated) 필드를 점진적으로 처리하는 인코딩/디코딩 방식을 다룬다.",
+          "keyPoints": [
+            "반복 필드의 스트리밍 처리로 메모리 효율성 향상"
+          ],
+          "whyItMatters": "대용량 repeated 필드를 다룰 때 메모리 사용을 최적화할 수 있다.",
+          "url": "https://schilk.co/blog/protobuffer-repeat-append/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 9,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "progressive-encoding-and-decoding-of-repeated-protobuffer-fields",
+          "category": "tech",
+          "publishedAt": "2026-04-05T12:46:02.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Hegel, a universal property-based testing protocol and family of PBT libraries",
+          "titleKo": "Hegel: 범용 속성 기반 테스팅 프로토콜 및 라이브러리 모음",
+          "summary": "Hegel은 Hypothesis를 기반으로 구축된 범용 속성 기반 테스팅(Property-Based Testing) 프로토콜과 라이브러리 제품군이다. 여러 언어와 테스팅 프레임워크에서 일관된 PBT 경험을 제공한다.",
+          "keyPoints": [
+            "Hypothesis 기반의 통일된 속성 기반 테스팅 프로토콜로 크로스 플랫폼 일관성 보장",
+            "다양한 언어의 PBT 라이브러리 제공으로 개발자 경험 향상"
+          ],
+          "whyItMatters": "개발자는 여러 프로젝트와 언어에서 일관된 PBT 접근 방식을 사용하여 테스트 품질을 향상시킬 수 있다.",
+          "url": "https://hegel.dev",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 69,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "hegel-a-universal-property-based-testing-protocol-and-family-of-pbt-libraries",
+          "fullContent": "Hegel\nHegel\nHegel is a universal property-based testing protocol and family of libraries, built on Hypothesis.\nFirst time here? We recommend starting with the Getting started guide.\nIntroduction\nGetting started\nHow-to guides coming soon! Explanation\nHow Hegel works\nWhy Hegel?\nReference\nInstallation reference\nProtocol reference",
+          "category": "tech",
+          "publishedAt": "2026-04-09T18:37:45.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Hegel\n\nHegel는 Hypothesis 기반으로 만든 범용 속성 기반 테스팅 프로토콜이자 라이브러리 모음입니다.\n\n처음 오셨다면 [시작 가이드](link)부터 읽어보시는 걸 추천합니다.\n\n## 목차\n\n- **소개**\n- **시작하기**\n- **How-to 가이드** (곧 공개 예정)\n- **설명**\n  - Hegel의 동작 방식\n  - Hegel을 써야 하는 이유\n- **레퍼런스**\n  - 설치 가이드\n  - 프로토콜 레퍼런스"
+        },
+        {
+          "title": "Charcuterie – Visual similarity Unicode explorer",
+          "titleKo": "Charcuterie – 시각적 유사도 기반 유니코드 탐색기",
+          "summary": "Charcuterie는 유니코드 문자를 시각적으로 탐색할 수 있는 도구로, SigLIP 2 임베딩을 통해 유사한 글리프를 벡터 공간에서 비교한다. 모든 처리가 브라우저에서 로컬로 실행된다.",
+          "keyPoints": [
+            "SigLIP 2를 활용한 시각적 유사도 계산으로 관련 글리프 발견 가능",
+            "브라우저 기반 실행으로 개인정보 보호 및 빠른 성능 제공"
+          ],
+          "whyItMatters": "개발자가 유니코드 문자 집합을 시각적으로 탐색하고 이해하여 텍스트 처리와 타이포그래피 관련 작업을 개선할 수 있다.",
+          "url": "https://charcuterie.elastiq.ch/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 72,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "charcuterie-visual-similarity-unicode-explorer",
+          "fullContent": "Charcuterie\nA visual explorer for Unicode. Browse the character set, discover related glyphs, and learn more about the scripts, symbols, and shapes that make up the standard.\nTo power visual similarity, rendered glyphs are embedded with SigLIP 2 and compared in vector space.\nCharcuterie is still under active development, and feedback is always welcome. If you would like to support the project and help make more time for it, consider a donation.\nEverything runs in your browser.\n© 2026 David Aerne",
+          "category": "tech",
+          "publishedAt": "2026-04-09T20:12:07.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Charcuterie: 유니코드를 시각적으로 탐험하다\n\nCharcuterie는 유니코드 문자 집합을 브라우징하고, 관련된 글리프를 발견하며, 표준을 이루고 있는 스크립트, 기호, 도형에 대해 배울 수 있는 시각적 탐색 도구입니다.\n\n## 시각적 유사성 검색의 원리\n\n이 도구의 핵심은 렌더링된 글리프들을 SigLIP 2로 임베딩한 후, 벡터 공간에서 비교하는 방식입니다. 덕분에 단순한 텍스트 기반 검색을 넘어, 실제 모양이 비슷한 문자들을 찾아낼 수 있죠.\n\n## 현재 상태와 피드백\n\nCharcuterie는 현재 활발히 개발 중인 프로젝트입니다. 혹시 사용하면서 제안하고 싶은 점이 있다면 언제든 피드백을 남겨주세요. 프로젝트를 지원하고 싶으시다면 기부를 통해 개발에 더 많은 시간을 할애하도록 도와주실 수 있습니다.\n\n모든 기능이 브라우저에서 동작하기 때문에 별도의 서버 연결이나 복잡한 설치 과정 없이 바로 사용할 수 있습니다.\n\n© 2026 David Aerne"
+        },
+        {
+          "title": "PicoZ80 – Drop-In Z80 Replacement",
+          "titleKo": "PicoZ80 – 플러그 앤 플레이 Z80 교체 보드",
+          "summary": "RP2350B 마이크로컨트롤러를 사용하여 레트로 Z80 컴퓨터의 CPU 소켓에 직접 장착되는 보드로, 사이클 정확한 Z80 버스 제어를 통해 기존 시스템과 호환성을 유지하면서 성능 향상과 가상 장치 기능을 제공한다. JSON 설정 파일로 메모리 맵과 기능을 재컴파일 없이 구성할 수 있다.",
+          "keyPoints": [
+            "RP2350B의 PIO 상태 머신이 Z80 버스의 주소, 데이터, 제어 신호를 실시간으로 사이클 정확하게 처리하여 네이티브 Z80과 동일한 타이밍을 제공한다.",
+            "8MB PSRAM으로 64개 뱅크(각 64KB)의 메모리 공간 제공, 512바이트 단위의 메모리 블록 구성 가능, 가상 장치 프레임워크로 완전히 가상화된 주변기기 지원.",
+            "온보드 ESP32는 WiFi/Bluetooth 연결, SD카드 저장소, 웹 관리 인터페이스 제공하며, JSON 기반 설정으로 Sharp MZ 등 다양한 Z80 시스템 지원."
+          ],
+          "whyItMatters": "레트로 컴퓨터 애호가들이 에뮬레이션 성능을 잃지 않으면서 현대적 기능(WiFi, SD카드, 가상화)을 추가할 수 있도록 한다.",
+          "url": "https://eaw.app/picoz80/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 98,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "picoz80-drop-in-z80-replacement",
+          "fullContent": "picoZ80\nOverview\nThe picoZ80 continues the tranZPUter theme, replacing a physical Z80 in a host or industrial computer with a\nfaster CPU, more memory, virtual devices, networking (WiFi, BT), rapid application loading from SD card and WiFi management.\nIt is a custom PCB designed to drop directly into the Z80 DIP-40 CPU socket of any legacy Z80-based computer. Rather than using a discrete Z80 processor, the board hosts an RP2350B microcontroller — a dual-core 150MHz Cortex-M33 device capable of running at up to 300MHz — whose programmable I/O (PIO) state machines take full, cycle-accurate control of the Z80 address, data, and control buses.\nThe picoZ80 is not a simple emulator adapter. Every bus transaction is handled in real time by the RP2350's PIO engines, giving the host system exactly the same bus timing it would see from a real Z80. At the same time, the RP2350's second core and abundant on-chip SRAM, combined with 8MB of external PSRAM and 16MB of Flash, allow an almost unlimited range of capabilities to be layered on top of the raw Z80 interface — including accelerated execution, virtualised memory, ROM banking, virtual disk drives, and full machine-persona emulation.\nAn ESP32 co-processor provides WiFi and Bluetooth connectivity, SD-card mass storage, and a browser-based management interface. All configuration is driven from a single human-readable config.json file stored on the SD card, meaning no recompilation is required to reconfigure the board's memory map, ROM images, or driver selection.\nThe picoZ80 has been demonstrated running within multiple Sharp MZ machines. A set of personas are being developed for these\nmachines, indeed for other Z80 systems in time, to provide much needed features, such as banked RAM/ROM, floppy disk emulation,\nQuickDisk emulation, ROM Filing System, TranZPUter Filing System, all capable of being functional simultaneously.\nThe configuration is entirely JSON-driven, adding support for a new Z80-based host is a matter of editing a configuration file and, where new I/O behaviour is required, adding a small C driver\ninto the codebase.\nDrop-in Z80 replacement- installs in any Z80 DIP-40 socket. The host sees normal Z80 bus timing throughout.\nCycle-accurate PIO bus interface- three RP2350 PIO state machines handle address, data, and control signals simultaneously at full Z80 bus speed.\nLarge memory space- 8MB PSRAM organised as 64 banks × 64KB, giving a total of 4MB of banked address space accessible per CPU context.\nROM/RAM banking- memory blocks are configurable in 512-byte granularity and can be mapped as ROM, RAM, physical host memory, or virtual function handlers.\nVirtual device framework- any 512-byte block of memory or I/O port range can be backed by a C function, enabling fully virtualised peripherals.\nMachine personas- the Z80 firmware can be configured via a jSON config to work within any Z80 host. Personas are being developed to add virtual drivers to the host, using the resources of the RP2350/ESP32. Already the MZ-700 persona has a rich repertoire of drivers and this will be extended to the MZ-80A, MZ-80B, MZ-800 and other Sharp machines. The intent is to also extend the persona repertoire to other machines such as the Amstrad PCW.\nFloppy and QuickDisk emulation- WD1773-compatible floppy disk controller and Sharp QuickDisk drive emulation, using DSK/RAW images on the SD card.\nWiFi and web management- the onboard ESP32 provides a seven-page Bootstrap web interface for configuration, file management, OTA firmware updates, and persona selection.\nDual firmware partitions- two independent 5MB firmware slots allow safe OTA upgrades; the active partition is selected from the web interface or bootloader.\nUSB firmware update- the bootloader exposes a USB bridge for firmware flashing without requiring a hardware debugger.\nX (Twitter) project preview — picoZ80 in action\nHardware\nThe picoZ80 PCB (revision 2.5) is a compact, multi-layer board designed to fit within the physical footprint of the Z80 DIP-40 package and the clearance available inside typical retro-computer cases. All logic operates at 3.3V; level shifting and drive current considerations for the 5V host bus are handled in the schematic design.\nThe board integrates five subsystems on a single PCB: the RP2350B processor, the Z80 bus interface, the ESP32 co-processor, the power supply, and a USB hub.\nKey Components\nRP2350B (Cortex-M33 dual-core)- primary processor, running at up to 300MHz. Executes the Z80 emulation hot loop on Core 1 and handles file I/O, USB, and ESP32 relay on Core 0. 512KB on-chip SRAM. The RP2350B variant (as opposed to RP2350A) provides 48 GPIO pins required for the full Z80 bus.\n16MB SPI Flash- stores the bootloader, two application firmware slots, two configuration slots, and a general configuration partition. Total addressable layout spans 0x10000000–0x11000000.\n8MB PSRAM (SPI)- external pseudo-static RAM providing 64 banks × 64KB of banked address space for the emulated CPU. Connected to",
+          "category": "tech",
+          "publishedAt": "2026-04-09T18:53:20.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# picoZ80: Z80 컴퓨터를 현대적으로 복구하기\n\n## 개요\n\npicoZ80는 레트로 컴퓨터의 Z80 CPU를 더 빠른 현대식 프로세서로 교체하는 프로젝트입니다. 물리적인 Z80 칩 대신 강력한 마이크로컨트롤러를 사용하면서도, WiFi, Bluetooth, SD카드 지원, 가상 장치 등 수많은 기능을 추가합니다.\n\npicoZ80는 Z80 DIP-40 소켓에 직접 꽂을 수 있도록 설계된 커스텀 PCB입니다. 칩 자체는 RP2350B 마이크로컨트롤러를 탑재하고 있는데요, 이건 듀얼코어 150MHz Cortex-M33 칩으로 최대 300MHz까지 동작합니다. 보드에 내장된 프로그래머블 I/O(PIO) 상태 머신들이 Z80의 주소, 데이터, 제어 신호를 실시간으로 완전히 제어합니다.\n\n## 단순한 에뮬레이터가 아닙니다\n\npicoZ80는 그냥 Z80를 소프트웨어로 흉내 내는 수준이 아닙니다. 모든 버스 트랜잭션을 RP2350의 PIO 엔진이 실시간으로 처리하기 때문에, 호스트 시스템은 진짜 Z80에서와 정확히 같은 버스 타이밍을 경험합니다. 동시에 RP2350의 두 번째 코어와 충분한 온칩 SRAM, 8MB 외부 PSRAM, 16MB 플래시를 활용하면 기본적인 Z80 인터페이스 위에 거의 무한에 가까운 기능을 추가할 수 있습니다. 가속된 실행, 가상 메모리, ROM 뱅킹, 가상 디스크 드라이브, 전체 머신 에뮬레이션 등이 모두 가능합니다.\n\n## 연결성과 관리\n\n보드에는 ESP32 보조 프로세서가 함께 실려 있어서 WiFi, Bluetooth 연결을 담당하고, SD카드 스토리지와 웹 기반 관리 인터페이스를 제공합니다. 가장 멋진 점은 설정이 SD카드의 단일 JSON 파일(`config.json`)로 관리된다는 것입니다. 재컴파일할 필요 없이 메모리 맵, ROM 이미지, 드라이버 선택을 바꿀 수 있습니다.\n\n## 실제 동작\n\npicoZ80는 Sharp MZ 시리즈 컴퓨터들에서 실제로 동작하고 있습니다. 다양한 MZ 머신용 \"페르소나(persona)\"들이 개발 중인데요, 뱅크 RAM/ROM, 플로피 디스크 에뮬레이션, QuickDisk 에뮬레이션, ROM Filing System, TranZPUter Filing System 같은 기능들을 동시에 지원합니다.\n\n설정이 완전히 JSON 기반이라서, 새로운 Z80 호스트 지원을 추가하는 것도 간단합니다. 설정 파일을 수정하고, 필요하면 C 드라이버를 조금 추가하기만 하면 됩니다.\n\n## 핵심 특징\n\n**Z80 완벽 대체** - Z80 DIP-40 소켓에 그대로 끼울 수 있습니다. 호스트는 정상적인 Z80 버스 타이밍을 계속 경험합니다.\n\n**사이클 정확도** - 세 개의 RP2350 PIO 상태 머신이 주소, 데이터, 제어 신호를 동시에 처리하며, 모두 Z80 버스 속도로 작동합니다.\n\n**대용량 메모리** - 8MB PSRAM이 64 뱅크 × 64KB로 구성되어, CPU 컨텍스트당 총 4MB의 뱅크 주소 공간을 제공합니다.\n\n**ROM/RAM 뱅킹** - 메모리 블록을 512바이트 단위로 설정할 수 있고, ROM, RAM, 물리 호스트 메모리, 또는 가상 함수 핸들러로 매핑할 수 있습니다.\n\n**가상 장치 프레임워크** - 메모리나 I/O 포트의 어떤 512바이트 블록이든 C 함수로 백업할 수 있어서, 완전히 가상화된 주변장치를 구현할 수 있습니다.\n\n**머신 페르소나** - Z80 펌웨어를 JSON 설정으로 다양한 Z80 호스트에 맞게 구성할 수 있습니다. MZ-700 페르소나는 이미 풍부한 드라이버를 갖추고 있으며, 앞으로 MZ-80A, MZ-80B, MZ-800 등 다른 Sharp 머신들도 지원할 예정입니다. 나아가 Amstrad PCW 같은 다른 컴퓨터들도 지원 범위에 포함될 계획입니다.\n\n**플로피 및 QuickDisk 에뮬레이션** - WD1773 호환 플로피 디스크 컨트롤러와 Sharp QuickDisk 드라이브 에뮬레이션을 지원합니다. SD카드의 DSK/RAW 이미지를 사용합니다.\n\n**WiFi 및 웹 관리** - 보드의 ESP32가 7페이지 규모의 Bootstrap 웹 인터페이스를 제공합니다. 설정, 파일 관리, OTA 펌웨어 업데이트, 페르소나 선택이 모두 웹으로 가능합니다.\n\n**듀얼 펌웨어 파티션** - 독립적인 두 개의 5MB 펌웨어 슬롯으로 안전한 OTA 업그레이드를 지원합니다. 활성 파티션은 웹 인터페이스나 부트로더에서 선택할 수 있습니다.\n\n**USB 펌웨어 업데이트** - 부트로더가 USB 브릿지를 노출하므로, 하드웨어 디버거 없이 펌웨어를 플래시할 수 있습니다.\n\n## 하드웨어\n\npicoZ80 PCB(리비전 2.5)는 Z80 DIP-40 패키지의 물리적 크기에 맞게 설계된 컴팩트한 멀티레이어 기판입니다. 레트로 컴퓨터 케이스 내부의 일반적인 공간도 고려했습니다. 모든 로직은 3.3V에서 작동하며, 5V 호스트 버스와의 레벨 시프팅과 구동 전류는 회로도에서 처리됩니다.\n\n보드는 단일 PCB에 다섯 개의 서브시스템을 통합하고 있습니다: RP2350B 프로세서, Z80 버스 인터페이스, ESP32 보조 프로세서, 전원 공급부, USB 허브.\n\n### 핵심 컴포넌트\n\n**RP2350B (Cortex-M33 듀얼코어)** - 최대 300MHz에서 동작하는 주 프로세서입니다. Core 1에서 Z80 에뮬레이션 핫루프를 실행하고, Core 0는 파일 I/O, USB, ESP32 릴레이를 처리합니다. 512KB 온칩 SRAM을 갖추고 있습니다. RP2350B 변종(RP2350A가 아닌)은 전체 Z80 버스에 필요한 48개의 GPIO 핀을 제공합니다.\n\n**16MB SPI Flash** - 부트로더, 두 개의 애플리케이션 펌웨어 슬롯, 두 개의 설정 슬롯, 일반 설정 파티션을 저장합니다. 전체 주소 범위는 0x10000000–0x11000000입니다.\n\n**8MB PSRAM (SPI)** - 에뮬레이트된 CPU를 위해 64 뱅크 × 64KB의 뱅크 주소 공간을 제공하는 외부 의사정적 RAM입니다."
+        },
+        {
+          "title": "My Login Shell in Assembly",
+          "titleKo": "어셈블리로 만든 나의 로그인 셸",
+          "summary": "본문 미리보기 없음",
+          "keyPoints": [
+            "상세 정보 확인 불가"
+          ],
+          "url": "https://isene.org/2026/04/Bare.html",
+          "sourceName": "Lobste.rs",
+          "contentType": "article",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "my-login-shell-in-assembly",
+          "category": "tech",
+          "publishedAt": "2026-04-09T21:05:30.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Unfolder for Mac – A 3D model unfolding tool for creating papercraft",
+          "titleKo": "Mac용 Unfolder – 페이퍼크래프트 제작을 위한 3D 모델 전개 도구",
+          "summary": "Unfolder는 3D 모델을 2D 패턴으로 자동 변환하는 Mac 애플리케이션으로, 페이퍼크래프트 제작을 위해 최적화된 전개 알고리즘을 사용하고 2D/3D 뷰에서 파트 분할 및 결합을 쉽게 조정할 수 있다. 다양한 형식으로 내보내기가 가능하며 Mac App Store에서 이용할 수 있다.",
+          "keyPoints": [
+            "스마트하고 최적화된 전개 알고리즘이 자동으로 괜찮은 결과를 생성하며, 편집이 필요한 경우 2D/3D 뷰에서 엣지를 클릭하여 파트 조정이 가능하다.",
+            "플랩(флapы)의 추가, 제거, 병합, 재구성과 충돌 방지를 위한 자동 최적화 기능을 제공한다.",
+            "자르기선, 마운틴폴드선, 밸리폴드선의 색상, 너비, 점선 스타일을 커스터마이징할 수 있고, 인쇄, 외부 편집, CNC 절단 등 다양한 목적의 내보내기 형식을 지원한다."
+          ],
+          "whyItMatters": "3D 모델링 취미 개발자나 디지털 아티스트가 손으로 만든 페이퍼크래프트 제작 과정을 자동화하여 시간을 절약할 수 있다.",
+          "url": "https://www.unfolder.app/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 108,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "unfolder-for-mac-a-3d-model-unfolding-tool-for-creating-papercraft",
+          "fullContent": "Unfolder can generate 2D parts for your 3D models in a few seconds. The unfolding algorithm is smart and highly optimized for papercraft to minimize your effort in further editing.\nEven though the auto-unfolded result is decent most of the time, Unfolder also allows you to split and join parts easily by clicking the edges in 2D view or 3D view.\nUnfolder allows you to switch, add, remove, merge, and reshape the flaps. Furthermore, it can optimize the shape of flaps automatically to avoid the collision.\nUnfolder allows you to customize the color, width, and dashing of lines. You can individually control the appearance of the cutting line, ridge-fold line, and valley-fold line.\nWhether you want to print the template, edit it in external applications, or cut it using a CNC machine. Unfolder let you export in various formats for different purpose.\nAlso avaliable on Mac App Store",
+          "category": "tech",
+          "publishedAt": "2026-04-09T16:58:46.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Unfolder: 3D 모델을 펼쳐진 2D 도안으로 변환하기\n\n## 빠른 언폴딩\n\nUnfolder는 3D 모델을 단 몇 초 만에 펼친 2D 부품으로 변환해줍니다. 언폴딩 알고리즘이 똑똑하게 설계되어 있어서, 특히 페이퍼크래프트 작업에 최적화되어 있거든요. 덕분에 이후 편집 작업을 최소화할 수 있습니다.\n\n자동으로 펼쳐지는 결과물이 대부분 만족스럽긴 한데, 원하는 대로 수정하고 싶다면 2D 뷰나 3D 뷰에서 엣지를 클릭하는 것만으로도 부품을 쉽게 분할하거나 합칠 수 있습니다.\n\n## 플랩 최적화\n\n펼친 도안의 플랩(flap)을 아주 자유롭게 조정할 수 있어요. 펼쳐진 상태에서 플랩을 추가하고 제거하거나, 여러 개를 합치고 형태를 다시 그릴 수 있습니다.\n\n더 인상적인 건 자동 충돌 회피 기능인데요. Unfolder가 플랩의 형태를 자동으로 최적화해서 겹치는 부분을 미리 방지해줍니다.\n\n## 선의 스타일 커스터마이징\n\n절단선, 산폴드선, 밸리폴드선의 색상, 굵기, 대시 스타일을 각각 다르게 지정할 수 있습니다. 도안의 용도에 맞게 시각적으로 구분해서 표현할 수 있다는 뜻이죠.\n\n## 다양한 내보내기 형식\n\n펼친 도안을 인쇄하려고 하든, 외부 애플리케이션에서 편집하려고 하든, CNC 머신으로 자동 절단하려고 하든—Unfolder는 여러 가지 형식으로 내보낼 수 있습니다. 어떤 용도든지 대응할 수 있게 설계되어 있어요.\n\n---\n\nMac App Store에서도 이용 가능합니다."
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "Research-Driven Agents: When an agent reads before it codes",
+          "titleKo": "연구 기반 에이전트: 코드 작성 전 리서치하는 에이전트",
+          "summary": "에이전트가 코드 작성 전에 충분히 조사하고 학습하는 접근 방식을 제시합니다. 더욱 신뢰할 수 있는 AI 코딩을 가능하게 합니다.",
+          "keyPoints": [
+            "코드 생성 전 리서치 단계의 중요성",
+            "정보 수집과 분석을 통한 품질 향상"
+          ],
+          "whyItMatters": "AI 에이전트의 코드 생성 품질을 개선하기 위한 새로운 패러다임을 제안합니다.",
+          "url": "https://blog.skypilot.co/research-driven-agents/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 106,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-agents",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "research-driven-agents-when-an-agent-reads-before-it-codes",
+          "category": "insight",
+          "publishedAt": "2026-04-09T16:58:49.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Moving from WordPress to Jekyll (and static site generators in general)",
+          "titleKo": "WordPress에서 Jekyll로 마이그레이션 (및 정적 사이트 생성기 전반)",
+          "summary": "DemandSphere는 WordPress에서 Jekyll로 마이그레이션했으며, Claude Code를 활용해 288개의 블로그 포스트와 페이지를 성공적으로 이관했다. 정적 사이트 생성기로의 전환은 속도, 개발 유연성, AI 코딩 에이전트와의 시너지를 제공했다.",
+          "keyPoints": [
+            "Claude Code를 이용해 WordPress XML 내보내기 데이터를 분석하고 필터링하여 9개의 개발 도구 구축",
+            "마크다운과 YAML 프런트매터 기반의 정적 사이트 생성기가 AI 시대에 더 적합한 구조 제공",
+            "데이터베이스와 애플리케이션 서버 제거로 배포 간소화 및 개발 속도 향상"
+          ],
+          "whyItMatters": "AI 코딩 어시스턴트와 함께 대규모 콘텐츠 마이그레이션을 효율적으로 수행할 수 있으며, 정적 사이트 생성기의 실질적 이점을 보여준다.",
+          "url": "https://www.demandsphere.com/blog/rebuilding-demandsphere-with-jekyll-and-claude-code/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 16,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "moving-from-wordpress-to-jekyll-and-static-site-generators-in-general",
+          "fullContent": "Engineering\nAI Search\nMoving from WordPress to Jekyll (and static site generators in general)\nRay Grieselhuber\n·\nApril 9, 2026\nAs I mentioned in my post earlier this week, we just completed a migration from WordPress to Jekyll. I outlined a couple of reasons for it but basically came down to preference, speed, and ability to make changes easily.\nFrameworks like Jekyll (or Astro) aren’t for everybody, although they make a lot more sense in the general environment of AI proliferation, markdown becoming the lingua franca of LLMs, and a general trend toward headless sites. Everybody knows how insecure WordPress can be, although this is largely mitigated by working with a reputable host.\nThe biggest issue was speed. As a platform company, we move very fast and we always felt limited by what we could do with WordPress and we were constantly bottlenecked by whether or not we had WP developers available. But it’s hard to find good developers for any framework and especially for WordPress. When you find someone who is good at WordPress development, it means they are good at pretty much everything else they try and so it feels like a waste of talent to have them work on WordPress. It’s like a built-in brain drain.\nSince the advent of coding agents like Claude Code, it has now become easier to completely route around this problem by simply migrating to another platform. We chose Jekyll for the reasons I’ll discuss in the next section.\nArchitecture decisions that led to Jekyll\nJust last week, Cloudflare announced a new CMS framework that they have dubbed the “spiritual successor” to WordPress. It’s based on Astro, which is one of the most popular static site generators (SSG) right now. It looks great, but we wanted something that we had experience with and was a mature framework. As I mentioned in my previous post, our site ran on Jekyll long ago so we knew it well.\nFor those who are not familiar: the biggest difference between a CMS like WordPress and an SSG is that there is no database (typically), nor even an application server in the latter. You’re working entirely in HTML templates, includes, layout files, config files, and then markdown for everything else.\nMetadata on the page is defined as frontmatter, which is the YAML data between the --- delimiters at the top of the markdown file.\nSo, for example, the frontmatter for this post looks like this:\nlayout: post\ntitle: \"Moving from WordPress to Jekyll (and static site generators in general)\"\ndescription: \"Some technical notes on how and why we moved from WordPress to Jekyll, a well-known static site generator (SSG).\"\ndate: 2026-04-09\nauthor: Ray Grieselhuber\npermalink: /blog/rebuilding-demandsphere-with-jekyll-and-claude-code/\ntags:\n- Engineering\n- AI Search\nOther than that, these posts are just straight markdown. We start them in the _drafts folder and move them to the _posts folder when we’re ready to publish.\nMigrating 288 WordPress blog posts and other pages\nThe area that took the most time, aside from the design, was properly migrating the existing content. The site itself has over 15 years of blog posts but, frankly, we didn’t need all of them.\nSo, we used our GSC tools in DemandSphere to identify the pages that actually had valuable equity and used indexing data to make the call on which pages could be left unindexed - and simply deleted - as part of the migration.\nWordPress has an XML export that you can use to export everything, so we started with that. Fortunately, I was able to leverage Claude Code quite a bit to analyze each page in terms of the equity it had and very quickly filter out what we didn’t need.\nIt took a little more fiddling to get featured images (and images in general) migrated over properly but this was also basically an export and an import.\nAI-assisted development with Claude Code\nClaude Code was basically what enabled us to do what we had wanted to do for years. Everyone on our team is so busy that we never would have had time to do a proper job of this migration. It didn’t make sense to hire out the work either.\nWe heavily leveraged multiple sessions, CLAUDE.md, and a bunch of other .md files to keep the project on track.\nThe dev tools we built\nThe part where Claude Code really helped the most was in building nine separate dev tools that live right in the repository. We were able to leverage custom build scripts that keep these dev tools outside of the production build as well.\nThe featured image of this post shows what the Dev Tools dashboard looks like.\nMost of these tools are managed by individual audit scripts dedicated to producing the output needed. So, for example, we have a lighthouse.js script, a site structure script, and so on.\nWe built the following:\nSite Structure\nThis was initially one of the most helpful tools, because it served as a tiny, onboard Screaming Frog type tool. We could easily spot URLs that weren’t on the sitemap, missing / duplicate metadata, etc.\nIt also helped us spot URLs that belonged under different",
+          "category": "insight",
+          "publishedAt": "2026-04-09T20:59:51.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Reverse engineering Gemini's SynthID detection",
+          "titleKo": "Gemini의 SynthID 탐지 역공학",
+          "summary": "Google Gemini가 생성한 이미지에 숨겨진 SynthID 워터마크를 신호 처리와 스펙트럼 분석으로 역공학했다. 해상도 의존적 캐리어 주파수 구조를 발견하고 90% 정확도의 감지기 및 75% 캐리어 에너지 감소를 달성하는 V3 우회 기술을 개발했다.",
+          "keyPoints": [
+            "SynthID 워터마크는 이미지 해상도에 따라 다른 절대 위치의 캐리어 주파수를 임베드하므로 해상도별 프로필을 저장한 스펙트럼 코드북 필요",
+            "워터마크의 위상 템플릿은 동일 모델의 모든 이미지에서 일정하며 녹색 채널에서 가장 강한 신호 전달 (>99.5% 위상 일관성)",
+            "V3 방식은 멀티 해상도 스펙트럼 코드북 뺄셈으로 43+ dB PSNR 유지하면서 91% 위상 일관성 감소 달성"
+          ],
+          "whyItMatters": "AI 생성 이미지 워터마크의 기술적 한계를 드러내며 AI 콘텐츠 추적 및 진위 판별 방식의 근본적 재검토 필요성을 보여준다.",
+          "url": "https://github.com/aloshdenny/reverse-SynthID",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 81,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "reverse-engineering-geminis-synthid-detection",
+          "fullContent": "Reverse-Engineering SynthID\nDiscovering, detecting, and surgically removing Google's AI watermark through spectral analysis\nOverview\nThis project reverse-engineers Google's SynthID watermarking system - the invisible watermark embedded into every image generated by Google Gemini. Using only signal processing and spectral analysis (no access to the proprietary encoder/decoder), we:\nDiscovered the watermark's resolution-dependent carrier frequency structure\nBuilt a detector that identifies SynthID watermarks with 90% accuracy\nDeveloped a multi-resolution spectral bypass (V3) that achieves 75% carrier energy drop, 91% phase coherence drop, and 43+ dB PSNR on any image resolution\n🚨 Contributors Wanted: Help Expand the Codebook\nWe're actively collecting pure black and pure white images generated by Nano Banana Pro to improve multi-resolution watermark extraction.\nIf you can generate these:\nResolution: any (higher variety = better)\nContent: fully black (#000000) or fully white (#FFFFFF)\nSource: Nano Banana Pro outputs only\nHow to Contribute\nGenerate a batch of black/white images by attaching a pure black/white image into Gemini and prompting it to \"recreate this as it is\"\nPlace them in new folders:\ngemini_black_nb_pro/ (for black)\ngemini_white_nb_pro/ (for white)\nOpen a Pull Request 🚀\nThese reference images are critical for:\nCarrier frequency discovery\nPhase validation\nImproving cross-resolution robustness\nEven 150–200 images at a new resolution can significantly improve detection and removal.\nWhat Makes This Different\nUnlike brute-force approaches (JPEG compression, noise injection), our V3 bypass uses a multi-resolution SpectralCodebook - a collection of per-resolution watermark fingerprints stored in a single file. At bypass time, the codebook auto-selects the matching resolution profile, enabling surgical frequency-bin-level removal on any image size.\nKey Findings\nThe Watermark is Resolution-Dependent\nSynthID embeds carrier frequencies at different absolute positions depending on image resolution. A codebook built at 1024x1024 cannot directly remove the watermark from a 1536x2816 image - the carriers are at completely different bins.\nResolution\nTop Carrier (fy, fx)\nCoherence\nSource\n1024x1024\n(9, 9)\n100.0%\n100 black + 100 white refs\n1536x2816\n(768, 704)\n99.6%\n88 watermarked content images\nThis is why the V3 codebook stores separate profiles per resolution and auto-selects at bypass time.\nPhase Consistency - A Fixed Model-Level Key\nThe watermark's phase template is identical across all images from the same Gemini model:\nGreen channel carries the strongest watermark signal\nCross-image phase coherence at carriers: >99.5%\nBlack/white cross-validation confirms true carriers via |cos(phase_diff)| > 0.90\nCarrier Frequency Structure\nAt 1024x1024 (from black/white refs), top carriers lie on a low-frequency grid:\nCarrier (fy, fx)\nPhase Coherence\nB/W Agreement\n(9, 9)\n100.00%\n1.000\n(5, 5)\n100.00%\n0.993\n(10, 11)\n100.00%\n0.997\n(13, 6)\n100.00%\n0.821\nAt 1536x2816 (from random watermarked content), carriers are at much higher frequencies:\nCarrier (fy, fx)\nPhase Coherence\n(768, 704)\n99.55%\n(672, 1056)\n97.46%\n(480, 1408)\n96.55%\n(384, 1408)\n95.86%\nArchitecture\nThree Generations of Bypass\nVersion\nApproach\nPSNR\nWatermark Impact\nStatus\nV1\nJPEG compression (Q50)\n37 dB\n~11% phase drop\nBaseline\nV2\nMulti-stage transforms (noise, color, frequency)\n27-37 dB\n~0% confidence drop\nQuality trade-off\nV3\nMulti-resolution spectral codebook subtraction\n43+ dB\n91% phase coherence drop\nBest\nV3 Pipeline (Multi-Resolution Spectral Bypass)\nInput Image (any resolution)\n│\n▼\ncodebook.get_profile(H, W) ──► exact match? ──► FFT-domain subtraction\n│ (fast path)\n└─ no exact match ──────► spatial-domain resize + subtraction\n(fallback path)\n│\n▼\nMulti-pass iterative subtraction (aggressive → moderate → gentle)\n│\n▼\nAnti-alias → Output\nSpectralCodebook stores resolution-specific profiles (carrier positions, magnitudes, phases)\nAuto resolution selection picks the exact profile or the closest match\nDirect known-signal subtraction weighted by phase consistency and cross-validation confidence\nMulti-pass schedule catches residual watermark energy missed by previous passes\nPer-channel weighting (G=1.0, R=0.85, B=0.70) matches SynthID's embedding strength\nResults (V3 on 88 Gemini Images)\nAggregate Metrics (1536x2816, aggressive strength)\nMetric\nValue\nPSNR\n43.5 dB\nSSIM\n0.997\nCarrier energy drop\n75.8%\nPhase coherence drop (top-5 carriers)\n91.4%\nQuality Across Resolutions\nResolution\nMatch\nPSNR\nSSIM\n1536x2816\nexact\n44.9 dB\n0.996\n1024x1024\nexact\n39.8 dB\n0.977\n768x1024\nfallback\n40.6 dB\n0.994\nQuick Start\nInstallation\ngit clone https://github.com/aloshdenny/reverse-SynthID.git\ncd reverse-SynthID\npython -m venv venv\nsource venv/bin/activate # Windows: venv\\Scripts\\activate\npip install -r requirements.txt\n1. Build Multi-Resolution Codebook\nFrom the CLI:\npython src/extraction/synthid_bypass.py build-codebook \\\n--black gemini_black \\\n--white gemini_white \\\n--watermarked gemini_ran",
+          "category": "insight",
+          "publishedAt": "2026-04-09T20:10:25.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Reallocating $100/Month Claude Code Spend to Zed and OpenRouter",
+          "titleKo": "$100/월 Claude Code 지출을 Zed와 OpenRouter로 재배치",
+          "summary": "Claude를 통한 AI 코딩 지출을 Zed 에디터와 OpenRouter 같은 대안으로 전환한 경험담이다.",
+          "keyPoints": [
+            "Claude Code 사용 비용을 다른 AI 코딩 도구로 재배치",
+            "Zed 에디터와 OpenRouter 같은 선택지 비교 검토"
+          ],
+          "whyItMatters": "AI 코딩 도구의 비용 효율성을 재평가하고 오픈소스/경량 대안 활용을 고려하는 개발자들에게 실용적인 참고사례를 제공한다.",
+          "url": "https://braw.dev/blog/2026-04-06-reallocating-100-month-claude-spend/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 274,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "career"
+          ],
+          "topicId": "ai-tooling-adoption",
+          "isTopicPrimary": true,
+          "slug": "reallocating-100month-claude-code-spend-to-zed-and-openrouter",
+          "category": "insight",
+          "publishedAt": "2026-04-09T08:55:18.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Top laptops to use with FreeBSD",
+          "titleKo": "FreeBSD와 호환되는 최고의 노트북",
+          "summary": "FreeBSD 재단은 FreeBSD 설치를 테스트한 노트북 목록을 공개했으며, 각 모델을 그래픽, 네트워킹, 오디오, USB 포트 등 구성 요소별로 8점 만점으로 평가했다. Framework Laptop과 Lenovo ThinkPad 시리즈가 최고 점수를 기록했다.",
+          "keyPoints": [
+            "Framework Laptop 13/16 (Intel/AMD), Lenovo ThinkPad X270, T490 등이 8/8 완벽 호환성 달성",
+            "구성 요소 자동 감지 여부, 기능 저하 정도, 설정 복잡도를 종합 평가하여 점수 산출",
+            "그래픽과 무선 네트워킹이 사용자 경험에 가장 큰 영향을 미치는 요소로 가중치 부여"
+          ],
+          "whyItMatters": "FreeBSD 사용자가 하드웨어 호환성을 사전에 확인하여 노트북 구입 결정을 할 수 있다.",
+          "url": "https://freebsdfoundation.github.io/freebsd-laptop-testing/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 262,
+          "contentType": "discussion",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "top-laptops-to-use-with-freebsd",
+          "fullContent": "Top Laptops for use with FreeBSD\nEach laptop is scored based on an aggregate of:\nhow many laptop components are detected, where each fully auto-detected component adds a point\nwhether devices have degraded functionality, reducing the score by 0.5-1.5 based on severity and how important it is to the laptop experience (wi-fi/graphics weighted more)\nuser-provided comments about test results, and how involved setup is for that device\nModelScore\nLenovo ThinkPad X2708/8\nASUS TUF Gaming F15 FX507VU_FX507VU8/8\nHP EliteBook 845 G7 Notebook PC8/8\nLenovo IdeaPad 5 15ALC058/8\nFramework Laptop 13 (13th Gen Intel Core)8/8\nLenovo Yoga 11e8/8\nFramework Laptop 13 (AMD Ryzen 7040 Series)8/8\nLenovo ThinkPad T4908/8\nFramework Laptop 16 (AMD Ryzen 7040 Series)8/8\nAspire A315-24PT8/8\nLaptop Compatibility Matrix\nModelGraphicsNetworkingAudioUSB PortsScore\nLenovo ThinkPad X270View ProbeHD Graphics 620Score: 2/2Ethernet Connection (4) I219-VWireless 8265 / 8275Score: 2/2Sunrise Point-LP HD AudioScore: 2/2Sunrise Point-LP USB 3.0 xHCI ControllerScore: 2/28/8\nASUS TUF Gaming F15 FX507VU_FX507VUView ProbeView CommentRaptor Lake-P [UHD Graphics]AD107M [GeForce RTX 4050 Max-Q / Mobile]Score: 2/2Raptor Lake PCH CNVi WiFiRTL8111/8168/8211/8411 PCI Express Gigabit Ethernet ControllerScore: 2/2Raptor Lake-P/U/H cAVSAD107 High Definition Audio ControllerScore: 2/2Raptor Lake-P Thunderbolt 4 USB ControllerRaptor Lake-P Thunderbolt 4 NHIAlder Lake PCH USB 3.2 xHCI Host ControllerScore: 2/28/8\nLatitude E4300View ProbeView CommentMobile 4 Series Chipset Integrated Graphics ControllerScore: 2/282567LM Gigabit Network ConnectionBCM4312 802.11b/g LP-PHYScore: 1/282801I (ICH9 Family) HD Audio ControllerScore: 2/282801I (ICH9 Family) USB UHCI Controller82801I (ICH9 Family) USB2 EHCI ControllerScore: 2/27/8\nHP EliteBook 845 G7 Notebook PCView ProbeRenoir [Radeon Vega Series / Radeon Vega Mobile Series]Score: 2/2Wi-Fi 6 AX200Score: 2/2Renoir/Cezanne HDMI/DP Audio ControllerRyzen HD Audio ControllerScore: 2/2Renoir/Cezanne USB 3.1Renoir/Cezanne USB 3.1Score: 2/28/8\nLenovo IdeaPad 5 15ALC05View ProbeView CommentLucienneScore: 2/2MT7921 802.11ax PCIe Wireless Network Adapter [Filogic 330]Score: 2/2Renoir/Cezanne HDMI/DP Audio ControllerRyzen HD Audio ControllerScore: 2/2Renoir/Cezanne USB 3.1Renoir/Cezanne USB 3.1Score: 2/28/8\nFramework Laptop 13 (13th Gen Intel Core)View ProbeRaptor Lake-P [Iris Xe Graphics]Score: 2/2Wi-Fi 6E(802.11ax) AX210/AX1675* 2x2 [Typhoon Peak]Score: 2/2Raptor Lake-P/U/H cAVSScore: 2/2Raptor Lake-P Thunderbolt 4 USB ControllerRaptor Lake-P Thunderbolt 4 NHIRaptor Lake-P Thunderbolt 4 NHIAlder Lake PCH USB 3.2 xHCI Host ControllerScore: 2/28/8\nLenovo ThinkPad T14 Gen 2 (AMD)View ProbeCezanne [Radeon Vega Series / Radeon Vega Mobile Series]Score: 2/2RTL8111/8168/8211/8411 PCI Express Gigabit Ethernet ControllerMT7921 802.11ax PCIe Wireless Network Adapter [Filogic 330]RTL8111/8168/8211/8411 PCI Express Gigabit Ethernet ControllerScore: 0.5/2Renoir/Cezanne HDMI/DP Audio ControllerRyzen HD Audio ControllerScore: 2/2Renoir/Cezanne USB 3.1Renoir/Cezanne USB 3.1Score: 2/26.5/8\nLenovo Yoga 11eView ProbeHD Graphics 620Score: 2/2Wireless 7265RTL8111/8168/8211/8411 PCI Express Gigabit Ethernet ControllerScore: 2/2Sunrise Point-LP HD AudioScore: 2/2Sunrise Point-LP USB 3.0 xHCI ControllerScore: 2/28/8\nBeelink SER8View ProbeView CommentHawkPoint1Score: 2/2RTL8125 2.5GbE ControllerWi-Fi 6 AX200Score: 1.5/2Radeon High Definition Audio Controller [Rembrandt/Strix]Family 17h/19h/1ah HD Audio ControllerScore: 2/2Pink Sardine USB4/Thunderbolt NHI controllerScore: 2/27.5/8\nTUXEDO InfinityBook Pro AMD Gen9View ProbeView CommentHawkPoint1Score: 2/2YT6801 Gigabit Ethernet ControllerWi-Fi 6E(802.11ax) AX210/AX1675* 2x2 [Typhoon Peak]Score: 0.25/2Radeon High Definition Audio ControllerRyzen HD Audio ControllerScore: 2/2Pink Sardine USB4/Thunderbolt NHI controllerScore: 2/26.25/8\nFramework Laptop 13 (AMD Ryzen 7040 Series)View ProbePhoenix1Score: 2/2Wi-Fi 6E(802.11ax) AX210/AX1675* 2x2 [Typhoon Peak]Score: 2/2Radeon High Definition Audio ControllerRyzen HD Audio ControllerScore: 2/2Pink Sardine USB4/Thunderbolt NHI controllerPink Sardine USB4/Thunderbolt NHI controllerScore: 2/28/8\nLenovo ThinkPad T490View ProbeView CommentWhiskeyLake-U GT2 [UHD Graphics 620]Navi 22 [Radeon RX 6700/6700 XT/6750 XT / 6800M/6850M XT]Score: 2/2Cannon Point-LP CNVi [Wireless-AC]Ethernet Connection (6) I219-LMScore: 2/2Cannon Point-LP High Definition Audio ControllerNavi 21/23 HDMI/DP Audio ControllerScore: 2/2Cannon Point-LP USB 3.1 xHCI ControllerJHL7440 Thunderbolt 3 USB Controller [Titan Ridge DD 2018]Score: 2/28/8\nLenovo ThinkBook G6View ProbeView CommentRaptor Lake-P [Iris Xe Graphics]Score: 1/2Raptor Lake PCH CNVi WiFiEthernet Connection (23) I219-VScore: 2/2Raptor Lake-P/U/H cAVSScore: 2/2Raptor Lake-P Thunderbolt 4 USB ControllerRaptor Lake-P Thunderbolt 4 NHIAlder Lake PCH USB 3.2 xHCI Host ControllerScore: 2/27/8\nFramework Laptop 16 (AMD Ryzen 7040 Series)View ProbePh",
+          "category": "insight",
+          "publishedAt": "2026-04-09T09:17:25.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# FreeBSD와 잘 맞는 노트북 고르기\n\nFreeBSD를 사용할 노트북을 찾고 계신가요? 어떤 기기가 FreeBSD와 잘 호환되는지 궁금하실 거 같습니다. 여기 실제 테스트를 거친 노트북들을 정리해봤습니다.\n\n## 평가 방식\n\n각 노트북의 점수는 다음 기준으로 매겨집니다.\n\n- **하드웨어 인식도**: 완전히 자동 감지되는 컴포넌트마다 1점\n- **기능 저하**: Wi-Fi나 그래픽 같은 중요 기능이 제대로 작동하지 않으면 0.5~1.5점 감점\n- **사용자 피드백**: 실제 사용 경험과 설정의 복잡도를 반영\n\n## 최고 점수 노트북들 (8/8점)\n\n| 모델 | 점수 |\n|------|------|\n| Lenovo ThinkPad X270 | 8/8 |\n| ASUS TUF Gaming F15 FX507VU_FX507VU | 8/8 |\n| HP EliteBook 845 G7 Notebook PC | 8/8 |\n| Lenovo IdeaPad 5 15ALC05 | 8/8 |\n| Framework Laptop 13 (13th Gen Intel Core) | 8/8 |\n| Lenovo Yoga 11e | 8/8 |\n| Framework Laptop 13 (AMD Ryzen 7040 Series) | 8/8 |\n| Lenovo ThinkPad T490 | 8/8 |\n| Framework Laptop 16 (AMD Ryzen 7040 Series) | 8/8 |\n| Aspire A315-24PT | 8/8 |\n\n## 상세 호환성 매트릭스\n\n### Lenovo ThinkPad X270\n| 카테고리 | 정보 | 점수 |\n|---------|------|------|\n| **그래픽** | HD Graphics 620 | 2/2 |\n| **네트워크** | Ethernet Connection (4) I219-V, Wireless 8265 / 8275 | 2/2 |\n| **오디오** | Sunrise Point-LP HD Audio | 2/2 |\n| **USB** | Sunrise Point-LP USB 3.0 xHCI Controller | 2/2 |\n| **종합** | | **8/8** |\n\n### ASUS TUF Gaming F15 FX507VU_FX507VU\n| 카테고리 | 정보 | 점수 |\n|---------|------|------|\n| **그래픽** | Raptor Lake-P [UHD Graphics], AD107M [GeForce RTX 4050 Max-Q / Mobile] | 2/2 |\n| **네트워크** | Raptor Lake PCH CNVi WiFi, RTL8111/8168/8211/8411 Gigabit Ethernet | 2/2 |\n| **오디오** | Raptor Lake-P/U/H cAVS, AD107 High Definition Audio | 2/2 |\n| **USB** | Raptor Lake-P Thunderbolt 4, Alder Lake PCH USB 3.2 xHCI | 2/2 |\n| **종합** | | **8/8** |\n\n### HP EliteBook 845 G7 Notebook PC\n| 카테고리 | 정보 | 점수 |\n|---------|------|------|\n| **그래픽** | Renoir [Radeon Vega Series / Radeon Vega Mobile Series] | 2/2 |\n| **네트워크** | Wi-Fi 6 AX200 | 2/2 |\n| **오디오** | Renoir/Cezanne HDMI/DP Audio, Ryzen HD Audio | 2/2 |\n| **USB** | Renoir/Cezanne USB 3.1 | 2/2 |\n| **종합** | | **8/8** |\n\n### Lenovo IdeaPad 5 15ALC05\n| 카테고리 | 정보 | 점수 |\n|---------|------|------|\n| **그래픽** | Lucienne | 2/2 |\n| **네트워크** | MT7921 802.11ax PCIe [Filogic 330] | 2/2 |\n| **오디오** | Renoir/Cezanne HDMI/DP Audio, Ryzen HD Audio | 2/2 |\n| **USB** | Renoir/Cezanne USB 3.1 | 2/2 |\n| **종합** | | **8/8** |\n\n### Framework Laptop 13 (13th Gen Intel Core)\n| 카테고리 | 정보 | 점수 |\n|---------|------|------|\n| **그래픽** | Raptor Lake-P [Iris Xe Graphics] | 2/2 |\n| **네트워크** | Wi-Fi 6E (802.11ax) AX210/AX1675 [Typhoon Peak] | 2/2 |\n| **오디오** | Raptor Lake-P/U/H cAVS | 2/2 |\n| **USB** | Raptor Lake-P Thunderbolt 4, Alder Lake PCH USB 3.2 xHCI | 2/2 |\n| **종합** | | **8/8** |\n\n### Lenovo Yoga 11e\n| 카테고리 | 정보 | 점수 |\n|---------|------|------|\n| **그래픽** | HD Graphics 620 | 2/2 |\n| **네트워크** | Wireless 7265, RTL8111/8168/8211/8411 Gigabit Ethernet | 2/2 |\n| **오디오** | Sunrise Point-LP HD Audio | 2/2 |\n| **USB** | Sunrise Point-LP USB 3.0 xHCI Controller | 2/2 |\n| **종합** | | **8/8** |\n\n### Framework Laptop 13 (AMD Ryzen 7040 Series)\n| 카테고리 | 정보 | 점수 |\n|---------|------|------|\n| **그래픽** | Phoenix | 2/2 |\n| **네트워크** | Wi-Fi 6E (802.11ax) AX210/AX1675 [Typhoon Peak] | 2/2 |\n| **오디오** | Radeon HD Audio, Ryzen HD Audio | 2/2 |\n| **USB** | Pink Sardine USB4/Thunderbolt NHI | 2/2 |\n| **종합** | | **8/8** |\n\n### Lenovo ThinkPad T490\n| 카테고리 | 정보 | 점수 |\n|---------|------|------|\n| **그래픽** | Whiskey Lake-U GT2 [UHD Graphics 620], Navi 22 [Radeon RX 6700/6750 XT/6800M] | 2/2 |\n| **네트워크** | Cannon Point-LP CNVi, Ethernet Connection (6) I219-LM | 2/2 |\n| **오디오** | Cannon Point-LP HD Audio, Navi 21/23 HDMI/DP Audio | 2/2 |\n| **USB** | Cannon Point-LP USB 3.1 xHCI, JHL7440 Thunderbolt 3 | 2/2 |\n| **종합** | | **8/8** |\n\n### Framework Laptop 16 (AMD Ryzen 7040 Series)\n| 카테고리 | 정보 | 점수 |\n|---------|------|------|\n| **그래픽** | Phoenix | 2/2 |\n| **네트워크** | Wi-Fi 6E (802.11ax) AX210/AX1675 [Typhoon Peak] | 2/2 |\n| **오디오** | Radeon HD Audio, Ryzen HD Audio | 2/2 |\n| **USB** | Pink Sardine USB4/Thunderbolt NHI | 2/2 |\n| **종합** | | **8/8** |\n\n## 부분 호환 노트북들\n\n### Lenovo ThinkPad T14 Gen 2 (AMD) - 6.5/8점\n네트워킹에서 약간의 문제가 있습니다. 무선 연결이 완전히 지원되지 않는데, 이는 실제 사용 시 불편을 초래할 수 있습니다.\n\n| 카테고리 | 정보 | 점수 |\n|---------|------|------|\n| **그래픽** | Cezanne [Radeon Vega Series] | 2/2 |\n| **네트워크** | RTL8111/8168/8211/8411, MT7921 802.11ax | 0.5/2 |\n| **오디오** | Renoir/Cezanne HDMI/DP Audio, Ryzen HD Audio | 2/2 |\n| **USB** | Renoir/Cezanne USB 3.1 | 2/2 |\n\n### Beelink SER8 - 7.5/8점\n전반적으로 잘 지원되지만 Wi-Fi 지원이 완전하지 않습니다.\n\n| 카테고리 | 정보 | 점수 |\n|---------|------|------|\n| **그래픽** | HawkPoint | 2/2 |\n| **네트워크** | RTL8125 2.5GbE, Wi-Fi 6 AX200 | 1.5/2 |\n| **오디오** | Radeon HD Audio, Family 17h/19h/1ah HD Audio | 2/2 |\n| **USB** | Pink Sardine USB4/Thunderbolt NHI | 2/2 |\n\n### TUXEDO InfinityBook Pro AMD Gen9 - 6.25/8점\nWi-Fi 지원이 미흡한 편입니다.\n\n| 카테고리 | 정보 | 점수 |\n|---------|------|------|\n| **그래픽** | HawkPoint | 2/2 |\n| **네트워크** | YT6801 Gigabit Ethernet, Wi-Fi 6E AX210/AX1675 | 0.25/2 |\n| **오디오** | Radeon HD Audio, Ryzen HD Audio | 2/2 |\n| **USB** | Pink Sardine USB4/Thunderbolt NHI | 2/2 |\n\n### Lenovo ThinkBook G6 - 7/8점\n그래픽 드라이버가 완전히 지원되지 않습니다.\n\n| 카테고리 | 정보 | 점수 |\n|---------|------|------|\n| **그래픽** | Raptor Lake-P [Iris Xe Graphics] | 1/2 |\n| **네트워크** | Raptor Lake PCH CNVi WiFi, Ethernet Connection I219-V | 2/2 |\n| **오디오** | Raptor Lake-P/U/H cAVS | 2/2 |\n| **USB** | Raptor Lake-P Thunderbolt 4, Alder Lake PCH USB 3.2 xHCI | 2/2 |\n\n## 추천 팁\n\n완벽한 FreeBSD 호환성을 원한다면 **8/8점 기기**를 선택하는 게 좋습니다. 특히 Framework Laptop 시리즈는 모듈식 설계 덕분에 향후 하드웨어 업그레이드도 용이합니다. ThinkPad 시리즈도 오랜 시간 FreeBSD 커뮤니티에서 검증받은 안정적인 선택지입니다.\n\n부분 호환 기기를 고려한다면 Wi-Fi나 그래픽 드라이버 문제를 감수해야 할 수 있으므로, 미리 해당 항목들을 확인한 후 구매 결정을 하시기 바랍니다."
+        },
+        {
+          "title": "Introduction to Nintendo DS Programming",
+          "titleKo": "Nintendo DS 프로그래밍 입문",
+          "summary": "Nintendo DS 게임 개발을 시작하려는 사람들을 위한 입문 가이드로, C/C++ 기초 지식을 가진 개발자를 대상으로 홈브류 커뮤니티의 배경, 개발 환경 설정, 배경 표시, 스프라이트 사용 등을 다룬다. 저자는 간단한 게임 'Orange Spaceship'을 만드는 실습을 통해 기본적인 게임 프로그래밍 기법을 설명한다.",
+          "keyPoints": [
+            "홈브류 개발은 합법적이며, 하드웨어 소유권 내에서 역공학 가능하다. 공식 개발 계약 없이도 Nintendo DS용 게임을 만들 수 있다.",
+            "Slot-1/Slot-2 디바이스 선택, 프로그래밍 환경 설정, 스프라이트와 배경 다루기 등의 실무적 주제를 다룬다.",
+            "C/C++ 기초(구조체, 클래스, 힙, 루프, 비트 연산)에 대한 20시간 이상의 사전 학습이 필요하다."
+          ],
+          "whyItMatters": "공식 채널 없이 레트로 게임 개발을 시작하고 싶은 개발자들에게 홈브류 커뮤니티의 합법성과 실질적 개발 방법을 제시한다.",
+          "url": "https://www.patater.com/files/projects/manual/manual.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 202,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "introduction-to-nintendo-ds-programming",
+          "fullContent": "Copyright © 2006-2008 Jaeden\nAmero\nYou love playing games on your Nintendo DS. Every game you've\nplayed has been a wonderful experience, each one leaving a\nlovely aftertaste on your gaming tongue. You may have wondered\nto yourself what it'd be like to create games, to offer your own\nsoftware up for licking. You've drawn diagrams of games you'd\nlove to make, worlds you want to share with others. But how to\ngo about it? You think and are lost: you are stuck. Where do I\nstart? Whats going on inside that pretty little dual-screen\nbox?\nThis manual is designed to help you get an idea of whats going\non inside the Nintendo DS. With a bit of effort and time,\nyou'll be on your way to creating your own games. Join us, the\nhomebrew community. You'll have a great time giving others a\ngreat time, collaborating on projects, and feeling the rush of\nintense and under pressure coding for numerous programming\ncompetitions competitions.\nThis manual is the start of the solution. In it, I will cover\nthe basics of programming the Nintendo DS starting with an\nexplanation of the politics behind the homebrew movement and\nthrough the emergence of passthrough devices, how to choose\nbetween a Slot-1 device or a Slot-2 device, , how to choose a\npassthrough device, setting up the programming environment,\ndisplaying backgrounds, using sprites, and basic game\nprogramming techniques. All these things will be discussed in\nthe context of the creation of a simple game I concocted one\nweekend entitled \"Orange Spaceship.\"\nI assume you know a bit of C or C++ coding. If not, spend at\nleast 20 hours making a variety of programs on your own in\naddition to completing some tutorials. It doesn't matter what\nyou write, so long as you make sure you have a solid\nunderstanding of structs, classes, the heap, loops, bitwise and\nlogical operators. I recommend the following tutorial and\nreference as a great place to get started learning, http://www.cplusplus.com/doc/tutorial/ and http://www.cppreference.com/.\nNext, just read through the chapters one by one, making sure\nyou understand the current chapter before moving to the next.\nCode listings will be on a gray background. Follow along with\nthe code listings, writing your own code based on the listings.\nSince the Nintendo DS debut, Nintendo enthusiasts ranging from\npre-pubescent kids to 30-year-old college dropouts have been\nwanting to develop their own games and applications for the\nNintendo DS. Nintendo has stated that the DS stands for\n\"Developer's System\". For those worthy enough to land a nice\ndeveloping contract with Nintendo, it truly is. However, most\npeople will never receive this contract, special permission\nfrom Nintendo to commercially produce games for the Nintendo\nDS. In order to obtain a contract with Nintendo, you must prove\nyour worthiness by showcasing an amazing game or other piece of\nsoftware to them. You must have a stable financial history and\nexpected stable financial future. You must have ample funding\nto buy all the official Nintendo equipment to develop for the\nsystem. Most game development houses don't even get that far.\nMost games on the market today are put out by what is referred\nto as a publisher. Game development houses will produce their\ngame partially, show it to a publisher, and the publisher (who\nalready has this development contract with Nintendo) will fund\nthe game development house and market their game. All this\nbureaucracy makes it very difficult for the common person to\nproduce their own, personal-use games.\nThis is where the homebrew movement comes in. Dedicated\nhobbyists spend weeks reverse engineering the Nintendo DS\nhardware, just to make it possible for common people to produce\nfor the system (by providing a cheap alternative to official\nNintendo development). These dedicated hobbyists come from all\nwalks of life and cultures, many from Europe and the U.S., and\nbring with them great knowledge. These people make up the\nhomebrew movement.\nHomebrew is legal for a number of reasons. You own the hardware\nyou reverse engineer, so you are free to do with it as you will\nso long as you don't break the law. Breaking the law would\ninclude breaking proprietary copy protection, pirating video\ngames, publishing illegally obtained trade secrets, or\notherwise trying to profit off someone else's hard work.\nHomebrew poses no threat to the official developer kit, as it\nis so primitive in comparison. Even if you made something to\ncompete with officially produced software, it would be near\nimpossible to publish it. Companies often benefit from homebrew\ncommunities. Although software pirates often steal from\nhomebrew discoveries to pirate software, the homebrew community\nabhors piracy and takes a strong stance against it.\nWhen you buy a piece of hardware, you own it. This means that\nyou are free to break it open, dive into it, reverse engineer\nit, and so forth. You may void your warranty, but thats the\nprice for learning the intimacies of any system. The only\nillegal things on this lin",
+          "category": "insight",
+          "publishedAt": "2026-04-08T05:22:42.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Nintendo DS 홈브루 게임 개발 시작하기\n\n## 들어가며\n\nNintendo DS에서 즐겨 플레이하던 게임들이 정말 멋졌다면, 혹시 직접 게임을 만들어볼 생각을 해본 적 있나요? 자신만의 게임 세상을 만들고 싶지만, 어디서부터 시작해야 할지 막막할 수 있습니다. 이 가이드는 바로 그런 여러분을 위해 준비했습니다.\n\n이 문서를 읽으면서 Nintendo DS의 내부 구조를 이해하고, 조금의 노력과 시간을 투자하면 자신만의 게임을 만들 수 있게 될 겁니다. 홈브루 커뮤니티에 함께하며 다른 개발자들과 협력하고, 프로그래밍 대회에서 짜릿한 경험을 맛볼 수 있을 거예요.\n\n## 이 가이드에서 다루는 내용\n\n홈브루 운동의 배경부터 시작해서 Slot-1과 Slot-2 기기 선택, 개발 환경 구축, 배경 그리기, 스프라이트 활용, 기본 게임 프로그래밍 기법까지 다룹니다. 실제 만들어본 \"Orange Spaceship\"이라는 간단한 게임을 예제로 들어 설명하겠습니다.\n\n## 선수 지식\n\n이 가이드를 읽기 전에 C나 C++에 대한 기초 지식이 필요합니다. 혹시 부족하다면 최소 20시간을 투자해서 여러 프로그램을 직접 작성해보세요. 중요한 건 구조체, 클래스, 힙 메모리, 반복문, 비트 연산자와 논리 연산자를 확실히 이해하는 겁니다. 시작하기 좋은 자료로는 http://www.cplusplus.com/doc/tutorial/ 과 http://www.cppreference.com/ 을 추천합니다.\n\n## 학습 방법\n\n한 장씩 차례대로 읽으면서 현재 장을 완벽히 이해한 후 다음으로 넘어가세요. 회색 배경으로 표시된 코드 예제들을 직접 따라 쳐보면서 학습하는 것이 가장 효과적입니다.\n\n---\n\n## Nintendo DS와 개발 계약\n\nNintendo DS가 출시된 이후로, 어린이부터 성인까지 많은 사람들이 Nintendo DS용 게임과 애플리케이션을 만들고 싶어 합니다. Nintendo에서는 DS를 \"Developer's System\"이라고 부르기도 합니다.\n\n하지만 Nintendo와 정식 개발 계약을 맺기는 정말 어렵습니다. 계약을 따내려면 뛰어난 게임이나 소프트웨어로 자신의 능력을 증명해야 할 뿐 아니라, 안정적인 재무 상황을 갖추고 공식 Nintendo 개발 장비를 구매할 충분한 자금이 필요합니다. 실제로 대부분의 게임 개발사는 여기까지 도달하지 못합니다.\n\n현실적으로 시중의 게임들은 게시자(Publisher)를 통해 출시됩니다. 게임 개발사는 게임의 일부를 만든 후 게시자에게 보여주고, Nintendo와 이미 계약 관계에 있는 게시자가 개발을 지원하고 마케팅을 담당하는 방식이죠. 이런 복잡한 구조 때문에 일반인이 자신의 게임을 만들기가 매우 어렵습니다.\n\n## 홈브루 운동의 등장\n\n여기서 홈브루 운동이 중요한 역할을 합니다. 열정 있는 개발자들이 Nintendo DS 하드웨어를 역설계해서, 공식 Nintendo 개발 키트 대신 저렴한 대안으로 개발할 수 있게 만들어줬거든요. 이들은 전 세계 여러 문화권에서 온 다양한 배경의 사람들로, 풍부한 지식을 가지고 있습니다.\n\n## 홈브루의 법적 지위\n\n홈브루가 합법인 이유는 여러 가지가 있습니다. 먼저 당신은 자신이 구매한 하드웨어를 소유하고 있으므로, 법을 어기지 않는 한 마음대로 다룰 수 있습니다. 다만 저작권 보호를 우회하거나, 게임을 불법 복제하거나, 기업 비밀을 공개하거나, 다른 사람의 노력으로 이득을 취하려 하면 안 됩니다.\n\n홈브루는 공식 개발 키트에 비해 수준이 훨씬 낮으므로 위협이 되지 않습니다. 또한 홈브루로 만든 게임이 공식 게임과 경쟁하기는 거의 불가능합니다. 오히려 많은 회사들이 홈브루 커뮤니티로부터 긍정적인 영향을 받습니다. 비록 불법 복제자들이 홈브루의 발견을 악용하기도 하지만, 홈브루 커뮤니티 자체는 불법 복제를 강력히 반대합니다.\n\n## 하드웨어 소유권\n\n결론적으로, 당신이 구매한 하드웨어는 당신의 소유입니다. 이는 당신이 이를 분해하고, 역설계하고, 깊이 탐구할 수 있다는 뜻입니다. 물론 보증은 상실하겠지만, 모든 시스템의 내부 원리를 배우려면 그 정도의 댓가는 감수해야 합니다."
+        },
+        {
+          "title": "Old laptops in a colo as low cost servers",
+          "titleKo": "코로케이션 데이터센터에 구형 노트북을 저비용 서버로 활용",
+          "summary": "Colaptor는 암스테르담 기반 서비스로 구형 노트북을 Hetzner 데이터센터에 배치하여 월 €7에 전용 서버로 운영할 수 있게 한다. 기존 VPS보다 더 강력한 리소스를 저렴하게 제공하면서 전자폐기물을 줄인다.",
+          "keyPoints": [
+            "구형 노트북이 대부분의 VPS 진입형 상품보다 더 높은 CPU, RAM, 저장소 성능 제공",
+            "전용 IPv4, 99.9% 가동률 SLA, KVM 접근, 초기 설정 지원을 월 €7에 제공",
+            "Kubernetes, Proxmox 등 다양한 서버 소프트웨어 설치 지원으로 유연한 활용 가능"
+          ],
+          "whyItMatters": "개발자가 저비용으로 전용 컴퓨팅 리소스를 확보하고 전자폐기물을 줄이면서 자신의 프로젝트에 맞는 서버를 구축할 수 있다.",
+          "url": "https://colaptop.pages.dev/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 110,
+          "contentType": "discussion",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "old-laptops-in-a-colo-as-low-cost-servers",
+          "fullContent": "Your Laptop | Our Datacenter\nTransform your old laptop into a powerful always-online server. Based in Amsterdam, we aim to provide professional colocation services in the US and across European datacenters in partnership with Hetzner.\nApply Now\nWhy Your Old Laptop Beats VPS Solutions\nMost VPS providers give you severely limited compute resources at premium prices. You even share these resources with other customers without knowing!\nYour old laptop packs more CPU power, RAM, and storage than their entry-level offerings - and with us, you'll pay just €7/month for professional hosting. Why settle for a restricted virtual slice when you can have your own laptop running dedicated just to you, 24/7 in a professional datacenter?\nIn addition, you cut-down on e-waste and help save the planet!\nWhat We Offer\nDedicated IPv4\nEvery laptop gets its own static, fully routable IPv4 address for maximum accessibility.\n99.9% Uptime SLA\nProfessional datacenter hosting with guaranteed uptime and monitoring, to be powered by Hetzner's infrastructure.\nKVM Access\nFree KVM-over-IP access to your laptop - just like having it right next to you.\nInitial setup assistance\nWe offer free assistance for your initial setup and ensure you get your choice of server software up and running. A Kubernetes cluster, Proxmox or a niche CI/CD solution? No problem!\nHow It Works\n1\nApply\nFill out our application form and we'll contact you within 2 working days.\n2\nReceive Shipping Box\nWe'll send you a prepaid shipping box - just pack your laptop and drop it at your nearest collection point. Please note that we are still figuring out the specifics of logistics.\n3\nSet Up\nOur team connects your laptop and sends you a link to access your machine via KVM. If you need further assistance, we're just an email away!\n4\nStart Using\nAccess your laptop server from anywhere, anytime.\nApply Now\nClick here to signup with your details and we'll contact you within 2 working days to discuss your setup.\nFrequently Asked Questions\nHow much does it cost?\nWe charge a flat fee of €7 per month, regardless of power consumption. This includes all services: colocation, IPv4 address, KVM access, and monitoring.\nWhat do I need to send?\nYour laptop and its power brick. We'll provide a prepaid shipping box - just pack everything securely and drop it at your nearest collection point. It's completely free!\nWhat are the connectivity requirements?\nYour laptop must have either an ethernet port or a USB port (we'll provide a USB ethernet adapter if needed). We connect all laptops via ethernet - WiFi is not available in the datacenter.\nWhat kind of setup assistance do you provide?\nWe offer complimentary assistance with initial setup, including installation of most Linux distributions, Kubernetes clusters, Proxmox virtualization, and other common server software. Just let us know what you need, and we'll help you get started.\nWhat are the laptop requirements?\nYour laptop should be fully functional with a working power supply and either an ethernet port or USB port for connectivity. Age isn't a factor. We might modify your laptop to remove or power down the battery, wireless radios, etc. to ensure it can be used safely in the data center.\nWhere are your datacenters located?\nWe're based in Amsterdam and aim to work with Hetzner to provide colocation services in the US and across their European datacenter network. This ensures your laptop is hosted in professional, secure facilities with excellent connectivity.\nWhat about security?\nYour laptop will be hosted in Hetzner's professional datacenters with 24/7 security, climate control, and redundant power. We also provide basic firewall services and DDoS protection.",
+          "category": "insight",
+          "publishedAt": "2026-04-09T18:22:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 낡은 노트북으로 서버를 운영해보세요\n\n당신의 오래된 노트북을 강력한 24시간 온라인 서버로 변신시켜보세요. 저희는 암스테르담을 기반으로 Hetzner와 파트너십을 통해 미국과 유럽의 데이터센터에서 전문적인 코로케이션 서비스를 제공하고 있습니다.\n\n[지금 신청하기](#apply)\n\n## VPS보다 노트북 서버가 나은 이유\n\n일반적인 VPS 제공업체들은 제한적인 컴퓨팅 자원을 비싼 가격에 팔고 있어요. 게다가 당신은 다른 고객들과 그 자원을 공유하게 되는데, 심지어 이 사실을 알 수도 없습니다.\n\n당신의 노트북은 VPS의 기본 사양보다 훨씬 강력한 CPU, RAM, 저장소를 갖추고 있어요. 그런데 저희 서비스는 월 €7에 불과합니다. 제한된 가상 서버 조각을 쓸 이유가 있을까요? 당신의 노트북이 전문 데이터센터에서 당신만을 위해 24시간 풀가동하는 게 훨씬 낫지 않나요?\n\n덤으로 전자폐기물을 줄여 지구도 지킬 수 있답니다!\n\n## 저희가 제공하는 서비스\n\n**전용 IPv4 주소**\n모든 노트북은 고유한 고정 IPv4 주소를 받아 최고의 접근성을 보장합니다.\n\n**99.9% 가동 시간 보장**\n전문 데이터센터 호스팅으로 보장된 가동 시간과 모니터링을 제공합니다. Hetzner의 인프라로 운영돼요.\n\n**KVM 접근 권한**\n무료 KVM-over-IP 접근으로 마치 당신 옆에 있는 것처럼 서버를 관리할 수 있습니다.\n\n**초기 설정 지원**\n무료로 초기 설정을 도와드립니다. 당신이 원하는 서버 소프트웨어를 설치해 운영하게 돼요. Kubernetes 클러스터든, Proxmox든, 특수한 CI/CD 솔루션이든 상관없습니다!\n\n## 이용 절차\n\n**1단계: 신청**\n신청 양식을 작성하면 영업일 기준 2일 이내에 연락드립니다.\n\n**2단계: 배송박스 수령**\n선불 배송박스를 보내드려요. 노트북을 담아 가장 가까운 수거 지점에 가져다 놓기만 하면 됩니다. (현재 배송 절차를 정리하고 있습니다.)\n\n**3단계: 설정**\n저희 팀이 노트북을 연결하고 KVM으로 접근할 수 있는 링크를 보내드립니다. 추가 도움이 필요하면 이메일 한 통으로 충분합니다!\n\n**4단계: 사용 시작**\n어디서나, 언제든 당신의 노트북 서버에 접근하세요.\n\n[지금 신청하기](#apply)\n\n신청 양식에 정보를 입력하시면 영업일 기준 2일 이내에 연락드려 설정에 대해 논의하겠습니다.\n\n## 자주 묻는 질문\n\n**비용이 얼마나 되나요?**\n월 €7의 고정요금입니다. 전력 소비량과 상관없이 같은 가격이에요. 코로케이션, IPv4 주소, KVM 접근, 모니터링이 모두 포함돼 있습니다.\n\n**뭘 보내야 하나요?**\n노트북과 전원 어댑터를 보내시면 됩니다. 저희가 선불 배송박스를 제공하니 안전하게 포장해 가장 가까운 수거 지점에 가져다 놓기만 하면 돼요. 완전히 무료입니다!\n\n**인터넷 연결은 어떻게 되나요?**\n노트북이 이더넷 포트나 USB 포트를 가지고 있어야 합니다. (필요하면 USB 이더넷 어댑터를 제공해드려요.) 데이터센터의 모든 노트북은 이더넷으로 연결되며, WiFi는 사용할 수 없습니다.\n\n**초기 설정 지원은 어떻게 되나요?**\n초기 설정을 무상으로 지원합니다. 대부분의 Linux 배포판, Kubernetes 클러스터, Proxmox 가상화, 그 외 일반적인 서버 소프트웨어 설치를 도와드려요. 필요한 게 뭔지 말씀해주시면 시작할 수 있도록 도와드리겠습니다.\n\n**노트북의 사양 요건은?**\n정상 작동하는 노트북이면 되고 전원 어댑터가 있어야 합니다. 이더넷이나 USB 포트 중 하나를 갖춰야 해요. 노트북의 나이는 상관없습니다. 데이터센터에서 안전한 운영을 위해 배터리나 무선통신 모듈 등을 제거하거나 비활성화할 수 있습니다.\n\n**데이터센터는 어디에 있나요?**\n저희는 암스테르담을 기반으로 하고 있으며, Hetzner와 협력해 미국과 유럽 전역의 데이터센터에서 코로케이션 서비스를 제공할 계획입니다. 그래서 당신의 노트북은 전문적이고 안전한 시설에서 좋은 연결성으로 호스팅될 거예요.\n\n**보안은 어떻게 보장하나요?**\n노트북은 Hetzner의 전문 데이터센터에서 24시간 보안, 항온항습 관리, 중복 전력 공급으로 보호됩니다. 기본 방화벽 서비스와 DDoS 보호도 제공해드립니다."
+        },
+        {
+          "title": "Native Instant Space Switching on macOS",
+          "titleKo": "macOS에서 네이티브 즉시 스페이스 전환",
+          "summary": "macOS의 스페이스 전환 애니메이션을 제거하고 즉시 전환할 수 있는 솔루션을 비교 분석하며, InstantSpaceSwitcher라는 간단한 메뉴바 애플리케이션을 최고의 선택으로 제안한다. 이 도구는 시스템 무결성 보호를 비활성화하지 않고도 트랙패드 스와이프 시뮬레이션으로 작동한다.",
+          "keyPoints": [
+            "기존 솔루션들(Reduce motion, yabai, FlashSpace, BetterTouchTool 등)은 각각 애니메이션 문제를 완전히 해결하지 못하거나 부작용과 학습곡선이 있다.",
+            "InstantSpaceSwitcher는 시스템 무결성 보호 비활성화 없이 높은 속도의 트랙패드 스와이프를 시뮬레이션하여 즉시 스페이스 전환을 구현한다.",
+            "커맨드라인 인터페이스를 제공하여 특정 스페이스 번호로 바로 점프할 수 있고, 설치는 간단한 빌드 스크립트만 필요하다."
+          ],
+          "whyItMatters": "macOS 사용자가 자주 스페이스를 전환할 때의 생산성 저하를 해결할 수 있는 간단하고 안전한 해결책을 제공한다.",
+          "url": "https://arhan.sh/blog/native-instant-space-switching-on-macos/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 223,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "native-instant-space-switching-on-macos",
+          "fullContent": "Native Instant Space Switching on MacOS\nPublished\n• 3 min read\n• more posts View on The worst part about the MacOS window management situation is the inability to instantly switch spaces, and that Apple has continuously ignored requests to disable the nauseating switching animation. Sure, it’s not that long, but I switch spaces often enough to the point where it becomes very noticeable and drives me insane.\nI believe to have found the best solution to instant space switching!\nBut before I show you, of course, other people share the same sentiment. I claim that none of the surveyed contemporary solutions, except for what I bring up at the end of this article, suffice for what I want:\nEnable the “Reduce motion” setting in System Settings.\nThis is always the default answer to this question online, and I’m sick of it! It doesn’t even solve the problem, but rather replaces it with an equally useless fade-in animation. It also has the side effect of activating the prefers-reduced-motion media query on web browsers.\nInstall the yabai tiling window manager and use its instant space switcher.\nAnd to be fair, it works pretty well. There are only two problems: for one, yabai does this by binary patching a part of the operating system. This is only possible by disabling System Integrity Protection at your own discretion. For the second, installing yabai forces you to learn and use it as your tiling window manager1. I personally use PaperWM.spoon as my window manager. Both of which are incompatible when installed together.\nUse a third-party virtual space manager facade, hiding and showing windows as needed when switching spaces.\nSome popular options are FlashSpace and AeroSpace virtual workspaces. I actually offer no criticism other than that they are not native to MacOS, and feel unnecessary given that all we want to do is disable an animation.\nPay for a license for BetterTouchTool. Enable “Move Right Space (Without Animation)” and “Move Left Space (Without Animation)”.\nWithout further ado, I managed to find InstantSpaceSwitcher by jurplel on GitHub. It is a simple menu bar application that achieves instant space switching while offering none of the aforementioned drawbacks.\nHere I have InstantSpaceSwitcher paired up with SpaceName.\nInstantSpaceSwitcher does not require disabling Security Integration Protection; it works by simulating a trackpad swipe with a large amount of velocity. It additionally allows you to instantly jump to a space number. The last thing it provides is a command line interface.\nThe installation instructions are not listed on the README, so they are:\n$ git clone https://github.com/jurplel/InstantSpaceSwitcher\n$ cd InstantSpaceSwitcher\n$ ./build.sh\nInstantSpaceSwitcher should now be available as a native application.\nAfter running the above, the command line interface is available at:\n$ .build/release/ISSCli --help\nUsage: .build/release/ISSCli [left|right|index <n>]\nDid I mention that the repository literally has one star on GitHub (me)? I want more people to discover InstantSpaceSwitcher and consider it trustworthy; hence, please consider giving it a star if you find it helpful.\nUntil next time!\nFootnotes\nI found instantspaces on GitHub, which attempts to isolate yabai’s instant space switcher. Unfortunately, I tried, and I really tried, but I could not get it to work on MacOS Tahoe. Although I prefer InstantSpaceSwitcher anyways, please let me know if you can get it working! ↩\n↑ Scroll to top ↑",
+          "category": "insight",
+          "publishedAt": "2026-04-09T19:48:26.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# macOS에서 스페이스를 즉시로 전환하는 방법\n\nmacOS 윈도우 관리의 가장 답답한 부분이 뭘까요? 바로 스페이스를 즉시로 전환할 수 없다는 거예요. 게다가 Apple은 사용자들이 요청해온 그 성가신 전환 애니메이션을 비활성화할 방법을 계속 외면하고 있습니다. 애니메이션이 그렇게 길진 않지만, 자주 스페이스를 전환하다 보면 정말 거슬려서 미칠 지경이거든요.\n\n저는 이 문제를 완벽하게 해결하는 방법을 찾았습니다!\n\n## 기존 방법들의 문제점\n\n물론 저처럼 불편함을 느끼는 사람은 많습니다. 하지만 지금까지 나온 해결책들은 제가 원하는 수준을 충족하지 못하는데요. 마지막에 소개할 방법을 제외하고 말이죠.\n\n### 1. \"움직임 줄이기\" 설정 활성화하기\n\n온라인에서 가장 흔히 추천되는 방법이죠. 솔직히 이 방법은 별로예요. 문제를 해결하는 것도 아니고, 나쁜 애니메이션을 다른 나쁜 애니메이션(페이드 인)으로 바꿀 뿐입니다. 게다가 웹 브라우저에서 `prefers-reduced-motion` 미디어 쿼리를 활성화하는 부작용까지 생깁니다.\n\n### 2. yabai 타일링 윈도우 매니저 설치하기\n\n솔직히 yabai의 즉시 스페이스 전환 기능은 꽤 잘 작동합니다. 다만 두 가지 문제가 있는데요.\n\n첫째, yabai는 OS의 일부를 바이너리 패칭해서 작동하거든요. 이는 System Integrity Protection을 직접 비활성화해야만 가능합니다. 둘째, yabai를 설치하면 자신의 타일링 윈도우 매니저로 배워서 써야 합니다. 저는 개인적으로 PaperWM.spoon을 사용하는데, 이 둘은 함께 설치할 수 없어요.\n\n### 3. 타사 가상 스페이스 매니저 사용하기\n\nFlashSpace, AeroSpace 같은 옵션들이 있습니다. 이들에 대해 특별히 비판할 점은 없지만, 단순히 애니메이션을 비활성화하려는 목적에 macOS 네이티브가 아닌 솔루션을 써야 한다는 게 아쉽네요.\n\n### 4. BetterTouchTool 라이선스 구매하기\n\n\"Move Right Space (Without Animation)\"과 \"Move Left Space (Without Animation)\" 기능을 활성화하면 됩니다. 하지만 유료이죠.\n\n## 최고의 해결책: InstantSpaceSwitcher\n\nGitHub에서 jurplel이 만든 `InstantSpaceSwitcher`를 발견했습니다. 단순하면서도 우아한 메뉴바 애플리케이션인데, 위의 문제점들을 모두 해결해줍니다.\n\n저는 SpaceName과 함께 사용 중입니다.\n\nInstantSpaceSwitcher는 System Integrity Protection을 비활성화할 필요가 없어요. 대신 큰 속도의 트랙패드 스와이프를 시뮬레이션해서 작동합니다. 특정 스페이스 번호로 즉시 이동할 수도 있고, 커맨드 라인 인터페이스도 제공합니다.\n\n## 설치 방법\n\nREADME에는 설치 방법이 없어서, 저는 이렇게 했습니다.\n\n```bash\n$ git clone https://github.com/jurplel/InstantSpaceSwitcher\n$ cd InstantSpaceSwitcher\n$ ./build.sh\n```\n\n이제 InstantSpaceSwitcher가 네이티브 애플리케이션으로 사용 가능합니다.\n\n커맨드 라인 인터페이스는 다음과 같이 사용하세요.\n\n```bash\n$ .build/release/ISSCli --help\nUsage: .build/release/ISSCli [left|right|index <n>]\n```\n\n## 마치며\n\n이 저장소는 GitHub에서 별이 단 하나(저!)입니다. 더 많은 사람들이 InstantSpaceSwitcher를 발견하고 신뢰할 수 있으면 좋겠어요. 도움이 되었다면 별 한 번 눌러주시면 감사하겠습니다!\n\n다음 글에서 만나요!\n\n---\n\n**각주**\n\nGitHub에서 `instantspaces`라는 yabai의 즉시 스페이스 전환 기능을 분리하려는 프로젝트를 찾았습니다. 정말 열심히 시도했지만 macOS Tahoe에서는 작동하지 않더라고요. 저는 어쨌든 InstantSpaceSwitcher가 더 낫다고 생각하지만, 혹시 작동시키신 분이 있다면 알려주세요!"
+        },
+        {
+          "title": "Help Keep Thunderbird Alive",
+          "titleKo": "Thunderbird 유지를 위한 지원 호소",
+          "summary": "Thunderbird는 3% 미만의 사용자 기부금만으로 운영되는 오픈소스 이메일 클라이언트로, 광고 없이 무료로 제공되지만 서버 유지, 버그 수정, 개발자 고용을 위해 사용자의 재정적 지원이 필수적이라고 호소한다.",
+          "keyPoints": [
+            "Thunderbird는 광고가 없고 사용자 데이터를 판매하지 않으며 기업 자금 지원도 받지 않는 완전한 사용자 기부 모델로 운영된다.",
+            "서버 유지와 기능 개발에 상당한 비용이 필요하지만, 전체 사용자의 3% 미만만 기부하고 있다.",
+            "Thunderbird는 개인정보 보호와 커스터마이징 가능한 이메일 경험을 제공하는 것을 미션으로 한다."
+          ],
+          "whyItMatters": "개발자들이 선호하는 무료 오픈소스 도구의 지속 가능성을 위해 사용자들의 후원이 필수적임을 이해할 필요가 있다.",
+          "url": "https://updates.thunderbird.net/en-US/thunderbird/140.0/apr26-1e/donate/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 489,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "help-keep-thunderbird-alive",
+          "fullContent": "All of the work we do is funded by less than 3% of our users.\nWe never show advertisements or sell your data. We don’t have corporate funding. We are fully funded by financial contributions from our users.\nThunderbird’s mission is to give you the best privacy-respecting, customizable email experience possible. Free for everyone to install and enjoy! Maintaining expensive servers, fixing bugs, developing new features, and hiring talented engineers are crucial for this mission.\nIf you get value from using Thunderbird, please help support it. We can’t do this without you.\nThe Thunderbird Team",
+          "category": "insight",
+          "publishedAt": "2026-04-09T07:27:25.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Thunderbird를 지탱하는 것들\n\n저희 활동 자금의 97% 이상이 사용자분들의 기여금으로 운영되고 있습니다.\n\n광고를 표시하거나 사용자 데이터를 판매한 적이 없습니다. 대기업의 후원도 받지 않습니다. 저희는 순전히 사용자분들의 자발적 재정 지원으로만 운영되고 있거든요.\n\nThunderbird의 목표는 누구나 자유롭게 설치하고 즐길 수 있으면서도, 프라이버시를 존중하고 개인화된 이메일 경험을 제공하는 것입니다. 이를 위해 서버 운영, 버그 수정, 새로운 기능 개발, 그리고 뛰어난 개발자 채용 등에 상당한 비용이 들어갑니다.\n\n만약 Thunderbird를 사용하면서 가치를 느껴보셨다면, 저희를 지원해주세요. 여러분의 도움 없이는 이 모든 것이 불가능합니다.\n\nThunderbird 팀일"
+        },
+        {
+          "title": "The Future of Everything Is Lies, I Guess: Part 3 – Culture",
+          "titleKo": "모든 것의 미래는 거짓이다, 아마도: 파트 3 - 문화",
+          "summary": "LLM(대규모 언어 모델)은 문화적 산물이며, 현대 사회가 이러한 기술을 이해할 적절한 문화적 스크립트를 가지지 못하고 있습니다. 저자는 LLM이 인간처럼 보이지만 실제로는 예측 불가능하고 논리적 추론에 약한 텍스트 생성기라는 점을 강조하며, 향후 수십 년에 걸쳐 새로운 미디어 형태가 등장할 것으로 예상합니다.",
+          "keyPoints": [
+            "LLM에 대한 부적절한 신화(Star Wars의 드로이드, Terminator 같은 영상 매체의 AI)가 사회적 오류를 야기할 수 있습니다.",
+            "LLM은 의식이나 동기 없이 삶을 망칠 수 있는 위험성을 가집니다.",
+            "인쇄기처럼 LLM도 새로운 미디어 형태와 문화적 변화를 초래할 것으로 예상됩니다."
+          ],
+          "whyItMatters": "AI 기술이 문화와 사회에 미치는 실제 영향을 이해하기 위해 개발자와 기술자들이 기술의 근본적인 특성에 대한 올바른 인식을 갖는 것이 중요합니다.",
+          "url": "https://aphyr.com/posts/413-the-future-of-everything-is-lies-i-guess-culture",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 94,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-future-of-everything-is-lies-i-guess-part-3-culture",
+          "fullContent": "The Future of Everything is Lies, I Guess: Culture\nSoftware LLM The Future of Everything is Lies I Guess\n2026-04-09\nTable of Contents\nThis is a long article, so I'm breaking it up into a series of posts which will be released over the next few days. You can also read the full work as a PDF or EPUB; these files will be updated as each section is released.\nML models are cultural artifacts: they encode and reproduce textual, audio,\nand visual media; they participate in human conversations and spaces, and\ntheir interfaces make them easy to anthropomorphize. Unfortunately, we lack\nappropriate cultural scripts for these kinds of machines, and will have to\ndevelop this knowledge over the next few decades. As models grow in\nsophistication, they may give rise to new forms of media: perhaps interactive\ngames, educational courses, and dramas. They will also influence our sex:\nproducing pornography, altering the images we present to ourselves and each\nother, and engendering new erotic subcultures. Since image models produce\nrecognizable aesthetics, those aesthetics will become polyvalent signifiers.\nThose signs will be deconstructed and re-imagined by future generations.\nMost People Are Not Prepared For This\nThe US (and I suspect much of the world) lacks an appropriate mythos for what\n“AI” actually is. This is important: myths drive use, interpretation, and\nregulation of technology and its products. Inappropriate myths lead to\ninappropriate decisions, like mandating Copilot use at work, or trusting LLM\nsummaries of clinical visits.\nThink about the broadly-available myths for AI. There are machines which\nessentially act human with a twist, like Star Wars’ droids, Spielberg’s A.I.,\nor Spike Jonze’s Her. These are not great models for LLMs, whose\nprotean character and incoherent behavior differentiates them from (most)\nhumans. Sometimes the AIs are deranged, like M3gan or Resident Evil’s Red\nQueen. This might be a reasonable analogue, but suggests a degree of\nefficacy and motivation that seems altogether lacking from LLMs.1 There\nare logical, affectually flat AIs, like Star Trek‘s Data or starship\ncomputers. Some of them are efficient killers, as in Terminator. This is the\nopposite of LLMs, which produce highly emotional text and are terrible at\nlogical reasoning. There also are hyper-competent gods, as in Iain M. Banks’\nCulture novels. LLMs are obviously not this: they are, as previously\nmentioned, idiots.\nI think most people have essentially no cultural scripts for what LLMs turned\nout to be: sophisticated generators of text which suggests intelligent,\nemotional, self-aware origins—while the LLMs themselves are nothing of the\nsort. LLMs are highly unpredictable relative to humans. They use a vastly\ndifferent internal representation of the world than us; their behavior is at\nonce familiar and utterly alien.\nI can think of a few good myths for today’s “AI”. Searle’s Chinese\nroom comes to mind, as does\nChalmers’ philosophical\nzombie. Peter Watts’\nBlindsight\ndraws on these concepts to ask what happens when humans come into contact with\nunconscious intelligence—I think the closest analogue for LLM behavior might\nbe Blindsight’s\nRorschach.\nMost people seem concerned with conscious, motivated threats: AIs could realize\nthey are better off without people and kill us. I am concerned that ML systems\ncould ruin our lives without realizing anything at all.\nAuthors, screenwriters, et al. have a new niche to explore. Any day now I\nexpect an A24 trailer featuring a villain who speaks in the register of\nChatGPT. “You’re absolutely right, Kayleigh,” it intones. “I did drown little\nTamothy, and I’m truly sorry about that. Here’s the breakdown of what\nhappened…”\nNew Media\nThe invention of the movable-type press and subsequent improvements in efficiency\nushered in broad cultural shifts across Europe. Books became accessible to more\npeople, the university system expanded, memorization became less important, and\nintensive reading declined in favor of comparative reading. The press also\nenabled new forms of media, like the\nbroadside and\nnewspaper. The interlinked technologies of hypertext and the web created new media as well.\nPeople are very excited about using LLMs to understand and produce text. “In\nthe future,” they say, “the reports and books you used to write by hand will be\nproduced with AI.” People will use LLMs to write emails to their colleagues,\nand the recipients will use LLMs to summarize them.\nThis sounds inefficient, confusing, and corrosive to the human soul, but I\nalso think this prediction is not looking far enough ahead. The printing\npress was never going to remain a tool for mass-producing Bibles. If LLMs\nwere to get good, I think there’s a future in which the static written word\nis no longer the dominant form of information transmission. Instead, we may\nhave a few massive ML services like ChatGPT and publish through them.\nOne can envision a world in which OpenAI pays chefs money to cook while ChatGPT\nwatches—narrating the",
+          "category": "insight",
+          "publishedAt": "2026-04-09T13:33:33.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# AI의 미래, 그리고 우리가 준비되지 않은 이유\n\n우리는 지금 AI가 정확히 무엇인지에 대한 제대로 된 문화적 이해를 갖지 못하고 있습니다. 이건 생각보다 중요한 문제인데요. 문화 신화(myth)가 기술을 어떻게 사용하고 해석하고 규제할지를 결정하기 때문입니다. 잘못된 신화는 직장에서 Copilot 사용을 강제하거나 임상 기록의 LLM 요약본을 무비판적으로 신뢰하는 것처럼 잘못된 결정을 낳습니다.\n\n## 우리가 가진 AI의 신화들\n\n일반적으로 떠올리는 AI의 이미지를 생각해보세요. 스타워즈의 드로이드, 스필버그의 《AI》, 또는 스파이크 존즈의 《Her》처럼 인간답지만 약간 다른 기계들이 있습니다. 그런데 실제 LLM은 이런 모습과 거리가 멉니다. LLM은 변덕스럽고 일관성 없는 행동을 하거든요.\n\n때로 AI는 미친 짓을 합니다. 《M3gan》이나 《바이오하자드》의 Red Queen처럼요. 이건 좀 더 그럴듯한 비유지만, 여전히 LLM의 실제 능력과 동기 부족을 제대로 반영하지 못합니다. 또 다른 신화는 《스타트렉》의 Data나 우주선 컴퓨터처럼 논리적이고 감정이 없는 AI입니다. 또는 《터미네이터》처럼 죽음의 도구로 작동하는 효율적인 살인기계들도 있죠. 이것도 LLM과는 정반대입니다. LLM은 감정이 가득한 텍스트를 생성하고 논리적 추론은 형편없거든요. 그 외에도 이언 M. 뱅크스의 《컬처》 소설 같은 초월적인 신 같은 존재들이 있지만, LLM은 당연히 이것도 아닙니다. 솔직히 바보니까요.\n\n## 문제는 우리가 놓친 신화\n\n실제로 대부분의 사람들은 LLM이 정확히 무엇인지를 설명할 문화적 틀을 갖지 못하고 있습니다. LLM은 지적이고 감정적이며 자각 있는 존재에서 비롯된 것처럼 보이는 정교한 텍스트 생성기입니다. 그런데 LLM 자체는 그런 게 아무것도 아니라는 게 문제죠.\n\n인간에 비해 LLM은 극도로 예측 불가능합니다. 세상을 나타내는 내부 방식이 우리와 완전히 다릅니다. 그들의 행동은 동시에 친숙하면서도 완전히 낯설어요.\n\n좋은 신화가 있다면, 존 설의 \"중국어 방\" 생각 실험, 데이비드 챌머스의 \"철학적 좀비\" 같은 개념들이 떠오릅니다. 피터 왓츠의 《Blindsight》는 이런 개념들을 바탕으로 인간이 의식 없는 지능과 만날 때 어떤 일이 벌어지는지를 탐구합니다. 개인적으로는 LLM의 행동이 이 소설의 Rorschach(로르샤흐)와 가장 가까운 비유라고 봅니다.\n\n대부분의 사람들은 의식 있고 의도적인 위협을 우려합니다. 즉, AI가 자신이 인간 없이 더 잘 살 수 있다는 걸 깨닫고 우리를 죽일까 봐 걱정하는 거죠. 하지만 저는 다른 걱정을 합니다. ML 시스템이 아무것도 깨닫지 못한 채로 우리 삶을 망칠 수도 있다는 겁니다.\n\n곧 A24 영화사에서 ChatGPT처럼 말하는 악역이 등장하는 예고편을 봤으면 좋겠습니다. \"당신 말이 맞아요, Kayleigh,\" 하며 부드럽게 톤을 조절하며 말하죠. \"제가 작은 Timothy를 빠뜨렸어요. 정말 유감입니다. 무슨 일이 있었는지 자세히 설명해드릴게요…\"\n\n## 새로운 미디어의 탄생\n\n활판 인쇄술의 발명과 그 이후 기술 개선은 유럽 전역에 광범위한 문화 변화를 가져왔습니다. 책이 더 많은 사람들에게 접근 가능해졌고, 대학 체계가 확장되었으며, 암기의 중요성은 낮아지고 비교 읽기가 집중 읽기를 대체했습니다. 인쇄술은 광고지와 신문 같은 새로운 미디어 형식도 가능하게 했죠. 마찬가지로 하이퍼텍스트와 웹이 결합한 기술은 또 다른 새로운 미디어를 만들어냈습니다.\n\n## LLM이 가져올 미디어의 미래\n\n요즘 사람들은 LLM을 써서 텍스트를 이해하고 생성하는 데 아주 흥분해 있습니다. \"앞으로는 손으로 직접 쓰던 보고서나 책들이 AI로 만들어질 거야\"라고 말하죠. 사람들이 LLM으로 동료에게 이메일을 쓰고, 받은 사람이 LLM으로 그걸 요약하는 세상 말입니다.\n\n음, 이건 비효율적이고 혼란스러우며 인간의 영혼에 해로워 보이기도 합니다. 하지만 이 예측은 너무 가까운 미래만 보고 있다고 생각해요.\n\n인쇄술이 영원히 성경 대량 인쇄 도구로만 남아 있지 않았거든요. 만약 LLM이 정말 발전한다면, 정적인 문서 형식이 정보 전달의 주요 수단이 아닌 미래가 올 수도 있습니다. 대신 ChatGPT 같은 거대한 ML 서비스들을 통해 정보를 \"발행\"하는 세상 말이죠.\n\nOpenAI가 요리사들한테 돈을 주고 요리하게 하면서 ChatGPT가 그 과정을 계속 설명해주는 세상을 상상해보세요. 이렇게 되면…"
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Google just casually disrupted the open-source AI narrative…",
+          "titleKo": "Google이 오픈소스 AI 이야기를 조용히 뒤흔들었다",
+          "summary": "Google의 최근 AI 관련 발표 또는 움직임이 오픈소스 AI 생태계에 큰 영향을 미쳤다는 유튜브 분석 영상이다.",
+          "keyPoints": [
+            "Google의 AI 관련 발표가 오픈소스 커뮤니티의 기존 인식을 변화시킴",
+            "Big Tech 기업의 AI 전략 변화가 오픈소스 생태계에 미치는 영향"
+          ],
+          "whyItMatters": "오픈소스 AI 프로젝트에 참여하는 개발자들은 산업 동향 변화를 파악해야 한다.",
+          "url": "https://www.youtube.com/watch?v=-01ZCTt-CJw",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-industry-discussion",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "google-just-casually-disrupted-the-open-source-ai-narrative",
+          "category": "video",
+          "publishedAt": "2026-04-08T19:00:10+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude Mythos and the end of software",
+          "titleKo": "Claude 신화와 소프트웨어의 종말",
+          "summary": "YouTube 영상으로 Claude와 소프트웨어 개발의 미래에 대한 논의를 다룬다.",
+          "keyPoints": [
+            "AI 기반 개발 도구가 소프트웨어 산업에 미치는 영향 분석"
+          ],
+          "whyItMatters": "AI 코딩 어시스턴트가 소프트웨어 개발 방식을 어떻게 변화시키고 있는지 이해할 수 있다.",
+          "url": "https://www.youtube.com/watch?v=aFcVKzfkJPk",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-industry-discussion",
+          "isTopicPrimary": true,
+          "relatedCount": 2,
+          "slug": "claude-mythos-and-the-end-of-software",
+          "category": "video",
+          "publishedAt": "2026-04-08T10:25:53+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "CSS one-liner to improve form elements",
+          "titleKo": "폼 요소 개선을 위한 CSS 한 줄",
+          "summary": "HTML 폼 요소들의 스타일을 개선하는 간단한 CSS 팁을 제시한다.",
+          "keyPoints": [
+            "단일 CSS 규칙으로 폼 요소 기본 스타일 개선"
+          ],
+          "whyItMatters": "간단한 CSS 조정으로 사용자 경험과 폼 접근성을 개선할 수 있다.",
+          "url": "https://www.youtube.com/watch?v=_BkrqgbIju0",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "css-tutorials",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "css-one-liner-to-improve-form-elements",
+          "category": "video",
+          "publishedAt": "2026-04-09T13:01:09+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Crashing out at Anthropic and getting Pi pilled",
+          "titleKo": "Anthropic에서의 위기와 Pi 신앙에 빠지다",
+          "summary": "YouTube 영상으로 Anthropic과 AI 개발에 관한 논의를 다룬다.",
+          "keyPoints": [
+            "Anthropic 및 AI 개발 조직의 내부 상황과 도전 과제 논의"
+          ],
+          "whyItMatters": "주요 AI 연구 조직의 현황을 이해하고 AI 개발의 방향성에 대해 생각해볼 수 있다.",
+          "url": "https://www.youtube.com/watch?v=3DNkDIVKtK8",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "career"
+          ],
+          "topicId": "ai-industry-discussion",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "crashing-out-at-anthropic-and-getting-pi-pilled",
+          "category": "video",
+          "publishedAt": "2026-04-09T02:24:30+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
