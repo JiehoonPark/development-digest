@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claudraband – 고급 사용자를 위한 Claude Code — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/12/">2026-04-12</a> &gt; Claudraband – 고급 사용자를 위한 Claude Code...
+      </div>
+
+      <h1>Claudraband – 고급 사용자를 위한 Claude Code</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Show HN: Claudraband – Claude Code for the Power User</p>
+      <div class="article-meta">
+        <span>📅 2026-04-12</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 78</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Claude Code를 래핑하여 세션 지속성, 데몬 API, ACP 지원 등을 추가한 CLI/라이브러리 도구입니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>세션 재개, HTTP 데몬 모드, TypeScript 라이브러리 지원으로 워크플로우 자동화 가능</li><li>tmux와 xterm.js 백엔드를 지원하며 에디터(Zed 등)와 ACP 클라이언트 통합 지원</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>Claude Code를 프로그래밍 방식으로 제어하고 장시간 세션을 관리해야 하는 개발자에게 필수적인 도구입니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Claudraband: Claude Code를 더 강력하게 다루기</h2>
+<p><strong>상태: 실험 중입니다.</strong> Claude Code와 ACP 클라이언트의 변화에 따라 프로젝트가 계속 진화하고 있습니다.</p>
+<p>[CLI](docs/cli.md) • [라이브러리](docs/library.md) • [데몬 API](docs/daemon-api.md) • [예제](examples/)</p>
+<h3>claudraband는 뭔가요?</h3>
+<p>claudraband는 공식 Claude Code TUI를 제어 가능한 터미널에 래핑한 도구입니다. 세션을 살려두거나, 나중에 재개하거나, 대기 중인 프롬프트에 답변하거나, 데몬으로 노출하거나, ACP를 통해 구동할 수 있죠.</p>
+<p>주요 기능들입니다:</p>
+<ul>
+<li><strong>세션 유지 및 재개</strong>: 기본적으로 <code>claude -p</code>에 세션 지원을 더한 것입니다. <code>cband continue &lt;session-id&gt; 'what was the result of the research?'</code> 같은 식으로 언제든 이전 대화를 이어갈 수 있습니다.</li>
+<li><strong>HTTP 데몬</strong>: 원격이나 헤드리스 환경에서 세션을 제어합니다.</li>
+<li><strong>ACP 서버</strong>: 에디터 및 다른 프론트엔드와 통합합니다.</li>
+<li><strong>TypeScript 라이브러리</strong>: 이 기능들을 자신의 도구에 직접 내장할 수 있습니다.</li>
+</ul>
+<h3>주의사항</h3>
+<p>claudraband는 Claude SDK의 대체제가 아닙니다. 개인적인 임시 작업에 맞춰 설계되었거든요.</p>
+<p>OAuth는 다루지 않으며 Claude Code TUI를 우회하지도 않습니다. Claude Code를 통해 인증받아야 하고, 모든 상호작용은 실제 Claude Code 세션을 거칩니다.</p>
+<h3>설치</h3>
+<h4>필요한 것</h4>
+<ul>
+<li>Node.js 또는 Bun</li>
+<li>이미 인증된 Claude Code</li>
+<li>tmux (로컬 및 데몬 방식의 워크플로우를 위함)</li>
+</ul>
+<h4>설치 방법</h4>
+<p>한 번만 실행하려면:</p>
+<pre><code class="language-bash">npx @halfwhey/claudraband &quot;review the staged diff&quot;
+bunx @halfwhey/claudraband &quot;review the staged diff&quot;</code></pre>
+<p>전역으로 설치하려면:</p>
+<pre><code class="language-bash">npm install -g @halfwhey/claudraband</code></pre>
+<p>이 패키지는 <code>claudraband</code>와 <code>cband</code> 둘 다 설치합니다. <code>cband</code>가 권장되는 단축 명령어입니다. 패키지에는 Claude Code @anthropic-ai/claude-code@2.1.96이 함께 번들되어 있으며, 다른 바이너리를 사용하려면 <code>CLAUDRABAND_CLAUDE_PATH</code>를 설정하면 됩니다.</p>
+<h3>빠른 시작</h3>
+<p>주요 두 가지 방식은 로컬 tmux 세션과 데몬 기반 세션입니다.</p>
+<h4>로컬 영구 세션</h4>
+<p>한 줄로 세션을 만들고:</p>
+<pre><code class="language-bash">cband &quot;audit the last commit and tell me what looks risky&quot;</code></pre>
+<p>세션 목록을 확인하고:</p>
+<pre><code class="language-bash">cband sessions</code></pre>
+<p>언제든 이어갈 수 있습니다:</p>
+<pre><code class="language-bash">cband continue &lt;session-id&gt; &quot;keep going&quot;
+cband continue &lt;session-id&gt; --select 2</code></pre>
+<h4>데몬 기반 세션</h4>
+<p>먼저 데몬을 띄웁니다:</p>
+<pre><code class="language-bash">cband serve --host 127.0.0.1 --port 7842</code></pre>
+<p>그다음부터는 데몬을 통해 세션을 제어합니다:</p>
+<pre><code class="language-bash">cband --connect localhost:7842 &quot;start a migration plan&quot;
+cband attach &lt;session-id&gt;
+cband continue &lt;session-id&gt; --select 2</code></pre>
+<p>데몬도 로컬 방식과 마찬가지로 tmux를 기본 터미널 런타임으로 사용합니다. 새 데몬 기반 세션을 만들 때만 <code>--connect</code>를 사용하면, 그 이후 <code>continue</code>, <code>attach</code>, <code>sessions</code> 명령은 자동으로 해당 세션의 소유자를 통해 라우팅됩니다.</p>
+<h4>실험 중인 xterm.js 백엔드</h4>
+<p><code>--backend xterm</code> 옵션도 있지만 현재 실험 단계라 tmux보다 느립니다. 장기간 대화형 작업이 필요할 땐 tmux를 쓰고, 헤드리스 환경이 필요할 때만 xterm.js를 사용하세요. 자세한 내용은 [docs/cli.md](docs/cli.md)를 참고하세요.</p>
+<h3>ACP 연동</h3>
+<p>다른 도구가 claudraband를 통해 Claude를 구동할 때 ACP를 사용합니다:</p>
+<pre><code class="language-bash">cband acp --model opus</code></pre>
+<p>예를 들어 Toad는 이렇게 사용할 수 있습니다:</p>
+<pre><code class="language-bash">uvx --from batrachian-toad toad acp 'cband acp -c &quot;--model haiku&quot;'</code></pre>
+<p>에디터 및 ACP 클라이언트 지원은 프론트엔드마다 다르지만, claudraband는 ACP를 통한 세션 추적과 재개를 지원합니다.</p>
+<h3>세션 모델</h3>
+<p>라이브 세션은 <code>~/.claudraband/</code>에서 추적됩니다.</p>
+<pre><code class="language-bash">cband sessions              # 라이브 세션 목록
+cband continue &lt;session-id&gt; # 오프라인 상태여도 재개 가능
+cband attach &lt;session-id&gt;   # 라이브 세션에만 접속
+cband sessions close ...    # 세션 종료</code></pre>
+<h3>실제 사용 예제</h3>
+<h4>자기 자신과 대화하기</h4>
+<p>Claude가 이전의 다른 Claude 세션을 검토하고 그 선택을 정당화하도록 할 수 있습니다.</p>
+<h4>Toad와 ACP 연동</h4>
+<p>Toad가 claudraband acp를 Claude Code의 대체 프론트엔드로 사용할 수 있습니다. UI는 여전히 실제 Claude Code 창으로 뒷받침됩니다.</p>
+<h4>Zed와 ACP 연동</h4>
+<p>Zed도 claudraband acp를 프론트엔드로 활용할 수 있습니다.</p>
+<h3>라이브러리</h3>
+<p>TypeScript로 쓴 실행 가능한 예제는 <code>examples/</code> 디렉토리에 있습니다:</p>
+<ul>
+<li><code>examples/code-review.ts</code></li>
+<li><code>examples/multi-session.ts</code></li>
+<li><code>examples/session-journal.ts</code></li>
+</ul>
+<p>전체 API는 [docs/library.md](docs/library.md)를, CLI 상세 내용은 [docs/cli.md](docs/cli.md)를, 데몬 엔드포인트는 [docs/daemon-api.md](docs/daemon-api.md)를 참고하세요.</p>
+<h3>치트시트</h3>
+<pre><code class="language-bash"># 설치 또는 한 번 실행
+npx @halfwhey/claudraband &quot;review the staged diff&quot;
+bunx @halfwhey/claudraband &quot;review the staged diff&quot;
+npm install -g @halfwhey/claudraband
+
+# 로컬 영구 세션
+cband &quot;audit the last commit&quot;
+cband sessions
+cband sessions close --all
+
+# 세션 이어가기
+cband continue &lt;session-id&gt; &quot;keep going&quot;
+cband continue &lt;session-id&gt; --select 2
+cband continue &lt;session-id&gt; --select 3 &quot;xyz&quot;
+
+# 데몬 모드
+cband serve --host 127.0.0.1 --port 7842
+cband --connect localhost:7842 &quot;start a migration plan&quot;
+cband attach &lt;session-id&gt;
+
+# ACP
+cband acp --model opus</code></pre></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://github.com/halfwhey/claudraband" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-12%20Claudraband%20%E2%80%93%20%EA%B3%A0%EA%B8%89%20%EC%82%AC%EC%9A%A9%EC%9E%90%EB%A5%BC%20%EC%9C%84%ED%95%9C%20Claude%20Code&labels=feedback%2Cliked&body=**Article**%3A%20Claudraband%20%E2%80%93%20%EA%B3%A0%EA%B8%89%20%EC%82%AC%EC%9A%A9%EC%9E%90%EB%A5%BC%20%EC%9C%84%ED%95%9C%20Claude%20Code%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Fhalfwhey%2Fclaudraband%0A**Date**%3A%202026-04-12%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

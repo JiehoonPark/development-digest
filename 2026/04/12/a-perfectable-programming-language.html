@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>완성 가능한 프로그래밍 언어 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/12/">2026-04-12</a> &gt; 완성 가능한 프로그래밍 언어...
+      </div>
+
+      <h1>완성 가능한 프로그래밍 언어</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">A Perfectable Programming Language</p>
+      <div class="article-meta">
+        <span>📅 2026-04-12</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 11</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Lean 프로그래밍 언어가 의존 타입, 정리 증명, 메타프로그래밍을 통해 '완성 가능한' 언어라고 주장합니다. 이를 통해 코드 자체에 대한 속성을 언어 내에서 표현하고 증명할 수 있습니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>Lean의 의존 타입으로 함수의 동작을 정리로 표현하고 증명 가능 (예: returnFive 함수가 항상 5를 반환함)</li><li>메타프로그래밍을 통한 seamless한 커스텀 신택스 지원 (예: 틱택토 보드를 자연스러운 표기법으로 작성)</li><li>점진적 최적화 가능성이 있어 성능 개선의 여지가 크다는 강점</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>코드의 정확성을 형식으로 증명할 수 있는 의존 타입 언어의 실제 활용 사례를 보여주며, 안전성이 중요한 시스템 개발에 참고가 됩니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>완벽해질 수 있는 프로그래밍 언어</h2>
+<p>Alok Singh</p>
+<p>2026-04-02</p>
+<p>파티에서 Sydney Von Arx가 물었어요. 프로그래밍 언어 40개를 댈 수 있냐고요. 뭐, 실리콘밸리니까요.</p>
+<p>Racket, Agda, Clean, Elm, TypeScript, sh, ASP, Verilog, JavaScript, Scheme, Rust, Nim, Intercal, sed, Isabelle, Visual Basic, zsh, Alokscript, Coq, Idris, Hack, Prolog, Whitespace, PureScript, Go, Odin, Haskell, Python, tcsh, Unison, Clingo, bash, Java, Zig, Cyclone, PHP, awk, C, ActionScript, C++.</p>
+<p>하지만 정말 최고는 <strong>Lean</strong>이에요.</p>
+<h3>왜 Lean일까요?</h3>
+<p>완벽해질 수 있기 때문입니다. 지금 완벽한 건 아니지만, 더 나아질 여지가 충분하다는 뜻이죠.</p>
+<p>Lean의 가장 큰 특징은 Lean으로 작성한 코드의 특성들을 Lean 자체 안에서 기술할 수 있다는 거예요. 코드에 대한 사실과 성질들이 차곡차곡 쌓이는데, 이런 누적을 우리는 &quot;진보&quot;라고 부릅니다.</p>
+<h3>코드 자신에 대해 말하기</h3>
+<p>모든 언어에서 결국 이런 상황이 옵니다. &quot;이 함수는 항상 5를 반환해&quot;라고 말하고 싶은데, 대부분의 언어에선 그 사실을 프로그래밍에 실제로 활용할 방법이 없어요.</p>
+<p>예를 들어 TypeScript에선 이렇게 쓰죠:</p>
+<pre><code class="language-typescript">function returnFive(x : number) : number {
+  return 5;
+}</code></pre>
+<p>그런데 Lean에선?</p>
+<pre><code class="language-lean">def returnFive (x : Int) : Int := 5
+
+theorem returnFive_eq_five (x : Int) : returnFive x = 5 := rfl
+
+example (a : Int) : 6 = returnFive a + 1 := by
+  unfold returnFive
+  rfl</code></pre>
+<p>정말 다르죠? Lean에선 함수가 항상 5를 반환한다는 걸 <strong>정리(theorem)</strong>로 증명할 수 있고, 그걸 바탕으로 다른 수식을 증명할 때 실제로 활용할 수 있습니다.</p>
+<h3>타입 시스템의 진화 방향</h3>
+<p>흥미롭게도 타입이 없던 언어들도 자연스럽게 타입을 들이게 돼요. PHP 7.4도 타입을 추가했고, Python도 타입 주석을 지원합니다. 전반적으로 TypeScript와 Rust 같은 타입 강력한 언어로의 흐름이 맞습니다.</p>
+<p>사람들은 계속 타입 시스템을 더 강력하게 만들고 싶어 해요. Go도 그렇고, C++ 템플릿은 그 극단적인 사례입니다. 컴파일 타임에 계산할 수 있으면, 누군가는 반드시 그렇게 하고 싶어 하죠. Rust의 지속적인 <code>const</code> 화도 같은 맥락입니다.</p>
+<p>뭔가를 제대로 하려면? 가장 쉬운 방법은 처음부터 제대로 하는 거예요. &quot;제대로&quot;라는 게 사실 <strong>의존 타입(dependent types)</strong>을 의미합니다. 더 정교한 개념도 있지만, 튜링 완전성처럼 의존 타입만 있어도 거의 모든 걸 표현할 수 있거든요. 그래서 Lean은 계속 완벽해질 수 있는 거입니다.</p>
+<h3>정리(Theorem) 시스템</h3>
+<p>타입 위에 필요한 건 &quot;이 두 타입이 같은가&quot;를 보여줄 수 있는 인프라예요. 이건 기본적으로 <strong>정리 증명기(theorem prover)</strong>를 의미합니다. 의존 타입을 가진 모든 언어가 정리 증명기가 될 수 있지만, 그러려면 우리가 &quot;정리 증명 인프라&quot;라고 부르는 좋은 API를 갖춰야 합니다.</p>
+<h3>이제 문법 얘기</h3>
+<p>정리 시스템은 &quot;의미론&quot; 쪽이라면, 문법 쪽에는 <strong>메타프로그래밍(metaprogramming)</strong>과 <strong>커스텀 문법(custom syntax)</strong>이 있습니다.</p>
+<h3>메타프로그래밍</h3>
+<p>대부분의 언어는 메타프로그래밍을 제대로 지원하지 못합니다. Rust의 절차형 매크로도 좀 어색한 편이죠.</p>
+<p>그런데 Lean은? 정말 부드럽고 자연스럽습니다. 틱택토 게임을 커스텀 보드 문법으로 만드는 예제를 보세요:</p>
+<pre><code class="language-lean">inductive Player where
+  | X
+  | O
+  deriving BEq, Inhabited
+
+inductive Square where
+  | empty
+  | occupied (player : Player)
+  deriving BEq, Inhabited
+
+@[simp] def boardSize : Nat := 9
+
+structure Board where
+  squares : Array Square
+  deriving BEq</code></pre>
+<p>이제 커스텀 문법을 정의합니다:</p>
+<pre><code class="language-lean">declare_syntax_cat tttCell
+syntax &quot;X&quot; : tttCell
+syntax &quot;O&quot; : tttCell
+syntax &quot;_&quot; : tttCell
+
+declare_syntax_cat tttRow
+syntax (name := tttRowRule) tttCell &quot;|&quot; tttCell &quot;|&quot; tttCell : tttRow
+
+declare_syntax_cat tttBoardSyntax
+syntax tttRow tttRow tttRow : tttBoardSyntax
+
+private def elabTttCell (stx : Lean.Syntax) : Lean.Elab.Term.TermElabM Square :=
+  match stx with
+  | `(tttCell| X) =&gt; pure (.occupied .X)
+  | `(tttCell| O) =&gt; pure (.occupied .O)
+  | `(tttCell| _) =&gt; pure .empty
+  | _ =&gt; Lean.throwError s!&quot;unsupported cell syntax {stx}&quot;
+
+open Lean Elab Term in
+elab &quot;board! &quot; b:tttBoardSyntax : term =&gt; do
+  let mut squares : Array Square := #[]
+  unless b.raw.getNumArgs = 3 do
+    Lean.throwError s!&quot;Expected 3 rows, got {b.raw.getNumArgs}&quot;
+  for rowIdx in [:3] do
+    let row := b.raw.getArg rowIdx
+    unless row.isOfKind `tttRowRule do
+      Lean.throwError s!&quot;malformed tttRow&quot;
+    let cells := #[row.getArg 0, row.getArg 2, row.getArg 4]
+    for cell in cells do
+      squares := squares.push (← elabTttCell cell)
+  unless squares.size = boardSize do
+    Lean.throwError s!&quot;internal error: expected 9 squares, got {squares.size}&quot;
+  let squareTerms ← squares.mapM fun sq =&gt;
+    match sq with
+    | .empty =&gt; `(Square.empty)
+    | .occupied .X =&gt; `(Square.occupied Player.X)
+    | .occupied .O =&gt; `(Square.occupied Player.O)
+  let arrSyntax ← `(#[$squareTerms,*])
+  let boardTerm ← `(Board.mk $arrSyntax)
+  Lean.Elab.Term.elabTerm boardTerm none</code></pre>
+<p>이제 이렇게 사용할 수 있어요:</p>
+<pre><code class="language-lean">#eval getGameStatus (board!
+  X | O | _
+  _ | X | _
+  O | _ | X)
+-- Win X</code></pre>
+<p>이런 식으로 API를 여러 계층으로 설계하고 문법 뒤에 숨길 수 있습니다. 필요하면 문법의 해석도 쉽게 바꿀 수 있죠. Lean의 타입 시스템이 메타프로그래밍도 잘 지원하긴 하지만, 솔직히 Lean 문법을 위한 메타-메타프로그래밍이 더 있으면 정말 좋겠어요.</p>
+<pre><code class="language-lean">def «🎮 tic tac toe 🎮» : Board := board!
+  X | O | X
+  O | X | O
+  X | _ | O
+
+#eval getGameStatus «🎮 tic tac toe 🎮»
+-- Win X</code></pre>
+<h3>왜 정리 증명기일까?</h3>
+<p>사실 제대로 하려면 자연스럽게 정리 증명기가 되는 거예요. 프로그래밍 언어 진화를 보면 여러 갈래에서 정리 증명 기능으로 수렴하는 모습이 보입니다.</p>
+<h3>성능</h3>
+<p>이게 가장 중요한 부분입니다. 느린 언어는 정말 별로거든요. 컴퓨터를 쓰는 이유가 뭐겠어요.</p>
+<p>Lean은 더 빨라질 여지가 있습니다. Rust만큼 빠르진 않지만, 두 코드가 같다는 걸 증명할 수 있다는 특징 덕분에 최적화 가능성이 정말 높아요.</p>
+<pre><code class="language-lean">theorem five_plus_one_eq_six : ∀ a : Int, returnFive a + 1 = 6 := by
+  intro a
+  unfold returnFive
+  rfl</code></pre>
+<p>이런 증명을 통해 컴파일러가 더 공격적인 최적화를 할 수 있게 돕는 거죠. Lean의 미래는 정말 밝습니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://alok.github.io/lean-pages/perfectable-lean/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-12%20%EC%99%84%EC%84%B1%20%EA%B0%80%EB%8A%A5%ED%95%9C%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D%20%EC%96%B8%EC%96%B4&labels=feedback%2Cliked&body=**Article**%3A%20%EC%99%84%EC%84%B1%20%EA%B0%80%EB%8A%A5%ED%95%9C%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D%20%EC%96%B8%EC%96%B4%0A**URL**%3A%20https%3A%2F%2Falok.github.io%2Flean-pages%2Fperfectable-lean%2F%0A**Date**%3A%202026-04-12%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
