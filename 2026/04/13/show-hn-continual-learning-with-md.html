@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>지속적 학습을 위한 .md 파일 기반 AI 에이전트 메모리 시스템 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/13/">2026-04-13</a> &gt; 지속적 학습을 위한 .md 파일 기반 AI 에이전트 메모리 시스템...
+      </div>
+
+      <h1>지속적 학습을 위한 .md 파일 기반 AI 에이전트 메모리 시스템</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Show HN: Continual Learning with .md</p>
+      <div class="article-meta">
+        <span>📅 2026-04-13</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 13</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>로컬 파일들을 스캔하여 AI 에이전트를 위한 메모리 파일시스템으로 변환하는 ReadMe 프로젝트입니다. 사용자의 작업 히스토리를 계층적 마크다운 구조로 정리하여 에이전트가 과거 활동을 검색하고 맥락을 이해할 수 있게 합니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>세션, 다운로드, 프로젝트 등 여러 소스에서 파일을 수집하여 ~/.codex/user_context/ 디렉토리에 연/분기/월/일 단위의 계층적 마크다운 구조로 정리</li><li>에이전트가 접근할 수 있도록 ~/.codex/AGENTS.md에 사용자 컨텍스트 힌트를 설치하여 과거 작업 추적 및 패턴 분석 가능</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>AI 에이전트의 RAG 메모리 시스템을 개선하여 사용자별 개인화된 맥락 이해를 제공하므로, 에이전트 애플리케이션 개발자들에게 유용한 패턴입니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>당신의 파일을 AI 에이전트를 위한 메모리 파일시스템으로 만들기</h2>
+<p>로컬 파일들을 스캔해서 AI 에이전트가 활용할 수 있는 구조화된 메모리 시스템을 구축하는 도구입니다.</p>
+<h3>동작 방식</h3>
+<p>에이전트가 여러 위치의 파일들을 수집합니다:</p>
+<pre><code>Source traces:
+├── ~/.codex/sessions/
+├── ~/.claude/sessions/
+├── ...
+├── ~/Downloads/
+└── ~/Projects/</code></pre>
+<p>수집한 정보를 계층적으로 정리된 사용자 컨텍스트로 변환합니다:</p>
+<pre><code>~/.codex/user_context/
+└── 2026_agentic_rag_memory_systems/
+    ├── year.md
+    └── 2026-Q2_prompt_programs_context_retrieval/
+        ├── quarter.md
+        └── 2026-04_bootstrap_and_consolidation/
+            ├── month.md
+            └── 2026-04-13_hierarchical_memory_rewrite.md</code></pre>
+<p>마지막으로 <code>~/.codex/AGENTS.md</code> 파일에 힌트를 추가해서, 에이전트가 필요할 때 이 정보에 접근할 수 있도록 합니다:</p>
+<pre><code>&lt;user_context&gt;
+Additional user-specific context may live in `~/.codex/user_context/`...
+&lt;/user_context&gt;</code></pre>
+<h3>활용 예시</h3>
+<p><strong>질문:</strong></p>
+<pre><code>What have I been working on in the past 3 months?
+ls ~/.codex/user_context/2026_.../</code></pre>
+<p><strong>답변:</strong></p>
+<pre><code>You have been converging on agentic infrastructure: memory systems, context retrieval, and public-facing artifacts.</code></pre>
+<h3>설정하기</h3>
+<p>다음 명령어로 초기화합니다:</p>
+<pre><code class="language-bash">codex exec --dangerously-bypass-approvals-and-sandbox --ephemeral - &lt; Init.md</code></pre>
+<p>자동 일일 업데이트를 활성화하려면:</p>
+<pre><code class="language-bash">REPO_DIR=&quot;$(pwd)&quot; &amp;&amp; codex exec --dangerously-bypass-approvals-and-sandbox --ephemeral &quot;Install a daily scheduler for: cd \&quot;$REPO_DIR\&quot; &amp;&amp; codex exec --dangerously-bypass-approvals-and-sandbox --ephemeral - &lt; Update.md. Use cron by default; otherwise use the host scheduler. Do not create wrapper scripts. Verify codex is on PATH, Update.md exists, and the installed scheduler entry is readable. Do not run Update.md during validation.&quot;</code></pre>
+<p><strong>주의사항:</strong></p>
+<ul>
+<li>기본적으로 cron을 사용하며, 호스트의 스케줄러가 있으면 그걸 사용합니다</li>
+<li>별도의 래퍼 스크립트를 만들지 않습니다</li>
+<li>검증 단계에서는 Update.md를 실행하지 않습니다</li>
+</ul></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://github.com/SunAndClouds/ReadMe" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-13%20%EC%A7%80%EC%86%8D%EC%A0%81%20%ED%95%99%EC%8A%B5%EC%9D%84%20%EC%9C%84%ED%95%9C%20.md%20%ED%8C%8C%EC%9D%BC%20%EA%B8%B0%EB%B0%98%20AI%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%EB%A9%94%EB%AA%A8%EB%A6%AC%20%EC%8B%9C%EC%8A%A4%ED%85%9C&labels=feedback%2Cliked&body=**Article**%3A%20%EC%A7%80%EC%86%8D%EC%A0%81%20%ED%95%99%EC%8A%B5%EC%9D%84%20%EC%9C%84%ED%95%9C%20.md%20%ED%8C%8C%EC%9D%BC%20%EA%B8%B0%EB%B0%98%20AI%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%EB%A9%94%EB%AA%A8%EB%A6%AC%20%EC%8B%9C%EC%8A%A4%ED%85%9C%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2FSunAndClouds%2FReadMe%0A**Date**%3A%202026-04-13%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

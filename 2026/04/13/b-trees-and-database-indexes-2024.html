@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B-트리와 데이터베이스 인덱스 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/13/">2026-04-13</a> &gt; B-트리와 데이터베이스 인덱스...
+      </div>
+
+      <h1>B-트리와 데이터베이스 인덱스</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">B-trees and database indexes (2024)</p>
+      <div class="article-meta">
+        <span>📅 2026-04-13</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 63</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>MySQL, Postgres, MongoDB 등 주요 데이터베이스에서 사용하는 B-트리 데이터 구조의 작동 원리와 인덱싱 메커니즘을 설명합니다. B-트리가 디스크 기반 저장소에 최적화된 이유와 B+트리의 변형 구조를 다룹니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>B-트리는 고정 크기의 노드로 디스크 블록 단위와 정렬되어 매우 효율적인 검색을 가능하게 함</li><li>16KB 디스크 블록 기준으로 3단계 B-트리는 3억 개 이상의 키-값 쌍을 저장할 수 있음</li><li>B+트리는 리프 노드에만 데이터를 저장하는 변형으로, 많은 데이터베이스 인덱스가 이를 채택함</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>데이터베이스 인덱싱 전략 수립과 UUID를 기본키로 사용할 때의 성능 영향을 이해하는 데 필수적인 기초 지식입니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>B-트리와 데이터베이스 인덱스</h2>
+<p>Ben Dicken [@BenjDicken] | 2024년 9월 9일</p>
+<h3>B-트리란 무엇인가?</h3>
+<p>B-트리는 소프트웨어, 특히 데이터베이스 관리 시스템(DBMS)의 핵심을 담당합니다. MySQL, Postgres, MongoDB, DynamoDB 등 대부분의 데이터베이스는 인덱스를 통해 효율적인 데이터 조회를 수행할 때 B-트리를 사용하거든요.</p>
+<p>이 글을 읽고 나면 B-트리와 B+트리가 어떻게 작동하는지, 데이터베이스가 왜 인덱스로 이들을 사용하는지, 그리고 UUID를 기본 키로 사용하면 왜 문제가 될 수 있는지 알게 될 겁니다. 더불어 이 자료구조들의 인터랙티브 애니메이션도 직접 만져보며 배울 기회가 있을 거예요.</p>
+<p>컴퓨터에 데이터를 저장하고, 검색하고, 관리하기 위해 사용할 수 있는 자료구조는 매우 많습니다. B-트리는 이 중 하나인데, 데이터베이스 응용 프로그램에서 특히 자주 쓰입니다. B-트리는 키(key)와 값(value)이라는 데이터 쌍을 트리 구조로 저장합니다.</p>
+<p>참고로 컴퓨터 과학에서 말하는 &quot;트리&quot;는 실제로 나무의 뿌리 시스템처럼 생겼어요.</p>
+<h3>구조 이해하기</h3>
+<p>B-트리는 노드(직사각형)와 자식 포인터(노드를 연결하는 선)로 이루어져 있습니다. 맨 위의 노드를 루트 노드, 맨 아래 레벨의 노드를 리프 노드, 그 사이의 모든 것을 내부 노드라고 부르죠.</p>
+<p>B-트리의 정식 정의는 여러 가지가 있지만, 일반적으로는 다음과 같습니다.</p>
+<p><strong>K차 B-트리</strong>는 다음과 같은 성질을 가진 트리 구조입니다:</p>
+<ul>
+<li>각 노드는 N개의 키/값 쌍을 저장합니다. 여기서 N은 1보다 크고 K 이하입니다.</li>
+<li>내부 노드(리프나 루트가 아닌 노드)는 최소 N/2개 이상의 키/값 쌍을 가집니다.</li>
+<li>각 노드는 N+1개의 자식을 가집니다.</li>
+<li>루트 노드는 유일한 노드가 아닌 이상, 최소 1개의 값과 2개의 자식을 가집니다.</li>
+<li>모든 리프 노드는 같은 레벨에 있습니다.</li>
+</ul>
+<h3>B-트리의 핵심: 정렬된 구조</h3>
+<p>B-트리의 또 다른 핵심 특징은 바로 순서입니다. 각 노드 내에서 요소들은 정렬 상태를 유지합니다. 어떤 키의 왼쪽에 있는 자식은 그 키보다 작은 값들만 포함해야 하고, 오른쪽 자식은 더 큰 값들만 포함해야 하죠.</p>
+<p>이렇게 강제된 순서 덕분에 키를 매우 효율적으로 검색할 수 있습니다. 루트 노드에서 시작해서:</p>
+<ul>
+<li>현재 노드에 찾는 키가 있는지 확인합니다.</li>
+<li>없다면, 찾는 키가 들어갈 위치를 찾습니다.</li>
+<li>그 위치의 자식 포인터를 따라 다음 레벨로 내려갑니다.</li>
+<li>이 과정을 반복합니다.</li>
+</ul>
+<p>이런 식으로 검색하면 각 레벨에서 정확히 하나의 노드만 방문하면 됩니다. 따라서 트리 높이가 낮을수록(얕을수록) 검색이 빨라집니다.</p>
+<h3>왜 데이터베이스가 B-트리를 좋아하는가?</h3>
+<p>B-트리는 특히 대용량 데이터를 장기 저장 매체(디스크)에 저장할 필요가 있을 때 강점을 발휘합니다.</p>
+<p>그 이유는 각 노드가 고정된 크기의 바이트를 사용하기 때문인데요. 이 바이트 크기를 디스크 블록과 맞추도록 조정할 수 있거든요.</p>
+<p>하드 드라이브(HDD)나 솔리드 스테이트 드라이브(SSD)는 블록이라는 단위로 데이터를 읽고 씁니다. 블록은 보통 4KB, 8KB, 16KB(4k, 8k, 16k) 길이의 바이트 시퀀스입니다. 디스크는 수백만 개에서 수십억 개의 블록을 가지고 있죠.</p>
+<p>반면 RAM은 보통 바이트 단위로 접근 가능합니다.</p>
+<p>바로 여기가 B-트리가 디스크에 지속적인 데이터를 저장할 때 완벽한 이유입니다. B-트리의 각 노드를 디스크 블록 크기(또는 그 배수)로 조정할 수 있으니까요.</p>
+<p>각 노드가 저장할 수 있는 값의 개수는 할당받은 바이트 수와 각 키/값 쌍이 차지하는 바이트 수에 따라 결정됩니다. 예를 들어, 디스크 블록과 B-트리 노드가 16K이고, 키, 값, 자식 포인터가 모두 8비트라면 노드당 682개의 키/값과 683개의 자식 포인터를 저장할 수 있습니다.</p>
+<p>3단계 트리라면 3억 개 이상의 키/값 쌍을 저장할 수 있다는 뜻입니다(682 × 682 × 682 = 317,214,568).</p>
+<h3>B+트리</h3>
+<p>B-트리는 훌륭하지만, 많은 데이터베이스 인덱스는 B+트리라는 &quot;개선된&quot; 버전을 사용합니다. B+트리는 B-트리와 유사하지만 몇 가지 규칙이 달라집니다:</p>
+<ul>
+<li>키/값 쌍은 리프 노드에만 저장됩니다.</li>
+<li>리프가 아닌 노드는 키와 관련 자식 포인터만 저장합니다.</li>
+</ul>
+<p>MySQL 인덱스에서 B+트리 구현에 특화된 추가 규칙도 있습니다:</p>
+<ul>
+<li>리프가 아닌 노드는 N+1개가 아닌 N개의 자식 포인터를 저장합니다.</li>
+<li>모든 노드는 &quot;다음(next)&quot; 및 &quot;이전(previous)&quot; 포인터도 포함합니다.</li>
+</ul></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://planetscale.com/blog/btrees-and-database-indexes" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-13%20B-%ED%8A%B8%EB%A6%AC%EC%99%80%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4%20%EC%9D%B8%EB%8D%B1%EC%8A%A4&labels=feedback%2Cliked&body=**Article**%3A%20B-%ED%8A%B8%EB%A6%AC%EC%99%80%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4%20%EC%9D%B8%EB%8D%B1%EC%8A%A4%0A**URL**%3A%20https%3A%2F%2Fplanetscale.com%2Fblog%2Fbtrees-and-database-indexes%0A**Date**%3A%202026-04-13%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

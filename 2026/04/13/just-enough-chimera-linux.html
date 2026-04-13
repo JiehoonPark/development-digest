@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>충분한 Chimera Linux — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/13/">2026-04-13</a> &gt; 충분한 Chimera Linux...
+      </div>
+
+      <h1>충분한 Chimera Linux</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Just Enough Chimera Linux</p>
+      <div class="article-meta">
+        <span>📅 2026-04-13</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 32</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Chimera Linux를 OpenZFS 파일시스템과 ZFSBootMenu 부트로더로 암호화된 미니멀 시스템으로 설치하는 상세 가이드입니다. musl C 라이브러리, dinit 초기화 시스템, FreeBSD 기반 사용자 영역 도구를 특징으로 합니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>Chimera Linux는 glibc 대신 musl, systemd 대신 dinit을 사용하여 경량의 대안 제시</li><li>ZFS 네이티브 암호화와 ZFSBootMenu를 통한 안전하고 유연한 시스템 구성</li><li>zram을 통한 스왑 메모리 구성으로 전통적 스왑 파티션 불필요</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>Linux 시스템 구축의 기초부터 시작하여 최소한의 의존성으로 견고한 기반을 만드는 방법을 배울 수 있습니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Chimera Linux로 최소한의 설정만 하기</h2>
+<p><strong>마지막 수정: 2026-04-03</strong></p>
+<p><strong>태그: #chimera #linux #zfs #encrypt #zfsbootmenu</strong></p>
+<hr>
+<p>Chimera Linux는 커뮤니티가 주도하는 독특한 리눅스 배포판입니다. glibc 대신 musl을 C 라이브러리로 쓰고, systemd 대신 dinit을 init 시스템으로 사용하며, FreeBSD 핵심 도구들을 기반으로 한 userland를 제공하죠.</p>
+<p>이 글에서는 Chimera 기본 설치 이미지와 [공식 설치 가이드](https://docs.chimera-linux.org)를 따라가며, OpenZFS 파일시스템과 ZFSBootMenu 부트로더로 암호화된 최소 리눅스 시스템을 구축하는 과정을 보여드리겠습니다. 여기서 설정한 기초 위에 데스크톱, 노트북, 서버 등 다양한 환경을 추가로 구축할 수 있습니다.</p>
+<h3>설치 가이드</h3>
+<ul>
+<li>[시작하기](#1-시작하기)</li>
+<li>[라이브 환경 설정](#2-라이브-환경-설정)</li>
+<li>[디스크 준비](#3-디스크-준비)</li>
+<li>[ZFS 풀 생성](#4-zfs-풀-생성)</li>
+<li>[설치](#5-설치)</li>
+<li>[시스템 설정](#6-시스템-설정)</li>
+<li>[ZFSBootMenu](#7-zfsbootmenu)</li>
+<li>[마무리](#8-마무리)</li>
+<li>[참고자료](#9-참고자료)</li>
+</ul>
+<hr>
+<h3>1. 시작하기</h3>
+<p>Chimera Linux는 단일 디스크에 유일한 운영체제로 설치되며, 두 개의 파티션으로 구성됩니다:</p>
+<ul>
+<li><strong>pool 파티션</strong>: ZFS 파일시스템으로 포맷되며, 네이티브 암호화 기능을 사용합니다</li>
+<li><strong>esp 파티션</strong>: EFI 시스템 파티션으로 FAT32로 포맷됩니다</li>
+</ul>
+<p>스왑 파티션을 따로 만드는 대신 zram 커널 모듈을 사용해 RAM의 압축 블록 디바이스를 스왑 공간으로 활용합니다.</p>
+<h4>기본 가정</h4>
+<ul>
+<li>대상 장치는 x86_64 아키텍처이며 UEFI로 부팅합니다</li>
+<li>Secure Boot는 비활성화되어 있습니다</li>
+<li>설치 중 네트워크 접속은 유선 인터페이스를 사용합니다</li>
+<li>시스템은 하이버네이션을 지원할 필요가 없습니다</li>
+</ul>
+<h4>설치 이미지 다운로드</h4>
+<p>최신 라이브 ISO 설치 이미지는 [repo.chimera-linux.org](https://repo.chimera-linux.org)에서 받을 수 있습니다.</p>
+<p><code>chimera-linux-x86_64-LIVE-[RELEASE]-base.iso</code>와 <code>sha256sums.txt</code> 파일을 다운로드한 후, 이미지 무결성을 확인하세요:</p>
+<pre><code class="language-bash">sha256sum -c --ignore-missing sha256sums.txt</code></pre>
+<h4>USB 설치 매체 준비</h4>
+<p>root 권한으로 dd 명령어를 사용해 설치 이미지를 마운트되지 않은 USB 저장 장치에 쓰세요.</p>
+<p><strong>주의: 올바른 장치를 지정했는지 반드시 확인하세요.</strong> <code>lsblk</code> 명령어로 확인할 수 있으며, 지정한 장치의 모든 데이터가 손실됩니다!</p>
+<p>예를 들어 USB 스틱이 <code>sdx1</code>로 나타나면, <code>sdx</code>(파티션 번호 제외)에 설치 이미지를 써야 합니다:</p>
+<pre><code class="language-bash">dd bs=4M conv=fsync oflag=direct status=progress if=chimera-linux-x86_64-LIVE-[RELEASE]-base.iso of=/dev/sdx</code></pre>
+<hr>
+<h3>2. 라이브 환경 설정</h3>
+<p>대상 장치를 Chimera 설치 매체에서 부팅합니다. 로그인 정보는 <code>root:chimera</code>입니다.</p>
+<h4>콘솔 폰트 설정</h4>
+<p>폰트가 너무 작다면 다음 명령어로 크기를 두 배로 늘릴 수 있습니다:</p>
+<pre><code class="language-bash">setfont -d</code></pre>
+<p>콘솔 폰트는 <code>/usr/share/consolefonts/</code>에 저장되어 있으며, <code>setfont</code> 명령어에 경로와 확장자를 제외한 폰트명을 입력하면 다른 폰트를 설정할 수 있습니다.</p>
+<h4>콘솔 키보드 설정</h4>
+<p>기본 콘솔 키맵은 <code>us</code>입니다. 사용 가능한 키맵은 <code>/usr/share/keymaps/</code>에서 확인할 수 있습니다.</p>
+<p>다른 키맵을 임시로 적용하려면 <code>loadkeys</code>를 사용하세요:</p>
+<pre><code class="language-bash">loadkeys [keymap]</code></pre>
+<p>예를 들어, Colemak 레이아웃으로 설정하려면:</p>
+<pre><code class="language-bash">loadkeys colemak/en-latin9</code></pre>
+<h4>부팅 모드 확인</h4>
+<p>대상 장치가 UEFI 부팅 모드를 사용하는지 확인하세요:</p>
+<pre><code class="language-bash">cat /sys/firmware/efi/fw_platform_size</code></pre>
+<p>명령어가 <code>64</code>를 반환하면, 시스템이 64비트 x64 UEFI로 부팅되고 있으므로 진행해도 됩니다.</p>
+<p><strong>참고:</strong> 파일이 없으면 UEFI를 사용하지 않는 것입니다.</p>
+<h4>인터넷 연결</h4>
+<p>유선 네트워크 인터페이스는 부팅 시 자동으로 활성화되고 연결됩니다.</p>
+<p>네트워크 인터페이스가 활성화되었고 IP 주소가 할당되었으며 인터넷에 접속 가능한지 확인하세요:</p>
+<pre><code class="language-bash">ip addr
+ping -c 5 chimera-linux.org</code></pre>
+<h4>SSH로 원격 접속</h4>
+<p>이 설치 과정을 더 쉽게 하려면(예: 명령어 복사-붙여넣기) 다른 컴퓨터에서 SSH로 설치 프로그램에 원격 접속하는 게 좋습니다.</p>
+<p>먼저 sshd 데몬을 시작하세요:</p>
+<pre><code class="language-bash">dinitctl start sshd</code></pre>
+<p>다른 컴퓨터에서 anon 계정으로 대상 장치에 SSH 접속하세요:</p>
+<pre><code class="language-bash">ssh anon@[ip_address]</code></pre>
+<p>여기서 <code>[ip_address]</code>는 위의 <code>ip addr</code> 명령어로 얻은 대상 장치의 IP 주소입니다.</p>
+<p>root로 전환하려면:</p>
+<pre><code class="language-bash">doas -s</code></pre>
+<h4>ID 변수 설정</h4>
+<p><code>/etc/os-release</code> 파일은 현재 운영체제를 설명하는 변수들을 정의합니다. 이 파일의 <code>$ID</code> 변수를 설정해 이후 명령어에서 리눅스 배포판의 짧은 이름을 사용할 수 있습니다:</p>
+<pre><code class="language-bash">. /etc/os-release &amp;&amp; export ID &amp;&amp; echo $ID</code></pre>
+<h4>hostid 생성</h4>
+<p>ZFSBootMenu에서 사용할 hostid 16진수 식별자를 생성하세요:</p>
+<pre><code class="language-bash">zgenhostid</code></pre>
+<hr>
+<h3>3. 디스크 준비</h3>
+<p>(계속)</p>
+<hr>
+<h3>4. ZFS 풀 생성</h3>
+<p>(계속)</p>
+<hr>
+<h3>5. 설치</h3>
+<p>(계속)</p>
+<hr>
+<h3>6. 시스템 설정</h3>
+<p>(계속)</p>
+<hr>
+<h3>7. ZFSBootMenu</h3>
+<p>(계속)</p>
+<hr>
+<h3>8. 마무리</h3>
+<p>(계속)</p>
+<hr>
+<h3>9. 참고자료</h3>
+<p>(계속)</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://www.dwarmstrong.org/chimera-install-zfs/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-13%20%EC%B6%A9%EB%B6%84%ED%95%9C%20Chimera%20Linux&labels=feedback%2Cliked&body=**Article**%3A%20%EC%B6%A9%EB%B6%84%ED%95%9C%20Chimera%20Linux%0A**URL**%3A%20https%3A%2F%2Fwww.dwarmstrong.org%2Fchimera-install-zfs%2F%0A**Date**%3A%202026-04-13%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

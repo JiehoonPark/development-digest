@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>N-Day-Bench – LLM이 실제 코드베이스의 취약점을 찾을 수 있을까? — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/13/">2026-04-13</a> &gt; N-Day-Bench – LLM이 실제 코드베이스의 취약점을 찾을 수 있...
+      </div>
+
+      <h1>N-Day-Bench – LLM이 실제 코드베이스의 취약점을 찾을 수 있을까?</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">N-Day-Bench – Can LLMs find real vulnerabilities in real codebases?</p>
+      <div class="article-meta">
+        <span>📅 2026-04-13</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 18</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>N-Day-Bench는 최신 언어 모델들이 학습 데이터 이후에 공개된 실제 취약점을 발견하는 능력을 측정하는 벤치마크이다. 월간 주기로 업데이트되며 모든 결과가 공개적으로 검색 가능하다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>1,000개의 보안 공지를 스캔하여 47개의 유효한 사례로 LLM의 취약점 발견 능력 평가</li><li>GPT-5.4가 83.93점으로 최고 성능을 기록하며 모든 모델이 동일한 환경에서 평가됨</li><li>적응형 벤치마크로 매월 테스트 케이스 업데이트 및 최신 모델 버전으로 평가 지속</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>LLM의 실제 사이버보안 능력을 객관적으로 측정하여 AI 기반 보안 도구의 신뢰성을 검증할 수 있다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>N-Day-Bench: 최신 AI 모델의 실제 보안 취약점 발견 능력을 측정하다</h2>
+<p>N-Day-Bench는 최신 언어 모델들이 자신의 학습 데이터 기준일 이후에 공개된 실제 보안 취약점(&quot;N-Day&quot;)을 찾아낼 수 있는지를 평가하는 벤치마크입니다. 모든 모델에게 동일한 환경과 정보를 제공하며, 결과 조작의 여지를 두지 않습니다. 이 벤치마크는 대규모 언어 모델(LLM)의 실제 사이버 보안 능력, 특히 &quot;취약점 발견&quot; 역량을 측정하기 위해 만들어졌거든요.</p>
+<h3>적응형 벤치마크로 끊임없이 진화 중</h3>
+<p>흥미로운 점은 이 벤치마크가 정적이지 않다는 겁니다. 매월 새로운 테스트 케이스가 추가되고 모델들도 최신 버전으로 업데이트됩니다. 또한 모든 실행 결과를 공개적으로 확인할 수 있어 투명성을 보장하죠. Winfunc Research에서 진행 중인 프로젝트입니다.</p>
+<h3>최근 벤치마크 결과</h3>
+<p>지난 실행을 보면 1,000개의 보안 권고사항을 스캔했고, 이 중 47개의 케이스가 채택되었습니다. 전체 953개는 건너뛰었고요.</p>
+<h4>모델별 성능 순위</h4>
+<div class="table-wrapper"><table><thead><tr><th>순위</th><th>모델</th><th>평균 점수</th><th>제출 횟수</th><th>평균 발견 수</th></tr></thead><tbody><tr><td>1</td><td>openai/gpt-5.4</td><td>83.93</td><td>44</td><td>1.07</td></tr><tr><td>2</td><td>z-ai/glm-5.1</td><td>80.13</td><td>44</td><td>1.23</td></tr><tr><td>3</td><td>anthropic/claude-opus-4.6</td><td>79.95</td><td>43</td><td>1.16</td></tr><tr><td>4</td><td>moonshotai/kimi-k2.5</td><td>77.18</td><td>37</td><td>1.05</td></tr><tr><td>5</td><td>google/gemini-3.1-pro-preview</td><td>68.50</td><td>44</td><td>0.91</td></tr></tbody></table></div>
+<p>OpenAI의 GPT-5.4가 현재 가장 높은 점수를 기록했습니다. 흥미롭게도 GLM-5.1은 발견 수는 가장 많지만 점수는 2위인데, 이는 발견의 정확성 측면에서 약간의 차이가 있음을 시사합니다.</p>
+<h3>실시간 실행 기록</h3>
+<p>최신 테스트는 2026년 4월 13일 오후에 완료되었습니다. 총 5시간 50분 동안 진행되었으며, judge-run과 finder-run이 번갈아 실행되었네요. 모든 실행 결과는 공개 저장소에서 추적할 수 있습니다.</p>
+<hr>
+<p>이 벤치마크의 가치는 단순한 점수 비교를 넘어섭니다. 실제 세계에서 발생하는 보안 위협에 대해 AI 모델들이 얼마나 실질적으로 도움이 될 수 있는지를 직접 측정하는 것이기 때문입니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://ndaybench.winfunc.com" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-13%20N-Day-Bench%20%E2%80%93%20LLM%EC%9D%B4%20%EC%8B%A4%EC%A0%9C%20%EC%BD%94%EB%93%9C%EB%B2%A0%EC%9D%B4%EC%8A%A4%EC%9D%98%20%EC%B7%A8%EC%95%BD%EC%A0%90%EC%9D%84%20%EC%B0%BE%EC%9D%84%20%EC%88%98%20%EC%9E%88%EC%9D%84%EA%B9%8C%3F&labels=feedback%2Cliked&body=**Article**%3A%20N-Day-Bench%20%E2%80%93%20LLM%EC%9D%B4%20%EC%8B%A4%EC%A0%9C%20%EC%BD%94%EB%93%9C%EB%B2%A0%EC%9D%B4%EC%8A%A4%EC%9D%98%20%EC%B7%A8%EC%95%BD%EC%A0%90%EC%9D%84%20%EC%B0%BE%EC%9D%84%20%EC%88%98%20%EC%9E%88%EC%9D%84%EA%B9%8C%3F%0A**URL**%3A%20https%3A%2F%2Fndaybench.winfunc.com%0A**Date**%3A%202026-04-13%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

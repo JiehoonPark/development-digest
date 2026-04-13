@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firefox 빌드를 17% 빠르게 하는 방법 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/13/">2026-04-13</a> &gt; Firefox 빌드를 17% 빠르게 하는 방법...
+      </div>
+
+      <h1>Firefox 빌드를 17% 빠르게 하는 방법</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">How to make Firefox builds 17% faster</p>
+      <div class="article-meta">
+        <span>📅 2026-04-13</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 107</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>buildcache의 Lua 플러그인 시스템을 이용해 WebIDL 코드 생성 과정을 캐싱함으로써 Firefox 빌드 시간을 1분 12초로 단축했다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>buildcache의 Lua 래퍼를 통해 Python 기반 WebIDL 코드 생성 단계를 캐싱할 수 있다.</li><li>콜드 빌드 5분 35초에서 웜 빌드 1분 12초로 최대 78% 성능 개선을 달성했다.</li><li>결정적 빌드 단계는 같은 입력에 대해 캐싱으로 큰 성능 이득을 얻을 수 있다.</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>buildcache 사용자들이 커스텀 Lua 플러그인으로 컴파일러 이외의 빌드 단계도 최적화할 수 있는 방법을 배울 수 있다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Buildcache의 Lua 플러그인으로 WebIDL 코드 생성 캐싱하기</h2>
+<p>이전 글에서 buildcache가 ccache, sccache와 어떻게 다른지 얘기했는데요. 그 중 하나가 Lua 플러그인 시스템입니다. 이 시스템을 쓰면 전통적인 컴파일러가 아닌 다른 프로그램들도 커스텀 래퍼로 감싸서 처리할 수 있거든요. Bug 2027655가 병합되면서 이제 Firefox의 WebIDL 바인딩 코드 생성 단계를 캐싱할 수 있게 됐습니다.</p>
+<h3>WebIDL 단계가 뭔가요?</h3>
+<p>Firefox를 빌드할 때 초기 단계 중 하나는 <code>python3 -m mozbuild.action.webidl</code>를 실행해서 수백 개의 .webidl 파일로부터 C++ 바인딩 코드를 생성합니다. 헤더 파일, cpp 파일, forward 선언, 이벤트 구현 등 수천 개의 결과물이 나오는데요. 이 단계 자체는 그리 느리지 않습니다. 하지만 clobber 빌드할 때마다 실행되고, 입력값이 같으면 출력도 완전히 동일합니다. 딱 캐싱하기 좋은 후보죠.</p>
+<p>문제는 이 단계에 컴파일러 캐시가 전혀 적용되지 않았다는 겁니다. Buildcache는 실제 컴파일러 호출만 감싸고 있었지, Python 코드 생성은 처리하지 못했거든요.</p>
+<h3>어떻게 고쳤나</h3>
+<p>Bug 2027655의 해결책은 간단합니다. <code>dom/bindings/Makefile.in</code>에서 <code>py_action</code> 호출에 <code>$(CCACHE)</code>를 조건부로 커맨드 래퍼로 전달하게 만들었어요.</p>
+<pre><code class="language-makefile">WEBIDL_CCACHE=
+ifdef MOZ_USING_BUILDCACHE
+WEBIDL_CCACHE=$(CCACHE)
+endif
+webidl.stub: $(codegen_dependencies)
+	$(call py_action,webidl $(relativesrcdir),$(srcdir),,$(WEBIDL_CCACHE))
+	@$(TOUCH) $@</code></pre>
+<p><code>config/makefiles/functions.mk</code>의 <code>py_action</code> 매크로가 Python 빌드 액션들을 실행합니다. 네 번째 인자로 커맨드 래퍼를 전달하는 기능도 이번 버그에서 추가됐어요. Buildcache가 컴파일러 캐시로 설정되면, webidl 액션은 단순히 <code>python3 -m mozbuild.action.webidl ...</code> 대신 <code>buildcache python3 -m mozbuild.action.webidl ...</code>로 호출됩니다. Buildcache가 이를 가로채는 데 필요한 게 다예요.</p>
+<p><code>ifdef MOZ_USING_BUILDCACHE</code> 가드에 주목해보세요. 이건 buildcache 특화 코드입니다. Ccache와 sccache는 임의 커맨드를 캐싱하는 메커니즘이 없거든요. Buildcache는 Lua 래퍼를 통해 그걸 지원합니다.</p>
+<h3>Lua 래퍼</h3>
+<p>Buildcache의 Lua 플러그인 시스템으로 buildcache가 기본적으로 이해하지 못하는 프로그램을 어떻게 처리할지 알려주는 스크립트를 작성할 수 있습니다. WebIDL 코드 생성을 위한 래퍼인 <code>webidl.lua</code>는 buildcache에게 몇 가지 질문에 답해야 합니다.</p>
+<p><strong>이 커맨드를 처리할 수 있나?</strong> 인자 목록에서 <code>mozbuild.action.webidl</code>을 매칭합니다.</p>
+<p><strong>입력이 뭔가?</strong> 모든 .webidl 소스 파일과 Python 코드 생성 스크립트들입니다. 이들은 <code>file-lists.json</code>(mach가 생성) 및 <code>codegen.json</code>(이전 실행의 Python 의존성을 추적)에서 가져옵니다.</p>
+<p><strong>출력이 뭔가?</strong> 생성된 모든 바인딩 헤더, cpp 파일, 이벤트 파일과 코드 생성 상태 파일들입니다. 마찬가지로 <code>file-lists.json</code>에서 유도됩니다.</p>
+<p>이 정보를 가지고 buildcache는 입력을 해시하고, 캐시를 확인한 뒤, 캐시된 출력을 재사용하거나 실제 커맨드를 실행해서 결과를 저장합니다.</p>
+<p>이 래퍼는 buildcache의 <code>direct_mode</code> 기능을 사용합니다. 전처리된 출력에 의존하지 않고 직접 입력 파일을 해시하는 거죠. C 전처리기를 다루지 않고 .webidl 파일을 읽는 Python 스크립트를 상대하고 있으니까 이 방식이 맞습니다.</p>
+<h3>성능 수치</h3>
+<p>Linux에서 <code>./mach build</code> 빌드 시간을 다양한 컴파일러 캐셔로 비교한 결과입니다. 각 행은 캐시가 비워진 상태의 clobber 빌드(콜드), 그리고 캐시가 찬 상태의 clobber 빌드(웜)를 보여줍니다.</p>
+<div class="table-wrapper"><table><thead><tr><th>도구</th><th>콜드</th><th>웜</th><th>플러그인 사용</th></tr></thead><tbody><tr><td>없음</td><td>5m35s</td><td>n/a</td><td>n/a</td></tr><tr><td>ccache</td><td>5m42s</td><td>3m21s</td><td>n/a</td></tr><tr><td>sccache</td><td>9m38s</td><td>2m49s</td><td>n/a</td></tr><tr><td>buildcache</td><td>5m43s</td><td>1m27s</td><td>1m12s</td></tr></tbody></table></div>
+<p>&quot;플러그인 사용&quot; 열은 <code>webidl.lua</code> 래퍼가 활성화된 buildcache입니다. 추가로 15초를 단축해서 총 1m12s까지 내려갑니다. 자체로는 혁명적인 개선은 아니지만, 이 메커니즘이 동작하는 것을 보여줍니다. WebIDL 단계가 이런 처리를 받는 첫 번째 Python 액션일 뿐이에요. 빌드에는 같은 방식으로 이득을 볼 수 있는 다른 코드 생성 단계들이 있습니다.</p>
+<p>더 넓게 보면, 이 수치들은 웜 빌드에서 buildcache가 큰 우위를 보여줍니다. 5m35s의 깨끗한 빌드에서 1m12s의 캐시된 재빌드로 내려가는 건 코드-컴파일-테스트 사이클 개선에 꽤 괜찮은 거거든요.</p>
+<p>이 수치들은 한 머신에서의 단일 실행이지, 엄밀한 벤치마크는 아닙니다. 하지만 방향성은 명확합니다.</p>
+<h3>설정하기</h3>
+<p>이미 mach로 buildcache를 사용 중이라면, Makefile 변경사항은 오늘 central로 업데이트할 때 적용됩니다. Lua 래퍼를 활성화하려면 <code>buildcache-wrappers</code> 저장소를 클론해서 <code>~/.buildcache/config.json</code>의 <code>lua_paths</code>로 가리키세요.</p>
+<pre><code class="language-json">{
+  &quot;lua_paths&quot;: [&quot;/path/to/buildcache-wrappers/mozilla&quot;],
+  &quot;max_cache_size&quot;: 10737418240,
+  &quot;max_local_entry_size&quot;: 2684354560
+}</code></pre>
+<p>또는 <code>BUILDCACHE_LUA_PATH</code> 환경 변수를 설정할 수도 있습니다. mozconfig에 이렇게 넣는 게 편합니다.</p>
+<pre><code>mk_add_options &quot;export BUILDCACHE_LUA_PATH=/path/to/buildcache-wrappers/mozilla/&quot;</code></pre>
+<p>큼직한 <code>max_local_entry_size</code> (2.5GB)는 일부 Rust 크레이트가 아주 큰 캐시 항목을 생성하기 때문에 필요합니다.</p>
+<h3>다음은?</h3>
+<p>Lua 플러그인 시스템이 가장 흥미로운 부분입니다. WebIDL 래퍼는 개념 증명일 뿐이지만, 같은 기법은 알려진 입력을 받아 알려진 출력을 생성하는 모든 결정론적 빌드 단계에 적용할 수 있습니다. Firefox 빌드에는 이런 방식으로 이득을 볼 수 있는 다른 코드 생성 액션들이 있습니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://blog.farre.se/posts/2026/04/10/caching-webidl-codegen/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-13%20Firefox%20%EB%B9%8C%EB%93%9C%EB%A5%BC%2017%25%20%EB%B9%A0%EB%A5%B4%EA%B2%8C%20%ED%95%98%EB%8A%94%20%EB%B0%A9%EB%B2%95&labels=feedback%2Cliked&body=**Article**%3A%20Firefox%20%EB%B9%8C%EB%93%9C%EB%A5%BC%2017%25%20%EB%B9%A0%EB%A5%B4%EA%B2%8C%20%ED%95%98%EB%8A%94%20%EB%B0%A9%EB%B2%95%0A**URL**%3A%20https%3A%2F%2Fblog.farre.se%2Fposts%2F2026%2F04%2F10%2Fcaching-webidl-codegen%2F%0A**Date**%3A%202026-04-13%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

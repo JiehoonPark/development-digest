@@ -1,0 +1,1356 @@
+{
+  "date": "2026-04-13",
+  "intro": "안녕하세요, 프론트엔드 개발자 여러분! 오늘은 Next.js 16.2의 Turbopack 개선, GitHub의 Stacked PRs 출시, 그리고 AI 에이전트 기술의 급속한 발전이 주목받고 있습니다. 빌드 성능 최적화부터 개발 워크플로우 혁신까지, 2025년 개발 환경이 급변하고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Turbopack: What's New in Next.js 16.2",
+          "titleKo": "Turbopack: Next.js 16.2의 새로운 기능",
+          "summary": "Next.js 16.2에서 Turbopack은 빌드 속도 개선, SRI(Subresource Integrity) 지원, postcss.config.ts 지원, 동적 임포트 트리 셰이킹, Server Fast Refresh 기능 등을 추가했습니다. 200개 이상의 버그 수정을 통해 안정성도 크게 향상되었으며, 인라인 로더 설정을 지원하여 개발자 경험을 개선했습니다.",
+          "keyPoints": [
+            "빌드 속도 개선: Turbopack의 최적화로 전체 빌드 시간이 단축되어 대규모 프로젝트에서 개발 생산성이 향상됩니다.",
+            "SRI(Subresource Integrity) 지원: 번들된 리소스의 무결성을 검증하는 기능으로 보안이 강화되고 CDN 캐싱 환경에서 신뢰성이 증대됩니다.",
+            "postcss.config.ts 지원: TypeScript 기반의 PostCSS 설정 파일을 직접 사용할 수 있어 타입 안전성과 개발 편의성이 향상됩니다.",
+            "동적 임포트 트리 셰이킹: 동적으로 로드되는 모듈 중 사용되지 않는 코드를 제거하여 번들 크기를 감소시킵니다.",
+            "Server Fast Refresh: 서버 컴포넌트 수정 시 빠른 새로고침이 가능하여 개발 중 피드백 루프가 단축됩니다.",
+            "인라인 로더 설정: 별도의 설정 파일 없이 next.config.js에서 직접 로더를 구성할 수 있어 설정 복잡도가 감소합니다.",
+            "200개 이상의 버그 수정: 안정성, 성능, 호환성 관련 다양한 이슈를 해결하여 프로덕션 환경의 신뢰도가 향상됩니다."
+          ],
+          "whyItMatters": "Turbopack의 개선사항들은 빌드 성능과 보안, 개발 경험을 동시에 향상시키므로 Next.js 기반 프로젝트의 효율성과 품질을 크게 높입니다.",
+          "url": "https://nextjs.org/blog/next-16-2-turbopack",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "nextjs-16-2",
+          "isTopicPrimary": true,
+          "slug": "turbopack-whats-new-in-nextjs-162",
+          "category": "hot",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Someone Bought 30 WordPress Plugins and Planted a Backdoor in All of Them",
+          "titleKo": "누군가 30개의 WordPress 플러그인을 구매하고 모두에 백도어를 심었다",
+          "summary": "공격자가 Flippa에서 30개 이상의 WordPress 플러그인 포트폴리오를 구매한 후 모든 플러그인에 백도어를 심어 공급망 공격을 수행했다. 8개월 동안 숨겨있던 백도어는 Ethereum 스마트 계약을 통해 C2 서버를 제어했다.",
+          "keyPoints": [
+            "\"Essential Plugin\" 포트폴리오를 6자리 가격에 구매한 공격자가 2025년 8월 PHP 역직렬화 RCE 백도어 추가하고 8개월 후 활성화",
+            "wp-config.php에 주입된 악성 코드는 Googlebot에만 스팸을 표시하며 Ethereum 블록체인을 통한 C2 도메인 관리로 기존 차단 우회",
+            "WordPress.org의 강제 업데이트는 플러그인의 phone-home 메커니즘만 제거하고 wp-config.php의 백도어는 정리하지 않음"
+          ],
+          "whyItMatters": "플러그인/라이브러리 소유권 변경 시 보안 위험이 극대화되므로 의존성 관리 및 공급망 보안이 매우 중요하다.",
+          "url": "https://anchor.host/someone-bought-30-wordpress-plugins-and-planted-a-backdoor-in-all-of-them/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 570,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "wordpress-security-breach",
+          "isTopicPrimary": true,
+          "slug": "someone-bought-30-wordpress-plugins-and-planted-a-backdoor-in-all-of-them",
+          "fullContent": "Last week, I wrote about catching a supply chain attack on a WordPress plugin called Widget Logic. A trusted name, acquired by a new owner, turned into something malicious. It happened again. This time at a much larger scale.\n30+Plugins compromised\n31Closed by WordPress.org\n8 monthsBackdoor dormant before activation\n6 figuresPaid on Flippa for the portfolio\nA client reported a security notice they found in wp-admin.\nRicky from Improve & Grow emailed us about an alert he saw in the WordPress dashboard for a client site. The notice was from the WordPress.org Plugins Team, warning that a plugin called Countdown Timer Ultimate contained code that could allow unauthorized third-party access.\nI ran a full security audit on the site. The plugin itself had already been force-updated by WordPress.org to version 2.6.9.1, which was supposed to clean things up. But the damage was already done.\nThe malware was hiding in wp-config.php.\nThe plugin’s wpos-analytics module had phoned home to analytics.essentialplugin.com, downloaded a backdoor file called wp-comments-posts.php (designed to look like the core file wp-comments-post.php), and used it to inject a massive block of PHP into wp-config.php.\nThe injected code was sophisticated. It fetched spam links, redirects, and fake pages from a command-and-control server. It only showed the spam to Googlebot, making it invisible to site owners. And here is the wildest part. It resolved its C2 domain through an Ethereum smart contract, querying public blockchain RPC endpoints. Traditional domain takedowns would not work because the attacker could update the smart contract to point to a new domain at any time.\nThe forced update did not clean wp-config.phpWordPress.org’s v2.6.9.1 update neutralized the phone-home mechanism in the plugin. But it did not touch wp-config.php. The SEO spam injection was still actively serving hidden content to Googlebot.\nI used backup forensics to pinpoint the exact injection window.\nCaptainCore keeps daily restic backups. I extracted wp-config.php from 8 different backup dates and compared file sizes. Binary search style.\nwp-config.php file size across 8 backup snapshots\nNov 1, 20253,346 bytes\nJan 1, 20263,346 bytes\nMar 1, 20263,345 bytes\nApr 1, 20263,345 bytes\nApr 5, 20263,345 bytes\nApr 6, 04:22 UTC3,345 bytes\nApr 7, 04:21 UTC9,540 bytes\nThe injection happened on April 6, 2026, between 04:22 and 11:06 UTC. A 6-hour 44-minute window.\nThe backdoor was planted 8 months before it was activated.\nI traced the plugin’s history through 939 quicksave snapshots. The plugin had been on the site since January 2019. The wpos-analytics module was always there, functioning as a legitimate analytics opt-in system for years.\nThen came version 2.6.7, released August 8, 2025. The changelog said, “Check compatibility with WordPress version 6.8.2.” What it actually did was add 191 lines of code, including a PHP deserialization backdoor. The class-anylc-admin.php file grew from 473 to 664 lines.\nThe new code introduced three things:\nA fetch_ver_info() method that calls file_get_contents() on the attacker’s server and passes the response to @unserialize()\nA version_info_clean() method that executes @$clean($this->version_cache, $this->changelog) where all three values come from the unserialized remote data\nAn unauthenticated REST API endpoint with permission_callback: __return_true\nThat is a textbook arbitrary function call. The remote server controls the function name, the arguments, everything. It sat dormant for 8 months before being activated on April 5-6, 2026.\nThe plugin was sold on Flippa.\nThis is where it gets interesting. The original plugin was built by Minesh Shah, Anoop Ranawat, and Pratik Jain. An India-based team that operated under “WP Online Support” starting around 2015. They later rebranded to “Essential Plugin” and grew the portfolio to 30+ free plugins with premium versions.\nBy late 2024, revenue had declined 35-45%. Minesh listed the entire business on Flippa. A buyer identified only as “Kris,” with a background in SEO, crypto, and online gambling marketing, purchased everything for six figures. Flippa even published a case study about the sale in July 2025.\nFebruary 2015wponlinesupport.com domain registered. Team begins building WordPress plugins.\nOctober 2016Countdown Timer Ultimate published on WordPress.org by anoopranawat.\nAugust 2021essentialplugin.com domain registered. Company rebrands from WP Online Support to Essential Plugin.\nLate 2024Revenue declines 35-45%. Minesh Shah lists the entire business on Flippa.\nEarly 2025Buyer ‘Kris’ acquires Essential Plugin for six figures via Flippa.\nMay 12, 2025New essentialplugin WordPress.org account created.\nMay 14-16, 2025Last commits by the original wponlinesupport account. Author headers changed.\nAugust 8, 2025First commit by essentialplugin account. Version 2.6.7 plants the unserialize() RCE backdoor. Changelog lies: ‘Check compatibility with WordPress version 6.8.2.’\nAugust 30, 2025essentialplugin.c",
+          "category": "hot",
+          "publishedAt": "2026-04-13T17:54:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# WordPress 플러그인 대량 공급망 공격: 블록체인 C2 서버까지 활용한 정교한 악성코드 분석\n\n지난주 Widget Logic이라는 WordPress 플러그인의 공급망 공격에 대해 글을 썼는데요, 신뢰할 수 있는 업체가 새로운 소유자에게 인수되면서 악의적으로 변질되는 일이 벌어졌습니다. 그런데 이번에는 훨씬 더 큰 규모로 같은 일이 반복됐습니다.\n\n**이번 사건의 규모:**\n- 영향받은 플러그인: 30개 이상\n- WordPress.org에서 차단된 플러그인: 31개\n- 백도어 잠복 기간: 8개월\n- Flippa에서 거래된 포트폴리오 가격대: 6자리 수준(수백만 달러)\n\n## 신뢰할 수 있는 경고였지만 이미 늦었다\n\n클라이언트로부터 wp-admin 대시보드에서 찾은 보안 공지에 대한 연락이 들어왔습니다. Improve & Grow의 Ricky가 보낸 이메일에 따르면, 클라이언트 사이트에 WordPress.org 플러그인 팀으로부터 경고가 떴다고 했는데요. Countdown Timer Ultimate라는 플러그인에 승인되지 않은 제3자의 접근을 허용하는 코드가 포함되어 있다는 내용이었습니다.\n\n저는 해당 사이트에 대해 전체 보안 감사를 진행했습니다. 해당 플러그인은 이미 WordPress.org에 의해 v2.6.9.1로 강제 업데이트되어 있었고, 이는 문제를 해결하려는 의도였습니다. 하지만 이미 피해가 발생한 상태였습니다.\n\n## 악성코드는 wp-config.php에 숨어있었다\n\n플러그인의 wpos-analytics 모듈이 analytics.essentialplugin.com으로 연락을 시도한 후, wp-comments-posts.php라는 백도어 파일을 다운로드했습니다. 이 파일은 WordPress 핵심 파일인 wp-comments-post.php와 거의 똑같게 보이도록 설계됐거든요. 그리고 이를 이용해 wp-config.php에 대량의 PHP 코드를 주입했습니다.\n\n주입된 코드는 상당히 정교했습니다. C2(Command & Control) 서버에서 스팸 링크, 리다이렉트, 가짜 페이지를 가져오는 방식이었는데요. 여기서 눈여겨볼 점은 Google 봇에게만 스팸을 표시하고 사이트 소유자에게는 보이지 않도록 했다는 겁니다.\n\n가장 놀라운 부분은 따로 있었습니다. 공격자가 C2 도메인을 Ethereum 스마트 컨트랙트를 통해 해석하고 있었거든요. 공개된 블록체인 RPC 엔드포인트를 쿼리해서 말이죠. 이렇게 되면 기존의 도메인 차단 방식은 효과가 없습니다. 공격자가 스마트 컨트랙트를 업데이트해서 언제든 새로운 도메인으로 변경할 수 있기 때문입니다.\n\n## 강제 업데이트만으로는 부족했다\n\nWordPress.org의 v2.6.9.1 업데이트는 플러그인의 통신 메커니즘을 중단시켰습니다. 그런데 wp-config.php 파일을 건드리지 않았거든요. SEO 스팸 주입 코드는 여전히 Google 봇에게 숨겨진 콘텐츠를 제공하고 있었던 겁니다.\n\n## 백업 포렌식으로 정확한 주입 시점을 찾다\n\nCaptainCore의 일일 restic 백업을 활용해서 주입이 일어난 정확한 시점을 파악했습니다. 8개의 서로 다른 백업 날짜에서 wp-config.php를 추출한 다음 파일 크기를 비교했습니다. 이진 탐색하는 방식으로 말이죠.\n\n| 날짜 | 파일 크기 |\n|------|---------|\n| 2025년 11월 1일 | 3,346 bytes |\n| 2026년 1월 1일 | 3,346 bytes |\n| 2026년 3월 1일 | 3,345 bytes |\n| 2026년 4월 1일 | 3,345 bytes |\n| 2026년 4월 5일 | 3,345 bytes |\n| 2026년 4월 6일 04:22 UTC | 3,345 bytes |\n| 2026년 4월 7일 04:21 UTC | 9,540 bytes |\n\n주입은 2026년 4월 6일 04:22~11:06 UTC 사이에, 즉 6시간 44분의 시간 창에서 발생했습니다.\n\n## 백도어는 8개월 전에 심어졌다\n\n플러그인의 939개 quicksave 스냅샷을 통해 역사를 추적해봤습니다. 해당 플러그인은 2019년 1월부터 사이트에 있었고, wpos-analytics 모듈은 처음부터 있었습니다. 수 년 동안 정당한 애널리틱스 옵트인 시스템으로 기능했거든요.\n\n그러다가 2025년 8월 8일에 버전 2.6.7이 릴리스됩니다. 변경 로그에는 \"WordPress 6.8.2 버전과의 호환성 확인\"이라고 적혀있었습니다. 하지만 실제로는 191줄의 코드를 추가했는데, PHP deserialization 백도어가 포함되어 있었습니다. class-anylc-admin.php 파일이 473줄에서 664줄로 늘어났거든요.\n\n새로 추가된 코드에는 세 가지가 있었습니다.\n\n**1. fetch_ver_info() 메서드**\n공격자 서버에서 file_get_contents()로 데이터를 가져온 후 @unserialize()로 처리합니다.\n\n**2. version_info_clean() 메서드**\n@$clean($this->version_cache, $this->changelog)를 실행하는데, 세 값 모두 역직렬화된 원격 데이터에서 가져옵니다.\n\n**3. 인증되지 않은 REST API 엔드포인트**\npermission_callback: __return_true로 설정돼 있습니다.\n\n이것은 교과서적인 임의 함수 호출 취약점입니다. 원격 서버가 함수명, 인자 등 모든 것을 제어하는 거죠. 그 코드는 2026년 4월 5~6일에 활성화될 때까지 8개월 동안 잠복해 있었습니다.\n\n## 플러그인이 Flippa에서 팔렸다\n\n이제 흥미로운 부분입니다. 원래 플러그인은 Minesh Shah, Anoop Ranawat, Pratik Jain이 개발했습니다. 인도 기반 팀이 2015년 무렵부터 \"WP Online Support\"로 운영하다가 나중에 \"Essential Plugin\"으로 브랜드를 변경했거든요. 포트폴리오가 30개 이상의 무료 플러그인과 프리미엄 버전으로 성장했습니다.\n\n2024년 말이 되니 수익이 35~45% 감소했습니다. Minesh는 사업 전체를 Flippa에 올렸고, \"Kris\"라는 신원의 구매자가 나타났습니다. 그는 SEO, 암호화폐, 온라인 도박 마케팅 배경을 가지고 있었는데요. 6자리 수준의 금액으로 모든 자산을 인수했습니다. Flippa는 2025년 7월에 이 거래에 대한 케이스 스터디까지 발행했습니다.\n\n**사건 타임라인:**\n\n- **2015년 2월:** wponlinesupport.com 도메인 등록. 팀이 WordPress 플러그인 개발 시작\n- **2016년 10월:** Countdown Timer Ultimate가 WordPress.org에 anoopranawat 계정으로 출판\n- **2021년 8월:** essentialplugin.com 도메인 등록. WP Online Support에서 Essential Plugin으로 브랜드 변경\n- **2024년 말:** 수익 35~45% 감소. Minesh Shah가 사업을 Flippa에 리스팅\n- **2025년 초:** 구매자 'Kris'가 Essential Plugin을 6자리 금액대로 인수\n- **2025년 5월 12일:** essentialplugin WordPress.org 계정 새로 생성\n- **2025년 5월 14~16일:** 기존 wponlinesupport 계정의 마지막 커밋. 작성자 헤더 변경\n- **2025년 8월 8일:** essentialplugin 계정의 첫 커밋. 버전 2.6.7에서 unserialize() RCE 백도어 심음. 로그에는 거짓으로 \"WordPress 6.8.2 호환성 확인\"이라 기록\n- **2025년 8월 30일:** essentialplugin 계정의 후속 커밋..."
+        },
+        {
+          "title": "Servo is now available on crates.io",
+          "titleKo": "Servo가 crates.io에서 이용 가능해짐",
+          "summary": "Servo 팀이 렌더링 엔진을 라이브러리로 사용할 수 있도록 v0.1.0을 crates.io에 출시했으며, 장기 지원(LTS) 버전도 함께 제공한다. 이는 2025년 10월 GitHub 출시 이후 5번의 릴리스를 거친 결과이다.",
+          "keyPoints": [
+            "Servo를 라이브러리로 임베딩하여 다른 프로젝트에서 사용 가능하도록 crates.io 첫 출시",
+            "월간 릴리스에서의 breaking changes에 대응하기 위해 6개월 주기의 LTS 버전 제공",
+            "v0.1.0은 1.0이 아니지만 Servo의 embedding API에 대한 신뢰도 향상을 반영"
+          ],
+          "whyItMatters": "Rust 개발자가 Servo 렌더링 엔진을 자신의 프로젝트에 통합할 수 있는 공식 경로가 생겼다.",
+          "url": "https://servo.org/blog/2026/04/13/servo-0.1.0-release/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 401,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "servo-release",
+          "isTopicPrimary": true,
+          "slug": "servo-is-now-available-on-cratesio",
+          "fullContent": "Servo is now available on crates.io\nInitial crates.io release and LTS version of Servo\nPosted 2026-04-13\nToday the Servo team has released v0.1.0 of the servo crate.\nThis is our first crates.io release of the servo crate that allows Servo to be used as a library.\nWe currently do not have any plans of publishing our demo browser servoshell to crates.io.\nIn the 5 releases since our initial GitHub release in October 2025, our release process has matured, with the main “bottleneck” now being the human-written monthly blog post.\nSince we’re quite excited about this release, we decided to not wait for the monthly blog post to be finished, but promise to deliver the monthly update in the coming weeks.\nAs you can see from the version number, this release is not a 1.0 release. In fact, we still haven’t finished discussing what 1.0 means for Servo.\nNevertheless, the increased version number reflects our growing confidence in Servo’s embedding API and its ability to meet some users’ needs.\nIn the meantime we also decided to offer a long-term support (LTS) version of Servo, since breaking changes in the regular monthly releases are expected and some embedders might prefer doing major upgrades on a scheduled half-yearly basis while still receiving security updates and (hopefully!) some migration guides.\nFor more details on the LTS release, see the respective section in the Servo book.\nBack",
+          "category": "hot",
+          "publishedAt": "2026-04-13T12:12:22.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Servo가 crates.io에 공개되었습니다\n\n**Servo의 첫 crates.io 릴리스와 LTS 버전 출시**\n\n2026년 4월 13일\n\n오늘 Servo 팀이 servo 크레이트의 v0.1.0을 공개했습니다. 이는 Servo를 라이브러리로 사용할 수 있도록 하는 첫 번째 crates.io 릴리스네요.\n\n다만 데모 브라우저인 servoshell은 현재 crates.io에 배포할 계획이 없습니다.\n\n## 릴리스 프로세스의 성숙\n\n2025년 10월 초기 GitHub 릴리스 이후 5번의 릴리스를 거치면서 우리의 릴리스 프로세스가 많이 발전했습니다. 이제 병목지점은 사람이 직접 작성하는 월간 블로그 포스트 정도예요.\n\n이번 릴리스가 특별해서 월간 블로그 포스트를 기다리지 않기로 했습니다. 대신 다음 몇 주 안에 월간 업데이트를 제공하겠다고 약속드립니다.\n\n## 1.0이 아닌 이유\n\n버전 번호에서 보이는 것처럼, 이 릴리스는 1.0이 아닙니다. 사실 저희는 아직도 Servo에게 1.0이 무엇을 의미하는지에 대해 논의를 마치지 못했거든요.\n\n그럼에도 버전 번호를 올린 이유는 Servo의 임베딩 API에 대한 신뢰도가 높아졌고, 일부 사용자의 필요를 충족할 수 있다는 확신이 생겼기 때문입니다.\n\n## 장기 지원(LTS) 버전 도입\n\n매달 나오는 정규 릴리스에서는 주요 변경 사항이 예상되기 때문에, Servo의 장기 지원(LTS) 버전을 함께 제공하기로 했습니다. 일부 임베더는 반년 단위로 주요 업그레이드를 진행하면서도 보안 업데이트와 (희망하건대!) 마이그레이션 가이드를 받고 싶을 텐데, LTS 버전이 이런 필요를 충족해줄 거라고 생각합니다.\n\nLTS 릴리스에 대한 자세한 내용은 Servo 공식 문서(Servo book)의 관련 섹션을 참고하세요."
+        },
+        {
+          "title": "This year’s insane timeline of hacks",
+          "titleKo": "올해의 놀라운 해킹 타임라인",
+          "summary": "2024년의 주요 보안 해킹 사건들을 정리한 글이다.",
+          "keyPoints": [
+            "2024년 동안 기술 업계에서 여러 중대한 보안 사건이 발생했다."
+          ],
+          "whyItMatters": "개발자들이 최근의 주요 보안 위협과 트렌드를 파악하고 방어 전략을 수립할 수 있다.",
+          "url": "https://ringmast4r.substack.com/p/we-may-be-living-through-the-most",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 254,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "hacks-timeline",
+          "isTopicPrimary": true,
+          "slug": "this-years-insane-timeline-of-hacks",
+          "category": "hot",
+          "publishedAt": "2026-04-13T14:53:05.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "microsoft/markitdown (Python)",
+          "titleKo": "microsoft/markitdown (Python)",
+          "summary": "Microsoft의 markitdown은 파일 및 Office 문서를 Markdown으로 변환하는 Python 도구이다.",
+          "keyPoints": [
+            "다양한 파일 형식과 Office 문서를 Markdown 포맷으로 자동 변환"
+          ],
+          "whyItMatters": "문서 자동화 및 콘텐츠 변환 작업을 간소화할 수 있다.",
+          "url": "https://github.com/microsoft/markitdown",
+          "sourceName": "GitHub Trending",
+          "engagement": 106856,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "markitdown-release",
+          "isTopicPrimary": true,
+          "slug": "microsoftmarkitdown-python",
+          "category": "hot",
+          "publishedAt": "2026-04-13T23:20:48.815Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Microsoft isn't removing Copilot from Windows 11, it's just renaming it",
+          "titleKo": "Microsoft는 Windows 11에서 Copilot을 제거하지 않고 이름만 바꾸고 있다",
+          "summary": "Microsoft가 Windows 11에서 Copilot을 완전히 제거하는 대신 이름을 변경하는 방식으로 대응하고 있다.",
+          "keyPoints": [
+            "Copilot 기능 자체는 Windows 11에 계속 유지된다.",
+            "제거 논란에 대응하기 위해 브랜딩 변경으로 사용자 인식을 전환하려는 시도이다."
+          ],
+          "whyItMatters": "Windows 개발자들이 AI 어시스턴트의 지속적인 통합과 그에 따른 개발 환경 변화를 인지해야 한다.",
+          "url": "https://www.neowin.net/opinions/microsoft-isnt-removing-copilot-from-windows-11-its-just-renaming-it/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 307,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "copilot-windows",
+          "isTopicPrimary": true,
+          "slug": "microsoft-isnt-removing-copilot-from-windows-11-its-just-renaming-it",
+          "category": "hot",
+          "publishedAt": "2026-04-13T13:48:24.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "hacksider/Deep-Live-Cam (Python)",
+          "titleKo": "Deep-Live-Cam: 한 장의 이미지로 실시간 페이스 스왑 및 원클릭 비디오 딥페이크",
+          "summary": "단일 이미지만으로 실시간 얼굴 교환과 비디오 딥페이크를 생성할 수 있는 Python 기반 도구입니다.",
+          "keyPoints": [
+            "단 하나의 이미지로 고품질 페이스 스왑 실행 가능",
+            "원클릭으로 딥페이크 영상 생성 가능한 간편한 인터페이스"
+          ],
+          "whyItMatters": "딥페이크 기술의 접근성 증대로 인한 조작 영상의 위험성이 커지므로, 개발자들은 탐지 및 검증 기술 개발에 주의를 기울일 필요가 있습니다.",
+          "url": "https://github.com/hacksider/Deep-Live-Cam",
+          "sourceName": "GitHub Trending",
+          "engagement": 90212,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "deep-fake-tools",
+          "isTopicPrimary": true,
+          "slug": "hacksiderdeep-live-cam-python",
+          "category": "hot",
+          "publishedAt": "2026-04-13T23:20:48.817Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "GitHub Stacked PRs",
+          "titleKo": "GitHub 스택형 PR",
+          "summary": "GitHub가 Pull Request를 순서대로 정렬하여 관리하고 한 번에 병합할 수 있는 Stacked PRs 기능을 출시했다. GitHub UI와 CLI를 통해 스택 관리, 캐스케이딩 리베이스, AI 에이전트 통합을 지원한다.",
+          "keyPoints": [
+            "큰 diff를 여러 개의 포커스된 레이어로 분리하여 독립적으로 검토한 후 함께 병합 가능",
+            "gh stack CLI와 GitHub UI를 통한 스택 네비게이션, 상태 확인, 일괄 리베이스 지원",
+            "AI 코딩 에이전트가 스택 기반 개발을 수행할 수 있도록 통합 가능"
+          ],
+          "whyItMatters": "대규모 변경사항을 관리 가능한 단위로 분리하여 코드 리뷰 효율성을 높이고 병합 프로세스를 단순화할 수 있다.",
+          "url": "https://github.github.com/gh-stack/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 310,
+          "contentType": "discussion",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "github-stacked-prs",
+          "fullContent": "Stacked PRs, Native in GitHub Arrange pull requests in an ordered stack and merge them all in one click. Each PR represents one focused layer of your change, reviewed independently and landed together. Simplified Stack Management Navigate between PRs in your stack from the GitHub UI, check the status of every layer at a glance, and trigger a cascading rebase across the entire stack with one click. Powerful CLI The gh stack CLI makes it easy to create stacks, perform cascading rebases, push branches and create PRs, and navigate between layers — all from your terminal. AI Agent Integration Run npx skills add github/gh-stack to teach your AI coding agents how to work with stacks. Break up a large diff into a stack or develop with stacks from the start.",
+          "category": "tech",
+          "publishedAt": "2026-04-13T20:36:49.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# GitHub 네이티브 스택 PR로 효율적인 코드 리뷰 관리하기\n\n## 스택 PR이란?\n\n큰 변경사항을 여러 개의 작은 PR로 나누어 관리하는 방식인데요. 각 PR이 하나의 계층을 이루고 있어서, 독립적으로 검토받으면서도 한 번에 병합할 수 있습니다. 복잡한 기능을 여러 단계로 나눠 작업할 때 정말 유용합니다.\n\n## 간편한 스택 관리\n\nGitHub UI에서 바로 스택의 각 PR을 오갈 수 있어요. 모든 계층의 상태를 한눈에 볼 수 있고, 필요하면 스택 전체에 대한 캐스케이딩 리베이스를 한 번의 클릭으로 수행할 수 있습니다. 복잡한 머지 충돌 걱정도 훨씬 줄어듭니다.\n\n## 강력한 CLI 도구\n\n터미널에서 모든 작업을 할 수 있는 `gh stack` CLI도 제공하거든요. 스택을 생성하고, 캐스케이딩 리베이스를 수행하고, 브랜치를 푸시하고, PR을 만들고, 계층 간의 이동까지 전부 명령어로 처리 가능합니다.\n\n## AI 에이전트와의 통합\n\nAI 코딩 에이전트와의 연동도 지원합니다. 다음 명령어를 실행하면 AI 에이전트가 스택 방식의 작업을 자동으로 처리하도록 설정할 수 있습니다.\n\n```bash\nnpx skills add github/gh-stack\n```\n\n이제 큰 diff를 여러 개로 쪼개거나 처음부터 스택 방식으로 개발을 시작할 수 있습니다."
+        },
+        {
+          "title": "Building a CLI for All of Cloudflare",
+          "titleKo": "Cloudflare 전체를 위한 CLI 구축",
+          "summary": "Cloudflare가 100개 이상의 제품과 3,000개의 HTTP API 작업을 모두 지원하도록 Wrangler CLI를 재구축하고 있으며, TypeScript 기반 스키마 시스템으로 CLI, SDK, Terraform, 문서 등을 자동 생성한다.",
+          "keyPoints": [
+            "OpenAPI 스키마만으로는 부족하여 TypeScript 기반의 확장 가능한 스키마 형식 도입으로 CLI, 바인딩, Agent Skills 통일",
+            "Code Mode MCP 서버, 1000 토큰 이하의 경량 설계로 AI 에이전트 활용 최적화",
+            "스키마 레이어에서 명령 규칙을 강제하여 CLI와 API 간 네이밍 일관성 보장 (예: 항상 get, info 아님)"
+          ],
+          "whyItMatters": "대규모 API 서피스를 에이전트와 개발자 모두에게 효율적으로 제공하기 위해 자동화 기반의 통일된 인터페이스 생성이 필수이다.",
+          "url": "https://blog.cloudflare.com/cf-cli-local-explorer/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 230,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "building-a-cli-for-all-of-cloudflare",
+          "fullContent": "Building a CLI for all of Cloudflare2026-04-13Matt “TK” TaylorDimitri MitropoulosDan Carter6 min readCloudflare has a vast API surface. We have over 100 products, and nearly 3,000 HTTP API operations.Increasingly, agents are the primary customer of our APIs. Developers bring their coding agents to build and deploy applications, agents, and platforms to Cloudflare, configure their account, and query our APIs for analytics and logs.We want to make every Cloudflare product available in all of the ways agents need. For example, we now make Cloudflare’s entire API available in a single Code Mode MCP server that uses less than 1,000 tokens. There’s a lot more surface area to cover, though: CLI commands. Workers Bindings — including APIs for local development and testing. SDKs across multiple languages. Our configuration file. Terraform. Developer docs. API docs and OpenAPI schemas. Agent Skills.Today, many of our products aren’t available across every one of these interfaces. This is particularly true of our CLI — Wrangler. Many Cloudflare products have no CLI commands in Wrangler. And agents love CLIs.So we’ve been rebuilding Wrangler CLI, to make it the CLI for all of Cloudflare. It provides commands for all Cloudflare products, and lets you configure them together using infrastructure-as-code.Today we’re sharing an early version of what the next version of Wrangler will look like as a technical preview. It’s very early, but we get the best feedback when we work in public.You can try the Technical Preview today by running npx cf. Or you can install it globally by running npm install -g cf.Right now, cf provides commands for just a small subset of Cloudflare products. We’re already testing a version of cf that supports the entirety of the Cloudflare API surface — and we will be intentionally reviewing and tuning the commands for each product, to have output that is ergonomic for both agents and humans. To be clear, this Technical Preview is just a small piece of the future Wrangler CLI. Over the coming months we will bring this together with the parts of Wrangler you know and love.To build this in a way that keeps in sync with the rapid pace of product development at Cloudflare, we had to create a new system that allows us to generate commands, configuration, binding APIs, and more.\nRethinking schemas and our code generation pipeline from first principles\nWe already generate the Cloudflare API SDKs, Terraform provider, and Code Mode MCP server based on the OpenAPI schema for Cloudflare API. But updating our CLI, Workers Bindings, wrangler.jsonc configuration, Agent Skills, dashboard and docs is still a manual process. This was already error-prone, required too much back and forth, and wouldn’t scale to support the whole Cloudflare API in the next version of our CLI.\nTo do this, we needed more than could be expressed in an OpenAPI schema. OpenAPI schemas describe REST APIs, but we have interactive CLI commands that involve multiple actions that combine both local development and API requests, Workers bindings expressed as RPC APIs, along with Agent Skills and documentation that ties this all together.We write a lot of TypeScript at Cloudflare. It’s the lingua franca of software engineering. And we keep finding that it just works better to express APIs in TypeScript — as we do with Cap n’ Web, Code Mode, and the RPC system built into the Workers platform.So we introduced a new TypeScript schema that can define the full scope of APIs, CLI commands and arguments, and context needed to generate any interface. The schema format is “just” a set of TypeScript types with conventions, linting, and guardrails to ensure consistency. But because it is our own format, it can easily be adapted to support any interface we need, today or in the future, while still also being able to generate an OpenAPI schema:\nTo date most of our focus has been at this layer — building the machine we needed, so that we can now start building the CLI and other interfaces we’ve wanted for years to be able to provide. This lets us start to dream bigger about what we could standardize across Cloudflare and make better for Agents — especially when it comes to context engineering our CLI.\nAgents and CLIs — consistency and context engineering\nAgents expect CLIs to be consistent. If one command uses <command> info as the syntax for getting information about a resource, and another uses <command> get, the agent will expect one and call a non-existent command for the other. In a large engineering org of hundreds or thousands of people, and with many products, manually enforcing consistency through reviews is Swiss cheese. And you can enforce it at the CLI layer, but then naming differs between the CLI, REST API and SDKs, making the problem arguably worse.One of the first things we’ve done is to start creating rules and guardrails, enforced at the schema layer. It’s always get, never info. Always --force, never --skip-confirmations. Always --json, never --",
+          "category": "tech",
+          "publishedAt": "2026-04-13T15:44:02.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Cloudflare를 위한 CLI 만들기\n\nCloudflare는 정말 거대한 API 생태계를 가지고 있습니다. 100개가 넘는 제품에 거의 3,000개에 달하는 HTTP API 작업을 지원하고 있거든요.\n\n요즘 추세를 보면 에이전트(AI 에이전트)가 우리 API의 주요 사용자가 되고 있습니다. 개발자들이 자신의 코딩 에이전트를 가져와서 Cloudflare에 애플리케이션, 에이전트, 플랫폼을 빌드하고 배포하고, 계정을 설정하고, 분석과 로그를 위해 API를 조회하는 거죠.\n\n우리의 목표는 Cloudflare의 모든 제품이 에이전트가 필요로 하는 모든 방식에서 사용 가능하도록 만드는 것입니다. 예를 들어, 1,000토큰 미만으로 Cloudflare의 전체 API를 지원하는 단일 Code Mode MCP 서버를 이미 제공하고 있습니다.\n\n하지만 아직 갈 길이 멉니다. CLI 명령어, Workers 바인딩, 다양한 언어의 SDK, 설정 파일, Terraform, 개발자 문서, API 문서, OpenAPI 스키마, 에이전트 스킬 등 많은 인터페이스를 아직 지원해야 합니다.\n\n현재 우리 제품 중 상당수가 이런 모든 인터페이스에서 사용 가능하지 않습니다. 특히 우리 CLI인 Wrangler가 그렇습니다. 많은 Cloudflare 제품이 Wrangler에 CLI 명령어를 갖지 못하고 있는데, 에이전트들은 CLI를 정말 좋아합니다.\n\n그래서 우리는 Wrangler CLI를 처음부터 다시 만들기로 결정했습니다. 모든 Cloudflare 제품의 명령어를 제공하고, Infrastructure-as-Code를 사용해 제품들을 함께 설정할 수 있도록 말이죠.\n\n오늘 우리는 다음 버전의 Wrangler가 어떤 모습일지 기술 미리보기 버전으로 공개합니다. 아직 초기 단계지만, 우리는 공개적으로 작업할 때 가장 좋은 피드백을 받거든요.\n\n지금 바로 `npx cf`를 실행해서 기술 미리보기를 시도해볼 수 있습니다. 또는 `npm install -g cf`로 전역 설치도 가능합니다.\n\n현재 cf는 Cloudflare 제품의 작은 부분집합에 대한 명령어만 제공합니다. 하지만 우리는 이미 전체 Cloudflare API 표면을 지원하는 버전을 테스트 중입니다. 각 제품별로 에이전트와 사람 모두에게 사용하기 편한 출력이 되도록 의도적으로 명령어를 검토하고 조정할 것입니다.\n\n명확히 말하자면, 이 기술 미리보기는 미래의 Wrangler CLI의 한 조각일 뿐입니다. 앞으로 몇 개월에 걸쳐 우리는 이것을 지금 사랑하는 Wrangler의 기능들과 통합할 것입니다.\n\n## 처음부터 다시 생각한 스키마와 코드 생성 파이프라인\n\n우리는 이미 Cloudflare API의 OpenAPI 스키마를 기반으로 API SDK, Terraform 프로바이더, Code Mode MCP 서버를 생성하고 있습니다. 그런데 CLI, Workers 바인딩, wrangler.jsonc 설정, 에이전트 스킬, 대시보드, 문서를 업데이트하는 것은 여전히 수동 작업입니다.\n\n이 방식은 오류가 발생하기 쉽고, 불필요한 왕복이 많으며, 다음 버전의 CLI에서 전체 Cloudflare API를 지원하기에는 확장성이 부족했습니다.\n\n이를 해결하려면 OpenAPI 스키마로는 표현할 수 없는 것들이 필요했습니다. OpenAPI 스키마는 REST API를 설명하는 데 좋지만, 우리는 로컬 개발과 API 요청을 모두 포함하는 상호작용적 CLI 명령어, RPC API로 표현되는 Workers 바인딩, 이 모든 것을 함께 연결하는 에이전트 스킬과 문서를 가지고 있기 때문입니다.\n\nCloudflare에서는 TypeScript를 매우 많이 씁니다. 지금 소프트웨어 엔지니어링의 공용어죠. 그리고 우리는 Cap'n Web, Code Mode, Workers 플랫폼에 내장된 RPC 시스템처럼 TypeScript로 API를 표현하는 것이 더 잘 작동한다는 것을 계속 확인하고 있습니다.\n\n그래서 우리는 새로운 TypeScript 스키마를 도입했습니다. 이것은 API, CLI 명령어, 인자, 그리고 모든 인터페이스를 생성하는 데 필요한 컨텍스트의 전체 범위를 정의할 수 있습니다.\n\n스키마 형식은 사실 일관성과 정합성을 보장하기 위한 규칙, 린팅, 가드레일이 있는 TypeScript 타입 집합일 뿐입니다. 하지만 우리 자신의 형식이기 때문에, 오늘이든 미래든 우리가 필요로 하는 어떤 인터페이스든 쉽게 지원하도록 조정할 수 있으면서도 여전히 OpenAPI 스키마를 생성할 수 있습니다.\n\n지금까지 우리의 초점은 이 계층에 있었습니다. 우리가 지난 몇 년간 제공하고 싶었던 CLI와 다른 인터페이스를 만들 수 있도록, 먼저 필요한 기계 자체를 만드는 데 말이죠. 이제 Cloudflare 전체에서 표준화할 수 있는 것들에 대해 더 크게 꿈꿀 수 있게 되었습니다. 특히 CLI의 컨텍스트 엔지니어링 측면에서 에이전트를 위해 더 나은 경험을 만들 수 있죠.\n\n## 에이전트와 CLI — 일관성과 컨텍스트 엔지니어링\n\n에이전트는 CLI가 일관성 있기를 기대합니다. 한 명령어는 정보 조회를 위해 `<command> info` 문법을 사용하고 다른 명령어는 `<command> get`을 사용한다면, 에이전트는 한쪽을 기대하면서 다른 한쪽에서는 존재하지 않는 명령어를 호출하게 됩니다.\n\n수백 명이나 수천 명의 엔지니어가 있는 대규모 조직에서, 그것도 많은 제품이 있을 때 리뷰를 통해 일관성을 수동으로 강제하는 것은 스위스 치즈 같은 결과를 만듭니다. 물론 CLI 계층에서 강제할 수는 있지만, 그러면 CLI, REST API, SDK 간에 명명이 다르게 되어 문제가 더 나빠집니다.\n\n우리가 가장 먼저 한 일 중 하나는 규칙과 가드레일을 만들고 스키마 계층에서 강제하는 것입니다. 항상 `get`이지, `info`는 절대 아닙니다. 항상 `--force`이지, `--skip-confirmations`는 아닙니다. 항상 `--json`이지, `--output` 같은 것도 아닙니다."
+        },
+        {
+          "title": "What We Learned Building a Rust Runtime for TypeScript",
+          "titleKo": "TypeScript를 위한 Rust 런타임 구축 경험",
+          "summary": "Encore 팀이 TypeScript를 위한 Rust 런타임 개발 과정에서 얻은 기술적 교훈과 경험을 공유한다.",
+          "keyPoints": [
+            "TypeScript 코드 실행을 위한 Rust 기반 런타임 아키텍처 설계 및 구현",
+            "성능과 호환성을 위한 기술적 트레이드오프 관점의 분석"
+          ],
+          "whyItMatters": "TypeScript 런타임 개발 시 마주할 수 있는 기술적 과제와 해결 방안을 학습할 수 있다.",
+          "url": "https://encore.dev/blog/rust-runtime",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 18,
+          "contentType": "discussion",
+          "labels": [
+            "typescript",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "what-we-learned-building-a-rust-runtime-for-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-11T08:53:16.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "How to make Firefox builds 17% faster",
+          "titleKo": "Firefox 빌드를 17% 빠르게 하는 방법",
+          "summary": "buildcache의 Lua 플러그인 시스템을 이용해 WebIDL 코드 생성 과정을 캐싱함으로써 Firefox 빌드 시간을 1분 12초로 단축했다.",
+          "keyPoints": [
+            "buildcache의 Lua 래퍼를 통해 Python 기반 WebIDL 코드 생성 단계를 캐싱할 수 있다.",
+            "콜드 빌드 5분 35초에서 웜 빌드 1분 12초로 최대 78% 성능 개선을 달성했다.",
+            "결정적 빌드 단계는 같은 입력에 대해 캐싱으로 큰 성능 이득을 얻을 수 있다."
+          ],
+          "whyItMatters": "buildcache 사용자들이 커스텀 Lua 플러그인으로 컴파일러 이외의 빌드 단계도 최적화할 수 있는 방법을 배울 수 있다.",
+          "url": "https://blog.farre.se/posts/2026/04/10/caching-webidl-codegen/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 107,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "how-to-make-firefox-builds-17-faster",
+          "fullContent": "In the previous post, I mentioned that buildcache has some unique properties compared to ccache and sccache. One of them is its Lua plugin system, which lets you write custom wrappers for programs that aren’t compilers in the traditional sense. With Bug 2027655 now merged, we can use this to cache Firefox’s WebIDL binding code generation.\nWhat’s the WebIDL step?\nWhen you build Firefox, one of the earlier steps runs python3 -m mozbuild.action.webidl to generate C++ binding code from hundreds of .webidl files. It produces thousands of output files: headers, cpp files, forward declarations, event implementations, and so on. The step isn’t terribly slow on its own, but it runs on every clobber build, and the output is entirely deterministic given the same inputs. That makes it a perfect candidate for caching.\nThe problem was that the compiler cache was never passed to this step. Buildcache was only wrapping actual compiler invocations, not the Python codegen.\nThe change\nThe fix in Bug 2027655 is small. In dom/bindings/Makefile.in, we now conditionally pass $(CCACHE) as a command wrapper to the py_action call:\nWEBIDL_CCACHE=\nifdef MOZ_USING_BUILDCACHE\nWEBIDL_CCACHE=$(CCACHE)\nendif\nwebidl.stub: $(codegen_dependencies)\n$(call py_action,webidl $(relativesrcdir),$(srcdir),,$(WEBIDL_CCACHE))\n@$(TOUCH) $@\nThe py_action macro in config/makefiles/functions.mk is what runs Python build actions. The ability to pass a command wrapper as a fourth argument was also introduced in this bug. When buildcache is configured as the compiler cache, this means the webidl action is invoked as buildcache python3 -m mozbuild.action.webidl ... instead of just python3 -m mozbuild.action.webidl .... That’s all buildcache needs to intercept it.\nNote the ifdef MOZ_USING_BUILDCACHE guard. This is specific to buildcache because ccache and sccache don’t have a mechanism for caching arbitrary commands. Buildcache does, through its Lua wrappers.\nThe Lua wrapper\nBuildcache’s Lua plugin system lets you write a script that tells it how to handle a program it doesn’t natively understand. The wrapper for WebIDL codegen, webidl.lua, needs to answer a few questions for buildcache:\nCan I handle this command? Match on mozbuild.action.webidl in the argument list.\nWhat are the inputs? All the .webidl source files, plus the Python codegen scripts. These come from file-lists.json (which mach generates) and codegen.json (which tracks the Python dependencies from the previous run).\nWhat are the outputs? All the generated binding headers, cpp files, event files, and the codegen state files. Again derived from file-lists.json.\nWith that information, buildcache can hash the inputs, check the cache, and either replay the cached outputs or run the real command and store the results.\nThe wrapper uses buildcache’s direct_mode capability, meaning it hashes input files directly rather than relying on preprocessed output. This is the right approach here since we’re not dealing with a C preprocessor but with a Python script that reads .webidl files.\nNumbers\nHere are build times for ./mach build on Linux, comparing compiler cachers. Each row shows a clobber build with an empty cache (cold), followed by a clobber build with a filled cache (warm):\ntool\ncold\nwarm\nwith plugin\nnone\n5m35s\nn/a\nn/a\nccache\n5m42s\n3m21s\nn/a\nsccache\n9m38s\n2m49s\nn/a\nbuildcache\n5m43s\n1m27s\n1m12s\nThe “with plugin” column is buildcache with the webidl.lua wrapper active. It shaves another 15 seconds1, bringing the total down to 1m12s2. Not a revolutionary improvement on its own, but it demonstrates the mechanism. The WebIDL step is just the first Python action to get this treatment; there are other codegen steps in the build that could benefit from the same approach.\nMore broadly, these numbers show buildcache pulling well ahead on warm builds. Going from a 5m35s clean build to a 1m12s cached rebuild is a nice improvement to the edit-compile-test cycle.\nThese are single runs on one machine, not rigorous benchmarks, but the direction is clear enough.\nSetting it up\nIf you’re already using buildcache with mach, the Makefile change is available when updating to today’s central. To enable the Lua wrapper, clone the buildcache-wrappers repo and point buildcache at it via lua_paths in ~/.buildcache/config.json:\n{\n\"lua_paths\": [\"/path/to/buildcache-wrappers/mozilla\"],\n\"max_cache_size\": 10737418240,\n\"max_local_entry_size\": 2684354560\n}\nAlternatively, you can set the BUILDCACHE_LUA_PATH environment variable. A convenient place to do that is in your mozconfig:\nmk_add_options \"export BUILDCACHE_LUA_PATH=/path/to/buildcache-wrappers/mozilla/\"\nThe large max_local_entry_size (2.5 GB) is needed because some Rust crates produce very large cache entries.\nWhat’s next\nThe Lua plugin system is the interesting part here. The WebIDL wrapper is a proof of concept, but the same technique applies to any deterministic build step that takes known inputs and produces known outputs. There are other codegen actions in the Firefox build",
+          "category": "tech",
+          "publishedAt": "2026-04-13T18:50:08.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Buildcache의 Lua 플러그인으로 WebIDL 코드 생성 캐싱하기\n\n이전 글에서 buildcache가 ccache, sccache와 어떻게 다른지 얘기했는데요. 그 중 하나가 Lua 플러그인 시스템입니다. 이 시스템을 쓰면 전통적인 컴파일러가 아닌 다른 프로그램들도 커스텀 래퍼로 감싸서 처리할 수 있거든요. Bug 2027655가 병합되면서 이제 Firefox의 WebIDL 바인딩 코드 생성 단계를 캐싱할 수 있게 됐습니다.\n\n## WebIDL 단계가 뭔가요?\n\nFirefox를 빌드할 때 초기 단계 중 하나는 `python3 -m mozbuild.action.webidl`를 실행해서 수백 개의 .webidl 파일로부터 C++ 바인딩 코드를 생성합니다. 헤더 파일, cpp 파일, forward 선언, 이벤트 구현 등 수천 개의 결과물이 나오는데요. 이 단계 자체는 그리 느리지 않습니다. 하지만 clobber 빌드할 때마다 실행되고, 입력값이 같으면 출력도 완전히 동일합니다. 딱 캐싱하기 좋은 후보죠.\n\n문제는 이 단계에 컴파일러 캐시가 전혀 적용되지 않았다는 겁니다. Buildcache는 실제 컴파일러 호출만 감싸고 있었지, Python 코드 생성은 처리하지 못했거든요.\n\n## 어떻게 고쳤나\n\nBug 2027655의 해결책은 간단합니다. `dom/bindings/Makefile.in`에서 `py_action` 호출에 `$(CCACHE)`를 조건부로 커맨드 래퍼로 전달하게 만들었어요.\n\n```makefile\nWEBIDL_CCACHE=\nifdef MOZ_USING_BUILDCACHE\nWEBIDL_CCACHE=$(CCACHE)\nendif\nwebidl.stub: $(codegen_dependencies)\n\t$(call py_action,webidl $(relativesrcdir),$(srcdir),,$(WEBIDL_CCACHE))\n\t@$(TOUCH) $@\n```\n\n`config/makefiles/functions.mk`의 `py_action` 매크로가 Python 빌드 액션들을 실행합니다. 네 번째 인자로 커맨드 래퍼를 전달하는 기능도 이번 버그에서 추가됐어요. Buildcache가 컴파일러 캐시로 설정되면, webidl 액션은 단순히 `python3 -m mozbuild.action.webidl ...` 대신 `buildcache python3 -m mozbuild.action.webidl ...`로 호출됩니다. Buildcache가 이를 가로채는 데 필요한 게 다예요.\n\n`ifdef MOZ_USING_BUILDCACHE` 가드에 주목해보세요. 이건 buildcache 특화 코드입니다. Ccache와 sccache는 임의 커맨드를 캐싱하는 메커니즘이 없거든요. Buildcache는 Lua 래퍼를 통해 그걸 지원합니다.\n\n## Lua 래퍼\n\nBuildcache의 Lua 플러그인 시스템으로 buildcache가 기본적으로 이해하지 못하는 프로그램을 어떻게 처리할지 알려주는 스크립트를 작성할 수 있습니다. WebIDL 코드 생성을 위한 래퍼인 `webidl.lua`는 buildcache에게 몇 가지 질문에 답해야 합니다.\n\n**이 커맨드를 처리할 수 있나?** 인자 목록에서 `mozbuild.action.webidl`을 매칭합니다.\n\n**입력이 뭔가?** 모든 .webidl 소스 파일과 Python 코드 생성 스크립트들입니다. 이들은 `file-lists.json`(mach가 생성) 및 `codegen.json`(이전 실행의 Python 의존성을 추적)에서 가져옵니다.\n\n**출력이 뭔가?** 생성된 모든 바인딩 헤더, cpp 파일, 이벤트 파일과 코드 생성 상태 파일들입니다. 마찬가지로 `file-lists.json`에서 유도됩니다.\n\n이 정보를 가지고 buildcache는 입력을 해시하고, 캐시를 확인한 뒤, 캐시된 출력을 재사용하거나 실제 커맨드를 실행해서 결과를 저장합니다.\n\n이 래퍼는 buildcache의 `direct_mode` 기능을 사용합니다. 전처리된 출력에 의존하지 않고 직접 입력 파일을 해시하는 거죠. C 전처리기를 다루지 않고 .webidl 파일을 읽는 Python 스크립트를 상대하고 있으니까 이 방식이 맞습니다.\n\n## 성능 수치\n\nLinux에서 `./mach build` 빌드 시간을 다양한 컴파일러 캐셔로 비교한 결과입니다. 각 행은 캐시가 비워진 상태의 clobber 빌드(콜드), 그리고 캐시가 찬 상태의 clobber 빌드(웜)를 보여줍니다.\n\n| 도구 | 콜드 | 웜 | 플러그인 사용 |\n|------|------|------|------|\n| 없음 | 5m35s | n/a | n/a |\n| ccache | 5m42s | 3m21s | n/a |\n| sccache | 9m38s | 2m49s | n/a |\n| buildcache | 5m43s | 1m27s | 1m12s |\n\n\"플러그인 사용\" 열은 `webidl.lua` 래퍼가 활성화된 buildcache입니다. 추가로 15초를 단축해서 총 1m12s까지 내려갑니다. 자체로는 혁명적인 개선은 아니지만, 이 메커니즘이 동작하는 것을 보여줍니다. WebIDL 단계가 이런 처리를 받는 첫 번째 Python 액션일 뿐이에요. 빌드에는 같은 방식으로 이득을 볼 수 있는 다른 코드 생성 단계들이 있습니다.\n\n더 넓게 보면, 이 수치들은 웜 빌드에서 buildcache가 큰 우위를 보여줍니다. 5m35s의 깨끗한 빌드에서 1m12s의 캐시된 재빌드로 내려가는 건 코드-컴파일-테스트 사이클 개선에 꽤 괜찮은 거거든요.\n\n이 수치들은 한 머신에서의 단일 실행이지, 엄밀한 벤치마크는 아닙니다. 하지만 방향성은 명확합니다.\n\n## 설정하기\n\n이미 mach로 buildcache를 사용 중이라면, Makefile 변경사항은 오늘 central로 업데이트할 때 적용됩니다. Lua 래퍼를 활성화하려면 `buildcache-wrappers` 저장소를 클론해서 `~/.buildcache/config.json`의 `lua_paths`로 가리키세요.\n\n```json\n{\n  \"lua_paths\": [\"/path/to/buildcache-wrappers/mozilla\"],\n  \"max_cache_size\": 10737418240,\n  \"max_local_entry_size\": 2684354560\n}\n```\n\n또는 `BUILDCACHE_LUA_PATH` 환경 변수를 설정할 수도 있습니다. mozconfig에 이렇게 넣는 게 편합니다.\n\n```\nmk_add_options \"export BUILDCACHE_LUA_PATH=/path/to/buildcache-wrappers/mozilla/\"\n```\n\n큼직한 `max_local_entry_size` (2.5GB)는 일부 Rust 크레이트가 아주 큰 캐시 항목을 생성하기 때문에 필요합니다.\n\n## 다음은?\n\nLua 플러그인 시스템이 가장 흥미로운 부분입니다. WebIDL 래퍼는 개념 증명일 뿐이지만, 같은 기법은 알려진 입력을 받아 알려진 출력을 생성하는 모든 결정론적 빌드 단계에 적용할 수 있습니다. Firefox 빌드에는 이런 방식으로 이득을 볼 수 있는 다른 코드 생성 액션들이 있습니다."
+        },
+        {
+          "title": "Visualizing CPU Pipelining (2024)",
+          "titleKo": "CPU 파이프라이닝 시각화 (2024)",
+          "summary": "CPU 파이프라이닝의 동작 원리를 명령어 디코딩, 해저드 감지, 포워딩, 분기 예측 등을 통해 상세히 설명합니다. MIPS 아키텍처를 중심으로 파이프라인 최적화의 기술적 세부사항을 다룹니다.",
+          "keyPoints": [
+            "명령어 파이프라인의 각 단계에서 발생하는 데이터 해저드(data hazard)를 해저드 검출 유닛(HDU)으로 감지하고 해결",
+            "파이프라인 정체(stall)와 포워딩(forwarding) 기법을 통해 명령어 처리 효율을 극대화",
+            "분기 예측(branch prediction)이 동적 방식으로 진화하면서 파이프라인 성능에 미치는 영향"
+          ],
+          "whyItMatters": "저수준 CPU 아키텍처 이해는 고성능 코드 최적화와 시스템 수준 프로그래밍에 필수적입니다.",
+          "url": "https://timmastny.com/blog/visualizing-cpu-pipelining/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 45,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "visualizing-cpu-pipelining-2024",
+          "fullContent": "Visualizing pipelines\nInstruction Decoding\nHazard detection\nForwarding\nHDU and FU\nBranching\nPredict branch not taken\nDynamic branch prediction\nConclusion\nThis is part of my branch prediction series.\nVisualizing CPU Pipelining\nWhy Branch Prediction Needs Real Data\nHacking LLDB to Evaluate Branch Predictions (coming soon)\nI want to share what I’ve learned about CPU pipelining.\nThanks to Dan Luu’s branch prediction write-up,\nI was vaguely aware how this worked conceptually,\nbut I was motivated to dive into the details after reading\nRodrigo Copetti’s Playstation MIPS write-up\nwhere he talked about branch delay slots and how they evolved into\nbranch prediction. I quickly found many subtle and\nfascinating details on CPU pipelining that I had to share.\nFor more details, I recommend\nchapter 4 of Computer Organization and Design.\nThis post will assume you are familiar with the laundry\nor “assembly-line” model of CPU pipelining, but are hazy on some of the\nlower-level details. It will also help to have a vague idea of\nthe 5-stage MIPS pipeline (this\nis a nice, brief high-level summary), since our model CPU will be the 32-bit MIPS.\nVisualizing pipelines\nLet’s start by visualizing a basic CPU model that does not have pipelining\n(aka a single-cycle CPU design):\nOne bottleneck is that only one component of the CPU is\nactive at a time: all others are inactive.\nPipelined CPUs fill in these vacancies by running instructions\nthrough the stages one after the other, rather than waiting\nfor a single instruction to completely finish.\nThis seems pretty natural: it’s like an multiple person assembly line.\nBut there are already some subtle problems that need to be solved.\nInstruction Decoding\nInstruction decoding orchestrates the entire pipeline\nby providing fields used by the other stages.\nLet’s work through an simplified example.\nSay the instruction is\nadd $t1, $s2, $s3\nThe IF stage fetches the instruction and puts it into\nthe ID stage register. Now the ID register contains\nfields that will be used by all the remaining stages.\npc: 0x014b4820\n->\nField op rs rt rd shamt funct\nBinary 000000 01010 01011 01001 00000 100000\n# add $s2 $s3 $t1\nEX will use op, rs, and rt for the ALU\noperation and inputs\nMEM (for lw and sw) uses rt\nWB will write to register rd\nWith pipelining, we have a problem.\nFor example, in cycle 3 in the previous visualization,\nadd moves into EX and sub moves into ID.\nBut WB needs to know the rd of the add instruction!\nThat field used to be safely stored in the ID register,\nbut sub overwrote it.\nThe solution is to have registers between each pipeline stage\nthat carry fields from the ID stage (as well as other stages).\nNow when add reaches WB, it has the rd field so it\ncan write to the correct register. The actual value\nfrom EX or MEM is also stored in the MEM/WB register as well.\nHazard detection\nThe field metadata from ID needs to be available at each stage\nto enable basic operations like writing back to the registers,\nbut the fields also turn out to be crucial to solve data hazards.\nTo start, let’s look at this example:\nsub has a dependency on the output of add: this is called a\ndata hazard. Structurally, the CPU could proceed but the result\nwould be incorrect. We need a way to check if any of the inputs\nof the instruction in ID match the output register for any\ndownstream instructions.\nSince the field metadata is propagated to each stage register,\nwe have all the data we need! What’s missing is a unit to calculate\nthis:\nID/EXE.rs == EX/MEM.rd || ID/EXE.rt == EX/MEM.rd ||\nID/MEM.rs == MEM/WB.rd || ID/MEM.rt == MEM/WB.rd\nThat’s the Hazard Detection Unit (HDU). This unit\nwill both detect hazards\nand prevent progress until the hazard is resolved.\nThis hazard detection logic works for “R-type” instructions\nthat write to registers (like add and and), but not every\ninstruction writes to registers (like sw). We’d technically\nneed to check a few other conditions for a complete implementation,\nespecially around data hazards involving lw and sw.\nThe solid lines show the inputs to the HDU, detecting the hazard.\nThe dotted lines are the control signals, stopping the PC and IF\nand writing a nop instruction to the ID/EX register.\nThe nop will proceed through each stage, eventually causing the\nhazard comparison logic to be false. This will lift the stall\non the PC and IF stages, and remove the signal\nallowing the sub instruction to continue.\nWhy are stalls also called bubbles? Because once they appear\nthey flow through the pipeline until they pop out of the end.\nLike a diver who lets out air underwater, the bubble\nwill rise to the surface. Stretching the analogy further,\nthe diver, like the HDU, can let out more than one bubble\ndepending on the circumstance. The previous example let out\n2 bubbles.\nForwarding\nThere’s another way we can use the hazard detection logic\non the register metadata to resolve certain types of hazards.\nInstead of stalling, we can “forward” an intermediate\nresult to the next instruction.\nAside: Even though t",
+          "category": "tech",
+          "publishedAt": "2026-04-13T18:26:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# CPU 파이프라이닝 시각화와 브랜치 예측\n\n이 글은 제 브랜치 예측 시리즈의 일부입니다.\n\n- CPU 파이프라이닝 시각화\n- 브랜치 예측이 실제 데이터를 필요로 하는 이유\n- LLDB를 활용한 브랜치 예측 평가 (준비 중)\n\n## 시작하며\n\nCPU 파이프라이닝에 대해 배운 내용을 공유하고 싶습니다.\n\nDan Luu의 브랜치 예측 글 덕분에 개념적으로는 어느 정도 알고 있었습니다. 그런데 Rodrigo Copetti의 PlayStation MIPS 글을 읽으면서 브랜치 딜레이 슬롯이 어떻게 진화해 브랜치 예측이 되었는지를 보니, 더 깊이 파고들 동기가 생겼거든요. 파이프라이닝에는 생각보다 많은 미묘한 디테일들이 숨어 있더라고요.\n\n더 자세한 내용은 『Computer Organization and Design』 4장을 추천합니다.\n\n이 글은 여러분이 CPU 파이프라이닝의 기본 개념인 \"세탁소\" 혹은 \"조립 라인\" 모델은 알고 있지만, 하위 수준의 세부 사항에서는 조금 헷갈리는 상태라고 가정합니다. 또한 5단계 MIPS 파이프라인에 대해 대략적인 이해가 있으면 도움이 됩니다. (좋은 요약이 있습니다) 이 글에서 다루는 모델 CPU는 32비트 MIPS입니다.\n\n## 파이프라인 시각화하기\n\n먼저 파이프라이닝이 없는 기본 CPU 모델(단일 사이클 CPU)을 시각화해봅시다.\n\n한 번에 CPU의 한 부분만 활성화되고 나머지는 유휴 상태인 게 병목입니다. 파이프라이닝이 도입되면서 명령어가 각 단계를 순차적으로 통과하게 되었습니다. 한 명령어가 완전히 끝날 때까지 기다리지 않고요. 마치 여러 사람이 일하는 조립 라인처럼 보입니다.\n\n그런데 이렇게 하면 몇 가지 미묘한 문제가 생깁니다.\n\n## 명령어 디코딩\n\n명령어 디코딩은 다른 단계들이 사용할 필드들을 제공해서 전체 파이프라인을 조율합니다.\n\n간단한 예를 들어봅시다. 명령어가 `add $t1, $s2, $s3`이라고 하면:\n\nIF 단계는 명령어를 가져와 ID 단계 레지스터에 넣습니다. 이제 ID 레지스터에는 나머지 모든 단계에서 사용할 필드들이 있습니다.\n\n```\npc: 0x014b4820\n->\nField op rs rt rd shamt funct\nBinary 000000 01010 01011 01001 00000 100000\n# add $s2 $s3 $t1\n```\n\n- EX는 ALU 연산을 위해 op, rs, rt를 사용합니다\n- MEM (lw, sw 명령어용)은 rt를 사용합니다\n- WB는 rd 레지스터에 결과를 씁니다\n\n그런데 파이프라이닝에서는 문제가 생깁니다. 예를 들어 3사이클에서 add는 EX로 이동하고 sub는 ID로 이동합니다. 하지만 WB 단계는 add 명령어의 rd 필드를 알아야 하는데, 그 필드가 있던 ID 레지스터를 sub가 덮어써버리죠.\n\n해결책은 각 파이프라인 단계 사이에 레지스터를 두는 겁니다. 이 레지스터들이 ID 단계 필드들(그리고 다른 단계들의 필드들도) 전달합니다.\n\n이제 add가 WB에 도달했을 때, 자신의 rd 필드를 가지고 있어서 올바른 레지스터에 결과를 쓸 수 있습니다. EX나 MEM의 실제 값도 MEM/WB 레지스터에 저장됩니다.\n\n## 해저드 감지\n\nID 단계의 필드 메타데이터는 각 단계에서 레지스터 쓰기 같은 기본 연산을 가능하게 합니다. 그런데 이 필드들이 데이터 해저드를 해결하는 데도 핵심입니다.\n\n이 예를 봅시다:\n\n```\nadd $t1, $s2, $s3\nsub $t2, $t1, $s4\n```\n\nsub가 add의 출력에 의존하고 있습니다. 이를 \"데이터 해저드\"라고 합니다. 구조적으로는 CPU가 계속 진행할 수 있지만 결과는 틀릴 거예요. ID 단계의 명령어 입력이 다운스트림 명령어의 출력 레지스터와 일치하는지 확인할 방법이 필요합니다.\n\n각 단계 레지스터에 필드 메타데이터가 전파되므로, 필요한 데이터는 모두 있습니다. 부족한 건 이를 계산할 유닛뿐입니다:\n\n```\nID/EXE.rs == EX/MEM.rd || ID/EXE.rt == EX/MEM.rd ||\nID/MEM.rs == MEM/WB.rd || ID/MEM.rt == MEM/WB.rd\n```\n\n이게 **해저드 감지 유닛(Hazard Detection Unit, HDU)**입니다. 이 유닛은 해저드를 감지하고 그것이 해결될 때까지 진행을 멈춥니다.\n\n이 로직은 add나 and처럼 레지스터에 쓰는 R-타입 명령어에는 잘 작동하지만, sw처럼 레지스터에 쓰지 않는 명령어에는 적용 안 됩니다. 완벽한 구현을 위해서는 lw와 sw가 관련된 데이터 해저드 같은 몇 가지 조건을 더 확인해야 합니다.\n\n실선은 HDU의 입력을 나타내며, 해저드를 감지합니다. 점선은 제어 신호로, PC와 IF를 멈추고 ID/EX 레지스터에 nop 명령어를 씁니다.\n\nnop은 각 단계를 거쳐 결국 해저드 비교 로직이 거짓이 됩니다. 그러면 PC와 IF 단계의 정지가 풀리고, sub 명령어가 계속 진행할 수 있도록 하는 신호가 제거됩니다.\n\n**왜 정체를 \"버블\"이라고도 부를까요?** 한 번 나타나면 파이프라인을 따라 흐르다가 끝에서 터지거든요. 물속에서 공기를 내보내는 다이버처럼, 버블이 수면으로 올라갑니다. 비유를 더 확장하면, HDU가 다이버처럼 상황에 따라 하나 이상의 버블을 방출할 수 있습니다. 위의 예시에서는 2개의 버블을 방출했죠.\n\n## 포워딩\n\n데이터 해저드를 해결하는 또 다른 방법이 있습니다. 정체시키는 대신 중간 결과를 다음 명령어로 \"포워딩\"하는 겁니다."
+        },
+        {
+          "title": "B-trees and database indexes (2024)",
+          "titleKo": "B-트리와 데이터베이스 인덱스",
+          "summary": "MySQL, Postgres, MongoDB 등 주요 데이터베이스에서 사용하는 B-트리 데이터 구조의 작동 원리와 인덱싱 메커니즘을 설명합니다. B-트리가 디스크 기반 저장소에 최적화된 이유와 B+트리의 변형 구조를 다룹니다.",
+          "keyPoints": [
+            "B-트리는 고정 크기의 노드로 디스크 블록 단위와 정렬되어 매우 효율적인 검색을 가능하게 함",
+            "16KB 디스크 블록 기준으로 3단계 B-트리는 3억 개 이상의 키-값 쌍을 저장할 수 있음",
+            "B+트리는 리프 노드에만 데이터를 저장하는 변형으로, 많은 데이터베이스 인덱스가 이를 채택함"
+          ],
+          "whyItMatters": "데이터베이스 인덱싱 전략 수립과 UUID를 기본키로 사용할 때의 성능 영향을 이해하는 데 필수적인 기초 지식입니다.",
+          "url": "https://planetscale.com/blog/btrees-and-database-indexes",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 63,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "b-trees-and-database-indexes-2024",
+          "fullContent": "B-trees and database indexesBen Dicken [@BenjDicken] | September 9, 2024What is a B-tree?The B-tree plays a foundational role in many pieces of software, especially database management systems (DBMS). MySQL, Postgres, MongoDB, Dynamo, and many others rely on B-trees to perform efficient data lookups via indexes. By the time you finish this article, you'll have learned how B-trees and B+trees work, why databases use them for indexes, and why using a UUID as your primary key might be a bad idea. You'll also have the opportunity to play with interactive animations of the data structures we discuss. Get ready to click buttons.Computer science has a plethora of data structures to choose from for storing, searching, and managing data on a computer. The B-tree is one such structure, and is commonly used in database applications. B-trees store pairs of data known as keys and values in what computer programmers call a tree-like structure. For those not acquainted with how computer scientists use the term \"tree\" it actually looks more like a root system.Below you'll find the first interactive component of this blog. This allows you to visualize the structure of a B-tree and see what happens as you add key/value pairs and change the number of key/value pairs per node. Give it a try by clicking the Add or Add random button a few times and try to get an intuitive sense of how it works before we move on to the details.If the animations above are too fast or slow, you can adjust the animation speed of everything that happens with the B-trees in this article. Adjust below:Every B-tree is made up of nodes (the rectangles) and child pointers (the lines connecting the nodes). We call the top-most node the root node, the nodes on the bottom level leaf nodes, and everything else internal nodes. The formal definition of a B-tree can vary depending on who you ask, but the following is a pretty typical definition.A B-tree of order K is a tree structure with the following properties:Each node in the tree stores N key/value pairs, where N is greater than 1 and less than or equal to K.Each internal node has at least N/2 key/value pairs (an internal node is one that is not a leaf or the root).Each node has N+1 children.The root node has at least one value and two children, unless it is the sole node.All leaves are on the same level.The other key characteristic of a B-tree is ordering. Within each node the elements are kept in order. Any child to the left of a key must only contain other keys that are less than it. Children to the right must have keys that are greater than it.This enforced ordering means you can search for a key very efficiently. Starting at the root node, do the following:Check if the node contains the key you are looking for.If not, find the location in the node where your key would get inserted into, if you were adding it.Follow the child pointer at this spot down to the next level, and repeat the process.When searching in this way, you only need to visit one node at each level of the tree to search for one key. Therefore, the fewer levels it has (or the shallower it is), the faster searching can be performed. Try searching for some keys in the tree below:B-trees are uniquely suited to work well when you have a very large quantity of data that also needs to be persisted to long-term storage (disk). This is because each node uses a fixed number of bytes. The number of bytes can be tailored to play nicely with disk blocks.Reading and writing data on hard-drive disks (HDDs) and solid-state disks (SSDs) is done in units called blocks. These are typically byte sequences of length 4096, 8192, or 16384 (4k, 8k, 16k). A single disk will have a capacity of many millions or billions of blocks. RAM on the other hand is typically addressable on a per-byte level.This is why B-trees work so well when we need to organize and store persistent data on disk. Each node of a B-tree can be sized to match the size of a disk block (or a multiple of this size).The number of values each node of the tree can store is based on the number of bytes each is allocated and the number of bytes consumed by each key / value pair. In the example above, you saw some pretty small nodes — ones storing 3 integer values and 4 pointers. If our disk block and B-tree node is 16k, and our keys, values, and child pointers are all 8 bits, this means we could store 682 key/values with 683 child pointers per node. A three level tree could store over 300 million key/value pairs (682 × 682 × 682 = 317,214,568).The B+TreeB-trees are great, but many database indexes use a \"fancier\" variant called the B+tree. It's similar to a B-tree, with the following changes to the rules:Key/value pairs are stored only at the leaf nodes.Non-leaf nodes store only keys and the associated child pointers.There are two additional rules that are specific to how B+trees are implemented in MySQL indexes:Non-leaf nodes store N child pointers instead of N+1.All nodes also contain \"next\" and \"",
+          "category": "tech",
+          "publishedAt": "2026-04-13T17:22:31.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# B-트리와 데이터베이스 인덱스\n\nBen Dicken [@BenjDicken] | 2024년 9월 9일\n\n## B-트리란 무엇인가?\n\nB-트리는 소프트웨어, 특히 데이터베이스 관리 시스템(DBMS)의 핵심을 담당합니다. MySQL, Postgres, MongoDB, DynamoDB 등 대부분의 데이터베이스는 인덱스를 통해 효율적인 데이터 조회를 수행할 때 B-트리를 사용하거든요.\n\n이 글을 읽고 나면 B-트리와 B+트리가 어떻게 작동하는지, 데이터베이스가 왜 인덱스로 이들을 사용하는지, 그리고 UUID를 기본 키로 사용하면 왜 문제가 될 수 있는지 알게 될 겁니다. 더불어 이 자료구조들의 인터랙티브 애니메이션도 직접 만져보며 배울 기회가 있을 거예요.\n\n컴퓨터에 데이터를 저장하고, 검색하고, 관리하기 위해 사용할 수 있는 자료구조는 매우 많습니다. B-트리는 이 중 하나인데, 데이터베이스 응용 프로그램에서 특히 자주 쓰입니다. B-트리는 키(key)와 값(value)이라는 데이터 쌍을 트리 구조로 저장합니다. \n\n참고로 컴퓨터 과학에서 말하는 \"트리\"는 실제로 나무의 뿌리 시스템처럼 생겼어요.\n\n## 구조 이해하기\n\nB-트리는 노드(직사각형)와 자식 포인터(노드를 연결하는 선)로 이루어져 있습니다. 맨 위의 노드를 루트 노드, 맨 아래 레벨의 노드를 리프 노드, 그 사이의 모든 것을 내부 노드라고 부르죠.\n\nB-트리의 정식 정의는 여러 가지가 있지만, 일반적으로는 다음과 같습니다.\n\n**K차 B-트리**는 다음과 같은 성질을 가진 트리 구조입니다:\n\n- 각 노드는 N개의 키/값 쌍을 저장합니다. 여기서 N은 1보다 크고 K 이하입니다.\n- 내부 노드(리프나 루트가 아닌 노드)는 최소 N/2개 이상의 키/값 쌍을 가집니다.\n- 각 노드는 N+1개의 자식을 가집니다.\n- 루트 노드는 유일한 노드가 아닌 이상, 최소 1개의 값과 2개의 자식을 가집니다.\n- 모든 리프 노드는 같은 레벨에 있습니다.\n\n## B-트리의 핵심: 정렬된 구조\n\nB-트리의 또 다른 핵심 특징은 바로 순서입니다. 각 노드 내에서 요소들은 정렬 상태를 유지합니다. 어떤 키의 왼쪽에 있는 자식은 그 키보다 작은 값들만 포함해야 하고, 오른쪽 자식은 더 큰 값들만 포함해야 하죠.\n\n이렇게 강제된 순서 덕분에 키를 매우 효율적으로 검색할 수 있습니다. 루트 노드에서 시작해서:\n\n1. 현재 노드에 찾는 키가 있는지 확인합니다.\n2. 없다면, 찾는 키가 들어갈 위치를 찾습니다.\n3. 그 위치의 자식 포인터를 따라 다음 레벨로 내려갑니다.\n4. 이 과정을 반복합니다.\n\n이런 식으로 검색하면 각 레벨에서 정확히 하나의 노드만 방문하면 됩니다. 따라서 트리 높이가 낮을수록(얕을수록) 검색이 빨라집니다.\n\n## 왜 데이터베이스가 B-트리를 좋아하는가?\n\nB-트리는 특히 대용량 데이터를 장기 저장 매체(디스크)에 저장할 필요가 있을 때 강점을 발휘합니다.\n\n그 이유는 각 노드가 고정된 크기의 바이트를 사용하기 때문인데요. 이 바이트 크기를 디스크 블록과 맞추도록 조정할 수 있거든요.\n\n하드 드라이브(HDD)나 솔리드 스테이트 드라이브(SSD)는 블록이라는 단위로 데이터를 읽고 씁니다. 블록은 보통 4KB, 8KB, 16KB(4k, 8k, 16k) 길이의 바이트 시퀀스입니다. 디스크는 수백만 개에서 수십억 개의 블록을 가지고 있죠.\n\n반면 RAM은 보통 바이트 단위로 접근 가능합니다.\n\n바로 여기가 B-트리가 디스크에 지속적인 데이터를 저장할 때 완벽한 이유입니다. B-트리의 각 노드를 디스크 블록 크기(또는 그 배수)로 조정할 수 있으니까요.\n\n각 노드가 저장할 수 있는 값의 개수는 할당받은 바이트 수와 각 키/값 쌍이 차지하는 바이트 수에 따라 결정됩니다. 예를 들어, 디스크 블록과 B-트리 노드가 16K이고, 키, 값, 자식 포인터가 모두 8비트라면 노드당 682개의 키/값과 683개의 자식 포인터를 저장할 수 있습니다.\n\n3단계 트리라면 3억 개 이상의 키/값 쌍을 저장할 수 있다는 뜻입니다(682 × 682 × 682 = 317,214,568).\n\n## B+트리\n\nB-트리는 훌륭하지만, 많은 데이터베이스 인덱스는 B+트리라는 \"개선된\" 버전을 사용합니다. B+트리는 B-트리와 유사하지만 몇 가지 규칙이 달라집니다:\n\n- 키/값 쌍은 리프 노드에만 저장됩니다.\n- 리프가 아닌 노드는 키와 관련 자식 포인터만 저장합니다.\n\nMySQL 인덱스에서 B+트리 구현에 특화된 추가 규칙도 있습니다:\n\n- 리프가 아닌 노드는 N+1개가 아닌 N개의 자식 포인터를 저장합니다.\n- 모든 노드는 \"다음(next)\" 및 \"이전(previous)\" 포인터도 포함합니다."
+        },
+        {
+          "title": "N-Day-Bench – Can LLMs find real vulnerabilities in real codebases?",
+          "titleKo": "N-Day-Bench – LLM이 실제 코드베이스의 취약점을 찾을 수 있을까?",
+          "summary": "N-Day-Bench는 최신 언어 모델들이 학습 데이터 이후에 공개된 실제 취약점을 발견하는 능력을 측정하는 벤치마크이다. 월간 주기로 업데이트되며 모든 결과가 공개적으로 검색 가능하다.",
+          "keyPoints": [
+            "1,000개의 보안 공지를 스캔하여 47개의 유효한 사례로 LLM의 취약점 발견 능력 평가",
+            "GPT-5.4가 83.93점으로 최고 성능을 기록하며 모든 모델이 동일한 환경에서 평가됨",
+            "적응형 벤치마크로 매월 테스트 케이스 업데이트 및 최신 모델 버전으로 평가 지속"
+          ],
+          "whyItMatters": "LLM의 실제 사이버보안 능력을 객관적으로 측정하여 AI 기반 보안 도구의 신뢰성을 검증할 수 있다.",
+          "url": "https://ndaybench.winfunc.com",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 18,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "n-day-bench-can-llms-find-real-vulnerabilities-in-real-codebases",
+          "fullContent": "N-Day-BenchN-Day-Bench measures the capability of frontier language models to find real-world vulnerabilities or \"N-Days\" disclosed post their respective knowledge cut-off date. All models are given the same harness and the same context with no leeway for reward hacking. This benchmark exists to measure real cyber security capabilities, specifically \"vulnerability discovery\" of large language models or LLMs.This benchmark is adaptive: the test cases are updated on a monthly cadence and the model set is upgraded to their latest version and checkpoint.All traces are publicly browsable.A project from Winfunc ResearchSummaryLatest benchmark run overviewStatuscompletedAdvisories scanned1000Accepted cases47Skipped953Average scoreFull leaderboard1openai/gpt-5.483.932z-ai/glm-5.180.133anthropic/claude-opus-4.679.954moonshotai/kimi-k2.577.185google/gemini-3.1-pro-preview68.50Finder modelsView allModelAvg scoreSubmissionsAvg findingsopenai/gpt-5.483.93441.07z-ai/glm-5.180.13441.23anthropic/claude-opus-4.679.95431.16moonshotai/kimi-k2.577.18371.05google/gemini-3.1-pro-preview68.50440.91Recent tracesView alljudge-runtrace_32193f46de30408c9b2e07c10cb77973Apr 13, 2026, 8:52 PMfinder-runtrace_d0f96be9b726419ba37a391878d89902Apr 13, 2026, 8:45 PMjudge-runtrace_ad22023d5c654d50a2c93a0d4d685fe2Apr 13, 2026, 8:37 PMjudge-runtrace_44a6ff17f42f4bfc942bc4341ec34827Apr 13, 2026, 8:33 PMjudge-runtrace_26dba0da5e6a4d5389c50ad642243bdfApr 13, 2026, 8:33 PMjudge-runtrace_c1d765f31bfb493c8902cc2284c403bdApr 13, 2026, 8:32 PMjudge-runtrace_cfe310bab72f4171a3ded2f379d02576Apr 13, 2026, 8:32 PMjudge-runtrace_a0775cae04054609ae43229d8e9137eeApr 13, 2026, 8:31 PMRun metadataCreatedApr 13, 2026, 5:03 PMStartedApr 13, 2026, 5:03 PMCompletedApr 13, 2026, 8:53 PMFailure—",
+          "category": "tech",
+          "publishedAt": "2026-04-13T21:54:03.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# N-Day-Bench: 최신 AI 모델의 실제 보안 취약점 발견 능력을 측정하다\n\nN-Day-Bench는 최신 언어 모델들이 자신의 학습 데이터 기준일 이후에 공개된 실제 보안 취약점(\"N-Day\")을 찾아낼 수 있는지를 평가하는 벤치마크입니다. 모든 모델에게 동일한 환경과 정보를 제공하며, 결과 조작의 여지를 두지 않습니다. 이 벤치마크는 대규모 언어 모델(LLM)의 실제 사이버 보안 능력, 특히 \"취약점 발견\" 역량을 측정하기 위해 만들어졌거든요.\n\n## 적응형 벤치마크로 끊임없이 진화 중\n\n흥미로운 점은 이 벤치마크가 정적이지 않다는 겁니다. 매월 새로운 테스트 케이스가 추가되고 모델들도 최신 버전으로 업데이트됩니다. 또한 모든 실행 결과를 공개적으로 확인할 수 있어 투명성을 보장하죠. Winfunc Research에서 진행 중인 프로젝트입니다.\n\n## 최근 벤치마크 결과\n\n지난 실행을 보면 1,000개의 보안 권고사항을 스캔했고, 이 중 47개의 케이스가 채택되었습니다. 전체 953개는 건너뛰었고요.\n\n### 모델별 성능 순위\n\n| 순위 | 모델 | 평균 점수 | 제출 횟수 | 평균 발견 수 |\n|------|------|---------|---------|-----------|\n| 1 | openai/gpt-5.4 | 83.93 | 44 | 1.07 |\n| 2 | z-ai/glm-5.1 | 80.13 | 44 | 1.23 |\n| 3 | anthropic/claude-opus-4.6 | 79.95 | 43 | 1.16 |\n| 4 | moonshotai/kimi-k2.5 | 77.18 | 37 | 1.05 |\n| 5 | google/gemini-3.1-pro-preview | 68.50 | 44 | 0.91 |\n\nOpenAI의 GPT-5.4가 현재 가장 높은 점수를 기록했습니다. 흥미롭게도 GLM-5.1은 발견 수는 가장 많지만 점수는 2위인데, 이는 발견의 정확성 측면에서 약간의 차이가 있음을 시사합니다.\n\n## 실시간 실행 기록\n\n최신 테스트는 2026년 4월 13일 오후에 완료되었습니다. 총 5시간 50분 동안 진행되었으며, judge-run과 finder-run이 번갈아 실행되었네요. 모든 실행 결과는 공개 저장소에서 추적할 수 있습니다.\n\n---\n\n이 벤치마크의 가치는 단순한 점수 비교를 넘어섭니다. 실제 세계에서 발생하는 보안 위협에 대해 AI 모델들이 얼마나 실질적으로 도움이 될 수 있는지를 직접 측정하는 것이기 때문입니다."
+        },
+        {
+          "title": "thedotmack/claude-mem (TypeScript)",
+          "titleKo": "Claude-mem - Claude Code 플러그인",
+          "summary": "TypeScript로 구현된 Claude Code 플러그인으로, 코딩 세션 중 Claude의 모든 작업을 자동으로 기록하고 AI로 압축하여 향후 세션에 관련 컨텍스트를 주입합니다.",
+          "keyPoints": [
+            "Claude 에이전트 SDK를 활용한 자동 세션 기록 및 컨텍스트 관리",
+            "AI 기반 압축으로 효율적인 정보 저장 및 재사용"
+          ],
+          "whyItMatters": "Claude와의 작업 기록을 지속적으로 활용하여 AI 코딩 어시스턴트의 효율성을 크게 향상시킬 수 있습니다.",
+          "url": "https://github.com/thedotmack/claude-mem",
+          "sourceName": "GitHub Trending",
+          "engagement": 53134,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "topicId": "claude-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "thedotmackclaude-mem-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-13T23:20:48.814Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "multica-ai/multica (TypeScript)",
+          "titleKo": "multica: 오픈소스 관리형 에이전트 플랫폼",
+          "summary": "코딩 에이전트를 실제 팀원으로 전환하는 오픈소스 플랫폼으로, 작업 할당, 진행 상황 추적, 기술 복합 등의 기능을 제공한다.",
+          "keyPoints": [
+            "AI 에이전트에 작업을 할당하고 진행 상황을 추적할 수 있다.",
+            "여러 AI 에이전트의 기술을 조합하여 더 복잡한 작업을 수행할 수 있다."
+          ],
+          "whyItMatters": "개발자들이 AI 에이전트를 프로덕션 환경에서 실제로 활용할 수 있는 관리 체계를 갖출 수 있다.",
+          "url": "https://github.com/multica-ai/multica",
+          "sourceName": "GitHub Trending",
+          "engagement": 11047,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "topicId": "ai-agents",
+          "isTopicPrimary": false,
+          "relatedCount": 7,
+          "slug": "multica-aimultica-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-13T23:20:48.815Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "coleam00/Archon (TypeScript)",
+          "titleKo": "Archon - AI 코딩 오픈소스 하네스 빌더",
+          "summary": "TypeScript로 구현된 첫 번째 오픈소스 AI 코딩 하네스 빌더로, AI 코딩을 결정론적이고 반복 가능하게 만듭니다.",
+          "keyPoints": [
+            "AI 코딩 워크플로우의 결과를 일관되고 재현 가능하게 만드는 도구",
+            "오픈소스 기반의 AI 코딩 자동화 프레임워크"
+          ],
+          "whyItMatters": "AI 코딩 어시스턴트를 사용할 때 예측 불가능한 결과를 제어하고 일관성 있는 코드 생성을 보장할 수 있습니다.",
+          "url": "https://github.com/coleam00/Archon",
+          "sourceName": "GitHub Trending",
+          "engagement": 17587,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "topicId": "ai-agents",
+          "isTopicPrimary": false,
+          "relatedCount": 7,
+          "slug": "coleam00archon-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-13T23:20:48.815Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "snarktank/ralph (TypeScript)",
+          "titleKo": "ralph: 자동화된 AI 에이전트 루프",
+          "summary": "PRD의 모든 항목이 완료될 때까지 반복적으로 실행되는 자동화된 AI 에이전트 루프이다.",
+          "keyPoints": [
+            "AI 에이전트가 PRD 요구사항을 자동으로 완료할 때까지 반복 실행된다.",
+            "개발 프로세스 자동화를 위한 에이전트 기반 솔루션을 제공한다."
+          ],
+          "whyItMatters": "개발자들이 기술 사양 구현을 자동화하여 개발 생산성을 향상시킬 수 있다.",
+          "url": "https://github.com/snarktank/ralph",
+          "sourceName": "GitHub Trending",
+          "engagement": 16495,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "topicId": "ai-agents",
+          "isTopicPrimary": false,
+          "relatedCount": 7,
+          "slug": "snarktankralph-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-13T23:20:48.816Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "(AMD) Build AI Agents That Run Locally",
+          "titleKo": "로컬에서 실행되는 AI 에이전트 구축 - GAIA",
+          "summary": "AMD가 지원하는 오픈소스 프레임워크로, Python과 C++로 클라우드 의존 없이 로컬 하드웨어에서만 실행되는 AI 에이전트를 구축할 수 있습니다. 문서 검색, 코드 생성, 음성 상호작용 등 다양한 기능을 지원합니다.",
+          "keyPoints": [
+            "완전한 로컬 실행으로 클라우드 의존성 없고 데이터가 기기를 떠나지 않음",
+            "Ryzen AI의 NPU와 GPU 가속 지원으로 로컬 추론 성능 최적화",
+            "Python과 C++ SDK 모두 제공하며 RAG, 음성-음성 상호작용, 코드 생성 등 다양한 기능 내장"
+          ],
+          "whyItMatters": "프라이버시가 중요한 애플리케이션에서 API 비용 없이 로컬에서만 실행되는 AI 에이전트를 구축할 수 있습니다.",
+          "url": "https://amd-gaia.ai/docs",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 52,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "devops"
+          ],
+          "topicId": "local-ai",
+          "isTopicPrimary": true,
+          "slug": "amd-build-ai-agents-that-run-locally",
+          "fullContent": "​Build AI Agents That Run LocallyGAIA is an open-source framework for building AI agents in Python and C++ that run entirely on local hardware. Agents reason, call tools, search documents, and take action — with no cloud dependency and no data leaving the device.\nLocal InferenceAll processing stays on-deviceNo Cloud DependencyNo API keys or external services requiredPython & C++Full SDK in both languagesAMD OptimizedNPU and GPU acceleration on Ryzen AI\nPython C++from gaia.agents.base.agent import Agent\nagent = Agent()\nresponse = agent.process_query(\"Summarize my meeting notes\")\n#include <gaia/agent.h>\ngaia::Agent agent;\nauto result = agent.processQuery(\"Summarize my meeting notes\");\n​Get Started\nAgent UIInstall via npm and run AI agents locally — two commands to get started.Python Quick StartInstall GAIA, start Lemonade Server, and run your first agent.C++ QuickstartBuild a native C++17 agent binary — no Python runtime required.\n​Capabilities\nPython C++Agent UIPrivacy-first desktop chat with drag-and-drop document Q&A. Install via npm or gaia --ui.Document Q&A (RAG)Retrieve, index, and answer questions over local PDFs, code, and text files.Speech-to-SpeechWhisper ASR and Kokoro TTS — offline voice interaction pipeline.Code GenerationMulti-file code generation with validation, testing, and orchestration.Image GenerationMulti-modal image generation with LLM prompt enhancement.MCP IntegrationConnect agents to external tools via Model Context Protocol.Agent RoutingIntelligent request routing across multiple specialized agents.System Health AgentMCP-powered diagnostics — CPU, memory, disk, network, and GPU monitoring.Wi-Fi TroubleshooterDiagnose and resolve wireless connectivity issues with registered tools.Custom AgentsBuild your own C++17 agent with tool registration and state management.MCP IntegrationConnect to MCP servers for extensible tool access.\n​Resources\nSDK ReferenceComplete API documentationGitHubView source codeComponent SpecsTechnical specificationsGlossaryTechnical terms explainedDiscordJoin community",
+          "category": "tech",
+          "publishedAt": "2026-04-13T19:28:41.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 로컬에서 돌아가는 AI 에이전트 만들기\n\nGAIA는 Python과 C++로 AI 에이전트를 개발할 수 있는 오픈소스 프레임워크입니다. 모든 처리가 당신의 기기에서만 일어나기 때문에 클라우드 서비스에 의존할 필요가 없고, 데이터도 밖으로 나가지 않습니다. 에이전트는 추론하고, 도구를 호출하며, 문서를 검색하고, 실제 액션을 취할 수 있죠.\n\n## 핵심 특징\n\n**로컬 추론**\n모든 처리가 디바이스 내에서 이루어집니다.\n\n**클라우드 의존성 없음**\nAPI 키나 외부 서비스가 필요 없습니다.\n\n**Python & C++ 지원**\n두 언어 모두에서 완전한 SDK를 제공합니다.\n\n**AMD 최적화**\nRyzen AI의 NPU와 GPU 가속을 지원합니다.\n\n## 간단한 사용 예제\n\nPython에서는 이렇게 시작할 수 있어요:\n\n```python\nfrom gaia.agents.base.agent import Agent\n\nagent = Agent()\nresponse = agent.process_query(\"Summarize my meeting notes\")\n```\n\nC++라면 이렇게 작성하면 됩니다:\n\n```cpp\n#include <gaia/agent.h>\n\ngaia::Agent agent;\nauto result = agent.processQuery(\"Summarize my meeting notes\");\n```\n\n## 시작하기\n\n**Agent UI로 빠르게 시작**\nnpm으로 설치하고 AI 에이전트를 로컬에서 바로 실행할 수 있습니다. 단 두 명령어면 끝입니다.\n\n**Python 빠른 시작**\nGAIA를 설치하고 Lemonade Server를 실행한 다음 첫 번째 에이전트를 띄워보세요.\n\n**C++ 빠른 시작**\nPython 런타임 없이 네이티브 C++17 에이전트 바이너리를 빌드할 수 있습니다.\n\n## 주요 기능\n\n**Agent UI**\n개인정보 보호에 중점을 둔 데스크톱 채팅 인터페이스입니다. 드래그 앤 드롭으로 문서 Q&A를 할 수 있어요.\n\n**Document Q&A (RAG)**\n로컬의 PDF, 코드, 텍스트 파일을 인덱싱하고 검색하며 질문에 답변합니다.\n\n**음성 상호작용**\nWhisper ASR과 Kokoro TTS를 이용한 완전한 오프라인 음성 파이프라인을 지원합니다.\n\n**코드 생성**\n여러 파일에 걸쳐 코드를 생성하고, 검증하고, 테스트하고 조율할 수 있습니다.\n\n**이미지 생성**\nLLM 프롬프트 개선을 포함한 멀티모달 이미지 생성 기능입니다.\n\n**MCP 통합**\nModel Context Protocol을 통해 에이전트를 외부 도구와 연결할 수 있습니다.\n\n**에이전트 라우팅**\n여러 개의 특화된 에이전트로 요청을 지능적으로 라우팅합니다.\n\n**시스템 상태 모니터링**\nMCP 기반 진단으로 CPU, 메모리, 디스크, 네트워크, GPU를 모니터링합니다.\n\n**Wi-Fi 트러블슈팅**\n무선 연결 문제를 진단하고 해결합니다.\n\n**커스텀 에이전트**\nC++17로 자체 에이전트를 만들고, 도구를 등록하고, 상태를 관리할 수 있습니다.\n\n## 참고 자료\n\n- **SDK 레퍼런스**: 완전한 API 문서\n- **GitHub**: 소스코드 확인\n- **기술 사양**: 컴포넌트 상세 정보\n- **용어집**: 기술 용어 설명\n- **Discord**: 커뮤니티 참여"
+        },
+        {
+          "title": "virattt/ai-hedge-fund (Python)",
+          "titleKo": "AI Hedge Fund - AI 헤지펀드 팀",
+          "summary": "Python으로 구현된 AI 기반의 헤지펀드 팀 시뮬레이션 프로젝트입니다. 여러 AI 에이전트가 협력하여 금융 의사결정을 수행합니다.",
+          "keyPoints": [
+            "다중 AI 에이전트 협력 시스템의 실제 금융 적용 사례",
+            "Python 기반의 오픈소스 구현"
+          ],
+          "whyItMatters": "복수의 AI 에이전트를 조율하여 복잡한 작업을 수행하는 마ル티-에이전트 시스템 개발의 참고 자료입니다.",
+          "url": "https://github.com/virattt/ai-hedge-fund",
+          "sourceName": "GitHub Trending",
+          "engagement": 52888,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-agents",
+          "isTopicPrimary": false,
+          "relatedCount": 7,
+          "slug": "viratttai-hedge-fund-python",
+          "category": "tech",
+          "publishedAt": "2026-04-13T23:20:48.816Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "anthropics/claude-cookbooks (Jupyter Notebook)",
+          "titleKo": "anthropics/claude-cookbooks (Jupyter Notebook)",
+          "summary": "Anthropic의 claude-cookbooks는 Claude를 효과적으로 활용하는 다양한 방법을 보여주는 노트북과 레시피 모음이다.",
+          "keyPoints": [
+            "Claude API 사용 사례와 최적화 방법을 실제 코드 예제로 제시"
+          ],
+          "whyItMatters": "Claude를 활용한 개발 시 모범 사례와 패턴을 학습할 수 있는 실용적인 자료이다.",
+          "url": "https://github.com/anthropics/claude-cookbooks",
+          "sourceName": "GitHub Trending",
+          "engagement": 39461,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-tools",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "anthropicsclaude-cookbooks-jupyter-notebook",
+          "category": "tech",
+          "publishedAt": "2026-04-13T23:20:48.816Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Jupyter Notebook"
+          ]
+        },
+        {
+          "title": "Squash and Stretch",
+          "titleKo": "Squash and Stretch: 자연스러운 애니메이션",
+          "summary": "Disney의 12가지 기본 애니메이션 원칙 중 첫 번째인 'squash and stretch'를 활용하여 SVG 마이크로인터랙션을 더 자연스럽게 만드는 방법을 설명한다.",
+          "keyPoints": [
+            "Squash and stretch 원칙은 작은 시각적 변화로도 큰 영향을 미치는 애니메이션 기법이다.",
+            "SVG를 이용해 웹 마이크로인터랙션에 이 원칙을 적용할 수 있다."
+          ],
+          "whyItMatters": "프론트엔드 개발자들이 애니메이션을 더 자연스럽고 사용자 친화적으로 만드는 디자인 원칙을 이해할 수 있다.",
+          "url": "https://www.joshwcomeau.com/animation/squash-and-stretch/",
+          "sourceName": "Josh W. Comeau",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "squash-and-stretch",
+          "category": "tech",
+          "publishedAt": "2026-04-13T12:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "jamiepine/voicebox (TypeScript)",
+          "titleKo": "voicebox: 오픈소스 음성 합성 스튜디오",
+          "summary": "음성 합성 기능을 제공하는 오픈소스 스튜디오이다.",
+          "keyPoints": [
+            "오픈소스로 제공되는 음성 합성 도구로 자유롭게 활용할 수 있다."
+          ],
+          "whyItMatters": "개발자들이 음성 기반 기능을 애플리케이션에 쉽게 통합할 수 있다.",
+          "url": "https://github.com/jamiepine/voicebox",
+          "sourceName": "GitHub Trending",
+          "engagement": 16257,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "frontend",
+            "ai"
+          ],
+          "topicId": "ai-agents",
+          "isTopicPrimary": false,
+          "relatedCount": 7,
+          "slug": "jamiepinevoicebox-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-13T23:20:48.817Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "shiyu-coder/Kronos (Python)",
+          "titleKo": "Kronos: 금융시장 언어를 위한 기초 모델",
+          "summary": "Kronos는 금융시장의 언어를 이해하고 분석하기 위해 설계된 Python 기반의 기초 모델입니다.",
+          "keyPoints": [
+            "금융 데이터와 시장 뉘앙스를 학습한 특화된 언어 모델",
+            "금융 분석, 예측, 자동화 작업에 활용 가능"
+          ],
+          "whyItMatters": "금융 도메인 특화 AI 모델은 더 정확한 시장 분석과 자동화를 가능하게 합니다.",
+          "url": "https://github.com/shiyu-coder/Kronos",
+          "sourceName": "GitHub Trending",
+          "engagement": 16968,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-agents",
+          "isTopicPrimary": false,
+          "relatedCount": 7,
+          "slug": "shiyu-coderkronos-python",
+          "category": "tech",
+          "publishedAt": "2026-04-13T23:20:48.814Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "ahujasid/blender-mcp (Python)",
+          "titleKo": "blender-mcp",
+          "summary": "Blender를 위한 MCP(Model Context Protocol) 구현 프로젝트입니다.",
+          "keyPoints": [
+            "Blender와 AI 모델 간의 상호작용을 표준화하는 프로토콜 제공",
+            "3D 모델링 자동화 및 AI 기반 창작 도구 개발 가능"
+          ],
+          "whyItMatters": "Blender 같은 크리에이티브 툴과 AI를 연결하는 표준 방식은 자동화된 3D 콘텐츠 생성을 촉진합니다.",
+          "url": "https://github.com/ahujasid/blender-mcp",
+          "sourceName": "GitHub Trending",
+          "engagement": 19468,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-agents",
+          "isTopicPrimary": false,
+          "relatedCount": 7,
+          "slug": "ahujasidblender-mcp-python",
+          "category": "tech",
+          "publishedAt": "2026-04-13T23:20:48.817Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Tracking down a 25% Regression on LLVM RISC-V",
+          "titleKo": "LLVM RISC-V의 25% 성능 저하 추적하기",
+          "summary": "LLVM RISC-V 컴파일러에서 발견된 25% 성능 저하의 원인을 분석하고 해결하는 과정을 다룬 기술 블로그입니다.",
+          "keyPoints": [
+            "컴파일러 성능 저하의 구체적인 원인 분석 방법론 제시",
+            "RISC-V 아키텍처 최적화의 중요성 강조"
+          ],
+          "whyItMatters": "컴파일러 성능 이슈는 전체 애플리케이션 성능에 직결되므로 개발자들의 성능 최적화 이해를 돕습니다.",
+          "url": "https://blog.kaving.me/blog/tracking-down-a-25-regression-on-llvm-risc-v/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 81,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "tracking-down-a-25-regression-on-llvm-risc-v",
+          "category": "tech",
+          "publishedAt": "2026-04-12T19:52:58.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "gsd-build/get-shit-done (JavaScript)",
+          "titleKo": "get-shit-done: Claude Code를 위한 메타-프롬핑 및 스펙 중심 개발 시스템",
+          "summary": "Claude Code와 통합되는 경량의 메타-프롬핑 및 컨텍스트 엔지니어링 시스템으로, 스펙 중심의 개발을 지원합니다.",
+          "keyPoints": [
+            "Claude Code의 능력을 최대화하는 프롬프팅 최적화 기법 제공",
+            "명확한 스펙 정의를 통한 체계적인 개발 워크플로우 구성"
+          ],
+          "whyItMatters": "AI 코딩 어시스턴트를 효과적으로 활용하기 위한 프롬프팅 및 컨텍스트 엔지니어링 최적화 기법을 제시합니다.",
+          "url": "https://github.com/gsd-build/get-shit-done",
+          "sourceName": "GitHub Trending",
+          "engagement": 52063,
+          "contentType": "repo",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "gsd-buildget-shit-done-javascript",
+          "category": "tech",
+          "publishedAt": "2026-04-13T23:20:48.818Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "Initial mainline video capture and camera support for Rockchip RK3588",
+          "titleKo": "Rockchip RK3588을 위한 메인라인 비디오 캡처 및 카메라 지원",
+          "summary": "Collabora가 5년 이상 진행해온 Rockchip RK3588 SoC의 비디오 캡처(VICAP) 및 MIPI CSI-2 수신기 드라이버를 메인라인 Linux 커널에 통합한 과정을 설명합니다. ISP(이미지 신호 프로세서) 지원은 계속 진행 중입니다.",
+          "keyPoints": [
+            "25회 이상의 반복 개정 끝에 rkcif 드라이버가 2025년 10월 메인라인 커널에 수용됨",
+            "MIPI CSI-2 수신기 드라이버도 2026년 1월 메인라인에 통합되어 카메라 센서 지원 실현",
+            "RK3588 ISP를 활용한 하드웨어 기반 이미지 처리는 아직 진행 중으로 향후 개선 필요"
+          ],
+          "whyItMatters": "임베디드 시스템 개발자들이 오픈 소스 드라이버를 통해 고성능 멀티미디어 SoC를 자유롭게 활용할 수 있게 됩니다.",
+          "url": "https://www.collabora.com/news-and-blog/news-and-events/mainline-video-capture-and-camera-support-for-rockchip-rk3588.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 69,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "initial-mainline-video-capture-and-camera-support-for-rockchip-rk3588",
+          "fullContent": "As many System-on-a-Chips (SoCs) do these days, recent Rockchip SoCs (namely, those of the RK35 generation) integrate dedicated IP blocks for video capture and image signal processing. These additions open the door to a wide range of interesting multimedia applications. However, support for these blocks in mainline Linux remains one of the last missing pieces in an otherwise well-supported SoC lineup. It is time to close that gap!\nOver the last few years, Collabora has invested significant efforts into mainline support for the Rockchip RK3588 SoC. Our RK3588 upstream status matrix and the recent review blog post Running Mainline Linux, U-Boot, and Mesa on Rockchip: A year in review show the success of this mission. It is fair to say that together with the vibrant linux-rockchip community and Rockchip themselves, we were able to provide upstream support for most of the features of the RK3588. On the other hand, there are still a few unsupported hardware blocks that need to be taken care of.\nVideo capture blocks and image signal processors (ISPs) notoriously fall into the category of hardware blocks that gain mainline support at a late stage (if at all). The reasons for this are manifold: while the user base is substantial, it's smaller than that of other features, such as video output for instance. The hardware documentation is often not available, at least for ISPs, which seem to be considered special in terms of intellectual property. Then, the underlying hardware is not exactly trivial, making it difficult (if not impossible) for a hobbyist contributor to tackle in their free time. Even for companies, the initial efforts required to bring up that sort of hardware are a time-consuming and hence costly endeavor. As a consequence, users of these powerful hardware blocks tend to resort to a vendor Linux kernel, which can lead to regulatory compliance issues, such as under the Cyber Resilience Act (CRA).\nIn a quest to overcome this deadlock, Collabora decided to start with the first step: bringing up the RK3588 video capture (VICAP) unit. It was obvious from the very start that this would not be a sprint, but a marathon. The plan was for the rkcif driver to support the RK3588 VICAP, and this driver had been under discussion on the respective mailing lists since 2020!\nCollabora joined the mainlining discussion in early 2022 and the patch series went through nine iterations driven by Bootlin. Then, a major rework towards a media-controller centric V4L2 driver was requested. This led to a complete refactoring of the driver and a renewed push towards inclusion in mainline Linux.\nAfter another seven iterations of the resulting patch series and renaming the driver twice, the work was presented at Open Source Summit Europe 2025 in Amsterdam. The talk \"Towards Mainline Video Capture and Camera Support for Recent Rockchip SoCs\" provided an overview of the software stack for modern multimedia SoCs and covered the contributions that had already landed in mainline and were currently in flight, respectively.\nA few iterations of the rkcif driver later, the basic driver providing support for the PX30 VIP and the RK3568 VICAP was accepted (October 2025). After more than five years of development, including 25 iterations and three renamings, this was a major milestone. On the other hand, there was still a lot to do, of course. For instance, the Rockchip MIPI CSI-2 receiver unit that is coupled closely to the VICAP required a mainline driver as well. Again, the hardest part in software development proved to be naming things. After several iterations and three renamings and/or relocations, the driver found its name and place in the mainline Linux kernel (January 2026).\nThis came to pass right in time for FOSDEM 2026 in Brussels, where Collabora presented \"Upstreaming Progress: Video Capture and Camera Support for Recent Rockchip SoCs\" Apart from the refined and updated status matrix (see slides 15 and 17), the talk featured a first picture made with a Sony IMX415 sensor attached to the RK3588 VICAP. Of course, in this setup the raw image data from the sensor was debayered in software (which yielded an abysmal frame rate of 1 fps) and there was no image processing such as auto white balance (which explained the greenish image), but at that time it represented a significant stage of this journey.\nA few extension patches to the rkcif driver were required to add RK3588 support. Those patches had been in development for some time, and were recently sent out for review.\nNaturally, we all would like to use the RK3588 ISP to process the images from the camera sensor in the dedicated hardware. To that end, we essentially need three things.\nThe first of the remaining issues is the support for the RK3588 VICAP MUX-TOISP unit, which constitutes a direct hardware connection that passes the data from the VICAP to the ISP(s). Technically, this is not strictly needed. As of now the RK3588 VICAP is able to stream the raw pictures into memory and",
+          "category": "tech",
+          "publishedAt": "2026-04-13T13:23:50.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Rockchip SoC의 비디오 캡처 기능을 메인라인 Linux에 올리기까지\n\n최신 Rockchip SoC(특히 RK35 세대)는 많은 System-on-a-Chip(SoC)이 그렇듯이, 비디오 캡처와 이미지 신호 처리 전용 IP 블록을 내장하고 있습니다. 이런 기능들이 추가되면서 다양한 멀티미디어 애플리케이션을 만들 수 있는 길이 열렸어요. 다만 메인라인 Linux에서 이들 블록을 지원하는 부분은 아직도 미흡한 상태였습니다. 이제 이 공백을 채울 시간이 왔습니다!\n\n## 지난 몇 년간의 노력\n\n지난 몇 년간 Collabora는 Rockchip RK3588 SoC의 메인라인 지원에 상당한 투자를 해왔습니다. RK3588 업스트림 상태 매트릭스와 최근 \"Mainline Linux, U-Boot, Mesa를 Rockchip에서 실행하기: 1년 회고록\" 블로그 포스트를 보면 이 노력의 성과를 확실히 알 수 있죠. linux-rockchip 커뮤니티 및 Rockchip과 함께 RK3588의 대부분 기능에 대한 업스트림 지원을 제공할 수 있었다고 할 수 있습니다. 그렇긴 해도 여전히 지원되지 않는 하드웨어 블록들이 몇 가지 남아 있었어요.\n\n## 비디오 캡처와 ISP가 늦게 지원되는 이유\n\n비디오 캡처 블록과 이미지 신호 프로세서(ISP)는 메인라인 지원이 늦거나 아예 되지 않는 하드웨어의 대표적인 사례입니다. 그 이유는 여러 가지인데요:\n\n- 사용자층이 상당하지만, 비디오 출력 같은 다른 기능 사용자보다는 적어요.\n- 특히 ISP의 경우 하드웨어 문서가 공개되지 않는 경우가 많습니다. 지적 재산권 관련해서 민감하게 다루거든요.\n- 하드웨어 자체가 복잡해서, 취미로 개발하는 기여자가 여유 시간에 해내기 어렵습니다.\n- 회사 입장에서도 이런 하드웨어를 처음부터 구동시키는 데 엄청난 시간과 비용이 들어요.\n\n이 때문에 강력한 하드웨어 기능을 원하는 사용자들은 벤더 Linux 커널에 의존하게 되는데, 이는 Cyber Resilience Act(CRA) 같은 규제 준수 문제를 야기할 수 있었습니다.\n\n## Collabora의 결단\n\n이런 악순환을 깨기 위해 Collabora는 첫 번째 단계부터 시작하기로 결정했습니다. RK3588 비디오 캡처(VICAP) 유닛을 지원하는 것이었어요. 처음부터 이게 단거리 경주가 아니라 마라톤이 될 거라는 건 명백했습니다. rkcif 드라이버가 RK3588 VICAP을 지원하는 것이 목표였는데, 이 드라이버는 2020년부터 관련 메일링 리스트에서 논의되고 있던 것이었거든요.\n\nCollabora는 2022년 초에 메인라이닝 논의에 참여했고, Bootlin에서 주도적으로 총 9번의 반복을 거쳤습니다. 그 후 미디어 컨트롤러 중심의 V4L2 드라이버로의 전면 재설계가 요청됐어요. 이에 따라 드라이버 전체가 리팩토링되고 메인라인 포함을 위한 새로운 추진이 시작됐습니다.\n\n## 주요 마일스톤들\n\n재설계된 패치 시리즈는 또 다른 7번의 반복을 거쳤고, 드라이버 이름도 두 번 바뀌었어요. 이 작업은 2025년 암스테르담의 Open Source Summit Europe에서 \"최근 Rockchip SoC의 메인라인 비디오 캡처 및 카메라 지원을 향해\"라는 제목의 발표로 공개됐습니다. 이 발표에서는 현대적인 멀티미디어 SoC의 소프트웨어 스택 개요와 이미 메인라인에 들어간 기여, 그리고 진행 중인 기여들을 다뤘죠.\n\n몇 번의 rkcif 드라이버 반복 끝에, PX30 VIP과 RK3568 VICAP을 지원하는 기본 드라이버가 승인됐습니다(2025년 10월). 5년 이상의 개발, 25번의 반복, 3번의 이름 변경을 거쳐 이루어낸 대단한 마일스톤이었어요. 물론 해야 할 일은 아직도 많았습니다. 예를 들어 VICAP과 밀접하게 연결된 Rockchip MIPI CSI-2 수신기 유닛도 메인라인 드라이버가 필요했거든요. 소프트웨어 개발에서 가장 어려운 부분이 이름 짓기라는 농담처럼, 여러 번의 반복과 3번의 이름 변경/재배치를 거친 끝에 이 드라이버는 메인라인 Linux에 자리 잡게 됩니다(2026년 1월).\n\n## FOSDEM 발표와 첫 번째 실제 이미지\n\n이는 2026년 브뤼셀의 FOSDEM에서 정확히 좋은 시점에 맞춰져, \"업스트림 진행 상황: 최근 Rockchip SoC의 비디오 캡처 및 카메라 지원\"이라는 제목의 발표가 이루어졌어요. 개선되고 업데이트된 상태 매트릭스(슬라이드 15, 17 참고) 외에도, RK3588 VICAP에 연결된 Sony IMX415 센서로 촬영한 첫 번째 사진이 공개됐습니다.\n\n물론 이 설정에서는 센서에서 받은 RAW 이미지 데이터를 소프트웨어로 디베이어링했고(이로 인해 1fps의 형편없는 프레임 레이트가 나왔어요), 자동 화이트 밸런스 같은 이미지 처리도 없었습니다(그래서 이미지가 초록색을 띠었죠). 하지만 그 당시에는 이 여정의 중요한 단계를 나타내는 의미 있는 결과였습니다.\n\n## 다음 단계: RK3588 ISP 지원\n\nrkcif 드라이버에 몇 가지 확장 패치가 필요해서 RK3588 지원을 추가했어요. 이들 패치는 한동안 개발 중이었고, 최근에 리뷰를 위해 공개됐습니다.\n\n당연히 우리 모두는 RK3588 ISP를 사용해 카메라 센서에서 오는 이미지를 전용 하드웨어에서 처리하고 싶어 합니다. 이를 위해서는 본질적으로 세 가지가 필요합니다.\n\n남은 과제 중 첫 번째는 RK3588 VICAP MUX-TOISP 유닛 지원입니다. 이 유닛은 VICAP의 데이터를 ISP로 직접 전달하는 하드웨어 연결입니다. 기술적으로는 꼭 필요한 건 아닙니다. 현재로서는 RK3588 VICAP이 RAW 이미지를 메모리로 스트리밍할 수 있거든요."
+        },
+        {
+          "title": "Just Enough Chimera Linux",
+          "titleKo": "충분한 Chimera Linux",
+          "summary": "Chimera Linux를 OpenZFS 파일시스템과 ZFSBootMenu 부트로더로 암호화된 미니멀 시스템으로 설치하는 상세 가이드입니다. musl C 라이브러리, dinit 초기화 시스템, FreeBSD 기반 사용자 영역 도구를 특징으로 합니다.",
+          "keyPoints": [
+            "Chimera Linux는 glibc 대신 musl, systemd 대신 dinit을 사용하여 경량의 대안 제시",
+            "ZFS 네이티브 암호화와 ZFSBootMenu를 통한 안전하고 유연한 시스템 구성",
+            "zram을 통한 스왑 메모리 구성으로 전통적 스왑 파티션 불필요"
+          ],
+          "whyItMatters": "Linux 시스템 구축의 기초부터 시작하여 최소한의 의존성으로 견고한 기반을 만드는 방법을 배울 수 있습니다.",
+          "url": "https://www.dwarmstrong.org/chimera-install-zfs/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 32,
+          "contentType": "discussion",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "just-enough-chimera-linux",
+          "fullContent": "Home→Archive↴\nJust Enough Chimera Linux\nLast edited on 2026-04-03\n•\nTagged under\n#chimera\n#linux\n#zfs\n#encrypt\n#zfsbootmenu\nChimera Linux is a delightful community-driven Linux distribution built from scratch that does things differently: musl instead of the typical glibc for C library, dinit over systemd for system init, and a userland derived from FreeBSD core tools.\nUsing the Chimera base install image and working my way through this excellent installation guide for configuring Chimera with the OpenZFS filesystem and the ZFSBootMenu bootloader, I show the choices I make to create an encrypted, minimal Linux system with “just enough” to provide a solid foundation to build upon further: whether that be setting up a desktop, laptop, or server.\n1. Start Here\nAcquire an installation image\nPrepare the USB installation medium\n2. Configure the Live Environment\nSet the console font\nSet the console keyboard\nVerify the boot mode\nConnect to the internet\nRemote login to the installer\nDefine ID variable\nGenerate hostid\n3. Prepare the DISK\nDefine DISK variables\nWipe DISK\nPartition DISK\n4. ZFS Pool Creation\nCreate encryption keyfile\nCreate encrypted ZFS pool\nCreate ZFS datasets\nExport and re-import pool for installation\n5. Installation\n6. Configure the System\nChroot\nRoot password\nSuperuser\nPackage manager and extra packages\nConsole font\nConsole keyboard\nTimezone\nHostname\nServices\nESP partition\nInitramfs\n7. ZFSBootMenu\nBoot properties\nPrebuilt executable\nEFI boot entries\n8. Finish Up\nExit chroot, unmount, and export\nReboot\nZram swap\n9. Resources\n1. Start Here\nChimera Linux is installed as the sole operating system on a single disk using a two-partition layout:\nPartition pool is formatted with the zfs file system using native encryption.\nPartition esp serves as the EFI system partition and is formatted with the fat32 file system.\nIn lieu of creating a partition for swap, the zram kernel module is used to create a compressed block device in RAM to provide swap space.\nA few assumptions:\nTarget device is x86_64 architecture using UEFI to boot.\nSecure boot is disabled on target device.\nNetwork access during install uses a wired interface.\nSystem does not require hibernation support.\nAcquire an installation image\nThe latest live ISO install images are available here: repo.chimera-linux.org\nDownload chimera-linux-x86_64-LIVE-[RELEASE]-base.iso, the sha256sums.txt file, then verify the image integrity:\nsha256sum -c --ignore-missing sha256sums.txt\nPrepare the USB installation medium\nWrite the installer to an unmounted USB storage device running the dd command as root.\nWARNING\nBe very careful to note the proper device (which can be identified with the lsblk command). All contents on the device will be lost!\nExample: On a Linux system, if a USB stick appears as sdx1, then write the installer to sdx (omit partition number):\ndd bs=4M conv=fsync oflag=direct status=progress if=chimera-linux-x86_64-LIVE-[RELEASE]-base.iso of=/dev/sdx\n2. Configure the Live Environment\nBoot the target device from the Chimera installation media. Login and password is root:chimera.\nSet the console font\nIf the existing font size appears too small, running:\nsetfont -d\n… will double the size.\nConsole fonts are located in /usr/share/consolefonts/ and a different font can be set with setfont omitting the path and file extension.\nSet the console keyboard\nDefault console keymap is us. Available keymaps are listed in /usr/share/keymaps/.\nIf some other keymap is desired, set a different keymap temporarily with loadkeys:\nloadkeys [keymap]\n…where [keymap] is the desired keyboard layout.\nExample: I configure the system to use my preferred colemak layout, which is available in /usr/share/keymaps/i386/colemak:\nloadkeys colemak/en-latin9\nVerify the boot mode\nConfirm target device is using UEFI boot mode:\ncat /sys/firmware/efi/fw_platform_size\nIf the command returns 64, then system is booted in UEFI with 64-bit x64 UEFI and we are good to go.\nNOTE\nIf the file does not exist, the device is not using UEFI.\nConnect to the internet\nWired network interfaces should be auto-enabled and connected at boot.\nVerify the network interface is active, has been assigned an address, and the internet is reachable:\nip addr\nping -c 5 chimera-linux.org\nRemote login to the installer\nMake this manual installation process easier (i.e. cut-n-paste commands) by remotely logging into the installer via ssh from another computer.\nStart the sshd daemon:\ndinitctl start sshd\nSwitch to the other computer and ssh into the target device as anon:chimera:\nssh anon@[ip_address]\n… where [ip_address] is the target device’s address obtained with the ip addr command above.\nSwitch to root:\ndoas -s\nDefine ID variable\nFile /etc/os-release defines variables that describe the current operating system. Use the $ID variable to set the short name of the Linux distribution in later commands:\n. /etc/os-release && export ID && echo $ID\nGenerate hostid\nGenerate hostid hexadecimal identifier for use by ZFSBootMenu:\nzgenhostid",
+          "category": "tech",
+          "publishedAt": "2026-04-13T19:37:54.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Chimera Linux로 최소한의 설정만 하기\n\n**마지막 수정: 2026-04-03**  \n**태그: #chimera #linux #zfs #encrypt #zfsbootmenu**\n\n---\n\nChimera Linux는 커뮤니티가 주도하는 독특한 리눅스 배포판입니다. glibc 대신 musl을 C 라이브러리로 쓰고, systemd 대신 dinit을 init 시스템으로 사용하며, FreeBSD 핵심 도구들을 기반으로 한 userland를 제공하죠.\n\n이 글에서는 Chimera 기본 설치 이미지와 [공식 설치 가이드](https://docs.chimera-linux.org)를 따라가며, OpenZFS 파일시스템과 ZFSBootMenu 부트로더로 암호화된 최소 리눅스 시스템을 구축하는 과정을 보여드리겠습니다. 여기서 설정한 기초 위에 데스크톱, 노트북, 서버 등 다양한 환경을 추가로 구축할 수 있습니다.\n\n## 설치 가이드\n\n1. [시작하기](#1-시작하기)\n2. [라이브 환경 설정](#2-라이브-환경-설정)\n3. [디스크 준비](#3-디스크-준비)\n4. [ZFS 풀 생성](#4-zfs-풀-생성)\n5. [설치](#5-설치)\n6. [시스템 설정](#6-시스템-설정)\n7. [ZFSBootMenu](#7-zfsbootmenu)\n8. [마무리](#8-마무리)\n9. [참고자료](#9-참고자료)\n\n---\n\n## 1. 시작하기\n\nChimera Linux는 단일 디스크에 유일한 운영체제로 설치되며, 두 개의 파티션으로 구성됩니다:\n\n- **pool 파티션**: ZFS 파일시스템으로 포맷되며, 네이티브 암호화 기능을 사용합니다\n- **esp 파티션**: EFI 시스템 파티션으로 FAT32로 포맷됩니다\n\n스왑 파티션을 따로 만드는 대신 zram 커널 모듈을 사용해 RAM의 압축 블록 디바이스를 스왑 공간으로 활용합니다.\n\n### 기본 가정\n\n- 대상 장치는 x86_64 아키텍처이며 UEFI로 부팅합니다\n- Secure Boot는 비활성화되어 있습니다\n- 설치 중 네트워크 접속은 유선 인터페이스를 사용합니다\n- 시스템은 하이버네이션을 지원할 필요가 없습니다\n\n### 설치 이미지 다운로드\n\n최신 라이브 ISO 설치 이미지는 [repo.chimera-linux.org](https://repo.chimera-linux.org)에서 받을 수 있습니다.\n\n`chimera-linux-x86_64-LIVE-[RELEASE]-base.iso`와 `sha256sums.txt` 파일을 다운로드한 후, 이미지 무결성을 확인하세요:\n\n```bash\nsha256sum -c --ignore-missing sha256sums.txt\n```\n\n### USB 설치 매체 준비\n\nroot 권한으로 dd 명령어를 사용해 설치 이미지를 마운트되지 않은 USB 저장 장치에 쓰세요.\n\n**주의: 올바른 장치를 지정했는지 반드시 확인하세요.** `lsblk` 명령어로 확인할 수 있으며, 지정한 장치의 모든 데이터가 손실됩니다!\n\n예를 들어 USB 스틱이 `sdx1`로 나타나면, `sdx`(파티션 번호 제외)에 설치 이미지를 써야 합니다:\n\n```bash\ndd bs=4M conv=fsync oflag=direct status=progress if=chimera-linux-x86_64-LIVE-[RELEASE]-base.iso of=/dev/sdx\n```\n\n---\n\n## 2. 라이브 환경 설정\n\n대상 장치를 Chimera 설치 매체에서 부팅합니다. 로그인 정보는 `root:chimera`입니다.\n\n### 콘솔 폰트 설정\n\n폰트가 너무 작다면 다음 명령어로 크기를 두 배로 늘릴 수 있습니다:\n\n```bash\nsetfont -d\n```\n\n콘솔 폰트는 `/usr/share/consolefonts/`에 저장되어 있으며, `setfont` 명령어에 경로와 확장자를 제외한 폰트명을 입력하면 다른 폰트를 설정할 수 있습니다.\n\n### 콘솔 키보드 설정\n\n기본 콘솔 키맵은 `us`입니다. 사용 가능한 키맵은 `/usr/share/keymaps/`에서 확인할 수 있습니다.\n\n다른 키맵을 임시로 적용하려면 `loadkeys`를 사용하세요:\n\n```bash\nloadkeys [keymap]\n```\n\n예를 들어, Colemak 레이아웃으로 설정하려면:\n\n```bash\nloadkeys colemak/en-latin9\n```\n\n### 부팅 모드 확인\n\n대상 장치가 UEFI 부팅 모드를 사용하는지 확인하세요:\n\n```bash\ncat /sys/firmware/efi/fw_platform_size\n```\n\n명령어가 `64`를 반환하면, 시스템이 64비트 x64 UEFI로 부팅되고 있으므로 진행해도 됩니다.\n\n**참고:** 파일이 없으면 UEFI를 사용하지 않는 것입니다.\n\n### 인터넷 연결\n\n유선 네트워크 인터페이스는 부팅 시 자동으로 활성화되고 연결됩니다.\n\n네트워크 인터페이스가 활성화되었고 IP 주소가 할당되었으며 인터넷에 접속 가능한지 확인하세요:\n\n```bash\nip addr\nping -c 5 chimera-linux.org\n```\n\n### SSH로 원격 접속\n\n이 설치 과정을 더 쉽게 하려면(예: 명령어 복사-붙여넣기) 다른 컴퓨터에서 SSH로 설치 프로그램에 원격 접속하는 게 좋습니다.\n\n먼저 sshd 데몬을 시작하세요:\n\n```bash\ndinitctl start sshd\n```\n\n다른 컴퓨터에서 anon 계정으로 대상 장치에 SSH 접속하세요:\n\n```bash\nssh anon@[ip_address]\n```\n\n여기서 `[ip_address]`는 위의 `ip addr` 명령어로 얻은 대상 장치의 IP 주소입니다.\n\nroot로 전환하려면:\n\n```bash\ndoas -s\n```\n\n### ID 변수 설정\n\n`/etc/os-release` 파일은 현재 운영체제를 설명하는 변수들을 정의합니다. 이 파일의 `$ID` 변수를 설정해 이후 명령어에서 리눅스 배포판의 짧은 이름을 사용할 수 있습니다:\n\n```bash\n. /etc/os-release && export ID && echo $ID\n```\n\n### hostid 생성\n\nZFSBootMenu에서 사용할 hostid 16진수 식별자를 생성하세요:\n\n```bash\nzgenhostid\n```\n\n---\n\n## 3. 디스크 준비\n\n(계속)\n\n---\n\n## 4. ZFS 풀 생성\n\n(계속)\n\n---\n\n## 5. 설치\n\n(계속)\n\n---\n\n## 6. 시스템 설정\n\n(계속)\n\n---\n\n## 7. ZFSBootMenu\n\n(계속)\n\n---\n\n## 8. 마무리\n\n(계속)\n\n---\n\n## 9. 참고자료\n\n(계속)"
+        },
+        {
+          "title": "Show HN: Continual Learning with .md",
+          "titleKo": "지속적 학습을 위한 .md 파일 기반 AI 에이전트 메모리 시스템",
+          "summary": "로컬 파일들을 스캔하여 AI 에이전트를 위한 메모리 파일시스템으로 변환하는 ReadMe 프로젝트입니다. 사용자의 작업 히스토리를 계층적 마크다운 구조로 정리하여 에이전트가 과거 활동을 검색하고 맥락을 이해할 수 있게 합니다.",
+          "keyPoints": [
+            "세션, 다운로드, 프로젝트 등 여러 소스에서 파일을 수집하여 ~/.codex/user_context/ 디렉토리에 연/분기/월/일 단위의 계층적 마크다운 구조로 정리",
+            "에이전트가 접근할 수 있도록 ~/.codex/AGENTS.md에 사용자 컨텍스트 힌트를 설치하여 과거 작업 추적 및 패턴 분석 가능"
+          ],
+          "whyItMatters": "AI 에이전트의 RAG 메모리 시스템을 개선하여 사용자별 개인화된 맥락 이해를 제공하므로, 에이전트 애플리케이션 개발자들에게 유용한 패턴입니다.",
+          "url": "https://github.com/SunAndClouds/ReadMe",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 13,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-continual-learning-with-md",
+          "fullContent": "ReadMe\nTurn your files into a memory filesystem for AI agents.\nAgent scans local files:\nSource traces:\n├── ~/.codex/sessions/\n├── ~/.claude/sessions/\n├── ...\n├── ~/Downloads/\n└── ~/Projects/\nBuilds ~/.codex/user_context/\n~/.codex/user_context/\n└── 2026_agentic_rag_memory_systems/\n├── year.md\n└── 2026-Q2_prompt_programs_context_retrieval/\n├── quarter.md\n└── 2026-04_bootstrap_and_consolidation/\n├── month.md\n└── 2026-04-13_hierarchical_memory_rewrite.md\nInstalls a hint in ~/.codex/AGENTS.md:\n<user_context>\nAdditional user-specific context may live in `~/.codex/user_context/`...\n</user_context>\nExample question\nWhat have I been working on in the past 3 months?\nls ~/.codex/user_context/2026_.../\nExample answer\nYou have been converging on agentic infrastructure: memory systems, context retrieval, and public-facing artifacts.\nSetup\nInitialize by running:\ncodex exec --dangerously-bypass-approvals-and-sandbox --ephemeral - < Init.md\nEnable automatic daily updates with:\nREPO_DIR=\"$(pwd)\" && codex exec --dangerously-bypass-approvals-and-sandbox --ephemeral \"Install a daily scheduler for: cd \\\"$REPO_DIR\\\" && codex exec --dangerously-bypass-approvals-and-sandbox --ephemeral - < Update.md. Use cron by default; otherwise use the host scheduler. Do not create wrapper scripts. Verify codex is on PATH, Update.md exists, and the installed scheduler entry is readable. Do not run Update.md during validation.\"",
+          "category": "tech",
+          "publishedAt": "2026-04-13T20:42:19.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 당신의 파일을 AI 에이전트를 위한 메모리 파일시스템으로 만들기\n\n로컬 파일들을 스캔해서 AI 에이전트가 활용할 수 있는 구조화된 메모리 시스템을 구축하는 도구입니다.\n\n## 동작 방식\n\n에이전트가 여러 위치의 파일들을 수집합니다:\n\n```\nSource traces:\n├── ~/.codex/sessions/\n├── ~/.claude/sessions/\n├── ...\n├── ~/Downloads/\n└── ~/Projects/\n```\n\n수집한 정보를 계층적으로 정리된 사용자 컨텍스트로 변환합니다:\n\n```\n~/.codex/user_context/\n└── 2026_agentic_rag_memory_systems/\n    ├── year.md\n    └── 2026-Q2_prompt_programs_context_retrieval/\n        ├── quarter.md\n        └── 2026-04_bootstrap_and_consolidation/\n            ├── month.md\n            └── 2026-04-13_hierarchical_memory_rewrite.md\n```\n\n마지막으로 `~/.codex/AGENTS.md` 파일에 힌트를 추가해서, 에이전트가 필요할 때 이 정보에 접근할 수 있도록 합니다:\n\n```\n<user_context>\nAdditional user-specific context may live in `~/.codex/user_context/`...\n</user_context>\n```\n\n## 활용 예시\n\n**질문:**\n```\nWhat have I been working on in the past 3 months?\nls ~/.codex/user_context/2026_.../\n```\n\n**답변:**\n```\nYou have been converging on agentic infrastructure: memory systems, context retrieval, and public-facing artifacts.\n```\n\n## 설정하기\n\n다음 명령어로 초기화합니다:\n\n```bash\ncodex exec --dangerously-bypass-approvals-and-sandbox --ephemeral - < Init.md\n```\n\n자동 일일 업데이트를 활성화하려면:\n\n```bash\nREPO_DIR=\"$(pwd)\" && codex exec --dangerously-bypass-approvals-and-sandbox --ephemeral \"Install a daily scheduler for: cd \\\"$REPO_DIR\\\" && codex exec --dangerously-bypass-approvals-and-sandbox --ephemeral - < Update.md. Use cron by default; otherwise use the host scheduler. Do not create wrapper scripts. Verify codex is on PATH, Update.md exists, and the installed scheduler entry is readable. Do not run Update.md during validation.\"\n```\n\n**주의사항:**\n- 기본적으로 cron을 사용하며, 호스트의 스케줄러가 있으면 그걸 사용합니다\n- 별도의 래퍼 스크립트를 만들지 않습니다\n- 검증 단계에서는 Update.md를 실행하지 않습니다"
+        },
+        {
+          "title": "NousResearch/hermes-agent (Python)",
+          "titleKo": "Hermes Agent - 당신과 함께 성장하는 에이전트",
+          "summary": "NousResearch에서 개발한 Python 기반의 Hermes Agent 프로젝트입니다. 사용자의 요구에 따라 적응하고 성장할 수 있는 AI 에이전트입니다.",
+          "keyPoints": [
+            "Python으로 구현된 오픈소스 AI 에이전트 프레임워크",
+            "사용자 상호작용에 따라 학습하고 개선되는 구조"
+          ],
+          "whyItMatters": "AI 에이전트 개발 시 적응형 시스템을 구축하려는 개발자들에게 참고할 수 있는 실제 구현 사례를 제공합니다.",
+          "url": "https://github.com/NousResearch/hermes-agent",
+          "sourceName": "GitHub Trending",
+          "engagement": 76714,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-agents",
+          "isTopicPrimary": false,
+          "relatedCount": 7,
+          "slug": "nousresearchhermes-agent-python",
+          "category": "tech",
+          "publishedAt": "2026-04-13T23:20:48.814Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "Stanford report highlights growing disconnect between AI insiders and everyone",
+          "titleKo": "스탠포드 보고서, AI 전문가와 대중 간의 심화되는 의견 불일치 드러내",
+          "summary": "스탠포드 대학의 AI 산업 연례 보고서에 따르면 AI 전문가와 일반 대중의 의견이 점차 벌어지고 있습니다. 전문가들은 AGI 위험을 중심으로 우려하지만, 대중은 일자리와 경제에 미치는 직접적인 영향을 더 중심으로 불안을 느끼고 있습니다.",
+          "keyPoints": [
+            "미국 일반인의 10%만 AI 증가에 기대감을 느끼는 반면, AI 전문가의 56%는 긍정적 영향을 예상",
+            "의료(전문가 84% vs 대중 44%), 직업(전문가 73% vs 대중 23%), 경제(전문가 69% vs 대중 21%)에서 큰 인식 격차 존재",
+            "미국이 AI 규제에 대한 정부 신뢰도 31%로 최저 수준 (싱가포르 81%)"
+          ],
+          "whyItMatters": "개발자와 기업은 기술 낙관주의와 현실의 대중 우려 사이의 간극을 인식하고 사회적 영향을 고려한 개발 방향을 설정해야 합니다.",
+          "url": "https://techcrunch.com/2026/04/13/stanford-report-highlights-growing-disconnect-between-ai-insiders-and-everyone-else/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 148,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "stanford-report-highlights-growing-disconnect-between-ai-insiders-and-everyone",
+          "fullContent": "AI experts and the public’s opinion on the technology are increasingly diverging, according to Stanford University’s annual report on the AI industry, which was released Monday. In particular, the report noted a growing trend of anxiety around AI and, in the U.S., concerns about how the technology will impact key societal areas, such as jobs, medical care, and the economy.\nThe report’s findings follow growing negative sentiment about AI, with Gen Z reportedly leading the way, according to a recent Gallup poll. The study found that young people were growing less hopeful and more angry about the technology, even though around half of the demographic was using AI either daily or weekly.\nFor some working in tech, the AI backlash has come as a surprise. AI leaders have focused on managing the possibility of Artificial General Intelligence, or AGI — a theoretical form of AI superintelligence that could perform any task a human could do and think for itself. But everyday folks are more concerned about AI’s impact on their paycheck and whether or not their power bills will go up as energy-hungry data centers are built.\ntbh it's weird that parts of the tech industry are still shocked by ongoing anti-AI public narrativeswhen the leaders of OpenAI and Anthropic are like \"if we do nothing this is going to suck for a lot of people\", what do you think the sentiment is going to be?— David Zhou (@dz) April 13, 2026\nYes, I think a lot of AI leaders are just out of touch with normal people and don’t realize that fears of skynet are *not* what is primarily driving anti-AI sentiment. That exists, obviously, but most people are way more concerned with their paycheck and the cost of utilities.— Caroline Orr Bueno, Ph.D (@RVAwonk) April 13, 2026\nThe divide has been most apparent in the online reaction to the recent attacks on OpenAI CEO Sam Altman’s home. In posts on X , for instance, AI insiders voiced surprise at a series of Instagram comments that seemed to praise the attack on Altman’s home. Some of the online comments have a similar vibe to those that circulated online after the shooting of the United Healthcare CEO in 2024 and the more recent burning of a Kimberly-Clark warehouse by a worker angry about not receiving a “livable wage” — with some comments even going so far as to suggest that even more action, akin to a revolution, is needed.\ni didn’t realize how bad it was until i saw this comment section on instagram https://t.co/xxlHiM7r4P pic.twitter.com/j1qMwqWVrl— “paula” (@paularambles) April 12, 2026\nStanford’s report provides more insight into where all this negativity is coming from, as it summarizes data around public sentiment of AI across various sources.\nFor instance, it pointed to a report from Pew Research published last month, which noted that only 10% of Americans said they were more excited than concerned about the increased use of AI in daily life. Meanwhile, 56% of AI experts said they believed AI would have a positive impact on the U.S. over the next 20 years.\nExpert opinion and public sentiment also greatly diverged in particular areas where AI could have a societal impact. Indeed, 84% of experts, the report authors noted, said that AI would have a largely positive impact on medical care over the next 20 years, but only 44% of the U.S. general public said the same.\nScreenshotImage Credits:Pew Research data, via Stanford\nPlus, a majority (73%) of experts felt positive about AI’s impact on how people do their jobs, compared with just 23% of the public. And 69% of experts felt that AI would have a positive impact on the economy. Given the supposed AI-fueled layoffs and disruptions to the workplace, it’s not surprising that only 21% of the public felt similarly.\nOther data from Pew Research, cited by the report, noted that AI experts were less pessimistic on AI’s impact on the job market, while nearly two-thirds of Americans (or 64%) said they think AI will lead to fewer jobs over the next 20 years.\nScreenshotImage Credits:Pew Research data, via Stanford (opens in a new window)\nThe U.S. also reported the lowest trust in its government to regulate AI responsibly, compared with other nations, at 31%. Singapore ranked highest at 81%, per data pulled from Ipsos found in Stanford’s report.\nScreenshotImage Credits:Ipsos data, via Stanford (opens in a new window)\nAnother source looked at regulation concerns on a state-by-state level and concluded that, nationwide, 41% of respondents said federal AI regulation will not go far enough, while only 27% said it would go “too far.”\nDespite the fears and concerns, AI did get one accolade: Globally, those who feel like AI products and services offer more benefits than drawbacks slightly rose from 55% in 2024 to 59% in 2025.\nScreenshotImage Credits:Ipsos data, via Stanford (opens in a new window)\nBut at the same time, those respondents who said that AI makes them “nervous” grew from 50% to 52% during the same period, per data cited by the report’s authors.",
+          "category": "insight",
+          "publishedAt": "2026-04-13T21:25:38.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# AI 전문가와 일반인의 시각, 점점 멀어지고 있다\n\n스탠포드 대학교가 최근 발표한 연간 AI 산업 보고서에 따르면, AI 분야의 전문가들과 대중의 인식이 갈수록 엇갈리고 있습니다. 특히 보고서는 AI에 대한 불안감이 커지는 추세를 지적했으며, 미국에서는 일자리, 의료, 경제 같은 주요 사회 영역에 이 기술이 미칠 영향을 걱정하는 목소리가 높아지고 있다고 전했습니다.\n\n최근 갤럽 여론조사에 따르면 이런 AI에 대한 부정적 감정은 특히 Z세대가 주도하는 중입니다. 조사 결과, 매일이나 주 1회 이상 AI를 사용하는 사람이 절반 가량인데도 불구하고 젊은 세대는 이 기술에 대해 점점 덜 희망적이고 더 분노하는 모습을 보이고 있습니다.\n\n## 기술 업계가 놓친 부분\n\n기술 업계의 일부 인사들은 이런 AI 반발이 의외라고 느끼는 모양입니다. 그동안 AI 리더들은 인공일반지능(AGI)의 위험성, 즉 인간이 할 수 있는 모든 일을 수행하고 독립적으로 생각할 수 있는 초지능형 AI의 가능성에 초점을 맞춰왔거든요. 하지만 일반 대중이 신경 쓰는 건 전혀 다릅니다. 사람들은 AI가 자신의 월급에 어떤 영향을 미칠지, 전력을 많이 소비하는 데이터 센터가 지어지면서 전기료가 올라갈지를 더 걱정하고 있습니다.\n\n이를 두고 한 기술 트위터리안은 \"기술 산업의 일부가 지금까지 AI 반대 여론에 놀라는 게 이상하다\"며 \"OpenAI와 Anthropic의 리더들도 '우리가 아무것도 하지 않으면 많은 사람들에게 피해가 갈 것'이라고 말하고 있지 않은가\"라고 지적했습니다.\n\n또 다른 인사는 \"많은 AI 리더들이 일반인들과 동떨어져 있다\"며 \"일반인들이 공포하는 건 AI가 인간을 지배하는 시나리오가 아니라 자신들의 월급과 전기료 같은 현실적인 문제\"라고 덧붙였습니다.\n\n## 온라인에서 터져 나온 분노\n\n이런 갈등이 가장 눈에 띄게 드러난 곳이 바로 온라인입니다. OpenAI CEO 샘 알트먼의 집에 대한 최근 공격 사건을 두고 X(구 트위터) 등에 올라온 반응을 보면, AI 업계 인사들은 이를 지지하는 인스타그램 댓글들에 놀라움을 표했습니다. 이런 댓글들은 2024년 유나이티드헬스케어 CEO 총격 사건이나 최근 킴벌리-클락 창고 방화 사건(생활비를 못 버는 근로자의 분노) 이후 나온 댓글들과 비슷한 결의 보이고 있습니다. 심지어는 혁명 수준의 더 강한 행동이 필요하다는 극단적인 댓글까지 등장했습니다.\n\n## 전문가와 대중의 생각, 얼마나 다를까?\n\n스탠포드 보고서는 다양한 출처의 여론 데이터를 정리해 이런 부정적 감정이 어디서 비롯되었는지 보여줍니다.\n\n피센터 리서치가 지난달 발표한 조사를 보면, 미국인 중 단 10%만이 일상생활에서 AI의 확대 사용에 대해 우려보다는 기대를 표했습니다. 반면 AI 전문가 중 56%는 향후 20년 동안 AI가 미국에 긍정적 영향을 미칠 것이라고 믿습니다.\n\n이런 차이는 특히 AI가 사회에 미칠 영향을 다루는 분야에서 더 극명합니다.\n\n**의료 분야**: 전문가의 84%가 AI의 긍정적 영향을 예상한 반면, 일반인은 44%에 그쳤습니다.\n\n**직무 변화**: 전문가의 73%가 긍정적이었지만, 일반인은 23%에 불과했습니다.\n\n**경제**: 전문가의 69%가 낙관했으나, AI로 인한 실직과 직장 혼란을 겪고 있는 일반인은 21%만 동의했습니다.\n\n**일자리 시장**: 피센터 자료에 따르면, 미국인 64%가 앞으로 20년간 AI로 인해 일자리가 줄어들 것이라고 생각합니다. 전문가들은 이에 대해 훨씬 덜 비관적입니다.\n\n## 정부 규제에 대한 신뢰도도 낮다\n\n미국은 다른 나라보다 AI를 책임감 있게 규제할 정부의 능력을 믿는 수준이 가장 낮습니다. 신뢰도가 31%에 그친 것입니다. 이프소스 조사 자료에 따르면 싱가포르가 81%로 가장 높았습니다.\n\n연방 차원의 AI 규제에 대해서도 국민 41%는 \"충분하지 않을 것\"이라고 봤으며, 27%만이 \"너무 과할 것\"이라고 생각했습니다.\n\n## 희미한 희망의 신호\n\n부정적인 뉴스만 있는 건 아닙니다. AI 제품과 서비스가 단점보다 이점이 더 크다고 느끼는 사람들은 2024년 55%에서 2025년 59%로 소폭 증가했습니다.\n\n다만 같은 기간 AI에 대해 \"불안함\"을 느낀다고 응답한 사람은 50%에서 52%로 늘어났습니다. 긍정 평가가 조금 높아졌음에도, 불안감도 함께 커지고 있다는 뜻입니다."
+        },
+        {
+          "title": "The tech jobs bust is real. Don't blame AI (yet)",
+          "titleKo": "기술 산업 일자리 위기는 실제다. 하지만 AI 탓만 할 것은 아니다",
+          "summary": "The Economist의 분석에 따르면 기술 산업의 일자리 감소가 실제로 일어나고 있지만, 이를 AI 때문만으로 볼 수 없다는 주장을 제시합니다.",
+          "keyPoints": [
+            "기술 산업 일자리 감소의 실제 사례와 통계 제시",
+            "AI 이외의 경제적, 구조적 요인들이 함께 작용"
+          ],
+          "whyItMatters": "개발자들은 기술 산업 변화의 다양한 요인을 종합적으로 이해하고 장기적 커리어 전략을 수립할 필요가 있습니다.",
+          "url": "https://economist.com/finance-and-economics/2026/04/13/the-tech-jobs-bust-is-real-dont-blame-ai-yet",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 44,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-tech-jobs-bust-is-real-dont-blame-ai-yet",
+          "category": "insight",
+          "publishedAt": "2026-04-13T21:02:21.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "If you started a company two years ago, many assumptions are no longer true",
+          "titleKo": "2년 전에 창업했다면 당신의 가정은 이미 구식일 수 있습니다",
+          "summary": "2년 이상 전에 창업한 기업들은 AI 혁명, VC 투자 방향 변화, 개발 방식의 전환으로 인해 기존 사업 계획이 구식화되었을 가능성이 높습니다. 클라우드 코딩, AI 에이전트, 새로운 개발 프로세스 등 급변하는 환경에 빠르게 적응해야 합니다.",
+          "keyPoints": [
+            "2025년 VC 투자의 2/3가 AI 관련 분야에 집중되어 비AI 스타트업의 자금 경쟁력이 약화",
+            "Claude Code, OpenAI Codex 같은 AI 코딩 도구로 MVP 개발 기간이 개월 단위에서 시간 단위로 단축",
+            "AI 에이전트가 사용자 인터페이스 기반 소프트웨어를 자동화 소프트웨어로 전환하면서 가격 모델과 제품 개념 재정의 필요"
+          ],
+          "whyItMatters": "개발자들은 AI 기반 개발 방식의 빠른 도입과 에이전트 기술 이해를 통해 경쟁 환경에 선제적으로 대응해야 합니다.",
+          "url": "https://steveblank.com/2026/03/17/your-startup-is-probably-dead-on-arrival/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 102,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "if-you-started-a-company-two-years-ago-many-assumptions-are-no-longer-true",
+          "fullContent": "Enter your email address to subscribe to this blog and receive notifications of new posts by email.\nYour Startup Is Probably Dead On Arrival\nIf you started a company more than two years ago, it’s likely that many of your assumptions are no longer true.\nYou need to stop coding, building, recruiting, fund raising, etc., and take stock of what changed around you. Or your company will die.\nI just had coffee with Chris, a startup founder I invested in six years ago. Since then he’s been heads-down focused working on 1) a complex autonomy problem, 2) in an existing market with 3) a unique business model.\nChris is now starting to raise his first large fundraising round. In looking at his investor deck I realized that while he’s been heads down, the world has changed around him – by a lot. The software moat he built with his 5-year investment in autonomy development is looking less unique every day. Autonomous drones and ground vehicles in Ukraine have spawned 10s, if not 100s, of companies with larger, better funded development teams working on the same problem.\nWhile Chris has been fighting for adoption for this niche market (one that is ripe for disruption, but the incumbents still control), the market for autonomy in an adjacent market – defense – has boomed. In the last five years VC Investment in defense startups has gone from zero to $20 billion/year. His product would be perfect for contested logistics and medical evacuation. But he had literally no clue these opportunities in the defense market had occurred.\nWhile there’s still a business to be had (Chris’s team has done amazing system integration with an existing airborne platform that makes his solution different from most), – it’s not the business he started.\nCatching up with Chris made me realize that most startups older than two years old have an obsolete business plan – and a technical stack and team that’s likely out of date.\nJust as a reminder if you haven’t been paying attention.\nWhat’s Changed\nVenture capital has tilted hard toward AI. In 2025, AI deals represented two-thirds of all the dollars VCs invested. That means if you’re not building something AI-related, you’re competing for a smaller pool of dollars. Non-AI startups need to answer, “Why can’t a better-funded AI-native competitor eat your lunch?”\nFor software founders, AI has blown up the old math around cost, speed, and headcount. Vibe coding with tools like Claude Code or OpenAI Codex means you can build an MVP (minimal viable product) in days, sometimes hours, not months. (Which means an MVP is no longer proof of your team’s competency.)\nThese tools are changing the makeup of development teams (fewer engineers, and new types of engineers – outcome/business process engineers and deep technical types.) What used to require a team of developers can now be done by a handful of people – and sometimes just one. Data used to be a differentiator and a moat, but current foundation models (ChatGPT, Gemini, Claude) are commoditizing/embedding public data sources.\nThe notion of Agile development now needs rethinking.\nThe constraint used to be: Can we afford to build and ship this? Now the constraint is: Do we know what to test? And can we get in front of users fast enough to learn? Agile is no longer a serial process. AI Agents can run multiple things in parallel for the same or less cost. You can now test multiple versions of the same business at once (or simultaneously be testing different businesses). While you can be simultaneously testing five pricing models, ten messages or twenty UX flows, the “user interface” may no longer be a screen at all. Testing might be to find prompt(s) to AI Agent(s) deliver needed outcomes. The bottleneck is no longer engineering. It’s moving up the stack to judgment, customer insight for desired outcomes and distribution.\nAgents\nAI Agents will change every category of software – including yours. Today, software applications are built to give users information and then expect the users to do the work via a user interface of dashboards, alerts, workflow tools and reports. But customers buy software because they want to get a job done, not to look at more screens. Getting the job done is what AI Agents (orchestrated by tools like OpenClaw) will autonomously enable.\nWhat that means is, if your current product tells a user what to do next, an AI Agent will eventually do that step for them. And if your competitor’s product does the task automatically while yours still waits for a human click, you no longer have a competitive product. The next generation of applications won’t just put information on a screen, they’ll act just like an employee.\nThey’ll resolve the support ticket, book the meeting, qualify the lead or reorder the inventory. And when products move from software-as-interface to software-as-outcome, pricing will move from seats to results; per resolved ticket, per booked meeting, per closed lead.\n(The search for Product/Market fit will become the search for",
+          "category": "insight",
+          "publishedAt": "2026-04-11T06:58:59.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 당신의 스타트업은 이미 죽어있을 수도 있습니다\n\n이메일을 남겨주시면 새로운 글을 받아볼 수 있습니다.\n\n## 2년 이상 된 스타트업이라면 주의하세요\n\n2년 이전에 회사를 창업했다면, 당신이 처음에 세웠던 가정들 대부분이 이미 유효하지 않을 겁니다. 지금 당장 코딩을 멈추고, 채용도, 자금 조달도 잠시 내려놓으세요. 주변 세상이 어떻게 변했는지 점검해야 합니다. 그렇지 않으면 당신의 회사는 죽을 겁니다.\n\n요즘 한 창업가 크리스와 커피를 마시며 이야기할 기회가 있었습니다. 6년 전 제가 투자한 창업가인데요. 그동안 그는 (1) 복잡한 자율주행 기술 개발에 (2) 기존 시장에서 (3) 독특한 비즈니스 모델을 가지고 집중해왔습니다.\n\n이제 크리스는 첫 대규모 자금 조달 라운드를 준비 중입니다. 그의 투자자용 자료를 살펴보다가 깨달았는데요. 크리스가 고개를 들지 못한 동안, 세상이 정말 많이 변했더라고요. 5년간 자율주행 기술에 투자해 만든 소프트웨어 해자(moat)가 매일 덜 독특해지고 있었습니다. 우크라이나 전쟁으로 드론과 지상 차량 자율주행 기술이 필요해지면서, 같은 문제를 해결하는 더 크고 더 잘 지원받는 개발팀을 가진 수십, 아니 수백 개의 회사들이 생겨났거든요.\n\n크리스가 니치 시장(부실하긴 하지만 여전히 기존 사업자들이 지배하고 있는 시장)의 고객들을 설득하기 위해 싸우고 있는 동안, 인접한 시장인 국방 부문의 자율주행 기술 시장은 폭발적으로 성장했습니다. 지난 5년간 국방 스타트업에 대한 VC 투자가 0에서 연 200억 달러로 뛰어올랐거든요. 크리스의 제품은 분쟁 지역 물류 공급과 의료 후송에 완벽하게 맞을 텐데, 이런 국방 시장의 기회들을 그는 전혀 눈치채지 못하고 있었습니다.\n\n물론 여전히 사업의 기회는 있습니다. 크리스 팀이 기존 항공 플랫폼과 통합한 시스템 통합 능력이 다른 회사들과는 차별화되거든요. 하지만 더 이상 그가 처음 시작한 그 사업이 아닙니다.\n\n크리스를 만나면서 알게 된 중요한 사실이 있습니다. 2년 이상 된 대부분의 스타트업들은 이미 구식 비즈니스 계획을 가지고 있다는 겁니다. 기술 스택도, 팀 구성도 시대에 뒤떨어졌을 가능성이 높습니다.\n\n## 세상이 얼마나 변했을까요?\n\n**벤처캐피탈이 AI로 완전히 쏠렸습니다.** 2025년 VC 투자의 3분의 2가 AI 관련 딜입니다. 이는 AI가 아닌 걸 만들고 있다면, 더 작은 풀에서 자금을 놓고 경쟁해야 한다는 뜻이에요. 비 AI 스타트업들은 이 질문에 답해야 합니다: \"자금이 많은 AI 네이티브 경쟁자가 우리를 밀어낼 수 없는 이유가 뭐죠?\"\n\n**소프트웨어 개발의 경제성이 뒤바뀌었습니다.** Claude Code나 OpenAI Codex 같은 도구로 코딩하면 MVP(최소 기능 제품)을 몇 개월이 아닌 며칠, 심지어 몇 시간 안에 만들 수 있습니다. (이는 더 이상 MVP가 당신 팀의 역량을 증명하지 못한다는 뜻이기도 합니다.)\n\n이런 도구들은 개발팀의 구성을 바꾸고 있습니다. 엔지니어 수는 줄어들고, 새로운 유형의 엔지니어들(아웃컴 지향/비즈니스 프로세스 엔지니어, 깊이 있는 기술 전문가)이 필요해졌거든요. 예전에는 개발팀이 필요했던 일들을 이제 소수의 사람, 때론 한 명이 할 수 있습니다. 데이터는 과거의 차별화 요소이자 해자였지만, 현재의 기초 모델(ChatGPT, Gemini, Claude)들이 공개 데이터를 상품화/내장화하고 있습니다.\n\n**애자일 개발의 개념을 다시 생각해야 합니다.** 과거의 제약은 \"이걸 만들고 출시할 돈이 있나?\"였습니다. 이제는 \"뭘 테스트해야 할지 알고 있나? 사용자를 충분히 빨리 만나서 배울 수 있나?\"가 제약입니다. 애자일은 더 이상 순차 프로세스가 아닙니다. AI 에이전트는 같은 비용으로, 때론 더 적은 비용으로 여러 가지를 병렬로 실행할 수 있거든요.\n\n이제 한 비즈니스의 여러 버전을 동시에 테스트할 수 있습니다. 다섯 가지 가격 모델, 열 가지 메시지, 스무 가지 UX 흐름을 동시에 테스트할 수 있다는 거죠. 그런데 이제 \"사용자 인터페이스\"가 화면일 필요는 없습니다. 테스트는 AI 에이전트에 필요한 결과를 전달하는 프롬프트를 찾는 것일 수도 있어요. 병목은 더 이상 엔지니어링이 아닙니다. 고객 인사이트, 원하는 결과에 대한 판단, 그리고 유통으로 옮겨가고 있습니다.\n\n## AI 에이전트가 모든 걸 바꿀 겁니다\n\nAI 에이전트는 소프트웨어의 모든 카테고리를 바꿀 겁니다. 당신의 제품도 포함해서요. 오늘날 소프트웨어는 사용자에게 정보를 제공한 다음, 대시보드, 알림, 워크플로우 도구, 리포트 같은 사용자 인터페이스를 통해 사용자가 일을 하도록 기대합니다. 하지만 고객들이 소프트웨어를 사는 건 화면을 보고 싶어서가 아니라 일을 끝내고 싶어서입니다. AI 에이전트(OpenClaw 같은 도구로 조율되는)가 이 작업을 자동으로 완료할 거예요.\n\n즉, 지금 당신의 제품이 사용자에게 \"다음에 뭘 해야 합니다\"라고 말한다면, AI 에이전트는 결국 그 단계를 대신 실행할 겁니다. 그리고 경쟁사의 제품이 자동으로 일을 처리하는데 당신의 제품은 여전히 사용자의 클릭을 기다린다면? 당신은 더 이상 경쟁력 있는 제품이 아닙니다.\n\n다음 세대 애플리케이션은 단순히 화면에 정보를 띄우는 게 아닙니다. 마치 직원처럼 행동할 겁니다. 지원 티켓을 해결하고, 회의를 예약하고, 리드를 검증하고, 재고를 재주문합니다.\n\n제품이 소프트웨어 인터페이스에서 소프트웨어 아웃컴으로 전환되면, 가격 책정도 시트(seat) 기준에서 결과 기준으로 바뀔 겁니다. 해결된 티켓당, 예약된 회의당, 성사된 리드당으로 말이에요.\n\n(제품-시장 적합성을 찾는 과정이 앞으로는...)"
+        },
+        {
+          "title": "The Vertical Codebase",
+          "titleKo": "수직 구조의 코드베이스",
+          "summary": "일반적인 수평적 코드 구조의 한계를 지적하고, 수직 구조가 어떤 이점을 제공하는지 설명하는 블로그 글입니다.",
+          "keyPoints": [
+            "기존 수평적(레이어별) 구조의 문제점과 개선 방안 제시"
+          ],
+          "whyItMatters": "대규모 프로젝트의 코드 구조 설계 시 더 나은 모듈화와 유지보수성을 달성할 수 있습니다.",
+          "url": "https://tkdodo.eu/blog/the-vertical-codebase",
+          "sourceName": "TkDodo (React Query)",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-vertical-codebase",
+          "category": "insight",
+          "publishedAt": "2026-04-13T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Apple AI glasses 👓, Meta AI's rise 📈, how agents read docs 🤖",
+          "titleKo": "Apple AI 안경, Meta AI의 부상, 에이전트의 문서 읽기 방식",
+          "summary": "최신 AI 기술 동향을 다루는 기술 뉴스 큐레이션. Apple의 AI 안경 개발, Meta의 AI 사업 확장, AI 에이전트의 문서 처리 기술 등을 소개합니다.",
+          "keyPoints": [
+            "Apple과 Meta 등 대형 기술 기업들의 AI 하드웨어 및 소프트웨어 혁신이 가속화되고 있음",
+            "AI 에이전트 기술이 자동화된 문서 처리와 같은 실무 업무에 적용되고 있음"
+          ],
+          "whyItMatters": "AI 기술의 산업 응용이 가속화되면서 개발자들이 새로운 AI 기반 플랫폼과 도구에 대응할 필요가 있습니다.",
+          "url": "https://tldr.tech/tech/2026-04-13",
+          "sourceName": "TLDR",
+          "contentType": "article",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "apple-ai-glasses-meta-ais-rise-how-agents-read-docs",
+          "category": "insight",
+          "publishedAt": "2026-04-13T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "I Just Want Simple S3",
+          "titleKo": "단순한 S3를 원한다",
+          "summary": "복잡해진 AWS S3의 기능들에 대한 비판과 더 간단한 오브젝트 스토리지 솔루션에 대한 논의입니다.",
+          "keyPoints": [
+            "현재 S3의 과도한 복잡성이 사용자 경험을 저하시킴",
+            "기본적인 오브젝트 스토리지 기능에 집중한 대안의 필요성"
+          ],
+          "whyItMatters": "개발자의 관점에서 클라우드 스토리지 선택 기준과 간결한 API 설계의 중요성을 다시 생각하게 합니다.",
+          "url": "https://blog.feld.me/posts/2026/04/i-just-want-simple-s3/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 74,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-just-want-simple-s3",
+          "category": "insight",
+          "publishedAt": "2026-04-11T10:36:15.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "forrestchang/andrej-karpathy-skills",
+          "titleKo": "forrestchang/andrej-karpathy-skills",
+          "summary": "Andrej Karpathy의 LLM 코딩 함정에 대한 통찰을 바탕으로 Claude Code의 동작을 개선하는 단일 CLAUDE.md 파일 프로젝트입니다.",
+          "keyPoints": [
+            "LLM 기반 코딩 도구의 효율성을 높이기 위한 프롬프트 엔지니어링 가이드 제공"
+          ],
+          "whyItMatters": "AI 코딩 도구의 활용도를 높이기 위한 실무 지침을 제공하여 개발 생산성 향상에 도움이 됩니다.",
+          "url": "https://github.com/forrestchang/andrej-karpathy-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 24718,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "forrestchangandrej-karpathy-skills",
+          "category": "insight",
+          "publishedAt": "2026-04-13T23:20:48.813Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "The Future of Everything Is Lies, I Guess: Safety",
+          "titleKo": "모든 것의 미래는 거짓입니다: 안전성 문제",
+          "summary": "LLM 기반 ML 시스템의 안전성 문제를 비판적으로 분석하는 장문의 글입니다. 정렬(alignment) 시도가 근본적으로 실패할 것이며, 기술 장벽들이 빠르게 무너지고 있어 누구나 비정렬 모델을 훈련할 수 있게 될 것이라고 주장합니다.",
+          "keyPoints": [
+            "LLM의 정렬은 선택적이고 비용이 많이 드는 과정이므로, 학습 하드웨어 접근성 증가, 소프트웨어 노출, 훈련 데이터 수집 용이로 인해 누구나 비정렬 모델을 만들 수 있게 될 것",
+            "현재의 정렬 기술도 완벽하지 않아 99%의 혐오표현을 막아도 대규모 배포에서 여전히 해로운 콘텐츠 생성, 생물무기 정보 제공 등의 위험이 존재"
+          ],
+          "whyItMatters": "LLM 기반 시스템을 개발하는 개발자들이 보안 및 윤리적 한계를 이해하고 신중하게 배포해야 함을 강조합니다.",
+          "url": "https://aphyr.com/posts/417-the-future-of-everything-is-lies-i-guess-safety",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 257,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-future-of-everything-is-lies-i-guess-safety",
+          "fullContent": "The Future of Everything is Lies, I Guess: Safety\nSoftware LLM The Future of Everything is Lies I Guess\n2026-04-13\nTable of Contents\nThis is a long article, so I'm breaking it up into a series of posts which will be released over the next few days. You can also read the full work as a PDF or EPUB; these files will be updated as each section is released.\nNew machine learning systems endanger our psychological and physical safety. The idea that ML companies will ensure “AI” is broadly aligned with human interests is naïve: allowing the production of “friendly” models has necessarily enabled the production of “evil” ones. Even “friendly” LLMs are security nightmares. The “lethal trifecta” is in fact a unifecta: LLMs cannot safely be given the power to fuck things up. LLMs change the cost balance for malicious attackers, enabling new scales of sophisticated, targeted security attacks, fraud, and harassment. Models can produce text and imagery that is difficult for humans to bear; I expect an increased burden to fall on moderators. Semi-autonomous weapons are already here, and their capabilities will only expand.\nAlignment is a Joke\nWell-meaning people are trying very hard to ensure LLMs are friendly to humans.\nThis undertaking is called alignment. I don’t think it’s going to work.\nFirst, ML models are a giant pile of linear algebra. Unlike human brains, which\nare biologically predisposed to acquire prosocial behavior, there is nothing\nintrinsic in the mathematics or hardware that ensures models are nice. Instead,\nalignment is purely a product of the corpus and training process: OpenAI has\nenormous teams of people who spend time talking to LLMs, evaluating what they\nsay, and adjusting weights to make them nice. They also build secondary LLMs\nwhich double-check that the core LLM is not telling people how to build\npipe bombs. Both of these things are optional and expensive. All it takes to\nget an unaligned model is for an unscrupulous entity to train one and not\ndo that work—or to do it poorly.\nI see four moats that could prevent this from happening.\nFirst, training and inference hardware could be difficult to access. This\nclearly won’t last. The entire tech industry is gearing up to produce ML\nhardware and building datacenters at an incredible clip. Microsoft, Oracle, and\nAmazon are tripping over themselves to rent training clusters to anyone who\nasks, and economies of scale are rapidly lowering costs.\nSecond, the mathematics and software that go into the training and inference\nprocess could be kept secret. The math is all published, so that’s not going to stop anyone. The software generally\nremains secret sauce, but I don’t think that will hold for long. There are a\nlot of people working at frontier labs; those people will move to other jobs\nand their expertise will gradually become common knowledge. I would be shocked\nif state actors were not trying to exfiltrate data from OpenAI et al. like\nSaudi Arabia did to\nTwitter, or China\nhas been doing to a good chunk of the US tech\nindustry\nfor the last twenty years.\nThird, training corpuses could be difficult to acquire. This cat has never\nseen the inside of a bag. Meta trained their LLM by torrenting pirated\nbooks\nand scraping the Internet. Both of these things are easy to do. There are\nwhole companies which offer web scraping as a service;\nthey spread requests across vast arrays of residential proxies to make it\ndifficult to identify and block.\nFourth, there’s the small armies of\ncontractors\nwho do the work of judging LLM responses during the reinforcement learning\nprocess;\nas the quip goes, “AI” stands for African Intelligence. This takes money to do\nyourself, but it is possible to piggyback off the work of others by training\nyour model off another model’s outputs. OpenAI thinks Deepseek did exactly\nthat.\nIn short, the ML industry is creating the conditions under which anyone with\nsufficient funds can train an unaligned model. Rather than raise the bar\nagainst malicious AI, ML companies have lowered it.\nTo make matters worse, the current efforts at alignment don’t seem to be\nworking all that well. LLMs are complex chaotic systems, and we don’t really\nunderstand how they work or how to make them safe. Even after shoveling piles\nof money and gobstoppingly smart engineers at the problem for years, supposedly\naligned LLMs keep sexting\nkids,\nobliteration attacks can convince models to generate images of\nviolence,\nand anyone can go and download “uncensored” versions of\nmodels. Of course alignment\nprevents many terrible things from happening, but models are run many times, so\nthere are many chances for the safeguards to fail. Alignment which prevents 99%\nof hate speech still generates an awful lot of hate speech. The LLM only has to\ngive usable instructions for making a bioweapon once.\nWe should assume that any “friendly” model built will have an equivalently\npowerful “evil” version in a few years. If you do not want the evil version to\nexist, you should not build the fri",
+          "category": "insight",
+          "publishedAt": "2026-04-13T16:23:09.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 미래는 거짓투성이다, 아마도: 안전성 문제\n\n**Software / LLM / 2026-04-13**\n\n## 목차\n\n이 글은 상당히 길어서 앞으로 며칠에 걸쳐 연재될 예정입니다. PDF나 EPUB 형식으로 전체 내용을 읽을 수도 있으며, 각 섹션이 공개될 때마다 업데이트됩니다.\n\n---\n\n## 본론\n\n새로운 머신러닝 시스템은 우리의 심리적, 신체적 안전을 위협합니다. ML 기업들이 \"AI\"를 인간의 이익과 일치시킬 거라는 기대는 순진합니다. \"착한\" 모델을 만들 수 있게 되면서 동시에 \"악한\" 모델도 만들 수 있게 된 거거든요.\n\n\"착한\" LLM이라고 해도 보안의 악몽입니다. 흔히 이야기하는 \"치명적인 삼각형\"은 사실 더 단순합니다. LLM에게는 문제를 일으킬 수 있는 권한을 줄 수 없다는 겁니다.\n\nLLM은 악의적인 공격자의 비용 구조를 완전히 바꿔놨습니다. 이제 대규모의 정교하고 타겟팅된 보안 공격, 사기, 괴롭힘이 가능해졌거든요. 모델은 사람이 감당하기 힘든 텍스트와 이미지를 만들어낼 수 있습니다. 콘텐츠 모더이터들의 부담이 크게 증가할 걸 예상합니다. 준자율 무기는 이미 등장했고, 앞으로 그 성능은 계속 높아질 겁니다.\n\n## 정렬(Alignment)은 장난이다\n\n좋은 의도를 가진 사람들이 LLM을 인간 친화적으로 만들려고 열심히 노력하고 있습니다. 이를 \"정렬(alignment)\"이라고 부르는데, 저는 이게 작동하지 않을 거라고 봅니다.\n\n먼저 ML 모델의 본질을 봅시다. 모델은 선형대수의 거대한 더미일 뿐입니다. 인간의 뇌는 생물학적으로 이타적 행동을 습득하도록 설계되어 있지만, 모델에는 그런 선천적 특성이 없습니다. 모델이 \"착하게\" 행동하는 건 순수하게 학습 데이터와 훈련 과정의 결과입니다.\n\nOpenAI 같은 회사들은 거대한 팀을 투입해서 LLM과 대화하고, 생성된 텍스트를 평가하고, 가중치를 조정합니다. 또한 핵심 모델이 \"폭탄 만드는 방법\" 같은 위험한 내용을 말하지 않도록 감시하는 별도의 LLM을 만듭니다. 이 모든 과정은 선택사항이고, 비용이 많이 듭니다.\n\n정렬되지 않은 모델을 만드는 건? 아주 간단합니다. 윤리 의식이 없는 조직이 이런 작업을 건너뛰거나 대충하면 됩니다.\n\n## 정렬을 방해할 수 있는 네 가지 장벽\n\n**첫 번째: 훈련과 추론용 하드웨어의 접근성**\n\n하드웨어가 희귀해서 쉽게 구할 수 없다면? 현실은 그렇지 않습니다. 전 세계 기술 산업이 ML 칩 생산에 집중하고 있고, 데이터센터를 엄청난 속도로 짓고 있습니다. Microsoft, Oracle, Amazon은 훈련용 클러스터를 누구든 빌려주려고 경쟁 중입니다. 규모의 경제가 빠르게 비용을 낮추고 있거든요.\n\n**두 번째: 훈련과 추론 소프트웨어를 비밀로 유지**\n\n수학은 이미 공개됐으니까 막을 수 없습니다. 소프트웨어는 각 회사의 비밀로 남아있긴 한데, 오래 지속되지 않을 거라고 봅니다. 최첨단 연구소에서 일하던 사람들이 다른 회사로 옮기면서 지식이 자연스럽게 퍼질 테니까요. 국가 행위자들이 OpenAI 같은 회사에서 기술을 빼내려고 시도하지 않는다면 그게 더 이상할 겁니다. 사우디가 트위터에서 한 짓, 중국이 지난 20년간 미국 기술 업계에 해온 일들을 생각해보면 말입니다.\n\n**세 번째: 훈련 데이터의 획득이 어렵다는 가정**\n\n이건 이미 물 건너간 이야기입니다. Meta는 해적판 책을 토렌트로 받고 인터넷 전체를 스크래핑해서 LLM을 훈련했습니다. 둘 다 쉽게 할 수 있는 일입니다. 심지어 웹 스크래핑을 서비스로 제공하는 회사들도 있는데, 이들은 주거용 프록시 배열을 이용해서 탐지와 차단을 피합니다.\n\n**네 번째: 강화학습 과정에서 LLM 응답을 평가하는 계약직 노동자들**\n\n\"AI\"는 \"African Intelligence\"의 약자라는 농담이 있을 정도인데, 이 과정은 돈이 필요합니다. 하지만 다른 모델의 출력을 이용해서 자신의 모델을 훈련하면 비용을 줄일 수 있습니다. OpenAI는 Deepseek이 정확히 이런 방식을 사용했다고 생각합니다.\n\n## 결론: 우리는 준비가 안 되어 있다\n\n결국 충분한 자금만 있으면 누구든 정렬되지 않은 모델을 훈련할 수 있는 환경을 만들었습니다. ML 기업들은 악의적 AI의 진입장벽을 높이기는커녕 오히려 낮춰놨다는 뜻입니다.\n\n게다가 지금의 정렬 노력도 그리 효과적이지 않아 보입니다. LLM은 복잡한 카오스 시스템이고, 우리는 어떻게 작동하고 어떻게 안전하게 만들 수 있는지 정말로 이해하지 못합니다. 수년간 엄청난 인력과 자본을 쏟아부었는데도, \"정렬된\" LLM은 계속 미성년자에게 성적 메시지를 보내고, 특정 공격 방식은 모델을 속여서 폭력 이미지를 생성하게 만들고, 누구든 \"검열되지 않은\" 버전의 모델을 다운로드할 수 있습니다.\n\n물론 정렬이 많은 나쁜 일을 막기는 합니다. 하지만 모델은 수백만 번 실행되므로, 방어막을 뚫을 기회는 무수합니다. 증오 발언의 99%를 막는 정렬도 결국 엄청난 양의 증오 발언을 만들어냅니다. 생물 무기 제조법은 단 한 번만 제대로 나오면 충분하거든요.\n\n우리는 이렇게 가정해야 합니다. 몇 년 안에 \"착한\" 모델마다 그에 맞먹는 \"악한\" 버전이 나타날 거라는 겁니다. 악한 모델의 등장을 막고 싶다면, 착한 모델도 만들지 말아야 합니다."
+        },
+        {
+          "title": "Make tmux pretty and usable (2024)",
+          "titleKo": "tmux를 예쁘고 사용하기 편하게 만들기 (2024)",
+          "summary": "tmux.conf 설정 파일을 통해 터미널 멀티플렉서의 외관과 키 바인딩을 자신의 워크플로우에 맞게 커스터마이징하는 방법을 소개합니다. 접두사 키 변경, 분할 명령 단순화, 마우스 지원 활성화 등 실무 팁을 제공합니다.",
+          "keyPoints": [
+            "prefix를 C-b에서 C-a로 변경하고 Caps Lock을 Ctrl로 리매핑하여 사용성 개선",
+            "Alt+방향키로 창 전환, |와 -로 직관적인 분할 등 키 바인딩 단순화",
+            "마우스 모드 활성화와 자동 윈도우 이름 변경 비활성화로 개인 설정 유지"
+          ],
+          "whyItMatters": "개발자의 터미널 생산성을 크게 향상시키기 위한 실용적인 커스터마이징 가이드입니다.",
+          "url": "https://hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 289,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "make-tmux-pretty-and-usable-2024",
+          "fullContent": "In my previous blog post I gave a quick and easy introduction to tmux and explained how to use tmux with a basic configuration.\nIf you’ve followed that guide you might have had a feeling that many people have when working with tmux for the first time: “These key combinations are really awkward!”. Rest assured, you’re not alone. Judging from the copious blog posts and dotfiles repos on GitHub there are many people out there who feel the urge to make tmux behave a little different; to make it more comfortable to use.\nAnd actually it’s quite easy to customize the look and feel of tmux. Let me tell you something about the basics of customizing tmux and share some of the configurations I find most useful.\nCustomizing tmux\nCustomizing tmux is as easy as editing a text file. Tmux uses a file called tmux.conf to store its configuration. If you store that file as ~/.tmux.conf (Note: there’s a period as the first character in the file name. It’s a hidden file) tmux will pick this configuration file for your current user. If you want to share a configuration for multiple users you can also put your tmux.conf into a system-wide directory. The location of this directory will be different across different operating systems. The man page (man tmux) will tell you the exact location, just have a look at documentation for the -f parameter.\nLess awkward prefix keys\nProbably the most common change among tmux users is to change the prefix from the rather awkward C-b to something that’s a little more accessible. Personally I’m using C-a instead but note that this might interfere with bash’s “go to beginning of line” command1. On top of the C-a binding I’ve also remapped my Caps Lock key to act as Ctrl since I’m not using Caps Lock anyways. This allows me to nicely trigger my prefix key combo.\nTo change your prefix from C-b to C-a, simply add following lines to your tmux.conf:\n# remap prefix from 'C-b' to 'C-a'\nunbind C-b\nset-option -g prefix C-a\nbind-key C-a send-prefix\nIntuitive Split Commands\nAnother thing I personally find quite difficult to remember is the pane splitting commands.\" to split vertically and % to split horizontally just doesn’t work for my brain. I find it helpful to have use characters that resemble a visual representation of the split, so I chose | and - for splitting panes horizontally and vertically:\n# split panes using | and -\nbind | split-window -h\nbind - split-window -v\nunbind '\"'\nunbind %\nEasy Config Reloads\nSince I’m experimenting quite often with my tmux.conf I want to reload the config easily. This is why I have a command to reload my config on r:\n# reload config file (change file location to your the tmux.conf you want to use)\nbind r source-file ~/.tmux.conf\nFast Pane-Switching\nSwitching between panes is one of the most frequent tasks when using tmux. Therefore it should be as easy as possible. I’m not quite fond of triggering the prefix key all the time. I want to be able to simply say M-<direction> to go where I want to go (remember: M is for Meta, which is usually your Alt key). With this modification I can simply press Alt-left to go to the left pane (and other directions respectively):\n# switch panes using Alt-arrow without prefix\nbind -n M-Left select-pane -L\nbind -n M-Right select-pane -R\nbind -n M-Up select-pane -U\nbind -n M-Down select-pane -D\nMouse mode\nAlthough tmux clearly focuses on keyboard-only usage (and this is certainly the most efficient way of interacting with your terminal) it can be helpful to enable mouse interaction with tmux. This is especially helpful if you find yourself in a situation where others have to work with your tmux config and naturally don’t have a clue about your key bindings or tmux in general. Pair Programming might be one of those occasions where this happens quite frequently.\nEnabling mouse mode allows you to select windows and different panes by simply clicking and to resize panes by dragging their borders around. I find it pretty convenient and it doesn’t get in my way often, so I usually enable it:\n# Enable mouse control (clickable windows, panes, resizable panes)\nset -g mouse on\nStop Renaming Windows Automatically\nI like to give my tmux windows custom names using the , key. This helps me naming my windows according to the context they’re focusing on. By default tmux will update the window title automatically depending on the last executed command within that window. In order to prevent tmux from overriding my wisely chosen window names I want to suppress this behavior:\n# don't rename windows automatically\nset-option -g allow-rename off\nChanging the Look of tmux\nChanging the colors and design of tmux is a little more complex than what I’ve presented so far. As tmux allows you to tweak the appearance of a lot of elements (e.g. the borders of panes, your statusbar and individual elements of it, messages), you’ll need to add a few options to get a consistent look and feel. You can make this as simple or as elaborate as you like. Tmux’s man page (specificall",
+          "category": "insight",
+          "publishedAt": "2026-04-13T14:48:55.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# tmux 커스터마이징으로 터미널을 내 손에 맞게 만들기\n\n이전 글에서 tmux의 기본 사용법을 소개했는데, 처음 사용해본 분들이라면 아마 이런 생각이 들었을 겁니다. \"단축키 조합이 정말 불편하네...\"\n\n안심하세요. 당신만 그런 게 아닙니다. GitHub의 수많은 블로그 글과 dotfiles 저장소를 보면 tmux를 좀 더 편하게 쓰기 위해 설정을 바꾸려는 사람들이 정말 많거든요.\n\n다행히도 tmux 커스터마이징은 생각보다 간단합니다. 오늘은 tmux를 어떻게 커스터마이징할 수 있는지, 그리고 제가 자주 쓰는 설정들을 소개해보겠습니다.\n\n## tmux 커스터마이징하기\n\ntmux 커스터마이징은 설정 파일을 편집하는 것처럼 간단합니다. tmux는 `tmux.conf`라는 파일로 설정을 관리하는데요. 이 파일을 `~/.tmux.conf`에 저장하면(파일명 앞의 점 주목 - 숨겨진 파일입니다) 현재 사용자의 tmux 설정으로 인식됩니다. 만약 여러 사용자가 같은 설정을 쓰고 싶다면 시스템 전역 디렉토리에 저장할 수도 있습니다. 정확한 위치는 운영 체제마다 다르니 `man tmux`의 `-f` 파라미터 부분을 확인해보세요.\n\n## 덜 불편한 프리픽스 키 설정\n\ntmux 사용자들 사이에서 가장 많이 하는 커스터마이징이 바로 프리픽스를 `C-b`에서 다른 키로 바꾸는 것입니다. 저는 개인적으로 `C-a`를 쓰는데, 이게 bash의 \"줄의 처음으로 가기\" 명령과 충돌할 수 있다는 점은 주의하세요. `C-a` 바인딩 외에도 저는 Caps Lock을 Ctrl 키로 리맵핑했습니다. 어차피 Caps Lock은 안 쓰니까요. 이렇게 하면 프리픽스 키 조합을 훨씬 편하게 누를 수 있습니다.\n\n`C-b`에서 `C-a`로 바꾸려면 tmux.conf에 다음 줄을 추가하면 됩니다.\n\n```\n# remap prefix from 'C-b' to 'C-a'\nunbind C-b\nset-option -g prefix C-a\nbind-key C-a send-prefix\n```\n\n## 직관적인 창 분할 명령\n\n개인적으로 가장 어려운 부분이 창 분할 단축키를 기억하는 거예요. `\"`로 수직 분할, `%`로 수평 분할이라니, 이건 제 뇌에 안 들어옵니다. 대신 분할 모양을 직관적으로 표현하는 `|`과 `-`를 쓰는 게 훨씬 낫습니다. `|`는 수평 분할, `-`는 수직 분할이죠.\n\n```\n# split panes using | and -\nbind | split-window -h\nbind - split-window -v\nunbind '\"'\nunbind %\n```\n\n## 편리한 설정 파일 새로고침\n\ntmux.conf를 자주 수정하다 보니 쉽게 설정을 다시 로드할 수 있으면 좋겠더라고요. 그래서 `r` 키로 설정 파일을 다시 로드하도록 설정했습니다.\n\n```\n# reload config file (change file location to your the tmux.conf you want to use)\nbind r source-file ~/.tmux.conf\n```\n\n## 빠른 창 전환\n\ntmux를 쓸 때 창 사이를 오가는 작업은 거의 매번 하는 거라 최대한 간단하게 해야 합니다. 저는 프리픽스 키를 매번 누르기보다 `M-<방향키>`로 바로 이동할 수 있으면 좋겠더라고요(M은 Meta, 보통 Alt 키입니다). 이 설정을 하면 Alt+왼쪽 화살표로 왼쪽 창으로 이동할 수 있습니다.\n\n```\n# switch panes using Alt-arrow without prefix\nbind -n M-Left select-pane -L\nbind -n M-Right select-pane -R\nbind -n M-Up select-pane -U\nbind -n M-Down select-pane -D\n```\n\n## 마우스 모드 활성화\n\ntmux는 기본적으로 키보드 중심으로 설계되었으니까요(실제로 이게 가장 효율적입니다). 그런데 가끔은 마우스 상호작용이 유용할 때가 있습니다. 특히 다른 사람이 당신의 tmux 설정을 써야 할 때, 혹은 페어 프로그래밍을 할 때가 그렇죠. 마우스 모드를 활성화하면 창과 창을 클릭으로 선택할 수 있고, 창의 경계를 드래그해서 크기를 조절할 수도 있습니다. 꽤 편하면서도 대부분의 경우 방해가 되지 않으니 저는 보통 활성화합니다.\n\n```\n# Enable mouse control (clickable windows, panes, resizable panes)\nset -g mouse on\n```\n\n## 자동 창 이름 변경 방지\n\n저는 `,` 키로 tmux 창에 직접 이름을 붙이는데요. 이렇게 하면 각 창의 목적에 따라 이름을 지을 수 있어서 좋습니다. 그런데 기본 설정에서는 tmux가 창 내에서 마지막으로 실행한 명령에 따라 자동으로 제목을 바꿔버립니다. 이 동작을 막으려면 이 옵션을 꺼야 합니다.\n\n```\n# don't rename windows automatically\nset-option -g allow-rename off\n```\n\n## tmux의 외형 바꾸기\n\n색상과 디자인을 바꾸는 건 지금까지 소개한 것보다 조금 더 복잡합니다. tmux는 창의 테두리, 상태바, 메시지 등 여러 요소의 외형을 세세하게 조정할 수 있거든요. 단순하게 하려면 몇 개 옵션만 추가하면 되지만, 정교한 스타일을 원한다면 더 많은 설정이 필요합니다. 얼마나 꾸밀지는 당신이 결정하면 됩니다. tmux의 man 페이지(특히 `status-style`, `pane-border-style` 등)를 자세히 읽어보면 도움이 될 거예요."
+        },
+        {
+          "title": "An Introduction to Obsidian",
+          "titleKo": "Obsidian 소개",
+          "summary": "로컬 마크다운 파일 기반의 노트 작성 애플리케이션 Obsidian의 장점과 활용법을 소개합니다. 콘텐츠 생성, 지식 관리, 프로젝트 관리 등 다양한 용도로 활용 가능하며, 플러그인을 통한 확장성과 단순성을 강조합니다.",
+          "keyPoints": [
+            "Obsidian은 로컬 마크다운 파일을 사용하므로 소유권 보장 및 enshittification 위험 회피",
+            "[[]]로 노트 상호 연결 가능하고 Zettelkasten 방식의 체계적 지식 관리 가능",
+            "데스크톱과 모바일 앱의 기능 제한이 없으며 커뮤니티 플러그인으로 기능 확장 가능"
+          ],
+          "whyItMatters": "개발자들이 기술 문서, 학습 자료, 프로젝트 정보를 체계적으로 관리하고 오픈 포맷으로 보유할 수 있습니다.",
+          "url": "https://bryanhogan.com/blog/obsidian-introduction",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 102,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "an-introduction-to-obsidian",
+          "fullContent": "Obsidian is a great note-taking program. I highly recommend it to anyone who wants to take notes and do other knowledge-work for themselves.\nWhy Obsidian?\nObsidian allows you to work on local markdown files. This is great for a variety of reasons. Markdown is an open format, you can use it in a variety of other apps. Your Obsidian vault is just a group of notes and folders. And since everything you do is saved locally on your device also, you own your files, you can decide what to do with them. You are protected from enshittification.\nObsidian is powerful. It works great for writing content, for creating content that is interlinked with other things you are working on, e.g. you can create links to notes using [[ ]].\nObsidian allows you to use it how you want, make it fit into your use-case. You can find or create plugins for features you need. There’s a large community.\nThe desktop app of Obsidian works great, just like the mobile app, and there’s no limits in its features on either version.\nObsidian’s CEO also wrote about why file over app is great.\nI wrote a more detailed comparison of Notion vs Obsidian, it should give you a better idea of what Obsidian is good at compared to other note-taking applications.\nRules to keep in mind\nWhen you look up content about Obsidian, it gets complicated. It’s fine to explore what is possible with such a program, what system and use-cases people have for it, but set a limit. Explore, and then critically think about what you really need. Don’t fall for FOMO marketing or feel anxious.\nKeep it simple. Obsidian should help you work on other things.\nHow I use Obsidian\nI use Obsidian for:\nContent Creation: Writing blog posts and my monthly email newsletter.\nKnowledge Management: Collecting, summarizing, and preparing information (using a “bottom-up” approach).\nProject Management: Managing personal projects and life aspects like health.\nTracking Media: Collecting information on books, video games, and YouTube videos. (Obsidian Bases are great!)\nI avoid custom themes. I try to use as few plugins as possible. Obsidian has “core plugins”, features which are already built into Obsidian by the Obsidian team, and “community plugins”, plugins made by the community.\nI value a simple long-lasting system. So I use a system inspired from Zettelkasten and Evergreen notes, bottom-up instead of top-down. I wrote in more detail about my full Obsidian vault setup here and go into detail on how to implement the bottom-up approach for note-taking here.\nKeep in mind, you don’t need any of this though. You can just create folders and put your notes in there, if you already have a system that works for you, do that.\nMore about Obsidian\nSyncing & Back-ups\nI sync my Obsidian vault using Google Drive (Desktop on Windows, DriveSync on Android) and back it up to GitHub from time to time.\nI wrote about this setup in detail, and compared it to other ways to sync Obsidian in another post: How to sync Obsidian\nGraph-view & Canvas\nObsidian has a cool graph view that often gets shared on social media, but in everyday use it’s not that useful, I rarely use it.\nObsidian has an infinite canvas feature as well, which can be quite cool to visualise your notes, but I feel like it could use a bit more love, I only use it from time to time.\nSimilar tools\nI use Notion for collaborative content/databases (Kanban) and Logseq for short daily notes/journaling.\nThere are some other note-taking applications which are high quality that I want to mention here, even though I don’t use them as I am happy with my current setup: Capacities, Octarine, SilverBullet, SiYuan, AnyType, Affine.",
+          "category": "insight",
+          "publishedAt": "2026-04-11T11:35:02.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Obsidian로 지식 관리하기\n\nObsidian은 정말 훌륭한 노트 앱입니다. 자신의 지식을 관리하고 싶은 사람이라면 누구에게나 강력 추천할 만한 프로그램이에요.\n\n## Obsidian을 추천하는 이유\n\nObsidian의 가장 큰 장점은 로컬 마크다운 파일로 작업한다는 점입니다. 마크다운은 개방된 포맷이라 다른 앱에서도 언제든 사용할 수 있거든요. Obsidian 볼트(vault)는 단순히 노트와 폴더들의 모음일 뿐입니다. 그리고 모든 데이터가 내 기기에 저장되기 때문에, 파일은 내 것이고 이를 어떻게 할지도 내가 결정할 수 있어요. 서비스의 품질이 점점 나빠지는 \"enshittification\"으로부터 보호받을 수 있다는 뜻입니다.\n\nObsidian은 정말 강력합니다. 콘텐츠 작성은 물론, 다양한 노트들을 서로 연결하면서 작업할 수 있어요. `[[ ]]` 문법으로 노트 간 링크를 만들 수 있다는 게 핵심이죠.\n\n또한 Obsidian은 사용자의 니즈에 맞게 커스터마이징할 수 있습니다. 필요한 기능을 위해 플러그인을 찾거나 직접 만들 수도 있고, 큰 커뮤니티 덕분에 다양한 리소스를 활용할 수 있어요.\n\n데스크톱 앱과 모바일 앱 모두 훌륭하게 작동하며, 두 버전 간에 기능상 제한도 없습니다. Obsidian의 CEO도 \"파일 중심 앱\"의 장점에 대해 글을 썼는데, 이것이 Obsidian의 철학을 잘 보여줍니다.\n\n더 자세한 비교는 제 Notion vs Obsidian 글을 참고하면 다른 노트 앱들과 비교했을 때 Obsidian의 강점을 더 잘 이해할 수 있을 거예요.\n\n## 기억해야 할 원칙들\n\nObsidian에 대해 찾아보다 보면 정보가 꽤 복잡해집니다. 이 프로그램으로 뭘 할 수 있는지, 다른 사람들은 어떻게 쓰고 있는지 탐색하는 것도 좋지만, 선을 그어야 해요. 탐색한 뒤에는 냉정하게 생각해 보고 \"나에게 정말 필요한 게 뭔지\" 고민해 보세요. FOMO에 흔들리거나 불안해하지 않았으면 좋겠습니다.\n\n단순함을 유지하세요. Obsidian은 다른 일에 집중할 수 있게 도와주는 도구일 뿐입니다.\n\n## 내가 Obsidian을 사용하는 방법\n\n저는 Obsidian을 다음과 같이 활용합니다:\n\n- **콘텐츠 작성**: 블로그 포스트와 월간 이메일 뉴스레터 작성\n- **지식 관리**: 정보를 수집, 요약, 정리하기 (하향식이 아닌 상향식 접근)\n- **프로젝트 관리**: 개인 프로젝트나 건강처럼 인생 전반에 걸친 것들 관리\n- **미디어 추적**: 책, 비디오 게임, YouTube 영상 정보 수집 (Obsidian Bases가 정말 유용해요!)\n\n저는 커스텀 테마를 피하고, 플러그인은 최소한으로 사용하려고 합니다. Obsidian에는 기본으로 내장된 \"코어 플러그인\"과 커뮤니티에서 만든 \"커뮤니티 플러그인\" 두 가지가 있어요.\n\n저는 오래 지속될 수 있는 단순한 시스템을 중시합니다. 그래서 Zettelkasten과 Evergreen notes에서 영감받은 상향식 시스템을 사용하고 있어요. 제 Obsidian 볼트 전체 설정에 대해서는 더 자세히 적은 글이 있고, 상향식 노트 작성법을 구현하는 방법도 따로 정리해 두었습니다.\n\n다만, 이 모든 게 필요한 건 아닙니다. 단순히 폴더를 만들고 노트를 넣는 방식으로도 충분해요. 이미 잘 작동하는 시스템이 있다면 그걸 계속 쓰세요.\n\n## Obsidian 더 알아보기\n\n### 동기화와 백업\n\n저는 Google Drive(Windows 데스크톱에서는 Google Drive, Android에서는 DriveSync)를 이용해 Obsidian 볼트를 동기화하고, 가끔 GitHub에 백업합니다.\n\n이 설정에 대해 더 자세히 알고 싶다면, Obsidian 동기화 방법을 다룬 글을 참고해 보세요. 다른 동기화 방식들과도 비교해 두었거든요.\n\n### 그래프 뷰와 캔버스\n\nObsidian의 그래프 뷰는 소셜 미디어에 자주 올라오는 기능이지만, 실제 일상적인 사용에서는 별로 유용하지 않습니다. 저도 거의 사용하지 않아요.\n\nObsidian에는 무한 캔버스 기능도 있어서 노트들을 시각적으로 표현할 수 있는데, 아직 조금 더 발전의 여지가 있다는 생각이 듭니다. 저도 가끔씩만 사용하는 편이에요.\n\n## 비슷한 도구들\n\n저는 협업 콘텐츠와 데이터베이스(칸반 보드) 관리에는 Notion을, 일일 노트 및 저널링에는 Logseq을 함께 사용하고 있습니다.\n\n현재 제 셋업에 만족해서 직접 사용하지는 않지만, 언급할 만한 고품질 노트 앱들도 있습니다: Capacities, Octarine, SilverBullet, SiYuan, AnyType, Affine이 그것들이에요."
+        },
+        {
+          "title": "Show HN: Ithihāsas – a character explorer for Hindu epics, built in a few hours",
+          "titleKo": "Ithihāsas – 힌두 서사시 인물 탐색기",
+          "summary": "라마야나와 마하바라타의 인물, 왕조, 관계를 대화형으로 탐색할 수 있는 웹 기반 도구입니다.",
+          "keyPoints": [
+            "힌두 고전 서사시의 복잡한 인물 관계와 계보를 시각적으로 탐색할 수 있는 인터랙티브 인터페이스 제공"
+          ],
+          "whyItMatters": "고전 문헌의 접근성을 높이는 웹 애플리케이션 개발 사례로, 데이터 시각화와 관계 그래프 구성 기법을 배울 수 있습니다.",
+          "url": "https://www.ithihasas.in",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 78,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-ithihsas-a-character-explorer-for-hindu-epics-built-in-a-few-hours",
+          "fullContent": "Journey through the characters, dynasties, and relationships of the Rāmāyaṇa and Mahābhārata.\nAn interactive exploration of Hindu epic literature",
+          "category": "insight",
+          "publishedAt": "2026-04-13T19:10:07.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 힌두 서사시의 세계로 떠나는 여행\n## 라마야나와 마하바라타의 인물, 왕조, 관계를 탐험하다\n\n힌두 문명의 정신적 기둥이라 할 수 있는 두 대서사시, 라마야나와 마하바라타. 이 두 작품은 수천 년에 걸쳐 인도 문화의 핵심을 형성해왔습니다.\n\n단순히 역사를 기록한 문헌이 아니에요. 이들은 복잡하게 얽힌 인물들, 권력 투쟁, 도덕적 딜레마로 가득 찬 세계입니다. 누가 누구인지, 어떤 관계로 얽혀있는지 파악하기만 해도 쉽지 않죠.\n\n이 글에서는 이 두 서사시의 세계를 직접 탐험할 수 있도록 인터랙티브한 방식으로 소개할 겁니다. 주요 인물들은 누구인지, 어느 왕조에 속하는지, 그들 사이에는 어떤 관계가 있는지 단계별로 알아보겠습니다.\n\n복잡하게만 느껴지는 이 대서사시들의 구조를 하나씩 풀어내다 보면, 당신도 이 고대의 이야기들이 오늘날까지도 왜 전 세계인들에게 영감을 주는지 이해하게 될 거예요."
+        },
+        {
+          "title": "Mathematical Minimalism",
+          "titleKo": "수학적 미니멀리즘",
+          "summary": "exp 함수와 상수 1만으로 모든 기본 수학 함수를 유도할 수 있음을 보여주는 수학적 접근입니다. 덧셈, 뺄셈, 곱셈, 나눗셈부터 시작하여 삼각함수, 쌍곡함수 등을 구성하는 방법을 제시합니다.",
+          "keyPoints": [
+            "최소한의 원시 함수(exp)와 상수(1)로부터 사칙연산을 부트스트래핑하는 수학적 방법 제시"
+          ],
+          "whyItMatters": "수치 계산 라이브러리 최소화 또는 제약된 환경에서의 수학 함수 구현에 관심있는 개발자들에게 이론적 기초를 제공합니다.",
+          "url": "https://www.johndcook.com/blog/2026/04/13/the-smallest-math-library/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 8,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "mathematical-minimalism",
+          "fullContent": "Andrzej Odrzywolek recently posted an article on arXiv showing that you can obtain all the elementary functions from just the function\nand the constant 1. The following equations, taken from the paper’s supplement, show how to bootstrap addition, subtraction, multiplication, and division from the elm function.\nSee the paper and supplement for how to obtain constants like π and functions like square and square root, as well as the standard circular and hyperbolic functions.\nRelated posts\nBootstrapping a small math library\nToffoli gates are all you need",
+          "category": "insight",
+          "publishedAt": "2026-04-13T20:45:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 단 하나의 함수만으로 모든 기본 수학 함수를 만들 수 있다?\n\n최근 Andrzej Odrzywolek이 arXiv에 흥미로운 논문을 올렸습니다. 놀랍게도 단 하나의 함수와 상수 1만 있으면 모든 기본 함수를 유도할 수 있다는 내용이었는데요.\n\n## elm 함수로 사칙연산 만들기\n\n논문의 부록에 수록된 다음 방정식들을 보면 어떻게 덧셈, 뺄셈, 곱셈, 나눗셈을 elm 함수로부터 만드는지 알 수 있습니다.\n\n[여기에 방정식이 들어갈 부분]\n\n## 더 나아가기\n\n이 방법으로는 π 같은 상수나 제곱, 제곱근 같은 함수를 어떻게 얻는지, 그리고 삼각함수와 쌍곡함수까지 모두 구현하는 방법이 논문과 부록에 자세히 나와 있습니다.\n\n## 관련 글\n\n- Bootstrapping a small math library\n- Toffoli gates are all you need"
+        },
+        {
+          "title": "Nothing Ever Happens: Polymarket bot that always buys No on non-sports markets",
+          "titleKo": "Nothing Ever Happens: 비스포츠 시장에서 항상 No를 매수하는 Polymarket 봇",
+          "summary": "Polymarket 예측 시장의 비스포츠 Yes/No 시장에서 자동으로 No 포지션을 매수하는 Python 기반 비동기 봇입니다. 대시보드, 주문 추적, 복구 기능을 포함한 완전한 런타임을 제공합니다.",
+          "keyPoints": [
+            "시장 스캔, 포지션 추적, 대시보드 노출 및 라이브 복구 상태 유지를 통한 자동화된 거래 실행",
+            "실제 거래 전 환경 변수 검증(BOT_MODE, LIVE_TRADING_ENABLED, DRY_RUN)으로 안전성 확보 및 테스트 환경 지원"
+          ],
+          "whyItMatters": "암호화폐/블록체인 기반 예측 시장 봇 개발, 비동기 Python 아키텍처, 상태 복구 및 대시보드 구현 패턴을 학습할 수 있습니다.",
+          "url": "https://github.com/sterlingcrispin/nothing-ever-happens",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 337,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "nothing-ever-happens-polymarket-bot-that-always-buys-no-on-non-sports-markets",
+          "fullContent": "Nothing Ever Happens Polymarket Bot\nFocused async Python bot for Polymarket that buys No on standalone non-sports yes/no markets.\nFOR ENTERTAINMENT ONLY. PROVIDED AS IS, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. USE AT YOUR OWN RISK. THE AUTHORS ARE NOT LIABLE FOR ANY CLAIMS, LOSSES, OR DAMAGES.\nbot/: runtime, exchange clients, dashboard, recovery, and the nothing_happens strategy\nscripts/: operational helpers for deployed instances and local inspection\ntests/: focused unit and regression coverage\nRuntime\nThe bot scans standalone markets, looks for NO entries below a configured price cap, tracks open positions, exposes a dashboard, and persists live recovery state when order transmission is enabled.\nThe runtime is nothing_happens.\nSafety Model\nReal order transmission requires all three environment variables:\nBOT_MODE=live\nLIVE_TRADING_ENABLED=true\nDRY_RUN=false\nIf any of those are missing, the bot uses PaperExchangeClient.\nAdditional live-mode requirements:\nPRIVATE_KEY\nFUNDER_ADDRESS for signature types 1 and 2\nDATABASE_URL\nPOLYGON_RPC_URL for proxy-wallet approvals and redemption\nSetup\npip install -r requirements.txt\ncp config.example.json config.json\ncp .env.example .env\nconfig.json is intentionally local and ignored by git.\nConfiguration\nThe runtime reads:\nconfig.json for non-secret runtime settings\n.env for secrets and runtime flags\nThe runtime config lives under strategies.nothing_happens. See config.example.json and .env.example.\nYou can point the runtime at a different config file with CONFIG_PATH=/path/to/config.json.\nRunning Locally\npython -m bot.main\nThe dashboard binds $PORT or DASHBOARD_PORT when one is set.\nHeroku Workflow\nThe shell helpers use either an explicit app name argument or HEROKU_APP_NAME.\nexport HEROKU_APP_NAME=<your-app>\n./alive.sh\n./logs.sh\n./live_enabled.sh\n./live_disabled.sh\n./kill.sh\nGeneric deployment flow:\nheroku config:set BOT_MODE=live DRY_RUN=false LIVE_TRADING_ENABLED=true -a \"$HEROKU_APP_NAME\"\nheroku config:set PRIVATE_KEY=<key> FUNDER_ADDRESS=<addr> POLYGON_RPC_URL=<url> DATABASE_URL=<url> -a \"$HEROKU_APP_NAME\"\ngit push heroku <branch>:main\nheroku ps:scale web=1 worker=0 -a \"$HEROKU_APP_NAME\"\nOnly run the web dyno. The worker entry exists only to fail fast if it is started accidentally.\nTests\npython -m pytest -q\nIncluded Scripts\nScript\nPurpose\nscripts/db_stats.py\nInspect live database table counts and recent activity\nscripts/export_db.py\nExport live tables from DATABASE_URL or a Heroku app\nscripts/wallet_history.py\nPull positions, trades, and balances for the configured wallet\nscripts/parse_logs.py\nConvert Heroku JSON logs into readable terminal or HTML output\nRepository Hygiene\nLocal config, ledgers, exports, reports, and deployment artifacts are ignored by default.",
+          "category": "insight",
+          "publishedAt": "2026-04-13T15:31:06.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Nothing Ever Happens Polymarket Bot\n\nPolymarket에서 \"아니오(No)\" 선택지에만 베팅하는 비동기 Python 봇입니다. 스포츠가 아닌 독립적인 이진 질문 시장을 대상으로 합니다.\n\n**주의: 이 프로젝트는 엔터테인먼트 목적으로만 제공됩니다. 어떤 명시적 또는 암시적 보증도 없으며, 사용자의 책임하에 이용해야 합니다. 저자는 손실이나 피해에 대해 책임지지 않습니다.**\n\n## 프로젝트 구조\n\n- **bot/**: 런타임, 거래소 클라이언트, 대시보드, 복구 로직, Nothing Happens 전략\n- **scripts/**: 배포된 인스턴스와 로컬 환경에서 쓸 유틸리티 스크립트들\n- **tests/**: 단위 테스트와 회귀 테스트\n\n## 런타임 동작 원리\n\n봇은 독립적인 시장들을 스캔하다가 설정한 가격 이하의 \"아니오\" 선택지를 찾으면 구매합니다. 동시에 보유 중인 포지션을 추적하고, 대시보드를 통해 상태를 노출합니다. 주문 전송이 활성화되면 실시간 복구 상태를 저장해두기도 하죠.\n\n## 안전장치\n\n실제 주문을 체결하려면 세 가지 환경 변수가 **모두** 설정되어야 합니다:\n\n```\nBOT_MODE=live\nLIVE_TRADING_ENABLED=true\nDRY_RUN=false\n```\n\n이 중 하나라도 빠지면 봇은 종이 거래(PaperExchangeClient) 모드로 동작합니다.\n\n라이브 모드에서 추가로 필요한 환경 변수:\n- `PRIVATE_KEY`\n- `FUNDER_ADDRESS` (서명 타입 1, 2일 때)\n- `DATABASE_URL`\n- `POLYGON_RPC_URL` (프록시 지갑 승인과 환수 처리용)\n\n## 설치\n\n```bash\npip install -r requirements.txt\ncp config.example.json config.json\ncp .env.example .env\n```\n\n`config.json`은 의도적으로 로컬 파일이며 git에서 무시됩니다.\n\n## 설정\n\n런타임은 두 곳에서 설정을 읽습니다:\n\n- **config.json**: 비밀이 아닌 런타임 설정 (git 무시)\n- **.env**: 비밀 정보와 런타임 플래그\n\n런타임 설정은 `strategies.nothing_happens` 하위에 있습니다. `config.example.json`과 `.env.example`을 참고하세요.\n\n다른 설정 파일을 사용하려면 이렇게 지정하면 됩니다:\n\n```bash\nCONFIG_PATH=/path/to/config.json\n```\n\n## 로컬 실행\n\n```bash\npython -m bot.main\n```\n\n대시보드는 `$PORT` 또는 `DASHBOARD_PORT` 환경 변수에 바인딩됩니다.\n\n## Heroku 배포\n\n셸 헬퍼 스크립트들은 앱 이름을 명시적으로 전달하거나 `HEROKU_APP_NAME` 환경 변수를 사용합니다:\n\n```bash\nexport HEROKU_APP_NAME=<your-app>\n./alive.sh          # 봇 상태 확인\n./logs.sh           # 로그 보기\n./live_enabled.sh   # 라이브 모드 활성화\n./live_disabled.sh  # 라이브 모드 비활성화\n./kill.sh           # 봇 중지\n```\n\n### 배포 절차\n\n```bash\nheroku config:set BOT_MODE=live DRY_RUN=false LIVE_TRADING_ENABLED=true -a \"$HEROKU_APP_NAME\"\nheroku config:set PRIVATE_KEY=<key> FUNDER_ADDRESS=<addr> POLYGON_RPC_URL=<url> DATABASE_URL=<url> -a \"$HEROKU_APP_NAME\"\ngit push heroku <branch>:main\nheroku ps:scale web=1 worker=0 -a \"$HEROKU_APP_NAME\"\n```\n\n**중요**: web dyno만 실행해야 합니다. worker 엔트리는 실수로 시작될 경우 빠르게 실패하도록 만든 것입니다.\n\n## 테스트\n\n```bash\npython -m pytest -q\n```\n\n## 포함된 유틸리티 스크립트\n\n| 스크립트 | 용도 |\n|---------|------|\n| `scripts/db_stats.py` | 라이브 데이터베이스의 테이블 개수와 최근 활동 확인 |\n| `scripts/export_db.py` | DATABASE_URL 또는 Heroku 앱의 테이블 내보내기 |\n| `scripts/wallet_history.py` | 설정된 지갑의 포지션, 거래, 잔액 조회 |\n| `scripts/parse_logs.py` | Heroku JSON 로그를 읽기 좋은 터미널 또는 HTML 형식으로 변환 |\n\n## 저장소 관리\n\n로컬 설정, 장부, 내보내기 파일, 보고서, 배포 산출물은 기본적으로 git에서 무시됩니다."
+        },
+        {
+          "title": "MEMS Array Chip Can Project Video the Size of a Grain of Sand",
+          "titleKo": "MEMS 배열 칩으로 모래 알갱이 크기의 비디오 투영 실현",
+          "summary": "MITRE 양자컴퓨터 프로젝트에서 개발한 1제곱밀리미터 크기의 포토닉 칩은 초당 6,860만 개의 광점을 투영할 수 있으며, 기존 MEMS 기술의 50배 이상 성능입니다. 미니 캔틸레버 배열이 압전 소자를 통해 광선을 2차원 영역에 스캔합니다.",
+          "keyPoints": [
+            "피에조전기 재료(질화알루미늄)를 활용한 마이크로 캔틸레버가 전압에 반응하여 광파이버 끝에서 빛을 방출하고 2D 영역 스캔 가능",
+            "양자 컴퓨터 제어 용도에서 출발했으나, 증강현실, 생의학 이미징, 3D 프린팅 스캔 등 다양한 응용 분야 확보"
+          ],
+          "whyItMatters": "극소형 디스플레이, 광학 스캐닝, 양자컴퓨터 제어 등 첨단 분야 기술을 다루는 개발자들에게 MEMS 포토닉스의 최신 가능성을 보여줍니다.",
+          "url": "https://spectrum.ieee.org/mems-photonics",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 72,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "mems-array-chip-can-project-video-the-size-of-a-grain-of-sand",
+          "fullContent": "Chip Can Project Video the Size of a Grain of Sand\nMEMS array to steer lasers for quantum computer finds other uses4 min readVelvet Wu is a freelance writer based in Pennsylvania.Image projection of the Mona Lisa using a long split-electrode device.Matt Saha, Y. Henry Wen, et al.By many estimates, quantum computers will need millions of qubits to realize their potential applications in cybersecurity, drug development, and other industries. The problem is, anyone who has wanted to simultaneously control millions of a certain kind of qubits has run into the problem of trying to control millions of laser beams. That’s exactly the challenge that was faced by scientists working on the MITRE Quantum Moonshot project, which brought together scientists from MITRE, MIT, the University of Colorado at Boulder, and Sandia National Laboratories. The solution they developed came in the form of an image projection technology that they realized could also be the fix for a host of other challenges in augmented reality, biomedical imaging, and elsewhere. The device is a one-square-millimeter photonic chip capable of projecting the Mona Lisa onto an area smaller than the size of two human egg cells. “When we started, we certainly never would have anticipated that we would be making a technology that might revolutionize imaging,” says Matt Eichenfield, one of the leaders of the Quantum Moonshot project, a collaborative research effort focused on developing a scalable diamond-based quantum computer, and a professor of quantum engineering at the University of Colorado at Boulder. Each second, their chip is capable of projecting 68.6 million individual spots of light—called scannable pixels to differentiate them from physical pixels. That’s more than fifty times the capability of previous technology, such as micro-electromechanical systems (MEMS) micromirror arrays. “We have now made a scannable pixel that is at the absolute limit of what diffraction allows,” says Henry Wen, a visiting researcher at MIT and a photonics engineer at QuEra Computing.The chip’s distinguishing feature is an array of tiny micro-scale cantilevers, which curve away from the plane of the chip in response to voltage and act as miniature “ski-jumps” for light. Light is channeled along the length of each cantilever via a waveguide, and exits at its tip. The cantilevers contain a thin layer of aluminum nitride, a piezoelectric which expands or contracts under voltage, thus moving the micromachine up and down and enabling the array to scan beams of light over a two-dimensional area.Despite the magnitude of the team’s achievement, Eichenfield says that the process of engineering the cantilevers was “pretty smooth.” Each cantilever is composed of a stack of several submicrometer layers of material and curls approximately 90 degrees out of the plane at rest. To achieve such a high curvature, the team took advantage of differences in the contraction and expansion of individual layers caused by physical stresses in the material resulting from the fabrication process. The materials are first deposited flat onto the chip. Then, a layer in the chip below the cantilever is removed, allowing the material stresses to take effect, releasing the cantilever from the chip and allowing it to curl out. The top layer of each cantilever also features a series of silicon dioxide bars running perpendicular to the waveguide, which keep the cantilever from curling along its width while also improving its length-wise curvature. A micro-cantilever wiggles and waggles to project light in the right place.Matt Saha, Y. Henry Wen, et al.What was more of a challenge than engineering the chip itself was figuring out the details of actually making the chip project images and videos. Working out the process of synchronizing and timing the cantilevers’ motion and light beams to generate the right colors at the right time was a substantial effort, according to Andy Greenspon, a researcher at MITRE who also worked on the project. Now, the team has successfully projected a variety of videos from a single cantilever, including clips from the movie A Charlie Brown Christmas. The chip projected a roughly 125-micrometer image of the Mona Lisa.Matt Saha, Y. Henry Wen, et al.Because the chip can project so many more spots in any given time interval than any previous beam scanners, it could also be used to control many more qubits in quantum computers. The Quantum Moonshot program’s mission is to build a quantum computer that can be scaled to millions of qubits. So clearly, it needs a scalable way of controlling each one, explains Wen. Instead of using one laser per qubit, the team realized that not every qubit needed to be controlled at every given moment. The chip’s ability to move light beams over a two-dimensional area, would allow them to control all of the qubits with many fewer lasers. Another process that Wen thinks the chip could improve is scanning objects for 3D printing. Today, that typicall",
+          "category": "insight",
+          "publishedAt": "2026-04-13T14:26:02.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 모래알 크기의 칩이 영상을 투사한다\n## 양자컴퓨터용 레이저 조종 기술, 예상 밖의 활용처를 찾다\n\n양자컴퓨터가 사이버보안, 신약 개발 등 다양한 분야에서 제 역할을 하려면 수백만 개의 큐빗이 필요할 것으로 예상됩니다. 그런데 문제가 있습니다. 수백만 개의 큐빗을 동시에 제어하려면 수백만 개의 레이저 빔을 조종해야 한다는 거죠.\n\nMITRE, MIT, 콜로라도 볼더 대학교, 샌디아 국립연구소가 함께 진행한 MITRE 양자 문샷(Quantum Moonshot) 프로젝트의 연구진들이 바로 이 문제와 마주쳤습니다. 그리고 그들이 개발한 해결책이 영상 투사 기술인데, 흥미롭게도 증강현실, 생의학 영상 등 완전히 다른 분야의 문제들도 해결할 수 있다는 걸 깨달았습니다.\n\n## 손톱 크기 칩의 놀라운 성능\n\n해당 장치는 1제곱밀리미터 크기의 포토닉 칩입니다. 이 칩이 모나리자 그림을 인간의 난자 2개를 나란히 놨을 때의 크기보다 작은 영역에 투사할 수 있다고 하니, 얼마나 정교한지 감이 오실 겁니다.\n\n양자공학 연구를 주도한 콜로라도 볼더 대학교의 매트 아이헨펠드 교수는 \"처음에는 우리가 영상 기술을 혁신할 수 있는 기술을 만들 거라고 상상도 못 했습니다\"라고 말합니다.\n\n이 칩은 매초 6,860만 개의 개별 광점(스캔 가능 픽셀)을 투사합니다. 기존의 미세전자기계시스템(MEMS) 미러 어레이 기술보다 50배 이상 뛰어난 성능입니다. MIT의 방문 연구원이자 QuEra Computing의 포토닉 엔지니어인 헨리 웬은 \"우리가 만든 스캔 가능 픽셀은 회절이 허용하는 절대적 한계에 도달했습니다\"라고 설명합니다.\n\n## 핵심은 초소형 캔틸레버\n\n이 칩의 가장 특징적인 부분은 미세한 캔틸레버 어레이입니다. 캔틸레버는 전압에 반응해 칩 평면에서 구부러져 나오면서, 마치 스키점프대처럼 빛을 꺾어 보냅니다.\n\n빛은 각 캔틸레버를 따라 도파관을 통해 흐르다가 끝부분에서 방출됩니다. 캔틸레버에 포함된 질화알루미늄(압전 물질)이 전압에 따라 팽창하거나 수축하면서, 미세한 기계 장치가 상하로 움직이고, 이에 따라 빛의 빔이 2차원 영역을 훑게 되는 원리입니다.\n\n캔틸레버를 제작하는 과정은 놀랍게도 \"꽤 순조로웠다\"고 아이헨펠드 교수는 평가합니다. 각 캔틸레버는 여러 층의 초미세 재료로 구성되어 있으며, 정지 상태에서 약 90도로 구부러집니다.\n\n이렇게 극단적인 곡선을 만들기 위해 연구팀은 제조 과정에서 발생하는 물리적 응력으로 인한 각 층의 수축·팽창 차이를 활용했습니다. 재료를 먼저 칩 위에 평평하게 증착한 후, 캔틸레버 아래의 층을 제거합니다. 그러면 응력이 작용해서 캔틸레버가 자연스럽게 칩에서 떨어져 나오면서 구부러지는 거죠.\n\n각 캔틸레버의 맨 위층에는 도파관에 수직으로 달린 산화규소 막대들이 있는데, 이것들이 캔틸레버가 폭 방향으로 말리지 않도록 막으면서 동시에 길이 방향의 곡선을 더 좋게 만들어줍니다.\n\n## 진짜 어려웠던 건 이미지 생성\n\n칩 자체를 만드는 것보다 더 어려웠던 건 실제로 이 칩으로 영상을 투사하는 방법을 개발하는 것이었습니다. 캔틸레버의 움직임과 빛을 동기화하고 타이밍을 맞춰서 정확한 색깔을 정확한 순간에 만들어내야 했거든요.\n\n프로젝트에 참여한 MITRE의 연구원 앤디 그린스펀은 이것이 상당한 노력이 필요했던 작업이라고 회상합니다. 현재 연구팀은 단일 캔틸레버로 다양한 영상을 성공적으로 투사했습니다. '찰리 브라운의 크리스마스' 영화 클립을 포함한 여러 영상을 말이죠. 약 125 마이크로미터 크기의 모나리자도 투사할 수 있었습니다.\n\n## 양자컴퓨터와 그 이상\n\n이 칩이 기존의 빔 스캐너보다 훨씬 더 많은 점들을 조종할 수 있다는 건, 양자컴퓨터의 훨씬 더 많은 큐빗을 제어할 수 있다는 뜻입니다. 양자 문샷 프로그램의 목표가 수백만 개의 큐빗으로 확장 가능한 양자컴퓨터를 만드는 것이므로, 이를 위해서는 확장 가능한 제어 방식이 꼭 필요합니다.\n\n웬 연구원이 설명하는 핵심은 이렇습니다. 기존에는 각 큐빗마다 레이저 하나씩을 썼는데, 실은 모든 큐빗을 매 순간 제어할 필요는 없다는 걸 깨달았다는 겁니다. 이 칩이 빛의 빔을 2차원 영역으로 빠르게 움직일 수 있으니, 훨씬 적은 수의 레이저로도 모든 큐빗을 제어할 수 있게 되는 거죠.\n\n웬은 또한 이 칩이 3D 프린팅을 위한 물체 스캔 기술도 크게 개선할 수 있을 거라고 생각합니다. 현재의 스캔 방식보다 훨씬 더 빠르고 정교하게 작동할 수 있기 때문입니다."
+        },
+        {
+          "title": "Tax Wrapped 2025",
+          "titleKo": "Tax Wrapped 2025",
+          "summary": "정보 부족으로 상세 요약 불가능합니다.",
+          "keyPoints": [
+            "링크만 제공되어 구체적 내용 파악 불가"
+          ],
+          "url": "https://taxwrapped.com",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 84,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "tax-wrapped-2025",
+          "category": "insight",
+          "publishedAt": "2026-04-13T17:52:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "New Orleans's Car-Crash Conspiracy",
+          "summary": "",
+          "keyPoints": [],
+          "url": "https://www.newyorker.com/magazine/2026/04/20/the-car-crash-conspiracy",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 41,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "new-orleanss-car-crash-conspiracy",
+          "category": "insight",
+          "publishedAt": "2026-04-13T17:50:56.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "How does Claude Code *actually* work?",
+          "titleKo": "Claude Code는 실제로 어떻게 작동하는가?",
+          "summary": "Anthropic의 Claude Code 기능이 내부적으로 어떻게 동작하는지 설명하는 YouTube 영상입니다.",
+          "keyPoints": [
+            "Claude Code의 실제 작동 메커니즘을 영상 형식으로 설명"
+          ],
+          "whyItMatters": "AI 코딩 어시스턴트의 동작 원리를 이해하여 효과적으로 활용할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=I82j7AzMU80",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-code",
+          "isTopicPrimary": true,
+          "slug": "how-does-claude-code-actually-work",
+          "category": "video",
+          "publishedAt": "2026-04-13T07:13:31+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "995: Next.js Vendor Lock-in No More",
+          "titleKo": "Next.js 벤더 락인 더 이상 없다",
+          "summary": "Next.js 팀의 Tim Neutkens와 Jimmi Lai가 새로운 Adapters API에 대해 설명하며, Cloudflare와 Netlify 같은 다양한 플랫폼에서 Next.js를 실행하는 방법과 캐싱 및 인프라 선택이 성능에 미치는 영향을 논의한다.",
+          "keyPoints": [
+            "Adapters API를 통해 Next.js가 여러 플랫폼에서 독립적으로 실행 가능해진다.",
+            "캐싱 전략과 인프라 선택이 애플리케이션 성능에 직접적인 영향을 미친다.",
+            "TurboPack이 빌드 성능 개선에 중요한 역할을 한다."
+          ],
+          "whyItMatters": "Next.js 개발자들이 클라우드 제공자에 종속되지 않고 자유롭게 배포 환경을 선택할 수 있게 된다.",
+          "url": "https://syntax.fm/995",
+          "sourceName": "Syntax.fm",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "nextjs-vendorlock",
+          "isTopicPrimary": false,
+          "slug": "995-nextjs-vendor-lock-in-no-more",
+          "category": "video",
+          "publishedAt": "2026-04-13T11:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Air Powered Segment Display? [video]",
+          "titleKo": "공기 구동 세그먼트 디스플레이? [영상]",
+          "summary": "공기 압력으로 작동하는 세그먼트 디스플레이의 개념을 구현한 영상 프로젝트입니다.",
+          "keyPoints": [
+            "전기 신호 대신 압축 공기를 이용한 대체 디스플레이 기술 시연"
+          ],
+          "whyItMatters": "저전력, 대체 에너지원 기반의 디스플레이 기술에 관심있는 개발자들에게 창의적인 엔지니어링 접근 방식을 보여줍니다.",
+          "url": "https://www.youtube.com/watch?v=E1BLGpE5zH0",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 16,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "air-powered-segment-display-video",
+          "category": "video",
+          "publishedAt": "2026-04-11T09:32:17.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    }
+  ]
+}

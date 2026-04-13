@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>tmux를 예쁘고 사용하기 편하게 만들기 (2024) — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/13/">2026-04-13</a> &gt; tmux를 예쁘고 사용하기 편하게 만들기 (2024)...
+      </div>
+
+      <h1>tmux를 예쁘고 사용하기 편하게 만들기 (2024)</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Make tmux pretty and usable (2024)</p>
+      <div class="article-meta">
+        <span>📅 2026-04-13</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 289</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>tmux.conf 설정 파일을 통해 터미널 멀티플렉서의 외관과 키 바인딩을 자신의 워크플로우에 맞게 커스터마이징하는 방법을 소개합니다. 접두사 키 변경, 분할 명령 단순화, 마우스 지원 활성화 등 실무 팁을 제공합니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>prefix를 C-b에서 C-a로 변경하고 Caps Lock을 Ctrl로 리매핑하여 사용성 개선</li><li>Alt+방향키로 창 전환, |와 -로 직관적인 분할 등 키 바인딩 단순화</li><li>마우스 모드 활성화와 자동 윈도우 이름 변경 비활성화로 개인 설정 유지</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>개발자의 터미널 생산성을 크게 향상시키기 위한 실용적인 커스터마이징 가이드입니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>tmux 커스터마이징으로 터미널을 내 손에 맞게 만들기</h2>
+<p>이전 글에서 tmux의 기본 사용법을 소개했는데, 처음 사용해본 분들이라면 아마 이런 생각이 들었을 겁니다. &quot;단축키 조합이 정말 불편하네...&quot;</p>
+<p>안심하세요. 당신만 그런 게 아닙니다. GitHub의 수많은 블로그 글과 dotfiles 저장소를 보면 tmux를 좀 더 편하게 쓰기 위해 설정을 바꾸려는 사람들이 정말 많거든요.</p>
+<p>다행히도 tmux 커스터마이징은 생각보다 간단합니다. 오늘은 tmux를 어떻게 커스터마이징할 수 있는지, 그리고 제가 자주 쓰는 설정들을 소개해보겠습니다.</p>
+<h3>tmux 커스터마이징하기</h3>
+<p>tmux 커스터마이징은 설정 파일을 편집하는 것처럼 간단합니다. tmux는 <code>tmux.conf</code>라는 파일로 설정을 관리하는데요. 이 파일을 <code>~/.tmux.conf</code>에 저장하면(파일명 앞의 점 주목 - 숨겨진 파일입니다) 현재 사용자의 tmux 설정으로 인식됩니다. 만약 여러 사용자가 같은 설정을 쓰고 싶다면 시스템 전역 디렉토리에 저장할 수도 있습니다. 정확한 위치는 운영 체제마다 다르니 <code>man tmux</code>의 <code>-f</code> 파라미터 부분을 확인해보세요.</p>
+<h3>덜 불편한 프리픽스 키 설정</h3>
+<p>tmux 사용자들 사이에서 가장 많이 하는 커스터마이징이 바로 프리픽스를 <code>C-b</code>에서 다른 키로 바꾸는 것입니다. 저는 개인적으로 <code>C-a</code>를 쓰는데, 이게 bash의 &quot;줄의 처음으로 가기&quot; 명령과 충돌할 수 있다는 점은 주의하세요. <code>C-a</code> 바인딩 외에도 저는 Caps Lock을 Ctrl 키로 리맵핑했습니다. 어차피 Caps Lock은 안 쓰니까요. 이렇게 하면 프리픽스 키 조합을 훨씬 편하게 누를 수 있습니다.</p>
+<p><code>C-b</code>에서 <code>C-a</code>로 바꾸려면 tmux.conf에 다음 줄을 추가하면 됩니다.</p>
+<pre><code># remap prefix from 'C-b' to 'C-a'
+unbind C-b
+set-option -g prefix C-a
+bind-key C-a send-prefix</code></pre>
+<h3>직관적인 창 분할 명령</h3>
+<p>개인적으로 가장 어려운 부분이 창 분할 단축키를 기억하는 거예요. <code>&quot;</code>로 수직 분할, <code>%</code>로 수평 분할이라니, 이건 제 뇌에 안 들어옵니다. 대신 분할 모양을 직관적으로 표현하는 <code>|</code>과 <code>-</code>를 쓰는 게 훨씬 낫습니다. <code>|</code>는 수평 분할, <code>-</code>는 수직 분할이죠.</p>
+<pre><code># split panes using | and -
+bind | split-window -h
+bind - split-window -v
+unbind '&quot;'
+unbind %</code></pre>
+<h3>편리한 설정 파일 새로고침</h3>
+<p>tmux.conf를 자주 수정하다 보니 쉽게 설정을 다시 로드할 수 있으면 좋겠더라고요. 그래서 <code>r</code> 키로 설정 파일을 다시 로드하도록 설정했습니다.</p>
+<pre><code># reload config file (change file location to your the tmux.conf you want to use)
+bind r source-file ~/.tmux.conf</code></pre>
+<h3>빠른 창 전환</h3>
+<p>tmux를 쓸 때 창 사이를 오가는 작업은 거의 매번 하는 거라 최대한 간단하게 해야 합니다. 저는 프리픽스 키를 매번 누르기보다 <code>M-&lt;방향키&gt;</code>로 바로 이동할 수 있으면 좋겠더라고요(M은 Meta, 보통 Alt 키입니다). 이 설정을 하면 Alt+왼쪽 화살표로 왼쪽 창으로 이동할 수 있습니다.</p>
+<pre><code># switch panes using Alt-arrow without prefix
+bind -n M-Left select-pane -L
+bind -n M-Right select-pane -R
+bind -n M-Up select-pane -U
+bind -n M-Down select-pane -D</code></pre>
+<h3>마우스 모드 활성화</h3>
+<p>tmux는 기본적으로 키보드 중심으로 설계되었으니까요(실제로 이게 가장 효율적입니다). 그런데 가끔은 마우스 상호작용이 유용할 때가 있습니다. 특히 다른 사람이 당신의 tmux 설정을 써야 할 때, 혹은 페어 프로그래밍을 할 때가 그렇죠. 마우스 모드를 활성화하면 창과 창을 클릭으로 선택할 수 있고, 창의 경계를 드래그해서 크기를 조절할 수도 있습니다. 꽤 편하면서도 대부분의 경우 방해가 되지 않으니 저는 보통 활성화합니다.</p>
+<pre><code># Enable mouse control (clickable windows, panes, resizable panes)
+set -g mouse on</code></pre>
+<h3>자동 창 이름 변경 방지</h3>
+<p>저는 <code>,</code> 키로 tmux 창에 직접 이름을 붙이는데요. 이렇게 하면 각 창의 목적에 따라 이름을 지을 수 있어서 좋습니다. 그런데 기본 설정에서는 tmux가 창 내에서 마지막으로 실행한 명령에 따라 자동으로 제목을 바꿔버립니다. 이 동작을 막으려면 이 옵션을 꺼야 합니다.</p>
+<pre><code># don't rename windows automatically
+set-option -g allow-rename off</code></pre>
+<h3>tmux의 외형 바꾸기</h3>
+<p>색상과 디자인을 바꾸는 건 지금까지 소개한 것보다 조금 더 복잡합니다. tmux는 창의 테두리, 상태바, 메시지 등 여러 요소의 외형을 세세하게 조정할 수 있거든요. 단순하게 하려면 몇 개 옵션만 추가하면 되지만, 정교한 스타일을 원한다면 더 많은 설정이 필요합니다. 얼마나 꾸밀지는 당신이 결정하면 됩니다. tmux의 man 페이지(특히 <code>status-style</code>, <code>pane-border-style</code> 등)를 자세히 읽어보면 도움이 될 거예요.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-13%20tmux%EB%A5%BC%20%EC%98%88%EC%81%98%EA%B3%A0%20%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0%20%ED%8E%B8%ED%95%98%EA%B2%8C%20%EB%A7%8C%EB%93%A4%EA%B8%B0%20(2024)&labels=feedback%2Cliked&body=**Article**%3A%20tmux%EB%A5%BC%20%EC%98%88%EC%81%98%EA%B3%A0%20%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0%20%ED%8E%B8%ED%95%98%EA%B2%8C%20%EB%A7%8C%EB%93%A4%EA%B8%B0%20(2024)%0A**URL**%3A%20https%3A%2F%2Fhamvocke.com%2Fblog%2Fa-guide-to-customizing-your-tmux-conf%2F%0A**Date**%3A%202026-04-13%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
