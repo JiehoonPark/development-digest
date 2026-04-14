@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>내성적 확산 언어 모델(Introspective Diffusion Language Models) — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/14/">2026-04-14</a> &gt; 내성적 확산 언어 모델(Introspective Diffusion Lan...
+      </div>
+
+      <h1>내성적 확산 언어 모델(Introspective Diffusion Language Models)</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Introspective Diffusion Language Models</p>
+      <div class="article-meta">
+        <span>📅 2026-04-14</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 218</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>I-DLM은 확산 언어 모델(DLM)의 품질 저하 문제를 해결한 모델로, 내성적 스트라이드 디코딩(ISD)을 통해 기존 토큰을 검증하면서 새로운 토큰을 생성하여 병렬 처리의 이점을 실현한다. I-DLM-8B는 동일 규모의 자동회귀 모델 수준의 품질을 달성하면서도 2.9-4.1배 빠른 처리 속도를 제공한다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>내성적 일관성(introspective consistency): 자동회귀 모델처럼 생성한 내용에 동의하는 검증 메커니즘 도입</li><li>I-DLM-8B가 LLaDA-2.1-mini(16B)를 능가하면서도 절반의 파라미터로 동작하고 고 동시성에서 2.9-4.1배 처리량 증가</li><li>SGLang과 직접 통합 가능한 엄격한 인과 어텐션으로 기존 인프라 변경 없음</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>DLM이 처음으로 AR 모델과 동등한 품질을 유지하면서 병렬 생성으로 훨씬 빠른 추론을 실현하여, 대규모 LLM 배포의 성능-품질 트레이드오프 문제를 해결한다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>확산 언어 모델의 새로운 가능성: 자기 성찰적 일관성으로 품질 격차 극복하다</h2>
+<p>확산 언어 모델(DLM)은 매력적인 약속을 제시합니다. 병렬 토큰 생성으로 자동회귀(AR) 디코딩의 순차 병목을 극복할 수 있다는 거죠. 그런데 현실은 냉혹합니다. DLM은 일관되게 같은 규모의 AR 모델보다 성능이 떨어집니다.</p>
+<p>우리는 이 격차의 원인을 찾아냈는데, 바로 <strong>자기 성찰적 일관성의 근본적인 부재</strong>입니다. AR 모델은 자신이 생성한 것과 일치하지만, DLM은 그렇지 않거든요.</p>
+<p>이 문제를 해결하기 위해 <strong>자기 성찰적 확산 언어 모델(I-DLM)</strong>을 소개합니다. I-DLM은 자기 성찰적 스트라이드 디코딩(ISD)을 사용해서 새로운 토큰을 생성하는 동시에 이전 토큰들을 검증합니다. 모두 하나의 순전파(forward pass) 안에서요.</p>
+<h3>I-DLM의 성능: 같은 규모 AR 모델을 처음으로 따라잡다</h3>
+<p>I-DLM-8B는 같은 규모의 AR 모델과 동등한 수준의 품질을 달성한 첫 DLM입니다. 놀랍게도 절반의 파라미터로:</p>
+<ul>
+<li><strong>LLaDA-2.1-mini(16B)를 능가</strong>: AIME-24에서 +26점, LiveCodeBench-v6에서 +15점</li>
+<li><strong>처리량</strong>: 높은 동시성 환경에서 2.9~4.1배 향상</li>
+<li><strong>무손실 가속화</strong>: Gated LoRA를 통해 비트 단위의 손실 없는 가속화 가능</li>
+</ul>
+<h3>DLM의 세 가지 근본적인 병목 지점</h3>
+<h4>1. 사전학습된 AR 모델 변환</h4>
+<p>인과 어텐션(causal attention), 로짓 시프트(logit shift), 완전 마스킹 목표함수를 통해 기존 AR 모델을 변환합니다.</p>
+<h4>2. 병렬 생성과 검증의 균형</h4>
+<p>한 번의 순전파에서 N개 토큰을 생성하면서 p/q 수락 기준으로 이전 토큰들을 검증합니다.</p>
+<h4>3. 인프라 의존성 제거</h4>
+<p>엄격한 인과 어텐션으로 SGLang에 직접 통합되며, 별도의 커스텀 인프라가 필요 없습니다.</p>
+<h3>처리량과 효율성: 동시성에서 진정한 가치 발휘</h3>
+<p>메모리 제한 디코딩 환경에서 TPF(초당 토큰 처리량)는 벽시계 속도 향상을 잘 근사합니다. TPF 2.5는 AR 대비 약 2.5배 빠른 디코딩을 의미합니다.</p>
+<p>계산 효율성을 TPF²/쿼리_크기로 측정하면, 각 FLOP이 AR 대비 얼마나 유용한 출력을 생성하는지 알 수 있습니다(효율성 = 1):</p>
+<p>&gt; <strong>효율성 &gt; 1은 병렬 디코딩이 AR보다 총 계산량을 더 절약한다는 뜻입니다.</strong></p>
+<p>이것이 I-DLM의 처리량이 동시성에 따라 확장되는 반면, SDAR와 LLaDA는 처리량이 정체되는 이유입니다.</p>
+<h3>수락률과 기하급수적 감소</h3>
+<p>수락 확률은 기하급수적으로 감소합니다. 위치 k에서의 수락 확률은 $p^{k-1}$입니다. 첫 번째 토큰은 항상 수락됩니다(로짓 시프트 덕분).</p>
+<h3>실제 사용하기: 5분 안에 I-DLM 실행하기</h3>
+<h4>기본 설정</h4>
+<p>먼저 필요한 패키지와 환경을 준비합니다. <code>inference/README.md</code>에서 자세한 환경 설정을 확인할 수 있습니다.</p>
+<h4>사전학습 모델 변환</h4>
+<p>기존 AR 모델을 I-DLM으로 변환하려면 자기 성찰적 일관성 학습을 진행하세요.</p>
+<pre><code class="language-python"># 학습 스크립트와 설정은 training/README.md 참조</code></pre>
+<h4>추론: 자기 성찰적 스트라이드 디코딩</h4>
+<p>한 번의 순전파에서 생성과 검증을 동시에 수행합니다.</p>
+<pre><code class="language-python"># 알고리즘 설정은 inference/README.md 참조</code></pre>
+<h4>프로덕션 배포</h4>
+<p>I-DLM은 엄격한 인과 어텐션을 사용하므로 SGLang에 바로 통합됩니다.</p>
+<pre><code class="language-python"># 모든 모델은 trust_remote_code=True 필요
+# (커스텀 SDARForCausalLM 아키텍처 사용)</code></pre>
+<p>전체 시스템은 단순한 기준선 대비 <strong>2.1~2.5배의 처리량</strong>을 달성합니다.</p>
+<h4>무손실 가속화: Residual ISD</h4>
+<p>Gated LoRA 어댑터를 추가하면 비트 단위의 손실 없는 가속화가 가능합니다.</p>
+<h3>평가: 15개 벤치마크에서 확인된 성능</h3>
+<p>4개 카테고리의 15개 벤치마크에서 사고 모드(thinking mode)를 활성화해 평가했습니다. 재현 스크립트는 <code>inference/eval/</code>에서 확인할 수 있습니다.</p>
+<p>I-DLM은 모든 이전 DLM을 능가하며, 마침내 같은 규모의 AR 모델 수준의 품질을 달성한 첫 확산 언어 모델입니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://introspective-diffusion.github.io/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-14%20%EB%82%B4%EC%84%B1%EC%A0%81%20%ED%99%95%EC%82%B0%20%EC%96%B8%EC%96%B4%20%EB%AA%A8%EB%8D%B8(Introspective%20Diffusion%20Language%20Mode&labels=feedback%2Cliked&body=**Article**%3A%20%EB%82%B4%EC%84%B1%EC%A0%81%20%ED%99%95%EC%82%B0%20%EC%96%B8%EC%96%B4%20%EB%AA%A8%EB%8D%B8(Introspective%20Diffusion%20Language%20Models)%0A**URL**%3A%20https%3A%2F%2Fintrospective-diffusion.github.io%2F%0A**Date**%3A%202026-04-14%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
