@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cal.com이 오픈소스를 종료하다 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/15/">2026-04-15</a> &gt; Cal.com이 오픈소스를 종료하다...
+      </div>
+
+      <h1>Cal.com이 오픈소스를 종료하다</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Cal.com is going closed source</p>
+      <div class="article-meta">
+        <span>📅 2026-04-15</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 168</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Cal.com은 5년간의 오픈소스 운영을 종료하고 폐쇄 소스로 전환했습니다. AI 기반 보안 위협으로부터 사용자 데이터 보호를 최우선으로 결정했으며, 커뮤니티를 위해 MIT 라이선스의 Cal.diy 버전을 별도로 공개합니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>AI 기반 취약점 스캔으로 인한 오픈소스 보안 위험 증가가 폐쇄 소스 전환의 주요 이유</li><li>Cal.diy를 MIT 라이선스로 공개하여 커뮤니티의 오픈소스 접근성 유지</li><li>인증 및 데이터 처리 같은 핵심 시스템의 대규모 재구성으로 인한 커뮤니티 버전과 프로덕션 버전의 격차 발생</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>AI 기반 공격의 가속화가 오픈소스 프로젝트의 보안 전략을 근본적으로 변화시키고 있으며, 개발자는 오픈소스 의존성의 보안 영향을 재평가해야 합니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Cal.com가 오픈소스에서 클로즈드소스로 전환한 이유</h2>
+<p>5년간 오픈소스 진영의 든든한 지원자였던 Cal.com이 결국 클로즈드소스로 전환하기로 결정했습니다. 쉽지 않은 결정이었지만, AI 기반 보안 위협 시대에 고객 데이터 보호가 최우선이라고 판단했기 때문입니다. 다행히 취미용으로 사용할 수 있는 오픈소스 버전인 Cal.diy는 계속 지원할 예정입니다.</p>
+<h3>왜 이런 결정을 내렸나요?</h3>
+<p>사실 이 글을 쓰기가 쉽지 않습니다. Cal.com을 처음 시작할 때 저희는 오픈소스를 깊이 있게 믿었거든요. 회사의 핵심 원칙이었고, 자랑스러워하던 가치였으니까요.</p>
+<p>그런데 지금 상황은 완전히 달라졌습니다. 한 가지 명확한 이유가 있는데, 바로 <strong>보안</strong>입니다.</p>
+<h3>AI가 보안 판도를 바꾸고 있습니다</h3>
+<p>AI는 콘텐츠 작성부터 소프트웨어 개발, 일상적인 업무까지 모든 것을 변화시키고 있습니다. 다만 충분히 주목받지 못하는 부분이 있는데, AI가 보안 분야를 얼마나 극적으로 변화시키고 있다는 점입니다.</p>
+<p>과거에는 애플리케이션을 공격하려면 경험 많은 해커가 수년에 걸쳐 취약점을 찾아야 했습니다. 시간과 노력이 엄청나게 들었기 때문입니다. 그래서 사람이 모든 취약점을 찾아낼 수 없었던 거죠.</p>
+<p><strong>이제 상황이 바뀌었습니다.</strong> AI를 오픈소스 코드베이스에 갖다 대면 자동으로 취약점을 체계적으로 스캔해냅니다.</p>
+<p>오픈소스가 된다는 것은 사실상 공격자들에게 금고 청사진을 건네주는 것과 같습니다. 구조가 완전히 노출되면 약점을 찾아내고 공격하기가 훨씬 쉬워지거든요.</p>
+<p>최근 몇 개월간 AI 보안 스타트업들이 이 기능을 상용화하기 시작했습니다. 플랫폼마다 다른 취약점들을 발견하면서, 어떤 게 정말 안전한지 판단하기가 점점 어려워지고 있습니다.</p>
+<p>이 불확실성이 저희에게 선택지를 강요했습니다. 오픈소스를 유지하면서 고객 데이터 위험을 계속 받아들일 것인가, 아니면 클로즈드소스로 전환해서 그 위험을 줄일 것인가. 완벽한 해결책은 아니지만, 사용자를 보호하기 위해서는 할 수 있는 모든 것을 해야 합니다.</p>
+<h3>그래도 오픈소스를 포기하지 않습니다</h3>
+<p>한편으로 저희는 여전히 오픈소스를 깊이 있게 생각합니다. 그래서 코드베이스의 일부를 MIT 라이선스 하에 커뮤니티에 공개하기로 했습니다. 이것이 <strong>Cal.diy</strong>입니다. 프로덕션 코드베이스는 인증 시스템이나 데이터 처리 같은 핵심 시스템을 대대적으로 다시 개발한 만큼 많이 달라져 있지만, 개발자, 취미용 사용자, 그리고 실험을 원하는 누구나 사용할 수 있는 진정한 오픈소스 버전이 계속 존재하기를 원했습니다.</p>
+<h3>앞으로의 위협은 더 심각해질 겁니다</h3>
+<p>보안 위협의 속도가 가파르게 상승하고 있습니다. 고급 AI 모델들은 이제 전례 없는 속도로 취약점을 찾아내고 공격할 수 있게 되었거든요.</p>
+<p>최근 예시를 들면, AI가 27년 된 BSD 커널의 취약점을 발견했습니다. BSD는 가장 널리 사용되고 보안을 중시하는 오픈소스 프로젝트 중 하나입니다. 그런데 AI는 몇 시간 만에 동작하는 익스플로잇까지 생성해냈습니다.</p>
+<p>이런 상황에서 오픈소스를 유지한다는 것은 저희 애플리케이션, 고객, 그리고 민감한 데이터를 상당한 위험에 노출시키는 것과 같습니다. 저희는 그 위험을 줄이고 사용자를 보호하기 위해 최선을 다하고 있으며, 지금으로서는 어렵지만 클로즈드소스로의 전환이 그 방법입니다.</p>
+<h3>언젠가는 다시 돌아올 수 있길</h3>
+<p>언젠가 보안 환경이 진화하면 오픈소스로 복귀할 수 있기를 바랍니다. 하지만 지금은 고객을 최우선으로 생각해야 합니다.</p>
+<hr>
+<p>Cal.com을 지금 바로 무료로 시작해보세요. 숨겨진 비용 없이 매끄러운 일정 관리와 생산성을 경험할 수 있습니다. 신용카드 없이 몇 초 만에 가입해서 일정 관리를 간소화해보세요!</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://cal.com/blog/cal-com-goes-closed-source-why" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-15%20Cal.com%EC%9D%B4%20%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%EB%A5%BC%20%EC%A2%85%EB%A3%8C%ED%95%98%EB%8B%A4&labels=feedback%2Cliked&body=**Article**%3A%20Cal.com%EC%9D%B4%20%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%EB%A5%BC%20%EC%A2%85%EB%A3%8C%ED%95%98%EB%8B%A4%0A**URL**%3A%20https%3A%2F%2Fcal.com%2Fblog%2Fcal-com-goes-closed-source-why%0A**Date**%3A%202026-04-15%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

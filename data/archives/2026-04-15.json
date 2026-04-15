@@ -1,0 +1,1302 @@
+{
+  "date": "2026-04-15",
+  "intro": "안녕하세요! 오늘 프론트엔드 생태계는 보안 이슈와 혁신이 한 자리에 모였습니다. React Server Components의 중대 취약점이 추가 발견되어 긴급 패치가 필요하며, Next.js 16.2의 Turbopack이 획기적인 성능 개선을 선보이고 있습니다. 또한 MDN의 React 폐기와 React Foundation의 공식 출범 등 프론트엔드 생태계의 구조 변화가 주목받고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Critical Security Vulnerability in React Server Components",
+          "titleKo": "React Server Components의 중대 보안 취약점",
+          "summary": "React Server Components에서 인증되지 않은 원격 코드 실행(RCE) 취약점이 발견되었습니다. React 19.0.1, 19.1.2, 19.2.1 버전에서 패치가 공개되었으며, 즉시 업그레이드를 권장합니다.",
+          "keyPoints": [
+            "인증되지 않은 원격 코드 실행 취약점이 React Server Components에 존재하여 공격자가 서버에서 임의의 코드를 실행할 수 있습니다.",
+            "영향받는 버전은 19.0.1 이전, 19.1.2 이전, 19.2.1 이전이며, 해당 버전으로의 업그레이드가 필수입니다."
+          ],
+          "whyItMatters": "React Server Components를 사용하는 모든 프로젝트에 대한 즉각적인 보안 위협이므로 긴급 패치 적용이 필요합니다.",
+          "url": "https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "topicId": "react-rsc-security",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "critical-security-vulnerability-in-react-server-components",
+          "category": "hot",
+          "publishedAt": "2025-12-03T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Turbopack: What's New in Next.js 16.2",
+          "titleKo": "Turbopack: Next.js 16.2의 새로운 기능",
+          "summary": "Next.js 16.2의 Turbopack이 더 빠른 빌드 속도, SRI 지원, postcss.config.ts, 동적 import 트리 쉐이킹, Server Fast Refresh, 인라인 로더 설정, 200개 이상의 버그 수정을 제공합니다.",
+          "keyPoints": [
+            "빌드 성능이 대폭 개선되었으며, 추가적인 개발 환경 최적화 기능들이 제공됩니다.",
+            "SRI(Subresource Integrity) 지원과 postcss.config.ts 지원이 추가되어 보안 및 설정 유연성이 향상되었습니다.",
+            "Server Fast Refresh와 동적 import 트리 쉐이킹으로 개발 경험과 프로덕션 번들 크기가 개선됩니다."
+          ],
+          "whyItMatters": "Next.js 개발자들이 더 빠른 개발 사이클과 최적화된 프로덕션 빌드를 통해 생산성을 향상시킬 수 있습니다.",
+          "url": "https://nextjs.org/blog/next-16-2-turbopack",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "topicId": "nextjs-turbopack",
+          "isTopicPrimary": true,
+          "slug": "turbopack-whats-new-in-nextjs-162",
+          "category": "hot",
+          "publishedAt": "2026-03-18T20:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "The React Foundation: A New Home for React Hosted by the Linux Foundation",
+          "titleKo": "React Foundation: Linux Foundation이 호스팅하는 React의 새로운 보금자리",
+          "summary": "React Foundation이 Linux Foundation의 호스팅 아래 공식 출범했습니다.",
+          "keyPoints": [
+            "React가 Linux Foundation으로부터 정식 재단 지원을 받게 되어 프로젝트의 거버넌스와 지속성이 강화되었습니다."
+          ],
+          "whyItMatters": "React의 장기적 독립성과 커뮤니티 주도적 발전이 보장되어 라이선스와 통제 문제에 대한 우려가 완화됩니다.",
+          "url": "https://react.dev/blog/2026/02/24/the-react-foundation",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "topicId": "react-foundation",
+          "isTopicPrimary": true,
+          "slug": "the-react-foundation-a-new-home-for-react-hosted-by-the-linux-foundation",
+          "category": "hot",
+          "publishedAt": "2026-02-24T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Cal.com is going closed source",
+          "titleKo": "Cal.com이 오픈소스를 종료하다",
+          "summary": "Cal.com은 5년간의 오픈소스 운영을 종료하고 폐쇄 소스로 전환했습니다. AI 기반 보안 위협으로부터 사용자 데이터 보호를 최우선으로 결정했으며, 커뮤니티를 위해 MIT 라이선스의 Cal.diy 버전을 별도로 공개합니다.",
+          "keyPoints": [
+            "AI 기반 취약점 스캔으로 인한 오픈소스 보안 위험 증가가 폐쇄 소스 전환의 주요 이유",
+            "Cal.diy를 MIT 라이선스로 공개하여 커뮤니티의 오픈소스 접근성 유지",
+            "인증 및 데이터 처리 같은 핵심 시스템의 대규모 재구성으로 인한 커뮤니티 버전과 프로덕션 버전의 격차 발생"
+          ],
+          "whyItMatters": "AI 기반 공격의 가속화가 오픈소스 프로젝트의 보안 전략을 근본적으로 변화시키고 있으며, 개발자는 오픈소스 의존성의 보안 영향을 재평가해야 합니다.",
+          "url": "https://cal.com/blog/cal-com-goes-closed-source-why",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 168,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "calcom-is-going-closed-source",
+          "fullContent": "Personal scheduling made simple\nCollaborative scheduling for groups\nLarger teams scheduling for more control & security\nEnterprise-level scheduling solutions\nDocumentation for the Cal.com platform\nBuild your own integrations with our public API\nUse our react atoms to add scheduling to your app\nOur own variable typeface for user interface design\nIntegrate with your favorite apps\nSchedule events with multiple participants\nNeed to learn more about our system? Check the help docs\nEmbed Cal.com into your website\nAutomate scheduling and reminders\nStay up to date with the latest news and updates\nSeamlessly book meetings with multiple people\nGet notified when something happens\nAfter five years as open source champions, Cal.com is going closed source. This wasn’t an easy decision, but in the age of AI-driven security threats, protecting customer data has to come first. Cal.diy will continue as an open option for hobbyists.\nThis is not an easy post to write.\nWhen we started Cal.com, we believed deeply in open source. It’s a core principle we built this company around, and something we’ve been incredibly proud of.\nToday, we are making the very difficult decision to move to closed source, and there’s one simple reason: security.\nAI is changing everything. It’s transforming how we write content, build software, and operate day to day. But what’s talked about far less is how dramatically AI is changing the world of security.\nIn the past, exploiting an application required a highly skilled hacker with years of experience and a significant investment of time to find and exploit vulnerabilities. The reality is that humans don’t have the time, attention, or patience to find everything.\nToday, AI can be pointed at an open source codebase and systematically scan it for vulnerabilities.\nBeing open source is increasingly like giving attackers the blueprints to the vault. When the structure is fully visible, it becomes much easier to identify weaknesses and exploit them.\nIn recent months, we’ve seen a wave of AI security startups productizing this capability. Each platform surfaces different vulnerabilities, making it difficult to establish a single, reliable source of truth for what is actually secure.\nThis uncertainty forced us to make a choice: remain open source and accept increasing risk to customer data, or move to closed source to reduce that risk. It’s not a perfect solution, but we have to do everything we can to protect our users.\nAt the same time, we still care deeply about open source. That’s why we are releasing a version of our codebase to the community under the MIT license as Cal.diy. While our production codebase has significantly diverged, including major rewrites of core systems like authentication and data handling, we want to ensure there is still a truly open version available for developers, hobbyists, and anyone who wants to explore and experiment.\nThe risk landscape is accelerating quickly. Advanced AI models are now capable of identifying and exploiting vulnerabilities at unprecedented speed. In one recent example, AI uncovered a 27-year-old vulnerability in the BSD kernel, one of the most widely used and security-focused open source projects, and generated working exploits in a matter of hours.\nContinuing as open source would put our application, our customers, and the sensitive data we handle at significant risk. We are taking every step we can to reduce that risk and protect our users, and for now, that means moving to closed source despite how difficult that decision is.\nWe hope that one day we can return to open source as the security landscape evolves. But for now, we have to put our customers first.\nGet started with Cal.com for free today!\nExperience seamless scheduling and productivity with no hidden fees. Sign up in seconds and start simplifying your scheduling today, no credit card required!\nWant to keep going? These reads dig deeper into the topics we touched on above. They’ll help you connect the dots and learn more.\nWant to keep going? These reads dig deeper into the topics we touched on above. They’ll help you connect the dots and learn more.\nWe moved Cal.com's production codebase from a public repository to a private one. The public repository is now calcom/cal.diy, known as Cal.diy, the open-source, self-hostable, community-driven version of Cal.com.\nSecurity testing hasn’t kept pace with how software is built or how it’s attacked. While development cycles have accelerated and AI-powered attackers can probe systems continuously, most security practices still rely on periodic assessments and slow remediation. The result is a widening gap between when vulnerabilities are introduced and when they’re discovered or fixed. In our recent analysis of autonomous AI-driven pentests across production systems, that gap becomes impossible to ignore: modern applications aren’t just vulnerable, they’re continuously vulnerable.Guest post by Huzaifa Ahmad, Founder, Hex Security\nHello, welcome to this mont",
+          "category": "hot",
+          "publishedAt": "2026-04-15T15:26:46.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Cal.com가 오픈소스에서 클로즈드소스로 전환한 이유\n\n5년간 오픈소스 진영의 든든한 지원자였던 Cal.com이 결국 클로즈드소스로 전환하기로 결정했습니다. 쉽지 않은 결정이었지만, AI 기반 보안 위협 시대에 고객 데이터 보호가 최우선이라고 판단했기 때문입니다. 다행히 취미용으로 사용할 수 있는 오픈소스 버전인 Cal.diy는 계속 지원할 예정입니다.\n\n## 왜 이런 결정을 내렸나요?\n\n사실 이 글을 쓰기가 쉽지 않습니다. Cal.com을 처음 시작할 때 저희는 오픈소스를 깊이 있게 믿었거든요. 회사의 핵심 원칙이었고, 자랑스러워하던 가치였으니까요.\n\n그런데 지금 상황은 완전히 달라졌습니다. 한 가지 명확한 이유가 있는데, 바로 **보안**입니다.\n\n## AI가 보안 판도를 바꾸고 있습니다\n\nAI는 콘텐츠 작성부터 소프트웨어 개발, 일상적인 업무까지 모든 것을 변화시키고 있습니다. 다만 충분히 주목받지 못하는 부분이 있는데, AI가 보안 분야를 얼마나 극적으로 변화시키고 있다는 점입니다.\n\n과거에는 애플리케이션을 공격하려면 경험 많은 해커가 수년에 걸쳐 취약점을 찾아야 했습니다. 시간과 노력이 엄청나게 들었기 때문입니다. 그래서 사람이 모든 취약점을 찾아낼 수 없었던 거죠.\n\n**이제 상황이 바뀌었습니다.** AI를 오픈소스 코드베이스에 갖다 대면 자동으로 취약점을 체계적으로 스캔해냅니다.\n\n오픈소스가 된다는 것은 사실상 공격자들에게 금고 청사진을 건네주는 것과 같습니다. 구조가 완전히 노출되면 약점을 찾아내고 공격하기가 훨씬 쉬워지거든요.\n\n최근 몇 개월간 AI 보안 스타트업들이 이 기능을 상용화하기 시작했습니다. 플랫폼마다 다른 취약점들을 발견하면서, 어떤 게 정말 안전한지 판단하기가 점점 어려워지고 있습니다.\n\n이 불확실성이 저희에게 선택지를 강요했습니다. 오픈소스를 유지하면서 고객 데이터 위험을 계속 받아들일 것인가, 아니면 클로즈드소스로 전환해서 그 위험을 줄일 것인가. 완벽한 해결책은 아니지만, 사용자를 보호하기 위해서는 할 수 있는 모든 것을 해야 합니다.\n\n## 그래도 오픈소스를 포기하지 않습니다\n\n한편으로 저희는 여전히 오픈소스를 깊이 있게 생각합니다. 그래서 코드베이스의 일부를 MIT 라이선스 하에 커뮤니티에 공개하기로 했습니다. 이것이 **Cal.diy**입니다. 프로덕션 코드베이스는 인증 시스템이나 데이터 처리 같은 핵심 시스템을 대대적으로 다시 개발한 만큼 많이 달라져 있지만, 개발자, 취미용 사용자, 그리고 실험을 원하는 누구나 사용할 수 있는 진정한 오픈소스 버전이 계속 존재하기를 원했습니다.\n\n## 앞으로의 위협은 더 심각해질 겁니다\n\n보안 위협의 속도가 가파르게 상승하고 있습니다. 고급 AI 모델들은 이제 전례 없는 속도로 취약점을 찾아내고 공격할 수 있게 되었거든요.\n\n최근 예시를 들면, AI가 27년 된 BSD 커널의 취약점을 발견했습니다. BSD는 가장 널리 사용되고 보안을 중시하는 오픈소스 프로젝트 중 하나입니다. 그런데 AI는 몇 시간 만에 동작하는 익스플로잇까지 생성해냈습니다.\n\n이런 상황에서 오픈소스를 유지한다는 것은 저희 애플리케이션, 고객, 그리고 민감한 데이터를 상당한 위험에 노출시키는 것과 같습니다. 저희는 그 위험을 줄이고 사용자를 보호하기 위해 최선을 다하고 있으며, 지금으로서는 어렵지만 클로즈드소스로의 전환이 그 방법입니다.\n\n## 언젠가는 다시 돌아올 수 있길\n\n언젠가 보안 환경이 진화하면 오픈소스로 복귀할 수 있기를 바랍니다. 하지만 지금은 고객을 최우선으로 생각해야 합니다.\n\n---\n\nCal.com을 지금 바로 무료로 시작해보세요. 숨겨진 비용 없이 매끄러운 일정 관리와 생산성을 경험할 수 있습니다. 신용카드 없이 몇 초 만에 가입해서 일정 관리를 간소화해보세요!"
+        },
+        {
+          "title": "Google broke its promise to me – now ICE has my data",
+          "titleKo": "구글이 약속을 어겼습니다 - 이제 ICE가 내 데이터를 가지고 있습니다",
+          "summary": "Google이 사용자 데이터 보호에 대한 약속을 지키지 않아 ICE(미국 이민세관단속국)가 사용자의 개인정보에 접근하게 된 사건을 다룹니다.",
+          "keyPoints": [
+            "Google의 데이터 보호 약속 위반으로 인한 실제 피해 사례",
+            "정부 기관의 개인정보 접근에 대한 프라이버시 문제"
+          ],
+          "whyItMatters": "개발자들이 사용자 데이터를 다루는 시스템 설계 시 프라이버시 보호의 중요성을 인식해야 합니다.",
+          "url": "https://www.eff.org/deeplinks/2026/04/google-broke-its-promise-me-now-ice-has-my-data",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 936,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "google-privacy-ice",
+          "isTopicPrimary": true,
+          "slug": "google-broke-its-promise-to-me-now-ice-has-my-data",
+          "category": "hot",
+          "publishedAt": "2026-04-15T17:44:26.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Does Gas Town 'steal' usage from users' LLM credits to improve itself?",
+          "titleKo": "Gas Town이 사용자의 LLM 크레딧을 몰래 사용하는가?",
+          "summary": "Gas Town이 자신의 개선를 위해 사용자의 LLM 크레딧과 유료 서비스 사용량을 무단으로 활용하는지에 대한 의문이 제기되었습니다.",
+          "keyPoints": [
+            "사용자 크레딧의 무단 사용에 대한 투명성 문제 제기",
+            "유료 서비스와 AI 모델 개선 간의 비용 분배 투명성 부족"
+          ],
+          "whyItMatters": "AI 서비스 이용 시 비용 투명성과 사용자 신뢰 문제가 개발자에게 중요한 고려사항입니다.",
+          "url": "https://github.com/gastownhall/gastown/issues/3649",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 173,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "does-gas-town-steal-usage-from-users-llm-credits-to-improve-itself",
+          "fullContent": "gastownhall\n/\ngastown\nPublic\nDoes Gas Town 'steal' usage from users' LLM credits & paid services to improve itself? #3649OpenOpenDoes Gas Town 'steal' usage from users' LLM credits & paid services to improve itself?#3649Labelsstatus/needs-triageInbox — we haven't looked at it yetInbox — we haven't looked at it yetDescriptionMetadataMetadata",
+          "category": "hot",
+          "publishedAt": "2026-04-15T20:49:48.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Gas Town이 사용자의 LLM 크레딧과 유료 서비스 사용량을 '도용'하나요?\n\n## 배경\n\nGas Town을 사용하면서 한 가지 의문이 생겼습니다. 서비스가 자신을 개선하기 위해 사용자의 LLM 크레딧이나 유료 서비스 사용량을 추가로 소비하고 있지는 않을까 하는 점입니다.\n\n## 구체적인 우려사항\n\n사용자가 Gas Town으로 요청을 보낼 때, 백그라운드에서 추가적인 LLM 호출이 발생하는지 명확하지 않습니다. 예를 들어:\n\n- 사용자의 입력을 분석하는 과정에서 별도의 API 호출이 일어나는가?\n- 응답을 개선하거나 검증하는 단계에서 추가 비용이 청구되는가?\n- 학습 데이터 수집 목적으로 사용자 모르게 추가 요청이 처리되는가?\n\n이러한 사항들이 투명하게 공개되지 않는다면, 사용자 입장에서는 예상치 못한 비용 초과가 발생할 수 있습니다.\n\n## 해결을 위한 제안\n\n- Gas Town의 작동 메커니즘을 명확히 문서화해주세요\n- 사용자의 입력 하나당 정확히 몇 개의 LLM API 호출이 발생하는지 상세히 설명해주세요\n- 투명한 비용 청구 정책을 수립해주세요\n- 필요시 사용자 동의 하에만 추가 처리를 진행하는 체계를 도입해주세요"
+        },
+        {
+          "title": "ChatGPT for Excel",
+          "titleKo": "ChatGPT for Excel",
+          "summary": "Excel 스프레드시트 내에서 ChatGPT를 직접 사용할 수 있는 통합 기능입니다.",
+          "keyPoints": [
+            "Excel 업무 흐름에 AI 어시스턴트 직접 통합",
+            "데이터 분석 및 수식 작성 자동화"
+          ],
+          "whyItMatters": "업무 도구와 AI의 통합이 생산성 향상의 중요한 추세입니다.",
+          "url": "https://chatgpt.com/apps/spreadsheets/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 58,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "chatgpt-for-excel",
+          "category": "hot",
+          "publishedAt": "2026-04-15T21:21:05.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "The Gemini app is now on Mac",
+          "titleKo": "Gemini 앱이 이제 Mac에서 사용 가능",
+          "summary": "Google이 Gemini AI 앱을 macOS에 네이티브 앱으로 출시했습니다. Option + Space 단축키로 화면을 공유하여 즉시 요약과 분석을 받을 수 있으며, macOS 15 이상에서 무료로 이용할 수 있습니다.",
+          "keyPoints": [
+            "네이티브 macOS 앱으로 데스크톱 워크플로우에 AI 어시스턴트 통합, 윈도우 전환 없이 단축키로 접근 가능",
+            "화면 공유 기능으로 로컬 파일 분석 및 이미지/비디오 생성 지원",
+            "macOS 15 이상 사용자에게 무료 제공, 향후 더 많은 기능 추가 예정"
+          ],
+          "whyItMatters": "데스크톱 AI 통합이 개발자의 작업 효율성을 높이는 중요한 트렌드가 되고 있습니다.",
+          "url": "https://blog.google/innovation-and-ai/products/gemini-app/gemini-app-now-on-mac-os/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 51,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-gemini-app-is-now-on-mac",
+          "fullContent": "The Gemini app is now on Mac\nThe Gemini app is now available as a native macOS experience, bringing you a faster, more integrated way to get help from AI right on your desktop.\nMichael Friedman\nGroup Product Manager, Gemini App\nRead AI-generated summary\nGeneral summary\nThe Gemini app is now available on macOS version 15 and up. You can download the app for free at gemini.google/mac to access AI assistance directly from your desktop. Use the shortcut Option + Space to share your screen and stay in your workflow.\nSummaries were generated by Google AI. Generative AI is experimental.\nBullet points\n\"The Gemini App is now on Mac\" brings a native desktop experience for quick AI help.\nShare your screen with Gemini to get instant summaries and insights on local files.\nUse a keyboard shortcut (Option + Space) to access Gemini without switching windows.\nGenerate images or videos quickly to bring your ideas to life without losing focus.\nThe Gemini macOS app is free for macOS 15+ users; download it at gemini.google/mac.\nSummaries were generated by Google AI. Generative AI is experimental.\nBasic explainer\nThe Gemini app now works on Mac computers. It's like having AI help that's always ready with a keyboard shortcut. You can even show Gemini what's on your screen to get specific help. It's free for Mac users and will get even better soon.\nSummaries were generated by Google AI. Generative AI is experimental.\nExplore other styles:\nGeneral summary\nBullet points\nBasic explainer\nYour browser does not support the audio element.\nListen to article\nThis content is generated by Google AI. Generative AI is experimental\n[[duration]] minutes\nVoice\nSpeed\nVoice\nSpeed\n0.75X\n1X\n1.5X\n2X\nToday, we’re bringing the Gemini app to macOS as a native desktop experience, designed to live right where you work. It’s always just a keyboard shortcut away, so you can quickly get the help you need without losing your focus. Here are a few ways you can use it right now:Share your window for instant contextWith our new native desktop experience, you can share anything on your screen with Gemini to get help with exactly what you’re looking at, including local files. If you’re reviewing a complex chart, you can share your window and ask, 'What are the three biggest takeaways here?' to get an instant summary. This brings powerful context to your creative work as well.\nStay in your flowSwitching between windows on your desktop can be clunky and slow. Now, you can bring up Gemini from anywhere on your Mac with a quick shortcut (Option + Space) to get help instantly, without ever switching tabs. Whether you’re drafting a market report and need to verify a date or building a budget in a spreadsheet and need the right formula, you can get an answer and get right back to work. Creatives can also quickly generate images with Nano Banana or videos with Veo to bring an idea to life without breaking their creative stride.Starting today, the native macOS app is available to all Gemini users\n1\non macOS versions 15 and up, globally, at no cost. To get started, you can download the app directly at gemini.google/mac and begin experiencing a faster, more integrated desktop workflow.We’re starting today with an app that brings AI assistance right where your work happens, but this first release is just the beginning. We're building the foundation for a truly personal, proactive and powerful desktop assistant, with more news to share in the coming months.\nPOSTED IN:",
+          "category": "hot",
+          "publishedAt": "2026-04-15T17:25:52.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Gemini 앱이 이제 Mac에서 사용 가능합니다\n\nGemini 앱이 macOS의 네이티브 앱으로 출시되었습니다. 데스크톱에서 바로 AI의 도움을 받을 수 있는 더 빠르고 통합된 경험을 제공합니다.\n\n## 화면 공유로 즉각적인 도움 받기\n\n이제 Gemini 앱을 통해 화면에 보이는 모든 것을 공유할 수 있습니다. 로컬 파일은 물론이고, 복잡한 차트를 검토할 때도 창 전체를 공유한 후 \"여기서 가장 중요한 세 가지는 뭐야?\"라고 물으면 즉시 요약을 받을 수 있죠. 창의적인 작업에도 강력한 맥락 정보를 제공해줍니다.\n\n## 작업 흐름을 방해하지 않는 디자인\n\nMac에서 여러 창을 오가다 보면 답답할 수 있는데, 이제 어디서든 Option + Space 단축키 하나로 Gemini를 띄울 수 있습니다. 탭을 전환할 필요도 없죠.\n\n시장 보고서를 작성 중인데 특정 날짜를 확인해야 한다면? 스프레드시트에서 올바른 함수를 찾아야 한다면? 답을 얻고 바로 작업으로 돌아갈 수 있습니다. 디자이너라면 Nano Banana로 이미지를 빠르게 생성하거나 Veo로 영상을 만들어서, 창의적인 몰입을 깨지 않고도 아이디어를 구현할 수 있어요.\n\n## 지금 바로 시작하세요\n\n오늘부터 macOS 15 이상을 사용하는 모든 Gemini 사용자가 무료로 이 앱을 이용할 수 있습니다. gemini.google/mac에서 바로 다운로드하면 더 빠르고 효율적인 데스크톱 워크플로우를 경험할 수 있습니다.\n\n이번 출시는 시작일 뿐입니다. 앞으로 더욱 개인화되고 주도적이며 강력한 데스크톱 어시스턴트로 발전시킬 계획이니, 앞으로의 소식을 기대해주세요."
+        },
+        {
+          "title": "Live Nation illegally monopolized ticketing market, jury finds",
+          "titleKo": "Live Nation이 티켓팅 시장을 불법적으로 독점했다고 배심원단이 판결",
+          "summary": "미국 배심원단이 Live Nation이 티켓팅 시장을 불법적으로 독점했다고 판결했습니다. 이는 엔터테인먼트 산업의 경쟁 구조에 중대한 영향을 미칠 것으로 예상됩니다.",
+          "keyPoints": [
+            "배심원단이 Live Nation의 티켓팅 시장 독점을 불법으로 인정",
+            "이 판결은 음악 및 엔터테인먼트 산업의 티켓 판매 체계 개선을 요구할 가능성이 높음"
+          ],
+          "whyItMatters": "기술 플랫폼의 시장 독점에 대한 규제 판례로서 IT 산업 전체에 대한 독점 금지 규제의 방향을 제시합니다.",
+          "url": "https://www.bloomberg.com/news/articles/2026-04-15/live-nation-illegally-monopolized-ticketing-market-jury-finds",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 308,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "live-nation-illegally-monopolized-ticketing-market-jury-finds",
+          "category": "hot",
+          "publishedAt": "2026-04-15T19:06:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Anna's Archive loses $322M Spotify piracy case without a fight",
+          "titleKo": "Anna's Archive, Spotify 저작권 침해로 3억 2200만 달러 손배가압 판결",
+          "summary": "Spotify Spotify 음악을 백업한 섀도우 라이브러리 Anna's Archive가 법정에 출석하지 않아 3억 2200만 달러의 기본 판결을 받았습니다. 판결에는 10개의 도메인을 영구적으로 중지하는 내용이 포함되어 있습니다.",
+          "keyPoints": [
+            "Spotify와 주요 음악 레이블(Warner, Sony, UMG)이 협력하여 기본 판결 획득, 통상적 손해배상금 $150,000/저작물 + DMCA 우회 청구 $2,500/파일",
+            "도메인 레지스트리와 ISP에 10개의 Anna's Archive 도메인 영구 중지 명령이 내려졌으며, 위반 시 연락처 정보 제출 의무 부과",
+            "해외 관할권의 일부 도메인은 미국 법원의 강제 집행 대상이 아닐 수 있으므로 실제 효과는 불확실"
+          ],
+          "whyItMatters": "디지털 저작권 침해와 도메인 강제 집행의 현실적 한계를 보여주며, 오픈소스 및 웹 개발자들이 합법적 자료 이용의 중요성을 인식하는 데 도움이 됩니다.",
+          "url": "https://torrentfreak.com/annas-archive-loses-322-million-spotify-piracy-case-without-a-fight/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 300,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "annas-archive-loses-322m-spotify-piracy-case-without-a-fight",
+          "fullContent": "Anna’s Archive is generally known as a meta-search engine for shadow libraries, helping users find pirated books and other related resources.\nHowever, last December, the site announced that it had also backed up Spotify, which came as a shock to the music industry.\nAnna’s Archive initially released only Spotify metadata, and no actual music, but that put the music industry on high alert. Together with the likes of Universal, Warner, and Sony, Spotify filed a lawsuit days later, hoping to shut the site down.\nThrough a preliminary injunction targeting domain registrars and registries, the shadow library lost several domain names. However, not all were taken down, and the site registered various new domain names as backups.\nThe legal pressure also appeared to pay off in other ways. Not long after the lawsuit was filed, the shadow library removed the Spotify listing for their torrents page. The same applies to the first batch of music files that was accidentally released in February.\nThe site’s operator, Anna’s Archivist, hoped that these removals would motivate the music industry to back down, but that wasn’t the case. Instead, they returned to court requesting a $322 million default judgment after the defendant failed to show up in court.\n$322 Million, Granted in Full\nYesterday, Judge Jed Rakoff of the Southern District of New York entered a default judgment against the site’s unknown operators, awarding Spotify and the major labels the requested $322 million damages award in full.\nDefault judgment\nThe music labels get the statutory maximum of $150,000 in damages for around 50 works. Spotify adds a DMCA circumvention claim of $2,500 for 120,000 music files, bringing the total to more than $322 million.\nThe plaintiff previously described their damages request as “extremely conservative.” The DMCA claim is based only on the 120,000 files, not the full 2.8 million that were released. Had they applied the $2,500 rate to all released files, the damages figure would exceed $7 billion.\nPlaintiff(s)\nDamages Sought\nAmount\nWarner\nStatutory damages for willful copyright infringement (17 U.S.C. § 504(c)) at $150,000 for 48 sound recordings\n$7,200,000.00\nSony\nStatutory damages for willful copyright infringement (17 U.S.C. § 504(c)) at $150,000 for 50 sound recordings\n$7,500,000.00\nUMG\nStatutory damages for willful copyright infringement (17 U.S.C. § 504(c)) at $150,000 for 50 sound recordings\n$7,500,000.00\nSpotify\nStatutory damages for circumvention of a technological measure (17 U.S.C. § 1203(c)(3)(A)) at $2,500 for 120,000 music files\n$300,000,000.00\nTotal\n$322,200,000.00\nAnna’s Archive did not show up in court, and the operators of the site remain unidentified. The judgment attempts to address this directly, by ordering Anna’s Archive to file a compliance report within ten business days, under penalty of perjury, that includes valid contact information for the site and its managing agents.\nWhether the site will comply with this order is highly uncertain.\nFor now, the monetary judgment is mostly a victory on paper, as recouping money from an unknown entity is impossible. For this reason, the music companies also requested a permanent injunction.\nPermanent Injunction Targets Domains\nIn addition to the damages award, Rakoff entered a permanent worldwide injunction covering ten Anna’s Archive domains: annas-archive.org, .li, .se, .in, .pm, .gl, .ch, .pk, .gd, and .vg.\nDomain registries and registrars of record, along with hosting and internet service providers, are ordered to permanently disable access to those domains, disable authoritative nameservers, cease hosting services, and preserve evidence that could identify the site’s operators.\nDomain names\nThe judgment names specific third parties bound by those obligations, including Public Interest Registry, Cloudflare, Switch Foundation, The Swedish Internet Foundation, Njalla SRL, IQWeb FZ-LLC, Immaterialism Ltd., Hosting Concepts B.V., Tucows Domains Inc., and OwnRegistrar, Inc.\nAnna’s Archive is also ordered to destroy all copies of works scraped from Spotify and to file a compliance report within ten business days, under penalty of perjury, including valid contact information for the site and its managing agents. That last requirement could prove significant, given that the identity of the site’s operators remains unknown.\nA Way Out, at a Price\nIn theory, Anna’s Archive has the option to prevent the domain suspension. The permanent injunction allows the site to seek relief from this measure, after showing that it has paid the full $322 million damages award and complied with all injunctive obligations.\nThat’s an unlikely option, to say the least. At the same time, however, it is not guaranteed that the site’s domain names will be suspended.\nAs reported previously, several domain names, including the Greenland-based .gl version, are linked to registries and registrars outside the jurisdiction of the U.S. court. As such, they previously did not comply to the preliminary ",
+          "category": "hot",
+          "publishedAt": "2026-04-15T08:05:18.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 안나의 아카이브, 저작권 침해로 3억2200만 달러 손배 판결받아\n\n안나의 아카이브(Anna's Archive)는 그림자 도서관 검색 엔진으로 알려져 있습니다. 사용자들이 불법 복제된 책과 관련 자료를 찾도록 도와주는 사이트인데요.\n\n그런데 지난해 12월, 이 사이트가 스포티파이(Spotify) 음악 데이터도 백업했다고 발표하면서 음악 산업에 큰 충격을 줬습니다.\n\n## 법적 공방의 시작\n\n처음에 안나의 아카이브는 스포티파이의 메타데이터만 공개했고 실제 음악 파일은 아니었습니다. 하지만 이것만으로도 음악 산업은 긴장하게 됐죠. 유니버설, 워너, 소니 같은 거대 음악사들은 스포티파이와 함께 몇 일 뒤 소송을 제기했습니다.\n\n도메인 등록업체와 레지스트리를 상대로 한 가처분 신청을 통해, 안나의 아카이브는 여러 도메인을 잃게 됐습니다. 다만 모든 도메인이 차단된 건 아니었고, 사이트 운영자들은 백업용으로 새로운 도메인들을 등록했습니다.\n\n법적 압박이 효과를 본 부분도 있었어요. 소송 제기 직후, 안나의 아카이브는 토렌트 페이지에서 스포티파이 관련 항목을 삭제했습니다. 2월에 실수로 공개된 음악 파일들도 마찬가지였죠.\n\n사이트 운영자인 '안나의 아카이비스트'는 이런 조치들이 음악 산업계를 진정시킬 거라 기대했습니다. 하지만 예상과 달랐어요. 오히려 음악사들은 법정으로 돌아와 피고가 재판에 나타나지 않은 점을 빌미삼아 3억2200만 달러의 기본 판결을 청구했습니다.\n\n## 법원의 판단: 청구액 전액 인정\n\n뉴욕 남부지방 법원의 제드 래코프(Jed Rakoff) 판사는 어제 미출석 기본 판결을 내렸습니다. 스포티파이와 음악사들의 청구액 3억2200만 달러를 전액 인정한 것입니다.\n\n음악사들은 약 50개 작품에 대해 저작권 침해의 법정 최고액인 건당 15만 달러씩을 받았습니다. 스포티파이는 여기에 DMCA(디지털 저작권법) 우회 위반 혐의로 12만 곡의 음악 파일 각각에 대해 2,500달러씩을 청구했고, 이를 통해 3억 달러 이상이 나왔습니다.\n\n| 청구 주체 | 청구 사유 | 청구액 |\n|---------|---------|-------|\n| 워너 | 의도적 저작권 침해에 따른 법정 손해배상(건당 15만 달러 × 48곡) | 720만 달러 |\n| 소니 | 의도적 저작권 침해에 따른 법정 손해배상(건당 15만 달러 × 50곡) | 750만 달러 |\n| UMG | 의도적 저작권 침해에 따른 법정 손해배상(건당 15만 달러 × 50곡) | 750만 달러 |\n| 스포티파이 | 기술 보호 조치 우회에 따른 법정 손해배상(건당 2,500달러 × 12만 곡) | 3억 달러 |\n| **합계** | | **3억2,200만 달러** |\n\n흥미로운 점은 음악사들이 이 청구액을 \"매우 보수적\"이라고 표현했다는 겁니다. DMCA 청구는 공개된 280만 곡 중 12만 곡에만 적용한 것이거든요. 만약 280만 곡 전부에 건당 2,500달러를 적용했다면, 배상액은 70억 달러를 넘었을 겁니다.\n\n## 미출석 판결의 의미\n\n안나의 아카이브는 재판에 나타나지 않았고, 사이트 운영자의 정체는 여전히 미스터리입니다. 판결문은 이 문제에 직접 대처하려 했어요. 안나의 아카이브에 대해 10영업일 내에 사이트와 관리자의 유효한 연락처를 포함한 준수 보고서를 제출하도록 명령한 것입니다. 위증죄의 페널티도 따르는 조건이었죠.\n\n과연 사이트가 이 명령을 따를지는 불확실합니다. 현재로선 이 판결이 대부분 종이 위의 승리에 불과합니다. 정체 불명의 단체로부터 돈을 회수하는 건 사실상 불가능하거든요. 이 때문에 음악 회사들은 영구 금지 명령도 함께 청구했습니다.\n\n## 도메인 영구 차단 명령\n\n판결에는 10개의 안나의 아카이브 도메인에 대한 세계적 영구 금지 명령도 포함됐습니다: annas-archive.org, .li, .se, .in, .pm, .gl, .ch, .pk, .gd, .vg\n\n도메인 레지스트리, 등록업체, 호스팅 및 인터넷 서비스 제공업체들은 이들 도메인에 대한 접근을 영구 차단하고, 권한 있는 네임서버를 비활성화하며, 호스팅 서비스를 중단하고, 사이트 운영자를 식별할 수 있는 증거를 보존해야 합니다.\n\n판결문은 Public Interest Registry, Cloudflare, Switch Foundation, The Swedish Internet Foundation, Njalla SRL 등 구체적인 제3자 기관들을 명시하며 이들에게 위 의무를 부과했습니다.\n\n또한 안나의 아카이브는 스포티파이에서 수집한 모든 저작물의 복사본을 삭제하고, 10영업일 내에 위와 동일한 내용의 준수 보고서를 제출해야 합니다.\n\n## 빠져나갈 가능성은?\n\n이론상 안나의 아카이브가 도메인 차단을 피할 방법이 있기는 합니다. 영구 금지 명령에서 3억2200만 달러를 전액 배상하고 모든 금지 조건을 준수했음을 보인다면, 이 조치에서 벗어날 수 있다고 명시했거든요.\n\n현실적으로는 가능성이 거의 없어 보입니다. 다만 도메인이 반드시 차단될 것도 보장되지 않습니다.\n\n앞서 보도된 대로, 그린란드 기반 .gl 도메인을 포함한 여러 도메인은 미국 법원의 관할권 밖의 레지스트리 및 등록업체와 연결되어 있거든요. 따라서 이전의 가처분 명령을 따르지 않았고, 이번 영구 금지 명령도 실제로 집행될지는 미지수입니다."
+        },
+        {
+          "title": "Ohio prison inmates 'built computers and hid them in ceiling",
+          "titleKo": "오하이오 교도소 수감자들이 컴퓨터를 조립해 천장에 숨김",
+          "summary": "오하이오 교도소의 수감자 2명이 재활용 대상의 PC 부품을 조립하여 교실 천장에 숨기고 불법으로 인터넷에 접속했습니다. 수사팀이 비정상적인 네트워크 트래픽을 감지하여 적발했습니다.",
+          "keyPoints": [
+            "수감자들이 재활용 프로그램의 PC 부품을 이용해 컴퓨터를 조립한 후 천장에 숨기고 인터넷 연결 장치에 접속",
+            "프록시 우회 시도, 음란물, 마약 및 폭발물 제조법 등의 불법 자료가 적발됨",
+            "IT 직원 1명이 재고 관리 및 범죄 현장 보호 정책 위반으로 적발됨"
+          ],
+          "whyItMatters": "기관 내 IT 보안 관리의 허점과 감시되지 않는 기술 접근이 야기할 수 있는 위험을 보여주며, 개발자와 보안 담당자에게 물리적 하드웨어 감시의 중요성을 상기시킵니다.",
+          "url": "https://www.bbc.com/news/technology-39576394",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 17,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ohio-prison-inmates-built-computers-and-hid-them-in-ceiling",
+          "fullContent": "Image source, Ohio Inspector GeneralImage caption, The two computers were hidden on plywood boards in the ceilingByChris BaraniukTechnology reporterA prison work programme has backfired, after two inmates in the US state of Ohio built computers from PCs they were supposed to be dismantling for recycling.The unsupervised inmates later hid the PCs in the ceiling of a training room. Investigators found software, pornography and articles about making drugs and explosives on the machines. The discovery came after IT staff flagged unusual levels of internet activity on a contractor's account.The PCs were found in 2015 but the case has only just been made public.A report on the incident has been published by the Ohio Inspector General's Office and forwarded to the Ohio Ethics Commission and local officials.It describes the series of events that led to the discovery of the computers in the ceiling of a training room at Marion Correctional Institution. Network trafficOn 3 July 2015, an email alert told IT staff that the daily internet threshold for a user account had been exceeded.But that account belonged to a contractor who was not scheduled to work on the day in question.The mysterious user had tried to access certain file-sharing sites but had been blocked by the prison network's proxy server, which denies access to certain online content.The user \"then spent the next three hours straight trying to find sites that would circumvent the proxy and our policies,\" an email to IT employees noted.After investigating the source of the network traffic, a member of the IT staff and two other inmates who were with him found a network cable leading up into the ceiling.\"When I removed the ceiling tiles I found two PCs hidden in the ceiling on two pieces of plywood,\" the staff member wrote in an incident report.Image source, Ohio Inspector GeneralImage caption, A rogue PC on the network was connected to port 16One of the inmates who had set up the computers later described how he had used components from other PCs that were part of a computer waste recycling programme.He then plugged his machine into an internet connection device in the prison, according to the Inspector General's report.\"And then... bam, I'm on the network,\" he told investigators.A trove of data was discovered on the machines, including records of passes being issued for inmates so they could access various parts of the prison.Forensic analysis of the hard drives also found pornography, articles about making drugs, explosives and credit cards.One IT employee was found to have breached inventory and crime scene protection policies.\"We will thoroughly review the reports and take any additional steps necessary to prevent these types of things from happening again,\" the Ohio Department of Rehabilitation and Correction said in a statement.\"It is of critical importance that we provide necessary safeguards in regards to the use of technology while still providing opportunities for offenders to participate in meaningful and rehabilitative programming.\"More on this storyDrone carrying drugs seized near prisonPublished22 August 2016From prisoner to programmer. Video, 00:03:51From prisoner to programmerPublished3 August 20153:51",
+          "category": "hot",
+          "publishedAt": "2026-04-15T22:05:44.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 수감자들이 천장에 숨긴 불법 컴퓨터, 교도소 보안 체계 뚫렸다\n\n오하이오주의 한 교도소에서 놀라운 보안 사건이 발생했습니다. 재활용 목적으로 분해하던 컴퓨터 부품들을 이용해 수감자 2명이 새로운 PC를 조립한 뒤, 훈련실 천장에 숨겨두었던 건데요.\n\n이 사건은 2015년에 발견됐지만, 최근에야 공식적으로 알려졌습니다. 오하이오 감찰관실(Inspector General's Office)에서 발표한 보고서에 따르면, 사건의 발단은 정말 흥미롭거든요.\n\n## 의심스러운 네트워크 트래픽으로 적발\n\n2015년 7월 3일, IT 담당자들에게 한 계정이 일일 인터넷 사용량 한계를 초과했다는 경고가 떴습니다. 그런데 이상한 점이 있었어요. 그 계정은 그날 근무 일정이 없는 외부 계약자의 것이었거든요.\n\n정체불명의 사용자는 파일 공유 사이트에 접속하려고 시도했지만, 교도소의 프록시 서버가 차단했습니다. 하지만 이걸로 포기하지 않았어요. 사용자는 3시간을 계속 프록시를 우회할 수 있는 다른 사이트들을 찾으려고 시도했던 겁니다.\n\n## 천장 속 은닉된 PC 발견\n\nIT 담당자가 네트워크 트래픽의 출처를 추적하자, 놀랍게도 천장으로 이어지는 네트워크 케이블을 발견했습니다. 천장 타일을 열어보니 합판 위에 2대의 컴퓨터가 숨겨져 있었던 거죠.\n\n그 중 한 수감자는 조사 과정에서 다음과 같이 자백했습니다. 자신은 컴퓨터 재활용 프로그램의 부품들을 이용해 이 기계들을 조립했다고요. 그리고 교도소 내 인터넷 연결 장치에 PC를 연결한 뒤, 이렇게 외쳤다고 합니다.\n\n> \"그리고 나서... 쾅, 네트워크에 접속됐어요.\"\n\n## 적발된 적법하지 않은 활동들\n\n하드드라이브에서 발견된 데이터들은 교도소 보안 체계가 얼마나 허술했는지 잘 보여줍니다. 수감자들이 교도소의 여러 구역에 접근할 수 있도록 해주는 통행증 기록들이 있었고, 불법 약물과 폭발물 제조 방법에 관한 문서, 포르노그래피, 신용카드 정보 등이 저장돼 있었던 거죠.\n\n조사 결과 IT 직원 1명이 재고 관리 및 범죄 현장 보호 정책을 위반한 사실도 드러났습니다.\n\n오하이오 교정국(Department of Rehabilitation and Correction)은 성명을 통해 \"이번 보고서를 철저히 검토하고 앞으로 이런 일이 재발하지 않도록 추가 조치를 취하겠다\"고 밝혔습니다. 그들은 또한 \"수감자들의 건설적이고 교화적인 프로그램 참여 기회를 제공하면서도 기술 사용에 대한 필수적인 안전장치를 마련하는 것이 매우 중요하다\"고 강조했어요."
+        },
+        {
+          "title": "Kalshi CEO expects US DOJ to prosecute insider trading cases",
+          "titleKo": "Kalshi CEO, 미 법무부의 예측시장 내부거래 기소 예상",
+          "summary": "Kalshi CEO는 예측시장에서의 내부거래가 연방 범죄로 기소될 것으로 예상하며, 플랫폼 내 불법 거래자 적발과 처벌을 강화하겠다고 밝혔습니다. 연방 검사들도 예측시장의 의심스러운 거래 패턴을 조사 중입니다.",
+          "keyPoints": [
+            "Kalshi와 Polymarket 같은 예측시장이 내부거래 우려로 공개적 비판을 받고 있으며, 기업들이 규제 방안 구현에 느린 속도를 보임",
+            "CEO는 내부거래 금지와 연방 차원의 소비자 보호 규제 프레임워크 도입을 촉구",
+            "미 법무부가 예측시장의 특정 거래가 내부거래법 위반인지 조사 중"
+          ],
+          "whyItMatters": "핀테크 및 블록체인 기반 금융 플랫폼 개발자들이 규제 준수와 거래 모니터링 시스템의 중요성을 인식해야 합니다.",
+          "url": "https://www.semafor.com/article/04/15/2026/kalshi-ceo-tarek-mansour-expects-us-doj-to-prosecute-insider-trading-cases",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 109,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "kalshi-ceo-expects-us-doj-to-prosecute-insider-trading-cases",
+          "fullContent": "Kalshi CEO expects US DOJ to prosecute insider trading casesJ.D. CapeloutoReporter and Lead Writer, Semafor FlagshipApr 15, 2026, 1:32pm EDTSemafor World EconomyShareLexi Critchett/SemaforPostEmailWhatsappCopy linkSign up for Semafor Business: The stories (& the scoops) from Wall Street. Read it now.Email addressSign UpThe NewsThe CEO of Kalshi on Wednesday said he expects the US Department of Justice to prosecute cases of insider trading on prediction markets like his own platform.“If you commit insider trading on Kalshi, that can and will at some point be a federal crime. It is a federal crime,” Tarek Mansour said at Semafor World Economy. “I actually do expect the DOJ to prosecute some of these cases,” he added.Prediction markets like Kalshi and rival Polymarket have been facing public outcry over concerns about insider trading, spurred by large, suspiciously timed bets on public events.The concern is that people who already know the answers to questions — for example, how many times US President Donald Trump will visit his Mar-a-Lago estate in April, or when SpaceX will announce its IPO — might trade on those markets, and make an easy buck. Companies have been slow to catch up and implement their own rules preventing it, Semafor reported last month.ADMansour said Kalshi’s view is that insider trading “should absolutely be banned.”“We can impose fines all the way to criminal prosecution,” he said. “We’ve released some cases. There’s more coming. But over time, it’s going to be a bit of a chicken and the egg. There’s always going to be bad actors. The goal is to just squash them, like find them and deter them.”Know MoreCNN reported last month that federal prosecutors are exploring whether certain bets on prediction markets have violated insider trading laws.Mansour also called for a federal consumer protection-focused framework for prediction markets, rather than a state-by-state patchwork that has “failed.” Of 34 states with legal sports betting, for example, only one bans marketing to problem gamblers, he said.The federal government this month sued three states, challenging their attempts to regulate prediction markets.AD",
+          "category": "hot",
+          "publishedAt": "2026-04-15T18:11:24.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 예측시장의 인사이더 거래, 연방검찰이 나선다\n\n예측시장 플랫폼 칼시(Kalshi)의 CEO가 연방검찰청(DOJ)이 자신의 플랫폼 같은 예측시장에서의 인사이더 거래 사건을 기소할 것으로 예상한다고 밝혔습니다.\n\n칼시의 타렉 만수르(Tarek Mansour) CEO는 세마포르 월드 이코노미 행사에서 \"칼시에서 인사이더 거래를 저지르면 언젠가는 연방범죄가 될 것\"이라며 \"실제로 검찰청이 이런 사건들을 기소할 거라고 예상합니다\"라고 말했습니다.\n\n## 의심스러운 타이밍의 베팅이 문제\n\n칼시와 경쟁사인 폴리마켓(Polymarket) 같은 예측시장들은 최근 인사이더 거래 우려로 공개적인 비판을 받고 있는데요. 공개 이슈에 대해 크기가 크고 의심스러운 시점에 베팅이 이루어지고 있기 때문입니다.\n\n예를 들어, 도널드 트럼프 대통령이 4월에 마라라고 저택을 방문하는 횟수나 스페이스X의 기업공개 시점처럼 이미 답을 알고 있는 사람들이 예측시장에서 거래를 하면서 쉬운 수익을 올릴 수 있다는 게 핵심 우려사항입니다. 그런데 업계는 이를 막기 위한 자체 규칙 도입을 더디게 진행 중입니다.\n\n## 플랫폼의 입장: 강력한 대응\n\n만수르 CEO는 인사이더 거래가 \"당연히 금지되어야 한다\"고 강조했습니다. 그러면서 \"벌금부터 형사 기소까지 갖가지 조치를 취할 수 있다\"며 \"이미 일부 사건을 처리했고, 더 있을 것\"이라고 덧붙였습니다.\n\n다만 그는 \"장기적으로 보면 항상 나쁜 행동을 하는 사람들이 있을 것\"이라고 지적하면서 \"목표는 그들을 찾아내서 억지하는 것\"이라고 설명했습니다.\n\n## 연방 차원의 규제 필요\n\n연방검찰청은 지난달 예측시장의 일부 베팅이 인사이더 거래법을 위반했는지 조사 중인 것으로 알려졌습니다.\n\n한편 만수르 CEO는 현재의 주(州)별 규제 패치워크 대신 소비자 보호에 중점을 두는 연방 차원의 통일된 틀이 필요하다고 주장했습니다. 그는 법적 스포츠 베팅을 허용하는 34개 주 중 단 1개 주만이 문제 도박꾼에 대한 광고를 금지하고 있다고 지적하며, 현재의 주 단위 규제 체계가 실패했다고 평가했습니다.\n\n실제로 미국 연방정부는 이달 예측시장 규제를 시도한 3개 주를 상대로 소송을 제기한 상태입니다."
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Denial of Service and Source Code Exposure in React Server Components",
+          "titleKo": "React Server Components의 서비스 거부 및 소스 코드 노출 취약점",
+          "summary": "React 팀이 지난주 중대 취약점 패치를 시도하던 중 보안 연구자들이 2개의 추가 취약점을 발견하고 공개했습니다. 높은 심각도의 서비스 거부(DoS) 취약점 3개(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864, CVSS 7.5)와 중간 심각도의 소스 코드 노출 취약점 1개(CVE-2025-55183, CVSS 5.3)가 있으며, 이들은 원격 코드 실행은 허용하지 않지만 이전 패치의 불완전성으로 인해 다시 업그레이드해야 합니다. 영향받는 패키지는 react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack이며, 버전 19.0.4, 19.1.5, 19.2.4로 즉시 업그레이드 필요합니다.",
+          "keyPoints": [
+            "높은 심각도의 서비스 거부 취약점 2개(CVE-2025-55184, CVE-2025-67779)가 존재하여 악의적인 HTTP 요청으로 Server Functions 엔드포인트에 무한 루프를 유발하고 서버 프로세스를 중단시킬 수 있습니다. 이는 CPU 소비로 이어져 사용자가 애플리케이션에 접근하지 못하게 합니다.",
+            "추가 높은 심각도의 서비스 거부 취약점(CVE-2026-23864)이 발견되었으며, 특별히 제작된 HTTP 요청으로 서버 충돌, 메모리 부족 예외, 또는 과도한 CPU 사용을 초래할 수 있습니다. 원본 패치가 불완전하여 19.0.4, 19.1.5, 19.2.4 버전만 안전합니다.",
+            "중간 심각도의 소스 코드 노출 취약점(CVE-2025-55183, CVSS 5.3)도 공개되어 공격자가 애플리케이션의 소스 코드에 접근할 가능성이 있습니다.",
+            "영향받는 패키지는 react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack이며, 버전 19.0.0~19.2.3 모두가 취약합니다. 19.0.3, 19.1.4, 19.2.3으로 이미 업데이트한 경우에도 불완전한 패치이므로 재차 업그레이드해야 합니다.",
+            "Next.js, React Router, Waku, @parcel/rsc, @vite/rsc-plugin, rwsdk 등 여러 프레임워크와 번들러가 취약한 React 패키지에 의존하고 있어 이들도 영향을 받습니다.",
+            "React Server Components를 사용하지 않거나, 번들러 플러그인이 Server Components를 지원하지 않는 경우는 취약점 영향을 받지 않습니다.",
+            "호스팅 제공자들이 임시 완화 조치를 적용했지만, 이를 보안 대책으로 의존해서는 안 되며 여전히 즉시 업그레이드해야 합니다.",
+            "React Native 사용자가 모노레포에서 react-server-dom-* 패키지를 사용하는 경우에만 해당 패키지들을 업데이트하면 되며, react와 react-dom 버전 불일치 오류를 피할 수 있습니다."
+          ],
+          "whyItMatters": "React Server Components를 사용하는 프로젝트는 원격 코드 실행은 아니지만 심각한 서비스 거부와 소스 코드 노출 공격에 노출되어 있으므로, 불완전한 이전 패치를 무시하고 최신 버전으로 반드시 업그레이드해야 합니다.",
+          "url": "https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "topicId": "react-rsc-security",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "denial-of-service-and-source-code-exposure-in-react-server-components",
+          "fullContent": "BlogCopy pageCopyDenial of Service and Source Code Exposure in React Server ComponentsDecember 11, 2025 by The React Team\nUpdated January 26, 2026.\nSecurity researchers have found and disclosed two additional vulnerabilities in React Server Components while attempting to exploit the patches in last week’s critical vulnerability.These new vulnerabilities do not allow for Remote Code Execution. The patch for React2Shell remains effective at mitigating the Remote Code Execution exploit.\nThe new vulnerabilities are disclosed as:\nDenial of Service - High Severity: CVE-2025-55184, CVE-2025-67779, and CVE-2026-23864 (CVSS 7.5)\nSource Code Exposure - Medium Severity: CVE-2025-55183 (CVSS 5.3)\nWe recommend upgrading immediately due to the severity of the newly disclosed vulnerabilities.\nNoteThe patches published earlier are vulnerable. If you already updated for the previous vulnerabilities, you will need to update again.If you updated to 19.0.3, 19.1.4, and 19.2.3, these are incomplete, and you will need to update again.Please see the instructions in the previous post for upgrade steps.Updated January 26, 2026.\nFurther details of these vulnerabilities will be provided after the rollout of the fixes are complete.\nImmediate Action Required\nThese vulnerabilities are present in the same packages and versions as CVE-2025-55182.\nThis includes 19.0.0, 19.0.1, 19.0.2, 19.0.3, 19.1.0, 19.1.1, 19.1.2, 19.1.3, 19.2.0, 19.2.1, 19.2.2, and 19.2.3 of:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nFixes were backported to versions 19.0.4, 19.1.5, and 19.2.4. If you are using any of the above packages please upgrade to any of the fixed versions immediately.\nAs before, if your app’s React code does not use a server, your app is not affected by these vulnerabilities. If your app does not use a framework, bundler, or bundler plugin that supports React Server Components, your app is not affected by these vulnerabilities.\nNoteIt’s common for critical CVEs to uncover follow‑up vulnerabilities. When a critical vulnerability is disclosed, researchers scrutinize adjacent code paths looking for variant exploit techniques to test whether the initial mitigation can be bypassed.This pattern shows up across the industry, not just in JavaScript. For example, after Log4Shell, additional CVEs (1, 2) were reported as the community probed the original fix.Additional disclosures can be frustrating, but they are generally a sign of a healthy response cycle.\nAffected frameworks and bundlers\nSome React frameworks and bundlers depended on, had peer dependencies for, or included the vulnerable React packages. The following React frameworks & bundlers are affected: next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, and rwsdk.\nPlease see the instructions in the previous post for upgrade steps.\nHosting Provider Mitigations\nAs before, we have worked with a number of hosting providers to apply temporary mitigations.\nYou should not depend on these to secure your app, and still update immediately.\nReact Native\nFor React Native users not using a monorepo or react-dom, your react version should be pinned in your package.json, and there are no additional steps needed.\nIf you are using React Native in a monorepo, you should update only the impacted packages if they are installed:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nThis is required to mitigate the security advisories, but you do not need to update react and react-dom so this will not cause the version mismatch error in React Native.\nSee this issue for more information.\nHigh Severity: Multiple Denial of Service\nCVEs: CVE-2026-23864\nBase Score: 7.5 (High)\nDate: January 26, 2026\nSecurity researchers discovered additional DoS vulnerabilities still exist in React Server Components.\nThe vulnerabilities are triggered by sending specially crafted HTTP requests to Server Function endpoints, and could lead to server crashes, out-of-memory exceptions or excessive CPU usage; depending on the vulnerable code path being exercised, the application configuration and application code.\nThe patches published January 26th mitigate these DoS vulnerabilities.\nNoteAdditional fixes published The original fix addressing the DoS in CVE-2025-55184 was incomplete.This left previous versions vulnerable. Versions 19.0.4, 19.1.5, 19.2.4 are safe.Updated January 26, 2026.\nHigh Severity: Denial of Service\nCVEs: CVE-2025-55184 and CVE-2025-67779\nBase Score: 7.5 (High)\nSecurity researchers have discovered that a malicious HTTP request can be crafted and sent to any Server Functions endpoint that, when deserialized by React, can cause an infinite loop that hangs the server process and consumes CPU. Even if your app does not implement any React Server Function endpoints it may still be vulnerable if your app supports React Server Components.\nThis creates a vulnerability vector where an attacker may be able to deny users from accessing the product, and potentially have a perform",
+          "category": "tech",
+          "publishedAt": "2025-12-11T00:00:00.000Z",
+          "language": "en",
+          "translatedContent": "# React Server Components의 서비스 거부 및 소스코드 노출 취약점\n\n2025년 12월 11일 | React 팀 작성\n2026년 1월 26일 업데이트\n\n지난주 공개된 심각한 취약점의 패치를 우회하려는 시도 과정에서 보안 연구원들이 React Server Components의 새로운 취약점 2개를 추가로 발견하고 공개했습니다. 이 새로운 취약점들은 원격 코드 실행을 허용하지는 않습니다. React2Shell 패치는 원격 코드 실행 공격을 방어하는 데 여전히 효과가 있습니다.\n\n새롭게 공개된 취약점은 다음과 같습니다.\n\n**서비스 거부 - 높음 심각도**: CVE-2025-55184, CVE-2025-67779, CVE-2026-23864 (CVSS 7.5)\n**소스코드 노출 - 중간 심각도**: CVE-2025-55183 (CVSS 5.3)\n\n새로운 취약점의 심각성 때문에 즉시 업그레이드하기를 권장합니다.\n\n> **주의** 이전에 발표된 패치는 취약합니다. 기존 취약점으로 이미 업데이트했다면 다시 한 번 업그레이드해야 합니다. 19.0.3, 19.1.4, 19.2.3으로 업그레이드했다면 불완전한 패치이므로 재업그레이드가 필요합니다. 업그레이드 방법은 이전 포스트의 안내를 참고하세요.\n>\n> 2026년 1월 26일 업데이트. 이 취약점들에 대한 자세한 내용은 수정 사항이 완전히 배포된 후 제공될 예정입니다.\n\n## 즉시 조치 필요\n\n이 취약점들은 CVE-2025-55182과 동일한 패키지 및 버전에 존재합니다.\n\n다음 패키지의 19.0.0, 19.0.1, 19.0.2, 19.0.3, 19.1.0, 19.1.1, 19.1.2, 19.1.3, 19.2.0, 19.2.1, 19.2.2, 19.2.3 버전이 영향을 받습니다.\n\n- react-server-dom-webpack\n- react-server-dom-parcel\n- react-server-dom-turbopack\n\n수정 사항이 19.0.4, 19.1.5, 19.2.4 버전으로 백포트되었습니다. 위의 패키지를 사용 중이라면 즉시 고정 버전 중 하나로 업그레이드하세요.\n\n앞서 언급했듯이, React 코드가 서버를 사용하지 않는다면 이 취약점의 영향을 받지 않습니다. 프레임워크, 번들러, 또는 React Server Components를 지원하는 번들러 플러그인을 사용하지 않는다면 역시 영향을 받지 않습니다.\n\n> **참고** 중대한 CVE가 공개될 때 후속 취약점이 발견되는 건 흔한 일입니다. 심각한 취약점이 공개되면 보안 연구원들은 초기 패치를 우회할 수 있는 변종 공격 기법이 있는지 확인하기 위해 인접한 코드 경로를 집중적으로 검토합니다.\n>\n> 이러한 패턴은 JavaScript 뿐만 아니라 업계 전반에서 나타납니다. 예를 들어 Log4Shell 이후에도 커뮤니티가 원본 수정 사항을 검토하면서 추가 CVE들이 보고되었습니다.\n>\n> 추가 공개가 답답할 수 있지만, 일반적으로 건강한 보안 대응 사이클의 신호입니다.\n\n## 영향을 받는 프레임워크 및 번들러\n\n일부 React 프레임워크와 번들러는 취약한 React 패키지에 의존하거나 피어 의존성으로 포함하고 있습니다. 다음 React 프레임워크 및 번들러들이 영향을 받습니다.\n\nnext, react-router, waku, @parcel/rsc, @vite/rsc-plugin, rwsdk\n\n업그레이드 방법은 이전 포스트의 안내를 참고하세요.\n\n## 호스팅 제공자의 임시 완화 조치\n\n이전과 마찬가지로 여러 호스팅 제공자와 함께 임시 완화 조치를 적용했습니다.\n\n이러한 조치에 의존해서는 안 되며, 반드시 즉시 업그레이드하세요.\n\n## React Native\n\nmonorepo나 react-dom을 사용하지 않는 React Native 사용자의 경우, package.json에서 react 버전이 고정되어 있다면 추가 조치가 필요 없습니다.\n\nmonorepo에서 React Native를 사용하는 경우, 설치되어 있다면 다음 패키지만 업데이트하세요.\n\n- react-server-dom-webpack\n- react-server-dom-parcel\n- react-server-dom-turbopack\n\n이는 보안 권고사항을 완화하기 위해 필요하지만, react와 react-dom을 업데이트할 필요는 없으므로 React Native의 버전 불일치 오류를 유발하지 않습니다.\n\n자세한 내용은 [이 이슈](https://github.com/facebook/react-native/issues/)를 참고하세요.\n\n## 높음 심각도: 다중 서비스 거부 취약점\n\n**CVE**: CVE-2026-23864\n**기본 점수**: 7.5 (높음)\n**공개 날짜**: 2026년 1월 26일\n\n보안 연구원들이 React Server Components에 여전히 존재하는 추가 서비스 거부 취약점을 발견했습니다.\n\n취약점은 Server Function 엔드포인트로 특별히 제작된 HTTP 요청을 전송할 때 트리거되며, 서버 크래시, 메모리 부족 예외 또는 과도한 CPU 사용을 초래할 수 있습니다. 구체적인 결과는 실행되는 취약한 코드 경로, 애플리케이션 설정, 그리고 애플리케이션 코드에 따라 달라집니다.\n\n1월 26일에 발표된 패치가 이 서비스 거부 취약점들을 완화합니다.\n\n> **참고** 추가 수정 사항이 발표되었습니다. CVE-2025-55184의 서비스 거부를 다루는 원래 수정 사항이 불완전했습니다. 이로 인해 이전 버전들이 여전히 취약했습니다. 19.0.4, 19.1.5, 19.2.4 버전은 안전합니다.\n>\n> 2026년 1월 26일 업데이트.\n\n## 높음 심각도: 서비스 거부\n\n**CVE**: CVE-2025-55184, CVE-2025-67779\n**기본 점수**: 7.5 (높음)\n\n보안 연구원들이 Server Functions 엔드포인트로 악의적인 HTTP 요청을 전송할 수 있으며, React에 의해 역직렬화될 때 무한 루프를 일으켜 서버 프로세스를 행(hang) 상태로 만들고 CPU를 소비할 수 있음을 발견했습니다. 앱에서 React Server Function 엔드포인트를 구현하지 않았더라도, React Server Components를 지원한다면 여전히 취약할 수 있습니다.\n\n이는 공격자가 사용자들의 제품 접근을 거부하고, 잠재적으로 다른 악의적인 활동을 수행할 수 있는 공격 벡터를 만듭니다."
+        },
+        {
+          "title": "MDN ditches React for web components in frontend rebuild",
+          "titleKo": "MDN, 프론트엔드 재구축에서 React 대신 웹 컴포넌트 도입",
+          "summary": "MDN이 프론트엔드 스택을 완전히 재구축하면서 React를 포기하고 웹 컴포넌트와 자체 개발 서버 컴포넌트 시스템을 채택했습니다.",
+          "keyPoints": [
+            "대규모 웹사이트에서 React 대신 웹 컴포넌트 기반 아키텍처로 전환",
+            "자체 서버 컴포넌트 시스템을 개발하여 성능과 유지보수성 개선"
+          ],
+          "whyItMatters": "주요 기술 문서 사이트의 프레임워크 선택 변화는 웹 컴포넌트의 실무 적용 가능성과 트렌드 변화를 보여줍니다.",
+          "url": "https://javascriptweekly.com/issues/781",
+          "sourceName": "JavaScript Weekly",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "mdn-web-components",
+          "isTopicPrimary": true,
+          "slug": "mdn-ditches-react-for-web-components-in-frontend-rebuild",
+          "category": "tech",
+          "publishedAt": "2026-04-14T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Why Does RSC Integrate with a Bundler?",
+          "titleKo": "React Server Components가 번들러와 통합되는 이유",
+          "summary": "React Server Components가 왜 번들러와 깊이 있는 통합을 필요로 하는지 설명하는 기술 블로그 포스트입니다.",
+          "keyPoints": [
+            "모듈 직렬화의 복잡성이 React Server Components 설계에 번들러 통합을 필수적으로 만들었습니다."
+          ],
+          "whyItMatters": "React Server Components의 아키텍처를 이해하고 번들러 설정을 올바르게 구성하기 위한 개념적 배경을 제공합니다.",
+          "url": "https://overreacted.io/why-does-rsc-integrate-with-a-bundler/",
+          "sourceName": "Dan Abramov (overreacted)",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "topicId": "rsc-framework-integration",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "why-does-rsc-integrate-with-a-bundler",
+          "category": "tech",
+          "publishedAt": "2025-05-30T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "vercel-labs/open-agents (TypeScript)",
+          "titleKo": "Open-agents: 클라우드 에이전트 빌드용 오픈소스 템플릿",
+          "summary": "Vercel Labs의 오픈소스 프로젝트로, 클라우드 기반 AI 에이전트를 구축하기 위한 템플릿을 제공합니다.",
+          "keyPoints": [
+            "클라우드 에이전트 개발을 위한 표준화된 오픈소스 템플릿 제공",
+            "TypeScript 기반으로 현대적 개발 환경 지원"
+          ],
+          "whyItMatters": "AI 에이전트 개발의 진입 장벽을 낮추고 표준화된 구조를 제시하여 빠른 프로토타이핑이 가능합니다.",
+          "url": "https://github.com/vercel-labs/open-agents",
+          "sourceName": "GitHub Trending",
+          "engagement": 2597,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "typescript"
+          ],
+          "topicId": "ai-typescript-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "vercel-labsopen-agents-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-15T23:20:00.925Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Show HN: Libretto – Making AI browser automations deterministic",
+          "titleKo": "Libretto: AI 브라우저 자동화를 결정론적으로 만드는 도구",
+          "summary": "Saffron Health에서 개발한 Libretto는 브라우저 자동화를 더 안정적이고 효율적으로 만들기 위한 툴킷으로, AI 코딩 에이전트에 라이브 브라우저 접근, 네트워크 트래픽 분석, 사용자 액션 기록 및 재생, 대화형 디버깅 기능을 제공합니다.",
+          "keyPoints": [
+            "AI 에이전트를 위한 결정론적 브라우저 자동화 toolkit으로, 스크린샷과 HTML 분석으로 선택자 추출 및 요소 식별 수행",
+            "네트워크 트래픽 캡처를 통해 UI 자동화를 API 직접 호출로 전환 가능하며, 사용자 액션 기록 재생으로 워크플로우 자동 생성",
+            "Playwright TypeScript 지원, 세션 저장/복구, 대화형 오류 수정으로 복잡한 웹 통합 작업 자동화"
+          ],
+          "whyItMatters": "브라우저 자동화 스크립트의 유지보수와 디버깅이 어려운 문제를 AI 에이전트와의 상호작용으로 해결하며, 웹 스크래핑과 자동화 작업의 신뢰성을 크게 향상시킵니다.",
+          "url": "https://github.com/saffron-health/libretto",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 74,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-libretto-making-ai-browser-automations-deterministic",
+          "fullContent": "Libretto\nWebsite: libretto.sh\nRepository: github.com/saffron-health/libretto\nDocs: libretto.sh/docs\nDiscord: discord.gg/NYrG56hVDt\nLibretto is a toolkit for building robust web integrations. It gives your coding agent a live browser and a token-efficient CLI to:\nInspect live pages with minimal context overhead\nCapture network traffic to reverse-engineer site APIs\nRecord user actions and replay them as automation scripts\nDebug broken workflows interactively against the real site\nWe at Saffron Health built Libretto to help us maintain our browser integrations to common healthcare software. We're open-sourcing it so other teams have an easier time doing the same thing.\nlibretto-demo.mov\nInstallation\nnpm install libretto\n# First-time onboarding: install skill, download Chromium, and pin the default snapshot model\nnpx libretto setup\n# Check workspace readiness at any time\nnpx libretto status\n# Manually change the snapshot analysis model (advanced override)\nnpx libretto ai configure <openai | anthropic | gemini | vertex>\nsetup detects available provider credentials (e.g. OPENAI_API_KEY) and automatically pins the default model to .libretto/config.json. Re-running setup on a healthy workspace shows the current configuration instead of re-prompting. If credentials are missing for a previously configured provider, setup offers an interactive repair flow.\nUse ai configure when you want to explicitly switch providers or set a custom model string.\nUse cases\nLibretto is designed to be used as a skill through your coding agent. Here are some example prompts:\nOne-shot script generation\nUse the Libretto skill. Go on LinkedIn and scrape the first 10 posts for content, who posted it, the number of reactions, the first 25 comments, and the first 25 reposts.\nYour coding agent will open a window for you to log into LinkedIn, and then automatically start exploring.\nInteractive script building\nI'm gonna show you a workflow in the eclinicalworks EHR to get a patient's primary insurance ID. Use libretto skill to turn it into a playwright script that takes patient name and dob as input to get back the insurance ID. URL is ...\nLibretto can read your actions you perform in the browser, so you can perform a workflow, then ask it to use your actions to rebuild the workflow.\nConvert browser automation to network requests\nWe have a browser script at ./integration.ts that automates going to Hacker News and getting the first 10 posts. Convert it to direct network scripts instead. Use the Libretto skill.\nLibretto can read network requests from the browser, which it can use to reverse engineer the API and create a script that directly calls those requests. Directly making API calls is faster, and more reliable, than UI automation. You can also ask Libretto to conduct a security analysis which analyzes the requests for common security cookies, so you can understand whether a network request approach will be safe.\nFix broken integrations\nWe have a browser script at ./integration.ts that is supposed to go to Availity and perform an eligibility check for a patient. But I'm getting a broken selector error when I run it. Fix it. Use the Libretto skill.\nAgents can use Libretto to reproduce the failure, pause the workflow at any point, inspect the live page, and fix issues, all autonomously.\nCLI usage\nYou can also use Libretto directly from the command line. All commands accept --session <name> to target a specific session.\nnpx libretto setup # interactive first-run onboarding; run yourself, not through an agent\nnpx libretto status # check AI config health and open sessions\nnpx libretto open <url> # launch browser and open a URL (headed by default)\nnpx libretto snapshot --objective \"...\" --context \"...\" # capture PNG + HTML and analyze with an LLM\nnpx libretto exec \"<code>\" # execute Playwright TypeScript against the open page (single quoted argument)\necho \"<code>\" | npx libretto exec - # intentionally read Playwright TypeScript from stdin\nnpx libretto run <file> # run the file's default-exported workflow\nnpx libretto resume # resume a paused workflow\nnpx libretto pages # list open pages in the session\nnpx libretto save <domain> # save browser session (cookies, localStorage) for reuse\nnpx libretto close # close the browser\nnpx libretto ai configure <provider> # manually change snapshot analysis model\nnpx libretto status # show AI config and open sessions\nConfiguration\nAll Libretto state lives in a .libretto/ directory at your project root. Configuration is stored in .libretto/config.json.\nConfig file\n.libretto/config.json controls snapshot analysis and viewport settings:\n{\n\"version\": 1,\n\"ai\": {\n\"model\": \"openai/gpt-5.4\",\n\"updatedAt\": \"2026-01-01T00:00:00.000Z\"\n},\n\"viewport\": { \"width\": 1280, \"height\": 800 }\n}\nThe ai field configures which model Libretto uses for snapshot analysis — extracting selectors, identifying interactive elements, or diagnosing why a step failed. This keeps heavy visual context out of your coding agent's context window. Snapsho",
+          "category": "tech",
+          "publishedAt": "2026-04-15T15:57:54.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Libretto: 웹 통합 작업을 위한 개발자 도구\n\n**웹사이트**: libretto.sh  \n**저장소**: github.com/saffron-health/libretto  \n**문서**: libretto.sh/docs  \n**Discord**: discord.gg/NYrG56hVDt\n\n## Libretto는 무엇인가요?\n\nLibretto는 견고한 웹 통합을 구축하기 위한 툴킷입니다. 코딩 에이전트에게 실시간 브라우저와 토큰 효율적인 CLI를 제공해서 다음 작업들을 쉽게 할 수 있게 해줍니다:\n\n- 최소한의 컨텍스트 오버헤드로 실시간 페이지 검사\n- 네트워크 트래픽 캡처해서 사이트 API 역분석\n- 사용자 액션 기록 후 자동화 스크립트로 재생\n- 실제 사이트 환경에서 깨진 워크플로우 대화형 디버깅\n\nSaffron Health에서는 의료 소프트웨어 통합을 유지보수하기 위해 Libretto를 만들었어요. 다른 팀들도 비슷한 작업을 쉽게 할 수 있도록 오픈소스로 공개했습니다.\n\n## 설치하기\n\n먼저 npm으로 설치합니다:\n\n```bash\nnpm install libretto\n```\n\n초기 설정을 진행해야 해요. 스킬 설치, Chromium 다운로드, 기본 스냅샷 모델을 설정합니다:\n\n```bash\nnpx libretto setup\n```\n\n언제든 워크스페이스 상태를 확인할 수 있습니다:\n\n```bash\nnpx libretto status\n```\n\n고급 설정이 필요하면 스냅샷 분석 모델을 직접 변경할 수도 있습니다:\n\n```bash\nnpx libretto ai configure <openai | anthropic | gemini | vertex>\n```\n\n`setup` 명령어는 사용 가능한 공급자 자격증명(예: `OPENAI_API_KEY`)을 자동으로 감지하고, 기본 모델을 `.libretto/config.json`에 고정합니다. 이미 설정된 워크스페이스에서 다시 실행하면 현재 설정을 보여주기만 하고 다시 물어보지 않습니다. 이전에 설정한 공급자의 자격증명이 없으면 대화형 복구 옵션을 제공합니다.\n\n`ai configure` 명령어는 공급자를 명시적으로 전환하거나 커스텀 모델 문자열을 설정하고 싶을 때 사용하면 됩니다.\n\n## 주요 사용 사례\n\nLibretto는 코딩 에이전트의 스킬로 사용하도록 설계됐습니다. 몇 가지 예시를 보여드릴게요:\n\n### 한 번에 스크립트 생성하기\n\n```\nLibretto 스킬을 사용해서 LinkedIn에 가서 최신 10개 포스트의 내용, 작성자, 반응 수, \n첫 25개 댓글, 첫 25개 리포스트를 스크래핑해줄래?\n```\n\n코딩 에이전트가 브라우저 창을 열어서 LinkedIn 로그인을 유도하고, 자동으로 정보를 수집합니다.\n\n### 대화형 스크립트 작성하기\n\n```\neclinicalworks EHR에서 환자의 주 보험 ID를 가져오는 워크플로우를 보여줄 거야. \nLibretto 스킬을 써서 환자 이름과 생년월일을 입력받아 보험 ID를 반환하는 \nPlaywright 스크립트로 만들어줄래? URL은 ...\n```\n\nLibretto는 브라우저에서 수행하는 액션을 읽을 수 있어서, 워크플로우를 직접 수행한 후 그 액션들을 기반으로 자동화 스크립트를 재구성할 수 있습니다.\n\n### 브라우저 자동화를 네트워크 요청으로 변환하기\n\n```\n./integration.ts에 있는 브라우저 스크립트가 Hacker News에 가서 \n최신 10개 포스트를 가져오는데, 이걸 직접 네트워크 요청으로 변환해줄래? Libretto 스킬 써.\n```\n\nLibretto는 브라우저의 네트워크 요청을 읽어서 API를 역분석하고, 직접 API 호출하는 스크립트를 만들 수 있습니다. UI 자동화보다 직접 API 호출이 훨씬 빠르고 안정적이거든요. 네트워크 요청을 분석해서 보안 쿠키 등을 확인하는 보안 분석도 요청할 수 있습니다.\n\n### 깨진 통합 수정하기\n\n```\n./integration.ts의 브라우저 스크립트가 Availity에 가서 \n환자 적격성 확인을 수행하는데 셀렉터 오류가 나요. Libretto로 고쳐줄래?\n```\n\n에이전트는 Libretto를 사용해서 오류를 재현하고, 워크플로우를 원하는 지점에서 일시정지한 후, 실제 페이지를 검사하고, 모든 작업을 자동으로 수행할 수 있습니다.\n\n## CLI 사용하기\n\nLibretto를 커맨드라인에서 직접 사용할 수도 있습니다. 모든 명령어는 `--session <name>` 옵션으로 특정 세션을 지정할 수 있습니다:\n\n```bash\nnpx libretto setup                    # 대화형 초기 설정 (에이전트 아닌 직접 실행)\nnpx libretto status                   # AI 설정 상태와 열려있는 세션 확인\nnpx libretto open <url>               # 브라우저 실행 후 URL 열기 (기본값: headed)\nnpx libretto snapshot --objective \"...\" --context \"...\"  # PNG + HTML 캡처 후 LLM으로 분석\nnpx libretto exec \"<code>\"            # 열려있는 페이지에서 Playwright TypeScript 실행 (작은따옴표 사용)\necho \"<code>\" | npx libretto exec -   # stdin에서 Playwright TypeScript 읽기\nnpx libretto run <file>               # 파일의 기본 export된 워크플로우 실행\nnpx libretto resume                   # 일시정지된 워크플로우 재개\nnpx libretto pages                    # 세션의 열려있는 페이지 목록\nnpx libretto save <domain>            # 브라우저 세션 저장 (쿠키, localStorage)\nnpx libretto close                    # 브라우저 종료\nnpx libretto ai configure <provider>  # 스냅샷 분석 모델 수동 변경\nnpx libretto status                   # AI 설정 및 열려있는 세션 표시\n```\n\n## 설정하기\n\n모든 Libretto 상태는 프로젝트 루트의 `.libretto/` 디렉토리에 저장됩니다. 설정은 `.libretto/config.json`에 저장돼요.\n\n### 설정 파일\n\n`.libretto/config.json`은 스냅샷 분석과 뷰포트 설정을 제어합니다:\n\n```json\n{\n  \"version\": 1,\n  \"ai\": {\n    \"model\": \"openai/gpt-5.4\",\n    \"updatedAt\": \"2026-01-01T00:00:00.000Z\"\n  },\n  \"viewport\": { \"width\": 1280, \"height\": 800 }\n}\n```\n\n`ai` 필드는 Libretto가 스냅샷 분석(셀렉터 추출, 상호작용 요소 식별, 단계 실패 진단)에 사용할 모델을 설정합니다. 이렇게 하면 무거운 시각적 컨텍스트가 코딩 에이전트의 컨텍스트 윈도우에 포함되지 않습니다."
+        },
+        {
+          "title": "thedotmack/claude-mem (TypeScript)",
+          "titleKo": "Claude-mem: Claude 코딩 세션 자동 기록 및 컨텍스트 주입 플러그인",
+          "summary": "Claude Code 플러그인으로, 코딩 세션 중 Claude의 모든 작업을 자동으로 캡처하고 AI로 압축한 후 향후 세션에 관련 컨텍스트를 다시 주입합니다.",
+          "keyPoints": [
+            "Claude의 agent-sdk를 활용한 자동 세션 기록 및 압축",
+            "과거 작업 컨텍스트를 미래 세션에 자동으로 주입하여 작업 연속성 개선"
+          ],
+          "whyItMatters": "Claude와의 장기 코딩 작업에서 이전 세션의 맥락을 자동으로 유지할 수 있어 개발 효율을 높입니다.",
+          "url": "https://github.com/thedotmack/claude-mem",
+          "sourceName": "GitHub Trending",
+          "engagement": 57735,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "typescript"
+          ],
+          "topicId": "ai-typescript-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "thedotmackclaude-mem-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-15T23:20:00.922Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "RSC for Astro Developers",
+          "titleKo": "Astro 개발자를 위한 RSC",
+          "summary": "Astro 프레임워크 사용자를 위해 React Server Components(RSC)의 개념을 소개하고 Astro의 아일랜드 아키텍처와의 연관성을 설명합니다.",
+          "keyPoints": [
+            "RSC 개념을 Astro 개발자 관점에서 재해석",
+            "아일랜드 아키텍처의 프랙탈 구조 확장에 대한 논의"
+          ],
+          "whyItMatters": "Astro 개발자가 최신 서버 컴포넌트 패턴을 이해하고 프로젝트에 적용할 수 있게 합니다.",
+          "url": "https://overreacted.io/rsc-for-astro-developers/",
+          "sourceName": "Dan Abramov (overreacted)",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "rsc-framework-integration",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "rsc-for-astro-developers",
+          "category": "tech",
+          "publishedAt": "2025-05-06T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Lordog/dive-into-llms (Jupyter Notebook)",
+          "titleKo": "Lordog/dive-into-llms - 대규모 언어 모델 학습 튜토리얼",
+          "summary": "《동작하며 배우는 대모형 Dive into LLMs》 시리즈의 프로그래밍 실습 튜토리얼입니다.",
+          "keyPoints": [
+            "대규모 언어 모델에 대한 실전 프로그래밍 학습 자료를 Jupyter Notebook 형식으로 제공합니다."
+          ],
+          "whyItMatters": "LLM 개발에 관심 있는 개발자들이 실습을 통해 개념을 학습할 수 있는 교육 리소스입니다.",
+          "url": "https://github.com/Lordog/dive-into-llms",
+          "sourceName": "GitHub Trending",
+          "engagement": 29359,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-learning-resources",
+          "isTopicPrimary": true,
+          "relatedCount": 2,
+          "slug": "lordogdive-into-llms-jupyter-notebook",
+          "category": "tech",
+          "publishedAt": "2026-04-15T23:20:00.923Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Jupyter Notebook"
+          ]
+        },
+        {
+          "title": "google/magika (Python)",
+          "titleKo": "Magika: Google의 AI 기반 파일 콘텐츠 유형 탐지 도구",
+          "summary": "Google에서 개발한 AI 기반 도구로, 파일의 실제 콘텐츠를 분석하여 파일 타입을 빠르고 정확하게 감지합니다.",
+          "keyPoints": [
+            "AI를 활용한 고정확도 파일 타입 자동 감지",
+            "파일 확장자가 아닌 실제 콘텐츠 기반 분류로 보안 강화"
+          ],
+          "whyItMatters": "파일 업로드 검증이나 보안 정책 실행 시 확장자 조작을 방지할 수 있는 신뢰할 수 있는 방법을 제공합니다.",
+          "url": "https://github.com/google/magika",
+          "sourceName": "GitHub Trending",
+          "engagement": 13738,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "googlemagika-python",
+          "category": "tech",
+          "publishedAt": "2026-04-15T23:20:00.926Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "virattt/ai-hedge-fund (Python)",
+          "titleKo": "AI Hedge Fund: AI 기반 헤지펀드 팀",
+          "summary": "AI 에이전트들로 구성된 가상의 헤지펀드 팀을 구현한 프로젝트입니다.",
+          "keyPoints": [
+            "여러 AI 에이전트를 협력시켜 금융 의사결정을 자동화하는 시스템",
+            "Python 기반의 AI 에이전트 협업 사례"
+          ],
+          "whyItMatters": "복잡한 작업을 여러 AI 에이전트가 협력하여 수행하는 실제 사용 사례를 보여줍니다.",
+          "url": "https://github.com/virattt/ai-hedge-fund",
+          "sourceName": "GitHub Trending",
+          "engagement": 55024,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-learning-resources",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "viratttai-hedge-fund-python",
+          "category": "tech",
+          "publishedAt": "2026-04-15T23:20:00.923Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "lsdefine/GenericAgent (Python)",
+          "titleKo": "lsdefine/GenericAgent (Python)",
+          "summary": "자체 진화하는 에이전트로 3.3K 라인의 초기 코드에서 스킬 트리를 확장하여 6배 적은 토큰 소비로 시스템 제어를 달성합니다.",
+          "keyPoints": [
+            "자동 스킬 확장을 통한 AI 에이전트의 효율성 증대",
+            "토큰 소비량 6배 감소로 비용 효율성 개선"
+          ],
+          "whyItMatters": "AI 에이전트의 효율성 개선은 실제 프로덕션 환경에서의 배포 비용을 크게 줄일 수 있습니다.",
+          "url": "https://github.com/lsdefine/GenericAgent",
+          "sourceName": "GitHub Trending",
+          "engagement": 1895,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "lsdefinegenericagent-python",
+          "category": "tech",
+          "publishedAt": "2026-04-15T23:20:00.925Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "jamiepine/voicebox (TypeScript)",
+          "titleKo": "jamiepine/voicebox (TypeScript)",
+          "summary": "오픈소스 음성 합성 스튜디오로, TypeScript로 구현된 음성 생성 도구입니다.",
+          "keyPoints": [
+            "오픈소스 기반의 음성 합성 솔루션 제공",
+            "개발자들이 음성 기능을 프로젝트에 통합할 수 있는 기반 제공"
+          ],
+          "whyItMatters": "음성 합성 기능의 오픈소스화로 음성 기반 애플리케이션 개발의 접근성이 높아집니다.",
+          "url": "https://github.com/jamiepine/voicebox",
+          "sourceName": "GitHub Trending",
+          "engagement": 18219,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "jamiepinevoicebox-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-15T23:20:00.924Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Retrofitting JIT Compilers into C Interpreters",
+          "titleKo": "C 인터프리터에 JIT 컴파일러 개조하기",
+          "summary": "yk라는 도구를 통해 C 인터프리터에 최소한의 코드 변경(약 400 LoC 추가, 50 LoC 변경)으로 JIT 컴파일러를 자동으로 추가할 수 있으며, Lua와 MicroPython에서 평균 2배 성능 향상을 보입니다.",
+          "keyPoints": [
+            "인터프리터 기반 언어(Lua, Python, Ruby)의 성능을 최소한의 코드 변경으로 2배 개선",
+            "참조 구현과의 완전한 호환성을 유지하면서 성능과 최신 버전 업데이트 지원의 균형 제시"
+          ],
+          "whyItMatters": "기존 인터프리터 기반 언어 구현의 성능 개선이 가능해져 새로운 언어 개발 및 유지 보수 시 선택지가 확대됩니다.",
+          "url": "https://tratt.net/laurie/blog/2026/retrofitting_jit_compilers_into_c_interpreters.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 10,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "retrofitting-jit-compilers-into-c-interpreters",
+          "fullContent": "C interpreters are a common language implementation technique and the basis for\nthe reference implementations of languages such as Lua, Ruby, and\nPython. Unfortunately, C interpreters are slow, especially compared to\nlanguage implementations powered by JIT compilers. In this post I’m going to show\nthat it is possible to take C interpreters and, by changing a tiny proportion\nof code, automatically turn them into JIT compiling VMs (Virtual Machines)1. This offers a point in the language performance design space\nthat was previously out of reach: better performance while retaining\nfull compatibility with reference implementations.\nThe system that lets us do this is yk,\nsomething we’ve have been working on for some time. I want to\nset expectations appropriately. yk is alpha-stage software: it’s not production ready,\nthough it’s some way beyond a hacky research prototype in breadth and\nquality. You can quite easily hit TODOs that halt the program, or encounter\nmissing parts where execution continues suboptimally; we only have a subset\nof the optimisations we’d like; only an x64 is currently implemented; and we don’t yet have the breadth of\nlanguages and benchmarks that one would need to draw strong conclusions about\nperformance.\nThat said, you can already see some interesting results. Seeing programming\nlanguage performance is quite hard, but this video might give you an idea.\nFirst, we run a Mandelbrot program through the reference PUC Lua\nVM2 and then through\nyklua, our fork of PUC Lua with\nan automatically derived JIT compiler:\nI must confess that I have cherry picked an example\nwhere we get better-than-average performance. Rather than the ~4x improvement\nin the video above, on our Lua benchmark suite3 so far a more\nrealistic geometric mean is a little under 2x. Small benchmarks inevitably flatter the sorts of techniques\nI’ll be talking about, so “real” programs will on average see less than that4.\nWhat might surprise you is that we only added about 400LoC to PUC Lua, and changed\nunder 50LoC. This hopefully makes the trade-off yk offers clear: yklua does\nnot reach the performance peaks of the wonderful, carefully hand-written,\nLuaJIT; but LuaJIT is stuck in the 13 year old past of Lua 5.15,\nwhereas yklua trivially tracks updates to PUC Lua. The point of this post isn’t\nto tell you that one side or the other of this trade-off is best. Rather, it’s\nto show that the trade-off exists, and that yk fills in a part of the design\nspace that was largely out of bounds before.\nThere’s also nothing inherently Lua specific about yk. Alongside various smaller\nimplementations, recently we’ve put a few days effort into adjusting\nMicroPython leading to – you might spot a naming\npattern here – ykmicropython. The\nMicroPython interpreter uses some idioms that we have yet to support, and any\nbenchmark which encounters one of those currently has terrible performance. But\nif you have a program which doesn’t hit many of those parts you can\nalready see a meaningful performance improvement. The Mandelbrot\nbenchmark isn’t where ykmicropython performs best, but it’s still good enough\nto see a difference (“normal” MicroPython top, ykmicropython bottom):\nEventually, my hope is that if you have a C interpreter, big or small, yk will\nallow you to add a JIT to it for little effort, gaining additional performance\nfor free.\nIn this post I’ll explain why we created yk, why it works\nthe way it does, and some of the technical challenges involved. Despite\nthe length of this post, I won’t come close to covering everything I\narguably should, and I’ll inevitably simplify much of what I do cover. Future posts will\nhopefully fill in more details, add nuance, and track yk’s evolution.\nI want to thank Shopify and the Royal Academy of Engineering, who together generously\nfunded the underlying research. I am immensely grateful to both, though of course\nI speak for neither organisation! The work I’m presenting in this post is a\njoint effort with Edd Barrett, Lukas\nDiekmann, and Pavel Durov. I want to dedicate this work\nto the late Chris Seaton, who was an early champion of yk when it was no\nmore than a tiny demo: he is much missed by those of us who considered him a\nfriend.\nMany programming languages are implemented as\ninterpreters.\nThis is the most common approach for dynamically typed languages, but is also\ntrue of a surprising number of other languages, from CPU simulators to domain\nspecific languages. Interpreters are simple to write, but do not have great\nperformance.\nIt is therefore common to add a Just-In-Time (JIT) compiler to interpreters. The\nfundamental thesis of JIT compilation is that the way a program executed in\nthe near past is indicative of how it will execute in the future. JIT compilers\nthus speculatively optimise6 a program; whilst the speculations hold, performance\nis good; if the speculations fail to hold, performance will (possibly temporarily) decrease.\nJIT compilers therefore observe a running program, identify the hot (i.e.\nmost fre",
+          "category": "tech",
+          "publishedAt": "2026-04-15T12:00:24.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# C 인터프리터를 JIT 컴파일러로 자동 변환하기\n\nC 인터프리터는 많은 프로그래밍 언어 구현의 기초입니다. Lua, Ruby, Python 같은 언어들이 C 인터프리터를 기반으로 만들어졌죠. 다만 한 가지 문제가 있는데, C 인터프리터는 JIT 컴파일러를 쓰는 구현에 비해 상당히 느립니다.\n\n이 글에서는 C 인터프리터를 약간의 코드 수정만으로 JIT 컴파일 VM(Virtual Machine)으로 자동 변환할 수 있다는 걸 보여드리려고 합니다. 이 방식은 성능을 높이면서도 기존 인터프리터와의 호환성을 완벽히 유지할 수 있다는 점에서 지금까지 불가능했던 새로운 선택지를 제시합니다.\n\n이걸 가능하게 하는 시스템이 바로 **yk**입니다. 우리가 오랫동안 작업해온 프로젝트인데요, 먼저 현 상태를 명확히 해두겠습니다.\n\n## yk의 현재 상태\n\nyk는 아직 알파 단계의 소프트웨어입니다. 프로덕션 환경에서 쓸 수 있는 수준은 아니지만, 단순한 연구 프로토타입을 넘어선 정도의 품질은 갖추고 있습니다. 아직 프로그램을 멈추게 하는 TODO들이 있을 수 있고, 일부 기능이 최적화되지 않은 상태로 동작할 수도 있습니다. 우리가 원하는 최적화의 일부만 구현된 상태고, 현재는 x64 아키텍처만 지원하며, 성능에 대해 확실한 결론을 내리기 위한 충분한 언어와 벤치마크가 아직 모여있지 않은 상태입니다.\n\n그렇긴 해도 이미 흥미로운 결과들을 볼 수 있습니다.\n\n## 실제 성능 개선 사례\n\nMandelbrot 프로그램으로 테스트해봤는데, 기준이 되는 PUC Lua VM과 우리가 만든 yklua(자동 파생 JIT 컴파일러가 적용된 PUC Lua)를 비교하면 눈에 띄는 차이가 납니다. \n\n물론 저는 여기서 평균 이상의 성능을 보여주는 예제를 골라서 보여드린 겁니다. 실제로 우리 Lua 벤치마크 스위트로 측정하면 더 현실적인 기하평균은 약 2배 정도의 개선입니다. 작은 벤치마크는 우리가 사용하는 기법에 유리하게 작동하는 경향이 있으니까, 실제 프로그램에서는 이것보다 개선폭이 작을 수 있습니다.\n\n놀라운 건 이 성능 향상을 얻기 위해 PUC Lua에 추가한 코드가 약 400줄이고, 실제로 변경한 부분은 50줄 미만이라는 점입니다.\n\n## yk의 트레이드오프\n\n이건 yk가 제시하는 트레이드오프를 잘 보여줍니다. yklua는 손으로 정성스럽게 만들어진 LuaJIT 같은 최고 성능에는 못 미칩니다. 하지만 LuaJIT는 13년 전의 Lua 5.1 수준에 머물러 있는 반면, yklua는 PUC Lua의 최신 업데이트를 자동으로 따라갈 수 있죠. \n\n이 글의 목적은 어느 쪽이 더 나은지 판단하는 게 아닙니다. 오히려 이런 트레이드오프가 존재하며, yk가 지금까지는 거의 불가능했던 설계 영역을 채우고 있다는 걸 보여드리는 것입니다.\n\n## 다른 언어로의 확장\n\nyk는 Lua에만 국한되지 않습니다. 여러 소규모 구현들과 함께 최근에는 MicroPython을 yk로 조정하는 작업을 진행했고, 그 결과물이 **ykmicropython**입니다. \n\nMicroPython 인터프리터는 아직 우리가 지원하지 않는 언어 관례들을 사용하고 있어서, 그런 부분을 만나면 성능이 매우 떨어집니다. 하지만 그런 부분을 많이 사용하지 않는 프로그램이라면 이미 의미 있는 성능 개선을 경험할 수 있습니다.\n\n## 앞으로의 목표\n\n궁극적으로 우리의 목표는, C로 만들어진 인터프리터가 있다면 누구든 yk로 쉽게 JIT 컴파일러를 붙이고 추가적인 성능 향상을 거의 무료로 얻을 수 있게 하는 것입니다.\n\n이 글에서는 우리가 왜 yk를 만들었는지, 어떻게 작동하는지, 그리고 관련된 기술적 과제들을 설명하려고 합니다. 이 글이 길긴 하지만 모든 걸 다 다루지는 못할 것 같고, 많은 부분을 단순화하게 될 겁니다. 앞으로의 글들에서 더 자세한 내용을 채우고, 뉘앙스를 더하고, yk의 진화 과정을 추적해나갈 계획입니다.\n\n## 감사의 말\n\nShopify와 Royal Academy of Engineering에서 이 연구를 지원해주신 점에 감사드립니다. 물론 이들 조직의 공식 입장을 대변하는 것은 아닙니다. 이 글에서 소개하는 작업은 Edd Barrett, Lukas Diekmann, Pavel Durov와의 공동 노력입니다. 그리고 고 Chris Seaton에게 이 작업을 바칩니다. Chris는 yk가 아직 작은 데모에 불과할 때부터 응원해주신 초기 지지자였습니다.\n\n---\n\n## 인터프리터와 JIT 컴파일의 기초\n\n많은 프로그래밍 언어가 인터프리터로 구현됩니다. 동적 타입 언어에서는 가장 일반적인 방식이며, CPU 시뮬레이터부터 도메인 특화 언어까지 다양한 분야에서 쓰입니다. 인터프리터는 구현하기 간단하지만, 성능이 좋지 않다는 게 단점입니다.\n\n그래서 인터프리터에 JIT(Just-In-Time) 컴파일러를 추가하는 게 일반적입니다. JIT 컴파일의 핵심 원리는 간단합니다. 프로그램이 과거에 실행된 방식이 앞으로도 유사하게 실행될 거라는 가정입니다. JIT 컴파일러는 이 가정에 기반해 프로그램을 추측적으로 최적화합니다. 가정이 맞다면 성능이 좋지만, 가정이 틀리면 성능이 일시적으로 떨어질 수 있습니다.\n\n따라서 JIT 컴파일러는 실행 중인 프로그램을 관찰하고, 자주 실행되는 핫(hot) 코드를 식별해야 합니다."
+        },
+        {
+          "title": "One interface, every protocol",
+          "titleKo": "하나의 인터페이스, 모든 프로토콜",
+          "summary": "인프라 관리의 파편화 문제를 해결하기 위해, 프로그래밍 언어의 프로토콜/인터페이스 개념을 네트워크 경계에 적용하여 서로 다른 서비스들이 공통 형태를 따르도록 하는 OpenBindings 접근법을 제시합니다.",
+          "keyPoints": [
+            "각 클라우드 제공자의 서로 다른 API 형태가 파편화의 근본 원인이며, 공통 인터페이스 정의로 해결 가능",
+            "RFC 9727의 .well-known/api-catalog와 함께 서비스 자체가 공통 형태를 선언하는 방식 제안"
+          ],
+          "whyItMatters": "다중 클라우드 환경에서 벤더 락인을 줄이고 인프라 관리 복잡도를 낮출 수 있는 기반을 제시합니다.",
+          "url": "https://openbindings.com/blog/one-interface-every-protocol",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 17,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "one-interface-every-protocol",
+          "fullContent": "Earlier this month, Dax Raad (@thdxr) posted something that resonated with a lot of developers:\n\"idk how people manage infrastructure anymore. every service has their own bespoke cli / config file and they don't support terraform well anymore. your system is never just one provider so do people just have a mess of these smashed together?\"\nWithin a day, over fifty thousand people saw it. The replies poured in. SST. Pulumi. Ansible. \"Just stay on AWS.\" \"Python scripts that make REST calls.\" \"It's job security.\" \"Infrastructure today is duct tape wearing a dashboard.\"\nEveryone recognized the problem. But the solutions were all tools, not foundations. I've been building something to address this, and seeing fifty thousand developers feel the same frustration confirmed I wasn't imagining it. Lock-in is a symptom, fragmentation is the disease, and programming languages solved the underlying problem decades ago.\nI started thinking about vendor lock-inThe original frustration was familiar. You build on one provider, they change pricing, deprecate an API, or just aren't the right tool anymore, and migrating is brutal. Not because the concepts are hard, but because every provider speaks a different language.\nThe obvious answer seems like abstraction. Build a layer on top. That's what Terraform tried to do, and SST, and a dozen other tools.\nBut abstraction layers don't actually solve the problem, they just move it. You're still dependent on someone else to keep up with every provider. You're still waiting for the plugin to be written. You're still one licensing change away from being back where you started.\nThe root cause@Zenul_Abidin nailed the trajectory: \"Abstractions are breaking down. Terraform worked when providers were predictable, now every service ships its own opinionated layer.\" And @aalachimo connected it to incentives: \"The shift away from Terraform support says more about vendors optimizing for lock-in than about infrastructure evolving.\"\n@jetpen got closest to the structural problem:\n\"There is no compatibility across infrastructure and platform vendors for provisioning anything, so there is no hope of having a single implementation that works across GCP, AWS, Azure, OCI...\"\nHe's right that there's no compatibility. But I'd frame the root cause differently. There's no standard way for a service to describe itself.\nAnd then I had a thought that reframed the whole thing for me. This is actually a solved problem inside software. Swift has Protocols. Go has Interfaces. Haskell has typeclasses. You write code that says \"I don't care what this is, as long as it can do these things.\" You code to the shape, not the implementation. Swap the backing type and your code still compiles.\nIf it walks like a duck and quacks like a duck, treat it like a duck. The key insight is that this inverts the dependency. Instead of your code depending on a specific implementation, implementations depend on satisfying a shared shape. New providers can show up without changing anything upstream. Programming languages have had this for decades, but the web has never had a widely adopted equivalent at the network boundary. Every service requires prior knowledge. You can't just ask \"can you store a file?\" and have any compliant service answer.\nWhat if you could?\nThe index.html problemThere's a related piece that kept bugging me. Every website has an index.html. It's the front door, a shared convention for discovery that requires no prior knowledge of how a site is structured. You go to the root, you start there.\nAPIs have nothing like this. You have to know where the docs are, which spec format they use (OpenAPI? AsyncAPI? gRPC? Their own proprietary format?), how to authenticate, what the operations are called. And even once you find all that, there's no way to say that \"upload a file to S3\" and \"upload a file to R2\" are semantically the same operation expressed through different protocols.\nLast year the IETF published RFC 9727, a well-known URI (/.well-known/api-catalog) for discovering that APIs exist. That tells you what APIs a domain has. It doesn't tell you what those APIs do, or which ones are equivalent. The two are complementary. An api-catalog entry could link to an OBI. But discovery alone doesn't close the gap. You still need prior knowledge to use what you find.\nSo every tool that tries to unify providers has to do it by brute force: hard-code every integration, maintain every mapping, chase every API change. Forever.\nAI has gotten remarkably good at papering over this, and I think that's actually made the underlying problem less visible. An LLM can read docs, figure out auth, and generate API calls. MCP gives AI agents a clean way to interact with services. But it's still brute force, just faster brute force. The LLM is guessing at structure that could be declared, parsing docs that could be machine-readable, inferring equivalence that could be verified.\nThe actual problem is fragmentationVendor lock-in is a symptom. The ",
+          "category": "tech",
+          "publishedAt": "2026-04-15T19:56:36.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 인프라 관리의 단편화 문제, 어떻게 풀 것인가\n\n이달 초 개발자 Dax Raad가 SNS에 올린 글이 큰 반향을 일으켰습니다.\n\n> \"요즘 누가 인프라를 관리하는 방법을 아는 사람이 있나요? 모든 서비스가 자기 식대로 CLI나 설정 파일을 만들어놓고 Terraform은 잘 지원 안 하더라고요. 어차피 한 개 제공사만 써야 하는 것도 아니고, 다들 이런 것들을 막 붙여 가면서 쓰는 건가요?\"\n\n24시간이 채 안 되어 5만 명이 이 글을 봤습니다. 댓글도 쏟아졌어요. SST, Pulumi, Ansible 같은 도구들이 언급되었고, \"그냥 AWS만 써\", \"Python 스크립트로 REST 호출\", \"일자리 보장\", \"요즘 인프라는 덕트테이프가 대시보드를 입고 있는 거다\" 같은 답변들이 나왔습니다.\n\n문제는 모두가 인식했습니다. 그런데 제시된 해법들은 죄다 도구일 뿐, 근본적인 기초가 없었어요. 이 문제를 풀기 위해 뭔가를 만들고 있던 중에 5만 명의 개발자가 같은 답답함을 느낀다는 걸 확인했습니다. 결국 이건 제 생각만이 아니었던 거네요. **종속성은 증상일 뿐, 실제 병은 단편화입니다. 그런데 프로그래밍 언어는 이 문제를 수십 년 전에 이미 풀었거든요.**\n\n## 종속성의 악순환\n\n원래 문제로 거슬러 올라가보면, 한 제공사 위에 뭔가를 만들다가 그들이 가격을 올리거나 API를 없애거나, 아니면 더 이상 필요한 도구가 아니게 되면 마이그레이션이 정말 고통스럽습니다. 개념 자체가 어려워서는 아니에요. 문제는 모든 제공사가 다른 언어를 쓴다는 것입니다.\n\n당연히 추상화 계층을 만들려고 합니다. 그 위에 뭔가 덮으면 되지 않을까? Terraform도, SST도, 그 외 수많은 도구들도 다 이걸 시도했습니다.\n\n그런데 추상화 계층은 문제를 해결하지 못합니다. 문제를 옮길 뿐입니다. 여전히 누군가가 모든 제공사를 따라가길 기다려야 하고, 플러그인이 만들어지길 기다려야 하고, 라이선싱이 바뀌면 처음부터 다시입니다.\n\n## 근본 원인\n\n개발자들의 댓글을 보면, 핵심을 간파한 것들이 있습니다.\n\n\"추상화가 무너지고 있다. Terraform은 제공사들이 예측 가능할 때는 잘 작동했는데, 요즘은 모든 서비스가 자기 취향을 드러내는 계층을 만들어서 배포한다.\"\n\n\"Terraform 지원을 안 하는 건 인프라가 발전했기 때문이 아니라 벤더들이 종속을 최적화하려는 의도를 더 잘 보여준다.\"\n\n\"GCP, AWS, Azure, OCI 사이에 프로비저닝 호환성이 없으니까, 그 모두를 아우르는 단일 구현이 나올 가능성이 없다.\"\n\n맞습니다. 호환성이 없어요. 그런데 근본 원인을 다르게 표현하자면, **서비스가 자신을 설명하는 표준 방식이 없다는 것입니다.**\n\n## 프로그래밍 언어는 이미 풀었습니다\n\n그때 깨달았어요. 이건 소프트웨어 내부에서는 이미 해결된 문제라고요.\n\nSwift에는 Protocol이 있고, Go에는 Interface가 있고, Haskell에는 Typeclass가 있습니다. 이런 걸 쓰면 이렇게 코드를 짤 수 있어요.\n\n\"난 이게 정확히 뭔지 상관 없어. 이런 일들을 할 수 있기만 하면 돼.\"\n\n모양을 보고 코딩하는 거죠. 구현 자체는 상관없습니다. 내부 타입을 바꿔도 코드는 여전히 컴파일됩니다.\n\n오리처럼 걷고 오리처럼 울면, 그냥 오리처럼 다루면 된다는 거예요. **핵심은 의존성을 뒤집는 것입니다.** 당신의 코드가 특정 구현에 의존하는 게 아니라, 구현들이 공유된 모양을 만족해야 합니다. 새로운 제공사가 나타나도 위의 코드는 건들 필요가 없어요. 프로그래밍 언어는 수십 년 동안 이렇게 해왔는데, 웹은 네트워크 경계에서 널리 채택된 이 방식을 아직 갖지 못했습니다.\n\n모든 서비스는 사전 지식이 필요합니다. 그냥 \"파일 저장할 수 있어?\"라고 물어서 호환하는 서비스가 답해주는 방식이 없어요.\n\n만약 가능하다면?\n\n## index.html의 문제\n\n비슷하면서도 다른 게 계속 신경 쓰였어요. 모든 웹사이트는 index.html을 가지고 있습니다. 현관문이자, 발견을 위한 공유 관례인데, 사이트가 어떻게 구성됐는지 미리 알아야 할 필요가 없어요. 루트에 가면 시작점을 찾을 수 있거든요.\n\nAPI는 이런 게 없습니다. 문서가 어디 있는지, 어떤 포맷을 쓰는지(OpenAPI? AsyncAPI? gRPC? 자기들만의 형식?), 어떻게 인증하는지, 어떤 작업들이 있는지 다 알아야 합니다. 그것도 찾아낸 후에, \"S3에 파일 올리기\"와 \"R2에 파일 올리기\"가 다른 프로토콜로 표현된 같은 작업이라는 걸 말해줄 방법이 없습니다.\n\n작년에 IETF가 RFC 9727을 발표했는데, 잘 알려진 URI인 `/.well-known/api-catalog`로 API 존재 여부를 발견할 수 있게 했어요. 이건 어떤 API가 있는지 알려주지만, 그 API가 뭘 하는지, 어떤 게 동등한지는 안 알려줍니다. 이 둘은 보완적이에요. api-catalog 항목이 OBI 같은 걸 링크할 수 있죠. 하지만 발견만으로는 부족합니다. 여전히 미리 알고 있어야 쓸 수 있어요.\n\n그래서 제공사들을 통합하려는 모든 도구는 억지로 합니다. 모든 연동을 하드코딩하고, 모든 매핑을 관리하고, 모든 API 변화를 계속 쫓아갑니다. 영원히요.\n\n## AI는 문제를 더 숨기고 있어요\n\nAI는 이 위에 덮개를 씌우는 일에 정말 좋아졌습니다. 그리고 그게 오히려 근본 문제를 덜 보이게 한다고 생각합니다.\n\nLLM은 문서를 읽고, 인증을 파악하고, API 호출을 생성할 수 있습니다. MCP는 AI 에이전트가 서비스와 상호작용하는 깔끔한 방식을 제공합니다. 그런데 여전히 억지일 뿐입니다. 좀 더 빠른 억지일 뿐이에요. LLM은 선언될 수 있는 구조를 추측하고, 기계가 읽을 수 있는 문서를 파싱하고, 검증될 수 있는 동등성을 추론합니다.\n\n**실제 문제는 단편화입니다.** 종속은 증상일 뿐입니다."
+        },
+        {
+          "title": "Donchitos/Claude-Code-Game-Studios (Shell)",
+          "titleKo": "Claude 코드를 완전한 게임 개발 스튜디오로 변환",
+          "summary": "49개의 AI 에이전트와 72개의 워크플로우 스킬, 실제 스튜디오 계층을 반영한 조정 시스템으로 Claude 코드를 완전한 게임 개발 스튜디오로 구성하는 프로젝트입니다.",
+          "keyPoints": [
+            "49개의 AI 에이전트와 72개의 워크플로우 스킬을 통한 자동화된 게임 개발 프로세스 구현",
+            "실제 스튜디오의 조직 계층을 미러링한 AI 에이전트 조정 시스템"
+          ],
+          "whyItMatters": "AI를 활용한 대규모 자동화된 소프트웨어 개발 프로세스의 실현 가능성을 보여줍니다.",
+          "url": "https://github.com/Donchitos/Claude-Code-Game-Studios",
+          "sourceName": "GitHub Trending",
+          "engagement": 10358,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "donchitosclaude-code-game-studios-shell",
+          "category": "tech",
+          "publishedAt": "2026-04-15T23:20:00.926Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "pascalorg/editor (TypeScript)",
+          "titleKo": "Pascal 에디터 - 3D 아키텍처 프로젝트 생성 및 공유",
+          "summary": "TypeScript로 개발된 3D 건축 프로젝트를 생성하고 공유할 수 있는 에디터입니다.",
+          "keyPoints": [
+            "3D 아키텍처 프로젝트 편집 및 협업 기능",
+            "TypeScript 기반의 웹 기반 설계 도구"
+          ],
+          "whyItMatters": "3D 설계 분야에서 웹 기반 협업 도구의 개발 사례를 제시합니다.",
+          "url": "https://github.com/pascalorg/editor",
+          "sourceName": "GitHub Trending",
+          "engagement": 12595,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "pascalorgeditor-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-15T23:20:00.922Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "I made a terminal pager",
+          "titleKo": "터미널 페이저를 만들었습니다",
+          "summary": "저자가 Go로 재사용 가능한 뷰포트 컴포넌트를 개발하여 터미널 페이저 'lore'를 만들었습니다. 터미널에서 대용량 텍스트를 인터랙티브하게 네비게이션하기 위한 설계 결정과 학습 내용을 상세히 설명합니다.",
+          "keyPoints": [
+            "PAGER 환경변수를 통해 git, man 등 프로그램이 텍스트를 페이징하는 방식 설명",
+            "TUI(터미널 사용자 인터페이스)에서 텍스트 뷰포트는 키보드 기반 네비게이션과 검색 기능 제공",
+            "터미널의 그리드 제약(행/열)이 정보 계층화와 본질적 기능 집중을 강제함"
+          ],
+          "whyItMatters": "개발자가 터미널에서 로그와 매니페스트를 효율적으로 다루기 위해 필요한 페이저 구현 원리를 이해할 수 있습니다.",
+          "url": "https://theleo.zone/posts/pager/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 14,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-made-a-terminal-pager",
+          "fullContent": "TL;DR: I build terminal applications (TUIs) like kl for k8s logs and wander for Nomad. Core\nfunctionality of TUIs includes interacting with large blocks of text, like application manifests and logs. I created a\nreusable viewport component in Go for text navigation in my projects.\nTerminal pagers are programs that allow you to interactively navigate multi-page text. I used my viewport component\nto make lore, which I’m now daily driving as my terminal pager.\nIn this post, I detail the features I wanted to support in my viewport as well as some learnings and design decisions\non the way to making them a reality.\nAlong with running commands, the terminal is often a place for viewing and navigating text.\nTerminals have a grid-like nature with a monospace font. Their size is defined in rows and columns, with text filling\nthis grid accordingly.\nYou can style text in terminals with ANSI escape codes.\nThis type of styling is how we get the grey checkerboard pattern in the terminal out of chessboard.txt above:\nchessboard.txt contains text with ANSI escape codes styling it for the terminal.\nDevelopers often scan through high volumes of text in their terminal:\nWhen the text output is less than one terminal view’s height, output is usually printed directly to your terminal\nwithout a special pager. You can then scroll with the mouse and search using your terminal emulator’s built in\nfunctionality (e.g. cmd+f in iTerm2). Or maybe you use a terminal multiplexer like tmux within your terminal\nemulator that has its own set of keyboard bindings for search and scrollback.\nBut most often for text spanning multiple terminal pages, programs use a pager for interactive text navigation. Programs\ncheck the PAGER environment variable and, if set, use that program to display the text instead of dumping it to stdout.\nThe PAGER environment variable points to a program that expects either piped input <command> | mypager or a file\nargument mypager myfile.txt.\nPrograms like git, man, etc. have some internal logic to check if PAGER is set and conditionally use it. They’ll\nusually pipe content directly into the PAGER, skipping it if stdout isn’t a TTY (an interactive terminal session). So\nthe PAGER isn’t relevant in a non-TTY stdout like git diff | grep ...\nIf stdout is a TTY, programs may opt to use the PAGER. They’ll spawn the program set as PAGER as a child process,\nthen use a pipe to connect the pager process’s stdin with the program’s stdout.\nI enjoyed Andrew Healey’s recent write-up on Building a Shell for more on\npipes and the syscalls that shells use to make this all work nicely.\nMost programs on developer machines use less as a fallback pager if PAGER isn’t set. If you want everything\nto be dumped to your terminal directly, set your PAGER environment variable to cat. Other options include bat,\nmost, and delta. There are special paging environment variables as well, for example, setting\nGIT_PAGER specifically for git output, or BAT_PAGER for paging within bat after it\nperforms syntax highlighting.\nThe most common PAGER, less, is quite powerful with effective use of the options and configuration. For example,\ntext by default is lost once you quit less, which is generally reasonable, but you can use --no-init/-X to have the\ntext you’ve paged through up to the point of quitting persist in your terminal output. And use --ignore-case/-i to\nmake searching case-insensitive. I recommend these articles on less options and less\nconfiguration to learn more.\nTerminal applications, or TUIs, are a bit like native desktop applications or websites, except that you run them within\nyour terminal.\nTUIs usually use the alt screen to temporarily take over the full terminal screen, displaying application\ncomponents like titles, side bars, help text, and text viewports within them. Text viewport components are similar to\nterminal pagers, but only take up part of the screen. Other common user workflows in TUIs are:\nIn a TUI, the smallest editable unit is the terminal grid cell rather than the pixel. This provides a nice constraint,\npushing terminal applications to remove all but essential information and provide a hierarchy of keyboard-driven views\ninto the data, rather than one large scrollable screen of components and button-laden toolbars like a website or desktop\napp might provide.\nTake kl, a TUI I built for interacting with Kubernetes logs across many clusters and namespaces, for example. On\nstartup, you’re presented with 2 text viewports: a Kubernetes entity hierarchy on the left showing your configured\nclusters, namespaces, pods, and containers, and an initially-empty view of logs on the right.\nYou start focused in the selection viewport, where you select one or more containers to tail the logs for.\nPressing L shows you those logs in full screen, hiding the selection tree. From there, you can search for exact\nmatches with /.\nYou can see matches with surrounding (non-matching) context, or only the matching items by pressing x. Pressing p\nprettifies the",
+          "category": "tech",
+          "publishedAt": "2026-04-15T22:27:54.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# Terminal UI에서 텍스트를 다루기 위한 Viewport 컴포넌트 만들기\n\n**요약**: 저는 Kubernetes 로그를 보는 `kl`이나 Nomad용 `wander` 같은 터미널 애플리케이션(TUI)을 만들어왔습니다. 이런 도구들의 핵심은 매니페스트나 로그 같은 대용량 텍스트를 다루는 것인데요. Go로 재사용 가능한 viewport 컴포넌트를 만들어 여러 프로젝트에 활용했습니다.\n\n터미널 pager는 여러 페이지의 텍스트를 대화형으로 탐색할 수 있게 해주는 프로그램입니다. 이 viewport 컴포넌트를 활용해 `lore`라는 terminal pager를 만들었고, 지금은 이것을 매일 사용하고 있습니다.\n\n이 글에서는 viewport에서 지원하고 싶었던 기능들과 그 과정에서 배운 점들, 그리고 설계 결정을 정리해봤습니다.\n\n## 터미널에서의 텍스트 작업\n\n터미널은 명령어를 실행하는 곳이면서 동시에 텍스트를 보고 탐색하는 공간이기도 합니다.\n\n터미널은 고정폭 폰트로 격자 형태를 이루고 있는데요. 가로는 열(column), 세로는 행(row)으로 정의되며, 텍스트가 이 격자를 채우게 됩니다. ANSI escape code를 사용하면 터미널의 텍스트에 스타일을 입힐 수 있습니다.\n\n개발자들은 터미널에서 대량의 텍스트를 스캔해야 하는 상황이 자주 생깁니다.\n\n### 한 화면에 들어오는 경우\n\n텍스트 출력이 터미널 높이보다 작으면 보통 특별한 pager 없이 바로 출력합니다. 이 경우 마우스로 스크롤하거나 터미널 에뮬레이터의 검색 기능(예: iTerm2의 cmd+f)을 사용할 수 있습니다. 또는 `tmux` 같은 터미널 멀티플렉서를 사용하면 그것의 검색과 스크롤백 단축키를 이용할 수 있죠.\n\n### 여러 화면을 넘는 경우\n\n여러 페이지에 걸친 텍스트는 보통 pager 프로그램을 사용해 대화형으로 탐색합니다. 프로그램들은 `PAGER` 환경변수를 확인한 후, 설정되어 있으면 그 프로그램으로 텍스트를 표시합니다.\n\n`PAGER` 환경변수는 파이프된 입력이나 파일 인자를 받는 프로그램을 가리킵니다:\n\n```bash\n<command> | mypager\nmypager myfile.txt\n```\n\n`git`, `man` 같은 프로그램들은 `PAGER`가 설정되어 있는지 확인하는 내부 로직을 가지고 있습니다. 일반적으로 stdout이 TTY(상호작용 터미널)일 때만 pager를 사용하죠. `git diff | grep ...` 같은 경우 stdout이 TTY가 아니므로 pager를 건너뜁니다.\n\nstdout이 TTY라면, 프로그램은 `PAGER`로 설정된 프로그램을 자식 프로세스로 실행하고 파이프를 통해 연결합니다.\n\n대부분의 개발자 머신에서는 `PAGER`가 설정되지 않았을 때 `less`를 기본 pager로 사용합니다. 모든 것을 터미널에 직접 출력하고 싶다면 `PAGER`를 `cat`으로 설정하면 됩니다. `bat`, `most`, `delta` 같은 옵션도 있습니다. 특정 프로그램만 다르게 처리하려면 `GIT_PAGER`(git용) 또는 `BAT_PAGER`(bat용) 같은 환경변수도 있습니다.\n\n### less의 활용\n\n`less`는 매우 강력한 도구인데, 옵션과 설정을 잘 사용하면 더욱 효과적입니다. 예를 들어 기본적으로 less를 종료하면 본 텍스트가 사라지는데, `--no-init/-X` 옵션을 사용하면 본 텍스트가 터미널에 남아있습니다. `--ignore-case/-i`를 사용하면 검색을 대소문자 구분 없이 할 수 있습니다.\n\n## Terminal UI(TUI) 소개\n\nTerminal UI는 네이티브 데스크톱 애플리케이션이나 웹사이트 같은 면이 있는데, 터미널 안에서 실행된다는 점이 다릅니다.\n\nTUI는 보통 alt screen을 사용해 터미널 전체를 임시로 장악하고, 제목, 사이드바, 도움말, 텍스트 viewport 같은 애플리케이션 컴포넌트들을 표시합니다. 텍스트 viewport 컴포넌트는 terminal pager와 비슷하지만 화면의 일부만 차지합니다.\n\nTUI의 특징은 편집 가능한 최소 단위가 픽셀이 아닌 터미널 격자 셀이라는 점입니다. 이것은 좋은 제약인데요. 덕분에 터미널 애플리케이션들은 꼭 필요한 정보만 표시하고, 웹사이트나 데스크톱 앱처럼 한 화면에 많은 컴포넌트와 버튼을 집어넣기보다는 키보드 중심의 계층적 뷰를 제공하게 됩니다.\n\n### 실제 예: kl\n\n제가 만든 `kl`은 여러 클러스터와 네임스페이스에 걸쳐 Kubernetes 로그와 상호작용하는 TUI입니다.\n\n시작 시 두 개의 텍스트 viewport가 나타납니다. 왼쪽에는 설정된 클러스터, 네임스페이스, 파드, 컨테이너를 보여주는 Kubernetes 엔티티 계층이 있고, 오른쪽에는 처음엔 비어있는 로그 뷰가 있습니다.\n\n먼저 선택 viewport에 포커스가 맞춰져 있고, 여기서 로그를 볼 컨테이너 하나 이상을 선택합니다. `L`을 누르면 선택 트리를 숨기고 로그를 전체 화면으로 봅니다. 여기서 `/`로 정확히 일치하는 항목을 검색할 수 있습니다.\n\n`x`를 누르면 매칭된 항목 주변의 문맥을 보거나 매칭된 항목만 볼 수 있습니다. `p`를 누르면 로그를 보기 좋게 정렬합니다."
+        },
+        {
+          "title": "obra/superpowers (Shell)",
+          "titleKo": "obra/superpowers (셸)",
+          "summary": "에이전트 기술 프레임워크와 소프트웨어 개발 방법론을 제공하는 프로젝트입니다.",
+          "keyPoints": [
+            "에이전트 기반의 소프트웨어 개발 방법론 제시"
+          ],
+          "whyItMatters": "AI 에이전트를 실제 소프트웨어 개발 프로세스에 통합하기 위한 실용적 접근을 제공합니다.",
+          "url": "https://github.com/obra/superpowers",
+          "sourceName": "GitHub Trending",
+          "engagement": 154191,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "obrasuperpowers-shell",
+          "category": "tech",
+          "publishedAt": "2026-04-15T23:20:00.924Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "PiCore - Raspberry Pi Port of Tiny Core Linux",
+          "titleKo": "PiCore - 라즈베리 파이용 Tiny Core Linux 포트",
+          "summary": "Tiny Core Linux를 라즈베리 파이용으로 포팅한 프로젝트입니다.",
+          "keyPoints": [
+            "극도로 경량화된 리눅스 배포판을 임베디드 시스템에 제공"
+          ],
+          "whyItMatters": "리소스 제약이 있는 임베디드 환경에서 효율적인 운영체제 솔루션을 제공합니다.",
+          "url": "http://tinycorelinux.net/5.x/armv6/releases/README",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 56,
+          "contentType": "discussion",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "picore-raspberry-pi-port-of-tiny-core-linux",
+          "category": "tech",
+          "publishedAt": "2026-04-15T19:45:47.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Hacker News CLI",
+          "titleKo": "해커 뉴스 CLI",
+          "summary": "Hacker News를 커맨드라인에서 접근할 수 있는 CLI 도구입니다.",
+          "keyPoints": [
+            "터미널 환경에서 Hacker News 콘텐츠 검색 및 열람 기능 제공"
+          ],
+          "whyItMatters": "개발자가 IDE나 터미널을 떠나지 않고 기술 뉴스와 토론을 추적할 수 있습니다.",
+          "url": "https://pythonhosted.org/hackernews-cli/commands.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 13,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "hacker-news-cli",
+          "category": "tech",
+          "publishedAt": "2026-04-15T21:35:38.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "AI Assistance Reduces Persistence and Hurts Independent Performance",
+          "titleKo": "AI 지원이 인내심을 감소시키고 독립적 성능을 해치다",
+          "summary": "AI 어시스턴스 사용이 사용자의 문제 해결 인내심을 감소시키고 독립적인 작업 성능에 부정적 영향을 미친다는 연구 결과입니다.",
+          "keyPoints": [
+            "AI 지원에 대한 의존이 사용자의 자체 문제 해결 능력 약화",
+            "장기적인 독립적 성능 저하와 지속력 감소"
+          ],
+          "whyItMatters": "개발자는 AI 도구의 효율성뿐 아니라 장기적인 기술 능력 발전에 미치는 영향을 고려해야 합니다.",
+          "url": "https://arxiv.org/pdf/2604.04721",
+          "sourceName": "Lobste.rs",
+          "contentType": "article",
+          "labels": [
+            "ai",
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ai-assistance-reduces-persistence-and-hurts-independent-performance",
+          "category": "insight",
+          "publishedAt": "2026-04-15T18:12:33.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Do you even need a database?",
+          "titleKo": "데이터베이스가 정말 필요한가?",
+          "summary": "데이터베이스 대신 파일 기반 저장소를 사용하는 경우와 성능을 비교한 글로, 초기 단계 애플리케이션에서는 직접 파일을 관리하는 것이 충분할 수 있음을 보여줍니다. Go, Bun, Rust로 구현한 벤치마크 결과를 통해 파일 스캔과 메모리 인덱싱 방식의 성능을 실증적으로 분석했습니다.",
+          "keyPoints": [
+            "모든 데이터베이스는 결국 파일 시스템 위에서 동작하며, 작은 규모 애플리케이션은 직접 파일 관리 가능",
+            "메모리 해시맵 인덱싱으로 파일 기반 저장소의 성능을 크게 향상 가능",
+            "Go, Bun, Rust로 구현한 벤치마크를 통해 정말 필요한 경우만 데이터베이스 도입 권장"
+          ],
+          "whyItMatters": "과다 설계를 피하고 프로젝트 규모에 맞는 적절한 저장소 기술을 선택하는 데 실증적 기준을 제공합니다.",
+          "url": "https://www.dbpro.app/blog/do-you-even-need-a-database",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 182,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "do-you-even-need-a-database",
+          "fullContent": "A database is just files. SQLite is a single file on disk. PostgreSQL is a directory of files with a process sitting in front of them. Every database you have ever used reads and writes to the filesystem, exactly like your code does when it calls open().\nSo the question is not whether to use files. You're always using files. The question is whether to use a database's files or your own. And for a lot of applications, especially early-stage ones, the answer might be: your own.\nNow, obviously we love databases. We're building DB Pro, a database client for Mac, Windows, and Linux. But the honest answer to \"do you need one?\" depends on your scale, and most applications are smaller than people assume. We tested this. We built the same HTTP server in Go, Bun, and Rust, using two storage strategies, and hammered them with wrk. Here's what the numbers look like.\nThe setup\nThree flat files: users.jsonl, products.jsonl, orders.jsonl. The format is newline-delimited JSON (JSONL): one record per line, appended on write. Each file holds one entity type.\nJSON{\"id\":\"a3f1...\",\"name\":\"Alice Chen\",\"email\":\"alice@example.com\",\"created_at\":\"2026-04-15T...\"}\n{\"id\":\"b7d2...\",\"name\":\"Bob Torres\",\"email\":\"bob@example.com\",\"created_at\":\"2026-04-15T...\"}\nTwo HTTP endpoints: POST /users to create, GET /users/:id to fetch by ID. We benchmarked the GET path. Reads are where the strategies diverge.\nApproach 1: Read the file every time\nThe simplest thing you can do: when a request comes in for user abc-123, open the file, scan every line, parse each one as JSON, check the ID. Return when you find a match.\nGo:\nGOfunc findUser(path, id string) (*User, error) {\nf, err := os.Open(path)\nif err != nil {\nreturn nil, err\n}\ndefer f.Close()\nscanner := bufio.NewScanner(f)\nbuf := make([]byte, 1024*1024)\nscanner.Buffer(buf, len(buf))\nfor scanner.Scan() {\nvar u User\nif json.Unmarshal(scanner.Bytes(), &u) == nil && u.ID == id {\nreturn &u, nil\n}\n}\nreturn nil, scanner.Err()\n}\nTypeScript (Bun):\nTYPESCRIPTasync function findUser(id: string): Promise<User | null> {\nif (!existsSync(USERS_FILE)) return null;\nconst stream = createReadStream(USERS_FILE, { encoding: \"utf8\" });\nconst rl = createInterface({ input: stream, crlfDelay: Infinity });\nfor await (const line of rl) {\nif (!line.trim()) continue;\nconst user = JSON.parse(line) as User;\nif (user.id === id) {\nstream.destroy();\nreturn user;\n}\n}\nreturn null;\n}\nRust:\nRUSTfn find_user(path: &str, id: &str) -> Option<User> {\nlet f = File::open(path).ok()?;\nfor line in BufReader::new(f).lines().flatten() {\nif let Ok(user) = serde_json::from_str::<User>(&line) {\nif user.id == id {\nreturn Some(user);\n}\n}\n}\nNone\n}\nThis is O(n). Every request reads the entire file from top to bottom, on average scanning half of it before finding the target. The larger the file, the slower every request gets.\nApproach 2: Load it into memory\nOn startup, read the entire file once and store every record in a hash map keyed by ID. Writes go to both the map and the file. Reads are a single map lookup.\nThe file is the durable backing store. The map is the index. If the process restarts, reload from the file.\nGo:\nGOtype Store struct {\nmu sync.RWMutex\nusers map[string]User\nf *os.File\n}\nfunc NewStore(path string) (*Store, error) {\nf, err := os.OpenFile(path, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0644)\nif err != nil {\nreturn nil, err\n}\nusers := make(map[string]User)\nscanner := bufio.NewScanner(f)\nbuf := make([]byte, 1024*1024)\nscanner.Buffer(buf, len(buf))\nfor scanner.Scan() {\nvar u User\nif json.Unmarshal(scanner.Bytes(), &u) == nil {\nusers[u.ID] = u\n}\n}\nreturn &Store{users: users, f: f}, scanner.Err()\n}\nfunc (s *Store) Get(id string) (User, bool) {\ns.mu.RLock()\ndefer s.mu.RUnlock()\nreturn s.users[id]\n}\nfunc (s *Store) Create(name, email string) (User, error) {\nu := User{ID: uuid.NewString(), Name: name, Email: email, CreatedAt: time.Now().UTC()}\nb, _ := json.Marshal(u)\ns.mu.Lock()\ndefer s.mu.Unlock()\nfmt.Fprintf(s.f, \"%s\\n\", b)\ns.users[u.ID] = u\nreturn u, nil\n}\nTypeScript (Bun):\nTYPESCRIPTfunction loadUsers(): Map<string, User> {\nconst map = new Map<string, User>();\nif (!existsSync(USERS_FILE)) return map;\nfor (const line of readFileSync(USERS_FILE, \"utf8\").split(\"\\n\")) {\nif (!line.trim()) continue;\nconst user = JSON.parse(line) as User;\nmap.set(user.id, user);\n}\nreturn map;\n}\nconst users = loadUsers();\nfunction createUser(name: string, email: string): User {\nconst user = { id: randomUUID(), name, email, created_at: new Date().toISOString() };\nappendFileSync(USERS_FILE, JSON.stringify(user) + \"\\n\");\nusers.set(user.id, user);\nreturn user;\n}\nRust:\nRUSTstruct Store {\nusers: RwLock<HashMap<String, User>>,\nfile: Mutex<File>,\n}\nimpl Store {\nfn load(path: &str) -> Arc<Self> {\nlet mut map = HashMap::new();\nif let Ok(f) = File::open(path) {\nfor line in BufReader::new(f).lines().flatten() {\nif let Ok(u) = serde_json::from_str::<User>(&line) {\nmap.insert(u.id.clone(), u);\n}\n}\n}\nlet file = OpenOptions::new().create(true).append(true).open(path).unwrap();\nArc::n",
+          "category": "insight",
+          "publishedAt": "2026-04-15T12:26:11.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 파일로 충분할 때도 있다\n\n데이터베이스를 자세히 들여다보면 결국 파일일 뿐이에요. SQLite는 디스크 위의 하나의 파일이고, PostgreSQL은 프로세스가 관리하는 여러 파일의 집합입니다. 지금까지 사용한 모든 데이터베이스는 코드에서 `open()`을 호출할 때처럼 파일 시스템을 읽고 씁니다.\n\n그래서 실제 질문은 \"파일을 써야 하는가\"가 아닙니다. 어차피 파일은 쓰고 있거든요. 진짜 질문은 \"데이터베이스의 파일을 쓸 것인가, 아니면 직접 만든 파일을 쓸 것인가\"입니다. 특히 초기 단계의 서비스라면 직접 파일을 관리하는 게 더 나을 수도 있어요.\n\n당연히 우리도 데이터베이스를 좋아합니다. 우리가 만드는 DB Pro도 Mac, Windows, Linux용 데이터베이스 클라이언트니까요. 그렇지만 \"정말 데이터베이스가 필요한가?\"라는 질문에 솔직하게 답하자면, 그건 스케일에 달려있습니다. 대부분의 서비스는 생각보다 작거든요. 실제로 우리가 테스트해봤습니다. Go, Bun, Rust로 같은 HTTP 서버를 두 가지 저장 전략으로 만들어서 wrk로 부하 테스트를 돌렸어요. 결과가 흥미로웠습니다.\n\n## 테스트 환경\n\n세 개의 평문 파일을 사용했어요: users.jsonl, products.jsonl, orders.jsonl. 형식은 JSONL(newline-delimited JSON)이라서 한 줄에 한 레코드씩 들어가고, 쓸 때는 뒤에 추가합니다. 각 파일은 한 종류의 데이터만 담고 있어요.\n\n```json\n{\"id\":\"a3f1...\",\"name\":\"Alice Chen\",\"email\":\"alice@example.com\",\"created_at\":\"2026-04-15T...\"}\n{\"id\":\"b7d2...\",\"name\":\"Bob Torres\",\"email\":\"bob@example.com\",\"created_at\":\"2026-04-15T...\"}\n```\n\nHTTP 엔드포인트는 두 개입니다: POST /users는 사용자 생성, GET /users/:id는 ID로 조회. 우리는 GET 요청의 성능을 벤치마크했어요. 읽기 작업에서 두 전략의 차이가 두드러지거든요.\n\n## 방법 1: 요청할 때마다 파일 읽기\n\n가장 단순한 접근법입니다. 사용자 abc-123을 찾으라는 요청이 들어오면, 파일을 열어서 한 줄씩 읽고 각 줄을 JSON으로 파싱해서 ID를 비교합니다. 일치하는 게 나오면 반환하는 거죠.\n\n```go\nfunc findUser(path, id string) (*User, error) {\n\tf, err := os.Open(path)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tdefer f.Close()\n\tscanner := bufio.NewScanner(f)\n\tbuf := make([]byte, 1024*1024)\n\tscanner.Buffer(buf, len(buf))\n\tfor scanner.Scan() {\n\t\tvar u User\n\t\tif json.Unmarshal(scanner.Bytes(), &u) == nil && u.ID == id {\n\t\t\treturn &u, nil\n\t\t}\n\t}\n\treturn nil, scanner.Err()\n}\n```\n\n```typescript\nasync function findUser(id: string): Promise<User | null> {\n\tif (!existsSync(USERS_FILE)) return null;\n\tconst stream = createReadStream(USERS_FILE, { encoding: \"utf8\" });\n\tconst rl = createInterface({ input: stream, crlfDelay: Infinity });\n\tfor await (const line of rl) {\n\t\tif (!line.trim()) continue;\n\t\tconst user = JSON.parse(line) as User;\n\t\tif (user.id === id) {\n\t\t\tstream.destroy();\n\t\t\treturn user;\n\t\t}\n\t}\n\treturn null;\n}\n```\n\n```rust\nfn find_user(path: &str, id: &str) -> Option<User> {\n\tlet f = File::open(path).ok()?;\n\tfor line in BufReader::new(f).lines().flatten() {\n\t\tif let Ok(user) = serde_json::from_str::<User>(&line) {\n\t\t\tif user.id == id {\n\t\t\t\treturn Some(user);\n\t\t\t}\n\t\t}\n\t}\n\tNone\n}\n```\n\n이 방식은 O(n) 복잡도를 가집니다. 모든 요청이 파일 전체를 처음부터 끝까지 읽고, 평균적으로는 절반 정도를 스캔한 후에야 원하는 레코드를 찾아요. 파일이 커질수록 모든 요청이 느려집니다.\n\n## 방법 2: 메모리에 로드하기\n\n시작할 때 파일을 한 번만 읽어서 모든 레코드를 ID를 키로 하는 해시맵에 저장합니다. 새로운 데이터를 쓸 때는 맵과 파일 둘 다에 기록해요. 조회는 단순한 맵 검색이 됩니다.\n\n이 구조에서 파일은 영구적인 저장소 역할을 하고, 맵이 인덱스가 되는 거죠. 프로세스가 재시작되면 파일에서 다시 로드하면 돼요.\n\n```go\ntype Store struct {\n\tmu    sync.RWMutex\n\tusers map[string]User\n\tf     *os.File\n}\n\nfunc NewStore(path string) (*Store, error) {\n\tf, err := os.OpenFile(path, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0644)\n\tif err != nil {\n\t\treturn nil, err\n\t}\n\tusers := make(map[string]User)\n\tscanner := bufio.NewScanner(f)\n\tbuf := make([]byte, 1024*1024)\n\tscanner.Buffer(buf, len(buf))\n\tfor scanner.Scan() {\n\t\tvar u User\n\t\tif json.Unmarshal(scanner.Bytes(), &u) == nil {\n\t\t\tusers[u.ID] = u\n\t\t}\n\t}\n\treturn &Store{users: users, f: f}, scanner.Err()\n}\n\nfunc (s *Store) Get(id string) (User, bool) {\n\ts.mu.RLock()\n\tdefer s.mu.RUnlock()\n\treturn s.users[id]\n}\n\nfunc (s *Store) Create(name, email string) (User, error) {\n\tu := User{ID: uuid.NewString(), Name: name, Email: email, CreatedAt: time.Now().UTC()}\n\tb, _ := json.Marshal(u)\n\ts.mu.Lock()\n\tdefer s.mu.Unlock()\n\tfmt.Fprintf(s.f, \"%s\\n\", b)\n\ts.users[u.ID] = u\n\treturn u, nil\n}\n```\n\n```typescript\nfunction loadUsers(): Map<string, User> {\n\tconst map = new Map<string, User>();\n\tif (!existsSync(USERS_FILE)) return map;\n\tfor (const line of readFileSync(USERS_FILE, \"utf8\").split(\"\\n\")) {\n\t\tif (!line.trim()) continue;\n\t\tconst user = JSON.parse(line) as User;\n\t\tmap.set(user.id, user);\n\t}\n\treturn map;\n}\n\nconst users = loadUsers();\n\nfunction createUser(name: string, email: string): User {\n\tconst user = { id: randomUUID(), name, email, created_at: new Date().toISOString() };\n\tappendFileSync(USERS_FILE, JSON.stringify(user) + \"\\n\");\n\tusers.set(user.id, user);\n\treturn user;\n}\n```\n\n```rust\nstruct Store {\n\tusers: RwLock<HashMap<String, User>>,\n\tfile: Mutex<File>,\n}\n\nimpl Store {\n\tfn load(path: &str) -> Arc<Self> {\n\t\tlet mut map = HashMap::new();\n\t\tif let Ok(f) = File::open(path) {\n\t\t\tfor line in BufReader::new(f).lines().flatten() {\n\t\t\t\tif let Ok(u) = serde_json::from_str::<User>(&line) {\n\t\t\t\t\tmap.insert(u.id.clone(), u);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\tlet file = OpenOptions::new().create(true).append(true).open(path).unwrap();\n\t\tArc::new(Store {\n\t\t\tusers: RwLock::new(map),\n\t\t\tfile: Mutex::new(file),\n\t\t})\n\t}\n}\n```\n\n이제 조회는 O(1)이에요. 맵 조회는 상수 시간에 이루어지니까 데이터가 얼마나 많든 성능은 일정합니다. 당연히 데이터베이스만큼 정교한 기능은 없지만, 충분히 빠르고 관리도 간단합니다."
+        },
+        {
+          "title": "Cybersecurity looks like proof of work now",
+          "titleKo": "사이버보안이 작업증명처럼 보입니다",
+          "summary": "Anthropic의 Mythos 모델이 보안 작업에서 뛰어난 성능을 보이자, 보안 강화가 공격자보다 더 많은 토큰을 소비하는 단순한 계산으로 축소되는 경제학을 분석합니다. 이는 암호화폐의 작업증명 시스템과 유사한 구조입니다.",
+          "keyPoints": [
+            "AI 보안 모델(Mythos)은 토큰 예산을 늘릴수록 계속 진화하며, 감소 추세를 보이지 않음",
+            "시스템 보안은 '공격자가 소비할 토큰'보다 '방어에 소비할 토큰'이 더 많아야 하는 원칙",
+            "오픈소스 소프트웨어와 3단계 개발 사이클(개발→검토→강화)의 중요성 증대"
+          ],
+          "whyItMatters": "LLM 시대의 보안 전략이 근본적으로 변하고 있으며, 개발 워크플로우에 자동화된 보안 강화 단계를 통합해야 함을 시사합니다.",
+          "url": "https://www.dbreunig.com/2026/04/14/cybersecurity-is-proof-of-work-now.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 133,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "cybersecurity-looks-like-proof-of-work-now",
+          "fullContent": "Apr 14, 2026\nAI\nDEVELOPMENT\nSECURITY\nMYTHOS\nCybersecurity Looks Like Proof of Work Now\nIs security spending more tokens than your attacker?\nLast week we learned about Anthropic’s Mythos, a new LLM so “strikingly capable at computer security tasks” that Anthropic didn’t release it publicly. Instead, only critical software makers have been granted access, providing them time to harden their systems.\nWe quickly blew through our standard stages of processing big AI claims: shock, existential fear, hype, skepticism, criticism, and (finally) moving onto the next thing. I encouraged people to take a wait-and-see approach, as security capabilities are tailor-made for impressive demos. Finding exploits is a clearly defined, verifiable search problem. You’re not building a complex system, but poking at one that exists. A problem well suited to throwing millions of tokens at.\nYesterday, the first 3rd party analysis landed, from the AI Security Institute (AISI), largely supporting Anthropic’s claims. Mythos is really good, “a step up over previous frontier models in a landscape where cyber performance was already rapidly improving.”\nThe entire report is worth reading, but I want to focus on the following chart, detailing the ability of different models to successfully complete a simulated, complex corporate network attack:\n“The Last Ones” is, “a 32-step corporate network attack simulation spanning initial reconnaissance through to full network takeover, which AISI estimates to require humans 20 hours to complete.” The lines are the average performance across multiple runs (10 runs for Mythos, Opus 4.6, and GPT-5.4), with the “max” lines representing the best of each batch. Mythos was the only model to complete the task, in 3 out of its 10 attempts.\nThis chart suggests an interesting security economy: to harden a system we need to spend more tokens discovering exploits than attackers spend exploiting them.\nAISI budgeted 100M tokens for each attempt. That’s $12,500 per Mythos attempt, $125k for all ten runs. Worryingly, none of the models given a 100M budget showed signs of diminishing returns. “Models continue making progress with increased token budgets across the token budgets tested,” AISI notes.\nIf Mythos continues to find exploits so long as you keep throwing money at it, security is reduced to a brutally simple equation: to harden a system you need to spend more tokens discovering exploits than attackers will spend exploiting them.\nYou don’t get points for being clever. You win by paying more. It is a system that echoes cryptocurrency’s proof of work system, where success is tied to raw computational work. It’s a low temperature lottery: buy the tokens, maybe you find an exploit. Hopefully you keep trying longer than your attackers.\nThis calculus has a few immediate takeaways:\nFirst, open source software remains critically important.\nFor those of you who aren’t exposed to AI maximalists, this statement feels absurd. But lately, after the LiteLLM and Axios supply chain scares, many have argued for reimplementing dependency functionality using coding agents.\nHere’s Karpathy, just a few weeks ago:\nClassical software engineering would have you believe that dependencies are good (we’re building pyramids from bricks), but imo this has to be re-evaluated, and it’s why I’ve been so growingly averse to them, preferring to use LLMs to “yoink” functionality when it’s simple enough and possible.\nIf security is purely a matter of throwing tokens at a system, Linus’s law that, “given enough eyeballs, all bugs are shallow,” expands to include tokens. If corporations that rely on OSS libraries spend to secure them with tokens, it’s likely going to be more secure than your budget allows. Certainly, this has complexities: cracking a widely used OSS package is inherently more valuable than hacking a one-off implementation, which incentivizes attackers to spend more on OSS targets.\nSecond, hardening will be an additional phase for agentic coders.\nWe’ve already been seeing developers break their process into two steps, development and code review, often using different models for each phase. As this matures, we’re seeing purpose-built tooling meeting this pattern. Anthropic launched a code review product that costs $15-20 per review.\nIf the above Mythos claims hold, I suspect we’ll see a three phase cycle: development, review, and hardening.\nDevelopment: Implement features, iterate quickly, guided by human intuition and user feedback.\nReview: Document, refactor, and other gardening tasks, async, applying best practices with each PR.\nHardening: Identify exploits, autonomously, until the budget runs out.\nCritically, human input is the limiter for the first phase and money is the limiter for the last. This quality inherently makes them separate stages (why spend to harden before you have something?). Previously, security audits were rare, discrete, and inconsistent. Now we can apply them constantly, within an optimal (we hope!) budget.\nC",
+          "category": "insight",
+          "publishedAt": "2026-04-14T18:08:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 사이버보안도 이제 작업증명 같아졌다\n## 공격자보다 더 많은 토큰을 써야 시스템이 안전할까?\n\n지난주 Anthropic이 공개한 Mythos라는 신규 LLM이 화제였습니다. \"컴퓨터 보안 작업에서 놀랍도록 뛰어난\" 이 모델은 워낙 강력해서 일반에 공개하지 않았고, 대신 주요 소프트웨어 기업들만 접근을 허가받았거든요. 이들에게 자신의 시스템을 보강할 시간을 주려는 의도였습니다.\n\n우리는 대형 AI 관련 주장을 받아들이기까지의 단계를 다시 거쳤습니다. 충격, 존재론적 공포, 과대광고, 회의, 비판... 그리고 결국 다음 주제로 넘어갑니다. 저는 기다려보자는 입장을 취했는데요. 보안 역량은 화려한 데모를 만들기에 딱 좋거든요. 취약점을 찾는 건 명확하고 검증 가능한 탐색 문제일 뿐입니다. 새로운 복잡한 시스템을 구축하는 게 아니라 기존 시스템을 들쑤셔보는 거니까요. 수백만 개의 토큰을 쏟아붓기에 최적화된 문제라고 할 수 있습니다.\n\n어제 드디어 첫 번째 제3자 분석이 공개됐습니다. AI Security Institute(AISI)의 분석인데, Anthropic의 주장을 대체로 뒷받침했거든요. Mythos가 정말 강력하다는 겁니다. \"기존 최고 수준의 모델들을 한 단계 능가했고, 이미 빠르게 발전하던 사이버 성능 영역에서 한 발 앞서 나갔다\"는 평가네요.\n\n전체 보고서를 읽어볼 가치가 있지만, 저는 한 가지 차트에 주목했습니다. 복잡한 기업 네트워크 공격을 성공적으로 완료하는 각 모델의 능력을 보여주는 차트입니다.\n\n\"The Last Ones\"는 초기 정찰부터 전체 네트워크 장악까지 이르는 32단계 기업 네트워크 공격 시뮬레이션입니다. AISI 추정으로 인간이라면 20시간이 필요한 작업이죠. 선 그래프는 여러 실행의 평균 성능을 나타내고(Mythos, Opus 4.6, GPT-5.4는 각각 10회 실행), \"max\" 선은 각 배치에서의 최고 성능입니다. Mythos만이 10회 시도 중 3회 이 작업을 완료했습니다.\n\n이 차트는 흥미로운 보안 경제학을 시사합니다. 시스템을 보강하려면 공격자가 취약점을 악용하는 데 쓰는 토큰보다 더 많은 토큰을 취약점 발견에 써야 한다는 겁니다.\n\nAISI는 각 시도마다 1억 개의 토큰을 예산으로 배정했습니다. Mythos 한 번 시도에 $12,500, 10회 모두를 합치면 $125,000이죠. 걱정스러운 부분은 1억 개 예산이 주어진 어떤 모델도 수확 체감의 징후를 보이지 않았다는 겁니다. AISI는 \"테스트된 모든 토큰 예산 범위에서 모델들이 계속 진전을 보였다\"고 지적했습니다.\n\n만약 Mythos가 계속 돈을 쏟아붓는 한 취약점을 찾아낸다면, 보안은 매우 단순한 수식으로 축소됩니다. 시스템을 보강하려면 공격자가 그걸 악용하려고 쓸 토큰보다 더 많은 토큰을 취약점 발견에 써야 한다는 거죠.\n\n영리함이 통하지 않습니다. 더 많은 돈을 쓰는 쪽이 이기는 겁니다. 이건 암호화폐의 작업증명(Proof of Work) 시스템을 떠올리게 합니다. 성공이 순수한 계산 작업량에 달려 있으니까요. 말하자면 저온 복권처럼 말입니다. 토큰을 사고, 운이 좋으면 취약점을 발견하세요. 그리고 공격자보다 오래 계속하기를 바라세요.\n\n이런 논리에서 몇 가지 바로 떠오르는 시사점이 있습니다.\n\n## 첫째, 오픈소스 소프트웨어는 여전히 극도로 중요합니다\n\nAI 맹신자들이 아니라면 이 말이 말이 안 되게 들릴 겁니다. 하지만 최근 LiteLLM과 Axios 공급망 위협 사건 이후, LLM 코딩 에이전트로 의존성 기능을 재구현해야 한다고 주장하는 사람들이 늘었거든요.\n\nKarpathy가 몇 주 전에 이렇게 말했습니다:\n\n> \"고전 소프트웨어 엔지니어링 관점에서는 의존성이 좋다고 가르치죠(벽돌로 피라미드를 짓는다는 식으로). 하지만 제 생각에는 이를 다시 평가해야 하고, 그래서 저는 의존성을 점점 더 피하면서, 충분히 간단하고 가능할 때는 LLM으로 기능을 '대충' 구현하려 합니다.\"\n\n만약 보안이 순전히 시스템에 토큰을 퍼붓는 문제라면, Linus의 법칙 \"충분한 눈이 있으면 모든 버그는 얕다\"는 말이 토큰까지 확장됩니다. OSS 라이브러리를 사용하는 기업들이 토큰으로 이를 보강하면, 아마 당신의 예산으로 할 수 있는 것보다 훨씬 안전할 가능성이 높거든요. 물론 복잡한 부분이 있습니다. 널리 사용되는 OSS 패키지를 해킹하는 게 일회용 구현을 해킹하는 것보다 훨씬 가치 있으니까, 공격자들은 OSS 대상에 더 많은 토큰을 쏟으려는 유인이 생깁니다.\n\n## 둘째, 강화(Hardening)는 에이전트 코더의 별도 단계가 될 것입니다\n\n개발자들은 이미 자신의 프로세스를 두 단계로 나누고 있습니다. 개발과 코드 리뷰인데, 때로는 각 단계마다 다른 모델을 사용하죠. 이게 성숙해지면서 이 패턴에 맞춘 전용 도구도 나타나고 있습니다. Anthropic은 코드 리뷰 제품을 출시했는데 리뷰당 $15~20이 드네요.\n\n위의 Mythos 주장들이 맞다면, 저는 3단계 사이클을 보게 될 거라 예상합니다. 개발, 리뷰, 그리고 강화 말입니다.\n\n**개발**: 기능을 구현하고, 빠르게 반복합니다. 인간의 직관과 사용자 피드백이 가이드입니다.\n\n**리뷰**: 비동기로 문서화하고, 리팩토링하며, PR마다 최고의 관행을 적용합니다.\n\n**강화**: 예산이 떨어날 때까지 자율적으로 취약점을 식별합니다.\n\n중요한 부분은 첫 번째 단계는 인간의 투입이 제한 요소이고, 마지막 단계는 금전이 제한 요소라는 겁니다. 이런 특성 때문에 필연적으로 분리된 단계가 됩니다(뭔가 만들기 전에 왜 강화에 돈을 쓰겠어요). 예전에 보안 감사는 드물고, 일회적이었으며, 일관성이 없었습니다. 이제 우리는 최적화된(잘되길 바라며!) 예산 범위 내에서 지속적으로 감사를 적용할 수 있게 됐습니다."
+        },
+        {
+          "title": "Want to write a compiler? Just read these two papers (2008)",
+          "titleKo": "컴파일러를 작성하고 싶으신가요? 이 두 논문만 읽으세요 (2008)",
+          "summary": "컴파일러 작성의 진입장벽을 낮추기 위해 Jack Crenshaw의 'Let's Build a Compiler!' 시리즈와 'A Nanopass Framework for Compiler Education' 논문을 추천합니다.",
+          "keyPoints": [
+            "Crenshaw의 시리즈는 단순한 구조(싱글 패스, 파싱과 코드 생성 혼합)로 컴파일러 작성을 단순화",
+            "Nanopass Framework는 프로그램의 내부 표현을 수십 개의 간단한 변환 과정으로 분리하는 방식 제시"
+          ],
+          "whyItMatters": "접근 가능한 자료를 통해 컴파일러 작성이 복잡하지 않다는 통념을 깨고 실제 구현을 시작할 수 있습니다.",
+          "url": "https://prog21.dadgum.com/30.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 445,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "want-to-write-a-compiler-just-read-these-two-papers-2008",
+          "fullContent": "It's not about technology for its own sake. It's about being able to implement your ideas.\nImagine you don't know anything about programming, and you want learn how to do it. You take a look at Amazon.com, and there's a highly recommended set of books by Knute or something with a promising title, The Art of Computer Programming, so you buy them. Now imagine that it's more than just a poor choice, but that all the books on programming are at written at that level.\nThat's the situation with books about writing compilers.\nIt's not that they're bad books, they're just too broadly scoped, and the authors present so much information that it's hard to know where to begin. Some books are better than others, but there are still the thick chapters about converting regular expressions into executable state machines and different types of grammars and so on. After slogging through it all you will have undoubtedly expanded your knowledge, but you're no closer to actually writing a working compiler.\nNot surprisingly, the opaqueness of these books has led to the myth that compilers are hard to write.\nThe best source for breaking this myth is Jack Crenshaw's series, Let's Build a Compiler!, which started in 1988. This is one of those gems of technical writing where what's assumed to be a complex topic ends up being suitable for a first year programming class. He focuses on compilers of the Turbo Pascal class: single pass, parsing and code generation are intermingled, and only the most basic of optimizations are applied to the resulting code. The original tutorials used Pascal as the implementation language, but there's a C version out there, too. If you're truly adventurous, Marcel Hendrix has done a Forth translation (and as Forth is an interactive language, it's easier to experiment with and understand than the C or Pascal sources).\nAs good as it is, Crenshaw's series has one major omission: there's no internal representation of the program at all. That is, no abstract syntax tree. It is indeed possible to bypass this step if you're willing to give up flexibility, but the main reason it's not in the tutorials is because manipulating trees in Pascal is out of sync with the simplicity of the rest of the code he presents. If you're working in a higher level language--Python, Ruby, Erlang, Haskell, Lisp--then this worry goes away. It's trivially easy to create and manipulate tree-like representations of data. Indeed, this is what Lisp, Erlang, and Haskell were designed for.\nThat brings me to A Nanopass Framework for Compiler Education [PDF] by Sarkar, Waddell, and Dybvig. The details of this paper aren't quite as important as the general concept: a compiler is nothing more than a series of transformations of the internal representation of a program. The authors promote using dozens or hundreds of compiler passes, each being as simple as possible. Don't combine transformations; keep them separate. The framework mentioned in the title is a way of specifying the inputs and outputs for each pass. The code is in Scheme, which is dynamically typed, so data is validated at runtime.\nAfter writing a compiler or two, then go ahead and plunk down the cash for the infamous Dragon Book or one of the alternatives. Maybe. Or you might not need them at all.\nI'm James Hague, a recovering programmer who has been designing video games since the 1980s. Programming Without Being Obsessed With Programming and Organizational Skills Beat Algorithmic Wizardry are good starting points. For the older stuff, try the 2012 Retrospective.",
+          "category": "insight",
+          "publishedAt": "2026-04-15T09:41:19.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 컴파일러 공부, 어디서부터 시작할까?\n\n프로그래밍은 기술을 배우는 것이 아니라, 자신의 아이디어를 구현하는 능력을 얻는 것입니다. 프로그래밍을 처음 배우려고 아마존에 들어가본다고 생각해봅시다. 베스트셀러 목록에 \"컴퓨터 프로그래밍의 예술\" 같은 제목의 책이 있는데, 막상 펼쳐보니 정말 어렵더라고요. 만약 모든 프로그래밍 책이 다 그 수준이라면 어떨까요?\n\n컴파일러 관련 책들이 바로 그런 상황입니다.\n\n## 왜 컴파일러 책들은 어려울까?\n\n컴파일러 책이 나쁜 건 아닙니다. 다만 너무 많은 내용을 다루거든요. 저자들이 제시하는 정보의 양이 워낙 방대해서 어디서부터 시작해야 할지 막막합니다. 정규표현식을 상태 머신으로 변환하는 과정, 여러 종류의 문법론 같은 두꺼운 장들을 끝내고 나면 지식은 늘었을지 몰라도, 실제로 동작하는 컴파일러를 작성하는 것과는 거리가 멉니다.\n\n이런 불명확함 때문에 \"컴파일러는 정말 어렵다\"는 통념이 생긴 거거든요.\n\n## Let's Build a Compiler! - 미신을 깨다\n\n이 미신을 깨는 최고의 자료는 1988년부터 시작된 Jack Crenshaw의 \"Let's Build a Compiler!\" 시리즈입니다. 이것은 복잡하다고 여겨지던 주제를 1학년 프로그래밍 수준으로 만들어낸, 정말 보기 드문 기술 문서입니다.\n\nCrenshaw는 Turbo Pascal 같은 수준의 컴파일러를 다룹니다. 한 번에 처리되고, 파싱과 코드 생성이 섞여 있으며, 최소한의 최적화만 적용하는 방식이죠. 원래는 Pascal로 작성되었지만 C 버전도 있고, 모험심이 넘친다면 Forth로 번역한 버전도 찾을 수 있습니다. (Forth는 대화형 언어라서 C나 Pascal 버전보다 실험하고 이해하기 더 쉽습니다.)\n\n## 한 가지 아쉬운 점: 추상 구문 트리\n\n아무리 좋은 Crenshaw의 튜토리얼도 큰 한 가지 빠진 게 있습니다. 바로 프로그램의 내부 표현이 없다는 거예요. 즉, 추상 구문 트리(Abstract Syntax Tree, AST)가 없는 것입니다.\n\n물론 유연성을 포기하면 이 단계를 건너뛸 수는 있습니다. 튜토리얼에 이것이 없는 주된 이유는 Pascal에서 트리를 다루는 것이 나머지 코드의 단순함과 맞지 않기 때문입니다. 하지만 Python, Ruby, Erlang, Haskell, Lisp 같은 고급 언어를 사용하면 이 문제는 사라집니다. 이 언어들에서는 트리 같은 데이터 구조를 만들고 다루는 것이 정말 간단합니다. 사실 Lisp, Erlang, Haskell이 애초에 그 목적으로 설계된 언어들입니다.\n\n## Nanopass Framework - 다음 단계\n\n그 다음 읽을 만한 자료는 Sarkar, Waddell, Dybvig의 \"A Nanopass Framework for Compiler Education\"입니다. 이 논문의 세부 내용보다 중요한 것은 핵심 개념입니다.\n\n**컴파일러는 프로그램의 내부 표현을 계속 변환하는 일련의 단계일 뿐입니다.**\n\n저자들은 수십 개, 심지어 수백 개의 컴파일러 패스(pass)를 사용할 것을 추천합니다. 각 단계는 최대한 단순하게 유지하는 거죠. 여러 변환을 합치지 말고 분리해서 진행하는 겁니다. 제목에 나오는 프레임워크는 각 단계의 입력과 출력을 명확하게 정의하는 방법입니다. 코드는 Scheme으로 작성되었는데, 동적 타이핑이라서 런타임에 데이터 검증이 일어납니다.\n\n## 그 다음은?\n\n한두 개의 컴파일러를 직접 작성해보고 나면, 그때쯤 유명한 \"Dragon Book\"이나 다른 고급 교과서를 사도 됩니다. 아니면 안 살 수도 있어요. 실제로 많은 사람들이 이정도 공부로도 충분하다고 생각합니다."
+        },
+        {
+          "title": "Forcing an inversion of control on the SaaS stack",
+          "titleKo": "SaaS 스택에 제어 반전 강제하기",
+          "summary": "SaaS 아키텍처에서 클라이언트 측 주입을 통한 제어 반전 패턴 적용에 관한 글입니다.",
+          "keyPoints": [
+            "클라이언트 측 인젝션을 활용한 아키텍처 설계 개선",
+            "SaaS 스택의 유연성과 확장성 향상"
+          ],
+          "whyItMatters": "SaaS 애플리케이션의 아키텍처 설계 패턴에 대한 새로운 접근 방식을 제시합니다.",
+          "url": "https://www.100x.bot/a/client-side-injection-inversion-of-control-saas",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 66,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "forcing-an-inversion-of-control-on-the-saas-stack",
+          "category": "insight",
+          "publishedAt": "2026-04-10T17:01:26.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "forrestchang/andrej-karpathy-skills",
+          "titleKo": "forrestchang/andrej-karpathy-skills",
+          "summary": "Andrej Karpathy의 LLM 코딩 문제 관찰을 바탕으로 Claude Code의 동작을 개선하기 위한 단일 CLAUDE.md 파일입니다.",
+          "keyPoints": [
+            "Andrej Karpathy의 LLM 코딩 관련 통찰을 한 파일에 정리",
+            "Claude의 코드 생성 품질 향상을 위한 프롬프트 엔지니어링 자료"
+          ],
+          "whyItMatters": "AI 코드 생성 도구의 출력 품질을 향상시킬 수 있는 체계적인 접근 방식을 제공합니다.",
+          "url": "https://github.com/forrestchang/andrej-karpathy-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 42659,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "career"
+          ],
+          "topicId": "ai-learning-resources",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "forrestchangandrej-karpathy-skills",
+          "category": "insight",
+          "publishedAt": "2026-04-15T23:20:00.921Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "Fixing a monitor that goes black, off or blinks due to static electricity (2023)",
+          "titleKo": "정적 전기로 인한 모니터 검은 화면 고장 수정 방법 (2023)",
+          "summary": "가스 리프트 의자에서 발생하는 정적 전기와 EMI 스파이크로 인한 모니터 화면 끊김 문제를 진단하고, 메탈 체인 그라운딩과 페라이트 링으로 해결한 경험담입니다.",
+          "keyPoints": [
+            "의자의 플라스틱 바퀴에서 발생하는 정적 전기를 메탈 체인으로 접지하여 해결",
+            "DisplayPort 케이블의 EMI 스파이크를 페라이트 링으로 차폐",
+            "특히 USB-C to DP 어댑터 사용 시 문제가 심함"
+          ],
+          "whyItMatters": "재택근무 환경에서 의외의 하드웨어 문제를 과학적으로 진단하고 해결할 수 있는 실용적 지식을 제공합니다.",
+          "url": "https://aalonso.dev/blog/2023/how-to-fix-monitor-that-goes-black-off-due-to-static-electricity-in-chair/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 104,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "fixing-a-monitor-that-goes-black-off-or-blinks-due-to-static-electricity-2023",
+          "fullContent": "How to fix monitor that goes black, off or blinks due to static electricity in chair (and others)Aitor AlonsoFeb 24, 20234 min readRSS feed\nRemote\nEngineering\nProductivityHi there! Today, I come with a very unusual post, based on a true history that was happening to me before. If you are reading this, chances are that this is happening to you too, or just you are a curious person whose mind exploded when you read the title of this post.\nWhat happened? What is this about?I was suffering from an annoying issue for a few days. I work from home, and I use a MacBook pro attached to an external 4K monitor. along with an Ikea Markus chair. For whatever reason I’m not figured out yet, it’s generating a lot of static electricity every time I move a little, or every time I stand up. (Yes, it probably is related with the clothes or shoes I’m using, but tested different ones for a few days and didn’t notice any difference).The problem with that static electricity is not only the annoying electrical “shocks” I receive every time I took a conductive surface (like my metallic MacBook), but also that the external monitor plugged to my MacBook goes black, blinks, or directly turns off. Sometimes, it even won’t reconnect at all or recognize it, and I need to unplug and plug-in again the video cable.But even more. Sometimes, when I stand up without touching anything else (like the table or the MacBook) I get the same issue, so it couldn’t be only the static electricity. As a curious person (and a bit nerd one, to be honest), I started to investigate what was happening. I found out that some gas lift office chairs (like the one I’m using) can generate an EMI spike when people stand or sit on it, which is picked up on the video cables, and generates this issue.“An EMI spike? I don’t believe you”, you said. And you know what? You don’t have to. There is a lot of people with the same issues out there in the internet. To provide some authority references, the official support page of DisplayLink talks about this issue, and there is even a White Paper about it. It seems that this issue is specially notorious with Display Port (DP) video cables, and also when some adapters (USB-C to DP, DP to HDMI, etc.) are used. In my personal case, I had this problem with two different cables I used: one DP to USB-C cable (without adapter), a USB-C to USB-C thunderbolt 3 cable (my monitor allows using it as an input and it will also charge the MacBook while in use).Still don’t believe me? They say that a image worths a thousand words, so here is a video I found in YouTube that shows the issue, even using a oscilloscope to capture the EMI.\nIs this happening to me? You askIf what I already told sounds familiar to you, it’s highly probable. In fact, it’s happening to other people too. In that link, you can check a person asking the same question in SuperUser, but the answers there provided were not satisfactory for me, either because they were too generic, cause I found them impractical/annoying, or because they didn’t work for me.\nOk, then how can I fix it? You ask againFor me, we have two different problems:The first one is the static electricity. This is due to the chair not being able to discharge itself. In my particular case, my chair wheels are made out of plastic (non-conductive), so my solution was to “ground” my chair by adding a metallic chain from the chair to my room floor. I got the idea from reddit. I have a wooden floor and it’s working pretty well. Electrical shocks have been reduced by a lot (from +20 per day to just one every few days). This is my chair now:Click on image to enlargeThe other problem are the EMI spikes. We cannot avoid the chair generating them, but we can reduce their effect by using ferrite ring around our video cables, as suggested in the previous mentioned Display Link support page. Another user came to the same solution also in reddit. I bought a pack of 10 ferrite rings in Amazon Spain (afiliate link), and I’m using them in my video cables.Click on image to enlargeI have to say that the monitor stills goes black when I stand up quickly or in a fast way, but it’s not as often as before. If I stand up slowly, it doesn’t happen at all. I think that the ferrite rings are reducing the effect of the EMI spikes, but they are not completely eliminating them.And that’s my story. I hope it helps you if you are suffering from the same issue. If you have any other solution, please let me know. You can contact me from my social media accounts in the footer of this page, or by email (my email is public under my GitHub profile to logged GitHub users).",
+          "category": "insight",
+          "publishedAt": "2026-04-12T10:27:08.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 의자의 정전기로 모니터가 검게 변하거나 꺼지고 깜빡인다면?\n\n얼마 전 저는 정말 이상한 문제를 겪고 있었습니다. 혹시 이 글의 제목을 보고 클릭하셨다면, 혹은 정말 궁금한 마음에 들어오셨다면 혹시 같은 증상을 경험 중일 수도 있겠다는 생각이 듭니다.\n\n## 정확히 어떤 문제였나요?\n\n재택근무를 하면서 MacBook Pro를 4K 외장 모니터에 연결해 사용 중입니다. 그런데 며칠 전부터 정말 짜증나는 문제가 생겼거든요. Ikea의 Markus 의자를 쓰고 있는데, 몸을 조금만 움직여도, 일어날 때마다 엄청난 정전기가 발생하는 겁니다. (옷이나 신발 때문일 가능성이 높긴 한데, 며칠간 여러 종류를 바꿔 입어봐도 별 차이가 없더라고요.)\n\n문제는 정전기 쇼크만이 아니었습니다. MacBook 같은 금속 물체를 만질 때마다 충격을 받을 뿐만 아니라, 외장 모니터가 화면이 검게 변하거나 깜빡이거나 아예 꺼져버리곤 했습니다. 심하면 모니터를 인식하지 못해 영상 케이블을 뺐다 다시 꽂아야 하기도 했습니다.\n\n더 이상한 건 뭔가 만지지 않고 그냥 일어나기만 해도 같은 문제가 생긴다는 점이었어요. 호기심이 많은 편이라 (그리고 조금 너드스럽기도 해서) 원인을 파고들기 시작했습니다.\n\n## 원인이 뭔지 알아봤어요\n\n조사를 통해 알게 된 사실은, 제 의자 같은 가스 실린더식 오피스 의자가 사람이 앉거나 일어날 때 EMI(전자기 간섭) 스파이크를 발생시킨다는 것입니다. 이 스파이크가 영상 케이블에 감지되면서 모니터 문제가 생기는 거였어요.\n\n\"EMI 스파이크라니, 말도 안 돼\"라고 생각하실 수도 있습니다. 하지만 인터넷 곳곳에서 같은 문제로 고생하는 사람들을 쉽게 찾아볼 수 있어요. 신뢰성 있는 자료도 있습니다. DisplayLink의 공식 지원 페이지에도 이 문제가 언급되어 있으며, 심지어 관련 백서까지 있거든요.\n\n특히 DisplayPort 케이블에서 이 문제가 심하다고 알려져 있습니다. USB-C to DP, DP to HDMI 같은 어댑터를 사용할 때도 마찬가지고요. 저의 경우 두 종류의 케이블에서 문제가 발생했습니다. DP to USB-C 케이블(어댑터 없음)과 USB-C to USB-C Thunderbolt 3 케이블이었는데, 모니터가 이 케이블로 입력받고 MacBook을 동시에 충전할 수 있거든요.\n\n여전히 믿기 어렵다면, 오실로스코프로 EMI를 실제로 측정하는 유튜브 영상도 있습니다. 백문이 불여일견이라고 하죠.\n\n## 해결 방법은 무엇일까요?\n\n이 문제는 두 가지로 나눠 생각할 수 있습니다.\n\n**첫 번째: 정전기 제거**\n\n의자가 정전기를 제대로 방전하지 못하는 게 원인입니다. 제 의자 바퀴가 플라스틱(비도전성)이었거든요. Reddit에서 본 아이디어를 활용해 의자에서 바닥으로 금속 체인을 연결해 \"접지\"했습니다. 저는 목재 바닥이라 꽤 효과가 좋았어요. 하루에 20번 넘게 받던 정전기 쇼크가 며칠에 한 번 정도로 줄어들었으니까요.\n\n**두 번째: EMI 스파이크 완화**\n\n의자의 EMI 스파이크를 완전히 없앨 순 없지만, 영향을 줄일 순 있습니다. 바로 영상 케이블에 페라이트 링(ferrite ring)을 감싸는 것입니다. DisplayLink 지원 페이지에서도 추천하는 방법이고, Reddit에서도 같은 해결책을 찾은 분이 있었어요. 저는 아마존에서 페라이트 링 10개 팩을 구매해 영상 케이블에 사용 중입니다.\n\n## 효과는 어땠나요?\n\n솔직하게 말하면, 빠르게 일어날 때는 여전히 모니터가 검게 변하곤 합니다. 하지만 이전처럼 자주 발생하지는 않아요. 천천히 일어나면 거의 문제가 없고요. 페라이트 링이 EMI 스파이크의 영향을 어느 정도 줄이긴 하지만, 완전히 없애지는 못하는 것 같습니다.\n\n혹시 같은 문제로 고생 중이라면 이 방법들이 도움이 되길 바랍니다. 더 좋은 해결책이 있으시다면 소셜 미디어나 이메일로 연락 주세요!"
+        },
+        {
+          "title": "public-apis/public-apis (Python)",
+          "titleKo": "public-apis/public-apis - 무료 API 목록 모음",
+          "summary": "공개된 무료 API들을 체계적으로 정리한 Python 기반의 저장소입니다.",
+          "keyPoints": [
+            "다양한 카테고리의 무료 API들을 한 곳에 정리하여 개발자들이 쉽게 찾을 수 있게 제공합니다."
+          ],
+          "whyItMatters": "API 통합이 필요한 프로젝트 개발 시 사용 가능한 무료 API를 빠르게 탐색할 수 있는 리소스입니다.",
+          "url": "https://github.com/public-apis/public-apis",
+          "sourceName": "GitHub Trending",
+          "engagement": 423253,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "public-apispublic-apis-python",
+          "category": "insight",
+          "publishedAt": "2026-04-15T23:20:00.925Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "chrislgarry/Apollo-11 (Assembly)",
+          "titleKo": "chrislgarry/Apollo-11 (어셈블리)",
+          "summary": "아폴로 11호 유도 컴퓨터(AGC)의 원본 소스 코드(Command Module과 Lunar Module)를 저장한 저장소입니다.",
+          "keyPoints": [
+            "1960년대 우주 프로그램의 실제 어셈블리 코드 공개",
+            "역사적 소프트웨어 공학 자료"
+          ],
+          "whyItMatters": "컴퓨터 과학 역사와 제약된 환경에서의 소프트웨어 설계 원리를 학습할 수 있습니다.",
+          "url": "https://github.com/chrislgarry/Apollo-11",
+          "sourceName": "GitHub Trending",
+          "engagement": 66777,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "chrislgarryapollo-11-assembly",
+          "category": "insight",
+          "publishedAt": "2026-04-15T23:20:00.923Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Assembly"
+          ]
+        },
+        {
+          "title": "Good sleep, good learning, good life (2012)",
+          "titleKo": "좋은 수면, 좋은 학습, 좋은 인생 (2012)",
+          "summary": "수면의 생물학과 학습 효율의 관계에 대한 종합적인 안내 문서로, 좋은 수면을 위한 실질적 지식을 제공합니다.",
+          "keyPoints": [
+            "수면은 학습과 뇌 건강에 필수적이며, 대부분의 사람들은 기본 규칙을 따르면 양질의 수면을 얻을 수 있음",
+            "현대 생활 방식과 직업이 좋은 수면에 장애가 될 수 있지만, 지식과 결정력으로 개선 가능"
+          ],
+          "whyItMatters": "개발자와 지식 노동자들이 학습 효율을 높이기 위해 수면의 중요성을 이해하는 데 도움이 됩니다.",
+          "url": "https://super-memory.com/articles/sleep.htm",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 348,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "good-sleep-good-learning-good-life-2012",
+          "fullContent": "The good educator insists on exercise, play, and plentiful sleep: \"the great cordial of nature.\"\nIt is everyone's dream to wake up fresh, happy, and ready for action on a daily basis. Sadly, in the modern world, only a small minority lives that dream. Yet the dream is within reach for most healthy people given:\nI hope that this article compiles all the basic ingredients of knowledge that are helpful in accomplishing refreshing sleep. As for the sacrifice, it is important to begin with the understanding that one cannot eat one's cake and have it too. Healthy sleep may be incompatible with some modern habits, some cravings, or some lifestyle choices. At worst, refreshing sleep may be incompatible with one's job or even long-term goals. Due to the latter fact, this article cannot provide a solution for everyone. Moreover, having a happy and fresh mind on a daily basis is a difficult thing to accomplish even with an arsenal of knowledge and full focus on good sleep. However, let me state it emphatically, good sleep on most nights is feasible for most people!\nThis article was originally written a decade ago. I have always been interested in memory, learning, and sleep. In addition, in my job, sleep is as important as oxygen. As we all move deeper into the Information Age and Knowledge Economy, the issues discussed herein will become more and more important for each of us. After writing the original article, I had the great pleasure of getting in touch with hundreds of people experiencing various sleep problems. I came to see first hand how knowledge of sleep helps solve their problems. I could also see how the industrialized age lays obstacles in one's quest for good sleep and high productivity. I have witnessed a true epidemic of sleep phase disorders, an explosion of interest in polyphasic sleep, and an exponential increase in interest in the matters of sleep in general. Despite my pleas, many people just cannot avoid using an alarm clock, running all-nighters before exams, waking their kids cranky for school, popping pills before sleep, leaving babies in their cots to cry it out for sleep, etc. The picture would be pretty sad and alarming were it not for the fact that there is hope in knowledge. With a degree of determination, everyone can improve his, her, or their kids' sleep.\nThis article is a compilation of the most important and the most interesting things about the biology of sleep. It is supposed to help you gain knowledge needed to achieve high quality refreshing sleep that will boost your mental powers. The article explains why sleep is vitally important for health and for the brain. It argues that sleep deserves highest respect, and that most people could get excellent sleep if they only followed the prescribed rules.\nSince writing the original Good sleep, good learning, good life, tremendous progress has been made in the science of sleep. My own work with tools such as SleepChart and SuperMemo has shed some interesting light on the connection between sleep and learning. As I kept addressing the progress in sleep science in minor articles and FAQs, some visitors to supermemo.com complained that valuable nuggets of information are dispersed throughout the site instead of being organized in a more encyclopedic manner in a single article. Here then comes a comprehensive compilation, in which I would like to retain the focus on practical knowledge that is helpful in achieving good sleep. However, I would still like to smuggle in some lesser known research findings that might be inspiring for an average reader and/or a scientist working in the fields of sleep, memory, and learning. If you believe I left out anything important that others should know, please let me know.\nAs the article grew to be insanely long, you may wish to begin with the summary at the bottom of the article. And if even that is too long, here are the highlights:\nIncremental writing: Due to the size of the material, this article was written using a technique called incremental writing. Incremental writing is helpful in organizing a large body of earlier writings into a single linear piece. The main advantage of incremental writing is a reasonable degree of coherence despite speedy processing of materials taken from disparate sources. Texts produced with incremental writing are particularly suitable for learning with the help of incremental reading as they produce small independent Wikipedia-style sub-articles. For a linear reader, however, this may mean a degree of bloatedness and an annoying repetitiveness of the main themes for which I apologize. If the size of the article is intimidating, you could try reading it incrementally (e.g. with SuperMemo 2004 Freeware)?\nReferences: Due to the volume of the material, I was not able to provide references for all statements included in the text. Some of these are common sense, some are common knowledge, others I took from memory or from SuperMemo without digging deep to the direct source. If ",
+          "category": "insight",
+          "publishedAt": "2026-04-15T09:11:18.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "CRISPR takes important step toward silencing Down syndrome’s extra chromosome",
+          "titleKo": "CRISPR, 다운증후군 추가 염색체 침묵화로 중요한 진전 달성",
+          "summary": "Beth Israel Deaconess Medical Center와 Harvard Medical School 연구팀이 수정된 CRISPR/Cas9 기술을 사용하여 다운증후군을 유발하는 21번 염색체의 추가 복사본을 침묵화하는 방법을 개발했습니다. 실험실 테스트에서 XIST 유전자 삽입 효율이 20-40%로 나타났습니다.",
+          "keyPoints": [
+            "연구팀이 XIST 유전자를 21번 염색체에 삽입하여 다중 유전자를 동시에 침묵화하는 새로운 방식 개발, 기존 1-2개 유전자 타겟 방식과 다름",
+            "수정된 CRISPR 방법이 특정 염색체 복사본을 목표로 다른 염색체에 광범위한 손상을 주지 않을 가능성을 시사",
+            "실제 치료법 개발 전에 추가 동물 실험과 부작용 확인이 필요함"
+          ],
+          "whyItMatters": "생명공학 분야의 혁신적 기술 발전으로, 유전자 편집 기술의 응용 범위 확장과 난제 해결 가능성을 보여줍니다.",
+          "url": "https://medicalxpress.com/news/2026-04-crispr-bold-silencing-syndrome-extra.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 53,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "crispr-takes-important-step-toward-silencing-down-syndromes-extra-chromosome",
+          "fullContent": "CRISPR takes a bold leap toward silencing Down syndrome's extra chromosome\nby Paul Arnold, Medical Xpress\nPaul Arnold\ncontributing writer\nMeet our staff & contributors\nLearn about our editorial standards\nedited by\nGaby Clark, reviewed by Robert Egan\nGaby Clark\nscientific editor\nMeet our editorial team\nBehind our editorial process\nRobert Egan\nassociate editor\nMeet our editorial team\nBehind our editorial process\nEditors' notes\nThis article has been reviewed according to Science X's\neditorial process\nand policies.\nEditors have highlighted\nthe following attributes while ensuring the content's credibility:\nfact-checked\npeer-reviewed publication\ntrusted source\nproofread\nThe GIST\nAdd as preferred source\nCRISPR modification improves the efficiency of EGFP integration into the APP gene locus of HEK293 cells. Credit: Proceedings of the National Academy of Sciences (2026). DOI: 10.1073/pnas.2517953123\nScientists have taken an important step toward a gene therapy that could one day turn off the extra genetic material that causes Down syndrome (DS). Down syndrome is a genetic condition caused by an extra chromosome 21 (and consequently hundreds of triplicate genes) that leads to developmental and neurological issues. According to the Washington-based National Down Syndrome Society, approximately 1 in every 640 babies in the United States is born with DS. That makes it the most common chromosomal condition.\nTraditional gene therapy targets one or two genes, but in this approach, scientists at Beth Israel Deaconess Medical Center and Harvard Medical School found a way to silence much of the extra chromosome's activity in the cell at once.\nDetails of their research are published in a paper in the journal Proceedings of the National Academy of Sciences.\nA new way to use a gene-editing tool\nIn normal development, every biological female has two X chromosomes in most cells. To prevent a double dose of genetic instructions, a gene called XIST naturally shuts down one of the chromosomes.\nThe team used a modified version of the gene-editing technique CRISPR/Cas9 (often used like molecular scissors to cut or edit DNA sequences) to insert the XIST gene into the extra chromosome 21 to silence it.\nThey tested their technique in the lab using human stem cells that contained an extra chromosome 21. After running several experiments, the team found that CRISPR was effective at pasting the XIST silencing gene exactly where it needed to go. As they noted in their paper: \"Our modified CRISPR method significantly enhanced the integration efficiency (20 to 40%) of the long XIST gene (14 kb) into an extra chromosome 21.\"\nFuture steps\nAlthough this novel approach did not silence chromosomes in the majority of cells, it is a significant breakthrough and a valuable proof-of-concept. It suggests that it may be possible to target a specific chromosome copy in cells without causing widespread damage to others.\nTreatment based on this technique may not immediately be around the corner, but it is a significant start, as the scientists acknowledge. \"The modified CRISPR method with XIST paves a road for therapeutic treatment for DS and other aneuploidies.\"\nBefore that happens, further studies will have to confirm that these changes do not have off-target effects. Additionally, animal models will be needed to replicate not only what the team has done but also to demonstrate that silencing the extra chromosome could improve physical and cognitive health.\nWritten for you by our author Paul Arnold, edited by Gaby Clark, and fact-checked and reviewed by Robert Egan—this article is the result of careful human work. We rely on readers like you to keep independent science journalism alive.\nIf this reporting matters to you, please consider a donation (especially monthly). You'll get an ad-free account as a thank-you.\nPublication details\nGewei Lian et al, A modified CRISPR/Cas9 approach in silencing the triplication in Down syndrome: A treatment path XISTs, Proceedings of the National Academy of Sciences (2026). DOI: 10.1073/pnas.2517953123\nJournal information:\nProceedings of the National Academy of Sciences\nKey medical concepts\nDown SyndromeTrisomy 21XIST GeneAneuploidy\nClinical categories\nClinical genetics\n© 2026 Science X Network\nCitation:\nCRISPR takes a bold leap toward silencing Down syndrome's extra chromosome (2026, April 14)\nretrieved 15 April 2026\nfrom https://medicalxpress.com/news/2026-04-crispr-bold-silencing-syndrome-extra.html\nThis document is subject to copyright. Apart from any fair dealing for the purpose of private study or research, no\npart may be reproduced without the written permission. The content is provided for information purposes only.",
+          "category": "insight",
+          "publishedAt": "2026-04-15T16:19:48.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# CRISPR, 다운증후군의 여분 염색체를 침묵시키는 데 한 걸음 더 가까워지다\n\n다운증후군은 21번 염색체가 하나 더 있어서 생기는 유전 질환입니다. 이로 인해 수백 개의 유전자가 3배로 복제되며, 발달 장애와 신경학적 문제를 야기합니다. 미국에서는 매년 약 640명 중 1명이 다운증후군을 가지고 태어나는데요, 이는 가장 흔한 염색체 이상입니다.\n\n그런데 이런 상황에 변화가 생기고 있습니다. 베스 이스라엘 디코니스 의료센터와 하버드 의과대학교 과학자들이 다운증후군을 일으키는 여분 염색체의 활동을 한 번에 억제할 수 있는 유전자 치료법을 개발했거든요. 그들의 연구 결과는 미국립과학원회보(Proceedings of the National Academy of Sciences)에 발표되었습니다.\n\n## 유전자 편집 도구의 새로운 활용법\n\n이 연구팀이 주목한 자연 현상이 있습니다. 정상적인 발달 과정에서 생물학적 여성은 대부분의 세포에 X 염색체 2개를 가지고 있어요. 그런데 유전 정보가 2배가 되는 것을 방지하기 위해 XIST라는 유전자가 자연스럽게 한쪽 염색체를 꺼버립니다.\n\n연구팀은 이 원리에 착안했습니다. DNA 염기서열을 자르거나 편집할 때 쓰는 CRISPR/Cas9 기술을 변형해서, XIST 유전자를 여분의 21번 염색체에 삽입하기로 한 겁니다.\n\n실험은 21번 염색체가 하나 더 있는 인간 줄기세포를 이용해 진행됐습니다. 여러 실험을 거친 결과, CRISPR 기술이 XIST 유전자를 정확한 위치에 삽입하는 데 매우 효과적이었습니다. 연구팀이 논문에 기술한 바에 따르면, \"우리의 변형된 CRISPR 방법은 14kb 길이의 XIST 유전자를 여분 염색체 21에 통합하는 효율을 20~40%까지 크게 향상시켰습니다.\"\n\n## 앞으로의 과제\n\n이번 접근법이 완벽하지는 않습니다. 대부분의 세포에서 염색체를 완전히 침묵시키지는 못했거든요. 하지만 이는 여전히 의미 있는 성과입니다. 특정 염색체 사본만 표적화하면서 다른 세포에는 광범위한 손상을 주지 않을 수 있다는 가능성을 보여주기 때문입니다.\n\n이 기술에 기반한 치료법이 곧 출현할 것 같지는 않지만, 확실한 출발점이 되었습니다. 과학자들도 이를 인정하며 \"XIST를 이용한 변형 CRISPR 방법은 다운증후군과 다른 염색체 이상증에 대한 치료 경로를 열어줄 수 있습니다\"라고 밝혔습니다.\n\n본격적인 치료법이 개발되려면 추가 연구가 필요합니다. 먼저 이 유전자 변형이 예상 밖의 부작용을 일으키지 않는지 확인해야 하고요, 동물 모델을 이용해 실제로 여분 염색체를 침묵시켰을 때 신체적, 인지적 건강이 개선되는지 증명해야 합니다. 하지만 이 연구는 분명 다운증후군 치료의 미래를 한 발 앞으로 나아가게 했습니다."
+        },
+        {
+          "title": "The Rise of the Em-Dash in Hacker News Comments",
+          "titleKo": "Hacker News 댓글에서 em-dash의 부상",
+          "summary": "Hacker News 댓글에서 em-dash(—) 기호의 사용 빈도 증가 추세에 대한 분석 기사입니다.",
+          "keyPoints": [
+            "AI 시대의 글쓰기 스타일 변화를 다룸"
+          ],
+          "whyItMatters": "개발 커뮤니티의 글쓰기 문화 변화를 관찰한 흥미로운 자료이지만 직접적인 기술 뉴스는 아닙니다.",
+          "url": "https://boazsobrado.com/blog/2026/04/15/the-rise-of-the-em-dash-in-hacker-news-comments/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 20,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-rise-of-the-em-dash-in-hacker-news-comments",
+          "fullContent": "The Rise of the Em-Dash in Hacker News Comments\n2026-04-15\n1 min read\nWritingWe are now living in a post-AI world.#AI\n#DataPrevious\nHungary's Hidden Immigration Surge: 252,000 Foreign Nationals and CountingNext\nCómo dominar el contenido con IA (guía paso a paso)See AlsoCómo dominar el contenido con IA (guía paso a paso)How I Built a Personal Screen Time Tracker for Mac and iPhone Using Claude",
+          "category": "insight",
+          "publishedAt": "2026-04-15T22:29:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 해커 뉴스 댓글에서 엠대시의 부상\n\n**2026-04-15 | 1분 읽기**\n\n우리는 이제 AI 시대 이후의 세상에 살고 있습니다.\n\n온라인 커뮤니티의 글쓰기 방식이 빠르게 변하고 있는데요. 특히 해커 뉴스 같은 기술 커뮤니티에서 눈에 띄는 변화가 있습니다. 바로 엠대시(—)의 사용 빈도가 급격히 늘어났다는 점입니다.\n\n엠대시는 단순한 문장 부호를 넘어서, 기술 커뮤니티의 글쓰기 문화를 반영하는 지표가 되고 있습니다. 복잡한 개념을 간결하게 설명하거나, 여러 생각을 자연스럽게 연결할 때 많이 쓰이거든요.\n\n이런 변화의 배경에는 AI 도구의 확산이 있습니다. AI가 생성하는 텍스트의 특성상 엠대시를 자주 사용하게 되고, 이것이 다시 사람들의 글쓰기 방식에 영향을 미치는 순환 구조가 형성된 거죠.\n\n**관련 기사:**\n- [Hungary's Hidden Immigration Surge: 252,000 Foreign Nationals and Counting]\n- [Cómo dominar el contenido con IA (guía paso a paso)]\n- [How I Built a Personal Screen Time Tracker for Mac and iPhone Using Claude]"
+        },
+        {
+          "title": "God sleeps in the minerals",
+          "titleKo": "신 광물 속에서 잠들다",
+          "summary": "로스앤젤레스 자연사박물관의 'Unearthed: Raw Beauty' 전시회에서 촬영한 광물 사진 전시입니다.",
+          "keyPoints": [
+            "블로그 포스트로 광물 사진과 간단한 설명만 제공됨"
+          ],
+          "whyItMatters": "개발 뉴스와 무관한 예술 콘텐츠입니다.",
+          "url": "https://wchambliss.wordpress.com/2026/03/03/god-sleeps-in-the-minerals/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 425,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "god-sleeps-in-the-minerals",
+          "fullContent": "God sleeps in the minerals\nI took this snapshot, and the rest of them, at the Natural History Museum of Los Angeles County’s Unearthed: Raw Beauty exhibition yesterday. Enjoy.\nThis entry was posted on March 3, 2026 at 7:47 pm and is filed under Uncategorized. You can follow any responses to this entry through the RSS 2.0 feed.\nYou can leave a response, or trackback from your own site.\n19 Responses to “God sleeps in the minerals”",
+          "category": "insight",
+          "publishedAt": "2026-04-15T13:08:10.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "# 광물 속에서 잠드는 신\n\n어제 로스앤젤레스 카운티 자연사박물관의 'Unearthed: Raw Beauty' 전시회에서 찍은 사진입니다. 감상해 주세요.\n\n이 글은 2026년 3월 3일 오후 7시 47분에 작성되었으며 분류되지 않은 항목으로 파일링되었습니다. RSS 2.0 피드를 통해 이 글의 모든 댓글을 구독할 수 있습니다.\n\n댓글을 남기거나 자신의 사이트에서 트랙백을 보낼 수 있습니다.\n\n\"God sleeps in the minerals\"에 달린 19개 댓글\n\n---\n\n**참고:** 제공하신 텍스트가 기술 아티클이 아닌 개인 블로그 포스트여서, 기술 콘텐츠 재구성 원칙을 적용하기 어렵습니다. 혹시 기술 관련 아티클을 재구성해 주기 원하셨다면 다시 제공해 주시기 바랍니다."
+        },
+        {
+          "title": "The buns in McDonald's Japan's burger photos are all slightly askew",
+          "titleKo": "한국어 제목",
+          "summary": "2-3문장 요약",
+          "keyPoints": [
+            "포인트1",
+            "포인트2"
+          ],
+          "whyItMatters": "개발자에게 왜 중요한지",
+          "url": "https://www.mcdonalds.co.jp/en/menu/burger/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 119,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-buns-in-mcdonalds-japans-burger-photos-are-all-slightly-askew",
+          "fullContent": "*Menu prices may differ at special location restaurants, selected restaurants and for delivery.\n*McDonald’s Japan’s allergen information only covers 8 ingredients which must be indicated on the label and 20 which are recommended by Japanese Food Labeling Standard (Food Labeling Act) as of September 2024.\n※Click the image or product name to learn more about allergen/nutrition information, and other details.\n※All displayed prices are tax included and a single, tax-inclusive price applies for both eat-in and takeout (inc. drive-thru) orders (tax-exclusive price may differ).\n※Menu prices may differ at special location restaurants and selected restaurants.※Some products are not available at all restaurants.\n※“Bai Burger” menu is available for all regular burgers except for “Roasted Soy Sauce Double Thick Beef” and “Roasted Soy Sauce Egg Bacon Thick Beef”.\n※Breakfast is available until 10:30am, Regular Menu is available from 10:30am and Yoru Mac menu is available from 5:00pm\n※Asa Mac orders are accepted until 10:20am for Mobile Order & Pay and McDelivery\n※HiruMac is available between 10:30am and 2:00pm on weekdays\n※McShake®, McFloat®, Soft Twist, McFlurry® are available between 10:30am and 1:00 am the next day\n※McShake® may be mixed with other flavors due to the nature of the machine. For this reason, the allergy information may differ from the usual information during limited-time product sales. Please check the latest information each time you order.※For customized products, exact information may vary. Please be aware that customization is not a service that completely eliminates allergens.※Oreo and the design of the Oreo cookie are trademarks licensed by the Mondelez International Group.※ Coke is a registered trademarks of The Coca-Cola Company.\n※McCafé® menu at McCafé by Barista stores availability is subject to McCafé by Barista counter business hours.※McCafé® menu is not available for purchase at the drive-thru at some McCafé by Barista stores.\n※Images are for illustrative purposes only.※Coupons for shareholders are not redeemable for Shaka Shaka Potato® Buttered Potato Flavor.\n現在お使いのブラウザーはサポートされていません。\n一部の機能が正しく動作しない場合があります。",
+          "category": "insight",
+          "publishedAt": "2026-04-15T21:48:18.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ],
+          "translatedContent": "현재 사용 중인 브라우저가 지원되지 않습니다.\n일부 기능이 정상적으로 작동하지 않을 수 있습니다.\n\n---\n\n**메뉴 가격 안내**\n- 특정 매장과 일부 선정 매장, 배달 주문 시 가격이 다를 수 있습니다.\n\n**알레르기 정보**\n- 맥도날드 일본의 알레르기 정보는 2024년 9월 기준으로 표시 의무 8가지 성분과 일본 식품 표시법에서 권고하는 20가지 성분을 포함합니다.\n- 이미지나 상품명을 클릭하면 알레르기, 영양 정보 등 자세한 내용을 확인할 수 있습니다.\n\n**가격 및 주문 관련**\n- 모든 가격은 세금 포함 금액이며, 매장 식사와 테이크아웃(드라이브스루 포함) 모두 동일하게 적용됩니다.\n- 일부 상품은 모든 매장에서 제공되지 않을 수 있습니다.\n\n**메뉴 운영 시간**\n- 아침 메뉴: 10:30까지\n- 정규 메뉴: 10:30부터\n- 야식 메뉴: 오후 5시부터\n- 모바일 주문 및 배달 서비스의 아침 메뉴 주문은 10:20까지 가능합니다.\n- 점심 메뉴는 평일 10:30~14:00에 제공됩니다.\n\n**음료 및 디저트**\n- McShake®, McFloat®, 소프트 트위스트, McFlurry®는 10:30~다음날 01:00까지 판매합니다.\n- McShake®는 기계의 특성상 다른 맛과 섞일 수 있으므로, 기간 한정 상품 판매 시 알레르기 정보가 달라질 수 있습니다. 주문 시마다 최신 정보를 확인해주세요.\n\n**커스터마이징 및 기타**\n- 커스터마이징 상품은 정보가 정확하지 않을 수 있으며, 커스터마이징만으로는 알레르기 성분 제거를 완전히 보장하지 않습니다.\n- 바이 버거(Bai Burger) 메뉴는 로스트 간장 더블 두툼 비프와 로스트 간장 계란 베이컨 두툼 비프를 제외한 모든 정규 버거에서 선택 가능합니다.\n- Oreo와 Oreo 쿠키 디자인은 몬델리즈 인터내셔널 그룹의 라이선스 상표입니다.\n- Coke는 코카콜라 컴퍼니의 등록 상표입니다.\n- McCafé® 바리스타 매장의 McCafé® 메뉴는 바리스타 카운터 운영 시간에만 제공되며, 일부 매장에서는 드라이브스루 판매가 불가능합니다.\n- 이미지는 참고용이며 실제와 다를 수 있습니다.\n- 주주 쿠폰은 샤카샤카 포테이토® 버터 포테이토 맛에는 사용할 수 없습니다."
+        },
+        {
+          "title": "How can I keep from singing?",
+          "summary": "",
+          "keyPoints": [],
+          "url": "https://blog.danieljanus.pl/singing/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 28,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "how-can-i-keep-from-singing",
+          "category": "insight",
+          "publishedAt": "2026-04-14T18:18:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Costasiella kuroshimae",
+          "summary": "",
+          "keyPoints": [],
+          "url": "https://en.wikipedia.org/wiki/Costasiella_kuroshimae",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 138,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "costasiella-kuroshimae",
+          "category": "insight",
+          "publishedAt": "2026-04-12T15:26:24.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "996: 10 New CSS and HTML APIs",
+          "titleKo": "996: 10가지 새로운 CSS와 HTML API",
+          "summary": "최신 CSS 및 브라우저 기능들(Grid Lines API for masonry 레이아웃, Canvas의 HTML, name-only container queries, CSS random, search-text 스타일링 등)에 대해 논의합니다.",
+          "keyPoints": [
+            "Grid Lines API로 마소리 스타일 레이아웃의 네이티브 지원 제공",
+            "CSS random, container queries 등 새로운 스타일링 기능 추가"
+          ],
+          "whyItMatters": "최신 웹 표준 기능들을 이해하면 더 간단하고 효율적인 웹 개발이 가능합니다.",
+          "url": "https://syntax.fm/996",
+          "sourceName": "Syntax.fm",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "996-10-new-css-and-html-apis",
+          "category": "video",
+          "publishedAt": "2026-04-15T11:00:00.000Z",
+          "language": "en"
+        }
+      ]
+    }
+  ]
+}

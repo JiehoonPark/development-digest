@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>데이터베이스가 정말 필요한가? — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/15/">2026-04-15</a> &gt; 데이터베이스가 정말 필요한가?...
+      </div>
+
+      <h1>데이터베이스가 정말 필요한가?</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Do you even need a database?</p>
+      <div class="article-meta">
+        <span>📅 2026-04-15</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 182</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>데이터베이스 대신 파일 기반 저장소를 사용하는 경우와 성능을 비교한 글로, 초기 단계 애플리케이션에서는 직접 파일을 관리하는 것이 충분할 수 있음을 보여줍니다. Go, Bun, Rust로 구현한 벤치마크 결과를 통해 파일 스캔과 메모리 인덱싱 방식의 성능을 실증적으로 분석했습니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>모든 데이터베이스는 결국 파일 시스템 위에서 동작하며, 작은 규모 애플리케이션은 직접 파일 관리 가능</li><li>메모리 해시맵 인덱싱으로 파일 기반 저장소의 성능을 크게 향상 가능</li><li>Go, Bun, Rust로 구현한 벤치마크를 통해 정말 필요한 경우만 데이터베이스 도입 권장</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>과다 설계를 피하고 프로젝트 규모에 맞는 적절한 저장소 기술을 선택하는 데 실증적 기준을 제공합니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>파일로 충분할 때도 있다</h2>
+<p>데이터베이스를 자세히 들여다보면 결국 파일일 뿐이에요. SQLite는 디스크 위의 하나의 파일이고, PostgreSQL은 프로세스가 관리하는 여러 파일의 집합입니다. 지금까지 사용한 모든 데이터베이스는 코드에서 <code>open()</code>을 호출할 때처럼 파일 시스템을 읽고 씁니다.</p>
+<p>그래서 실제 질문은 &quot;파일을 써야 하는가&quot;가 아닙니다. 어차피 파일은 쓰고 있거든요. 진짜 질문은 &quot;데이터베이스의 파일을 쓸 것인가, 아니면 직접 만든 파일을 쓸 것인가&quot;입니다. 특히 초기 단계의 서비스라면 직접 파일을 관리하는 게 더 나을 수도 있어요.</p>
+<p>당연히 우리도 데이터베이스를 좋아합니다. 우리가 만드는 DB Pro도 Mac, Windows, Linux용 데이터베이스 클라이언트니까요. 그렇지만 &quot;정말 데이터베이스가 필요한가?&quot;라는 질문에 솔직하게 답하자면, 그건 스케일에 달려있습니다. 대부분의 서비스는 생각보다 작거든요. 실제로 우리가 테스트해봤습니다. Go, Bun, Rust로 같은 HTTP 서버를 두 가지 저장 전략으로 만들어서 wrk로 부하 테스트를 돌렸어요. 결과가 흥미로웠습니다.</p>
+<h3>테스트 환경</h3>
+<p>세 개의 평문 파일을 사용했어요: users.jsonl, products.jsonl, orders.jsonl. 형식은 JSONL(newline-delimited JSON)이라서 한 줄에 한 레코드씩 들어가고, 쓸 때는 뒤에 추가합니다. 각 파일은 한 종류의 데이터만 담고 있어요.</p>
+<pre><code class="language-json">{&quot;id&quot;:&quot;a3f1...&quot;,&quot;name&quot;:&quot;Alice Chen&quot;,&quot;email&quot;:&quot;alice@example.com&quot;,&quot;created_at&quot;:&quot;2026-04-15T...&quot;}
+{&quot;id&quot;:&quot;b7d2...&quot;,&quot;name&quot;:&quot;Bob Torres&quot;,&quot;email&quot;:&quot;bob@example.com&quot;,&quot;created_at&quot;:&quot;2026-04-15T...&quot;}</code></pre>
+<p>HTTP 엔드포인트는 두 개입니다: POST /users는 사용자 생성, GET /users/:id는 ID로 조회. 우리는 GET 요청의 성능을 벤치마크했어요. 읽기 작업에서 두 전략의 차이가 두드러지거든요.</p>
+<h3>방법 1: 요청할 때마다 파일 읽기</h3>
+<p>가장 단순한 접근법입니다. 사용자 abc-123을 찾으라는 요청이 들어오면, 파일을 열어서 한 줄씩 읽고 각 줄을 JSON으로 파싱해서 ID를 비교합니다. 일치하는 게 나오면 반환하는 거죠.</p>
+<pre><code class="language-go">func findUser(path, id string) (*User, error) {
+	f, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+	scanner := bufio.NewScanner(f)
+	buf := make([]byte, 1024*1024)
+	scanner.Buffer(buf, len(buf))
+	for scanner.Scan() {
+		var u User
+		if json.Unmarshal(scanner.Bytes(), &amp;u) == nil &amp;&amp; u.ID == id {
+			return &amp;u, nil
+		}
+	}
+	return nil, scanner.Err()
+}</code></pre>
+<pre><code class="language-typescript">async function findUser(id: string): Promise&lt;User | null&gt; {
+	if (!existsSync(USERS_FILE)) return null;
+	const stream = createReadStream(USERS_FILE, { encoding: &quot;utf8&quot; });
+	const rl = createInterface({ input: stream, crlfDelay: Infinity });
+	for await (const line of rl) {
+		if (!line.trim()) continue;
+		const user = JSON.parse(line) as User;
+		if (user.id === id) {
+			stream.destroy();
+			return user;
+		}
+	}
+	return null;
+}</code></pre>
+<pre><code class="language-rust">fn find_user(path: &amp;str, id: &amp;str) -&gt; Option&lt;User&gt; {
+	let f = File::open(path).ok()?;
+	for line in BufReader::new(f).lines().flatten() {
+		if let Ok(user) = serde_json::from_str::&lt;User&gt;(&amp;line) {
+			if user.id == id {
+				return Some(user);
+			}
+		}
+	}
+	None
+}</code></pre>
+<p>이 방식은 O(n) 복잡도를 가집니다. 모든 요청이 파일 전체를 처음부터 끝까지 읽고, 평균적으로는 절반 정도를 스캔한 후에야 원하는 레코드를 찾아요. 파일이 커질수록 모든 요청이 느려집니다.</p>
+<h3>방법 2: 메모리에 로드하기</h3>
+<p>시작할 때 파일을 한 번만 읽어서 모든 레코드를 ID를 키로 하는 해시맵에 저장합니다. 새로운 데이터를 쓸 때는 맵과 파일 둘 다에 기록해요. 조회는 단순한 맵 검색이 됩니다.</p>
+<p>이 구조에서 파일은 영구적인 저장소 역할을 하고, 맵이 인덱스가 되는 거죠. 프로세스가 재시작되면 파일에서 다시 로드하면 돼요.</p>
+<pre><code class="language-go">type Store struct {
+	mu    sync.RWMutex
+	users map[string]User
+	f     *os.File
+}
+
+func NewStore(path string) (*Store, error) {
+	f, err := os.OpenFile(path, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0644)
+	if err != nil {
+		return nil, err
+	}
+	users := make(map[string]User)
+	scanner := bufio.NewScanner(f)
+	buf := make([]byte, 1024*1024)
+	scanner.Buffer(buf, len(buf))
+	for scanner.Scan() {
+		var u User
+		if json.Unmarshal(scanner.Bytes(), &amp;u) == nil {
+			users[u.ID] = u
+		}
+	}
+	return &amp;Store{users: users, f: f}, scanner.Err()
+}
+
+func (s *Store) Get(id string) (User, bool) {
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+	return s.users[id]
+}
+
+func (s *Store) Create(name, email string) (User, error) {
+	u := User{ID: uuid.NewString(), Name: name, Email: email, CreatedAt: time.Now().UTC()}
+	b, _ := json.Marshal(u)
+	s.mu.Lock()
+	defer s.mu.Unlock()
+	fmt.Fprintf(s.f, &quot;%s\n&quot;, b)
+	s.users[u.ID] = u
+	return u, nil
+}</code></pre>
+<pre><code class="language-typescript">function loadUsers(): Map&lt;string, User&gt; {
+	const map = new Map&lt;string, User&gt;();
+	if (!existsSync(USERS_FILE)) return map;
+	for (const line of readFileSync(USERS_FILE, &quot;utf8&quot;).split(&quot;\n&quot;)) {
+		if (!line.trim()) continue;
+		const user = JSON.parse(line) as User;
+		map.set(user.id, user);
+	}
+	return map;
+}
+
+const users = loadUsers();
+
+function createUser(name: string, email: string): User {
+	const user = { id: randomUUID(), name, email, created_at: new Date().toISOString() };
+	appendFileSync(USERS_FILE, JSON.stringify(user) + &quot;\n&quot;);
+	users.set(user.id, user);
+	return user;
+}</code></pre>
+<pre><code class="language-rust">struct Store {
+	users: RwLock&lt;HashMap&lt;String, User&gt;&gt;,
+	file: Mutex&lt;File&gt;,
+}
+
+impl Store {
+	fn load(path: &amp;str) -&gt; Arc&lt;Self&gt; {
+		let mut map = HashMap::new();
+		if let Ok(f) = File::open(path) {
+			for line in BufReader::new(f).lines().flatten() {
+				if let Ok(u) = serde_json::from_str::&lt;User&gt;(&amp;line) {
+					map.insert(u.id.clone(), u);
+				}
+			}
+		}
+		let file = OpenOptions::new().create(true).append(true).open(path).unwrap();
+		Arc::new(Store {
+			users: RwLock::new(map),
+			file: Mutex::new(file),
+		})
+	}
+}</code></pre>
+<p>이제 조회는 O(1)이에요. 맵 조회는 상수 시간에 이루어지니까 데이터가 얼마나 많든 성능은 일정합니다. 당연히 데이터베이스만큼 정교한 기능은 없지만, 충분히 빠르고 관리도 간단합니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://www.dbpro.app/blog/do-you-even-need-a-database" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-15%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4%EA%B0%80%20%EC%A0%95%EB%A7%90%20%ED%95%84%EC%9A%94%ED%95%9C%EA%B0%80%3F&labels=feedback%2Cliked&body=**Article**%3A%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4%EA%B0%80%20%EC%A0%95%EB%A7%90%20%ED%95%84%EC%9A%94%ED%95%9C%EA%B0%80%3F%0A**URL**%3A%20https%3A%2F%2Fwww.dbpro.app%2Fblog%2Fdo-you-even-need-a-database%0A**Date**%3A%202026-04-15%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Libretto: AI 브라우저 자동화를 결정론적으로 만드는 도구 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/15/">2026-04-15</a> &gt; Libretto: AI 브라우저 자동화를 결정론적으로 만드는 도구...
+      </div>
+
+      <h1>Libretto: AI 브라우저 자동화를 결정론적으로 만드는 도구</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Show HN: Libretto – Making AI browser automations deterministic</p>
+      <div class="article-meta">
+        <span>📅 2026-04-15</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 74</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Saffron Health에서 개발한 Libretto는 브라우저 자동화를 더 안정적이고 효율적으로 만들기 위한 툴킷으로, AI 코딩 에이전트에 라이브 브라우저 접근, 네트워크 트래픽 분석, 사용자 액션 기록 및 재생, 대화형 디버깅 기능을 제공합니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>AI 에이전트를 위한 결정론적 브라우저 자동화 toolkit으로, 스크린샷과 HTML 분석으로 선택자 추출 및 요소 식별 수행</li><li>네트워크 트래픽 캡처를 통해 UI 자동화를 API 직접 호출로 전환 가능하며, 사용자 액션 기록 재생으로 워크플로우 자동 생성</li><li>Playwright TypeScript 지원, 세션 저장/복구, 대화형 오류 수정으로 복잡한 웹 통합 작업 자동화</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>브라우저 자동화 스크립트의 유지보수와 디버깅이 어려운 문제를 AI 에이전트와의 상호작용으로 해결하며, 웹 스크래핑과 자동화 작업의 신뢰성을 크게 향상시킵니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Libretto: 웹 통합 작업을 위한 개발자 도구</h2>
+<p><strong>웹사이트</strong>: libretto.sh</p>
+<p><strong>저장소</strong>: github.com/saffron-health/libretto</p>
+<p><strong>문서</strong>: libretto.sh/docs</p>
+<p><strong>Discord</strong>: discord.gg/NYrG56hVDt</p>
+<h3>Libretto는 무엇인가요?</h3>
+<p>Libretto는 견고한 웹 통합을 구축하기 위한 툴킷입니다. 코딩 에이전트에게 실시간 브라우저와 토큰 효율적인 CLI를 제공해서 다음 작업들을 쉽게 할 수 있게 해줍니다:</p>
+<ul>
+<li>최소한의 컨텍스트 오버헤드로 실시간 페이지 검사</li>
+<li>네트워크 트래픽 캡처해서 사이트 API 역분석</li>
+<li>사용자 액션 기록 후 자동화 스크립트로 재생</li>
+<li>실제 사이트 환경에서 깨진 워크플로우 대화형 디버깅</li>
+</ul>
+<p>Saffron Health에서는 의료 소프트웨어 통합을 유지보수하기 위해 Libretto를 만들었어요. 다른 팀들도 비슷한 작업을 쉽게 할 수 있도록 오픈소스로 공개했습니다.</p>
+<h3>설치하기</h3>
+<p>먼저 npm으로 설치합니다:</p>
+<pre><code class="language-bash">npm install libretto</code></pre>
+<p>초기 설정을 진행해야 해요. 스킬 설치, Chromium 다운로드, 기본 스냅샷 모델을 설정합니다:</p>
+<pre><code class="language-bash">npx libretto setup</code></pre>
+<p>언제든 워크스페이스 상태를 확인할 수 있습니다:</p>
+<pre><code class="language-bash">npx libretto status</code></pre>
+<p>고급 설정이 필요하면 스냅샷 분석 모델을 직접 변경할 수도 있습니다:</p>
+<pre><code class="language-bash">npx libretto ai configure &lt;openai | anthropic | gemini | vertex&gt;</code></pre>
+<p><code>setup</code> 명령어는 사용 가능한 공급자 자격증명(예: <code>OPENAI_API_KEY</code>)을 자동으로 감지하고, 기본 모델을 <code>.libretto/config.json</code>에 고정합니다. 이미 설정된 워크스페이스에서 다시 실행하면 현재 설정을 보여주기만 하고 다시 물어보지 않습니다. 이전에 설정한 공급자의 자격증명이 없으면 대화형 복구 옵션을 제공합니다.</p>
+<p><code>ai configure</code> 명령어는 공급자를 명시적으로 전환하거나 커스텀 모델 문자열을 설정하고 싶을 때 사용하면 됩니다.</p>
+<h3>주요 사용 사례</h3>
+<p>Libretto는 코딩 에이전트의 스킬로 사용하도록 설계됐습니다. 몇 가지 예시를 보여드릴게요:</p>
+<h4>한 번에 스크립트 생성하기</h4>
+<pre><code>Libretto 스킬을 사용해서 LinkedIn에 가서 최신 10개 포스트의 내용, 작성자, 반응 수, 
+첫 25개 댓글, 첫 25개 리포스트를 스크래핑해줄래?</code></pre>
+<p>코딩 에이전트가 브라우저 창을 열어서 LinkedIn 로그인을 유도하고, 자동으로 정보를 수집합니다.</p>
+<h4>대화형 스크립트 작성하기</h4>
+<pre><code>eclinicalworks EHR에서 환자의 주 보험 ID를 가져오는 워크플로우를 보여줄 거야. 
+Libretto 스킬을 써서 환자 이름과 생년월일을 입력받아 보험 ID를 반환하는 
+Playwright 스크립트로 만들어줄래? URL은 ...</code></pre>
+<p>Libretto는 브라우저에서 수행하는 액션을 읽을 수 있어서, 워크플로우를 직접 수행한 후 그 액션들을 기반으로 자동화 스크립트를 재구성할 수 있습니다.</p>
+<h4>브라우저 자동화를 네트워크 요청으로 변환하기</h4>
+<pre><code>./integration.ts에 있는 브라우저 스크립트가 Hacker News에 가서 
+최신 10개 포스트를 가져오는데, 이걸 직접 네트워크 요청으로 변환해줄래? Libretto 스킬 써.</code></pre>
+<p>Libretto는 브라우저의 네트워크 요청을 읽어서 API를 역분석하고, 직접 API 호출하는 스크립트를 만들 수 있습니다. UI 자동화보다 직접 API 호출이 훨씬 빠르고 안정적이거든요. 네트워크 요청을 분석해서 보안 쿠키 등을 확인하는 보안 분석도 요청할 수 있습니다.</p>
+<h4>깨진 통합 수정하기</h4>
+<pre><code>./integration.ts의 브라우저 스크립트가 Availity에 가서 
+환자 적격성 확인을 수행하는데 셀렉터 오류가 나요. Libretto로 고쳐줄래?</code></pre>
+<p>에이전트는 Libretto를 사용해서 오류를 재현하고, 워크플로우를 원하는 지점에서 일시정지한 후, 실제 페이지를 검사하고, 모든 작업을 자동으로 수행할 수 있습니다.</p>
+<h3>CLI 사용하기</h3>
+<p>Libretto를 커맨드라인에서 직접 사용할 수도 있습니다. 모든 명령어는 <code>--session &lt;name&gt;</code> 옵션으로 특정 세션을 지정할 수 있습니다:</p>
+<pre><code class="language-bash">npx libretto setup                    # 대화형 초기 설정 (에이전트 아닌 직접 실행)
+npx libretto status                   # AI 설정 상태와 열려있는 세션 확인
+npx libretto open &lt;url&gt;               # 브라우저 실행 후 URL 열기 (기본값: headed)
+npx libretto snapshot --objective &quot;...&quot; --context &quot;...&quot;  # PNG + HTML 캡처 후 LLM으로 분석
+npx libretto exec &quot;&lt;code&gt;&quot;            # 열려있는 페이지에서 Playwright TypeScript 실행 (작은따옴표 사용)
+echo &quot;&lt;code&gt;&quot; | npx libretto exec -   # stdin에서 Playwright TypeScript 읽기
+npx libretto run &lt;file&gt;               # 파일의 기본 export된 워크플로우 실행
+npx libretto resume                   # 일시정지된 워크플로우 재개
+npx libretto pages                    # 세션의 열려있는 페이지 목록
+npx libretto save &lt;domain&gt;            # 브라우저 세션 저장 (쿠키, localStorage)
+npx libretto close                    # 브라우저 종료
+npx libretto ai configure &lt;provider&gt;  # 스냅샷 분석 모델 수동 변경
+npx libretto status                   # AI 설정 및 열려있는 세션 표시</code></pre>
+<h3>설정하기</h3>
+<p>모든 Libretto 상태는 프로젝트 루트의 <code>.libretto/</code> 디렉토리에 저장됩니다. 설정은 <code>.libretto/config.json</code>에 저장돼요.</p>
+<h4>설정 파일</h4>
+<p><code>.libretto/config.json</code>은 스냅샷 분석과 뷰포트 설정을 제어합니다:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;ai&quot;: {
+    &quot;model&quot;: &quot;openai/gpt-5.4&quot;,
+    &quot;updatedAt&quot;: &quot;2026-01-01T00:00:00.000Z&quot;
+  },
+  &quot;viewport&quot;: { &quot;width&quot;: 1280, &quot;height&quot;: 800 }
+}</code></pre>
+<p><code>ai</code> 필드는 Libretto가 스냅샷 분석(셀렉터 추출, 상호작용 요소 식별, 단계 실패 진단)에 사용할 모델을 설정합니다. 이렇게 하면 무거운 시각적 컨텍스트가 코딩 에이전트의 컨텍스트 윈도우에 포함되지 않습니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://github.com/saffron-health/libretto" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-15%20Libretto%3A%20AI%20%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80%20%EC%9E%90%EB%8F%99%ED%99%94%EB%A5%BC%20%EA%B2%B0%EC%A0%95%EB%A1%A0%EC%A0%81%EC%9C%BC%EB%A1%9C%20%EB%A7%8C%EB%93%9C%EB%8A%94%20%EB%8F%84%EA%B5%AC&labels=feedback%2Cliked&body=**Article**%3A%20Libretto%3A%20AI%20%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80%20%EC%9E%90%EB%8F%99%ED%99%94%EB%A5%BC%20%EA%B2%B0%EC%A0%95%EB%A1%A0%EC%A0%81%EC%9C%BC%EB%A1%9C%20%EB%A7%8C%EB%93%9C%EB%8A%94%20%EB%8F%84%EA%B5%AC%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Fsaffron-health%2Flibretto%0A**Date**%3A%202026-04-15%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
