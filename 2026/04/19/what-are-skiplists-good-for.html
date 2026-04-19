@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Skiplist는 어떤 용도에 좋은가? — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/19/">2026-04-19</a> &gt; Skiplist는 어떤 용도에 좋은가?...
+      </div>
+
+      <h1>Skiplist는 어떤 용도에 좋은가?</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">What are skiplists good for?</p>
+      <div class="article-meta">
+        <span>📅 2026-04-19</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 252</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Skiplist는 이진 검색 트리를 대체할 수 있는 확률적 자료구조로 O(log n) 검색 성능을 제공한다. Antithesis에서는 대규모 데이터를 분석하기 위해 skiplist를 일반화한 'skiptree'를 개발해 BigQuery의 비효율적인 point lookup 문제를 해결했다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>Skiplist는 계층화된 linked list로 구현되어 O(log n) 시간복잡도로 노드를 찾을 수 있으며, lock-free 구현이 가능해 동시성 처리에 유리하다.</li><li>Skiptree는 tree 구조에 skiplist의 계층적 접근을 적용해 parent pointer 추적 시 전체 테이블 스캔을 피하고 효율적인 쿼리를 가능하게 한다.</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>대규모 데이터 분석이나 트리 기반 쿼리가 필요한 시스템에서 skiplist와 그 변형은 성능 최적화의 실질적인 해결책을 제공한다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Skiplist에서 Skiptree로: 거대한 데이터 분석 문제를 푼 이야기</h2>
+<p>얼마 전 Phil Eaton의 책 모임에서 《The Art of Multiprocessor Programming》을 읽게 되었고, skiplist라는 주제가 나왔어요. 지금까지 skiplist는 항상 틈새 자료구조라고 생각했거든요. 매니아층은 많지만, 실무에서 써먹을 일은 거의 없다고 여겼던 거죠.</p>
+<p>그런데 약 6년 전 Antithesis에서 일하면서 도저히 풀 수 없을 것 같던 문제를 만났는데, 알고 보니 skiplist의 변형이 정확히 우리가 필요한 해결책이었어요.</p>
+<p>그 이야기를 하기 전에, 먼저 skiplist가 뭔지 설명해볼게요. (이미 잘 알고 계신다면 건너뛰셔도 괜찮습니다.)</p>
+<h3>Skiplist란 무엇인가?</h3>
+<p>Skiplist는 랜덤화된 자료구조예요. 이진 탐색 트리의 완벽한 대체재라고 보면 됩니다. 같은 인터페이스를 제공하고, 각 연산의 점근적 복잡도도 동일하거든요.</p>
+<p>어떤 개발자들은 skiplist를 좋아하는데, 그 이유는 비교적 간단하면서도 이해하기 쉬운 lock-free 동시성 구현이 가능하기 때문이에요. 물론 순수하게 취향 문제인 사람들도 있고, 남들이 모르는 밴드를 듣는 느낌의 매력을 즐기는 사람도 있죠.</p>
+<p>구현 관점에서 보면, skiplist는 대충 이렇게 생각하면 돼요: 연결 리스트 + &quot;고속 도로&quot;</p>
+<p>기본적인 연결 리스트에서 시작해서, 그 위에 노드 개수가 점차 줄어드는 여러 계층의 연결 리스트를 추가하는 거예요. 위의 예시에서는 각 노드가 50% 확률로 다음 계층으로 승격됩니다.</p>
+<p>검색할 때 이게 도움이 되는데, 상위 계층의 리스트를 이용해서 원하는 노드로 더 빨리 건너뛸 수 있거든요:</p>
+<p>위 그림에서는 ID가 38인 노드를 찾기 위해 가장 위 계층에서 시작해 아래로 내려갔어요. 각 계층에서 다음 노드의 ID가 너무 크면 한 단계 아래로 내려가는 방식이죠.</p>
+<p>일반적인 연결 리스트 n개 노드를 선형 탐색하면 O(n) 시간이 걸려요. 반면 skiplist는 계층을 건너뛸 수 있고, 각 계층마다 확인해야 할 노드가 반으로 줄어들기 때문에 O(log n) 시간에 노드를 찾을 수 있습니다.</p>
+<p>흥미로운 자료구조긴 한데, 이 글을 읽은 후로는 정말 오랫동안 skiplist 생각을 안 했어요. 그러다 Antithesis에서 예상 못 한 문제를 마주쳤고요.</p>
+<h3>문제 상황</h3>
+<p>Antithesis는 고객의 소프트웨어를 여러 번 실행해서 버그를 찾아요. 매번 fuzzer가 다양한 결함을 주입하고, 테스트 코드가 다른 무작위 결정을 하도록 합니다. 많은 실행을 거치다 보면 이런 선택들이 시간축을 따라 분기되는 트리를 만들어요. 루트에서 리프까지의 각 경로는 fuzzer가 내린 선택들의 하나의 시퀀스를 나타냅니다.</p>
+<p>이 트리를 대상으로 하는 쿼리들이 정말 많았어요. 기본적으로는 트리 위/아래로 fold 연산을 하는 형태였죠. 예를 들어 &quot;특정 로그 메시지가 나타나기까지의 이벤트 히스토리는 뭔가?&quot;라는 질문이 그 예입니다. (해당 노드에서 부모 포인터를 따라 루트까지 올라가면 되죠.)</p>
+<p>문제는 테스트 대상 소프트웨어가 출력하는 데이터 양이 엄청나다는 거였어요. 이 모든 데이터를 분석 데이터베이스에 넣어야 했는데, 당시에는 Google BigQuery를 사용하고 있었습니다.</p>
+<p>분석 데이터베이스는 대량의 데이터를 병렬로 스캔해서 집계 결과를 계산하는 데 최적화되어 있어요. 대신 특정 행을 ID로 가져오는 포인트 룩업(point lookup)은 느립니다.</p>
+<p>이게 왜 중요한가 하면, 데이터베이스에 트리를 표현하는 자연스러운 방식이 부모 포인터기 때문이에요. 각 노드가 테이블의 행이 되고, <code>parent_id</code> 컬럼이 부모를 가리키는 거죠. &quot;이 로그 메시지까지의 히스토리를 보여줘&quot;라는 질문에 답하려면, 노드를 조회하고 부모 ID를 얻고, 부모 노드를 조회하고, 또 다시... 이렇게 한 노드씩 올라가야 합니다. 각 단계가 포인트 룩업이에요.</p>
+<p>OLTP 데이터베이스라면 포인트 룩업이 빠르니까 문제없어요. 하지만 BigQuery는 기본적으로 모든 연산이 전체 테이블 스캔을 포함하거든요. 결국 가장 간단한 쿼리도 트리의 깊이(depth) 만큼 전체 데이터셋을 스캔해야 하는 거죠. 끔찍했어요.</p>
+<h3>다른 접근법이 있을까?</h3>
+<p>데이터를 나눠서 관리하는 방법도 있었어요. 트리 구조(부모 포인터)만 포인트 룩업에 최적화된 데이터베이스에 저장하고, 대량의 데이터는 BigQuery에 유지하는 거죠.</p>
+<p>하지만 이 방식도 문제가 있었어요. 매 삽입마다 두 시스템에 동시에 써야 하는데, 데이터를 온라인으로 분석하려면(새로운 쓰기가 실시간으로 들어오는 상황에서) 두 시스템을 일관성 있게 유지해야 합니다. 그러려면 2단계 커밋(2PC) 같은 복잡한 메커니즘이 필요해요. 굳이 2PC 문제를 만들고 싶지는 않았어요.</p>
+<p>게다가 당시 BigQuery는 일관성 보장이 약했거든요. 두 시스템을 동기화하는 게 가능할지도 불확실했습니다.</p>
+<h3>Skiplist로 구하는 구원, 아니 &quot;Skiptree&quot;?</h3>
+<p>우리가 만든 이상한 것을 &quot;skiptree&quot;라고 부르는데, 이게 정답이었어요.</p>
+<p>이름 그대로... skiplist인데 트리 형태인 거죠.</p>
+<p>좀 더 자세히 설명하면:</p>
+<p>레벨 0 트리가 있고, 그 위에 계층적으로 쌓인 여러 트리들이 있어요. 각 트리는 아래 레벨 트리의 약 50% 정도의 노드를 가집니다. (제거된 노드들은 다이어그램의 회색 점선으로 표시되어 있습니다.)</p>
+<p>루트에서 리프까지의 경로를 따라 선택된 노드들을 생각해보세요. 이 노드들이 여러 레벨에 걸쳐 어떻게 나타나는지를 보면, skiptree의 진정한 가치를 이해할 수 있어요.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://antithesis.com/blog/2026/skiptrees/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-19%20Skiplist%EB%8A%94%20%EC%96%B4%EB%96%A4%20%EC%9A%A9%EB%8F%84%EC%97%90%20%EC%A2%8B%EC%9D%80%EA%B0%80%3F&labels=feedback%2Cliked&body=**Article**%3A%20Skiplist%EB%8A%94%20%EC%96%B4%EB%96%A4%20%EC%9A%A9%EB%8F%84%EC%97%90%20%EC%A2%8B%EC%9D%80%EA%B0%80%3F%0A**URL**%3A%20https%3A%2F%2Fantithesis.com%2Fblog%2F2026%2Fskiptrees%2F%0A**Date**%3A%202026-04-19%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

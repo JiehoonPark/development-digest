@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4비트 부동소수점 FP4 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/19/">2026-04-19</a> &gt; 4비트 부동소수점 FP4...
+      </div>
+
+      <h1>4비트 부동소수점 FP4</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">4-bit floating point FP4</p>
+      <div class="article-meta">
+        <span>📅 2026-04-19</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 70</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>신경망의 메모리 효율성 요구로 인해 저정밀도 부동소수점 형식이 필요해졌으며, FP4는 4비트로 부동소수점을 표현하는 형식이다. E2M1 형식이 가장 일반적이며 Nvidia 하드웨어에서 지원된다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>신경망은 높은 정밀도보다 더 많은 파라미터를 메모리에 적재하는 것이 중요해 FP8, FP4 같은 저정밀도 형식이 필요하다.</li><li>FP4는 부호 1비트와 지수/가수 3비트로 구성되며, E3M0, E2M1, E1M2, E0M3 등 4가지 포맷이 존재한다.</li><li>Python의 Pychop 라이브러리를 통해 다양한 저정밀도 부동소수점 형식을 에뮬레이션할 수 있다.</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>LLM과 신경망 개발자들이 메모리 효율성과 추론 속도를 개선하기 위해 저정밀도 형식의 이해와 활용이 필수적이다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>4비트 부동소수점 수: FP4 형식 알아보기</h2>
+<h3>부동소수점 수의 진화</h3>
+<p>예전에는 부동소수점 수를 32비트로 저장했어요. 그러다가 어느 시점부터 64비트가 표준이 되었습니다. C 언어는 이 역사를 고스란히 안고 있는데, <code>float</code>는 32비트 부동소수점을, <code>double</code>은 64비트 부동소수점을 가리킵니다. 반면 Python은 더 간단하게 <code>float</code> 하나로 C의 double에 해당하는 가장 일반적인 부동소수점 형식을 부릅니다.</p>
+<p>프로그래머들은 32비트에서 64비트로의 전환을 환영했어요. 정밀도가 높을수록 좋으니까요. 게다가 32비트에서 64비트로 올라가면서 일부 수치 계산 문제들이 해결되기도 했습니다.</p>
+<h3>신경망이 바꾼 게임의 규칙</h3>
+<p>그런데 신경망의 등장으로 상황이 180도 바뀌었어요. 신경망은 엄청나게 많은 파라미터를 가지고 있거든요. 이제는 정밀도보다 <strong>메모리에 더 많은 파라미터를 담는 게 더 중요</strong>해졌습니다.</p>
+<p>그래서 개발자들은 64비트 배정밀도가 아닌 16비트 반정밀도(half precision)를 원했고, 더 나아가 FP8(8비트)이나 FP4(4비트) 같은 극저정밀도 형식까지 찾기 시작했습니다. 이 글에서는 4비트 부동소수점 수, 즉 FP4를 살펴보겠습니다.</p>
+<h3>정수는 안 될까?</h3>
+<p>당연한 질문이 나올 법해요. &quot;정밀도가 필요 없으면 그냥 정수 쓰면 되지 않을까?&quot;</p>
+<p>4비트 정수라면 0부터 15까지 표현할 수 있습니다. 바이어스를 도입해서 각 값에서 7을 빼면 −7부터 8까지 표현할 수 있죠. 하지만 부동소수점 형식을 쓰는 이유는 <strong>더 큰 동적 범위</strong>가 필요하기 때문입니다.</p>
+<h3>FP4 형식의 구조</h3>
+<p>4비트 부호 있는 부동소수점 수는 첫 번째 비트로 부호(sign)를 나타내고, 나머지 3비트를 지수(exponent)와 가수(mantissa)로 나눕니다. &quot;ExMy&quot;라는 표기법으로 x는 지수 비트, y는 가수 비트를 뜻해요.</p>
+<p>부호 있는 4비트 수의 경우:</p>
+<pre><code>x + y = 3</code></pre>
+<p>다른 형식에서는 합이 더 클 수 있습니다. 예를 들어 8비트 부호 있는 부동소수점은 <code>x + y = 7</code>이죠.</p>
+<p>4비트 부호 있는 수는 <strong>E3M0, E2M1, E1M2, E0M3</strong> 네 가지 조합이 가능합니다. 모두 어딘가에서는 쓰이지만, <strong>E2M1이 가장 일반적</strong>이며 Nvidia 하드웨어에서도 지원합니다.</p>
+<h3>수 값을 계산하는 공식</h3>
+<p>부호 비트 s, 지수 e, 가수 m을 가진 수의 값은 다음처럼 계산됩니다:</p>
+<pre><code>(−1)^s × 2^(e−b) × (1 + m/2)</code></pre>
+<p>여기서 b는 바이어스입니다. 바이어스는 e를 부호 있는 수로 만들지 않고도 양수와 음수 지수를 표현하기 위해 사용돼요. 예를 들어 b = 1이고 e = 1, 2, 3이라면, 지수 부분 2^(e−b)는 각각 1, 2, 4를 나타냅니다.</p>
+<p>바이어스는 수의 범위에는 영향을 주지만, <strong>상대적인 간격에는 영향을 주지 않습니다</strong>. E3M0은 지수만 있고 가수가 없어서 값들이 로그 스케일에서 균등하게 분포하고, E0M3은 가수만 있어서 선형 스케일에서 균등합니다. 반면 E1M2와 E2M1은 로그와 선형 스케일 모두에서 불균등하게 분포해요.</p>
+<h4>예외 처리: e = 0일 때</h4>
+<p>위의 공식에는 예외가 있습니다. e = 0일 때는 m = 0이 0을, m = 1이 ½를 나타냅니다.</p>
+<h3>E2M1 형식의 모든 값</h3>
+<p>FP4는 단 16개의 서로 다른 값만 가질 수 있습니다. 모두 나열해볼까요:</p>
+<pre><code>Bits  s exp m  Value
+--------------------
+0000  0 00  0  +0
+0001  0 00  1  +0.5
+0010  0 01  0  +1
+0011  0 01  1  +1.5
+0100  0 10  0  +2
+0101  0 10  1  +3
+0110  0 11  0  +4
+0111  0 11  1  +6
+1000  1 00  0  -0
+1001  1 00  1  -0.5
+1010  1 01  0  -1
+1011  1 01  1  -1.5
+1100  1 10  0  -2
+1101  1 10  1  -3
+1110  1 11  0  -4
+1111  1 11  1  -6</code></pre>
+<p>흥미롭게도 이렇게 작은 부동소수점 형식에도 +0과 −0 두 개의 영(zero)이 존재합니다. 일반 정밀도 부동소수점과 똑같네요.</p>
+<h3>Python으로 실제로 확인해보기</h3>
+<p>Pychop이라는 Python 라이브러리는 다양한 저정밀도 부동소수점 형식을 에뮬레이션합니다. 위의 표를 생성하는 코드는 다음과 같아요:</p>
+<pre><code class="language-python">import pychop
+
+# Pychop에서 형식 메타데이터 가져오기
+spec = pychop.MX_FORMATS[&quot;mxfp4_e2m1&quot;]
+assert (spec.exp_bits, spec.sig_bits) == (2, 1)
+
+def e2m1_value(s: int, e: int, m: int) -&gt; float:
+    sign = -1.0 if s else 1.0
+    # Subnormal / zero
+    if e == 0:
+        return sign * (m / 2.0)
+    # Normal
+    return sign * (2.0 ** (e - 1)) * (1.0 + m / 2.0)
+
+def display_value(bits: int, x: float) -&gt; str:
+    if bits == 0b0000:
+        return &quot;+0&quot;
+    if bits == 0b1000:
+        return &quot;-0&quot;
+    return f&quot;{x:+g}&quot;
+
+rows = []
+for bits in range(16):
+    s = (bits &gt;&gt; 3) &amp; 0b1
+    e = (bits &gt;&gt; 1) &amp; 0b11
+    m = bits &amp; 0b1
+    x = e2m1_value(s, e, m)
+    rows.append(
+        {
+            &quot;Bits&quot;: f&quot;{bits:04b}&quot;,
+            &quot;s&quot;: s,
+            &quot;exp_bits&quot;: f&quot;{e:02b}&quot;,
+            &quot;m&quot;: m,
+            &quot;Value&quot;: display_value(bits, x),
+        }
+    )
+
+# 표를 보기 좋게 출력하기
+header = f&quot;{'Bits':&lt;4} {'s':&gt;1} {'exp':&gt;3} {'m':&gt;1} {'Value':&gt;6}&quot;
+print(header)
+print(&quot;-&quot; * len(header))
+for row in rows:
+    print(
+        f&quot;{row['Bits']:&lt;4} &quot;
+        f&quot;{row['s']:&gt;1} &quot;
+        f&quot;{row['exp_bits']:&gt;3} &quot;
+        f&quot;{row['m']:&gt;1} &quot;
+        f&quot;{row['Value']:&gt;6}&quot;
+    )</code></pre>
+<h3>그 외의 4비트 형식들</h3>
+<p>FP4가 유일한 4비트 부동소수점 형식은 아닙니다. 생각보다 많은 형식들이 실제로 사용되고 있어요. 다음 글에서 다른 형식을 다루겠습니다.</p>
+<p><em>참고: 다음 글에서는 대규모 언어 모델(LLM)의 가중치 분포와 더 잘 맞춰진 NF4 형식을 다룹니다.</em></p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://www.johndcook.com/blog/2026/04/17/fp4/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-19%204%EB%B9%84%ED%8A%B8%20%EB%B6%80%EB%8F%99%EC%86%8C%EC%88%98%EC%A0%90%20FP4&labels=feedback%2Cliked&body=**Article**%3A%204%EB%B9%84%ED%8A%B8%20%EB%B6%80%EB%8F%99%EC%86%8C%EC%88%98%EC%A0%90%20FP4%0A**URL**%3A%20https%3A%2F%2Fwww.johndcook.com%2Fblog%2F2026%2F04%2F17%2Ffp4%2F%0A**Date**%3A%202026-04-19%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Mode의 6단계 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/19/">2026-04-19</a> &gt; Dark Mode의 6단계...
+      </div>
+
+      <h1>Dark Mode의 6단계</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Six Levels of Dark Mode</p>
+      <div class="article-meta">
+        <span>📅 2026-04-19</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 22</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Dark mode 구현의 난이도에 따라 6단계로 분류하며, 메타 태그에서 시작해 CSS color-scheme, light-dark() 함수, 미디어 쿼리, 별도 스타일시트, JavaScript까지 단계적으로 설명한다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>Level 1(Barebone): 메타 태그 하나로 기본 dark mode 지원 가능</li><li>Level 2-4: CSS만으로 color-scheme 선언, light-dark() 함수, 미디어 쿼리를 통해 점진적 커스터마이징 가능</li><li>Level 5-6: 별도 스타일시트 파일 분리와 JavaScript matchMedia 활용으로 고급 제어 가능</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>개발자가 프로젝트 복잡도와 유지보수 난이도에 맞는 dark mode 구현 전략을 선택할 수 있다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>다크 모드의 6가지 레벨</h2>
+<p>지난 CSS Naked Day를 통해 흥미로운 발견을 하게 됐습니다. 스타일시트를 제거한 웹사이트들을 둘러보다 보니, 대부분에서 다크 모드가 제대로 작동하지 않고 있었거든요. 이 경험이 계기가 되어 다크 모드를 구현하는 여러 단계에 대해 정리해보기로 했습니다.</p>
+<p>사실 정확한 제목이라면 &quot;색상 스킴 전환의 6가지 레벨&quot;이겠지만, 글의 대부분이 다크 모드 예제를 다루니까 현재의 제목도 나쁘지 않네요. 물론 라이트 모드도 같은 방식으로 적용할 수 있다는 점은 기억해 두세요.</p>
+<p>그럼 본격적으로 살펴보겠습니다.</p>
+<h3>레벨 1: 기초</h3>
+<p>가장 간단한 방법인데도, 소개 부분에서 언급한 사이트들에서 이것이 빠져있었습니다. CSS 코드 한 줄도 없이 다크/라이트 모드를 지원할 수 있다니, 정말 좋지 않나요? 특히 CSS Naked Day에는 더욱 말이죠.</p>
+<p>문서의 <code>&lt;head&gt;</code>에 다음 메타 태그만 추가하면 됩니다.</p>
+<pre><code class="language-html">&lt;meta name=&quot;color-scheme&quot; content=&quot;light dark&quot;&gt;</code></pre>
+<p>이 태그가 있으면 브라우저는 사용자의 색상 스킴 설정을 따라야 한다는 걸 알게 됩니다. <code>content</code> 속성의 값 순서도 중요한데요, 사용자가 색상 스킴 설정을 하지 않은 경우 첫 번째 값이 기본값이 됩니다. 하지만 요즘 운영체제들은 색상 스킴을 반드시 선택하도록 하므로, 실제로는 OS 설정과 일치하는 값이 적용됩니다.</p>
+<p>원한다면 하나의 값만 지정할 수도 있습니다. 그러면 사용자 선호도에 상관없이 해당 스킴이 강제되는데, 그건 다른 이야기네요.</p>
+<h3>레벨 2: 기본</h3>
+<p>이제 CSS를 사용한 다크/라이트 모드 구현으로 넘어가봅시다.</p>
+<pre><code class="language-css">html {
+  color-scheme: light dark;
+}</code></pre>
+<p>이미 메타 태그를 추가했다면 이 CSS는 굳이 필요 없습니다. 다만 CMS를 사용해서 HTML을 직접 제어할 수 없는 경우가 아니라면, 메타 태그를 먼저 추가하길 권장합니다. 그렇게 하면 브라우저가 CSS를 파싱하기 전에 이미 색상 스킴 정보를 알 수 있거든요.</p>
+<p>두 방법 모두 기본적으로 브라우저의 기본 스타일과 그에 따른 라이트/다크 모드를 그대로 사용할 수 있게 해줍니다. 여기에 CSS 시스템 색상만 조금 활용해도 꽤 멋진 디자인을 만들 수 있습니다. 실제로 이 블로그의 스타일 전환기에도 '없음'과 '기본' 항목이 있는데, 이것이 바로 레벨 1과 2에 해당합니다.</p>
+<p>여기서 메타 태그와 CSS 방식의 차이가 생깁니다. 메타 태그는 항상 전체 문서에 적용되지만, CSS <code>color-scheme</code> 선언은 루트 요소뿐만 아니라 어디든 설정할 수 있거든요. 이렇게 하면 더 다양한 활용이 가능한데, 그 부분은 다른 글에서 다루겠습니다.</p>
+<h3>레벨 3: 가벼운 커스터마이징</h3>
+<p>여기서부터는 좀 더 깊어집니다. 최근 CSS에 추가된 <code>light-dark()</code> 함수를 사용하면 간단하게 라이트/다크 모드를 구분할 수 있습니다.</p>
+<pre><code class="language-css">html {
+  background-color: light-dark(black, white);
+  color: light-dark(white, black);
+}</code></pre>
+<p>이 함수는 두 개의 색상값을 받습니다. 첫 번째는 라이트 모드에서, 두 번째는 다크 모드에서 사용됩니다. 고정된 색상을 직접 입력해도 좋고, CSS 커스텀 프로퍼티를 사용해도 괜찮습니다.</p>
+<p>이 방식이 다른 레벨들 중에서 브라우저 호환성이 좀 떨어지긴 하지만, 시간이 지나면 나아질 겁니다.</p>
+<h3>레벨 4: 본격적인 커스터마이징</h3>
+<p>고전적인 미디어 쿼리를 사용해봅시다.</p>
+<pre><code class="language-css">@media (prefers-color-scheme: dark) {
+  html {
+    background-color: black;
+    color: white;
+  }
+}</code></pre>
+<p>미디어 쿼리를 쓰면 라이트 모드와 다크 모드를 완벽하게 분리할 수 있습니다. 색상 변경뿐만 아니라 원하는 모든 스타일을 적용할 수 있거든요. 다크 모드에서 이미지를 흑백으로 만들고 싶다면? <code>filter</code>를 써도 됩니다. 박스 섀도우 대신 아웃라인을 쓰고 싶다면? 그것도 가능하죠.</p>
+<h3>레벨 5: 분리된 스타일시트</h3>
+<p>미디어 쿼리를 HTML에서도 직접 사용할 수 있습니다. <code>&lt;link&gt;</code> 태그의 <code>media</code> 속성을 활용하면 스킴별로 완전히 다른 스타일시트를 로드할 수 있습니다.</p>
+<pre><code class="language-html">&lt;link media=&quot;screen and (prefers-color-scheme:light)&quot; rel=&quot;stylesheet&quot; href=&quot;light.css&quot;&gt;
+&lt;link media=&quot;screen and (prefers-color-scheme:dark)&quot; rel=&quot;stylesheet&quot; href=&quot;dark.css&quot;&gt;</code></pre>
+<p>커스터마이징이 많이 필요한 경우라면 이렇게 파일을 분리하는 것이 좋습니다. 브라우저가 현재 스킴과 맞지 않는 CSS 파일은 무시하니까, 불필요한 다운로드를 줄일 수 있거든요.</p>
+<h3>레벨 6: JavaScript 활용</h3>
+<p>JavaScript도 당연히 이 게임에 참여하고 싶어합니다. <code>matchMedia()</code> 함수를 사용하면 미디어 쿼리와 동일하게 색상 스킴을 감지할 수 있습니다.</p>
+<pre><code class="language-javascript">const isDarkScheme = window.matchMedia('(prefers-color-scheme:dark)');</code></pre>
+<p>이제 원하는 로직을 구현하면 됩니다.</p>
+<p>실제로는 위의 모든 방법을 섞어서 사용할 수 있습니다. 한 가지 방식만 고집할 필요는 없거든요.</p>
+<h3>그 이상의 것들</h3>
+<p>사용자의 OS 설정에만 의존할 필요는 없습니다. 직접 색상 스킴 전환 기능을 만들 수도 있으니까요. 다만 이렇게 할 때는 주의해야 할 점들이 있는데요. 그것도 다른 글에서 다루겠습니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://cssence.com/2024/six-levels-of-dark-mode/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-19%20Dark%20Mode%EC%9D%98%206%EB%8B%A8%EA%B3%84&labels=feedback%2Cliked&body=**Article**%3A%20Dark%20Mode%EC%9D%98%206%EB%8B%A8%EA%B3%84%0A**URL**%3A%20https%3A%2F%2Fcssence.com%2F2024%2Fsix-levels-of-dark-mode%2F%0A**Date**%3A%202026-04-19%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

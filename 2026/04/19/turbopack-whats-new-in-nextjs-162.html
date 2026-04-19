@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Turbopack: Next.js 16.2의 새로운 기능 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/19/">2026-04-19</a> &gt; Turbopack: Next.js 16.2의 새로운 기능...
+      </div>
+
+      <h1>Turbopack: Next.js 16.2의 새로운 기능</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Turbopack: What's New in Next.js 16.2</p>
+      <div class="article-meta">
+        <span>📅 2026-04-19</span>
+        <span>📰 Next.js Blog</span>
+        
+        
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>2026년 3월 18일 공개된 Next.js 16.2에는 Turbopack이 기본 번들러로 설정된 후 2번의 릴리스를 거쳐 성능 개선, 버그 수정, 기능 패리티 향상에 초점을 맞춘 여러 새로운 기능이 포함되었습니다. 주요 개선 사항으로 서버 Fast Refresh(67-100% 빠른 새로고침), Web Worker Origin 지원, Subresource Integrity, 동적 import 트리 셰이킹, 인라인 로더 설정, Lightning CSS 설정, 로그 필터링, PostCSS TypeScript 설정 지원 등이 있으며, 200개 이상의 변경과 버그 수정이 포함되었습니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>서버 Fast Refresh (Server Fast Refresh): 기존의 require.cache 전체 제거 방식에서 벗어나, Turbopack의 모듈 그래프 지식을 활용해 실제로 변경된 모듈만 재로드합니다. 실제 Next.js 애플리케이션에서 67-100% 빠른 새로고침(375% 빠른 compile time)을 달성했으며, Next.js 자체는 40ms → 2.7ms, 애플리케이션은 19ms → 9.7ms로 단축되었습니다.</li><li>Web Worker Origin 지원: 이전에는 Web Workers가 blob:// URL로 부트스트랩되어 location.origin이 비어있었지만, 이제 올바른 도메인으로 설정되어 importScripts()와 fetch()가 정상 작동합니다. WASM 라이브러리가 Worker에서 작동하지 않던 문제를 해결합니다.</li><li>Subresource Integrity (SRI) 지원: 빌드 타임에 JavaScript 파일의 암호화 해시를 생성하여 브라우저가 파일 변조 여부를 검증할 수 있게 합니다. Content Security Policy와 함께 사용 가능하며, 동적 렌더링 성능 비용 없이 nonce 기반 방식의 대안을 제공합니다. next.config.js에서 `experimental.sri.algorithm` 설정으로 활성화합니다.</li><li>동적 import 트리 셰이킹 (Tree Shaking of Dynamic Imports): const { cat } = await import('./lib');처럼 동적 import에서 구조 분해한 미사용 export를 제거합니다. 정적 import와 동일한 수준의 트리 셰이킹이 이제 동적 import에도 적용됩니다.</li><li>인라인 로더 설정 (Inline Loader Configuration): import 속성을 통해 개별 import마다 로더를 설정할 수 있습니다. turbopackLoader, turbopackLoaderOptions, turbopackAs, turbopackModuleType 속성을 import with 절에서 사용하여, 특정 import만 특수 처리가 필요할 때 전역 설정 없이 적용 가능합니다.</li><li>Lightning CSS 설정: Rust 기반의 빠른 CSS 변환기인 Lightning CSS의 실험적 설정 옵션이 추가되어, CSS 처리 최적화를 더 세밀하게 제어할 수 있습니다.</li><li>로그 필터링 (Log Filtering): ignoreIssue를 통해 불필요한 로그와 경고를 억제할 수 있어 개발 중 노이즈를 줄입니다.</li><li>PostCSS TypeScript 설정 지원: 기존의 postcss.config.js 대신 postcss.config.ts를 사용할 수 있어 TypeScript의 타입 안전성을 PostCSS 설정에 적용합니다.</li><li>200개 이상의 성능 개선과 버그 수정: 다양한 성능 최적화와 안정성 개선이 포함되었습니다.</li><li>향후 계획: 다음 릴리스에서는 컴파일러 성능 향상과 메모리 사용량 감소에 집중할 예정입니다.</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>Next.js 16.2의 여러 개선 사항(특히 Server Fast Refresh의 대폭적인 성능 향상)은 개발 생산성을 크게 높이고, SRI 지원으로 보안을 강화하며, 트리 셰이킹과 로더 설정 개선으로 번들 최적화 제어를 더욱 세밀하게 할 수 있게 해줍니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>Turbopack: Next.js 16.2의 새로운 기능들</h2>
+<p>Turbopack이 Next.js의 기본 번들러가 된 지 두 릴리스가 지났습니다. 지금 우리의 초점은 성능 개선, 버그 수정, 그리고 호환성 향상에 맞춰져 있는데요. Next.js 16.2에서 출시되는 주요 기능들을 소개해드리겠습니다.</p>
+<h3>Server Fast Refresh: 세밀한 서버 핫 리로딩</h3>
+<p><strong>Web Worker Origin</strong>: Worker에서 WASM 라이브러리 지원 확대</p>
+<p><strong>Subresource Integrity 지원</strong>: JavaScript 파일에 대한 Subresource Integrity</p>
+<p><strong>동적 Import 트리 쉐이킹</strong>: 동적 import()에서 미사용 export 제거</p>
+<p><strong>인라인 로더 설정</strong>: import 속성을 통한 import별 로더 설정</p>
+<p><strong>Lightning CSS 설정</strong>: 실험적 LightningCSS 설정 옵션</p>
+<p><strong>로그 필터링</strong>: ignoreIssue로 성가신 로그와 경고 억제</p>
+<p><strong>postcss.config.ts 지원</strong>: TypeScript PostCSS 설정</p>
+<p><strong>성능 개선 및 버그 수정</strong>: 200개 이상의 변경사항과 버그 수정</p>
+<p>다음 릴리스를 향해서는 컴파일러 성능 향상과 메모리 사용량 감소에 집중할 계획입니다.</p>
+<h3>Server Fast Refresh</h3>
+<p>개발 중 서버 코드가 리로드되는 방식을 완전히 재설계했습니다. 기존 시스템은 변경된 모듈의 require.cache를 제거할 때, 해당 모듈과 관련된 모든 import chain의 모듈까지 함께 정리했습니다. 때문에 실제로 변하지 않은 node_modules까지 불필요하게 리로드되곤 했죠.</p>
+<p>새로운 시스템은 브라우저에서 사용하는 Fast Refresh 방식을 서버 코드에 그대로 적용합니다. Turbopack은 모듈 그래프를 정확히 파악하고 있어서, 실제로 변경된 모듈만 리로드하고 나머지는 그대로 두게 됩니다. 결과적으로 서버 핫 리로딩이 훨씬 효율적으로 동작합니다.</p>
+<p>실제 Next.js 애플리케이션에서 테스트해보니 애플리케이션 새로고침이 67~100% 빨라졌고, Next.js 내 컴파일 시간은 400~900% 단축되었습니다. 작은 &quot;hello world&quot; 스타터 프로젝트부터 vercel.com 같은 대규모 사이트까지 일관되게 개선되었습니다.</p>
+<div class="table-wrapper"><table><thead><tr><th>항목</th><th>개선 전</th><th>개선 후</th><th>개선율</th></tr></thead><tbody><tr><td>Next.js</td><td>40ms</td><td>2.7ms</td><td>약 93% 단축</td></tr><tr><td>Application</td><td>19ms</td><td>9.7ms</td><td>약 49% 단축</td></tr></tbody></table></div>
+<p>이 기능은 모든 개발자를 위해 기본값으로 활성화됩니다. 다만 Proxy와 Route Handlers는 기존 시스템을 사용하고 있으며, 향후 릴리스에서 지원될 예정입니다. 피드백이나 문제사항이 있으면 GitHub에서 공유해 주세요.</p>
+<h3>Web Worker Origin</h3>
+<p>기존에는 Web Worker가 blob:// URL을 통해 부팅되었습니다. 로딩은 간단했지만, location.origin 값이 비어있는 문제가 있었거든요. importScripts()나 fetch()를 사용하려는 Worker 코드(특히 서드파티 라이브러리)는 코드 수정 없이는 요청을 제대로 해석할 수 없었습니다.</p>
+<p>Worker 부팅 코드를 개선해서 이제 origin이 정확하게 여러분의 도메인을 가리킵니다. 덕분에 상대 경로 fetch 요청이 성공적으로 처리됩니다. 이전 버전에서 Worker 내에서 WASM 코드 실행이 막혔던 분들도 이제 문제없이 사용할 수 있을 거예요.</p>
+<h3>Subresource Integrity 지원</h3>
+<p>Turbopack이 이제 Subresource Integrity(SRI)를 지원합니다. 빌드 시점에 JavaScript 파일의 암호화 해시를 생성해서, 브라우저가 파일 변조 여부를 검증할 수 있도록 해주는 기능입니다.</p>
+<p>브라우저의 Content Security Policy(CSP) 기술을 사용하면 실행 가능한 JavaScript를 제한해서 보안 위험을 크게 줄일 수 있습니다. 하지만 일반적인 nonce 기반 방식은 모든 페이지를 동적으로 렌더링해야 해서 성능에 영향을 미칩니다. Subresource Integrity는 다른 접근 방식인데요. 미리 각 스크립트의 해시를 계산해두고, 승인된 해시만 실행하도록 브라우저에 지시합니다.</p>
+<pre><code class="language-javascript">// next.config.js
+const nextConfig = {
+  experimental: {
+    sri: {
+      algorithm: 'sha256',
+    },
+  },
+};
+
+module.exports = nextConfig;</code></pre>
+<h3>동적 Import의 트리 쉐이킹</h3>
+<p>Turbopack이 이제 구조분해한 동적 import도 정적 import과 동일하게 트리 쉐이킹합니다. 사용하지 않는 export는 번들에서 제거됩니다.</p>
+<pre><code class="language-javascript">const { cat } = await import('./lib');</code></pre>
+<p>이제 위 코드는 트리 쉐이킹 관점에서 정적 import과 동일하게 취급됩니다. ./lib에서 사용하지 않는 export는 모두 제거됩니다.</p>
+<h3>인라인 로더 설정</h3>
+<p>Turbopack이 이제 import 속성을 통한 import별 로더 설정을 지원합니다. turbopack.rules에서 전역으로 로더를 설정하는 대신, with 절을 사용해서 개별 import에 설정할 수 있습니다.</p>
+<pre><code class="language-javascript">import rawText from './data.txt' with {
+  turbopackLoader: 'raw-loader',
+  turbopackAs: '*.js',
+};
+
+import value from './data.js' with {
+  turbopackLoader: 'string-replace-loader',
+  turbopackLoaderOptions: '{&quot;search&quot;:&quot;PLACEHOLDER&quot;,&quot;replace&quot;:&quot;replaced value&quot;}',
+};</code></pre>
+<p>특정 import만 특별한 처리가 필요할 때 유용합니다. 같은 파일 타입의 다른 import에 영향을 주지 않기 때문이죠. 사용 가능한 속성은 turbopackLoader, turbopackLoaderOptions, turbopackAs, turbopackModuleType입니다.</p>
+<p>가능하면 next.config.ts에서 로더를 설정하는 게 좋습니다. 인라인 로더를 사용한 코드는 이식성이 떨어지거든요. 이 옵션은 플러그인이나 로더에서 생성되는 코드에 더 유용합니다.</p>
+<h3>Lightning CSS 설정</h3>
+<p>Lightning CSS는 T...</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://nextjs.org/blog/next-16-2-turbopack" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-19%20Turbopack%3A%20Next.js%2016.2%EC%9D%98%20%EC%83%88%EB%A1%9C%EC%9A%B4%20%EA%B8%B0%EB%8A%A5&labels=feedback%2Cliked&body=**Article**%3A%20Turbopack%3A%20Next.js%2016.2%EC%9D%98%20%EC%83%88%EB%A1%9C%EC%9A%B4%20%EA%B8%B0%EB%8A%A5%0A**URL**%3A%20https%3A%2F%2Fnextjs.org%2Fblog%2Fnext-16-2-turbopack%0A**Date**%3A%202026-04-19%0A**Source**%3A%20Next.js%20Blog" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>

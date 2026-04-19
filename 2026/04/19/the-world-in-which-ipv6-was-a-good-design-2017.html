@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IPv6가 좋은 설계였던 세상 (2017) — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/19/">2026-04-19</a> &gt; IPv6가 좋은 설계였던 세상 (2017)...
+      </div>
+
+      <h1>IPv6가 좋은 설계였던 세상 (2017)</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">The world in which IPv6 was a good design (2017)</p>
+      <div class="article-meta">
+        <span>📅 2026-04-19</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 204</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>IPv6이 IPv4보다 복잡한 이유를 IETF 회의에서 조사한 결과, 전화망의 회로 교환 기반 설계에서 패킷 기반 인터넷으로의 진화 과정에서 여러 계층(물리층, MAC주소, IP주소)이 누적되었기 때문임을 설명한다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>전화망의 물리 회로 교환에서 TDM을 거쳐 IP 기반 패킷 라우팅으로 진화하면서 여러 프로토콜 계층이 중첩되었다.</li><li>LAN 기술(Ethernet, MAC 주소)과 WAN 기술(IP)이 다른 설계 철학에서 출발했기 때문에 IPv6에서도 이를 통합하기 어렵다.</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>네트워크 프로토콜의 복잡성이 역사적 진화의 결과임을 이해하면 새로운 표준 설계 시 레거시와의 호환성 문제를 예측할 수 있다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>IPv6가 좋은 설계였던 세상</h2>
+<p>지난해 11월 처음으로 IETF 미팅에 참석했어요. IETF는 정말 흥미로운 곳이더라고요. 대충 말하면 1/3은 기술 부채 정리, 1/3은 기존 기술 개선, 1/3은 황당한 신기술 제안 같은 분위기였습니다. 제가 참석한 건 TCP BBR이 처음 공개되는 모습을 보고 싶었거든요. (반응은 대체로 긍정적이었지만, 회의적인 쪽도 있었어요. 뭔가 너무 좋은 거 아닌가 싶은 느낌이랄까요.)</p>
+<p>아무튼 IETF 미팅에선 IPv6 관련 발표가 정말 많았어요. IPv6은 인터넷의 근간인 IPv4를 대체하려고 만든 프로토콜인데요. (이미 교체되고 있다는 사람도 있고, 이미 끝났다는 사람도 있지만요.) IPv6을 옹호하는 사람들도 많았는데, 이들은 정말 확신에 차 있더라고요. IPv6이 드디어 대세가 될 거고, IPv4는 그냥 여러 임시방편의 집합체일 뿐, 인터넷이 우아해지려면 IPv4가 사라져야 한다는 식이었습니다.</p>
+<p>그게 흥미로워서, 이 현상을 좀 더 깊게 이해해보고 싶었어요. 왜 IPv6은 IPv4보다 이렇게 복잡하고 지저분할까요? 그냥 IPv4에 주소 비트만 더 추가했으면 안 됐을까? 근데 아니더라고요. 정말 아니었어요. 그래서 주변 사람들한테 물어봤고, 제가 찾아낸 답을 여기 정리해봤습니다.</p>
+<h3>전화 네트워크부터 시작하다</h3>
+<p>옛날옛날에 전화 네트워크가 있었어요. 물리적인 회로 교환 방식을 썼는데요. 쉽게 말하면 연결 단자를 이리저리 옮겨서 당신의 전화선이 정말 긴 구리선 하나가 되는 거였어요. (OSI 레이어 1이죠.) 전화사에서 빌리는 &quot;전용선&quot;이라는 게 바로 이런 긴 선을 임차하는 거였습니다. 한쪽 끝에 신호를 넣으면 일정한 시간이 지난 뒤 다른 쪽 끝에 나온다. 주소가 필요 없었어요. 양쪽 끝에 정확히 하나씩의 기계만 있으니까요.</p>
+<p>나중에 전화사가 이걸 좀 더 효율적으로 만들었어요. 시분할 다중화(TDM)와 &quot;가상 회로 교환&quot;이 나온 거죠. 전화사는 여러 선에서 들어오는 느린 속도의 신호를 모아서 하나로 묶고, 중간의 전화망을 통해 보내는 방식으로 필요한 선의 개수를 줄일 수 있었어요. 그 과정은 좀 복잡했지만, 우리 모뎀 사용자 입장에서는 여전히 한쪽 끝에 신호를 넣으면 다른 쪽 끝에 나왔어요. 여전히 주소는 필요 없었습니다.</p>
+<h3>인터넷이 회로 위에 태어나다</h3>
+<p>인터넷(당시엔 인터넷이라고 부르지 않았지만)은 이런 회로들 위에 만들어졌어요. 한쪽 끝에 신호를 넣으면 다른 쪽 끝에 나오는 선들이 있는 거죠. 만약 한 컴퓨터가 2~3개의 인터페이스를 가지고 있으면, 적절한 명령만 주어지면 한 선에서 들어온 신호를 다른 선으로 보낼 수 있었어요. 그러면 모든 컴퓨터 쌍 사이에 별도의 선을 깔아야 하는 것보다 훨씬 효율적이었어요. 이렇게 IP 주소(&quot;레이어 3&quot;), 서브넷, 라우팅이 탄생했습니다.</p>
+<p>이 당시에도 포인트-투-포인트 링크 구조였기 때문에 MAC 주소는 필요 없었어요. 패킷이 선에 들어가면 나올 수 있는 곳이 정해져 있으니까요. IP 주소는 그 다음에 패킷이 어디로 가야 할지 결정하는 데만 쓰였습니다.</p>
+<h3>LAN의 등장</h3>
+<p>한편 LAN이 대안으로 나타났어요. 자신의 사무실 같은 로컬 공간에 여러 컴퓨터(또는 터미널과 메인프레임)를 연결하려면, 각 기계마다 별도의 인터페이스가 필요해서 정말 번거로웠어요. 선 한 개가 중심에서 별 모양으로 뻗어나가는 구조였거든요. 전자 부품을 절약하고 싶던 사람들은 &quot;버스&quot; 네트워크(나중에 &quot;브로드캐스트 도메인&quot;이라고 부르게 될 이름)를 원했어요. 여러 기계를 한 선에 꽂기만 하면, 같은 선에 연결된 다른 기계들과 통신할 수 있는 구조 말이에요.</p>
+<p>이들은 인터넷을 만들던 사람들과는 다른 그룹이었어요. 그래서 IP 주소 같은 걸 쓰지 않고 자기들만의 주소 체계를 만들었어요(&quot;레이어 2&quot;).</p>
+<h3>Arcnet부터 Ethernet까지</h3>
+<p>초기의 로컬 버스 네트워크 중 하나는 arcnet이었어요. 저도 이것과 개인적인 인연이 있거든요. (1990년대 후반, arcnet이 이미 구식이 된 한참 뒤에 Linux arcnet 드라이버를 처음 작성하고 arcnet 관련 글도 썼었어요.) Arcnet의 레이어 2 주소는 정말 간단했어요. 8비트일 뿐이었고, 네트워크 카드 뒷면의 점퍼나 DIP 스위치로 설정했어요. 네트워크 관리자가 직접 주소를 설정하고 중복이 없는지 확인해야 했어요. 중복이 나면 정말 큰일이 났거든요. 번거롭긴 했지만, arcnet 네트워크는 보통 작은 규모였으니까 그래도 관리할 수 있었습니다.</p>
+<p>몇 년 뒤 Ethernet이 나타났고 이 문제를 완전히 해결해버렸어요. 레이어 2 주소에 훨씬 더 많은 비트(정확히는 48비트)를 사용한 거예요. 이 정도 비트 수면 지금까지 만들어진 모든 기기에 고유한 주소를 할당할 수 있고 충돌할 일이 없어요. 그리고 실제로 그렇게 했어요! 이렇게 Ethernet MAC 주소가 탄생했습니다.</p>
+<p>그 뒤로도 여러 LAN 기술들이 나오고 사라졌어요. 그중 제가 특히 좋아한 기술은 IPX(Internetwork Packet Exchange, 실제 &quot;인터넷&quot;과는 별 상관없었지만)와 Netware였어요. 모든 클라이언트와 서버가 단일 버스 네트워크에 있으면 완벽하게 작동했거든요. 주소를 설정할 필요가 전혀 없었어요. 정말 아름답고, 신뢰할 수 있고, 잘 작동했어요. 황금기였습니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://apenwarr.ca/log/20170810" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-19%20IPv6%EA%B0%80%20%EC%A2%8B%EC%9D%80%20%EC%84%A4%EA%B3%84%EC%98%80%EB%8D%98%20%EC%84%B8%EC%83%81%20(2017)&labels=feedback%2Cliked&body=**Article**%3A%20IPv6%EA%B0%80%20%EC%A2%8B%EC%9D%80%20%EC%84%A4%EA%B3%84%EC%98%80%EB%8D%98%20%EC%84%B8%EC%83%81%20(2017)%0A**URL**%3A%20https%3A%2F%2Fapenwarr.ca%2Flog%2F20170810%0A**Date**%3A%202026-04-19%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
