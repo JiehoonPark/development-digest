@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>양자 컴퓨터는 128비트 대칭키에 위협이 아니다 — FE 데일리 리포트</title>
+  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
+      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
+      <nav>
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
+        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    
+    <div class="article-detail">
+      <div class="breadcrumb">
+        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/20/">2026-04-20</a> &gt; 양자 컴퓨터는 128비트 대칭키에 위협이 아니다...
+      </div>
+
+      <h1>양자 컴퓨터는 128비트 대칭키에 위협이 아니다</h1>
+      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Quantum Computers Are Not a Threat to 128-Bit Symmetric Keys</p>
+      <div class="article-meta">
+        <span>📅 2026-04-20</span>
+        <span>📰 Hacker News (Top)</span>
+        
+        <span>⬆ 93</span>
+      </div>
+
+      <div class="article-summary">
+        <h2>요약</h2>
+        <p>Filippo Valsorda가 양자 컴퓨터가 AES-128 같은 128비트 대칭키 암호화에 실질적 위협을 구성하지 않는다는 것을 기술적으로 설명합니다. Grover 알고리즘의 특성상 병렬화 시 보안 강도 감소가 최소화되기 때문입니다.</p>
+      </div>
+
+      <div class="article-key-points">
+        <h2>핵심 포인트</h2>
+        <ul><li>Grover 알고리즘은 2^128 키 공간을 2^64 연산으로 줄이지만, 병렬화 시 이점이 제곱근만큼만 감소하여 2^56 작업이 필요</li><li>양자 게이트 깊이 제약(1마이크로초 기준으로 10년 운영 시 약 2^48)을 고려하면 현실적으로 128비트 키 공격 불가능</li><li>256비트 키로 변경할 필요 없으며, 포스트-양자 전환 시 비대칭키 암호화만 교체하면 됨</li></ul>
+       </div>
+      <div class="article-why">
+        <h2>왜 중요한가</h2>
+        <p>개발자는 대칭키 암호화 알고리즘의 키 크기를 현재대로 유지하고, 포스트-양자 전환 노력을 RSA/ECDSA 같은 비대칭 암호화에 집중해야 한다는 것을 이해할 수 있습니다.</p>
+       </div>
+      <div class="translated-content">
+        <h2>📄 전문 번역</h2>
+        <div class="content"><h2>양자컴퓨터는 128비트 대칭키에 위협이 아니다</h2>
+<p><strong>2026년 4월 20일</strong></p>
+<p>암호학적으로 관련성 있는 양자컴퓨터의 위협이 점점 증가하면서, 현재 배포된 비대칭 암호화 알고리즘들을 교체할 필요성이 대두되었습니다. Shor의 양자 알고리즘에 취약한 키 교환(ECDH)과 디지털 서명(RSA, ECDSA, EdDSA)이 그것인데요. 다행히 이것이 기존의 대칭 암호화 알고리즘(AES, SHA-2, SHA-3)이나 그 키 크기에는 영향을 미치지 않습니다.</p>
+<p>양자컴퓨터가 대칭키의 보안을 &quot;절반으로 줄인다&quot;는 오해가 널리 퍼져 있습니다. 이 논리라면 128비트의 보안 강도를 위해 256비트 키가 필요하다는 결론이 나오죠. 그런데 이건 양자 알고리즘이 제공하는 속도 향상을 잘못 이해한 것입니다. 어떤 규정에도 이런 요구사항은 없으며, 오히려 정말 필요한 양자내성 암호화 전환 작업에서 에너지와 주의를 분산시킬 위험이 있습니다. 이 오해는 보통 다른 양자 알고리즘인 Grover의 알고리즘을 잘못 이해한 데서 비롯됩니다.</p>
+<p><strong>AES-128은 양자컴퓨터로부터 안전합니다. SHA-256도 마찬가지입니다. 양자내성 암호화 전환 과정에서 대칭키의 크기를 바꿔야 할 이유가 없습니다.</strong> 이는 전문가와 표준화 단체들 사이의 거의 합의에 가까운 의견이며, IT 커뮤니티 전체에 널리 알려져야 합니다. 이 글의 나머지 부분에서는 이 주장을 기술적으로, 그리고 관련 기관의 참고자료를 통해 뒷받침하겠습니다.</p>
+<h3>Grover 알고리즘의 속도 향상</h3>
+<p>Grover의 알고리즘은 크기가 N인 입력 공간에서 비정형 함수 f의 &quot;올바른 답&quot;을 찾기 위해 f를 π/4×√N 번 호출하는 양자 알고리즘입니다.</p>
+<p>일반적으로 이를 &quot;Grover 알고리즘이 AES-128 키를 2^64의 '시간'에 찾을 수 있다&quot;는 의미로 해석합니다. 하지만 실제로는 그렇지 않습니다. 이러한 공격을 단일 순차 스레드로 실행하면 수십만 년이 걸리고, 병렬화하면 전체 비용이 증가하기 때문입니다.</p>
+<p>Grover 알고리즘에 대해 꼭 알아야 할 몇 가지가 있습니다:</p>
+<ul>
+<li>함수 오라클 f는 양자 회로의 일부로 구현되어야 합니다.</li>
+<li>오라클 호출은 순차적으로 한 번에 하나씩 일어나야 합니다.</li>
+<li><strong>중요한 점은, 공격을 병렬화하는 가장 좋은 방법도 검색 공간을 분할하는 것뿐이라는 사실입니다(Zalka, 1997).</strong></li>
+</ul>
+<p>마지막 포인트가 왜 중요할까요? 일반적인 무차별 대입 공격(brute-force)과 달리 Grover 공격은 &quot;엄청나게 병렬화 가능한(embarrassingly parallel)&quot; 특성이 없거든요. 검색 공간을 분할하면 Grover의 이차 속도 향상이 손실됩니다.</p>
+<p>64비트 키에 대한 고전적 무차별 대입 공격을 생각해봅시다. 각 시도에 5ns가 걸린다면(3GHz에서 약 16사이클) 단일 CPU로 실행할 때의 소요 시간은:</p>
+<pre><code>2^64 × 5 ns ≈ 3,000년</code></pre>
+<p>이를 병렬화하기 위해 2^16 = 65,536개의 CPU에 분산시킵니다. 각 CPU는 2^(64-16) = 2^48 개의 키를 탐색하면:</p>
+<pre><code>2^48 × 5 ns ≈ 16일</code></pre>
+<p>주목할 점은 시스템 전체에서 수행되는 총 작업량입니다:</p>
+<pre><code>2^16 × 2^48 = 2^64</code></pre>
+<p>변하지 않았습니다. 64비트 키가 약한 이유가 여기 있습니다. 병렬로 효율적으로 검색할 수 있으니까요. 만약 공격이 순차적이어야 한다면 위험이 없을 것입니다.</p>
+<p>이제 128비트 키에 대한 Grover 공격을 시도해봅시다. 마찬가지로 √2^128 = 2^64 번의 연산을 순차적으로 실행하는 것은 불가능하므로, 2^16개의 양자컴퓨터에 걸쳐 공격을 병렬화합니다. 각 인스턴스는 2^(128-16) = 2^112 개의 키를 탐색합니다.</p>
+<p>각 인스턴스가 수행해야 할 작업량은:</p>
+<pre><code>√(2^128 / 2^16) = 2^56</code></pre>
+<p>주목하세요. 이건 2^48이 아닙니다!</p>
+<p>검색 공간 감소 계수 2^16을 제곱근 안에 넣으면 인스턴스당 2^8의 작업만 절약됩니다. 반면 고전적으로는 전체 2^16을 절약합니다.</p>
+<p>시스템 전체의 총 작업량은 2^64에서:</p>
+<pre><code>2^56 × 2^16 = 2^72</code></pre>
+<p>로 증가했습니다. 공격을 병렬화하면서 이차 속도 향상이 희석되었기 때문입니다.</p>
+<h3>숫자로 계산해보기</h3>
+<p>Grover 알고리즘이 병렬화되지 않는 이유를 직관적으로 이해했으니, 구체적인 크기 순서로 숫자를 계산해봅시다. 실제로 위협이 되는지 판단하려면 말입니다.</p>
+<p>먼저 연속으로 수행할 수 있는 연산 또는 게이트의 개수를 정해야 합니다. 보수적으로 접근하기 위해 초전도 큐빗 같은 빠른 클록의 양자 아키텍처를 가정하고, 한 게이트에 1µs가 걸린다고 합시다. 정전이나 충실도 손실 없이 10년간 공격을 실행할 수 있다면, 최대 게이트 깊이(depth)는:</p>
+<pre><code>10년 / 1µs ≈ 2^48</code></pre>
+<p>다음으로, 양자 회로 내에서 AES-128을 계산하는 데 필요한 순차 게이트 개수를 알아야 합니다. Liao와 Luo(2025)는 2^32개의 T-게이트 깊이를 가진 고도로 최적화된 Grover 오라클을 제시했습니다(회로 &quot;너비&quot;는 약 724로, 대략 병렬로 작동하는 논리 큐빗의 개수입니다).</p>
+<p>이제 각 인스턴스가 2^48의 최대 깊이(즉, 이 가정상 빠르고 완벽한 양자컴퓨터에서 10년 내에 완료) 내에서 실행되도록 하는 최소 병렬화 계수를 계산할 수 있습니다.</p></div>
+       </div>
+
+      <div class="original-link">
+        <a href="https://words.filippo.io/128-bits/" target="_blank" rel="noopener">🔗 원문 보기</a>
+        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-20%20%EC%96%91%EC%9E%90%20%EC%BB%B4%ED%93%A8%ED%84%B0%EB%8A%94%20128%EB%B9%84%ED%8A%B8%20%EB%8C%80%EC%B9%AD%ED%82%A4%EC%97%90%20%EC%9C%84%ED%98%91%EC%9D%B4%20%EC%95%84%EB%8B%88%EB%8B%A4&labels=feedback%2Cliked&body=**Article**%3A%20%EC%96%91%EC%9E%90%20%EC%BB%B4%ED%93%A8%ED%84%B0%EB%8A%94%20128%EB%B9%84%ED%8A%B8%20%EB%8C%80%EC%B9%AD%ED%82%A4%EC%97%90%20%EC%9C%84%ED%98%91%EC%9D%B4%20%EC%95%84%EB%8B%88%EB%8B%A4%0A**URL**%3A%20https%3A%2F%2Fwords.filippo.io%2F128-bits%2F%0A**Date**%3A%202026-04-20%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
+      <p style="margin-top: 4px;">Powered by Claude AI</p>
+    </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+</body>
+</html>
