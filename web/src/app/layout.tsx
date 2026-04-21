@@ -14,13 +14,7 @@ export const metadata: Metadata = {
   description: "AI가 큐레이션한 프론트엔드 개발 뉴스",
 };
 
-export default function RootLayout({
-  children,
-  panel,
-}: {
-  children: ReactNode;
-  panel: ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ko" data-theme="light" data-size="default" data-font="pretendard">
       <head>
@@ -28,9 +22,7 @@ export default function RootLayout({
         <AnalyticsScript />
       </head>
       <body>
-        <AppShell sidebar={<Sidebar />} panel={panel}>
-          {children}
-        </AppShell>
+        <AppShell sidebar={<Sidebar />}>{children}</AppShell>
         <CmdKProvider />
         <ShellKeyboard />
       </body>
