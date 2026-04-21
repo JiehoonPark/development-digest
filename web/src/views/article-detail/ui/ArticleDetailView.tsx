@@ -4,7 +4,7 @@ import { getArchive } from "@/entities/archive";
 import { getDisplayTitle } from "@/entities/article";
 import { LabelBadge } from "@/entities/label";
 import { Callout, PageContainer } from "@/shared/ui";
-import { cx, formatEngagement, renderTranslatedMarkdown } from "@/shared/lib";
+import { cx, renderTranslatedMarkdown } from "@/shared/lib";
 import { EXTERNAL, ROUTES } from "@/shared/config";
 import type { ArchiveItem } from "@/shared/config";
 import { TopbarAuto } from "@/widgets/topbar";
@@ -48,7 +48,6 @@ export function ArticleDetailView({ year, month, day, slug }: ArticleDetailViewP
             <span>📅 {date}</span>
             <span>📰 {item.sourceName}</span>
             {item.contentType === "video" ? <span>🎬 Video</span> : null}
-            {item.engagement ? <span>⬆ {formatEngagement(item.engagement)}</span> : null}
           </div>
 
           {item.labels && item.labels.length > 0 ? (

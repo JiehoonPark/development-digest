@@ -3,7 +3,7 @@ import Link from "next/link";
 import { CategoryBadge, getCategoryMeta } from "@/entities/category";
 import { LabelBadge } from "@/entities/label";
 import { Callout } from "@/shared/ui";
-import { cx, formatEngagement } from "@/shared/lib";
+import { cx } from "@/shared/lib";
 import { ROUTES } from "@/shared/config";
 import type { ArchiveItem } from "@/shared/config";
 
@@ -68,14 +68,11 @@ export function ArticleBlock({ item, date, forwardLabels = true }: ArticleBlockP
         ) : null}
       </div>
 
-      <div className={styles.right}>
-        {item.engagement ? (
-          <span className={styles.engage}>⬆ {formatEngagement(item.engagement)}</span>
-        ) : null}
-        {item.relatedCount ? (
+      {item.relatedCount ? (
+        <div className={styles.right}>
           <span className={styles.engage}>관련 {item.relatedCount}건</span>
-        ) : null}
-      </div>
+        </div>
+      ) : null}
     </article>
   );
 }
