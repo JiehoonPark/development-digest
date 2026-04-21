@@ -2,6 +2,7 @@ import type { ScoredItem } from "../prioritizer/scoring.js";
 import { askClaude, parseJsonResponse } from "./claude-summarizer.js";
 import { buildFilterInput, buildSummarizeInput, buildEditorialInput } from "./prompt-builder.js";
 import { FILTER_PROMPT, SUMMARIZE_PROMPT, SUMMARIZE_BRIEF_PROMPT, EDITORIAL_PROMPT } from "../../config/prompts.js";
+import { getRecentTitles } from "../db/repositories/recent-titles.js";
 import { createChildLogger } from "../utils/logger.js";
 
 const log = createChildLogger("batch-processor");
@@ -45,8 +46,13 @@ interface ClassifiedItem extends ScoredItem {
 
 export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> {
   // Step 1: 분류 + 라벨 + 토픽 클러스터링
-  log.info("Step 1: 분류, 라벨 부여, 토픽 클러스터링");
-  const filterInput = buildFilterInput(items);
+  // 최근 3일 이내 다룬 제목을 Claude 에 함께 전달해 cross-day 중복 주제를 디모트
+  const recentTitles = getRecentTitles(60);
+  log.info(
+    { itemCount: items.length, recentTitleCount: recentTitles.length },
+    "Step 1: 분류, 라벨 부여, 토픽 클러스터링"
+  );
+  const filterInput = buildFilterInput(items, recentTitles);
   const filterRaw = await askClaude(FILTER_PROMPT, filterInput);
   const classified = parseJsonResponse<Array<{
     index: number;

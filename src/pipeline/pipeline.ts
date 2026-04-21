@@ -2,13 +2,14 @@ import pMap from "p-map";
 import { allSources } from "../../config/sources/index.js";
 import { createCollector } from "../collectors/index.js";
 import type { CollectedItem, CollectorResult } from "../collectors/types.js";
-import { dedup, markAsSeen } from "../dedup/dedup-service.js";
+import { dedup, markUrlsSeen, markTitlesSeenInDigest } from "../dedup/dedup-service.js";
 import { prioritize } from "../prioritizer/prioritizer.js";
 import { processWithAI } from "../summarizer/batch-processor.js";
 import { enrichWithContent } from "../extractors/content-enricher.js";
 import { composeNewsletter } from "../composer/newsletter-composer.js";
 import { sendDigestEmail } from "../email/email-sender.js";
 import { initDb, cleanExpiredUrls, closeDb } from "../db/database.js";
+import { cleanExpiredTitles } from "../db/repositories/recent-titles.js";
 import { recordSuccess, recordFailure } from "../db/repositories/source-health.js";
 import { saveDigestHistory } from "../db/repositories/digest-history.js";
 import { buildArchiveData, saveArchive } from "../data/digest-archiver.js";
@@ -44,6 +45,7 @@ export async function runPipeline(): Promise<void> {
     await runStep("DB 초기화", async () => {
       initDb();
       cleanExpiredUrls();
+      cleanExpiredTitles();
     });
 
     // 2. 수집
@@ -115,7 +117,10 @@ export async function runPipeline(): Promise<void> {
 
     // 9. 이력 저장 + URL 마킹
     await runStep("이력 저장", async () => {
-      markAsSeen(uniqueItems);
+      markUrlsSeen(uniqueItems);
+      // 실제 다이제스트에 담긴 아이템 제목만 3일 윈도우로 기록 (크로스-데이 중복 방지)
+      const digestTitles = digest.sections.flatMap((s) => s.items.map((it) => it.title));
+      markTitlesSeenInDigest(digestTitles);
       const totalItems = digest.sections.reduce((acc, s) => acc + s.items.length, 0);
       saveDigestHistory({
         itemCount: totalItems,
