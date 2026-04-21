@@ -1,0 +1,71 @@
+.tabs {
+  display: flex;
+  gap: 2px;
+  border-bottom: 1px solid var(--border);
+  margin: 16px 0 12px;
+}
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: default;
+  transition: color 0.12s;
+  position: relative;
+  font-family: inherit;
+}
+.tab.active {
+  color: var(--text-strong);
+}
+.tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--text-strong);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.table thead th {
+  text-align: left;
+  padding: 7px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  white-space: nowrap;
+}
+.table tbody tr {
+  border-bottom: 1px solid var(--divider);
+  transition: background 0.1s;
+}
+.table tbody tr:hover {
+  background: var(--bg-hover);
+}
+.table tbody td {
+  padding: 9px 10px;
+  vertical-align: top;
+  color: var(--text);
+}
+.table tbody td.titleCell a {
+  font-weight: 500;
+  color: var(--text-strong);
+}
+.table tbody td.titleCell a:hover {
+  color: var(--accent);
+}
+.table tbody td .rowIcon {
+  margin-right: 6px;
+}

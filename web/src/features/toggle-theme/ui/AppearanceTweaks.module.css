@@ -1,0 +1,88 @@
+.group {
+  margin-bottom: 18px;
+}
+.label {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-bottom: 6px;
+}
+.seg {
+  display: flex;
+  gap: 3px;
+  background: var(--bg-muted);
+  padding: 3px;
+  border-radius: 6px;
+}
+.seg button {
+  flex: 1;
+  padding: 7px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+  border-radius: 4px;
+  transition: background 0.12s, color 0.12s;
+}
+.seg button:hover {
+  color: var(--text);
+}
+.seg button.active {
+  background: var(--bg-surface);
+  color: var(--text-strong);
+  box-shadow: var(--shadow-sm);
+  font-weight: 500;
+}
+
+.swatches {
+  display: flex;
+  gap: 8px;
+}
+.swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.15s;
+}
+.swatch:hover {
+  transform: scale(1.1);
+}
+.swatch.active {
+  border-color: var(--text-strong);
+  transform: scale(1.1);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  font-size: 13px;
+  color: var(--text);
+}
+.row label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.reset {
+  margin-top: 8px;
+  padding: 6px 14px;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text-secondary);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: inherit;
+}
+.reset:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}

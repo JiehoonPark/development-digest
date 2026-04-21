@@ -1,0 +1,28 @@
+.seg {
+  display: flex;
+  gap: 3px;
+  background: var(--bg-muted);
+  padding: 3px;
+  border-radius: 6px;
+}
+.seg button {
+  flex: 1;
+  padding: 5px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 12px;
+  font-family: inherit;
+  border-radius: 4px;
+  transition: background 0.12s, color 0.12s;
+}
+.seg button:hover {
+  color: var(--text);
+}
+.seg button.active {
+  background: var(--bg-surface);
+  color: var(--text-strong);
+  box-shadow: var(--shadow-sm);
+  font-weight: 500;
+}

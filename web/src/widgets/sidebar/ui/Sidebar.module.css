@@ -1,0 +1,137 @@
+.sidebar {
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.inner {
+  width: var(--sidebar-w);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 10px 6px 12px;
+}
+
+.wsHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  user-select: none;
+}
+.wsAvatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  background: var(--accent);
+  color: white;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.wsName {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-strong);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.searchTrigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 6px 4px 0;
+  padding: 5px 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 13px;
+  font-family: inherit;
+  transition: background 0.12s, color 0.12s;
+  text-align: left;
+  width: calc(100% - 8px);
+}
+.searchTrigger:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+.searchTrigger .kbd {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: var(--bg-muted);
+}
+
+.scroll {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 14px;
+  padding-right: 2px;
+}
+.scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.scroll::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 3px;
+}
+
+.sectionLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  letter-spacing: 0.04em;
+  padding: 14px 10px 4px;
+  text-transform: uppercase;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  margin: 1px 4px;
+  border-radius: 5px;
+  font-size: 14px;
+  color: var(--text);
+  transition: background 0.1s ease;
+  user-select: none;
+}
+.item:hover {
+  background: var(--bg-hover);
+}
+.item.active {
+  background: var(--bg-hover-strong);
+  font-weight: 500;
+}
+.item .emoji {
+  width: 18px;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.item .label {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.footer {
+  border-top: 1px solid var(--divider);
+  padding: 8px 4px 0;
+  margin-top: 6px;
+}

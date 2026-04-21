@@ -1,0 +1,32 @@
+.row {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin: 8px 0 4px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: 13px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  font-family: inherit;
+}
+.pill:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+.pill.active {
+  background: var(--text-strong);
+  color: var(--bg);
+  border-color: var(--text-strong);
+  font-weight: 500;
+}

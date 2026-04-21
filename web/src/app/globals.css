@@ -1,0 +1,180 @@
+/* Dev Digest — Web Archive (Notion-inspired)
+   Design tokens ported from design/dev-digest-notion/project/styles.css
+   Component styles live in widget/feature/entity slice stylesheets. */
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:wght@400;500;600;700&display=swap");
+
+:root {
+  --font-sans: "Pretendard Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "SF Mono", "Fira Code", Consolas, monospace;
+
+  /* Accent — tweakable via settings */
+  --accent: #3182f6;
+  --accent-hover: #1b64da;
+  --accent-light: rgba(49, 130, 246, 0.1);
+  --accent-text-on: #ffffff;
+
+  /* Typography scale */
+  --fs-base: 15px;
+  --fs-sm: 13px;
+  --fs-xs: 12px;
+  --fs-h1: 40px;
+  --fs-h2: 24px;
+  --fs-h3: 19px;
+
+  /* Layout */
+  --sidebar-w: 248px;
+  --panel-w: 260px;
+  --content-max: 820px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Light theme (default) ─────────────────────────────────────── */
+:root,
+[data-theme="light"] {
+  --bg: #ffffff;
+  --bg-sidebar: #f7f7f5;
+  --bg-panel: #f7f7f5;
+  --bg-hover: rgba(55, 53, 47, 0.06);
+  --bg-hover-strong: rgba(55, 53, 47, 0.09);
+  --bg-surface: #ffffff;
+  --bg-muted: #f1f1ef;
+  --bg-cover: #fafaf8;
+
+  --text: #37352f;
+  --text-strong: #1f1f1d;
+  --text-secondary: rgba(55, 53, 47, 0.65);
+  --text-tertiary: rgba(55, 53, 47, 0.45);
+  --text-placeholder: rgba(55, 53, 47, 0.4);
+
+  --border: rgba(55, 53, 47, 0.09);
+  --border-strong: rgba(55, 53, 47, 0.16);
+  --divider: rgba(55, 53, 47, 0.08);
+
+  --shadow-sm: 0 1px 2px rgba(15, 15, 15, 0.04);
+  --shadow-md: 0 4px 14px rgba(15, 15, 15, 0.08);
+  --shadow-lg: 0 10px 40px rgba(15, 15, 15, 0.12), 0 2px 8px rgba(15, 15, 15, 0.06);
+  --shadow-modal: 0 20px 60px rgba(15, 15, 15, 0.18), 0 2px 10px rgba(15, 15, 15, 0.12);
+
+  /* Labels */
+  --label-frontend: #0b6bcb;   --label-frontend-bg: #e7f1fb;
+  --label-backend: #a35200;    --label-backend-bg: #fbf0dc;
+  --label-typescript: #3178c6; --label-typescript-bg: #e4ecf9;
+  --label-devops: #0e7490;     --label-devops-bg: #def7fc;
+  --label-ai: #6d28d9;         --label-ai-bg: #ede4ff;
+  --label-career: #b91c1c;     --label-career-bg: #fde4e4;
+  --label-general: #57534e;    --label-general-bg: #efeeec;
+
+  /* Categories */
+  --cat-hot: #e03e3e;          --cat-hot-bg: #fde4e4;
+  --cat-tech: #3182f6;         --cat-tech-bg: #e8f3ff;
+  --cat-insight: #d97706;      --cat-insight-bg: #fbeccb;
+  --cat-video: #be185d;        --cat-video-bg: #fce7f3;
+}
+
+/* ── Dark theme ─────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg: #191919;
+  --bg-sidebar: #202020;
+  --bg-panel: #202020;
+  --bg-hover: rgba(255, 255, 255, 0.055);
+  --bg-hover-strong: rgba(255, 255, 255, 0.09);
+  --bg-surface: #232323;
+  --bg-muted: #262626;
+  --bg-cover: #1c1c1c;
+
+  --text: #e6e6e4;
+  --text-strong: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-tertiary: rgba(255, 255, 255, 0.4);
+  --text-placeholder: rgba(255, 255, 255, 0.35);
+
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --divider: rgba(255, 255, 255, 0.07);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-modal: 0 20px 60px rgba(0, 0, 0, 0.65);
+
+  --accent-light: rgba(49, 130, 246, 0.18);
+
+  --label-frontend: #5ea8ff;   --label-frontend-bg: rgba(49, 130, 246, 0.15);
+  --label-backend: #f2b155;    --label-backend-bg: rgba(217, 119, 6, 0.18);
+  --label-typescript: #7ab0e8; --label-typescript-bg: rgba(49, 120, 198, 0.18);
+  --label-devops: #4dd4e4;     --label-devops-bg: rgba(6, 182, 212, 0.15);
+  --label-ai: #b794f6;         --label-ai-bg: rgba(139, 92, 246, 0.18);
+  --label-career: #ff8a8a;     --label-career-bg: rgba(240, 68, 82, 0.17);
+  --label-general: #a8a29e;    --label-general-bg: rgba(120, 113, 108, 0.22);
+
+  --cat-hot: #ff6b6b;          --cat-hot-bg: rgba(240, 68, 82, 0.16);
+  --cat-tech: #5ea8ff;         --cat-tech-bg: rgba(49, 130, 246, 0.15);
+  --cat-insight: #fbbf24;      --cat-insight-bg: rgba(245, 159, 0, 0.17);
+  --cat-video: #f472b6;        --cat-video-bg: rgba(236, 72, 153, 0.18);
+}
+
+/* ── Size tweaks ────────────────────────────────────────────────── */
+[data-size="small"]   { --fs-base: 14px; --fs-sm: 12px; --fs-h1: 34px; --fs-h2: 22px; --fs-h3: 17px; }
+[data-size="default"] { --fs-base: 15px; --fs-sm: 13px; --fs-h1: 40px; --fs-h2: 24px; --fs-h3: 19px; }
+[data-size="large"]   { --fs-base: 17px; --fs-sm: 14px; --fs-h1: 46px; --fs-h2: 28px; --fs-h3: 21px; }
+
+/* ── Font tweaks ────────────────────────────────────────────────── */
+[data-font="pretendard"] { --font-sans: "Pretendard Variable", -apple-system, sans-serif; }
+[data-font="inter"]      { --font-sans: "Inter", -apple-system, sans-serif; }
+[data-font="serif"]      { --font-sans: "Source Serif 4", Georgia, serif; }
+
+/* ── Reduced motion tweak ───────────────────────────────────────── */
+[data-reduce-motion="true"] *,
+[data-reduce-motion="true"] *::before,
+[data-reduce-motion="true"] *::after {
+  animation-duration: 0.001s !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001s !important;
+}
+
+/* ── Reset ──────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.55;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+button { font-family: inherit; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--accent-light); color: var(--accent); }
+
+/* Default link color inside content — overridable per slice */
+.prose a,
+article a {
+  color: var(--accent);
+}
+.prose a:hover,
+article a:hover {
+  color: var(--accent-hover);
+}
+
+/* Shared page-anim keyframe used by multiple views */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes stagger-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}

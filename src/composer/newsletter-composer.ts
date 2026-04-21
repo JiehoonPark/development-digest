@@ -1,5 +1,6 @@
 import type { DigestResult, DigestSection } from "../summarizer/batch-processor.js";
 import { buildSectionHtml } from "./section-builder.js";
+import { EMAIL_TOKENS } from "./email-tokens.js";
 import { formatDigestDate, formatISODate } from "../utils/date.js";
 
 export interface ComposeOptions {
@@ -10,12 +11,13 @@ export interface ComposeOptions {
 const DEFAULT_MAX_EMAIL_ITEMS = 18;
 
 export function composeNewsletter(digest: DigestResult, options?: ComposeOptions): string {
+  const T = EMAIL_TOKENS;
   const date = formatDigestDate();
   const siteBaseUrl = process.env.SITE_BASE_URL;
   const dateStr = formatISODate();
   const maxItems = options?.maxEmailItems ?? DEFAULT_MAX_EMAIL_ITEMS;
 
-  // 이메일용: 상위 아이템만 포함 (클러스터 비주요 아이템 제외)
+  // 이메일 본문은 상위 N개 + 클러스터 비주요 제외
   const totalItems = digest.sections.reduce((acc, s) => acc + s.items.length, 0);
   let emailItemCount = 0;
   const emailSections: DigestSection[] = digest.sections
@@ -34,27 +36,30 @@ export function composeNewsletter(digest: DigestResult, options?: ComposeOptions
     .map((section) => buildSectionHtml(section, siteBaseUrl, dateStr))
     .join("");
 
-  // 웹 전체 보기 배너
   const [year, month, day] = dateStr.split("-");
   const webUrl = siteBaseUrl
     ? `${siteBaseUrl.endsWith("/") ? siteBaseUrl : `${siteBaseUrl}/`}${year}/${month}/${day}/`
     : "";
-  const viewAllBanner = siteBaseUrl && emailItemCount < totalItems
-    ? `<div style="text-align: center; padding: 20px 24px; background: #f0f4ff; border-radius: 8px; margin: 0 24px 16px;">
-        <p style="font-size: 14px; color: #555; margin: 0 0 10px 0;">
-          이 이메일에는 상위 ${emailItemCount}개만 포함되어 있습니다.
-        </p>
-        <a href="${webUrl}" style="display: inline-block; padding: 10px 24px; background: #4a90d9; color: white; text-decoration: none; border-radius: 6px; font-size: 14px; font-weight: 600;">
-          🌐 웹에서 전체 ${totalItems}개 보기
-        </a>
-      </div>`
-    : "";
 
-  // 헬스 경고
+  const viewAllBanner =
+    siteBaseUrl && emailItemCount < totalItems
+      ? `<tr><td style="padding:0 24px 16px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+                 style="background:${T.bgMuted};border-radius:8px;">
+            <tr><td align="center" style="padding:20px 24px;">
+              <p style="margin:0 0 10px;font-size:13px;color:${T.textTertiary};font-family:${T.fontStack};">
+                이 이메일에는 상위 ${emailItemCount}개만 포함되어 있습니다.
+              </p>
+              <a href="${webUrl}" style="display:inline-block;padding:10px 22px;background:${T.accent};color:#ffffff;text-decoration:none;border-radius:6px;font-size:14px;font-weight:600;font-family:${T.fontStack};">
+                🌐 웹에서 전체 ${totalItems}개 보기
+              </a>
+            </td></tr>
+          </table>
+        </td></tr>`
+      : "";
+
   const healthHtml = options?.healthWarnings?.length
-    ? `<p style="font-size: 11px; color: #e74c3c; margin: 8px 0 0 0;">
-        ⚠ 수집 실패 의심: ${options.healthWarnings.join(", ")}
-      </p>`
+    ? `<p style="margin:8px 0 0;font-size:11px;color:${T.cat.hot.color};font-family:${T.fontStack};">⚠ 수집 실패 의심: ${options.healthWarnings.join(", ")}</p>`
     : "";
 
   return `<!DOCTYPE html>
@@ -64,46 +69,67 @@ export function composeNewsletter(digest: DigestResult, options?: ComposeOptions
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FE 데일리 리포트 — ${date}</title>
 </head>
-<body style="margin: 0; padding: 0; background: #f5f5f5; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-  <div style="max-width: 640px; margin: 0 auto; background: white;">
-    <!-- Header -->
-    <div style="background: linear-gradient(135deg, #1a1a2e, #16213e); padding: 32px 24px; text-align: center;">
-      <h1 style="color: white; font-size: 28px; margin: 0;">📬 FE 데일리 리포트</h1>
-      <p style="color: #a8b8d8; font-size: 14px; margin: 8px 0 0 0;">${date} · ${totalItems}개 아티클</p>
-    </div>
+<body style="margin:0;padding:0;background:${T.bgMuted};font-family:${T.fontStack};">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${T.bgMuted};">
+    <tr>
+      <td align="center" style="padding:32px 0;">
+        <table role="presentation" width="640" cellpadding="0" cellspacing="0" border="0"
+               style="max-width:640px;width:100%;background:${T.bg};border-radius:12px;overflow:hidden;">
 
-    <!-- Intro -->
-    <div style="padding: 24px; background: #f8f9ff; border-bottom: 1px solid #e8e8e8;">
-      <p style="font-size: 15px; color: #333; line-height: 1.7; margin: 0;">
-        ${escapeHtml(digest.intro)}
-      </p>
-    </div>
+          <!-- Header -->
+          <tr>
+            <td style="padding:40px 32px 28px;background:${T.bgCover};border-bottom:1px solid ${T.border};">
+              <div style="font-size:44px;line-height:1;margin-bottom:10px;">📬</div>
+              <h1 style="margin:0;font-size:26px;font-weight:700;color:${T.textStrong};letter-spacing:-0.02em;">
+                FE 데일리 리포트
+              </h1>
+              <p style="margin:6px 0 0;font-size:13px;color:${T.textTertiary};">
+                ${date} · ${totalItems}개 아티클
+              </p>
+            </td>
+          </tr>
 
-    <!-- Sections -->
-    <div style="padding: 24px;">
-      ${sectionsHtml}
-    </div>
+          <!-- Intro callout -->
+          <tr>
+            <td style="padding:20px 24px 4px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+                     style="background:${T.bgMuted};border-radius:6px;">
+                <tr>
+                  <td style="padding:14px 16px;font-size:14px;line-height:1.7;color:${T.text};">
+                    <span style="display:inline-block;margin-right:6px;">✨</span>
+                    ${escapeHtml(digest.intro)}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
 
-    ${viewAllBanner}
+          <!-- Sections -->
+          ${sectionsHtml}
 
-    <!-- Footer -->
-    <div style="padding: 24px; background: #f5f5f5; text-align: center; border-top: 1px solid #e8e8e8;">
-      <p style="font-size: 12px; color: #999; margin: 0;">
-        FE 데일리 리포트 — AI가 큐레이션한 개발 뉴스레터
-      </p>
-      <p style="font-size: 12px; color: #bbb; margin: 8px 0 0 0;">
-        Powered by Claude AI · 매일 평일 오전 8시 발송
-      </p>
-      ${healthHtml}
-    </div>
-  </div>
+          ${viewAllBanner}
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:24px 32px;background:${T.bgSidebar};border-top:1px solid ${T.border};text-align:center;">
+              <p style="margin:0;font-size:12px;color:${T.textSecondary};">
+                FE 데일리 리포트 — AI가 큐레이션한 프론트엔드 개발 뉴스레터
+              </p>
+              <p style="margin:8px 0 0;font-size:12px;color:${T.textTertiary};">
+                Powered by Claude AI · 매일 평일 오전 8시 발송
+              </p>
+              ${healthHtml}
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>`;
 }
 
 function escapeHtml(text: string): string {
-  return text
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }

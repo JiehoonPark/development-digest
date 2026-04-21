@@ -1,11 +1,7 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2022",
     "module": "ES2022",
-    "moduleResolution": "bundler",
-    "esModuleInterop": true,
-    "strict": true,
-    "skipLibCheck": true,
     "outDir": "dist",
     "rootDir": ".",
     "baseUrl": ".",
@@ -13,11 +9,9 @@
       "@/*": ["src/*"],
       "@config/*": ["config/*"]
     },
-    "resolveJsonModule": true,
     "declaration": true,
-    "sourceMap": true,
-    "forceConsistentCasingInFileNames": true
+    "sourceMap": true
   },
   "include": ["src/**/*", "config/**/*", "scripts/**/*"],
-  "exclude": ["node_modules", "dist", "data", "logs"]
+  "exclude": ["node_modules", "dist", "data", "logs", "web"]
 }

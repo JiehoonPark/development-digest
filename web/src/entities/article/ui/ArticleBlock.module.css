@@ -1,0 +1,124 @@
+.block {
+  padding: 10px 12px;
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 10px;
+  align-items: start;
+  transition: background 0.12s, transform 0.15s var(--ease-out);
+  position: relative;
+  animation: stagger-in 0.45s var(--ease-out) both;
+}
+.block:hover {
+  background: var(--bg-hover);
+}
+.block:hover .title {
+  color: var(--accent);
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+  background: var(--bg-muted);
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  flex-shrink: 0;
+  transition: transform 0.2s var(--ease-spring);
+}
+.block:hover .icon {
+  transform: scale(1.08) rotate(-4deg);
+}
+
+.main {
+  min-width: 0;
+}
+.title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-strong);
+  line-height: 1.38;
+  letter-spacing: -0.012em;
+  transition: color 0.15s;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.block:hover .title {
+  text-decoration-color: currentColor;
+}
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  flex-wrap: wrap;
+}
+.metaDot {
+  opacity: 0.5;
+}
+.labels {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.summary {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-top: 6px;
+}
+.why {
+  margin-top: 8px;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+  min-width: 74px;
+}
+.engage {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--bg-muted);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+.videoTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--cat-video-bg);
+  color: var(--cat-video);
+}
+
+/* 관련 토픽(cluster) — 더 컴팩트하게 들여쓰기 */
+.clusterRelated {
+  grid-template-columns: 1fr auto;
+  opacity: 0.9;
+  margin-left: 16px;
+  border-left: 2px solid var(--cat-tech);
+  padding-left: 12px;
+}
+.clusterRelated .icon {
+  display: none;
+}
+.clusterRelated .title {
+  font-size: 14px;
+}
