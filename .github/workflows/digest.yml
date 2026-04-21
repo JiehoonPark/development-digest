@@ -16,6 +16,11 @@ permissions:
   pages: write
   id-token: write
 
+# deploy-web.yml 과 gh-pages 쓰기 직렬화.
+concurrency:
+  group: gh-pages-deploy
+  cancel-in-progress: false
+
 jobs:
   digest:
     runs-on: ubuntu-latest

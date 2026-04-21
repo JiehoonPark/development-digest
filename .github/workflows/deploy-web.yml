@@ -1,0 +1,84 @@
+name: 웹 전용 배포
+
+# UI 전용 배포 경로. digest.yml 와 달리 수집·요약·이메일 파이프라인을 돌리지 않고,
+# gh-pages 에 보관된 기존 data/archives/*.json 을 재사용해 Next.js 만 다시 빌드·배포한다.
+#
+# 트리거:
+#   - web/ 또는 이 워크플로우 파일이 main 으로 푸시될 때 자동
+#   - 필요 시 수동 (workflow_dispatch)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "web/**"
+      - ".github/workflows/deploy-web.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# digest.yml 의 스케줄 실행과 동시에 gh-pages 를 건드리지 않도록 직렬화.
+concurrency:
+  group: gh-pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy-web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install web dependencies
+        run: npm ci
+        working-directory: web
+
+      - name: Cache Next.js build
+        uses: actions/cache@v4
+        with:
+          path: web/.next/cache
+          key: next-${{ hashFiles('web/package-lock.json') }}-${{ github.sha }}
+          restore-keys: |
+            next-${{ hashFiles('web/package-lock.json') }}-
+
+      - name: Restore archives from gh-pages
+        run: |
+          git fetch origin gh-pages --depth=1
+          git checkout origin/gh-pages -- data/archives/ 2>/dev/null || mkdir -p data/archives
+
+      - name: Build web (Next.js static export)
+        env:
+          NEXT_PUBLIC_BASE_URL: ${{ secrets.SITE_BASE_URL || 'https://jiehoonpark.github.io/development-digest/' }}
+          NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+        run: npm run build
+        working-directory: web
+
+      - name: Persist archives inside web/out
+        run: |
+          mkdir -p web/out/data/archives
+          if [ -d data/archives ]; then
+            cp -r data/archives/. web/out/data/archives/
+          fi
+
+      - name: Ensure .nojekyll
+        run: touch web/out/.nojekyll
+
+      - name: Deploy to GitHub Pages
+        if: hashFiles('web/out/index.html') != ''
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./web/out
+          keep_files: true
