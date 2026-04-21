@@ -23,11 +23,11 @@
   border-radius: 5px;
 }
 
+/* 900px 이하에서 사이드바 접음.
+   NOTE: aside 에 display:none 을 걸면 grid 자동 배치가 <main>을 0-width 첫 컬럼으로 밀어
+   내용이 보이지 않음. --sidebar-w 를 0 으로만 줄이고 aside 의 overflow:hidden 이 내용을 가린다. */
 @media (max-width: 900px) {
   .app {
     --sidebar-w: 0px !important;
-  }
-  .app > aside {
-    display: none;
   }
 }
