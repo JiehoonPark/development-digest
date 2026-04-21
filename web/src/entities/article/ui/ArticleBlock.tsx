@@ -31,11 +31,9 @@ export function ArticleBlock({ item, date, forwardLabels = true }: ArticleBlockP
       data-labels={forwardLabels ? (item.labels ?? []).join(",") : undefined}
       data-topic={item.topicId ?? undefined}
     >
-      {!isRelated ? (
-        <div className={styles.icon} aria-hidden>
-          {category.emoji}
-        </div>
-      ) : null}
+      <div className={styles.icon} aria-hidden>
+        {category.emoji}
+      </div>
 
       <div className={styles.main}>
         <Link href={detailHref} className={styles.title}>
@@ -52,7 +50,7 @@ export function ArticleBlock({ item, date, forwardLabels = true }: ArticleBlockP
           ) : null}
         </div>
 
-        {item.labels && item.labels.length > 0 ? (
+        {!isRelated && item.labels && item.labels.length > 0 ? (
           <div className={styles.labels}>
             {item.labels.map((l) => (
               <LabelBadge key={l} label={l} />

@@ -23,6 +23,12 @@
 .head:hover {
   background: var(--bg-hover);
 }
+/* 헤딩(SectionHeader)의 기본 margin-top 때문에 삼각형과 수직 정렬이 어긋나는 문제 방지.
+   바깥 여백은 .toggle 이 담당하므로 헤딩 자체의 margin은 지우고 상단만 살짝 미세 조정. */
+.head > * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
 .triangle {
   width: 18px;
   height: 18px;
@@ -32,6 +38,7 @@
   font-size: 11px;
   transition: transform 0.2s var(--ease-out);
   flex-shrink: 0;
+  align-self: center;
 }
 .triangle.open {
   transform: rotate(90deg);

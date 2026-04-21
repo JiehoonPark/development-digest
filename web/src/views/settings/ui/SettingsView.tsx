@@ -15,7 +15,7 @@ export function SettingsView() {
         ]}
       />
       <PageContainer>
-        <PageCover icon="⚙️" title="설정" subtitle="브라우저 로컬에 저장되는 개인 설정" />
+        <PageCover icon="⚙️" title="설정" />
 
         <section className={styles.section}>
           <h2>외관</h2>
