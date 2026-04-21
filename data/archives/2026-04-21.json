@@ -1,0 +1,1292 @@
+{
+  "date": "2026-04-21",
+  "intro": "안녕하세요! 오늘은 프론트엔드 및 개발자 생태계에 큰 충격을 주는 보안 사건들이 주목받고 있습니다. React 서버 컴포넌트의 연쇄 취약점 공개와 Vercel의 대규모 OAuth 침해 사고가 플랫폼 보안의 중요성을 다시 한번 일깨워주고 있으며, 동시에 AI 기반 개발 도구들의 인수합병과 기능 변화가 개발자 도구 시장의 판도를 빠르게 재편하고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Critical Security Vulnerability in React Server Components",
+          "titleKo": "React 서버 컴포넌트의 심각한 보안 취약점",
+          "summary": "React 서버 컴포넌트에서 인증되지 않은 원격 코드 실행(RCE) 취약점이 발견되었습니다. 버전 19.0.1, 19.1.2, 19.2.1에서 패치가 배포되었으며, 즉시 업그레이드가 권장됩니다. 이는 프로덕션 환경에서 심각한 영향을 미칠 수 있는 보안 위험입니다.",
+          "keyPoints": [
+            "인증되지 않은 원격 코드 실행(RCE) 취약점이 React 서버 컴포넌트에서 발견되어 공격자가 직접 인증 없이 서버에서 임의의 코드를 실행할 수 있는 상황입니다.",
+            "React 19.0.1, 19.1.2, 19.2.1 버전에서 보안 패치가 공개되었으므로 해당 버전 이상으로 즉시 업그레이드해야 합니다.",
+            "공식 React 블로그를 통해 공식 공지되었으므로 신뢰할 수 있는 정보이며, 모든 React 서버 컴포넌트 사용자가 우선적으로 대응해야 할 상황입니다."
+          ],
+          "whyItMatters": "React 서버 컴포넌트를 사용 중인 모든 프로덕션 애플리케이션이 심각한 RCE 공격에 노출되어 있으며, 지체 없는 업그레이드가 필수적입니다.",
+          "url": "https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "react-rsc-vulnerability",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "critical-security-vulnerability-in-react-server-components",
+          "category": "hot",
+          "publishedAt": "2025-12-03T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Denial of Service and Source Code Exposure in React Server Components",
+          "titleKo": "React 서버 컴포넌트의 서비스 거부 및 소스 코드 노출 취약점",
+          "summary": "지난주 심각한 취약점 패치 이후 보안 연구자들이 React 서버 컴포넌트에서 추가 두 가지 취약점을 발견했습니다. 높은 심각도의 서비스 거부(DoS, CVE-2025-55184)와 중간 심각도의 소스 코드 노출(CVE-2025-55183) 취약점이 공개되었으며, 신속한 대응이 필요합니다.",
+          "keyPoints": [
+            "서비스 거부(DoS, CVE-2025-55184) 취약점은 높은 심각도로 분류되어 공격자가 서버의 가용성을 저하시킬 수 있는 위험을 야기합니다.",
+            "소스 코드 노출(CVE-2025-55183) 취약점은 중간 심각도이며, 애플리케이션의 소스 코드가 노출될 가능성이 있어 지적 재산권 침해 및 추가 공격의 선정보 제공 위험이 있습니다.",
+            "이 취약점들은 이전 패치를 우회하려던 공격자들에 의해 발견되었으므로, 한 번의 패치로는 부족할 수 있음을 시사하며 지속적인 모니터링이 필요합니다."
+          ],
+          "whyItMatters": "React 서버 컴포넌트 사용자는 연쇄적인 보안 패치에 대응해야 하며, 이는 프레임워크의 서버사이드 처리 로직에 대한 근본적인 보안 검토 필요성을 강조합니다.",
+          "url": "https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "react-rsc-vulnerability",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "denial-of-service-and-source-code-exposure-in-react-server-components",
+          "category": "hot",
+          "publishedAt": "2025-12-11T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "The Vercel breach: OAuth attack exposes risk in platform environment variables",
+          "titleKo": "Vercel 침해사고: OAuth 공격이 노출한 플랫폼 환경 변수의 숨은 위험",
+          "summary": "2024년 6월부터 시작된 Vercel에 대한 OAuth 공급망 침해사고는 Context.ai의 손상된 Google Workspace OAuth 애플리케이션을 통해 내부 시스템에 접근한 후 약 22개월간 지속되다가 2026년 4월에 공개되었습니다. 공격자는 민감하지 않다고 표시되지 않은 환경 변수들이 암호화되지 않아 직접 접근 가능했던 설계 결함을 악용하여 고객 프로젝트의 제한된 범위이지만 상당한 규모의 자격증명을 노출시켰습니다. 이 사건은 OAuth 신뢰 관계가 전통적인 경계 방어를 우회할 수 있으며, AI 가속화된 공격 기법과 플랫폼 수준의 감지-공개 지연이라는 2026년의 광범위한 공급망 침해 패턴의 일부임을 보여줍니다.",
+          "keyPoints": [
+            "OAuth 공급망 신뢰 관계의 피해 증폭: Context.ai의 손상된 Google Workspace OAuth 애플리케이션에 대한 단일 신뢰 관계가 Vercel 플랫폼 전체에 노출되는 사건으로 확산되었으며, 직접적인 관계가 없는 다운스트림 고객까지 영향을 받았습니다. OAuth 기반 침입은 합법적인 애플리케이션 권한을 활용하므로 표준 탐지 제어를 거의 트리거하지 않아 약 22개월의 장기 체류(dwell time)를 가능하게 했습니다.",
+            "환경 변수 설계의 보안 결함: Vercel의 환경 변수 모델에서 민감하지 않다고 명시적으로 표시되지 않은 자격증명은 휴지 상태에서 암호화되지 않았으므로, 내부 접근 권한을 가진 공격자가 고객 프로젝트의 비밀을 직접 읽을 수 있었습니다. 이는 플랫폼 수준에서 고객 비밀이 노출되는 확산 위험(blast radius)을 크게 증가시켰습니다.",
+            "AI 가속화 공격 기법의 신호: Vercel의 CEO Guillermo Rauch가 공개적으로 공격자의 비정상적인 속도를 AI 증강에 기인한다고 언급했으며, 이는 2026년 AI 가속화된 적대자 tradecraft에 대한 초기 고프로필 데이터 포인트입니다.",
+            "감지-공개 지연의 심각성: 최소 한 명의 공개 고객이 자격증명이 유출된 상태로 9일 먼저 공개 알림을 받았으며, 이는 플랫폼 침해사고에서 감지-공개 지연이 얼마나 심각한 위험 요소인지 보여줍니다.",
+            "공급망 침해의 광범위 패턴: Vercel 사건은 2026년에 LiteLLM, Axios, Codecov, CircleCI 등을 포함한 공급망 침해의 수렴 패턴의 일부이며, 공격자들은 CI/CD, 패키지 레지스트리, OAuth 통합, 배포 플랫폼 전반에 걸쳐 개발자 저장 자격증명을 일관되게 목표로 삼고 있습니다.",
+            "방어 아키텍처의 근본적 변화 필요: 효과적인 방어는 OAuth 앱을 제3자 공급업체로 취급하기, 장기 플랫폼 비밀 제거, 공급자 측 침해 가정으로 설계하기 등 아키텍처 변화가 필요합니다. 기존의 경계 기반 방어는 OAuth 신뢰 관계와 환경 변수 상속 모델을 통과하는 공격에 무방비입니다."
+          ],
+          "whyItMatters": "Vercel과 같은 PaaS 플랫폼을 사용하는 개발자와 조직은 OAuth 애플리케이션 권한 관리, 환경 변수 암호화 정책, 감지-공개 지연 시간 단축 등 공급망 침해에 대한 근본적인 방어 재검토가 시급하며, 이는 현대적 소프트웨어 공급망 보안의 본질적 취약점을 드러냅니다.",
+          "url": "https://www.trendmicro.com/en_us/research/26/d/vercel-breach-oauth-supply-chain.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 237,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "topicId": "vercel-breach",
+          "isTopicPrimary": true,
+          "slug": "the-vercel-breach-oauth-attack-exposes-risk-in-platform-environment-variables",
+          "fullContent": "Artificial Intelligence (AI)\nThe Vercel Breach: OAuth Supply Chain Attack Exposes the Hidden Risk in Platform Environment Variables\nAn OAuth supply chain compromise at Vercel exposed how trusted third party apps and platform environment variables can bypass traditional defenses and amplify blast radius. This article examines the attack chain, underlying design tradeoffs, and what it reveals about modern PaaS and software supply chain risk.\nBy: Peter Girnus\nApr 20, 2026\nRead time:  ( words)\nSave to Folio\nA compromised third‑party OAuth application enabled long‑lived, password‑independent access to Vercel’s internal systems, demonstrating how OAuth trust relationships can bypass traditional perimeter defenses.\nThe impact was amplified by Vercel’s environment variable model, where credentials not explicitly marked as sensitive were readable with internal access, exposing customer secrets at platform scale.\nA publicly reported leaked‑credential alert predating disclosure highlights detection‑to‑notification latency as a critical risk factor in platform breaches.\nThis incident fits a broader 2026 convergence pattern (LiteLLM, Axios) in which attackers consistently target developer‑stored credentials across CI/CD, package registries, OAuth integrations, and deployment platforms.\nEffective defense requires architectural change: treating OAuth apps as third‑party vendors, eliminating long‑lived platform secrets, and designing for the assumption of provider‑side compromise.\nDeveloping situation — last updated Monday, April 20, 2026\nThis analysis reflects what is publicly known about the Vercel OAuth supply chain compromise at the time of publication. The incident remains under active investigation by Vercel and affected parties, and key details — including the full scope of downstream impact, the precise initial access vector, and attribution — may evolve as additional information becomes available. Where gaps exist, we have noted them explicitly rather than speculating. Defensive recommendations and detection guidance are based on the confirmed attack chain and established supply chain compromise patterns; organizations should act on these now rather than waiting for a complete picture. We will update this analysis as new technical details, vendor disclosures, or third-party research emerge.\nIn an intrusion that began around June 2024 and was disclosed in April 2026, attackers leveraged a compromise of Context.ai's Google Workspace OAuth application to gain a foothold into Vercel's internal systems, exposing environment variables for an undisclosed but reportedly limited subset of customer projects. Vercel is a cloud deployment and hosting platform widely used for front‑end and serverless applications.\nOn April 19, 2026, Vercel published its security bulletin and CEO Guillermo Rauch posted a detailed thread on X confirming the attack chain and naming Context.ai as the compromised third party.\nThe incident is significant because it demonstrates how OAuth supply-chain trust relationships create lateral movement paths that bypass traditional perimeter defenses, and because Vercel's environment variable sensitivity model left non-sensitive credentials not encrypted at rest, making it readable to an attacker with internal access.\nThis analysis examines the attack chain, evaluates the platform design decisions that amplified blast radius, contextualizes the breach against a rising wave of supply chain compromises (LiteLLM, Axios, Codecov, CircleCI), and provides actionable detection and hardening guidance for organizations operating on Vercel and similar PaaS platforms.\nWhat this incident reveals\nWhat makes this incident notable is not its sophistication, the techniques used are well-established, but for three broader implications that make it especially significant:\nOAuth amplification. A single OAuth trust relationship cascaded into a platform-wide exposure event affecting downstream customers who had no direct relationship with the compromised vendor.\nAI-accelerated tradecraft. The CEO publicly attributed the attacker's unusual velocity to AI augmentation — an early, high-profile data point in the 2026 discourse around AI-accelerated adversary tradecraft.\nDetection-to-disclosure latency. At least one public customer report suggests credentials were being flagged as leaked in the wild nine days before Vercel's disclosure — raising questions about detection-to-disclosure latency in platform breaches.\nThe attack spanned approximately 22 months from the initial OAuth compromise to Vercel's public disclosure. This dwell time is consistent with other OAuth-based intrusions, where attackers leverage legitimate application permissions that rarely trigger standard detection controls.\nFigure 1. Incident timeline illustrating approximately 22 months of dwell time.\nData\nEvent\nVerification status\n~June 2024\nContext.ai's Google Workspace OAuth application compromised\nCONFIRMED — Rauch statement\nJune 2024 – 2025\nAttacker maintains p",
+          "category": "hot",
+          "publishedAt": "2026-04-21T17:14:35.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "ChatGPT Images 2.0",
+          "titleKo": "ChatGPT 이미지 2.0 소개",
+          "summary": "OpenAI가 ChatGPT 이미지 기능의 새로운 버전을 공개했습니다.",
+          "keyPoints": [
+            "ChatGPT 이미지 2.0은 OpenAI의 이미지 생성 및 처리 기능의 업그레이드 버전입니다."
+          ],
+          "whyItMatters": "AI 기반 개발 도구의 이미지 처리 능력 향상을 확인할 수 있는 업데이트입니다.",
+          "url": "https://openai.com/index/introducing-chatgpt-images-2-0/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 235,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "chatgpt-images-2.0",
+          "isTopicPrimary": true,
+          "slug": "chatgpt-images-20",
+          "category": "hot",
+          "publishedAt": "2026-04-21T18:50:00.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "SpaceX Says It Has Agreement to Acquire Cursor for $60B",
+          "titleKo": "SpaceX, Cursor 600억 달러 규모 인수 동의 발표",
+          "summary": "SpaceX가 AI 기반 코드 편집기 Cursor를 600억 달러에 인수하기로 합의했습니다.",
+          "keyPoints": [
+            "SpaceX의 Cursor 인수는 AI 개발 도구 시장에서의 대규모 M&A 활동을 보여줍니다."
+          ],
+          "whyItMatters": "AI 기반 개발 도구 영역의 투자 및 통합 추세를 보여주는 주요 사건입니다.",
+          "url": "https://www.bloomberg.com/news/articles/2026-04-21/spacex-says-has-agreement-to-acquire-cursor-for-60-billion",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 21,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "career"
+          ],
+          "topicId": "spacex-cursor-acquisition",
+          "isTopicPrimary": true,
+          "slug": "spacex-says-it-has-agreement-to-acquire-cursor-for-60b",
+          "category": "hot",
+          "publishedAt": "2026-04-21T22:40:46.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Changes to GitHub Copilot individual plans",
+          "titleKo": "GitHub Copilot 개인 요금제 변경",
+          "summary": "GitHub가 Copilot 개인 요금제에 변경사항을 발표했습니다.",
+          "keyPoints": [
+            "GitHub Copilot의 개인 사용자 요금제 구조 또는 정책이 변경되었습니다."
+          ],
+          "whyItMatters": "GitHub Copilot 개인 사용자들은 공식 요금제 변경사항을 확인하고 대응해야 합니다.",
+          "url": "https://github.blog/news-insights/company-news/changes-to-github-copilot-individual-plans/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 261,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "github-copilot-pricing",
+          "isTopicPrimary": true,
+          "slug": "changes-to-github-copilot-individual-plans",
+          "category": "hot",
+          "publishedAt": "2026-04-20T18:24:05.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Claude Code no longer included in Pro tier",
+          "titleKo": "Claude Code가 더 이상 Pro 티어에 포함되지 않음",
+          "summary": "Anthropic이 Claude Code 기능을 Pro 구독 티어에서 제외하는 정책 변화를 발표했다.",
+          "keyPoints": [
+            "Claude Code 접근성이 제한되는 변화"
+          ],
+          "whyItMatters": "Claude를 AI 코딩 도구로 사용 중인 개발자들의 구독 비용과 전략을 재검토하게 만든다.",
+          "url": "https://bsky.app/profile/edzitron.com/post/3mjzxwfx3qs2a",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 35,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-code-pricing",
+          "isTopicPrimary": false,
+          "slug": "claude-code-no-longer-included-in-pro-tier",
+          "category": "hot",
+          "publishedAt": "2026-04-21T22:36:24.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Meta to start capturing employee mouse movements, keystrokes for AI training",
+          "titleKo": "Meta, AI 훈련을 위해 직원의 마우스 움직임 및 키 입력 수집 시작",
+          "summary": "Meta가 2026년부터 직원의 마우스 움직임과 키 입력을 AI 훈련 데이터로 수집할 계획입니다.",
+          "keyPoints": [
+            "개인정보 보호와 감시 사이의 윤리적 문제가 제기됩니다.",
+            "기업의 AI 훈련 데이터 수집 관행이 강화되는 추세입니다."
+          ],
+          "whyItMatters": "개발자와 기술 근로자들의 개인정보 보호에 관련된 중요한 이슈입니다.",
+          "url": "https://www.reuters.com/sustainability/boards-policy-regulation/meta-start-capturing-employee-mouse-movements-keystrokes-ai-training-data-2026-04-21/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 236,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "career"
+          ],
+          "topicId": "meta-ai-training-data",
+          "isTopicPrimary": true,
+          "slug": "meta-to-start-capturing-employee-mouse-movements-keystrokes-for-ai-training",
+          "category": "hot",
+          "publishedAt": "2026-04-21T17:40:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "MNT Reform is an open hardware laptop, designed and assembled in Germany",
+          "titleKo": "MNT Reform - 독일에서 설계, 조립되는 오픈 하드웨어 노트북",
+          "summary": "MNT Reform은 베를린에서 설계, 조립되는 완전한 오픈 하드웨어 노트북으로, 알루미늄 케이스, 트랙볼, 비표준 키보드 레이아웃을 특징으로 하며 다양한 운영체제(9front, Alpine Linux, Debian 등)를 지원합니다. 사용자 커뮤니티가 활발하게 개선사항과 액세서리를 제공합니다.",
+          "keyPoints": [
+            "완전히 오픈소스화된 KiCAD 설계, DIY 조립 매뉴얼, 대체 부품 지원으로 사용자 수리와 개선 가능",
+            "다양한 커스텀 OS 지원(9front, Alpine, Debian 등)과 활발한 커뮤니티",
+            "음향, LED, 키보드 커스터마이제이션 등 상세한 설정 문서 제공"
+          ],
+          "whyItMatters": "오픈 하드웨어의 실제 구현 사례로, 수리 가능성과 커스터마이제이션을 중시하는 개발자에게 참고가 됩니다.",
+          "url": "http://mnt.stanleylieber.com/reform/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 263,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "mnt-reform-is-an-open-hardware-laptop-designed-and-assembled-in-germany",
+          "fullContent": "MNT Reform\nMNT Reform is an open hardware laptop, designed and assembled in Berlin, Germany.\n2021.10.08: ordered mnt reform.\n2021.12.27: received mnt reform #000120.\n2023.04.17: mnt reform #000120 is now being offered as a loaner by sdf.org.\n2023.06.02: ordered mnt reform (2023 refresh).\n2023.06.29: bought used mnt reform on ebay.\n2023.07.03: received used mnt reform #000158.\n2024.11.05: sold mnt reform #000158.\n2025.02.24: bought used mnt reform on ebay.\n2025.03.05: received used mnt reform diy.\nscreen\nThe trackball can press against the screen when the lid is closed, causing a small mark to appear on the screen.\ncase\nLid, screen bezel, keyboard frame, and wrist rest are made from milled aluminium. Side panels and transparent bottom panel are made from acrylic.\nScrews in the LCD bezel are not covered, and over time the one in the center can start to rub the paint off of the wrist rest.\nfabricate new side panels - forum thread\nMy friend kindly sent me a pair of metal replacement side panels. First I tried painting them with a paint brush and a bottle of Vanta Black. This flaked off easily, so I sanded them down and repainted them with black spraypaint (satin finish). Managed to chip that as well during installation. I don’t know what I’m doing.\n2022.03.03 Update: MNT has now made available steel replacement side panels.\naccessories\nusb-c pd adapter (female) - bought one, it works\nusb-c pd adaptor (male, non-amazon) - reported to work\nlifepo4 replacement batteries (affordable, out of stock)\nlifepo4 replacement batteries (expensive, in stock)\nlifepo4 external charger - for recovering depleted cells (2-bay)\nlifepo4 external charger - for recovering more depleted cells (8-bay)\nlaird wifi antenna - improved reception\n2022.04.27 Update: I ended up just stretching the original molex antenna down under the trackball, which improved reception even more than buying an expensive new antenna. Because of its shape and the orientation of its cables, the Laird antenna wouldn’t quite reach.\niogear gwu637 ethernet to wifi n adapter - for operating systems where wifi doesn’t (yet) work\npiñatex sleeve - note: pull tabs broke off in the first week\n2022.02.22 Update: MNT sent me a replacement sleeve with new, all-metal zipper pulls that are now standard equipment on the sleeve.\n2022.07.16 Update: One of the all-metal zipper pulls shattered as I tried to unzip the sleeve.\nmbk-colors: 1u and 1.5u homing - replacement key caps, some with raised edges to help with acclimating to the non-standard keyboard layout\noperating systems\n9front -\nhowto,\nsdcard image,\nsysinfo\nalpine linux -\nfully functional (howto pending)\nvoid linux -\nsdcard image (does not boot on my machine)\ndebian linux -\npre-installed\nkeyboard\nhttp://mnt.stanleylieber.com/keyboard/\naudio in linux\nfix for speakers too quiet:\nBy default, the speaker output of MNT Reform is a bit quiet, and\nchanging the volume with PulseAudio won’t dramatically change it.\nThere’s one more knob you can turn up that is only accessible via\nALSA.\nOpen a Terminal and type alsamixer. Then press F6 and select\nthe wm8960-audio card. Navigate with Cursor keys to the Playback\nslider and turn it up\nWell, there is no wm8960-audio listed on my system, only (default). And Master is already cranked to 100. Investigating, I noticed:\nsl@reform:~$ dmesg | grep 8960\n[ 3.613559] wm8960 2-001a: Failed to issue reset\nedgineer says:\nUsually a reboot gets the audio going for me if I see failed to issue\nreset (happens on booting from power off). Lukas speculates on a fix\nhere[1] and another person[2] provided this line in order to rebind the\ndevice without a reboot:\necho 2-001a > /sys/bus/i2c/drivers/wm8960/bind\nI was able to replicate the issue and test the above line out just\nnow. I had to “sudo su” first. Then the audio device showed up in\nalsamixer again just fine.\n[1]\n[2]\nThis worked for me, as well.\nUpdate 2022.06.20: After numerous updates, sound no longer works for me in Alpine Linux.\nleds in linux\nturn off wifi led:\necho 0 > /sys/class/leds/ath9k-phy0/brightness # needs root permissions\nfiles\nfoot - foot.ini (sl)\nrofi - mnt-reform.rasi\nsway - config (default), config (sl)\nvga - font (download page)\nwaybar - config, style.css\ndoc\noperator handbook - buy, pdf\ndiy assembly manual - pdf\ninteractive system diagram and interactive PCBs - html\nsources (kicad, etc.) - repository\nexternal usb keyboard manual - pdf\nreviews\narstechnica\nlinks\nbuy,\ncommunity,\nfaq,\nifixit,\nreform school",
+          "category": "hot",
+          "publishedAt": "2026-04-20T14:14:52.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Framework Laptop 13 Pro",
+          "titleKo": "Framework Laptop 13 Pro",
+          "summary": "Framework의 13인치 프로 노트북 제품입니다.",
+          "keyPoints": [
+            "모듈화된 수리 가능한 노트북 디자인"
+          ],
+          "whyItMatters": "개발자용 하드웨어로서 접근성과 커스터마이징 가능성이 높아 개발 환경 구성에 유리합니다.",
+          "url": "https://frame.work/laptop13pro",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 783,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "framework-laptop-13-pro",
+          "category": "hot",
+          "publishedAt": "2026-04-21T18:00:34.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "zilliztech/claude-context (TypeScript)",
+          "titleKo": "Claude Code용 코드 검색 MCP - 전체 코드베이스를 컨텍스트로 활용",
+          "summary": "Zilliz가 개발한 TypeScript 기반 MCP(Model Context Protocol)로, Claude Code가 전체 코드베이스를 컨텍스트로 활용하여 코딩 작업을 수행할 수 있도록 하는 코드 검색 도구이다.",
+          "keyPoints": [
+            "Claude Code 에이전트가 코드베이스 전체를 검색 및 분석 가능",
+            "MCP 표준을 통해 Claude와 통합되어 AI 코딩 생산성 향상"
+          ],
+          "whyItMatters": "AI 코딩 에이전트가 전체 프로젝트 컨텍스트를 활용하면 더 정확한 코드 생성과 리팩토링이 가능해진다.",
+          "url": "https://github.com/zilliztech/claude-context",
+          "sourceName": "GitHub Trending",
+          "engagement": 6557,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "zilliztechclaude-context-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-21T23:17:20.918Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "CrabTrap: An LLM-as-a-judge HTTP proxy to secure agents in production",
+          "titleKo": "CrabTrap: 프로덕션 환경에서 에이전트를 보호하는 LLM 판사 HTTP 프록시",
+          "summary": "Brex가 개발한 CrabTrap은 LLM을 판사로 활용하여 AI 에이전트의 동작을 검증하고 프로덕션 환경에서의 안정성을 보장하는 HTTP 프록시이다.",
+          "keyPoints": [
+            "LLM을 활용한 에이전트 출력 검증 및 모니터링",
+            "프로덕션 환경의 AI 에이전트 안정성 및 신뢰성 향상"
+          ],
+          "whyItMatters": "자율 에이전트를 프로덕션에 배포할 때 의도하지 않은 동작을 사전에 차단할 수 있는 보안 레이어를 제공한다.",
+          "url": "https://www.brex.com/crabtrap",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 34,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "crabtrap-an-llm-as-a-judge-http-proxy-to-secure-agents-in-production",
+          "category": "tech",
+          "publishedAt": "2026-04-21T15:29:16.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: GoModel – an open-source AI gateway in Go",
+          "titleKo": "GoModel - Go로 작성된 오픈소스 AI 게이트웨이",
+          "summary": "Go로 개발된 고성능 AI 게이트웨이로, OpenAI, Anthropic, Gemini, Groq 등 여러 LLM 제공자를 통합하는 OpenAI 호환 API를 제공한다.",
+          "keyPoints": [
+            "OpenAI, Anthropic, Google Gemini, Groq, Azure OpenAI, Ollama 등 10개 이상의 LLM 제공자 지원",
+            "Docker를 통한 간편한 배포와 환경 변수 기반 설정",
+            "Chat completions, embeddings, files, batches 등 다양한 OpenAI 호환 엔드포인트 제공"
+          ],
+          "whyItMatters": "다양한 LLM을 사용하는 개발자들이 단일 API로 통합 관리할 수 있어 멀티-모델 애플리케이션 개발이 간편해진다.",
+          "url": "https://github.com/ENTERPILOT/GOModel/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 153,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-gomodel-an-open-source-ai-gateway-in-go",
+          "fullContent": "GoModel - AI Gateway Written in Go\nA high-performance AI gateway written in Go, providing a unified OpenAI-compatible API for OpenAI, Anthropic, Gemini, xAI, Groq, OpenRouter, Z.ai, Azure OpenAI, Oracle, Ollama, and more.\nQuick Start - Deploy the AI Gateway\nStep 1: Start GoModel\ndocker run --rm -p 8080:8080 \\\n-e LOGGING_ENABLED=true \\\n-e LOGGING_LOG_BODIES=true \\\n-e LOG_FORMAT=text \\\n-e LOGGING_LOG_HEADERS=true \\\n-e OPENAI_API_KEY=\"your-openai-key\" \\\nenterpilot/gomodel\nPass only the provider credentials or base URL you need (at least one required):\ndocker run --rm -p 8080:8080 \\\n-e OPENAI_API_KEY=\"your-openai-key\" \\\n-e ANTHROPIC_API_KEY=\"your-anthropic-key\" \\\n-e GEMINI_API_KEY=\"your-gemini-key\" \\\n-e GROQ_API_KEY=\"your-groq-key\" \\\n-e OPENROUTER_API_KEY=\"your-openrouter-key\" \\\n-e ZAI_API_KEY=\"your-zai-key\" \\\n-e XAI_API_KEY=\"your-xai-key\" \\\n-e AZURE_API_KEY=\"your-azure-key\" \\\n-e AZURE_BASE_URL=\"https://your-resource.openai.azure.com/openai/deployments/your-deployment\" \\\n-e AZURE_API_VERSION=\"2024-10-21\" \\\n-e ORACLE_API_KEY=\"your-oracle-key\" \\\n-e ORACLE_BASE_URL=\"https://inference.generativeai.us-chicago-1.oci.oraclecloud.com/20231130/actions/v1\" \\\n-e ORACLE_MODELS=\"openai.gpt-oss-120b,xai.grok-3\" \\\n-e OLLAMA_BASE_URL=\"http://host.docker.internal:11434/v1\" \\\nenterpilot/gomodel\n⚠️ Avoid passing secrets via -e on the command line - they can leak via shell history and process lists. For production, use docker run --env-file .env to load API keys from a file instead.\nStep 2: Make your first API call\ncurl http://localhost:8080/v1/chat/completions \\\n-H \"Content-Type: application/json\" \\\n-d '{\n\"model\": \"gpt-5-chat-latest\",\n\"messages\": [{\"role\": \"user\", \"content\": \"Hello!\"}]\n}'\nThat's it! GoModel automatically detects which providers are available based on the credentials you supply.\nSupported LLM Providers\nExample model identifiers are illustrative and subject to change; consult provider catalogs for current models. Feature columns reflect gateway API support, not every individual model capability exposed by an upstream provider.\nProvider\nCredential\nExample Model\nChat\n/responses\nEmbed\nFiles\nBatches\nPassthru\nOpenAI\nOPENAI_API_KEY\ngpt-4o-mini\n✅\n✅\n✅\n✅\n✅\n✅\nAnthropic\nANTHROPIC_API_KEY\nclaude-sonnet-4-20250514\n✅\n✅\n❌\n❌\n✅\n✅\nGoogle Gemini\nGEMINI_API_KEY\ngemini-2.5-flash\n✅\n✅\n✅\n✅\n✅\n❌\nGroq\nGROQ_API_KEY\nllama-3.3-70b-versatile\n✅\n✅\n✅\n✅\n✅\n❌\nOpenRouter\nOPENROUTER_API_KEY\ngoogle/gemini-2.5-flash\n✅\n✅\n✅\n✅\n✅\n✅\nZ.ai\nZAI_API_KEY (ZAI_BASE_URL optional)\nglm-5.1\n✅\n✅\n✅\n❌\n❌\n✅\nxAI (Grok)\nXAI_API_KEY\ngrok-2\n✅\n✅\n✅\n✅\n✅\n❌\nAzure OpenAI\nAZURE_API_KEY + AZURE_BASE_URL (AZURE_API_VERSION optional)\ngpt-4o\n✅\n✅\n✅\n✅\n✅\n✅\nOracle\nORACLE_API_KEY + ORACLE_BASE_URL\nopenai.gpt-oss-120b\n✅\n✅\n❌\n❌\n❌\n❌\nOllama\nOLLAMA_BASE_URL\nllama3.2\n✅\n✅\n✅\n❌\n❌\n❌\n✅ Supported ❌ Unsupported\nFor Z.ai's GLM Coding Plan, set ZAI_BASE_URL=https://api.z.ai/api/coding/paas/v4.\nFor Oracle, set ORACLE_MODELS=openai.gpt-oss-120b,xai.grok-3 when the\nupstream /models endpoint is unavailable.\nAlternative Setup Methods\nRunning from Source\nPrerequisites: Go 1.26.2+\nCreate a .env file:\ncp .env.template .env\nAdd your API keys to .env (at least one required).\nStart the server:\nmake run\nDocker Compose\nInfrastructure only (Redis, PostgreSQL, MongoDB, Adminer - no image build):\ndocker compose up -d\n# or: make infra\nFull stack (adds GoModel + Prometheus; builds the app image):\ncp .env.template .env\n# Add your API keys to .env\ndocker compose --profile app up -d\n# or: make image\nService\nURL\nGoModel API\nhttp://localhost:8080\nAdminer (DB UI)\nhttp://localhost:8081\nPrometheus\nhttp://localhost:9090\nBuilding the Docker Image Locally\ndocker build -t gomodel .\ndocker run --rm -p 8080:8080 --env-file .env gomodel\nOpenAI-Compatible API Endpoints\nEndpoint\nMethod\nDescription\n/v1/chat/completions\nPOST\nChat completions (streaming supported)\n/v1/responses\nPOST\nOpenAI Responses API\n/v1/embeddings\nPOST\nText embeddings\n/v1/files\nPOST\nUpload a file (OpenAI-compatible multipart)\n/v1/files\nGET\nList files\n/v1/files/{id}\nGET\nRetrieve file metadata\n/v1/files/{id}\nDELETE\nDelete a file\n/v1/files/{id}/content\nGET\nRetrieve raw file content\n/v1/batches\nPOST\nCreate a native provider batch (OpenAI-compatible schema; inline requests supported where provider-native)\n/v1/batches\nGET\nList stored batches\n/v1/batches/{id}\nGET\nRetrieve one stored batch\n/v1/batches/{id}/cancel\nPOST\nCancel a pending batch\n/v1/batches/{id}/results\nGET\nRetrieve native batch results when available\n/p/{provider}/...\nGET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS\nProvider-native passthrough with opaque upstream responses\n/v1/models\nGET\nList available models\n/health\nGET\nHealth check\n/metrics\nGET\nPrometheus metrics (when enabled)\n/admin/api/v1/usage/summary\nGET\nAggregate token usage statistics\n/admin/api/v1/usage/daily\nGET\nPer-period token usage breakdown\n/admin/api/v1/usage/models\nGET\nUsage breakdown by model\n/admin/api/v1/usage/log\nGET\nPaginated usage log entries\n/admin/api/v1/audit/log\nGET\nPaginated audit log entries\n/admin/api/v1/audit/conversation\nGET\nConversation threa",
+          "category": "tech",
+          "publishedAt": "2026-04-21T14:11:53.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "HKUDS/RAG-Anything (Python)",
+          "titleKo": "RAG-Anything: 올인원 RAG 프레임워크",
+          "summary": "홍콩대학(HKUDS)에서 개발한 Python 기반의 포괄적인 RAG(Retrieval-Augmented Generation) 프레임워크로, 다양한 데이터 소스를 지원한다.",
+          "keyPoints": [
+            "다양한 문서 형식과 데이터 소스를 지원하는 통합 RAG 프레임워크",
+            "Python 기반으로 LLM 애플리케이션 구축 용이"
+          ],
+          "whyItMatters": "개발자들이 여러 RAG 라이브러리를 혼합하지 않고 단일 프레임워크로 검색 강화 생성 애플리케이션을 구축할 수 있다.",
+          "url": "https://github.com/HKUDS/RAG-Anything",
+          "sourceName": "GitHub Trending",
+          "engagement": 16824,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "rag-frameworks",
+          "isTopicPrimary": true,
+          "slug": "hkudsrag-anything-python",
+          "category": "tech",
+          "publishedAt": "2026-04-21T23:17:20.919Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "microsoft/ai-agents-for-beginners (Jupyter Notebook)",
+          "titleKo": "Microsoft AI 에이전트 초보자 가이드 (Jupyter Notebook)",
+          "summary": "Microsoft가 12개 강좌로 구성된 AI 에이전트 개발 입문 과정을 GitHub에 공개했습니다.",
+          "keyPoints": [
+            "초보자를 위한 AI 에이전트 개발 교육 자료가 12개 레슨 형태로 제공되며 실습 가능한 Jupyter Notebook 형식으로 구성되어 있습니다.",
+            "Microsoft의 공식 교육 리소스로서 최신 AI 에이전트 개발 기법과 모범 사례를 다룹니다."
+          ],
+          "whyItMatters": "AI 에이전트 개발에 관심 있는 개발자들이 Microsoft의 공식 가이드를 통해 체계적으로 학습할 수 있는 무료 리소스입니다.",
+          "url": "https://github.com/microsoft/ai-agents-for-beginners",
+          "sourceName": "GitHub Trending",
+          "engagement": 57605,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-agents-learning",
+          "isTopicPrimary": true,
+          "slug": "microsoftai-agents-for-beginners-jupyter-notebook",
+          "category": "tech",
+          "publishedAt": "2026-04-21T23:17:20.918Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Jupyter Notebook"
+          ]
+        },
+        {
+          "title": "Zindex – Diagram Infrastructure for Agents",
+          "titleKo": "Zindex – 에이전트용 다이어그램 인프라",
+          "summary": "AI 에이전트가 다이어그램을 지속적인 상태로 관리할 수 있게 하는 인프라로, Diagram Scene Protocol(DSP)을 통해 40개 이상의 검증 규칙과 다중 렌더 방식을 지원합니다.",
+          "keyPoints": [
+            "DSP 프로토콜로 에이전트가 의미론적으로 다이어그램을 선언하면 자동으로 레이아웃과 렌더링이 처리됩니다.",
+            "버전 관리, 증분 편집, 결정적 실행을 통해 다이어그램을 데이터베이스처럼 다룰 수 있습니다.",
+            "SVG, PNG 등 여러 출력 형식과 아키텍처, BPMN, ER 다이어그램 등 도메인별 기능을 지원합니다."
+          ],
+          "whyItMatters": "AI 에이전트와 협업하여 복잡한 다이어그램을 자동으로 생성하고 관리해야 하는 개발 환경에서 필수적인 인프라입니다.",
+          "url": "https://zindex.ai/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 16,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "zindex-diagram-infrastructure-for-agents",
+          "fullContent": "diagram infrastructure for agents\nAgents create, edit, validate, and render diagrams as durable state - not throwaway output. Structured operations, immutable revisions, 40+ validation rules, and multiple render targets through the Diagram Scene Protocol (DSP).\nRead the docs Try the playground\nUse cases → zindex architecture the protocol\nDSP (Diagram Scene Protocol) is the machine interface for diagrams.\nAgents describe what exists, not how to draw it.\nexample.scene.json {\n\"schemaVersion\": \"0.1\",\n\"scene\": {\n\"id\": \"payments-arch\",\n\"units\": \"px\"\n},\n\"elements\": [\n{\n\"id\": \"api\",\n\"kind\": \"node\",\n\"nodeType\": \"service\",\n\"shape\": \"roundedRect\",\n\"label\": \"API Gateway\"\n},\n{\n\"id\": \"queue\",\n\"kind\": \"node\",\n\"nodeType\": \"queue\",\n\"label\": \"Job Queue\"\n},\n{\n\"id\": \"e1\",\n\"kind\": \"edge\",\n\"from\": { \"elementId\": \"api\" },\n\"to\": { \"elementId\": \"queue\" },\n\"router\": \"orthogonal\"\n}\n]\n} Semantic, not geometric Agents declare nodes, edges, and relationships. Layout is computed, not hand-placed. Layout engine built in A Sugiyama-style hierarchical layout pipeline figures out positions, edge routes, and label placement automatically. Agents describe the graph; the engine handles the geometry. Patchable Stable IDs enable incremental updates. Add a node, move an edge - without regenerating the entire diagram. Renderer-agnostic One canonical scene, multiple outputs: SVG and PNG with 4 render themes (clean, dark, blueprint, sketch). Deterministic Same input, same output. Validate → normalize → layout → render. Every step is inspectable. why zindex Diagrams need validation, layout, versioning, and multi-format rendering - not just markup generation. 01 Incremental editing Patch-based updates instead of full regeneration. Agents can modify individual elements while preserving the rest. 02 Deterministic execution Consistent output across runs. Failures are explainable. The pipeline is inspectable at every step. 03 Durable state Revision history, diffs, stable IDs. Diagrams are versioned artifacts, not ephemeral outputs. 04 Multi-agent ready Shared infrastructure for multiple agents collaborating on diagrams. Not just a single-shot generator. 05 Domain-aware Purpose-built for architecture, BPMN workflows, ER diagrams, sequence diagrams, org charts, and network topology - not generic vector shapes. 06 Production-grade 17 operation types. 40+ semantic validation rules. Auth, rate limiting, PostgreSQL storage. where it fits Zindex is the middle layer between agent reasoning and visual output. agents / LLMs decide what should change zindex apply changes through DSP protocol renderers display the result Zindex is to diagrams what a database is to application state. The agent-native runtime for creating, updating, validating, and rendering diagrams as durable state.",
+          "category": "tech",
+          "publishedAt": "2026-04-21T20:27:37.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Cal.diy: open-source community edition of cal.com",
+          "titleKo": "Cal.diy: Cal.com의 오픈소스 커뮤니티 에디션",
+          "summary": "Cal.com의 모든 엔터프라이즈 기능을 제거한 완전 오픈소스 스케줄링 플랫폼으로, 자체 호스팅용으로 설계되었습니다.",
+          "keyPoints": [
+            "MIT 라이선스 기반의 완전 오픈소스이며 자체 호스팅으로 전체 제어가 가능합니다.",
+            "Next.js, React, tRPC, Prisma 등의 최신 기술 스택으로 구현되었습니다.",
+            "Node.js 18+, PostgreSQL 13+ 등 명확한 요구사항과 함께 로컬 개발 환경을 쉽게 구성할 수 있습니다."
+          ],
+          "whyItMatters": "자체 호스팅 스케줄링 솔루션이 필요한 개발자들이 완전히 통제 가능한 오픈소스 대안을 얻을 수 있습니다.",
+          "url": "https://github.com/calcom/cal.diy",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 124,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "caldiy-open-source-community-edition-of-calcom",
+          "fullContent": "WarningUse at your own risk. Cal.diy is the open source community edition of Cal.com and it is intended for users who want to self-host their own Cal.diy instance. It is strictly recommended for personal, non-production use. Please review all installation and configuration steps carefully. Self-hosting requires advanced knowledge of server administration, database management, and securing sensitive data. Proceed only if you are comfortable with these responsibilities.\nTipFor any commercial and enterprise-ready scheduling infrastructure, use Cal.com, not Cal.diy; hosted by us or get invited to on-prem enterprise access here: https://cal.com/sales\nCal.diy\nThe community-driven, open-source scheduling platform.\nGitHub\nDiscussions\n·\nIssues\n·\nContributing\nAbout Cal.diy\nCal.diy is the community-driven, fully open-source scheduling platform — a fork of Cal.com with all enterprise/commercial code removed.\nCal.diy is 100% MIT-licensed with no proprietary \"Enterprise Edition\" features. It's designed for individuals and self-hosters who want full control over their scheduling infrastructure without any commercial dependencies.\nWhat's different from Cal.com?\nNo enterprise features — Teams, Organizations, Insights, Workflows, SSO/SAML, and other EE-only features have been removed\nNo license key required — Everything works out of the box, no Cal.com account or license needed\n100% open source — The entire codebase is licensed under MIT, no \"Open Core\" split\nCommunity-maintained — Contributions are welcome and go directly into this project (see CONTRIBUTING.md)\nNote: Cal.diy is a self-hosted project. There is no hosted/managed version. You run it on your own infrastructure.\nBuilt With\nNext.js\ntRPC\nReact.js\nTailwind CSS\nPrisma.io\nDaily.co\nGetting Started\nTo get a local copy up and running, please follow these simple steps.\nPrerequisites\nHere is what you need to be able to run Cal.diy.\nNode.js (Version: >=18.x)\nPostgreSQL (Version: >=13.x)\nYarn (recommended)\nIf you want to enable any of the available integrations, you may want to obtain additional credentials for each one. More details on this can be found below under the integrations section.\nDevelopment\nSetup\nClone the repo (or fork https://github.com/calcom/cal.diy/fork)\ngit clone https://github.com/calcom/cal.diy.git\nIf you are on Windows, run the following command on gitbash with admin privileges: > git clone -c core.symlinks=true https://github.com/calcom/cal.diy.git\nGo to the project folder\ncd cal.diy\nInstall packages with yarn\nyarn\nSet up your .env file\nDuplicate .env.example to .env\nUse openssl rand -base64 32 to generate a key and add it under NEXTAUTH_SECRET in the .env file.\nUse openssl rand -base64 24 to generate a key and add it under CALENDSO_ENCRYPTION_KEY in the .env file.\nWindows users: Replace the packages/prisma/.env symlink with a real copy to avoid a Prisma error (unexpected character / in variable name):\n# Git Bash / WSL\nrm packages/prisma/.env && cp .env packages/prisma/.env\nSetup Node\nIf your Node version does not meet the project's requirements as instructed by the docs, \"nvm\" (Node Version Manager) allows using Node at the version required by the project:\nnvm use\nYou first might need to install the specific version and then use it:\nnvm install && nvm use\nYou can install nvm from here.\nQuick start with yarn dx\nRequires Docker and Docker Compose to be installed\nWill start a local Postgres instance with a few test users - the credentials will be logged in the console\nyarn dx\nDefault credentials created:\nEmail\nPassword\nRole\nfree@example.com\nfree\nFree user\npro@example.com\npro\nPro user\ntrial@example.com\ntrial\nTrial user\nadmin@example.com\nADMINadmin2022!\nAdmin user\nonboarding@example.com\nonboarding\nOnboarding incomplete\nYou can use any of these credentials to sign in at http://localhost:3000\nTip: To view the full list of seeded users and their details, run yarn db-studio and visit http://localhost:5555\nDevelopment tip\nAdd export NODE_OPTIONS=\"--max-old-space-size=16384\" to your shell script to increase the memory limit for the node process. Alternatively, you can run this in your terminal before running the app. Replace 16384 with the amount of RAM you want to allocate to the node process.\nAdd NEXT_PUBLIC_LOGGER_LEVEL={level} to your .env file to control the logging verbosity for all tRPC queries and mutations.\nWhere {level} can be one of the following:\n0 for silly\n1 for trace\n2 for debug\n3 for info\n4 for warn\n5 for error\n6 for fatal\nWhen you set NEXT_PUBLIC_LOGGER_LEVEL={level} in your .env file, it enables logging at that level and higher. Here's how it works:\nThe logger will include all logs that are at the specified level or higher. For example: \\\nIf you set NEXT_PUBLIC_LOGGER_LEVEL=2, it will log from level 2 (debug) upwards, meaning levels 2 (debug), 3 (info), 4 (warn), 5 (error), and 6 (fatal) will be logged. \\\nIf you set NEXT_PUBLIC_LOGGER_LEVEL=3, it will log from level 3 (info) upwards, meaning levels 3 (info), 4 (warn), 5 (error), and 6 (fatal) ",
+          "category": "tech",
+          "publishedAt": "2026-04-21T17:58:21.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "sansan0/TrendRadar (Python)",
+          "titleKo": "TrendRadar - AI 기반 여론 및 트렌드 모니터링 도구",
+          "summary": "Python 기반의 AI 주도 여론 및 트렌드 모니터링 도구로, 다중 플랫폼 집계, RSS, 스마트 알림 기능을 지원합니다. 뉴스 자동 필터링, AI 번역, 분석 요약 및 WeChat, Slack 등 다양한 채널 푸시 알림을 제공하며 Docker와 로컬/클라우드 데이터 저장을 지원합니다.",
+          "keyPoints": [
+            "다중 플랫폼 뉴스 집계 및 AI 기반 자동 필터링으로 정보 과부하 해결",
+            "WeChat, Slack, Telegram 등 다양한 채널과 MCP 아키텍처 통합 지원",
+            "Docker 지원 및 로컬/클라우드 자체 데이터 관리 옵션 제공"
+          ],
+          "whyItMatters": "대규모 정보 흐름을 효율적으로 관리하고 중요한 트렌드를 놓치지 않을 수 있습니다.",
+          "url": "https://github.com/sansan0/TrendRadar",
+          "sourceName": "GitHub Trending",
+          "engagement": 53606,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "sansan0trendradar-python",
+          "category": "tech",
+          "publishedAt": "2026-04-21T23:17:20.919Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "A type-safe, realtime collaborative Graph Database in a CRDT",
+          "titleKo": "타입 안전성을 갖춘 실시간 협업 그래프 데이터베이스 (CRDT)",
+          "summary": "CRDT 기술을 사용하여 타입 안전성과 실시간 협업 기능을 제공하는 그래프 데이터베이스 솔루션입니다.",
+          "keyPoints": [
+            "CRDT(충돌 없는 복제 데이터 타입) 기반으로 여러 사용자가 동시에 데이터를 편집할 수 있습니다.",
+            "타입 시스템과 함께 데이터 일관성을 보장합니다."
+          ],
+          "whyItMatters": "실시간 협업 애플리케이션 개발에 필요한 기술적 기초를 제공합니다.",
+          "url": "https://codemix.com/graph",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 140,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-type-safe-realtime-collaborative-graph-database-in-a-crdt",
+          "category": "tech",
+          "publishedAt": "2026-04-21T10:33:24.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: VidStudio, a browser based video editor that doesn't upload your files",
+          "titleKo": "VidStudio - 파일 업로드 없는 브라우저 기반 비디오 편집기",
+          "summary": "VidStudio는 브라우저에서 완전히 실행되는 비디오 편집 도구로, WebAssembly 기반으로 파일이 서버에 업로드되지 않아 100% 개인 정보 보호를 제공합니다. 리사이즈, 트림, 압축, 오디오 처리, 워터마크, 자막 등 다양한 비디오 편집 기능을 지원합니다.",
+          "keyPoints": [
+            "WebAssembly 기반으로 모든 처리가 브라우저에서 진행되어 파일 보안 보장",
+            "설치 불필요하며 최신 브라우저에서 즉시 사용 가능한 경량 솔루션",
+            "비디오 리사이즈, 압축, 오디오 처리, 자막, 워터마크 등 포괄적인 편집 기능 제공"
+          ],
+          "whyItMatters": "로컬 환경에서 비디오를 처리하면서 개인정보 보호와 빠른 속도를 동시에 얻을 수 있습니다.",
+          "url": "https://vidstudio.app/video-editor",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 229,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-vidstudio-a-browser-based-video-editor-that-doesnt-upload-your-files",
+          "fullContent": "Private Video Processing in Your BrowserPowerful video tools that run entirely in your browser. No uploads to servers, no waiting - just private video processing.Get Started100% PrivateFiles never leave your deviceLightning FastPowered by WebAssemblyNo InstallWorks in any modern browserToolsPick a tool to get startedResize & ScaleResize video online for free. Letterbox, crop, and format for YouTube, TikTok, Instagram & more.Trim & CutTrim clips, remove sections, and pull out exactly the segments you need.Drop ZoneBatch convert videos to a consistent MP4 format with professional encoding defaults.CompressReduce file size with smart compression. Target exact sizes for upload limits, or use quality presets.Audio ProcessingPull audio from video, convert, mix, and apply effects to audio. Supports extraction, effects, and mixing workflows.ThumbnailsExtract frames, create storyboards, animated previews, and video sprites.WatermarkAdd image or text watermarks with positioning, transparency, timing, and movement effects.Video EditorMulti-track video editor with source monitor, frame-accurate seek, and WebCodecs decoding.Subtitles & TextAdd text overlays, burn-in subtitles, extract tracks, and create animated text effects.",
+          "category": "tech",
+          "publishedAt": "2026-04-21T11:58:16.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "thunderbird/thunderbolt (TypeScript)",
+          "titleKo": "Thunderbolt - 사용자가 통제하는 AI",
+          "summary": "Thunderbird의 Thunderbolt는 TypeScript 기반 프로젝트로, 사용자가 모델을 선택하고 데이터를 소유하며 공급업체 종속성을 제거할 수 있는 AI 솔루션을 제공합니다.",
+          "keyPoints": [
+            "사용자가 LLM 모델을 자유롭게 선택할 수 있는 개방형 아키텍처",
+            "사용자 데이터 소유권 보장 및 벤더 락인 방지",
+            "TypeScript 기반으로 개발자 친화적 통합 가능"
+          ],
+          "whyItMatters": "LLM 서비스의 벤더 종속성을 피하면서 데이터 프라이버시를 보장하는 오픈소스 솔루션입니다.",
+          "url": "https://github.com/thunderbird/thunderbolt",
+          "sourceName": "GitHub Trending",
+          "engagement": 3434,
+          "contentType": "repo",
+          "labels": [
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "thunderbirdthunderbolt-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-21T23:17:20.918Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Ibuilt a tiny Unix‑like 'OS' with shell and filesystem for Arduino UNO (2KB RAM)",
+          "titleKo": "Arduino UNO에 2KB RAM으로 작은 Unix 유사 OS를 구축했습니다",
+          "summary": "KernelUNO는 Arduino UNO에서 동작하는 경량 RAM 기반 셸로, 파일시스템 시뮬레이션, 하드웨어 제어, 인터랙티브 셸을 지원합니다. 22개의 내장 명령어와 GPIO 제어 기능을 제공하며, 2KB SRAM의 극한 제약 조건 내에서 동작합니다.",
+          "keyPoints": [
+            "Arduino UNO의 2KB RAM 제약 조건 내에서 가상 파일시스템, GPIO 제어, 시스템 모니터링을 모두 구현",
+            "ls, cd, mkdir, touch, cat, gpio 등 22개 명령어로 Unix 유사 경험 제공",
+            "프로그램 메모리 38%, RAM 85% 사용으로 임베디드 시스템의 한계를 효율적으로 활용"
+          ],
+          "whyItMatters": "극도로 제한된 리소스 환경에서도 실용적인 OS 기능을 구현할 수 있음을 보여줍니다.",
+          "url": "https://github.com/Arc1011/KernelUNO",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 55,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ibuilt-a-tiny-unixlike-os-with-shell-and-filesystem-for-arduino-uno-2kb-ram",
+          "fullContent": "KernelUNO v1.0\nA lightweight RAM-based shell for Arduino UNO with filesystem simulation, hardware control, and interactive shell.\nFeatures\nVirtual Filesystem - Create files and directories in RAM (/dev, /home) - Hardware Control - GPIO management with pin mode configuration\nSystem Monitoring - Memory usage, uptime, kernel messages (dmesg)\n22 Built-in Commands - From basic file operations to hardware control\nInteractive Shell - Real-time command execution with input buffering\nLED Disco Mode - Fun easter egg for testing GPIO\nHardware Requirements\nArduino UNO (or compatible board with ATmega328P)\nUSB cable for programming\nLEDs and resistors (optional, for GPIO testing)\nInstallation\nClone or download this repository\nOpen KernelUNO.ino in Arduino IDE\nSelect Board: Tools → Board → Arduino UNO\nSelect Port: Tools → Port → /dev/ttyUSB0 (or your port)\nCompile & Upload: Sketch → Upload\nOpen Serial Monitor: Tools → Serial Monitor (115200 baud)\nAlternative with arduino-cli:\narduino-cli compile --fqbn arduino:avr:uno .\narduino-cli upload --fqbn arduino:avr:uno -p /dev/ttyUSB0 .\nCommands\nFilesystem Commands\nls - List files in current directory\ncd [dir] - Change directory\npwd - Print working directory\nmkdir [name] - Create directory\ntouch [name] - Create file\ncat [file] - Read file contents\necho [text] > [file] - Write to file\nrm [name] - Remove file/directory\ninfo [name] - Display file information\nHardware Commands\npinmode [pin] [in/out] - Set pin mode\nwrite [pin] [high/low] - Write to pin\nread [pin] - Read pin value\ngpio [pin] [on/off/toggle] - GPIO control\ngpio vixa [count] - LED disco mode (easter egg)\nSystem Commands\nuptime - System uptime\nuname - System information\ndmesg - Kernel messages\ndf / free - Free memory\nwhoami - Current user (hardcoded root)\nclear - Clear screen\nreboot - Restart system\nhelp - Show all commands\nUsage Examples\n# Navigate filesystem\ncd home\nmkdir myproject\ncd myproject\ntouch notes.txt\necho Hello World > notes.txt\ncat notes.txt\n# Hardware control\npinmode 13 out\ngpio 13 on\ngpio 13 toggle\nread 2\n# System info\nuname\nuptime\ndmesg\ndf\n# Fun mode\ngpio vixa 10\nMemory Usage\nProgram: ~38% of 32KB flash\nRAM: ~85% of 2KB SRAM (optimized)\nFilesystem: 10 files/directories max\nDMESG buffer: 6 messages\nSpecifications\nBoard: Arduino UNO (ATmega328P)\nClock: 16 MHz\nSerial Baud: 115200\nFilesystem: RAM-based (no EEPROM)\nStorage: Volatile (resets on power cycle)\nTechnical Details\nChar-array based input buffer (32 bytes max)\nSafe path concatenation to prevent buffer overflow\nKernel message logging with timestamps\nReal-time GPIO operations\nEfficient memory management\nLimitations\nNo persistent storage (EEPROM/SD)\nLimited file size (32 bytes content per file)\nMaximum 10 files/directories\nPATH limited to 16 characters\nSingle user (root)\nTODO / Future Enhancements\nEEPROM persistence\nPWM/analog control\nSD card support\nFile size display\nMore GPIO features\nLicense\nBSD 3-Clause License - See LICENSE file for details\nAuthor\nArc1011 (Arc1011)\nCreated in 2026.\nContributing\nFeel free to fork, modify, and improve! Send PRs for:\nBug fixes\nPerformance improvements\nNew commands\nCode optimization\n// The descriptive files (i.e., README and QUICKSTART) were written by Claude AI (with minor tweaks). Why? Because if I had done it myself, it would have ended up as a few lines of incoherent gibberish that wouldn't tell you anything.//",
+          "category": "tech",
+          "publishedAt": "2026-04-21T17:14:26.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "dayanch96/YTLite (Logos)",
+          "titleKo": "YTLite - iOS용 유연한 YouTube 향상 도구",
+          "summary": "dayanch96/YTLite는 iOS에서 YouTube 경험을 향상시키는 유연한 확장 도구입니다.",
+          "keyPoints": [
+            "iOS 플랫폼에서 YouTube 기능을 커스터마이징하고 향상시키는 도구"
+          ],
+          "whyItMatters": "iOS 앱 개발과 커스터마이제이션에 관심 있는 개발자에게 참고가 됩니다.",
+          "url": "https://github.com/dayanch96/YTLite",
+          "sourceName": "GitHub Trending",
+          "engagement": 4813,
+          "contentType": "repo",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "dayanch96ytlite-logos",
+          "category": "tech",
+          "publishedAt": "2026-04-21T23:17:20.919Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Logos"
+          ]
+        },
+        {
+          "title": "Theseus, a Static Windows Emulator",
+          "titleKo": "Theseus - 정적 Windows 에뮬레이터",
+          "summary": "Theseus는 정적 바이너리 번역(static binary translation) 기법을 사용하는 새로운 Windows/x86 에뮬레이터로, 프로그램을 정적으로 번역하여 기존 동적 에뮬레이션의 문제들을 해결합니다. x86 바이너리를 중간 표현(IR)으로 변환한 후 최적화 컴파일러를 통해 네이티브 코드를 생성합니다.",
+          "keyPoints": [
+            "JIT 작성의 복잡성을 피하고 기존 최적화 컴파일러를 활용한 정적 바이너리 번역 접근",
+            "x86 명령어를 C 코드로 변환한 후 컴파일러로 네이티브 바이너리 생성",
+            "기존 retrowin32 프로젝트의 경험을 바탕으로 '무엇을 만들 것인가'에 대한 재고찰"
+          ],
+          "whyItMatters": "에뮬레이션과 바이너리 번역의 고전적 문제에 대한 새로운 접근법을 제시합니다.",
+          "url": "https://neugierig.org/software/blog/2026/04/theseus.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 66,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "theseus-a-static-windows-emulator",
+          "fullContent": "Theseus, a static Windows emulator\nApril 19, 2026\nThis post is likely the end of my\nseries on retrowin32.\nI bring you: Theseus, a new Windows/x86\nemulator that translates programs statically, solving a bunch of emulation\nproblems while surely introducing new ones.\nWhat happened to retrowin32?\nI haven't been working on\nretrowin32, my win32 emulator, in part\ndue to life stuff and in part because I haven't been sure where I wanted to go\nwith it. And then someone who had contributed to it in the past posted\nretrotick, their own web-based Windows\nemulator that looks better than my years of work, and commented on HN that it\ntook them an hour with Claude.\nThis is not a post about AI, both because there are too many of those already\nand because I'm not yet sure of my own feelings on it. But one small thing I\nhave been thinking about is that (1) AI has been slowly but surely climbing the\njunior to senior engineer ladder; and (2) one of the main pieces of being a\nsenior engineer is better understanding what you ought to be building, as\ndistinct from how to build it.\n(Is that just the Innovator's Dilemma's concept of \"retreating upmarket\",\napplied to my own utility as a human? Not even sure. I am grateful I do this\nwork for the journey, to satisfy my own curiosity, because that means I am not\nexistentially threatened like a business would be in this situation. As\nBenny Feldman says: \"I cheat at\nthe casino by secretly not having an attachment to material wealth!\")\nSo, Mr. Senior Engineer, what ought we build? What problem are we even solving\nwith emulators, and how do our approaches meet that? I came to a kind of\nunorthodox solution that I'd like to tell you about!\nEmulators and JITs\nThe simplest CPU emulator is very similar to an interpreter. An input program,\nafter parsing, becomes x86 instructions like:\nmov eax, 3\nadd eax, 4\ncall ... ; some Windows system API\nAn interpreting emulator is a big loop that steps through the instructions. It\nlooks like:\nloop {\nlet instr = next_instruction();\nmatch instr {\n// e.g. `mov eax, 3`\nMov => { set(argument_1(), argument_2()); }\n// e.g. `add eax, 4`\nAdd => { set(argument_1(), argument_1() + argument_2()); }\n...\n}\n}\nLike an interpreter, this approach is slow.\nAt a high level interpreters are slow because they are doing a bunch of dynamic\nwork for each instruction. Imagine emulating a program that runs the same add\ninstruction in a loop; the above emulator loop has all these function calls to\nrepeatedly ask \"what instruction am I running now?\" and inspect the arguments,\nonly to eventually do the same add on each iteration. x86 memory references\nare extra painful because they are\nvery flexible.\nFurther, on x86 the add instruction not only adds the numbers but also\ncomputes six derived values, including things like the parity flag: whether the\nresult contains an even number of 1 bits(!). A correct emulator needs to either\ncompute all of these as well, or perform some sort of side analysis of the code\nto decide how to run it efficiently.\nThere are\nvarious fun techniques to improve emulators.\nBut if you want to go fast what you really need is some combination of analyzing\nthe code and generating native machine code from it — a JIT. JITs are famously\nhard to write! They are effectively optimizing compilers, which means all the\ncomplexity of optimization and generating machine code, but also where the\nruntime of the compilation itself is in the critical performance path. I liked\nthis post's discussion\nof why JITs are hard\nwhich mentions there have been more than 15 attempts at a Python JIT.\nStatic binary translation\nSo suppose you want to generate efficient machine code, but you don't want to\nwrite a JIT. You know what's really good at analyzing code and generating\nefficient machine code from it? A compiler!\nSo here's the main idea. Given code like the above input x86 snippet, we can\nprocess it into source code that looks like:\nregs.eax = 3;\nregs.eax = add(regs.eax, 4);\nwindows_api(); // some native implementation of the API that was called\nWe then feed this code back in to an optimizing compiler to get a program native\nto your current architecture, x86 no longer needed.\nIn other words, instead of handing an .exe file directly to an emulator that\nmight JIT code out, we instead have a sort of compiler that statically\ntranslates the .exe (via a second compiler in the middle) directly into a\n\"native\" executable.\n(I write native in scare quotes because while the resulting executable is a\nnative binary, it is a binary that is carrying around a sort of inner virtual\nmachine representing the x86 state, like the regs struct in the above code.\nMore on this in a bit.)\nI think I came up with this basic idea on my own just by thinking hard about\nwhat I was trying to achieve, but it turns out this approach is known as static\nbinary translation and is well studied. It has some nice properties, and also\nsome big problems.\nDecompilation\nI'll go into those, but first, a minor detour about how I ended up h",
+          "category": "tech",
+          "publishedAt": "2026-04-20T04:14:48.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Fincept-Corporation/FinceptTerminal (Python)",
+          "titleKo": "FinceptTerminal - Python 금융 분석 애플리케이션",
+          "summary": "FinceptTerminal은 고급 시장 분석, 투자 리서치, 경제 데이터 도구를 제공하는 현대적 금융 애플리케이션입니다.",
+          "keyPoints": [
+            "시장 분석과 투자 리서치를 위한 포괄적인 데이터 도구 제공",
+            "사용자 친화적 환경에서 데이터 기반 의사결정 지원"
+          ],
+          "whyItMatters": "금융 데이터 분석과 시각화에 관심 있는 개발자에게 유용한 오픈소스 도구입니다.",
+          "url": "https://github.com/Fincept-Corporation/FinceptTerminal",
+          "sourceName": "GitHub Trending",
+          "engagement": 11522,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "fincept-corporationfinceptterminal-python",
+          "category": "tech",
+          "publishedAt": "2026-04-21T23:17:20.917Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "ruvnet/RuView (Rust)",
+          "titleKo": "RuView - WiFi 신호로 실시간 인체 자세 추정",
+          "summary": "RuView는 Rust 기반의 WiFi DensePose 기술로, 일반적인 WiFi 신호만으로 비디오 없이 실시간 인체 자세 추정, 생체신호 모니터링, 존재 감지를 수행합니다.",
+          "keyPoints": [
+            "WiFi 신호를 활용한 비접촉식 인체 자세 추정 및 생체신호 모니터링",
+            "프라이버시 보호와 저비용 하드웨어 구성의 장점"
+          ],
+          "whyItMatters": "IoT와 센서 기술 분야에서 WiFi를 활용한 혁신적인 응용 사례를 제시합니다.",
+          "url": "https://github.com/ruvnet/RuView",
+          "sourceName": "GitHub Trending",
+          "engagement": 48860,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ruvnetruview-rust",
+          "category": "tech",
+          "publishedAt": "2026-04-21T23:17:20.918Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "Edit store price tags using Flipper Zero",
+          "titleKo": "Flipper Zero를 사용한 매장 가격 태그 편집",
+          "summary": "TagTinker는 Flipper Zero용 교육용 연구 도구로, 적정 권한이 있는 하드웨어에서만 적외선 전자 가격표 프로토콜을 연구하도록 설계되었습니다. 프로토콜 분석, 신호 테스트, 이미지 준비 도구를 제공하며 소매 환경이나 타사 시스템에 대한 무단 사용은 명시적으로 금지됩니다.",
+          "keyPoints": [
+            "적외선 ESL(전자 가격표) 프로토콜 연구 및 신호 분석을 위한 교육 목적 도구",
+            "개인 소유 또는 명시적 승인을 받은 하드웨어에서만 사용 가능하며, 소매점 가격 조작 등의 불법적 사용은 엄격히 금지"
+          ],
+          "whyItMatters": "프로토콜 역분석과 하드웨어 보안 연구를 위한 합법적인 도구 개발의 중요성을 보여주며, 책임감 있는 보안 연구의 경계를 이해하는 데 도움이 됩니다.",
+          "url": "https://github.com/i12bp8/TagTinker",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 259,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "edit-store-price-tags-using-flipper-zero",
+          "fullContent": "TagTinker\nInfrared ESL Research Toolkit for Flipper Zero\nProtocol study • Signal analysis • Controlled display experiments on authorized hardware\nOwner-authorized lab display experiment\nImportantTagTinker is a research tool.\nIt is intended only for protocol study, signal analysis, and controlled experiments on hardware you personally own or are explicitly authorized to test.\nThis repository does not authorize access to, modification of, or interference with any third-party deployment, commercial installation, or retail environment.\nWarningStrictly prohibited uses include:\nTesting against deployed third-party systems\nUse in retail or commercial environments\nAltering prices, product data, or operational displays\nInterfering with business operations\nBypassing pairing, authorization, or security controls\nAny unauthorized, unlawful, or harmful activity\nOverview\nTagTinker is a Flipper Zero app for educational research into infrared electronic shelf-label protocols and related display behavior on authorized test hardware.\nIt is focused on:\nprotocol observation and replay analysis\ncontrolled display experiments\nmonochrome image preparation workflows\nlocal tooling for research and interoperability testing\nThis README intentionally avoids deployment-oriented instructions and excludes guidance for interacting with live commercial systems.\nFeatures\nText, image, and test-pattern display experiments\nLocal web-based image preparation utility (tools/tagtinker.html)\nSignal and response testing for authorized bench hardware\nSmall, modular codebase suitable for further research\nResearch-first project structure with clear scope boundaries\nFAQ\nWhere is the .fap release?\nThe Flipper app is source-first. Build the .fap yourself from this repository with ufbt so it matches your firmware and local toolchain.\nWhat if it crashes or behaves oddly?\nThe maintainer primarily uses TagTinker on Momentum firmware with asset packs disabled and has not had issues in that setup. If you are using a different firmware branch, custom asset packs, or a heavily modified device setup, start by testing from a clean baseline.\nWhat happens if I pull the battery out of the tag?\nMany infrared ESL tags store their firmware, address, and display data in volatile RAM (not flash memory) to save cost and energy.\nIf you remove the battery or let it fully discharge, the tag will lose all programming and become unresponsive (\"dead\"). It usually cannot be recovered without the original base station.\nI found a bug or want to contribute — how can I get in touch?\nYou can contact me on:\nDiscord: @i12bp8\nTelegram: @i12bp8\nI'm currently traveling, so response times may be slower than usual. Feel free to open issues or Pull Requests anyway — contributions (bug fixes, improvements, documentation, etc.) are very welcome and will help keep the project alive while I'm away.\nHow It Works\nTagTinker is built around the study of infrared electronic shelf-label communication used by fixed-transmitter labeling systems.\nAt a high level:\ntags receive modulated infrared transmissions rather than ordinary consumer-IR commands\ncommunication is based on addressed protocol frames containing command, parameter, and integrity fields\ndisplay updates are carried as prepared payloads for supported monochrome graphics formats\nlocal tooling in this project helps researchers prepare assets and perform controlled experiments on authorized hardware\nThis project is intended to help researchers understand:\nsignal structure\nframe and payload behavior\ndisplay data preparation constraints\nsafe, authorized bench-testing workflows\nFor the underlying reverse-engineering background and deeper protocol research, see:\nFurrtek’s ESL research: https://www.furrtek.org/?a=esl\nPrecIR reference implementation: https://github.com/furrtek/PrecIR\nProject Scope\nTagTinker is limited to home-lab and authorized research use, including:\ninfrared protocol study\nsignal timing and frame analysis\ncontrolled experiments on owned or authorized hardware\nmonochrome asset preparation for testing\neducational diagnostics and interoperability research\nIt is not a retail tool, operational tool, or field-use utility.\nResponsible Use\nYou are solely responsible for ensuring that any use of this software is lawful, authorized, and appropriate for your environment.\nThe maintainer does not authorize, approve, or participate in any unauthorized use of this project, and disclaims responsibility for misuse, damage, disruption, legal violations, or any consequences arising from such use.\nIf you do not own the hardware, or do not have explicit written permission to test it, do not use this project on it.\nAny unauthorized use is outside the intended scope of this repository and is undertaken entirely at the user’s own risk.\nNo Affiliation\nThis is an independent research project.\nIt is not affiliated with, endorsed by, authorized by, or sponsored by any electronic shelf-label vendor, retailer, infrastructure provider, or system operator.\nAny refe",
+          "category": "tech",
+          "publishedAt": "2026-04-19T09:26:04.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "Laws of Software Engineering",
+          "titleKo": "소프트웨어 엔지니어링의 법칙",
+          "summary": "소프트웨어 시스템, 팀, 의사결정을 형성하는 56개의 원칙과 패턴을 정리한 컬렉션으로, Conway의 법칙, 조기 최적화, Hyrum의 법칙 등 소프트웨어 개발의 근본적인 규칙들을 다룬다.",
+          "keyPoints": [
+            "아키텍처, 팀 관리, 계획, 품질, 확장성, 설계, 의사결정 등 7개 카테고리로 분류된 56개 법칙",
+            "주니어부터 시니어까지 경력 수준별로 필요한 법칙 제시",
+            "Conway의 법칙, Hyrum의 법칙, Tesler의 법칙, CAP 이론 등 핵심 원칙 포함"
+          ],
+          "whyItMatters": "경험 많은 개발자들의 통찰력을 바탕으로 한 법칙들을 학습하면 더 나은 아키텍처, 팀 관리, 의사결정으로 프로젝트 성공 확률이 높아진다.",
+          "url": "https://lawsofsoftwareengineering.com",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 786,
+          "contentType": "discussion",
+          "labels": [
+            "general",
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "laws-of-software-engineering",
+          "fullContent": "Laws of Software EngineeringA collection of principles and patterns that shape software systems, teams, and decisions.56 laws\n•\nClick any card to learn more\nLevelAll\nJunior\nMid-Level\nSeniorCategoryAll\nArchitecture\nTeams\nPlanning\nQuality\nScale\nDesign\nDecisionsTeamsConway's LawOrganizations design systems that mirror their own communication structure.PlanningPremature Optimization (Knuth's Optimization Principle)Premature optimization is the root of all evil.ArchitectureHyrum's LawWith a sufficient number of API users, all observable behaviors of your system will be depended on by somebody.QualityThe Boy Scout RuleLeave the code better than you found it.DesignYAGNI (You Aren't Gonna Need It)Don't add functionality until it is necessary.TeamsBrooks's LawAdding manpower to a late software project makes it later.ArchitectureGall's LawA complex system that works is invariably found to have evolved from a simple system that worked.ArchitectureThe Law of Leaky AbstractionsAll non-trivial abstractions, to some degree, are leaky.ArchitectureTesler's Law (Conservation of Complexity)Every application has an inherent amount of irreducible complexity that can only be shifted, not eliminated.ArchitectureCAP TheoremA distributed system can guarantee only two of: consistency, availability, and partition tolerance.ArchitectureSecond-System EffectSmall, successful systems tend to be followed by overengineered, bloated replacements.ArchitectureFallacies of Distributed ComputingA set of eight false assumptions that new distributed system designers often make.ArchitectureLaw of Unintended ConsequencesWhenever you change a complex system, expect surprise.ArchitectureZawinski's LawEvery program attempts to expand until it can read mail.TeamsDunbar's NumberThere is a cognitive limit of about 150 stable relationships one person can maintain.TeamsThe Ringelmann EffectIndividual productivity decreases as group size increases.TeamsPrice's LawThe square root of the total number of participants does 50% of the work.TeamsPutt's LawThose who understand technology don't manage it, and those who manage it don't understand it.TeamsPeter PrincipleIn a hierarchy, every employee tends to rise to their level of incompetence.TeamsBus FactorThe minimum number of team members whose loss would put the project in serious trouble.TeamsDilbert PrincipleCompanies tend to promote incompetent employees to management to limit the damage they can do.PlanningParkinson's LawWork expands to fill the time available for its completion.PlanningThe Ninety-Ninety RuleThe first 90% of the code accounts for the first 90% of development time; the remaining 10% accounts for the other 90%.PlanningHofstadter's LawIt always takes longer than you expect, even when you take into account Hofstadter's Law.PlanningGoodhart's LawWhen a measure becomes a target, it ceases to be a good measure.PlanningGilb's LawAnything you need to quantify can be measured in some way better than not measuring it.QualityMurphy's Law / Sod's LawAnything that can go wrong will go wrong.QualityPostel's LawBe conservative in what you do, be liberal in what you accept from others.QualityBroken Windows TheoryDon't leave broken windows (bad designs, wrong decisions, or poor code) unrepaired.QualityTechnical DebtTechnical Debt is everything that slows us down when developing software.QualityLinus's LawGiven enough eyeballs, all bugs are shallow.QualityKernighan's LawDebugging is twice as hard as writing the code in the first place.QualityTesting PyramidA project should have many fast unit tests, fewer integration tests, and only a small number of UI tests.QualityPesticide ParadoxRepeatedly running the same tests becomes less effective over time.QualityLehman's Laws of Software EvolutionSoftware that reflects the real world must evolve, and that evolution has predictable limits.QualitySturgeon's Law90% of everything is crap.ScaleAmdahl's LawThe speedup from parallelization is limited by the fraction of work that cannot be parallelized.ScaleGustafson's LawIt is possible to achieve significant speedup in parallel processing by increasing the problem size.ScaleMetcalfe's LawThe value of a network is proportional to the square of the number of users.DesignDRY (Don't Repeat Yourself)Every piece of knowledge must have a single, unambiguous, authoritative representation.DesignKISS (Keep It Simple, Stupid)Designs and systems should be as simple as possible.DesignSOLID PrinciplesFive main guidelines that enhance software design, making code more maintainable and scalable.DesignLaw of DemeterAn object should only interact with its immediate friends, not strangers.DesignPrinciple of Least AstonishmentSoftware and interfaces should behave in a way that least surprises users and other developers.DecisionsDunning-Kruger EffectThe less you know about something, the more confident you tend to be.DecisionsHanlon's RazorNever attribute to malice that which is adequately explained by stupidity or carelessness.DecisionsOccam'",
+          "category": "insight",
+          "publishedAt": "2026-04-21T11:04:56.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "I don't want your PRs anymore",
+          "titleKo": "더 이상 Pull Request를 받고 싶지 않습니다",
+          "summary": "오픈소스 유지보수자가 LLM 시대에 외부 PR보다는 다른 형태의 기여가 더 가치 있다고 주장합니다. 코드 작성이 더 이상 병목이 아니며, 보안 위험과 동기화 오버헤드를 고려할 때 자신이 직접 LLM으로 구현하는 것이 더 효율적이라고 설명합니다.",
+          "keyPoints": [
+            "LLM의 발전으로 코드 작성 시간 단축되었으며, 이제 병목은 이해, 설계, 리뷰 단계임",
+            "외부 PR은 보안 위험, 코드 스타일 차이, 동기화 오버헤드 등의 문제 야기",
+            "대신 피드백, 아이디어 논의, 버그 리포트, 프로토타입 PR, 코드 리뷰, 포크 등의 기여 방식을 권장"
+          ],
+          "whyItMatters": "오픈소스 프로젝트에 효과적으로 기여하는 방식과 LLM 시대의 개발 패러다임 변화를 이해할 수 있습니다.",
+          "url": "https://dpc.pw/posts/i-dont-want-your-prs-anymore/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 166,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-dont-want-your-prs-anymore",
+          "fullContent": "Table of Contents\nWhy I don't want to merge your PR\nThe nature of software development has shifted\nHow can you help instead\nGive feedback\nDiscuss ideas\nReport and investigate bugs\nPrototype changes\nReview code and point out problems\nFork the code and report back\nI really appreciate that you're enjoying the software I'm maintaining\nand want to help. But we need to rethink this collaboration, because\nI feel like we're increasingly wasting each other's time.\nWhy I don't want to merge your PR#\nSince I don't really know you, I always have to assume that you might be trying\nto sneak in something malicious along with your changes, which makes\nreviewing and merging them riskier than implementing them myself.\nOn top of that, there are a lot of personal and subjective aspects to code.\nYou might have certain preferences about formatting,\nstyle, structure, dependencies, and approach, and I have mine.\nThen we often need to synchronize with respect to review, CI runs, merge conflicts, etc.\nAnd then there's this common back-and-forth round-trip between the\ncontributor and maintainer, which is just delaying things.\nEven before LLMs, writing the code was not the main bottleneck for me. But\nwriting code did take time, so a solid, working, easy-to-review PR was\noften worth the small extra risk and inconvenience.\nWith LLMs becoming quite good at implementing things, that tradeoff\nis almost never true anymore.\nWhile I still need to review LLM-generated code, I generally don't have to worry about\nit being malicious the way an unknown contributor's code could be. I've already\ncodified a lot of my coding preferences and style guidelines for my LLM.\nAnd I can rapidly iterate at my own pace without having to synchronize with\nanother human who might be in a different timezone.\nFor these reasons, it's just easier if I make the code changes\nmyself (with the help of an LLM).\nThe nature of software development has shifted#\nIt's increasingly apparent that \"the source code\" is less \"source\"\nand more \"code\" — an intermediate formalized layer between\nideas in the developer's head and instructions for the computer to\nexecute. It's always been this way, but now, with the code itself\nbeing easier to generate automatically, it's just more visible.\nThere's a wide range of reactions to coding agents out there,\nfrom banning them to proclaiming that coding is dead and vibecoding\nis the future. Personally, as things are right now, I sit somewhere in the middle.\nI come up with the design, then let my agent do a lot of the actual writing, and then I review\nand refine the result.\nI could get huge amounts of code written, but I'm bottlenecked on:\nunderstanding — reading the existing code to be able to reason about it;\ndesigning — coming up with the right changes and architecture;\nreviewing — ensuring that the code is doing what I wanted.\nThe code in your PR doesn't help me much with any of these.\nSo let's skip it — don't attempt to implement code changes\nwith the goal of merging them into the codebase.\nHow can you help instead#\nAs the \"writing the code\" part is becoming less valuable, all other ways\nof helping maintainers become relatively higher value.\nGive feedback#\nAs I'm busy implementing things, I often don't have much time\nto actually use them, or do good research on how to improve them.\nUsers telling me what works well and what could be improved can be very helpful.\nDiscuss ideas#\nI don't know everything, and discussing things with\nother people with different experiences and perspectives\ncan help me understand what I should be building and how.\nReport and investigate bugs#\nA good bug report is 3/4 of the bug itself being fixed.\nIf you spotted a problem, please describe it well, and even\ndo the debugging to figure out how to reproduce it and\nwhere exactly the problem is.\nThen discuss potential solutions.\nPrototype changes#\nSend me a reference PR and/or the prompt you used to produce it.\nYes, I know I just said that I don't want your PRs. So let me\nexplain. With LLMs, it's easier for me to get my own LLM to make the change\nand then review it myself.\nBUT — using code for illustrative purposes still makes sense.\nA quick glance at code implementing something can be helpful,\neven if I don't end up merging it.\nAnd if you share the actual \"source\" (prompt) to produce the \"code\",\nI can reuse and refine it, saving time.\nReview code and point out problems#\nAs I'm bottlenecked on reviews, an extra pair of eyes helps.\nFork the code and report back#\nDon't be afraid of forking the code and changing it however you want.\nHaving to come up with designs supporting multiple use cases,\nforming consensus, debating best outcomes, looking for compromises, etc.\nis very time-consuming.\nLLMs enable a great deal of software customizability. You can\nmake the changes you want by yourself faster and easier than ever,\nand then rebase them (or not) on top of upstream\nat your own pace.\nJust fork. Add support for your own use case, do things your way,\nask neither for permission nor",
+          "category": "insight",
+          "publishedAt": "2026-04-21T20:21:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Running a Minecraft Server and More on a 1960s Univac Computer",
+          "titleKo": "1960년대 UNIVAC 컴퓨터에서 Minecraft 서버 등을 실행하기",
+          "summary": "1960년대 UNIVAC 1219B 컴퓨터(250kHz, 90KB RAM)에서 Minecraft 서버, NES 에뮬레이터, OCaml, 웹서버 등을 성공적으로 실행했습니다. RISC-V 에뮬레이터와 LLVM을 활용하여 8개월의 개발 기간을 거쳐 완성되었습니다.",
+          "keyPoints": [
+            "18비트 워드, ones' complement 산술, 제한된 레지스터와 뱅크 메모리 등 극도로 이질적인 아키텍처 극복",
+            "Rust 기반 UNIVAC 어셈블러/에뮬레이터 개발 후 RISC-V 에뮬레이터와 LLVM 통합으로 C 컴파일 가능",
+            "250kHz 컴퓨터에서 복잡한 프로그램 실행으로 극한 환경에서의 코드 최적화 사례 제시"
+          ],
+          "whyItMatters": "극도로 제한된 하드웨어에서 현대 소프트웨어를 실행하기 위한 창의적인 엔지니어링 접근법을 보여줍니다.",
+          "url": "https://farlow.dev/2026/04/17/running-a-minecraft-server-and-more-on-a-1960s-univac-computer",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 181,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "running-a-minecraft-server-and-more-on-a-1960s-univac-computer",
+          "fullContent": "Check it out! Here I am running a Minecraft server on a 1960s UNIVAC 1219B computer:\nHere’s a NES emulator rendering the first frame of Pinball:\n… and a selfie printed using the “overstrike” technique:\nWe ran a ton more crazy stuff, including:\nOCaml programs (!)\nA webserver\nCurve25519 + AES encryption\nA BASIC interpreter\nELIZA\nGames like Oregon Trail, Wordle, and Battleship\n… and so much more! All this on a 250khz computer with only 90kb RAM\nfrom the 1960s. I live for this kind of stuff! I’m obsessed with running code in\nweird places and smashing technical limitations. This project is my most\nambitious project so far, taking about 8 months of work from myself and others.\nThe source for the project is\nhere. Also see\nTheScienceElf’s video on this project!\nThe UNIVAC is a weird machine\nThe UNIVAC 1219B is a super weird machine and is hostile to modern programming\nin almost every way:\n18 bit words. Memory addresses and values are 18 bits! Not even a power of\ntwo.\nOnes’ complement arithmetic, kinda. Modern computers use two’s\ncomplement to represent\nsigned integers. This computer uses ones’\ncomplement, but with\nannoying differences around signed\nzero that we had to reverse\nengineer.\nJust a few registers. One 36 bit register A can be individually\naddressed by AU:AL. You get that and another 18 bit B register.\nOnly 40,960 words of memory. That’s only 90kb total memory to split\nbetween our code and the memory it needs at runtime.\nBanked memory. These 40,960 words of memory are split into 10 banks. You\nhave to configure which bank your instructions address in advance.\nThe computer’s original purpose was to be used by the Navy to read in radar\nsignals and direct artillery. It really is an amazing feat of engineering. The\ncomputer is shown on the left in the image below. To its right is the (currently\nsemi-functional) magnetic tape unit.\nNearby is the teletype, which is how we interface with the computer. You can\ntype to the UNIVAC and it can type back; everything is printed to the same sheet\nof paper. It’s the stdin and stdout.\nOnly two UNIVAC 1219s exist today, both rescued from Johns Hopkins University by\nfolks from the Vintage Computer Federation. This is the only one that is\noperational.\nBefore we started this project, all the programs that existed were hand-written\nin UNIVAC assembly. We’re going to change that by getting C compiling!\nThe first encounter at VCF East 2025\nThe first time I came across the computer was during a trip to VCF\nEast in April 2025. Bill and Steven were\nrunning demo programs on the machine. Duane, Bill, and Steven had done a ton of\namazing work to rescue and restore this computer over the last 10 years.\nSeeing this thing in person was genuinely inspiring: the flashing lights, the\ntacking of the teletype, the smell of the oil… I knew then that I needed to\nget some crazy code running on this thing. Something much more than fizzbuzz. I\nwanted a NES emulator. I wanted OCaml. How far could we push this hardware?\nWe need an emulator and assembler\nThe first things we need are an assembler for the UNIVAC assembly language and\nan emulator to run that assembled program. Luckily for us, Duane had written an\nassembler for UNIVAC assembly in BASIC (!) and an emulator in VB.NET many years\nago.\nSoon after VCF was over,\nTheScienceElf took a stab at writing\na new assembler and emulator in\nRust by consulting the scans of the incredible\nmanuals and using Duane’s\nimplementations as a reference.\nThe Rust emu was fast. It was 400x faster than the real UNIVAC hardware and\n40,000x faster than the VB.NET emulator. This speed turned out to be entirely\nnecessary to power the fuzz testing I’ll discuss later.\nBoth emulators weren’t hardware accurate at this point, but it was good enough\nto start!\nWee as a first attempt at a C compiler\nNow that we have an emulator, how can we get C code running in it?\nThe fastest way to prove out a C compiler was to use\nwee, an old project of mine. It’s a tiny\ninstruction set I’ve used previously to compile C to weird places.\nIt worked, but holy moly it was bad. A trivial fizzbuzz program took up ~27k\nwords, or about 67% of the total memory of the computer. It took a full minute\nto compute the first 100 fizzbuzz lines. Since my goal was to get real and\ncomplex programs running, this was clearly not viable.\nA RISC-V emulator is the move\nWe have to do something smarter than wee. There are many options, so let me\nclarify my main two goals:\nI want to run real, big, interesting programs. I want to compile straight\nfrom github and let it rip on the machine. It’s less important that these\nreal programs run maximally fast.\nI must maintain my sanity.\nWe need to use a real compiler, like LLVM or GCC\nI need all of the following to accomplish the goal of running real programs:\nFull C standard library. In this case I used picolibc.\nSoft float and other legalizations. I need all the types and operations to\nwork. Floats, doubles, int32, int64, everything. Even though the UNIVAC\ndoesn’t have hardware",
+          "category": "insight",
+          "publishedAt": "2026-04-18T12:41:00.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Britannica11.org – a structured edition of the 1911 Encyclopædia Britannica",
+          "titleKo": "1911년 브리태니커 백과사전의 구조화된 판본",
+          "summary": "1911년 브리태니커 백과사전을 디지털화하고 구조화한 온라인 아카이브 프로젝트입니다.",
+          "keyPoints": [
+            "역사적 백과사전을 현대적 형식으로 접근 가능하게 제공"
+          ],
+          "whyItMatters": "개발자들이 대규모 텍스트 데이터의 구조화, 검색 최적화, 웹 아카이빙 기술을 학습할 수 있는 실제 사례입니다.",
+          "url": "https://britannica11.org/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 188,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "britannica11org-a-structured-edition-of-the-1911-encyclopdia-britannica",
+          "category": "insight",
+          "publishedAt": "2026-04-21T17:33:50.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Fusion Power Plant Simulator",
+          "titleKo": "핵융합 발전소 시뮬레이터",
+          "summary": "핵융합 발전소 운영과 설계를 시뮬레이션하는 온라인 도구입니다.",
+          "keyPoints": [
+            "핵융합 에너지 기술의 실제 적용을 이해하기 위한 시뮬레이션 플랫폼"
+          ],
+          "whyItMatters": "과학 및 에너지 분야의 복잡한 시스템을 소프트웨어로 모델링하는 개발 기술을 학습할 수 있습니다.",
+          "url": "https://www.fusionenergybase.com/fusion-power-plant-simulator",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 131,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "fusion-power-plant-simulator",
+          "category": "insight",
+          "publishedAt": "2026-04-21T14:26:52.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "A Periodic Map of Cheese",
+          "titleKo": "치즈의 주기율표",
+          "summary": "서로 다른 우유 종류(야크, 버팔로, 낙타, 순록 등)와 제조 방식의 조합을 분석한 인터랙티브 맵으로, 기존에 시도되지 않았지만 가능성 있는 치즈 조합들을 탐색합니다.",
+          "keyPoints": [
+            "우유의 화학적 성질(지방, 카제인 함량)과 제조 기법의 조합으로 미개척 치즈 종류 제안",
+            "지리적, 경제적, 전통적 제약으로 인해 만들어지지 않은 가능성 높은 조합들 시각화"
+          ],
+          "whyItMatters": "복잡한 데이터를 인터랙티브 시각화로 표현하는 웹 개발 기술과 다차원 데이터 분석 방법을 보여주는 사례입니다.",
+          "url": "https://cheesemap.netlify.app/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 155,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-periodic-map-of-cheese",
+          "fullContent": "Not all gaps are equal. Some are empty because the chemistry forbids it. Others are empty because of tradition, geography, and economics — which means a bold cheesemaker could fill them. These are the combinations most likely to produce something genuinely good.\nYak milk has around 7% fat and very high casein — a richer starting point than the cow milk that produces Gruyère. The pressed-and-cooked method should work beautifully with it. The gap is purely geographical: Himalayan herders don't have Swiss caves, and Swiss cheesemakers don't have yaks. If a Nepali dairy cooperative partnered with an Alpine affineur, this could be extraordinary — dense, butterscotch-rich, with a savory depth that cow milk can't match.\nA buffalo milk Brie or Camembert. The extremely high fat content — nearly double that of cow milk — would produce something spectacularly rich under a white Penicillium candidum rind. A handful of Italian artisans have experimented, but no established version exists. This would essentially be a triple-cream by default, with the mushroomy, earthy notes of the bloomy mold complementing buffalo milk's sweetness.\nThe great Iberian tortas — Torta del Casar, Serra da Estrela — use thistle rennet on sheep milk to create oozing, spoonable, slightly bitter masterpieces. Nobody has tried thistle rennet on buffalo milk. The extremely high fat content of buffalo milk combined with the aggressive, non-specific enzymes in cardoon thistle could produce something entirely new: a torta richer and more unctuous than anything from sheep milk, with that characteristic vegetal bitterness cutting through the richness.\nA yak milk Brie. The extremely high fat content — higher than even the triple-cream cow milks used for Brillat-Savarin — would produce something spectacularly rich under a white Penicillium candidum rind. The mushroomy, earthy notes of the bloomy mold would complement the slightly wild, grassy notes of yak milk. This cheese would essentially be a quadruple-cream by default.\nCloth-binding is almost exclusively a cow-milk technique (Cheddar, Lancashire). Berkswell hints at what sheep milk can do in this style, but a full cloth-bound cheddar-style sheep cheese aged 18+ months is essentially unexplored. Sheep milk's higher fat and protein would produce a denser, more intense, more crystalline result than cow cheddar — with that characteristic nutty, lanolin edge that sheep milk brings to long-aged cheeses.\nMost of the camel cheese map is blocked by chemistry — the milk just won't cooperate with advanced techniques. But smoking doesn't require firmness. You could take a fresh acid-coagulated camel cheese and cold-smoke it. The smoky flavor might also mask some of the slightly sour, unusual notes that put people off camel cheese. This is one of the few ways to add complexity to camel cheese without demanding structural integrity the curd can't provide.\nReindeer milk has around 20% fat — absurdly rich. The protein content is also very high. A hard, long-aged reindeer cheese would be astonishingly concentrated and buttery. The reason it doesn't exist is purely practical: each reindeer produces perhaps a cup of milk per day during a short season. You'd need an enormous herd and a very patient cheesemaker. But the cheese itself? It might be the richest hard cheese physically possible.",
+          "category": "insight",
+          "publishedAt": "2026-04-21T16:31:21.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "California has more money than projected after admin miscalculated state budget",
+          "titleKo": "캘리포니아, 행정부의 주 예산 오계산으로 예상보다 많은 자금 확보",
+          "summary": "뉴섬 주지사 행정부가 2026년 주 예산 편성 시 CalPERS(주 연금 시스템) 관련 20억 달러의 회계 오류를 범했으며, 이로 인해 주가 예상했던 29억 달러의 적자가 훨씬 줄어들 가능성이 있습니다. 오류는 2월에 발견되었지만 수 개월간 공개되지 않았습니다.",
+          "keyPoints": [
+            "CalPERS 기여율을 중복 계산한 16억 달러 오류와 미래 기여금 계산 오류 4억 5천만 달러 총 2건의 회계 오류 발생",
+            "입법부 지도자들은 2월부터 오류를 인지했으나 공개하지 않았으며, 행정부는 이를 오류가 아닌 추정치 수정으로 주장"
+          ],
+          "whyItMatters": "대규모 재정 시스템의 회계 오류 관리와 투명성 문제를 보여주며, 개발자들에게 금융 시스템 개발 시 검증과 감시 메커니즘의 중요성을 시사합니다.",
+          "url": "https://www.kcra.com/article/california-more-money-than-projected-newsom-miscalculated-budget/71056376",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 85,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "california-has-more-money-than-projected-after-admin-miscalculated-state-budget",
+          "fullContent": "California has more money than projected after Gov. Newsom's administration miscalculated the state budget this year\nCalifornia has more money than projected after Gov. Newsom's administration miscalculated the state budget this year\nMINUTES AGO, WE TOLD YOU ABOUT A $2 BILLION ACCOUNTING ERROR IN THIS YEAR’S STATE BUDGET, 2 BILLION WITH A B. THIS ERROR GOES ALL THE WAY BACK THROUGH LEAKED MEMO TODAY. IT WAS A LEAKED MEMO TO STATE LAWMAKERS THAT THEY WERE TOLD ABOUT THIS IN MID-FEBRUARY, MONTHS AGO. NOW, THE MISCALCULATION MEANS THE STATE ACTUALLY HAS MORE MONEY THAN WAS PREVIOUSLY PROJECTED. AND GOVERNOR NEWSOM’S DEPARTMENT OF FINANCE JUST RESPONDED TO A REQUEST ON THE COMMENTS SAYING, QUOTE, WE TOLD LEGISLATIVE LEADERS AND THE L A O BACK IN FEBRUARY THAT WE WOULD UPDATE HOW WE ESTIMATE THESE PAYMENTS ONCE THIS ISSUE WAS IDENTIFIED. WE’VE ALREADY MADE THAT ADJUSTMENT, AND IT WILL BE REFLECTED IN THE REVISED BUDGET NEXT MONTH, END QUOTE. AND IT\nUpdated: 10:50 PM PDT Apr 17, 2026\nEditorial Standards ⓘ\nCalifornia has more money than projected after Gov. Newsom's administration miscalculated the state budget this year\nUpdated: 10:50 PM PDT Apr 17, 2026\nEditorial Standards ⓘ\nCalifornia's government likely has more money to work with this upcoming year after Gov. Newsom's administration made two accounting errors when it put together his proposed state budget in January, according to a memo leaked to KCRA 3 on Friday. The accounting errors were related to the state's retirement system known as CalPERS totaling $2 billion. Gov. Newsom in January projected the state would have to grapple with a $2.9 billion shortfall. The confirmed miscalculation means that shortfall could be much smaller. California's legislative leaders have known for months but did not make the issue public. Gabe Petek, who leads the state legislature's Legislative Analyst's Office, confirmed the accounting mistakes to KCRA 3 on Friday. Democratic leaders kept the $2 billion accounting mistake under wraps after Petek's office flagged the issue in a memo to state lawmakers in February.The memo stated Gov. Newsom's administration made two errors. The first involved double counting CalPERS contribution rates for the upcoming year, which the LAO said was a $1.6 billion miscalculation. The second issue involved incorrect contribution rates when the administration calculated how much money the state would need to contribute to CalPERS in the years ahead. The LAO stated that mistake amounts to about $450 million. \"Given the size and complexity of California’s budget, it is not uncommon that we come across errors stemming from calculation mistakes or formula errors etc,\" Petek said in an email to KCRA 3 on Friday. \"Indeed, part of the role of our office is to serve as a check on the administration’s budget calculations. So, in the case of this CalPERS example, you are correct, we did identify a double-counting error and given that this error is on the larger side, we notified the Legislature of it for their situational awareness.\" \"In the broader context of the state budget with a lot of moving numbers, and the coming updates to the revenue forecasts, we expect the issue will be corrected in the May Revision,\" Petek said.It was not clear as of Friday why state lawmakers and the Newsom administration didn't tell the public about the $2 billion error. State lawmakers have been having numerous hearings on the state budget since the beginning of the year. Newsom's administration on Friday denied that it's an error. \"This isn’t a calculation error – it’s revision to better estimate how these payments are made,\" said H.D. Palmer, a spokesman for Newsom's Department of Finance. \"We told legislative leaders and the LAO back in February that we would update how we estimate these payments once this issue was identified. We’ve already made that adjustment, and it will be reflected in the revised budget next month.\" \"This administration continues its track record of lacking transparency, preferring to keep the legislature and the public in the dark to avoid having to justify cuts while spending millions on their pet projects,\" said Assemblyman David Tangipa, R-Fresno, who is the vice chairman of the Assembly's Budget Committee.KCRA 3 reached out to Democratic legislative leaders and lawmakers who lead the budget committees in the Assembly and State Senate and asked why they did not notify the public about the miscalculation. \"These are tracked in January and May budget revisions from the administration. This is standard practice,\" said Jason Sisney, the state budget advisor for Assembly Speaker Robert Rivas. When asked to clarify if it is standard practice to not let people know when billions are miscalculated, Sisney repeated his statement. A spokesperson for the leader of the Senate's Budget Committee, State Sen. John Laird, D-Santa Cruz, referred KCRA 3 to the Legislative Analyst's Office and Newsom's Department of Finance for Comment. Negotiations on the state ",
+          "category": "insight",
+          "publishedAt": "2026-04-21T20:28:57.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Why Does No One Use The Right React Hook",
+          "titleKo": "왜 아무도 올바른 React Hook을 사용하지 않을까",
+          "summary": "많은 React 개발자들이 상황에 맞지 않는 Hook을 사용하고 있으며, 이는 성능 저하와 불필요한 복잡성을 초래합니다. 영상에서는 각 Hook(useState, useEffect, useCallback, useMemo 등)의 올바른 사용 케이스와 일반적인 오용 패턴을 설명합니다. 특정 상황에 맞는 Hook을 선택하는 것이 코드 품질과 애플리케이션 성능 향상에 직접적인 영향을 미칩니다.",
+          "keyPoints": [
+            "useState를 과도하게 사용하는 대신, 상태 구조를 단순화하고 필요한 경우만 분리하여 관리해야 하며, 파생 상태(derived state)는 별도의 상태로 관리하면 안 됩니다.",
+            "useEffect의 의존성 배열이 정확하지 않으면 무한 루프나 스테일 클로저(stale closure) 문제가 발생하므로, ESLint의 exhaustive-deps 규칙을 활용하여 자동으로 검사해야 합니다.",
+            "useCallback과 useMemo는 성능 최적화를 위한 도구이지만, 무분별한 사용은 메모리 오버헤드를 증가시키므로 실제 성능 병목 지점에만 선택적으로 적용해야 합니다.",
+            "useReducer는 복잡한 상태 로직이나 여러 관련 상태를 관리할 때 useState보다 효과적이며, 상태 업데이트 로직을 한곳에 집중시킬 수 있습니다.",
+            "useRef는 DOM 요소나 변경 가능한 값을 저장할 때 사용되며, 리렌더링을 트리거하지 않으므로 상태와 혼동하여 사용하면 안 됩니다.",
+            "React의 내장 Hook들이 각각의 목적에 맞게 설계되어 있으므로, 상황을 정확히 파악하고 적절한 Hook을 선택하는 것이 깔끔하고 효율적인 컴포넌트 작성의 기초입니다."
+          ],
+          "whyItMatters": "올바른 Hook 사용은 React 애플리케이션의 성능, 유지보수성, 버그 방지에 직접적인 영향을 미치며, 개발자의 숙련도를 판단하는 중요한 기준이 됩니다.",
+          "url": "https://www.youtube.com/watch?v=NBjycPpPHQQ",
+          "sourceName": "Web Dev Simplified",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "why-does-no-one-use-the-right-react-hook",
+          "category": "video",
+          "publishedAt": "2026-04-07T16:00:39+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Google just casually disrupted the open-source AI narrative…",
+          "titleKo": "Google이 오픈소스 AI 서사를 무심코 뒤흔들었다",
+          "summary": "Google의 최근 AI 모델 공개가 오픈소스 AI 생태계에 큰 변화를 가져오고 있습니다. 기존의 폐쇄형 AI 모델 중심의 산업 구조가 오픈소스 모델의 성능 향상과 접근성 확대로 인해 균형이 맞춰지고 있는 상황입니다. Google의 전략적 결정이 AI 개발의 민주화를 가속화하고 있으며, 이는 스타트업과 개인 개발자들에게 새로운 기회를 제공하고 있습니다.",
+          "keyPoints": [
+            "Google의 오픈소스 모델 공개가 기존 폐쇄형 AI 서비스의 우위를 도전하고 있으며, 이를 통해 산업 전체의 AI 접근성이 향상되고 있습니다.",
+            "오픈소스 AI 모델의 성능이 지속적으로 개선되면서 비용 효율성과 커스터마이제이션 가능성이 상용 모델과 경쟁할 수 있는 수준에 도달했습니다.",
+            "Google의 전략은 단순한 기술 공개를 넘어서 AI 생태계 전체에서의 기술 주도권 확보와 표준 설정을 목표로 하고 있습니다.",
+            "개인 개발자와 소규모 기업들이 고급 AI 모델에 접근할 수 있게 되면서 혁신과 다양한 애플리케이션 개발의 진입장벽이 낮아졌습니다.",
+            "이러한 변화는 AI 산업의 장기적 경쟁 구도를 재편하고 있으며, 클라우드 기반 AI 서비스의 프리미엄 가치를 재평가하게 만들고 있습니다."
+          ],
+          "whyItMatters": "개발자들은 이제 오픈소스 AI 모델을 통해 비용 부담 없이 최첨단 AI 기술을 프로젝트에 적용할 수 있으며, 이는 AI 기반 애플리케이션 개발의 접근성을 근본적으로 변화시키고 있습니다.",
+          "url": "https://www.youtube.com/watch?v=-01ZCTt-CJw",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "google-ai-open-source",
+          "isTopicPrimary": true,
+          "slug": "google-just-casually-disrupted-the-open-source-ai-narrative",
+          "category": "video",
+          "publishedAt": "2026-04-08T19:00:10+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Cursor ditches VS Code, but not everyone is happy...",
+          "titleKo": "Cursor가 VS Code를 버렸지만 모두가 만족하지는 않음",
+          "summary": "AI 기반 코드 에디터 Cursor가 VS Code 기반에서 벗어났으나, 이에 대한 개발자 커뮤니티의 반응이 엇갈리고 있다.",
+          "keyPoints": [
+            "Cursor의 기술 스택 전환으로 인한 성능 또는 호환성 변화",
+            "일부 사용자들의 우려와 불만 제기"
+          ],
+          "whyItMatters": "Cursor 사용자들은 기능 변화와 성능 영향을 고려하여 도구 선택을 재평가해야 한다.",
+          "url": "https://www.youtube.com/watch?v=JSuS-zXMVwE",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "cursor-news",
+          "isTopicPrimary": false,
+          "slug": "cursor-ditches-vs-code-but-not-everyone-is-happy",
+          "category": "video",
+          "publishedAt": "2026-04-06T18:37:57+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Building a REAL feature with Claude Code: every step explained",
+          "titleKo": "Claude Code로 실제 기능 구축하기: 모든 단계 설명",
+          "summary": "Claude Code를 사용하여 기능을 처음부터 끝까지 구현하는 과정을 단계별로 보여주는 영상입니다.",
+          "keyPoints": [
+            "AI 코드 생성 도구인 Claude Code의 실무 활용법을 단계적으로 설명합니다.",
+            "실제 프로젝트에서 발생하는 문제 해결 과정을 확인할 수 있습니다."
+          ],
+          "whyItMatters": "AI 기반 개발 도구의 효과적인 활용 방법을 배울 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=hX7yG1KVYhI",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-code-review",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "building-a-real-feature-with-claude-code-every-step-explained",
+          "category": "video",
+          "publishedAt": "2026-03-18T14:16:47+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "5 Claude Code skills I use every single day",
+          "titleKo": "매일 사용하는 Claude Code 스킬 5가지",
+          "summary": "Claude Code를 활용한 일상적인 개발 작업에서 실용적으로 쓸 수 있는 5가지 기술을 소개하는 영상입니다.",
+          "keyPoints": [
+            "Claude Code의 주요 기능 중 실무에서 자주 사용되는 것들을 선별하여 설명합니다.",
+            "각 스킬의 실제 활용 사례를 통해 실용성을 확인할 수 있습니다."
+          ],
+          "whyItMatters": "AI 코드 생성 도구의 효율적인 활용으로 개발 생산성을 높일 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=EJyuu6zlQCg",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-code-review",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "5-claude-code-skills-i-use-every-single-day",
+          "category": "video",
+          "publishedAt": "2026-03-16T16:01:49+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Zustand Crash Course",
+          "titleKo": "Zustand 집중 강좌",
+          "summary": "React 상태 관리 라이브러리인 Zustand의 기본 개념과 사용법을 다루는 튜토리얼 영상입니다.",
+          "keyPoints": [
+            "Zustand의 핵심 API와 실제 사용 방법을 체계적으로 학습할 수 있습니다.",
+            "Redux와 다른 경량의 상태 관리 방식을 이해할 수 있습니다."
+          ],
+          "whyItMatters": "React 개발에서 간단하면서도 효과적인 상태 관리 도구 습득에 도움이 됩니다.",
+          "url": "https://www.youtube.com/watch?v=ULS7LHNScHc",
+          "sourceName": "Web Dev Simplified",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "zustand-crash-course",
+          "category": "video",
+          "publishedAt": "2026-04-21T16:00:50+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "New CSS Property corner-shape Is Amazing",
+          "titleKo": "새로운 CSS 속성 corner-shape는 놀라움",
+          "summary": "CSS에 추가되는 새로운 corner-shape 속성이 모서리 스타일링에 혁신적인 기능을 제공한다는 내용의 영상이다.",
+          "keyPoints": [
+            "CSS corner-shape 속성으로 다양한 모서리 형태 표현 가능",
+            "기존 border-radius의 한계를 극복하는 기능"
+          ],
+          "whyItMatters": "프론트엔드 개발자들이 CSS만으로 복잡한 모서리 디자인을 구현할 수 있어 UI 개발 효율이 증가한다.",
+          "url": "https://www.youtube.com/watch?v=AhBL2MYlQj0",
+          "sourceName": "Web Dev Simplified",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "new-css-property-corner-shape-is-amazing",
+          "category": "video",
+          "publishedAt": "2026-03-31T16:00:00+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude just got another superpower...",
+          "titleKo": "Claude가 새로운 초능력을 얻었다",
+          "summary": "Anthropic의 Claude AI가 새로운 기능을 추가했습니다.",
+          "keyPoints": [
+            "Claude의 새로운 기능 업데이트가 공개되었습니다."
+          ],
+          "whyItMatters": "Claude의 기능 확장 동향을 확인할 수 있는 업데이트입니다.",
+          "url": "https://www.youtube.com/watch?v=jeA-KBv0b68",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-updates",
+          "isTopicPrimary": true,
+          "slug": "claude-just-got-another-superpower",
+          "category": "video",
+          "publishedAt": "2026-04-21T17:35:43+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Millions of WordPress sites just got hacked... again",
+          "titleKo": "수백만 개의 WordPress 사이트가 다시 해킹당함",
+          "summary": "WordPress 사이트들이 대규모로 해킹되는 보안 사건에 대한 설명 영상입니다.",
+          "keyPoints": [
+            "WordPress 플러그인 또는 코어의 취약점을 통한 대규모 공격입니다.",
+            "정기적인 업데이트와 보안 관리의 중요성을 강조합니다."
+          ],
+          "whyItMatters": "WordPress 기반 웹사이트 운영자와 개발자들이 보안 패치를 신속히 적용해야 할 필요성을 보여줍니다.",
+          "url": "https://www.youtube.com/watch?v=piah4fV_o2Q",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "backend"
+          ],
+          "topicId": "wordpress-security-issues",
+          "isTopicPrimary": true,
+          "slug": "millions-of-wordpress-sites-just-got-hacked-again",
+          "category": "video",
+          "publishedAt": "2026-04-16T15:29:01+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude Code tried to improve /init... Is it any better?",
+          "titleKo": "Claude Code가 /init를 개선했을까?",
+          "summary": "Claude Code의 /init 기능 개선 사항을 테스트하고 평가하는 영상입니다.",
+          "keyPoints": [
+            "Claude Code 도구의 실제 성능 개선 사항 검증"
+          ],
+          "whyItMatters": "AI 코딩 어시스턴트의 초기화 기능 개선이 개발 생산성에 미치는 영향을 파악할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=llwTBpPqo9A",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-code-review",
+          "isTopicPrimary": true,
+          "relatedCount": 2,
+          "slug": "claude-code-tried-to-improve-init-is-it-any-better",
+          "category": "video",
+          "publishedAt": "2026-03-23T15:02:28+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "LIVE: Watch me build a brand-new project from scratch",
+          "titleKo": "라이브: 새로운 프로젝트를 처음부터 만드는 과정 시청하기",
+          "summary": "개발자가 새로운 프로젝트를 처음부터 구축하는 과정을 라이브로 보여주는 영상입니다.",
+          "keyPoints": [
+            "실시간 프로젝트 개발 과정을 통한 학습 기회 제공"
+          ],
+          "whyItMatters": "실무 개발 흐름과 의사결정 과정을 직접 관찰할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=K-mA3MZ_EzU",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "live-watch-me-build-a-brand-new-project-from-scratch",
+          "category": "video",
+          "publishedAt": "2026-04-17T16:13:34+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Never Trust An LLM",
+          "titleKo": "절대 LLM을 믿지 마세요",
+          "summary": "LLM의 신뢰성 문제와 한계에 대해 다루는 영상입니다.",
+          "keyPoints": [
+            "LLM의 오류와 한계를 이해하고 적절히 검증해야 함의 중요성"
+          ],
+          "whyItMatters": "LLM을 개발 도구로 사용할 때 비판적 사고와 검증이 필수임을 상기시킵니다.",
+          "url": "https://www.youtube.com/watch?v=9VNG0h4pLh0",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "llm-limitations",
+          "isTopicPrimary": true,
+          "slug": "never-trust-an-llm",
+          "category": "video",
+          "publishedAt": "2026-03-27T18:02:47+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude Mythos is too dangerous for public consumption...",
+          "titleKo": "Claude Mythos는 공개 배포에 너무 위험하다",
+          "summary": "Claude AI의 위험성에 관한 YouTube 영상입니다.",
+          "keyPoints": [
+            "Claude의 능력과 잠재적 위험성에 대한 논의"
+          ],
+          "whyItMatters": "AI 모델의 안전성과 윤리적 배포에 대한 중요한 질문을 제기합니다.",
+          "url": "https://www.youtube.com/watch?v=d3Qq-rkp_to",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-safety-concerns",
+          "isTopicPrimary": true,
+          "slug": "claude-mythos-is-too-dangerous-for-public-consumption",
+          "category": "video",
+          "publishedAt": "2026-04-10T19:29:35+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I Hate Google",
+          "titleKo": "Google이 싫어",
+          "summary": "Google에 대한 비판적 내용의 YouTube 영상입니다.",
+          "keyPoints": [
+            "Google의 정책이나 서비스에 대한 개인적 의견 표현"
+          ],
+          "url": "https://www.youtube.com/watch?v=GKpwO-DGKiI",
+          "sourceName": "ThePrimeagen",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-hate-google",
+          "category": "video",
+          "publishedAt": "2025-09-02T18:42:55+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "WHY STARBUCKS, WHY?!?!",
+          "titleKo": "스타벅스, 왜?!?!",
+          "summary": "스타벅스의 어떤 정책이나 결정에 대한 비판적 반응 영상입니다.",
+          "keyPoints": [
+            "스타벅스의 특정 조치에 대한 개인적 불만 표현"
+          ],
+          "url": "https://www.youtube.com/watch?v=q5jcjAQXiIU",
+          "sourceName": "ThePrimeagen",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "why-starbucks-why",
+          "category": "video",
+          "publishedAt": "2025-08-22T15:04:21+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
