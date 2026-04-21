@@ -56,5 +56,8 @@ function flattenArchive(archive: ArchiveData): ArchiveItem[] {
   const sections = [...archive.sections].sort(
     (a, b) => (ORDER[a.category] ?? 99) - (ORDER[b.category] ?? 99)
   );
-  return sections.flatMap((s) => s.items);
+  // 클러스터 secondary 제외 — primary 의 "관련 N건" 배지로 건수만 노출
+  return sections
+    .flatMap((s) => s.items)
+    .filter((item) => !(item.topicId && !item.isTopicPrimary));
 }

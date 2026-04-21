@@ -64,11 +64,16 @@ export function TodayView() {
 
 /**
  * 섹션 구분 없이 하나의 리스트로 평탄화. hot → tech → insight → video 순서는 유지.
+ * 클러스터 secondary(topicId 가 있지만 primary 가 아닌 아이템)는 제외 — primary 에
+ * "관련 N건" 배지로 이미 건수가 표시되고, flat 리스트에선 primary 와 분리되면 맥락 없는
+ * 작은 카드로 떠다니기만 한다. 이메일(newsletter-composer.ts)의 동작과 일치.
  */
 function flattenArchive(archive: ArchiveData): ArchiveItem[] {
   const ORDER: Record<string, number> = { hot: 0, tech: 1, insight: 2, video: 3 };
   const sections = [...archive.sections].sort(
     (a, b) => (ORDER[a.category] ?? 99) - (ORDER[b.category] ?? 99)
   );
-  return sections.flatMap((s) => s.items);
+  return sections
+    .flatMap((s) => s.items)
+    .filter((item) => !(item.topicId && !item.isTopicPrimary));
 }
