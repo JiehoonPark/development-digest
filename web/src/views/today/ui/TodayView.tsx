@@ -1,10 +1,8 @@
 import { getLatestArchive, countArchiveItems } from "@/entities/archive";
 import { ArticleBlock } from "@/entities/article";
-import { SectionHeader, getCategoryMeta } from "@/entities/category";
 import { FilterPills } from "@/features/filter-by-label";
-import { ToggleBlock } from "@/features/toggle-block";
 import { Callout, PageContainer, PageCover } from "@/shared/ui";
-import type { ArchiveSection } from "@/shared/config";
+import type { ArchiveData, ArchiveItem } from "@/shared/config";
 import { ROUTES } from "@/shared/config";
 import { TopbarAuto } from "@/widgets/topbar";
 
@@ -16,7 +14,12 @@ export function TodayView() {
   if (!archive) {
     return (
       <>
-        <TopbarAuto crumbs={[{ label: "Dev Digest", icon: "📬", href: ROUTES.home }, { label: "오늘의 다이제스트", icon: "📅" }]} />
+        <TopbarAuto
+          crumbs={[
+            { label: "Dev Digest", icon: "📬", href: ROUTES.home },
+            { label: "오늘의 다이제스트", icon: "📅" },
+          ]}
+        />
         <PageContainer>
           <PageCover icon="📅" title="오늘의 다이제스트" />
           <Callout emoji="🗂">
@@ -28,6 +31,7 @@ export function TodayView() {
   }
 
   const total = countArchiveItems(archive);
+  const items = flattenArchive(archive);
 
   return (
     <>
@@ -38,46 +42,33 @@ export function TodayView() {
         ]}
       />
       <PageContainer>
-      <PageCover
-        icon="📬"
-        title={`FE 데일리 리포트 — ${archive.date}`}
-        subtitle={`${total}개 아티클 · AI가 큐레이션한 프론트엔드 개발 뉴스`}
-      />
+        <PageCover
+          icon="📬"
+          title={`FE 데일리 리포트 — ${archive.date}`}
+          subtitle={`${total}개 아티클 · AI가 큐레이션한 프론트엔드 개발 뉴스`}
+        />
 
-      <Callout emoji="✨">{archive.intro}</Callout>
+        <Callout emoji="✨">{archive.intro}</Callout>
 
-      <FilterPills />
+        <FilterPills />
 
-      <div className={styles.sections}>
-        {archive.sections.map((section) => (
-          <CategorySection key={section.category} section={section} date={archive.date} />
-        ))}
-      </div>
+        <div className={styles.list}>
+          {items.map((item) => (
+            <ArticleBlock key={item.slug} item={item} date={archive.date} />
+          ))}
+        </div>
       </PageContainer>
     </>
   );
 }
 
-function CategorySection({
-  section,
-  date,
-}: {
-  section: ArchiveSection;
-  date: string;
-}) {
-  const meta = getCategoryMeta(section.category);
-  return (
-    <ToggleBlock
-      heading={
-        <SectionHeader category={section.category} count={section.items.length} />
-      }
-      defaultOpen
-    >
-      <div aria-label={`${meta.title} 아티클 목록`}>
-        {section.items.map((item) => (
-          <ArticleBlock key={item.slug} item={item} date={date} />
-        ))}
-      </div>
-    </ToggleBlock>
+/**
+ * 섹션 구분 없이 하나의 리스트로 평탄화. hot → tech → insight → video 순서는 유지.
+ */
+function flattenArchive(archive: ArchiveData): ArchiveItem[] {
+  const ORDER: Record<string, number> = { hot: 0, tech: 1, insight: 2, video: 3 };
+  const sections = [...archive.sections].sort(
+    (a, b) => (ORDER[a.category] ?? 99) - (ORDER[b.category] ?? 99)
   );
+  return sections.flatMap((s) => s.items);
 }

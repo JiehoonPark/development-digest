@@ -50,6 +50,10 @@ export function calculateScore(item: CollectedItem, now: Date = new Date()): num
     item.category === "newsletter";
   if (isOverseas) score += 10;
 
+  // 6. 영상 보너스 — YouTube 는 engagement 메트릭을 수집 못 해서 항상 저평가되는 경향.
+  // deep-tier 요약(≥80점)에 들어갈 기회를 주기 위해 고정 보너스.
+  if (item.contentType === "video") score += 15;
+
   return Math.round(score);
 }
 

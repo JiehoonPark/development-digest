@@ -86,10 +86,26 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
   // Step 2: 요약 (relevance 기반 깊이 차등)
   log.info("Step 2: 요약 생성 (심층/간략 차등)");
 
-  const deepItems = relevantItems.filter((item) => item.relevance >= DEEP_RELEVANCE_THRESHOLD);
-  const briefItems = relevantItems.filter((item) => item.relevance < DEEP_RELEVANCE_THRESHOLD);
+  // 영상은 자막(fullContent)이 있으면 relevance 와 무관하게 심층 티어로.
+  // YouTube 는 engagement 메트릭이 없어 스코어가 낮게 나오지만, 자막만 확보되면
+  // 요약 품질이 크게 향상됨.
+  const isDeepTier = (item: ClassifiedItem) => {
+    if (item.relevance >= DEEP_RELEVANCE_THRESHOLD) return true;
+    if (item.contentType === "video" && (item.fullContent?.length ?? 0) > 500) return true;
+    return false;
+  };
 
-  log.info({ deep: deepItems.length, brief: briefItems.length }, "요약 티어 분리");
+  const deepItems = relevantItems.filter(isDeepTier);
+  const briefItems = relevantItems.filter((item) => !isDeepTier(item));
+
+  log.info(
+    {
+      deep: deepItems.length,
+      brief: briefItems.length,
+      videoInDeep: deepItems.filter((i) => i.contentType === "video").length,
+    },
+    "요약 티어 분리"
+  );
 
   const allSummaries = [
     ...(await summarizeTier(relevantItems, deepItems, SUMMARIZE_PROMPT, 16384, "심층")),

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-import { getCategoryMeta } from "@/entities/category";
+import { CategoryBadge, getCategoryMeta } from "@/entities/category";
 import { LabelBadge } from "@/entities/label";
 import { Callout } from "@/shared/ui";
 import { cx, formatEngagement } from "@/shared/lib";
@@ -18,12 +18,16 @@ interface ArticleBlockProps {
   forwardLabels?: boolean;
 }
 
+/** 카드에서 시각적으로 숨기는 라벨 — 데이터·검색·아카이브는 유지되지만 배지로는 표시 안 함 */
+const HIDDEN_LABELS = new Set<string>(["typescript"]);
+
 export function ArticleBlock({ item, date, forwardLabels = true }: ArticleBlockProps) {
   const isRelated = isRelatedClusterItem(item);
   const category = getCategoryMeta(item.category);
   const title = getDisplayTitle(item);
   const [year, month, day] = date.split("-");
   const detailHref = ROUTES.articleDetail(year, month, day, item.slug);
+  const visibleLabels = (item.labels ?? []).filter((l) => !HIDDEN_LABELS.has(l));
 
   return (
     <article
@@ -42,17 +46,12 @@ export function ArticleBlock({ item, date, forwardLabels = true }: ArticleBlockP
 
         <div className={styles.meta}>
           <span>via {item.sourceName}</span>
-          {item.contentType === "video" ? (
-            <>
-              <span className={styles.metaDot}>·</span>
-              <span className={styles.videoTag}>▶ Video</span>
-            </>
-          ) : null}
         </div>
 
-        {!isRelated && item.labels && item.labels.length > 0 ? (
+        {!isRelated && (visibleLabels.length > 0 || item.category !== "tech") ? (
           <div className={styles.labels}>
-            {item.labels.map((l) => (
+            <CategoryBadge category={item.category} />
+            {visibleLabels.map((l) => (
               <LabelBadge key={l} label={l} />
             ))}
           </div>

@@ -2,10 +2,9 @@ import { notFound } from "next/navigation";
 
 import { countArchiveItems, getArchive } from "@/entities/archive";
 import { ArticleBlock } from "@/entities/article";
-import { SectionHeader } from "@/entities/category";
 import { FilterPills } from "@/features/filter-by-label";
-import { ToggleBlock } from "@/features/toggle-block";
 import { Callout, PageContainer, PageCover } from "@/shared/ui";
+import type { ArchiveData, ArchiveItem } from "@/shared/config";
 import { ROUTES } from "@/shared/config";
 import { TopbarAuto } from "@/widgets/topbar";
 
@@ -23,6 +22,7 @@ export function DailyDigestView({ year, month, day }: DailyDigestViewProps) {
   if (!archive) notFound();
 
   const total = countArchiveItems(archive);
+  const items = flattenArchive(archive);
 
   return (
     <>
@@ -41,22 +41,20 @@ export function DailyDigestView({ year, month, day }: DailyDigestViewProps) {
         />
         <Callout emoji="✨">{archive.intro}</Callout>
         <FilterPills />
-        <div className={styles.sections}>
-          {archive.sections.map((section) => (
-            <ToggleBlock
-              key={section.category}
-              heading={<SectionHeader category={section.category} count={section.items.length} />}
-              defaultOpen
-            >
-              <div>
-                {section.items.map((item) => (
-                  <ArticleBlock key={item.slug} item={item} date={archive.date} />
-                ))}
-              </div>
-            </ToggleBlock>
+        <div className={styles.list}>
+          {items.map((item) => (
+            <ArticleBlock key={item.slug} item={item} date={archive.date} />
           ))}
         </div>
       </PageContainer>
     </>
   );
+}
+
+function flattenArchive(archive: ArchiveData): ArchiveItem[] {
+  const ORDER: Record<string, number> = { hot: 0, tech: 1, insight: 2, video: 3 };
+  const sections = [...archive.sections].sort(
+    (a, b) => (ORDER[a.category] ?? 99) - (ORDER[b.category] ?? 99)
+  );
+  return sections.flatMap((s) => s.items);
 }

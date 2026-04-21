@@ -7,6 +7,9 @@ import { cx } from "@/shared/lib";
 
 import styles from "./FilterPills.module.css";
 
+/** 필터 탭에서 숨길 라벨 — 데이터·검색 인덱스엔 유지되지만 UI 선택지에선 제외 */
+const HIDDEN_FROM_FILTER = new Set<string>(["typescript"]);
+
 /**
  * 선택된 라벨이 "all"이면 모든 아티클 표시, 그 외엔 `data-labels` 속성에 해당 라벨이
  * 포함된 아티클만 표시. data attribute 기반이라 SSR-rendered 콘텐츠를 그대로 숨김.
@@ -26,7 +29,7 @@ export function FilterPills() {
     });
   }, [active]);
 
-  const options = ["all", ...KNOWN_LABELS];
+  const options = ["all", ...KNOWN_LABELS.filter((l) => !HIDDEN_FROM_FILTER.has(l))];
   const display = (l: string) => (l === "all" ? "전체" : l);
 
   return (
