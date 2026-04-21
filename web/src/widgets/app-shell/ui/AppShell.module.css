@@ -5,25 +5,19 @@
   overflow: hidden;
   transition: grid-template-columns 0.28s var(--ease-out);
 }
+
+/* 유저 토글(⌘\)로 접힘 — CSS var override */
 .app[data-sidebar="collapsed"] {
-  grid-template-columns: 0 1fr var(--panel-w);
-}
-.app[data-sidebar="collapsed"] .sidebarSlot {
-  display: none;
+  --sidebar-w: 0px;
 }
 .app[data-panel="collapsed"] {
-  grid-template-columns: var(--sidebar-w) 1fr 0;
-}
-.app[data-panel="collapsed"] .panelSlot {
-  display: none;
-}
-.app[data-sidebar="collapsed"][data-panel="collapsed"] {
-  grid-template-columns: 0 1fr 0;
+  --panel-w: 0px;
 }
 
 .main {
   overflow-y: auto;
   position: relative;
+  min-width: 0;
 }
 .main::-webkit-scrollbar {
   width: 10px;
@@ -33,20 +27,21 @@
   border-radius: 5px;
 }
 
+/* 반응형: 패널 → 사이드바 순으로 접힘 */
 @media (max-width: 1200px) {
   .app {
-    grid-template-columns: var(--sidebar-w) 1fr 0 !important;
+    --panel-w: 0px !important;
   }
-  .panelSlot {
-    display: none !important;
+  .app > aside:last-of-type {
+    display: none;
   }
 }
 @media (max-width: 900px) {
   .app {
-    grid-template-columns: 0 1fr 0 !important;
+    --sidebar-w: 0px !important;
+    --panel-w: 0px !important;
   }
-  .sidebarSlot,
-  .panelSlot {
-    display: none !important;
+  .app > aside {
+    display: none;
   }
 }

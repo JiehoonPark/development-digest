@@ -12,7 +12,6 @@ import { join, resolve } from "node:path";
 
 const ARCHIVE_DIR = resolve(process.cwd(), "..", "data", "archives");
 const PUBLIC_DIR = resolve(process.cwd(), "public");
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "/development-digest/";
 
 interface ArchiveItem {
   title: string;
@@ -52,8 +51,7 @@ function loadAll(): ArchiveData[] {
     .map((f) => JSON.parse(readFileSync(join(ARCHIVE_DIR, f), "utf8")) as ArchiveData);
 }
 
-function buildIndex(archives: ArchiveData[], baseUrl: string): SearchIndexItem[] {
-  const base = baseUrl.endsWith("/") ? baseUrl : `${baseUrl}/`;
+function buildIndex(archives: ArchiveData[]): SearchIndexItem[] {
   const items: SearchIndexItem[] = [];
 
   for (const archive of archives) {
@@ -68,8 +66,8 @@ function buildIndex(archives: ArchiveData[], baseUrl: string): SearchIndexItem[]
           category: section.category,
           date: archive.date,
           url: item.url,
-          // Next export + trailingSlash 경로
-          detailUrl: `${base}${year}/${month}/${day}/${item.slug}/`,
+          // basePath 없는 내부 경로 — CmdK의 router.push 가 자동으로 basePath prepend
+          detailUrl: `/${year}/${month}/${day}/${item.slug}/`,
         });
       }
     }
@@ -79,7 +77,7 @@ function buildIndex(archives: ArchiveData[], baseUrl: string): SearchIndexItem[]
 
 function main() {
   const archives = loadAll();
-  const items = buildIndex(archives, BASE_URL);
+  const items = buildIndex(archives);
 
   mkdirSync(PUBLIC_DIR, { recursive: true });
   const outPath = join(PUBLIC_DIR, "search-index.json");

@@ -1,17 +1,18 @@
 /**
- * 사이트 전역 경로. 하드코딩된 URL 사용을 차단하고 `basePath` 조합을 한 곳에서 관리.
+ * 사이트 내부 경로. **basePath는 포함하지 않는다** — Next.js `<Link>` 와 `router.push` 가
+ * basePath 를 자동으로 prepend 하므로 여기서 직접 붙이면 `/development-digest/development-digest/…`
+ * 로 이중 prefix 돼 404 난다.
  */
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export const ROUTES = {
-  home: `${basePath}/`,
-  archive: `${basePath}/archive/`,
-  sources: `${basePath}/sources/`,
-  settings: `${basePath}/settings/`,
+  home: "/",
+  archive: "/archive/",
+  sources: "/sources/",
+  settings: "/settings/",
   dailyDigest: (year: string, month: string, day: string) =>
-    `${basePath}/${year}/${month}/${day}/`,
+    `/${year}/${month}/${day}/`,
   articleDetail: (year: string, month: string, day: string, slug: string) =>
-    `${basePath}/${year}/${month}/${day}/${slug}/`,
+    `/${year}/${month}/${day}/${slug}/`,
 } as const;
 
 export const EXTERNAL = {
