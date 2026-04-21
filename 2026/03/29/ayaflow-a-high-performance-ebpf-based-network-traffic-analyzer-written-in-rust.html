@@ -1,70 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AyaFlow: Rust로 작성된 고성능 eBPF 기반 네트워크 트래픽 분석기 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./ayaflow-a-high-performance-ebpf-based-network-traffic-analyzer-written-in-rust/">
+<meta http-equiv="refresh" content="0; url=./ayaflow-a-high-performance-ebpf-based-network-traffic-analyzer-written-in-rust/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/29/">2026-03-29</a> &gt; AyaFlow: Rust로 작성된 고성능 eBPF 기반 네트워크 트래픽 ...
-      </div>
-
-      <h1>AyaFlow: Rust로 작성된 고성능 eBPF 기반 네트워크 트래픽 분석기</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">AyaFlow: A high-performance, eBPF-based network traffic analyzer written in Rust</p>
-      <div class="article-meta">
-        <span>📅 2026-03-29</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 73</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>Aya eBPF 프레임워크 기반의 고성능 네트워크 트래픽 분석기로, Kubernetes에서 사이드카 없이 DaemonSet으로 동작하며 최소 오버헤드로 노드 레벨의 네트워크 가시성을 제공한다. Tokio, DashMap, SQLite, Axum을 활용하여 실시간 모니터링, 히스토리 저장, REST API 및 Prometheus 메트릭을 지원한다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>libpcap 없이 커널의 TC(Traffic Control) 서브시스템에 직접 연결되어 권한 상승이나 특수 사이드카 불필요</li><li>노드당 하나의 Pod만 필요한 DaemonSet 구조로 리소스 효율성 극대화 (메모리 ~33MB, eBPF 프로그램 784B)</li><li>DNS 쿼리 및 TLS SNI 추출로 암호화된 트래픽의 도메인 레벨 가시성 제공</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>Kubernetes 환경에서 네트워크 모니터링과 트래픽 분석이 필요한 개발자에게 경량의 네이티브 성능 분석 도구를 제공한다.</p>
-       </div>
-      
-
-      <div class="original-link">
-        <a href="https://github.com/DavidHavoc/ayaFlow" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-29%20AyaFlow%3A%20Rust%EB%A1%9C%20%EC%9E%91%EC%84%B1%EB%90%9C%20%EA%B3%A0%EC%84%B1%EB%8A%A5%20eBPF%20%EA%B8%B0%EB%B0%98%20%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%20%ED%8A%B8%EB%9E%98%ED%94%BD%20%EB%B6%84%EC%84%9D%EA%B8%B0&labels=feedback%2Cliked&body=**Article**%3A%20AyaFlow%3A%20Rust%EB%A1%9C%20%EC%9E%91%EC%84%B1%EB%90%9C%20%EA%B3%A0%EC%84%B1%EB%8A%A5%20eBPF%20%EA%B8%B0%EB%B0%98%20%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%81%AC%20%ED%8A%B8%EB%9E%98%ED%94%BD%20%EB%B6%84%EC%84%9D%EA%B8%B0%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2FDavidHavoc%2FayaFlow%0A**Date**%3A%202026-03-29%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./ayaflow-a-high-performance-ebpf-based-network-traffic-analyzer-written-in-rust/">./ayaflow-a-high-performance-ebpf-based-network-traffic-analyzer-written-in-rust/</a>…</p>
+<script>location.replace("./ayaflow-a-high-performance-ebpf-based-network-traffic-analyzer-written-in-rust/");</script>
 </body>
 </html>

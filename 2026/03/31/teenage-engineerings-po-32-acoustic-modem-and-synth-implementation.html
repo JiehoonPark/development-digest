@@ -1,126 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Teenage Engineering PO-32 음향 모뎀 및 신스 구현 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./teenage-engineerings-po-32-acoustic-modem-and-synth-implementation/">
+<meta http-equiv="refresh" content="0; url=./teenage-engineerings-po-32-acoustic-modem-and-synth-implementation/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/31/">2026-03-31</a> &gt; Teenage Engineering PO-32 음향 모뎀 및 신스 구현...
-      </div>
-
-      <h1>Teenage Engineering PO-32 음향 모뎀 및 신스 구현</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Teenage Engineering's PO-32 acoustic modem and synth implementation</p>
-      <div class="article-meta">
-        <span>📅 2026-03-31</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 65</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>libpo32는 Teenage Engineering PO-32 드럼 신스의 데이터 전송 프로토콜과 드럼 음성 모델을 재구현한 C99 라이브러리이다. 패킷 형식, 음향 모뎀, 프레임 디코더, 드럼 신스 기능을 제공하며 외부 의존성 없이 임베디드 환경에서 동작한다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>C99 기반 경량 라이브러리로 libc, 외부 DSP 라이브러리 없이 임베디드 환경 지원</li><li>PO-32의 21개 파라미터 드럼 음성을 로컬에서 렌더링 가능하며 DPSK 음향 모뎀으로 기기 전송 구현</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>음악 기술 및 임베디드 시스템 개발자가 하드웨어 신스 통신을 프로그래밍적으로 제어하고 확장할 수 있다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>libpo32: Teenage Engineering PO-32 음향 데이터 전송과 드럼 신스 라이브러리</h2>
-<p>Teenage Engineering의 PO-32 악기와 데이터를 주고받기 위한 소형 C99 라이브러리입니다. PO-32의 전송 스택과 호환되는 드럼 음성 모델을 구현했어요. 다만 PO-32의 펌웨어나 UI를 완전히 에뮬레이션하는 건 아니고, 패킷 포맷, 음향 모뎀, 프레임 디코더, 로컬 드럼 신스 등 전송을 구성하고 송수신하며 미리 듣기할 수 있는 핵심 기능만 담았습니다.</p>
-<h3>libpo32가 제공하는 것</h3>
-<p><strong>전송 프로토콜</strong></p>
-<ul>
-<li>PO-32 패치, 패턴, 상태 패킷을 구성하고 파싱합니다</li>
-</ul>
-<p><strong>음향 모뎀</strong></p>
-<ul>
-<li>전송 프레임을 DPSK 오디오로 렌더링해서 악기에 재생할 수 있게 합니다</li>
-</ul>
-<p><strong>디코더</strong></p>
-<ul>
-<li>전송 오디오에서 정규화된 프레임과 패킷을 복원합니다</li>
-</ul>
-<p><strong>드럼 신스</strong></p>
-<ul>
-<li>PO-32의 21개 파라미터 드럼 음성을 로컬에서 렌더링해서 미리 듣고 테스트할 수 있습니다</li>
-</ul>
-<p>핵심은 순수 C99로 만들어졌거든요. 실행 시간 라이브러리도, 외부 DSP 라이브러리도, 플랫폼 오디오 API도 없습니다. 파일 I/O도 필요 없어요. <code>&lt;stddef.h&gt;</code>와 <code>&lt;stdint.h&gt;</code> 헤더만 씁니다. 임베디드 환경과 베어메탈 타겟에도 적합합니다.</p>
-<h3>PO-32와 함께 사용하기</h3>
-<p>PO-32가 소리나 패턴을 전송받을 때 생각해보세요. 완성된 드럼 오디오를 받는 게 아니라, 구조화된 데이터를 받습니다.</p>
-<div class="table-wrapper"><table><thead><tr><th>데이터</th><th>의미</th></tr></thead><tbody><tr><td>패치 패킷</td><td>악기마다 두 개의 패치 엔드포인트(왼쪽, 오른쪽), 목적지 악기 슬롯이 패킷에 인코딩됨</td></tr><tr><td>패턴 패킷</td><td>어느 악기가 어느 스텝에서 트리거되는지, 목적지 패턴 슬롯이 pattern_number로 인코딩됨</td></tr><tr><td>상태 패킷</td><td>템포, 스윙, 모프 기본값, 전송된 패턴 목록</td></tr></tbody></table></div>
-<p>이후 PO-32가 자체 내부 신스 엔진으로 그 파라미터들을 소리로 바꿉니다.</p>
-<p>실제 하드웨어와의 워크플로우는 이렇습니다:</p>
-<ul>
-<li><strong>소프트웨어에서 전송 구성</strong> - 패치, 패턴, 상태 데이터로부터 전송을 빌드합니다</li>
-<li><strong>오디오로 렌더링</strong> - WAV 파일이나 라이브 오디오 스트림으로 변환합니다</li>
-<li><strong>PO-32를 받기 모드로 전환</strong> - 악기의 정상적인 받기/임포트 흐름으로 들어갑니다</li>
-<li><strong>렌더링된 오디오 재생</strong> - 악기에 오디오를 입력합니다</li>
-<li><strong>자동 디코딩</strong> - PO-32가 패킷을 디코딩해서 패킷 안에 지정된 슬롯에 데이터를 씁니다</li>
-</ul>
-<h3>시작하기</h3>
-<p>저장소 루트에서 이렇게 실행하면 됩니다:</p>
-<pre><code class="language-bash">cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j4
-ctest --test-dir build --output-on-failure
-./build/po32_demo</code></pre>
-<p>로컬 개발할 때는 이것도 추천합니다:</p>
-<pre><code class="language-bash">./scripts/install-git-hooks.sh</code></pre>
-<p>이 스크립트는 저장소 관리 사전커밋 훅을 활성화합니다. 매번 커밋 전에 staged된 <code>.c</code>와 <code>.h</code> 파일에 clang-format을 실행하고 커밋 메시지를 Conventional Commits 규칙으로 검증해요. 푸시 전에는 정적 분석 스크립트도 자동으로 돌립니다.</p>
-<p>데모는 전송 프레임을 빌드하고, 오디오로 렌더링하고, 다시 디코딩해서 무손실 라운드트립을 검증합니다. 여기에 드럼 신스도 포함되어서 <code>demo_modem.wav</code>와 <code>demo_kick.wav</code> 두 파일을 생성합니다.</p>
-<h3>예제들</h3>
-<div class="table-wrapper"><table><thead><tr><th>명령</th><th>설명</th></tr></thead><tbody><tr><td><code>./build/po32_example</code></td><td>최소한의 라운드트립: 인코드, 렌더링, 디코드, 검증</td></tr><tr><td><code>./build/po32_demo</code></td><td>완전한 데모: 전송 프레임 구성/렌더링/디코딩 + 로컬 드럼 신스</td></tr><tr><td><code>./build/po32_pattern_editor</code></td><td>PO-32 패턴 편집기 및 WAV 내보내기 (대화형)</td></tr><tr><td><code>./build/po32_decode_capture &lt;input.wav&gt; &lt;out-dir&gt;</code></td><td>전송 WAV에서 패킷과 패턴 덤프</td></tr></tbody></table></div>
-<h3>공개 API</h3>
-<div class="table-wrapper"><table><thead><tr><th>헤더</th><th>역할</th></tr></thead><tbody><tr><td><code>core/include/po32.h</code></td><td>전송 빌더, 패킷 헬퍼, 렌더러, 디코더</td></tr><tr><td><code>core/include/po32_synth.h</code></td><td>드럼 신스</td></tr></tbody></table></div>
-<h3>문서</h3>
-<div class="table-wrapper"><table><thead><tr><th>문서</th><th>설명</th></tr></thead><tbody><tr><td>Architecture</td><td>코덱 작동 원리</td></tr><tr><td>Protocol</td><td>와이어 포맷 상세 사항</td></tr><tr><td>C API</td><td>C 함수 레퍼런스</td></tr><tr><td>Synth</td><td>신스 신호 경로</td></tr><tr><td>Patch Parameters</td><td>21개 파라미터 설명</td></tr><tr><td>Examples</td><td>지원 예제 프로그램</td></tr></tbody></table></div>
-<h3>프로젝트 구조</h3>
-<div class="table-wrapper"><table><thead><tr><th>경로</th><th>설명</th></tr></thead><tbody><tr><td><code>core/src</code></td><td>핵심 C 구현</td></tr><tr><td><code>core/include</code></td><td>공개 C 헤더</td></tr><tr><td><code>core/examples</code></td><td>지원되는 C 예제</td></tr><tr><td><code>core/tests</code></td><td>핵심 테스트 커버리지</td></tr><tr><td><code>core/docs</code></td><td>아키텍처, 프로토콜, API 문서</td></tr><tr><td><code>bindings</code></td><td>언어 바인딩</td></tr></tbody></table></div>
-<h3>기여하기</h3>
-<p>로컬 설정, 검증 명령, Conventional Commits 정책은 CONTRIBUTING.md 파일을 참고하세요. 이 정책을 따르면 SemVer 친화적인 히스토리를 유지할 수 있습니다.</p>
-<h3>라이선스</h3>
-<p>Copyright (c) 2026 Eric Lewis. MIT 라이선스. LICENSE 파일을 참고하세요.</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://github.com/ericlewis/libpo32" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-31%20Teenage%20Engineering%20PO-32%20%EC%9D%8C%ED%96%A5%20%EB%AA%A8%EB%8E%80%20%EB%B0%8F%20%EC%8B%A0%EC%8A%A4%20%EA%B5%AC%ED%98%84&labels=feedback%2Cliked&body=**Article**%3A%20Teenage%20Engineering%20PO-32%20%EC%9D%8C%ED%96%A5%20%EB%AA%A8%EB%8E%80%20%EB%B0%8F%20%EC%8B%A0%EC%8A%A4%20%EA%B5%AC%ED%98%84%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Fericlewis%2Flibpo32%0A**Date**%3A%202026-03-31%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./teenage-engineerings-po-32-acoustic-modem-and-synth-implementation/">./teenage-engineerings-po-32-acoustic-modem-and-synth-implementation/</a>…</p>
+<script>location.replace("./teenage-engineerings-po-32-acoustic-modem-and-synth-implementation/");</script>
 </body>
 </html>

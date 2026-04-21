@@ -1,104 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cloudflare의 Gen 13 서버: 캐시를 코어로 트레이드오프하여 2배 성능 달성 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./cloudflares-gen-13-servers-trading-cache-for-cores-for-2x-performance/">
+<meta http-equiv="refresh" content="0; url=./cloudflares-gen-13-servers-trading-cache-for-cores-for-2x-performance/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/26/">2026-03-26</a> &gt; Cloudflare의 Gen 13 서버: 캐시를 코어로 트레이드오프하여 ...
-      </div>
-
-      <h1>Cloudflare의 Gen 13 서버: 캐시를 코어로 트레이드오프하여 2배 성능 달성</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Cloudflare's Gen 13 servers: trading cache for cores for 2x performance</p>
-      <div class="article-meta">
-        <span>📅 2026-03-26</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 52</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>Cloudflare는 AMD EPYC 5세대 Turin 프로세서 기반 Gen 13 서버를 출시했으며, 코어 수는 2배(96→192) 증가했지만 L3 캐시는 1/6로 감소했다. 이를 극복하기 위해 Rust 기반의 FL2 요청 처리 계층으로 재설계하여 레이턴시 증가 없이 처리량을 2배로 향상시켰다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>성능 카운터 분석으로 L3 캐시 미스율 증가와 메모리 지연 시간의 관계를 정량화하여 문제를 명확히 파악했다.</li><li>기존 FL1(NGINX+LuaJIT)은 캐시 의존도가 높아 Gen 13에서 50% 이상의 레이턴시 증가가 발생했으나, Rust 기반 FL2로 구성 변경 후 레이턴시는 유지하면서 처리량을 2배로 증가시켰다.</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>하드웨어 특성 변화에 맞춰 소프트웨어를 최적화하는 것이 인프라 성능과 비용 효율성을 동시에 개선하는 핵심이다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>Cloudflare Gen 13 서버 출시: 캐시를 코어로 바꿔 엣지 컴퓨팅 성능을 2배로 끌어올리다</h2>
-<p>2년 전 Cloudflare는 AMD EPYC™ Genoa-X 프로세서 기반의 12세대 서버 플릿을 배포했습니다. 당시 3D V-Cache라는 거대한 캐시를 탑재한 이 프로세서는 우리의 요청 처리 계층인 FL1과 완벽하게 어울렸거든요. 그런데 차세대 하드웨어를 검토하다 보니 딜레마에 빠졌습니다. 처리량을 가장 크게 향상시킬 수 있는 CPU들이 캐시를 대폭 줄였기 때문입니다. 기존 소프트웨어 스택이 이에 최적화되지 않았고, 잠재적 처리량 이득이 증가된 지연시간으로 상쇄되고 있었던 거죠.</p>
-<p>이 글에서는 Cloudflare의 핵심 요청 처리 계층을 Rust로 완전히 다시 구성한 FL2 전환이 어떻게 Gen 13의 진정한 잠재력을 드러내고, 이전 스택에서는 불가능했던 성능 이득을 풀어냈는지 설명하겠습니다. FL2는 더 큰 캐시에 대한 의존성을 제거해서 SLA를 유지하면서도 코어 수에 따라 성능을 확장할 수 있게 해줍니다. 오늘 우리는 AMD EPYC™ 5th Gen Turin 기반 서버에서 FL2를 실행하는 Cloudflare Gen 13의 출시를 자랑스럽게 발표합니다.</p>
-<h3>AMD EPYC Turin이 가져온 것들</h3>
-<p>AMD EPYC™ 5th Generation Turin 프로세서는 단순한 코어 수 증가만 가져온 게 아닙니다. Cloudflare 서버가 필요로 하는 여러 영역에서 개선을 이루었습니다.</p>
-<ul>
-<li><strong>2배의 코어 수</strong>: Gen 12의 96코어에서 192코어로 증가했으며, SMT 지원으로 384개의 스레드 제공</li>
-<li><strong>개선된 IPC(명령어당 사이클)</strong>: Zen 5 아키텍처 개선으로 Zen 4 대비 더 나은 성능</li>
-<li><strong>전력 효율 향상</strong>: 코어 수가 많음에도 불구하고 Genoa-X 대비 코어당 최대 32% 전력 소비 감소</li>
-<li><strong>DDR5-6400 지원</strong>: 모든 코어를 먹여 살릴 메모리 대역폭 증가</li>
-</ul>
-<p>다만 Turin의 높은 밀도 OPN(옵션)은 의도적인 트레이드오프를 가져옵니다. 코어당 캐시를 줄이고 처리량을 우선했거든요. 우리가 Turin 전체 라인업을 분석한 결과 이 변화가 명확했습니다. 예를 들어 가장 높은 밀도의 Turin OPN과 Gen 12 Genoa-X를 비교하면, Turin의 192개 코어가 384MB의 L3 캐시를 공유합니다. 즉, 각 코어가 접근할 수 있는 캐시는 단 2MB에 불과합니다. Gen 12의 1/6 수준인데요. 캐시 지역성에 크게 의존하는 우리 워크로드라면 이 감소는 심각한 문제였습니다.</p>
-<div class="table-wrapper"><table><thead><tr><th>Generation</th><th>Processor</th><th>Cores/Threads</th><th>L3 Cache/Core</th></tr></thead><tbody><tr><td>Gen 12</td><td>AMD Genoa-X 9684X</td><td>96C/192T</td><td>12MB (3D V-Cache)</td></tr><tr><td>Gen 13 Option 1</td><td>AMD Turin 9755</td><td>128C/256T</td><td>4MB</td></tr><tr><td>Gen 13 Option 2</td><td>AMD Turin 9845</td><td>160C/320T</td><td>2MB</td></tr><tr><td>Gen 13 Option 3</td><td>AMD Turin 9965</td><td>192C/384T</td><td>2MB</td></tr></tbody></table></div>
-<h3>성능 카운터로 문제 진단하기</h3>
-<p>NGINX와 LuaJIT 기반 코드로 이루어진 FL1 요청 처리 계층에서 이 캐시 감소는 큰 도전이었습니다. 하지만 우리는 그냥 문제라고 가정하지 않고 직접 측정했습니다.</p>
-<p>Gen 13 CPU 평가 단계에서 AMD uProf 도구를 사용해 CPU 성능 카운터와 프로파일링 데이터를 수집했고, 정확히 무엇이 일어나는지 파악했거든요. 데이터가 보여준 것은 다음과 같습니다.</p>
-<ul>
-<li>L3 캐시 미스율이 Gen 12의 3D V-Cache 프로세서 대비 급격히 증가</li>
-<li>메모리 페치 지연시간이 요청 처리 시간을 지배. 이전에 L3에 머물던 데이터가 이제 DRAM 접근 필요</li>
-<li>CPU 사용률이 올라가면서 지연시간 페널티가 확대되고, 캐시 경합이 악화</li>
-</ul>
-<p>L3 캐시 히트는 약 50 사이클이면 완료되는데, DRAM 접근이 필요한 L3 캐시 미스는 350 사이클 이상 걸립니다. 엄청난 차이죠. 코어당 캐시가 6배 줄어든 상황에서 FL1은 메모리를 훨씬 자주 접근하고, 지연시간 페널티를 계속 부담하고 있었던 겁니다.</p>
-<h3>트레이드오프: 지연시간 vs. 처리량</h3>
-<p>Gen 13에서 FL1을 실행한 초기 테스트 결과는 성능 카운터가 이미 시사했던 대로였습니다. Turin 프로세서가 더 높은 처리량을 달성할 수 있었지만, 가파른 지연시간 비용이 따랐습니다.</p>
-<div class="table-wrapper"><table><thead><tr><th>Metric</th><th>Gen 12 (FL1)</th><th>Gen 13 - AMD Turin 9755 (FL1)</th><th>Gen 13 - AMD Turin 9845 (FL1)</th><th>Gen 13 - AMD Turin 9965 (FL1)</th><th>Delta</th></tr></thead><tbody><tr><td>Core count</td><td>baseline</td><td>+33%</td><td>+67%</td><td>+100%</td><td>-</td></tr><tr><td>FL throughput</td><td>baseline</td><td>+10%</td><td>+31%</td><td>+62%</td><td>Improvement</td></tr><tr><td>Latency at low to moderate CPU utilization</td><td>baseline</td><td>+10%</td><td>+30%</td><td>+30%</td><td>Regression</td></tr><tr><td>Latency at high CPU utilization</td><td>baseline</td><td>&gt;20%</td><td>&gt;50%</td><td>&gt;50%</td><td>Unacceptable</td></tr></tbody></table></div>
-<p>AMD Turin 9965 평가 서버가 60% 처리량 향상을 제시한 것은 매력적이었고, 이 성능 향상이 Cloudflare의 총 소유 비용(TCO)에 가장 큰 도움이 되었습니다. 하지만 50% 이상의 지연시간 페널티는 받아들일 수 없습니다. 요청 처리 지연시간이 증가하면 고객 경험에 직접 영향을 미치니까요. 우리는 친숙한 인프라 질문에 직면했습니다. TCO 이득이 없는 솔루션을 받아들일 것인가, 증가된 지연시간을 감수할 것인가, 아니면 지연시간을 추가하지 않으면서 효율성을 높일 방법을 찾을 것인가?</p>
-<h3>성능 튜닝으로 점진적 개선하기</h3>
-<p>최적의 결과로 나아가는 길을 찾기 위해 AMD와 협력해 Turin 9965 데이터를 분석하고 목표한 최적화 실험을 실행했습니다. 여러 구성을 체계적으로 테스트했는데요.</p>
-<ul>
-<li><strong>하드웨어 튜닝</strong>: 하드웨어 프리페처와 Data Fabric(DF) Probe Filters 조정. 아쉽지만 미미한 개선만 얻었습니다.</li>
-<li><strong>Worker 스케일링</strong>: L...</li>
-</ul></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://blog.cloudflare.com/gen13-launch/" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-26%20Cloudflare%EC%9D%98%20Gen%2013%20%EC%84%9C%EB%B2%84%3A%20%EC%BA%90%EC%8B%9C%EB%A5%BC%20%EC%BD%94%EC%96%B4%EB%A1%9C%20%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%93%9C%EC%98%A4%ED%94%84%ED%95%98%EC%97%AC%202%EB%B0%B0%20%EC%84%B1%EB%8A%A5%20%EB%8B%AC%EC%84%B1&labels=feedback%2Cliked&body=**Article**%3A%20Cloudflare%EC%9D%98%20Gen%2013%20%EC%84%9C%EB%B2%84%3A%20%EC%BA%90%EC%8B%9C%EB%A5%BC%20%EC%BD%94%EC%96%B4%EB%A1%9C%20%ED%8A%B8%EB%A0%88%EC%9D%B4%EB%93%9C%EC%98%A4%ED%94%84%ED%95%98%EC%97%AC%202%EB%B0%B0%20%EC%84%B1%EB%8A%A5%20%EB%8B%AC%EC%84%B1%0A**URL**%3A%20https%3A%2F%2Fblog.cloudflare.com%2Fgen13-launch%2F%0A**Date**%3A%202026-03-26%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./cloudflares-gen-13-servers-trading-cache-for-cores-for-2x-performance/">./cloudflares-gen-13-servers-trading-cache-for-cores-for-2x-performance/</a>…</p>
+<script>location.replace("./cloudflares-gen-13-servers-trading-cache-for-cores-for-2x-performance/");</script>
 </body>
 </html>

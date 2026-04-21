@@ -1,106 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ripgrep이 grep, ag, git grep, ucg, pt, sift보다 빠르다 (2016) — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./ripgrep-is-faster-than-grep-ag-git-grep-ucg-pt-sift-2016/">
+<meta http-equiv="refresh" content="0; url=./ripgrep-is-faster-than-grep-ag-git-grep-ucg-pt-sift-2016/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/24/">2026-03-24</a> &gt; Ripgrep이 grep, ag, git grep, ucg, pt, si...
-      </div>
-
-      <h1>Ripgrep이 grep, ag, git grep, ucg, pt, sift보다 빠르다 (2016)</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Ripgrep is faster than grep, ag, git grep, ucg, pt, sift (2016)</p>
-      <div class="article-meta">
-        <span>📅 2026-03-24</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 316</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>Rust로 작성된 코드 검색 도구 ripgrep은 GNU grep의 성능과 The Silver Searcher의 사용성을 결합하며, 단일 파일과 대규모 디렉토리 검색 모두에서 성능과 정확성 면에서 다른 도구를 앞선다. 적절한 Unicode 지원, .gitignore 통합, 여러 파일 타입 필터링 등의 기능을 제공한다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>Rust로 작성되어 Linux, Mac, Windows 바이너리 제공하며 단일 파일과 다중 파일 검색 모두에서 최고 성능 달성</li><li>GNU grep과 달리 Unicode 지원으로 인한 성능 저하 없으며, .gitignore 제대로 지원하고 바이너리/숨김 파일 기본 제외</li><li>PCRE2 지원(-P), 다양한 문자 인코딩 검색(-E), 압축 파일 검색(-z), 임의 전처리 필터 지원으로 기능 확장 가능</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>ripgrep은 대규모 코드베이스 검색 시 현저한 성능 개선을 제공하므로, 개발자의 생산성 향상과 CI/CD 파이프라인 최적화에 직접적으로 도움이 된다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>ripgrep: 빠르고 강력한 코드 검색 도구</h2>
-<p>이 글에서는 <code>ripgrep</code>이라는 새로운 커맨드라인 검색 도구를 소개합니다. ripgrep은 The Silver Searcher의 사용 편의성과 GNU grep의 raw한 성능을 결합한 도구인데요. Rust로 작성되었고, Linux, Mac, Windows 등 여러 플랫폼에서 사용할 수 있으며, 정말 빠릅니다. [Github](https://github.com/BurntSushi/ripgrep)에서 확인하실 수 있습니다.</p>
-<h3>이 글의 목표</h3>
-<p>여러 인기 있는 코드 검색 도구들을 공정하게 비교해보겠습니다. 구체적으로 25가지 벤치마크를 통해 다음을 입증할 예정입니다:</p>
-<ul>
-<li><strong>성능과 정확성</strong>: 단일 파일 검색이든 거대한 디렉토리 검색이든, ripgrep보다 명확히 우수한 도구는 없습니다.</li>
-<li><strong>Unicode 지원</strong>: Unicode를 제대로 지원하면서도 성능 저하가 없는 유일한 도구입니다.</li>
-<li><strong>메모리 맵</strong>: 여러 파일을 검색할 때 메모리 맵을 사용하면 더 빨라지는 게 아니라 더 느려집니다.</li>
-</ul>
-<p>2.5년간 Rust에서 텍스트 검색을 작업해온 제가, ripgrep과 내부 정규표현식 엔진의 저자로서 각 도구의 성능에 대해 자세히 설명하겠습니다. 어떤 벤치마크도 놓치지 않을 테니까요!</p>
-<p><strong>대상 독자</strong>: Unicode, 프로그래밍, 커맨드라인 작업에 어느 정도 경험이 있는 분들을 위한 글입니다.</p>
-<p>&gt; 참고: ripgrep이 제가 주장한 만큼 빠르지 않다는 보고가 있습니다. 원인을 파악하기 위해선 재현 가능한 이슈를 올려주시면 기꺼이 설명해드리겠습니다.</p>
-<h3>ripgrep 소개</h3>
-<h4>ripgrep을 써야 하는 이유</h4>
-<p><strong>다른 검색 도구 여럿을 대체할 수 있습니다</strong></p>
-<p>ripgrep에는 다른 도구들의 대부분 기능이 포함되어 있으면서도 일반적으로 더 빠릅니다. (ripgrep이 grep을 완전히 대체할 수 있는지는 [FAQ](https://github.com/BurntSushi/ripgrep#faq)를 참고하세요.)</p>
-<p><strong>기본적으로 똑똑한 필터링을 제공합니다</strong></p>
-<p>코드 검색 전문 도구처럼 기본적으로 재귀적 디렉토리 검색을 지원하고, <code>.gitignore</code> 파일을 자동으로 인식합니다. 숨김 파일과 바이너리 파일도 기본적으로 무시합니다. 무엇보다 다른 도구들이 <code>.gitignore</code> 지원에서 여러 버그를 가지고 있지만, ripgrep은 완전하게 구현했습니다.</p>
-<p><strong>파일 타입별 검색이 가능합니다</strong></p>
-<p><code>rg -tpy foo</code>는 Python 파일에서만 검색하고, <code>rg -Tjs foo</code>는 Javascript 파일을 제외합니다. 커스텀 규칙으로 새로운 파일 타입도 추가할 수 있습니다.</p>
-<p><strong>grep의 유용한 기능들을 지원합니다</strong></p>
-<p>검색 결과 주변 문맥 표시, 다중 패턴 검색, 컬러 하이라이팅, 완전한 Unicode 지원 등 grep의 주요 기능을 모두 포함합니다. GNU grep과 달리 ripgrep은 Unicode를 지원해도 속도가 떨어지지 않습니다. Unicode 지원이 기본으로 켜져 있거든요.</p>
-<p><strong>PCRE2 정규표현식 엔진을 선택할 수 있습니다</strong></p>
-<p><code>-P</code> 플래그로 PCRE2로 전환하면, ripgrep 기본 엔진에서는 지원하지 않는 lookaround와 backreference를 사용할 수 있습니다.</p>
-<p><strong>다양한 텍스트 인코딩을 지원합니다</strong></p>
-<p>UTF-8뿐만 아니라 UTF-16, latin-1, GBK, EUC-JP, Shift_JIS 등도 검색 가능합니다. UTF-16은 일부 자동 감지를 지원하고, 다른 인코딩은 <code>-E/--encoding</code> 플래그로 지정하면 됩니다.</p>
-<p><strong>압축 파일도 검색할 수 있습니다</strong></p>
-<p><code>-z/--search-zip</code> 플래그로 gzip, xz, lzma, bzip2, lz4 등 일반적인 압축 포맷의 파일을 직접 검색할 수 있습니다.</p>
-<p><strong>전처리 필터를 지원합니다</strong></p>
-<p>PDF 텍스트 추출, 압축 해제, 복호화, 자동 인코딩 감지 등 임의의 입력 전처리가 가능합니다.</p>
-<p><strong>한마디로</strong>: 속도, 똑똑한 필터링, 적은 버그, Unicode 지원을 원한다면 ripgrep을 쓰세요.</p>
-<h4>ripgrep을 쓰면 안 되는 이유</h4>
-<p>처음엔 ripgrep을 최소한의 기능으로 유지하려고 했는데, 시간이 지나면서 다른 파일 검색 도구들의 대부분 기능을 추가하게 됐습니다. 여러 줄에 걸친 검색이나 lookaround, backreference를 지원하는 PCRE2 opt-in 지원도 그렇습니다.</p>
-<p>현재 ripgrep을 쓰지 말아야 할 이유는 아마 다음 중 하나 이상일 겁니다:</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://burntsushi.net/ripgrep/" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-24%20Ripgrep%EC%9D%B4%20grep%2C%20ag%2C%20git%20grep%2C%20ucg%2C%20pt%2C%20sift%EB%B3%B4%EB%8B%A4%20%EB%B9%A0%EB%A5%B4%EB%8B%A4%20(&labels=feedback%2Cliked&body=**Article**%3A%20Ripgrep%EC%9D%B4%20grep%2C%20ag%2C%20git%20grep%2C%20ucg%2C%20pt%2C%20sift%EB%B3%B4%EB%8B%A4%20%EB%B9%A0%EB%A5%B4%EB%8B%A4%20(2016)%0A**URL**%3A%20https%3A%2F%2Fburntsushi.net%2Fripgrep%2F%0A**Date**%3A%202026-03-24%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./ripgrep-is-faster-than-grep-ag-git-grep-ucg-pt-sift-2016/">./ripgrep-is-faster-than-grep-ag-git-grep-ucg-pt-sift-2016/</a>…</p>
+<script>location.replace("./ripgrep-is-faster-than-grep-ag-git-grep-ucg-pt-sift-2016/");</script>
 </body>
 </html>

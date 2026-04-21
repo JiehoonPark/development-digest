@@ -1,91 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>히트건과 나이프로 ME2의 USB 역공학하기 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./reverse-engineering-me2s-usb-with-a-heat-gun-and-a-knife/">
+<meta http-equiv="refresh" content="0; url=./reverse-engineering-me2s-usb-with-a-heat-gun-and-a-knife/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/19/">2026-04-19</a> &gt; 히트건과 나이프로 ME2의 USB 역공학하기...
-      </div>
-
-      <h1>히트건과 나이프로 ME2의 USB 역공학하기</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Reverse Engineering ME2's USB with a Heat Gun and a Knife</p>
-      <div class="article-meta">
-        <span>📅 2026-04-19</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 46</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>2008년경 생산된 ME2 핸드헬드 장치의 USB 통신 프로토콜을 역공학하기 위해 하드웨어를 분해하고 플래시 칩을 추출하는 과정을 기술했습니다. 온라인 게임과의 동기화 기능이 핵심이었지만 공식 소프트웨어가 남아있지 않아 하드웨어 분석이 필수였습니다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>SST39VF3201 플래시 칩에서 펌웨어를 추출하기 위해 칩을 제거하고 프로그래머 사용</li><li>에폭시로 덮인 마이크로컨트롤러는 식별 불가능하여 별도의 복잡한 방법 필요</li><li>Miuchiz Reborn 프로젝트의 경험을 바탕으로 유사한 방식으로 접근</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>하드웨어 역공학과 레트로 게임 보존의 실제 사례로 기술자들이 참고할 수 있는 구체적인 방법론을 제시합니다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>ME2 USB 리버스 엔지니어링: 열풍총과 칼로 벗겨낸 비밀</h2>
-<h3>시작점</h3>
-<p>2024년, bjiru가 ME2라는 휴대용 게임기에 대한 영상을 올렸습니다. 2008년 즈음에 출시된 이 장난감은 USB를 통해 포인트와 젬을 온라인 세계와 동기화할 수 있는 기능을 갖춘 제품이었죠. 게임이 너무 니칭적이어서 관련 소프트웨어, 드라이버, 자료들이 거의 남아있지 않았는데, 다행히 bjiru가 온라인 게임 클라이언트를 공개했습니다.</p>
-<p>저는 Miuchiz Reborn 프로젝트의 리더입니다. 이 프로젝트는 2015년부터 시작된 것으로, 온라인 부분과 USB로 연결된 휴대용 부분을 가진 유사한 게임을 보존하고, 리버스 엔지니어링하고, 에뮬레이션하고, 접근성을 유지하려는 노력이거든요. 비슷한 시대와 유형의 게임이다 보니, 제 Miuchiz 커뮤니티에서 이미 2018년에 ME2를 저에게 알려줬습니다. (물론 건축학적 유사성이 있을 거라는 잘못된 가정이었지만요) 저는 수년 동안 이 기기의 존재를 알고 있었지만, bjiru의 영상이 드디어 본격적인 조사를 시작하게 만들었습니다.</p>
-<p>처음에는 bjiru가 가진 컴퓨터 게임을 다시 작동시키기 위한 서버 재구현에만 집중했습니다. 그런데 곧 휴대용 기기로 관심이 쏠렸어요. 온라인 게임을 완벽하게 복원하려면 기기와의 포인트 동기화 메커니즘이 반드시 필요하니까요. 컴퓨터와 ME2 기기 사이의 통신이 이 게임의 핵심 기믹이었거든요.</p>
-<p>Miuchiz 휴대용 기기 경험이 있으니, 통신 프로토콜을 풀어내는 건 식은 죽 먹기일 줄 알았습니다. 물론 리버스 엔지니어링할 코드만 있으면 말이죠.</p>
-<p>호기심은 대가를 요구합니다. 이베이는 현금을 요구하더군요. 얼마 지나지 않아 여러 대의 ME2가 제 책상 위에 놓였습니다.</p>
-<h3>첫 인상</h3>
-<p>이 기기들은 버튼 몇 개와 미니 USB 포트가 전부인 작은 단위들입니다. 상자에는 케이블이 들어있지만, 소프트웨어나 드라이버 디스크는 없네요. USB 포트를 통해 컴퓨터와 휴대용 기기 간의 포인트를 동기화했을 텐데, Miuchiz 휴대용 기기로 같은 작업을 했을 때는 Windows 소프트웨어의 동작 방식을 리버스 엔지니어링해서 플래시 메모리에 완전히 접근할 수 있었습니다. ME2는 그런 소프트웨어가 없으니, 기기와 통신하는 방법을 알아낼 수 있는 자료가 없는 거죠.</p>
-<p>Wayback Machine과 bjiru에게 확인해봐도 이 기기와 대화하던 소프트웨어의 생존 복사본이 없었습니다. &quot;ME2 Desktop Buddy&quot;라고 불렸을 것 같은데, 그 애플리케이션은 bjiru가 복구한 게임 클라이언트와는 별개였거든요. 휴대용 기기는 이동식 저장소로 인식되지만, 그 안의 내용물은 단지 더 이상 이용 불가능한 ME2 게임을 다운로드하라고 당신을 온라인으로 유도할 뿐입니다.</p>
-<p>남은 방법은 단 하나입니다. 하드웨어를 직접 열어야 합니다.</p>
-<h3>내부 구조</h3>
-<p>ME2의 메인 펌웨어는 SST39VF3201(2메가워드, 즉 16비트 주소 지정 단위 기준 4메가바이트 용량)이라는 플래시 칩에 저장되어 있습니다. 메인 마이크로컨트롤러는... 단단한 에폭시로 덮여 있습니다. 이를 칩-온-보드(CoB)라고 부르는데, 보통 비용 절감 목적이지만, 집적회로 내부의 식별 정보를 숨기는 부작용이 있어요. 보통 패키징된 칩은 플래시 칩처럼 식별용 마킹이 있거든요.</p>
-<p>이런 기기에 사용되는 마이크로컨트롤러는 종종 내부 롬(ROM)을 포함하는데, 제가 리버스 엔지니어링하고 싶은 USB 코드의 일부 또는 전부가 그 롬에 있을 가능성이 있습니다. 롬에 코드가 있으면 벽돌화된 기기를 복구하거나 조립 후 기기를 플래싱할 수 있다는 장점이 있죠(제조사가 원한다면). 문제는 그 롬이 들어있는 칩을 식별할 방법이 없다는 겁니다.</p>
-<p>플래시 칩에서 데이터를 추출하는 것은 간단하고 잘 문서화된 과정입니다. 칩을 제거한 후 XGecu 같은 상용 플래시 프로그래머에 꽂아서 내용물을 덤프하면 되죠. 마이크로컨트롤러의 롬에서도 정보가 필요하다면 조금 더 복잡하지만, 보안이 약할 가능성이 높은 이런 기기에서는 여전히 가능합니다.</p>
-<p>과거에 저는 Tamagotchi Pix의 SPI 플래시에 코드를 추가했습니다. 이 코드는 부팅 롬을 플래시 칩의 여유 공간으로 복사했고, 그 복사본을 코드를 주입한 동일한 플래시 프로그래머로 읽을 수 있었어요. 그 경우엔 마이크로컨트롤러가 제대로 패키징되어 있었고 모델 정보가 인쇄되어 있어서 어떤 명령어 세트를 사용하는지, 롬이 메모리 공간의 어디에 있는지 알 수 있는 데이터시트를 찾을 수 있었습니다. 하지만 ME2의 정체불명 칩-온-보드의 경우 이런 정보가 아무것도 없습니다.</p>
-<h3>추출 작업</h3>
-<p>불확실한 상황이지만, 앞으로 나아갈 유일한 방법은 플래시 칩을 제거하는 것입니다. 저는 플래시 칩용 소켓도 몇 개 구매했는데, 이걸 휴대용 기기의 PCB에 납땜할 수 있으면 좋겠다고 생각했거든요. 이렇게 하면 ME2를 다시 프로그래밍할 수 있고, 마이크로컨트롤러에서 내부 롬을 덤프하는 코드를 작성해야 할 때 빠르게 반복 작업을 할 수 있을 겁니다.</p>
-<p>하지만 실제로는 이게 쉽지 않았습니다.</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://github.com/coremaze/ME2-Writeup" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-19%20%ED%9E%88%ED%8A%B8%EA%B1%B4%EA%B3%BC%20%EB%82%98%EC%9D%B4%ED%94%84%EB%A1%9C%20ME2%EC%9D%98%20USB%20%EC%97%AD%EA%B3%B5%ED%95%99%ED%95%98%EA%B8%B0&labels=feedback%2Cliked&body=**Article**%3A%20%ED%9E%88%ED%8A%B8%EA%B1%B4%EA%B3%BC%20%EB%82%98%EC%9D%B4%ED%94%84%EB%A1%9C%20ME2%EC%9D%98%20USB%20%EC%97%AD%EA%B3%B5%ED%95%99%ED%95%98%EA%B8%B0%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Fcoremaze%2FME2-Writeup%0A**Date**%3A%202026-04-19%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./reverse-engineering-me2s-usb-with-a-heat-gun-and-a-knife/">./reverse-engineering-me2s-usb-with-a-heat-gun-and-a-knife/</a>…</p>
+<script>location.replace("./reverse-engineering-me2s-usb-with-a-heat-gun-and-a-knife/");</script>
 </body>
 </html>

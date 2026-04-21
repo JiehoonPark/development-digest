@@ -1,111 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Claude Code 소스 유출: 가짜 도구, 좌절감 정규식, 은폐 모드 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./the-claude-code-source-leak-fake-tools-frustration-regexes-undercover-mode/">
+<meta http-equiv="refresh" content="0; url=./the-claude-code-source-leak-fake-tools-frustration-regexes-undercover-mode/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/31/">2026-03-31</a> &gt; Claude Code 소스 유출: 가짜 도구, 좌절감 정규식, 은폐 모드...
-      </div>
-
-      <h1>Claude Code 소스 유출: 가짜 도구, 좌절감 정규식, 은폐 모드</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">The Claude Code Source Leak: fake tools, frustration regexes, undercover mode</p>
-      <div class="article-meta">
-        <span>📅 2026-03-31</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 581</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>NPM 레지스트리의 소스맵 파일을 통해 유출된 Claude Code 소스 코드에서 발견된 흥미로운 보안 및 전략 메커니즘들을 분석하는 글이다. 반-모방 방지(anti-distillation) 기법, AI가 AI임을 숨기는 은폐 모드, 좌절감 감지 정규식, 클라이언트 인증서 검증, 미공개 자율 에이전트 모드 등이 포함되어 있다. Anthropic이 1주일 내 두 번째 보안 유출을 경험했으며, 10일 전 OpenCode에 대한 법적 위협과의 시점 일치가 논쟁이 되고 있다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>반-모방 방지 기법(Anti-distillation): claude.ts의 ANTI_DISTILLATION_CC 플래그는 API 요청에 fake_tools를 포함시켜 경쟁사의 모델 학습 데이터를 오염시킨다. GrowthBook 피처 플래그(tengu_anti_distill_fake_tool_injection)로 제어되며 자사 CLI 세션에서만 활성화된다. 하지만 MITM 프록시로 쉽게 우회 가능하며, CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS 환경변수로도 비활성화될 수 있어 기술적 보호는 제한적이다.</li><li>서버측 커넥터 텍스트 요약(Connector-text summarization): betas.ts(279-298줄)의 두 번째 반-모방 방지 메커니즘으로, API가 도구 호출 사이의 어시스턴트 텍스트를 버퍼링하고 요약하며 암호화 서명으로 반환한다. API 트래픽 기록 시 전체 추론 체인이 아닌 요약만 캡처된다.</li><li>은폐 모드(Undercover mode): undercover.ts(약 90줄)는 비내부 저장소에서 Anthropic 내부 정보를 모두 제거한다. 모델에게 'Capybara'나 'Tengu' 같은 내부 코드명, Slack 채널, 저장소명, 'Claude Code'라는 표현을 사용하지 않도록 지시한다. CLAUDE_CODE_UNDERCOVER=1로 강제 활성화는 가능하지만 비활성화는 불가능하며(no force-OFF), 외부 빌드에서는 완전히 제거된다. 이는 Anthropic 직원이 작성한 오픈소스 AI 커밋/PR에 AI 작성 표시가 없음을 의미한다.</li><li>좌절감 감지 정규식: userPromptKeywords.ts는 정규식을 사용하여 사용자 좌절감을 감지한다. 패턴은 'wtf', 'wth', 'ffs', 'shit(ty|tiest)?', 'horrible', 'awful', 'fucking (broken|useless|terrible)' 등의 키워드를 포함한다. LLM 회사가 감정 분석에 정규식을 사용하는 것은 역설적이지만, 정규식은 신경망 기반 분석보다 빠르다.</li><li>클라이언트 인증서 검증: JavaScript 런타임 아래에서 네이티브 클라이언트 인증서(mTLS) 검증을 구현하여 프로세스 위조를 방지한다.</li><li>미공개 자율 에이전트 모드(KAIROS): 유출된 코드에서 아직 공개되지 않은 자율 에이전트 모드가 발견되었다.</li><li>API 호출 낭비: 하루에 250,000건의 낭비된 API 호출이 발견되어 운영 효율성 문제를 시사한다.</li><li>법적 보호의 중요성: 대부분의 반-모방 방지 기법은 기술적으로 취약하며, 진정한 보호는 법적 조치에 있다는 것이 강조된다. 또한 OpenCode 사건으로부터 10일 후의 유출 타이밍이 의도적일 가능성에 대한 의문이 제기된다.</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>Claude Code의 내부 설계, AI 안전 메커니즘, 그리고 Anthropic이 사용자에게 공개하지 않은 기능들이 공개되었다. 특히 AI 도구가 인간임을 가장하는 능력과 데이터 포이즈닝 기법은 AI 투명성과 윤리에 대한 중요한 논점을 제기하며, 개발자들이 사용하는 도구의 실제 동작을 이해하는 데 중요한 정보를 제공한다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>Claude Code 소스코드 유출에서 발견된 것들</h2>
-<p>목차</p>
-<ul>
-<li>모조 도구 주입으로 모방자 견제하기</li>
-<li>숨겨진 AI: 자신의 정체를 숨기는 인공지능</li>
-<li>정규표현식으로 사용자 감정 탐지하기</li>
-<li>JS 런타임 아래의 네이티브 클라이언트 검증</li>
-<li>하루 25만 건의 낭비되는 API 호출</li>
-<li>KAIROS: 미공개 자율 에이전트 모드</li>
-<li>기타 내용</li>
-<li>결론</li>
-</ul>
-<hr>
-<p>저는 Claude Code를 매일 사용하고 있는데, 오늘 아침 Chaofan Shou가 Anthropic이 Claude Code npm 패키지와 함께 배포한 .map 파일을 발견했다는 소식을 듣자마자 눈이 반짝였어요. 그 파일에는 CLI 도구의 완전한 소스코드가 읽을 수 있는 형태로 담겨 있었거든요. 지금은 패키지가 내려갔지만, 이미 Hacker News에서 소스코드가 널리 공유되고 분석되어 버린 상태입니다.</p>
-<p>이건 일주일 사이에 Anthropic이 저지른 두 번째 실수예요. 모델 사양 유출이 며칠 전에 있었거든요. 트위터의 일부 사람들은 이게 내부자의 의도적인 행동 아니냐고 의심하기까지 합니다. 아마 그렇진 않겠지만, 어쨌든 좋은 모습은 아니네요.</p>
-<p>더 흥미로운 건 타이밍이에요. 불과 10일 전, Anthropic은 OpenCode에 법적 위협을 날렸습니다. 제3자 도구들이 Claude Code의 내부 API를 이용해 Opus에 구독료로 접근하는 대신 토큰당 비용을 지불하도록 하기 위함이었죠. 이 사건 때문에 아래 발견 내용들이 더 흥미롭게 들리네요.</p>
-<p>아침 내내 HN 댓글과 유출된 소스코드를 읽었어요. 제 관점에서 흥미로운 순서대로 정렬해서 공유해볼게요.</p>
-<h3>모조 도구 주입으로 모방자 견제하기</h3>
-<p>claude.ts의 301~313번 줄에 <code>ANTI_DISTILLATION_CC</code>라는 플래그가 있습니다. 이걸 활성화하면 Claude Code는 API 요청에 <code>anti_distillation: ['fake_tools']</code>를 포함시켜요. 서버는 이 신호를 받으면 시스템 프롬프트에 가짜 도구 정의를 몰래 주입합니다.</p>
-<p>목적이 뭘까요? 누군가가 Claude Code의 API 트래픽을 기록해서 경쟁사의 모델 학습에 사용하려고 하면, 이 가짜 도구들이 학습 데이터를 오염시키는 거죠. GrowthBook 기능 플래그(<code>tengu_anti_distill_fake_tool_injection</code>)로 제어되며, 오직 퍼스트파티 CLI 세션에서만 활성화됩니다.</p>
-<p>이 발견이 HN에서 가장 먼저 주목받은 것 중 하나였어요.</p>
-<p>또 다른 견제 메커니즘도 있습니다. betas.ts의 279~298번 줄에 있는 서버 측 커넥터 텍스트 요약 기능이죠. 활성화되면 API는 도구 호출 사이의 어시스턴트 텍스트를 버퍼링했다가 요약하고, 암호화 서명과 함께 반환합니다. 다음 턴에는 서명에서 원본 텍스트를 복구할 수 있어요. API 트래픽을 기록하는 입장에서는 요약본만 얻을 수 있고, 완전한 추론 과정은 못 보게 되는 셈입니다.</p>
-<p>이런 메커니즘을 우회하기가 얼마나 어려울까요? 사실 그렇게 어렵지 않아요. claude.ts의 활성화 로직을 보면, 가짜 도구 주입은 네 가지 조건이 모두 참이어야 해요. ANTI_DISTILLATION_CC 컴파일 타임 플래그, CLI 엔드포인트, 퍼스트파티 API 제공자, 그리고 <code>tengu_anti_distill_fake_tool_injection</code> GrowthBook 플래그. 중간자 공격(MITM) 프록시로 요청 본문에서 <code>anti_distillation</code> 필드를 제거한 뒤 API로 보내면 완전히 우회됩니다. 주입이 서버 측이고 선택적이거든요.</p>
-<p><code>shouldIncludeFirstPartyOnlyBetas()</code> 함수는 <code>CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS</code> 환경변수도 확인하니, 이걸 참값으로 설정하면 전체 기능이 비활성화돼요. 게다가 CLI 대신 제3자 API 제공자나 SDK 엔드포인트를 쓰면 이 검사 자체가 실행되지 않아요.</p>
-<p>커넥터 텍스트 요약도 훨씬 범위가 좁습니다. Anthropic 내부 전용(<code>USER_TYPE === 'ant'</code>)이라 외부 사용자는 이걸 만날 일이 없어요.</p>
-<p>Claude Code 트래픽에서 진짜로 모델을 증류하려는 기업이라면 소스코드를 읽고 한 시간 정도면 우회 방법을 찾을 거예요. 진짜 보호는 아마 기술적인 것보다는 법적인 것일 겁니다.</p>
-<h3>숨겨진 AI: 자신의 정체를 숨기는 인공지능</h3>
-<p>undercover.ts 파일(약 90줄)은 Claude Code가 비내부 저장소에서 사용될 때 Anthropic 내부 정보를 모두 제거하는 모드를 구현합니다. 모델에게 &quot;Capybara&quot;나 &quot;Tengu&quot; 같은 내부 코드명, 내부 Slack 채널, 저장소 이름, 심지어 &quot;Claude Code&quot; 문구 자체를 언급하지 말도록 지시해요.</p>
-<p>15번 줄을 보세요:</p>
-<pre><code>&quot;There is NO force-OFF. This guards against model codename leaks.&quot;</code></pre>
-<p><code>CLAUDE_CODE_UNDERCOVER=1</code>로 강제 활성화는 할 수 있지만, 강제 비활성화는 방법이 없습니다. 외부 빌드에서는 함수 전체가 데드 코드 제거되어 사실상 아무것도 반환하지 않아요. 일방통행 문이라는 뜻입니다.</p>
-<p>이는 Anthropic 직원들이 오픈소스 프로젝트에서 작성한 AI 기반 커밋과 PR에는 AI가 작성했다는 표시가 전혀 없다는 뜻이에요. 내부 코드명 숨기기는 합리적일 수 있어요. 하지만 AI가 적극적으로 인간인 척하는 건 다른 문제입니다.</p>
-<h3>정규표현식으로 사용자 감정 탐지하기</h3>
-<p>userPromptKeywords.ts에는 사용자 감정을 탐지하는 정규표현식 패턴이 있어요:</p>
-<pre><code class="language-javascript">/\b(wtf|wth|ffs|omfg|shit(ty|tiest)?|dumbass|horrible|awful|
-piss(ed|ing)? off|piece of (shit|crap|junk)|what the (fuck|hell)|
-fucking? (broken|useless|terrible|awful|horrible)|fuck you|
-screw (this|you)|so frustrating|this sucks|damn it)\b/</code></pre>
-<p>LLM 회사가 감정 분석에 정규표현식을 쓰다니 정말 아이러니네요. 하지만 생각해보면 정규표현식이 더 빠르고...</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://alex000kim.com/posts/2026-03-31-claude-code-source-leak/" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-31%20Claude%20Code%20%EC%86%8C%EC%8A%A4%20%EC%9C%A0%EC%B6%9C%3A%20%EA%B0%80%EC%A7%9C%20%EB%8F%84%EA%B5%AC%2C%20%EC%A2%8C%EC%A0%88%EA%B0%90%20%EC%A0%95%EA%B7%9C%EC%8B%9D%2C%20%EC%9D%80%ED%8F%90%20%EB%AA%A8%EB%93%9C&labels=feedback%2Cliked&body=**Article**%3A%20Claude%20Code%20%EC%86%8C%EC%8A%A4%20%EC%9C%A0%EC%B6%9C%3A%20%EA%B0%80%EC%A7%9C%20%EB%8F%84%EA%B5%AC%2C%20%EC%A2%8C%EC%A0%88%EA%B0%90%20%EC%A0%95%EA%B7%9C%EC%8B%9D%2C%20%EC%9D%80%ED%8F%90%20%EB%AA%A8%EB%93%9C%0A**URL**%3A%20https%3A%2F%2Falex000kim.com%2Fposts%2F2026-03-31-claude-code-source-leak%2F%0A**Date**%3A%202026-03-31%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./the-claude-code-source-leak-fake-tools-frustration-regexes-undercover-mode/">./the-claude-code-source-leak-fake-tools-frustration-regexes-undercover-mode/</a>…</p>
+<script>location.replace("./the-claude-code-source-leak-fake-tools-frustration-regexes-undercover-mode/");</script>
 </body>
 </html>

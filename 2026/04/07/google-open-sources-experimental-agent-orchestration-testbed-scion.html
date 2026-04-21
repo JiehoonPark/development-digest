@@ -1,91 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google이 다중 에이전트 오케스트레이션 테스트베드 Scion을 오픈소스화 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./google-open-sources-experimental-agent-orchestration-testbed-scion/">
+<meta http-equiv="refresh" content="0; url=./google-open-sources-experimental-agent-orchestration-testbed-scion/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/07/">2026-04-07</a> &gt; Google이 다중 에이전트 오케스트레이션 테스트베드 Scion을 오픈소...
-      </div>
-
-      <h1>Google이 다중 에이전트 오케스트레이션 테스트베드 Scion을 오픈소스화</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Google open-sources experimental agent orchestration testbed Scion</p>
-      <div class="article-meta">
-        <span>📅 2026-04-07</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 138</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>Google이 다중 에이전트 시스템 관리를 위한 오픈소스 플랫폼 Scion을 발표했다. Scion은 컨테이너, git worktree, 격리된 자격증명으로 여러 에이전트를 독립적으로 실행하며 로컬, 원격 VM, Kubernetes 클러스터 전반에서 작동한다. 제약보다 격리를 우선시하는 설계로 Claude Code, Gemini CLI 등 다양한 에이전트를 안전하게 협업시킬 수 있다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>Scion은 '에이전트용 하이퍼바이저'로, 동적으로 진화하는 병렬 작업 그래프를 관리하며 코딩, 감시, 테스트 등 서로 다른 목표를 추구하는 장기-단기 에이전트들의 혼합 라이프사이클을 지원한다.</li><li>격리 우선 철학에 따라 규칙으로 에이전트 행동을 제약하기보다 컨테이너, git worktree, 네트워크 정책 등 인프라 계층에서 경계를 설정하며 각 에이전트가 작업 완료에 필요한 모든 작업을 수행하도록 허용한다.</li><li>Gemini, Claude Code, OpenCode 등 인기 에이전트를 하네스 어댑터로 지원하며 Docker, Podman, Kubernetes 등 다양한 컨테이너화 런타임과 호환된다.</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>다중 에이전트 시스템의 안전하고 확장 가능한 관리 방법을 제시하여 개발자가 복잡한 AI 기반 워크플로우를 효율적으로 구축할 수 있는 기반을 마련한다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>Google, 다중 에이전트 오케스트레이션 테스트베드 'Scion' 오픈소스 공개</h2>
-<p>Google이 최근 컨테이너 환경에서 여러 AI 에이전트를 동시에 관리할 수 있는 실험용 오케스트레이션 플랫폼 <strong>Scion</strong>을 오픈소스로 공개했습니다.</p>
-<h3>Scion이란 무엇인가</h3>
-<p>Scion은 &quot;에이전트를 위한 하이퍼바이저&quot;라고 불리는데요. 로컬 머신이든 원격 VM이든 Kubernetes 클러스터든 어디서나 여러 AI 에이전트를 격리된 상태로 동시에 실행할 수 있게 해줍니다.</p>
-<p>각 에이전트는 독립적인 컨테이너, git 워크트리, 그리고 자체 인증정보를 갖게 됩니다. 덕분에 다양한 에이전트들이 프로젝트의 서로 다른 부분에서 간섭 없이 작업할 수 있는 거죠.</p>
-<p>Google은 Scion을 통해 에이전트 메모리, 채팅방, 작업 관리 같은 다중 에이전트 시스템의 여러 컴포넌트를 독립적인 관심사로 통합할 수 있다고 설명합니다.</p>
-<h3>주요 특징</h3>
-<p><strong>격리를 통한 안전성</strong></p>
-<p>Scion의 핵심 철학은 제약보다 격리를 우선한다는 것입니다. 에이전트의 행동을 규칙으로 제한하는 대신, 에이전트가 작업을 완료하는 데 필요한 모든 것을 하도록 놔두되, 인프라 수준에서 경계와 안전장치를 두는 방식이거든요. 컨테이너, git 워크트리, 네트워크 정책 등으로 에이전트를 격리하면서 에이전트 자체는 자유롭게 동작할 수 있게 하는 것입니다.</p>
-<p><strong>유연한 에이전트 관리</strong></p>
-<p>Scion은 Claude Code, Gemini CLI, Codex 같은 여러 &quot;심화 에이전트(deep agents)&quot;를 개별 프로세스로 오케스트레이션합니다. 각 에이전트는 고유한 생명주기를 가지는데요. 코딩, 감시, 테스트 같은 특정 작업에만 존재하는 임시 에이전트도 있고, 오랫동안 유지되는 전문화된 에이전트도 있습니다.</p>
-<p><strong>동적 작업 그래프 관리</strong></p>
-<p>Scion은 서로 다른 목표를 추구하며 병렬로 실행되는 작업들의 그래프를 동적으로 관리합니다. 고정된 에이전트 세트에 의존하지 않고, 필요에 따라 에이전트를 추가하고 제거할 수 있는 구조입니다.</p>
-<p><strong>다양한 에이전트와 런타임 지원</strong></p>
-<p>Scion은 &quot;harness&quot;라는 어댑터를 통해 여러 인기 있는 에이전트를 지원합니다. Gemini, Claude Code, OpenCode, Codex 등이 포함되어 있으며(일부는 부분 지원), Docker, Podman, Apple 컨테이너, Kubernetes 등 다양한 컨테이너 런타임도 사용할 수 있습니다.</p>
-<h3>실제 활용 예시</h3>
-<p>Google은 Scion의 기능을 보여주기 위해 'Relics of the Athenaeum'이라는 게임의 코드베이스를 공개했습니다. 이 데모에서는 여러 에이전트가 협력해 계산 퍼즐을 풀어야 하는데요. 서로 다른 harness에서 실행되는 에이전트들이 각각의 캐릭터 역할을 하면서, 게임 러너가 새로운 캐릭터/에이전트를 동적으로 생성합니다. 에이전트들 간의 협력은 공유 워크스페이스(데이터 읽고 쓰기), 직접 메시지, 그룹 메시지를 통해 이루어집니다.</p>
-<h3>학습해야 할 개념들</h3>
-<p>Scion을 실제로 사용하려면 몇 가지 용어를 이해해야 합니다. Grove(프로젝트 단위), Hub(오케스트레이션 제어 평면), Runtime Broker(Hub가 실행되는 머신) 같은 개념들이 있으니, 공식 문서를 통해 Scion의 독특한 생태계를 먼저 파악하는 것이 좋습니다.</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://www.infoq.com/news/2026/04/google-agent-testbed-scion/" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-07%20Google%EC%9D%B4%20%EB%8B%A4%EC%A4%91%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%EC%98%A4%EC%BC%80%EC%8A%A4%ED%8A%B8%EB%A0%88%EC%9D%B4%EC%85%98%20%ED%85%8C%EC%8A%A4%ED%8A%B8%EB%B2%A0%EB%93%9C%20Scion%EC%9D%84%20%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%ED%99%94&labels=feedback%2Cliked&body=**Article**%3A%20Google%EC%9D%B4%20%EB%8B%A4%EC%A4%91%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%20%EC%98%A4%EC%BC%80%EC%8A%A4%ED%8A%B8%EB%A0%88%EC%9D%B4%EC%85%98%20%ED%85%8C%EC%8A%A4%ED%8A%B8%EB%B2%A0%EB%93%9C%20Scion%EC%9D%84%20%EC%98%A4%ED%94%88%EC%86%8C%EC%8A%A4%ED%99%94%0A**URL**%3A%20https%3A%2F%2Fwww.infoq.com%2Fnews%2F2026%2F04%2Fgoogle-agent-testbed-scion%2F%0A**Date**%3A%202026-04-07%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./google-open-sources-experimental-agent-orchestration-testbed-scion/">./google-open-sources-experimental-agent-orchestration-testbed-scion/</a>…</p>
+<script>location.replace("./google-open-sources-experimental-agent-orchestration-testbed-scion/");</script>
 </body>
 </html>

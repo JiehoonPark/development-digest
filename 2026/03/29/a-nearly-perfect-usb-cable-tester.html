@@ -1,106 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>거의 완벽한 USB 케이블 테스터 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./a-nearly-perfect-usb-cable-tester/">
+<meta http-equiv="refresh" content="0; url=./a-nearly-perfect-usb-cable-tester/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/29/">2026-03-29</a> &gt; 거의 완벽한 USB 케이블 테스터...
-      </div>
-
-      <h1>거의 완벽한 USB 케이블 테스터</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">A nearly perfect USB cable tester</p>
-      <div class="article-meta">
-        <span>📅 2026-03-29</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 262</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>저자가 Treedix USB 케이블 테스터를 사용하여 USB 케이블의 실제 성능을 검사했으며, 일부 케이블이 PC에 거짓 정보를 보내는 것을 발견했다. 이 기기는 데이터 속도, 전원, 연결된 레인, 저항값, eMarker 정보 등을 명확하게 표시하여 케이블 분류에 유용하다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>USB C to USB C 케이블 중 일부가 eMarker로 고속을 보고하지만 실제 SuperSpeed 레인이 없어 PC를 기만하는 현상 발견</li><li>Treedix 테스터는 USB-A, USB-C, Mini, Micro, Micro-B 등 다양한 커넥터 타입을 지원하며 약 45달러의 합리적 가격대</li><li>이 발견을 통해 저자가 생각한 고품질 케이블이 실제로는 훨씬 적음을 파악</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>개발자가 USB 데이터 전송 속도 문제를 디버깅할 때 케이블의 실제 사양을 정확히 파악해야 한다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>USB 케이블 테스터로 거짓말쟁이 케이블 찾아내기</h2>
-<p>집에 USB 케이블이 정말 많습니다. 저도 마찬가지거든요. 이들을 분류하고 정렬해야 하는데, 각 케이블이 어떤 기능을 지원하는지 어떻게 알 수 있을까요? 이 과정에서 저는 놀라운 사실을 발견했습니다. <strong>케이블이 당신의 PC에 거짓말을 할 수 있다는 것 말이에요.</strong></p>
-<h3>이전의 시도들</h3>
-<p>처음엔 완벽한 USB 케이블 테스터는 존재하지 않는다고 생각했습니다. 그래서 LED로 케이블의 상태를 표시해주는 테스터를 사용했는데요, 이 방식은 한 가지 큰 불편함이 있었어요. LED 패턴이 나타날 때마다 매번 설명서를 찾아봐야 했거든요.</p>
-<p>USB-C 케이블의 경우, 나름 똑똑한 방법을 찾았습니다. 20Gbps를 지원하는 기기(예: SSD)에 연결한 뒤, macOS의 <code>system_profiler SPUSBDataType</code> 명령어로 연결 속도를 확인하는 식이었어요.</p>
-<p>그런데 여기서 충격적인 결과를 얻었습니다. 케이블 테스터는 USB 2.0 이상의 속도가 물리적으로 불가능하다고 표시했는데, macOS는 멀쩡하게 10Gbps로 연결되었다고 보고했거든요. 실제로 읽기/쓰기 속도를 측정해봐도 뭔가 이상했습니다. 케이블이 PC에 거짓말을 하고 있었던 거죠.</p>
-<h3>Treedix USB 케이블 테스터 만나기</h3>
-<p>어느 날 Treedix USB 케이블 테스터 2.4&quot; 컬러 화면 모델을 발견했습니다. 정말 마음에 들었어요. 다양한 플러그 타입을 지원하고, 화면에 표시되는 정보가 명확하고 읽기 쉬웠거든요. 그리고 가장 중요한 건, 케이블이 실제로 어떤 기능을 지원하는지 상세히 파악할 수 있다는 점이었습니다.</p>
-<p>전원은 AAA 배터리나 USB-C 포트를 통해 공급할 수 있습니다. Reddit 게시물을 보면 그 포트로 펌웨어 업데이트도 가능한 것 같은데, 정확한 정보는 별로 없네요.</p>
-<h4>어떤 케이블을 확인할 수 있나요?</h4>
-<p><strong>A 측:</strong> USB-A 또는 USB-C</p>
-<p><strong>B 측:</strong> USB-C, Mini, Micro, Micro-B</p>
-<p>모드 버튼으로 여러 확인 모드를 순환할 수 있습니다:</p>
-<ul>
-<li><strong>Data and Power modes:</strong> 데이터와 전원 모드</li>
-<li><strong>Connected lanes:</strong> 연결된 레인</li>
-<li><strong>Resistance values:</strong> 저항값</li>
-<li><strong>Cable eMarker:</strong> 케이블에 내장된 칩의 정보</li>
-</ul>
-<p>정말 직관적이었어요. 아니, 처음엔 그렇게 생각했습니다.</p>
-<h3>실제 사용 경험</h3>
-<p>케이블들을 분류하기 시작했는데, 한 케이블이 이상한 결과를 보였습니다.</p>
-<p>높은 등급을 받을 거라고 예상한 케이블인데요:</p>
-<p><strong>Data and Power 모드 결과:</strong> USB 2.0과 PD 3.0</p>
-<p><strong>Connected lanes 결과:</strong> 위 정보와 일치</p>
-<p><strong>eMarker 정보:</strong> 20Gbps, USB4 Gen2</p>
-<p>완전히 다른 이야기네요.</p>
-<p>그런데 이 케이블로 SSD를 연결했을 때 PC가 보여준 속도는? eMarker가 말한 정보였습니다. 필요한 SuperSpeed 레인이 없는데도 말이에요. 케이블이 PC를 속이고 있었고, PC는 그걸 믿고 있었던 겁니다.</p>
-<p>이런 식의 거짓말을 하는 케이블을 더 찾아봤더니 총 3개가 있었어요. 모두 USB-C to USB-C 케이블이었습니다. 이제 케이블은 단순한 구리선이 아니라 <strong>꽤 신뢰할 수 없는 이야기꾼</strong>이 되어버렸네요.</p>
-<h3>정리</h3>
-<p>이 테스터로 거짓말하는 케이블들을 찾아낸 것만으로도 구매 비용을 충분히 뽑았습니다. 제가 생각했던 것보다 진짜 &quot;고품질&quot; 케이블이 훨씬 적었거든요.</p>
-<p>테스트 결과를 바탕으로 제 케이블들을 분류하는 표준을 만들었는데, 그건 다음 글에서 얘기하겠습니다.</p>
-<p>한 가지 아쉬운 점은 B 측에서 지원하는 플러그 타입이 더 많았으면 좋겠다는 것입니다. USB-A(응급용 케이블용)와 USB B(거의 사라졌다고 생각했던) 같은 것들 말이에요.</p>
-<p>전반적으로 이 USB 케이블 테스터에 정말 만족합니다. 약 45달러의 가격도 합리적이고요. 망설이지 말고 추천합니다.</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://blog.literarily-starved.com/2026/02/technology-the-nearly-perfect-usb-cable-tester-does-exist/" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-29%20%EA%B1%B0%EC%9D%98%20%EC%99%84%EB%B2%BD%ED%95%9C%20USB%20%EC%BC%80%EC%9D%B4%EB%B8%94%20%ED%85%8C%EC%8A%A4%ED%84%B0&labels=feedback%2Cliked&body=**Article**%3A%20%EA%B1%B0%EC%9D%98%20%EC%99%84%EB%B2%BD%ED%95%9C%20USB%20%EC%BC%80%EC%9D%B4%EB%B8%94%20%ED%85%8C%EC%8A%A4%ED%84%B0%0A**URL**%3A%20https%3A%2F%2Fblog.literarily-starved.com%2F2026%2F02%2Ftechnology-the-nearly-perfect-usb-cable-tester-does-exist%2F%0A**Date**%3A%202026-03-29%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./a-nearly-perfect-usb-cable-tester/">./a-nearly-perfect-usb-cable-tester/</a>…</p>
+<script>location.replace("./a-nearly-perfect-usb-cable-tester/");</script>
 </body>
 </html>

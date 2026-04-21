@@ -1,86 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Servo가 crates.io에서 이용 가능해짐 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./servo-is-now-available-on-cratesio/">
+<meta http-equiv="refresh" content="0; url=./servo-is-now-available-on-cratesio/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/13/">2026-04-13</a> &gt; Servo가 crates.io에서 이용 가능해짐...
-      </div>
-
-      <h1>Servo가 crates.io에서 이용 가능해짐</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Servo is now available on crates.io</p>
-      <div class="article-meta">
-        <span>📅 2026-04-13</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 401</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>Servo 팀이 렌더링 엔진을 라이브러리로 사용할 수 있도록 v0.1.0을 crates.io에 출시했으며, 장기 지원(LTS) 버전도 함께 제공한다. 이는 2025년 10월 GitHub 출시 이후 5번의 릴리스를 거친 결과이다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>Servo를 라이브러리로 임베딩하여 다른 프로젝트에서 사용 가능하도록 crates.io 첫 출시</li><li>월간 릴리스에서의 breaking changes에 대응하기 위해 6개월 주기의 LTS 버전 제공</li><li>v0.1.0은 1.0이 아니지만 Servo의 embedding API에 대한 신뢰도 향상을 반영</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>Rust 개발자가 Servo 렌더링 엔진을 자신의 프로젝트에 통합할 수 있는 공식 경로가 생겼다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>Servo가 crates.io에 공개되었습니다</h2>
-<p><strong>Servo의 첫 crates.io 릴리스와 LTS 버전 출시</strong></p>
-<p>2026년 4월 13일</p>
-<p>오늘 Servo 팀이 servo 크레이트의 v0.1.0을 공개했습니다. 이는 Servo를 라이브러리로 사용할 수 있도록 하는 첫 번째 crates.io 릴리스네요.</p>
-<p>다만 데모 브라우저인 servoshell은 현재 crates.io에 배포할 계획이 없습니다.</p>
-<h3>릴리스 프로세스의 성숙</h3>
-<p>2025년 10월 초기 GitHub 릴리스 이후 5번의 릴리스를 거치면서 우리의 릴리스 프로세스가 많이 발전했습니다. 이제 병목지점은 사람이 직접 작성하는 월간 블로그 포스트 정도예요.</p>
-<p>이번 릴리스가 특별해서 월간 블로그 포스트를 기다리지 않기로 했습니다. 대신 다음 몇 주 안에 월간 업데이트를 제공하겠다고 약속드립니다.</p>
-<h3>1.0이 아닌 이유</h3>
-<p>버전 번호에서 보이는 것처럼, 이 릴리스는 1.0이 아닙니다. 사실 저희는 아직도 Servo에게 1.0이 무엇을 의미하는지에 대해 논의를 마치지 못했거든요.</p>
-<p>그럼에도 버전 번호를 올린 이유는 Servo의 임베딩 API에 대한 신뢰도가 높아졌고, 일부 사용자의 필요를 충족할 수 있다는 확신이 생겼기 때문입니다.</p>
-<h3>장기 지원(LTS) 버전 도입</h3>
-<p>매달 나오는 정규 릴리스에서는 주요 변경 사항이 예상되기 때문에, Servo의 장기 지원(LTS) 버전을 함께 제공하기로 했습니다. 일부 임베더는 반년 단위로 주요 업그레이드를 진행하면서도 보안 업데이트와 (희망하건대!) 마이그레이션 가이드를 받고 싶을 텐데, LTS 버전이 이런 필요를 충족해줄 거라고 생각합니다.</p>
-<p>LTS 릴리스에 대한 자세한 내용은 Servo 공식 문서(Servo book)의 관련 섹션을 참고하세요.</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://servo.org/blog/2026/04/13/servo-0.1.0-release/" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-13%20Servo%EA%B0%80%20crates.io%EC%97%90%EC%84%9C%20%EC%9D%B4%EC%9A%A9%20%EA%B0%80%EB%8A%A5%ED%95%B4%EC%A7%90&labels=feedback%2Cliked&body=**Article**%3A%20Servo%EA%B0%80%20crates.io%EC%97%90%EC%84%9C%20%EC%9D%B4%EC%9A%A9%20%EA%B0%80%EB%8A%A5%ED%95%B4%EC%A7%90%0A**URL**%3A%20https%3A%2F%2Fservo.org%2Fblog%2F2026%2F04%2F13%2Fservo-0.1.0-release%2F%0A**Date**%3A%202026-04-13%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./servo-is-now-available-on-cratesio/">./servo-is-now-available-on-cratesio/</a>…</p>
+<script>location.replace("./servo-is-now-available-on-cratesio/");</script>
 </body>
 </html>

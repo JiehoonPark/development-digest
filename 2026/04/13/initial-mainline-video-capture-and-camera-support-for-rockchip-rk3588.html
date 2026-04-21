@@ -1,98 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rockchip RK3588을 위한 메인라인 비디오 캡처 및 카메라 지원 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./initial-mainline-video-capture-and-camera-support-for-rockchip-rk3588/">
+<meta http-equiv="refresh" content="0; url=./initial-mainline-video-capture-and-camera-support-for-rockchip-rk3588/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/13/">2026-04-13</a> &gt; Rockchip RK3588을 위한 메인라인 비디오 캡처 및 카메라 지원...
-      </div>
-
-      <h1>Rockchip RK3588을 위한 메인라인 비디오 캡처 및 카메라 지원</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Initial mainline video capture and camera support for Rockchip RK3588</p>
-      <div class="article-meta">
-        <span>📅 2026-04-13</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 69</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>Collabora가 5년 이상 진행해온 Rockchip RK3588 SoC의 비디오 캡처(VICAP) 및 MIPI CSI-2 수신기 드라이버를 메인라인 Linux 커널에 통합한 과정을 설명합니다. ISP(이미지 신호 프로세서) 지원은 계속 진행 중입니다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>25회 이상의 반복 개정 끝에 rkcif 드라이버가 2025년 10월 메인라인 커널에 수용됨</li><li>MIPI CSI-2 수신기 드라이버도 2026년 1월 메인라인에 통합되어 카메라 센서 지원 실현</li><li>RK3588 ISP를 활용한 하드웨어 기반 이미지 처리는 아직 진행 중으로 향후 개선 필요</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>임베디드 시스템 개발자들이 오픈 소스 드라이버를 통해 고성능 멀티미디어 SoC를 자유롭게 활용할 수 있게 됩니다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>Rockchip SoC의 비디오 캡처 기능을 메인라인 Linux에 올리기까지</h2>
-<p>최신 Rockchip SoC(특히 RK35 세대)는 많은 System-on-a-Chip(SoC)이 그렇듯이, 비디오 캡처와 이미지 신호 처리 전용 IP 블록을 내장하고 있습니다. 이런 기능들이 추가되면서 다양한 멀티미디어 애플리케이션을 만들 수 있는 길이 열렸어요. 다만 메인라인 Linux에서 이들 블록을 지원하는 부분은 아직도 미흡한 상태였습니다. 이제 이 공백을 채울 시간이 왔습니다!</p>
-<h3>지난 몇 년간의 노력</h3>
-<p>지난 몇 년간 Collabora는 Rockchip RK3588 SoC의 메인라인 지원에 상당한 투자를 해왔습니다. RK3588 업스트림 상태 매트릭스와 최근 &quot;Mainline Linux, U-Boot, Mesa를 Rockchip에서 실행하기: 1년 회고록&quot; 블로그 포스트를 보면 이 노력의 성과를 확실히 알 수 있죠. linux-rockchip 커뮤니티 및 Rockchip과 함께 RK3588의 대부분 기능에 대한 업스트림 지원을 제공할 수 있었다고 할 수 있습니다. 그렇긴 해도 여전히 지원되지 않는 하드웨어 블록들이 몇 가지 남아 있었어요.</p>
-<h3>비디오 캡처와 ISP가 늦게 지원되는 이유</h3>
-<p>비디오 캡처 블록과 이미지 신호 프로세서(ISP)는 메인라인 지원이 늦거나 아예 되지 않는 하드웨어의 대표적인 사례입니다. 그 이유는 여러 가지인데요:</p>
-<ul>
-<li>사용자층이 상당하지만, 비디오 출력 같은 다른 기능 사용자보다는 적어요.</li>
-<li>특히 ISP의 경우 하드웨어 문서가 공개되지 않는 경우가 많습니다. 지적 재산권 관련해서 민감하게 다루거든요.</li>
-<li>하드웨어 자체가 복잡해서, 취미로 개발하는 기여자가 여유 시간에 해내기 어렵습니다.</li>
-<li>회사 입장에서도 이런 하드웨어를 처음부터 구동시키는 데 엄청난 시간과 비용이 들어요.</li>
-</ul>
-<p>이 때문에 강력한 하드웨어 기능을 원하는 사용자들은 벤더 Linux 커널에 의존하게 되는데, 이는 Cyber Resilience Act(CRA) 같은 규제 준수 문제를 야기할 수 있었습니다.</p>
-<h3>Collabora의 결단</h3>
-<p>이런 악순환을 깨기 위해 Collabora는 첫 번째 단계부터 시작하기로 결정했습니다. RK3588 비디오 캡처(VICAP) 유닛을 지원하는 것이었어요. 처음부터 이게 단거리 경주가 아니라 마라톤이 될 거라는 건 명백했습니다. rkcif 드라이버가 RK3588 VICAP을 지원하는 것이 목표였는데, 이 드라이버는 2020년부터 관련 메일링 리스트에서 논의되고 있던 것이었거든요.</p>
-<p>Collabora는 2022년 초에 메인라이닝 논의에 참여했고, Bootlin에서 주도적으로 총 9번의 반복을 거쳤습니다. 그 후 미디어 컨트롤러 중심의 V4L2 드라이버로의 전면 재설계가 요청됐어요. 이에 따라 드라이버 전체가 리팩토링되고 메인라인 포함을 위한 새로운 추진이 시작됐습니다.</p>
-<h3>주요 마일스톤들</h3>
-<p>재설계된 패치 시리즈는 또 다른 7번의 반복을 거쳤고, 드라이버 이름도 두 번 바뀌었어요. 이 작업은 2025년 암스테르담의 Open Source Summit Europe에서 &quot;최근 Rockchip SoC의 메인라인 비디오 캡처 및 카메라 지원을 향해&quot;라는 제목의 발표로 공개됐습니다. 이 발표에서는 현대적인 멀티미디어 SoC의 소프트웨어 스택 개요와 이미 메인라인에 들어간 기여, 그리고 진행 중인 기여들을 다뤘죠.</p>
-<p>몇 번의 rkcif 드라이버 반복 끝에, PX30 VIP과 RK3568 VICAP을 지원하는 기본 드라이버가 승인됐습니다(2025년 10월). 5년 이상의 개발, 25번의 반복, 3번의 이름 변경을 거쳐 이루어낸 대단한 마일스톤이었어요. 물론 해야 할 일은 아직도 많았습니다. 예를 들어 VICAP과 밀접하게 연결된 Rockchip MIPI CSI-2 수신기 유닛도 메인라인 드라이버가 필요했거든요. 소프트웨어 개발에서 가장 어려운 부분이 이름 짓기라는 농담처럼, 여러 번의 반복과 3번의 이름 변경/재배치를 거친 끝에 이 드라이버는 메인라인 Linux에 자리 잡게 됩니다(2026년 1월).</p>
-<h3>FOSDEM 발표와 첫 번째 실제 이미지</h3>
-<p>이는 2026년 브뤼셀의 FOSDEM에서 정확히 좋은 시점에 맞춰져, &quot;업스트림 진행 상황: 최근 Rockchip SoC의 비디오 캡처 및 카메라 지원&quot;이라는 제목의 발표가 이루어졌어요. 개선되고 업데이트된 상태 매트릭스(슬라이드 15, 17 참고) 외에도, RK3588 VICAP에 연결된 Sony IMX415 센서로 촬영한 첫 번째 사진이 공개됐습니다.</p>
-<p>물론 이 설정에서는 센서에서 받은 RAW 이미지 데이터를 소프트웨어로 디베이어링했고(이로 인해 1fps의 형편없는 프레임 레이트가 나왔어요), 자동 화이트 밸런스 같은 이미지 처리도 없었습니다(그래서 이미지가 초록색을 띠었죠). 하지만 그 당시에는 이 여정의 중요한 단계를 나타내는 의미 있는 결과였습니다.</p>
-<h3>다음 단계: RK3588 ISP 지원</h3>
-<p>rkcif 드라이버에 몇 가지 확장 패치가 필요해서 RK3588 지원을 추가했어요. 이들 패치는 한동안 개발 중이었고, 최근에 리뷰를 위해 공개됐습니다.</p>
-<p>당연히 우리 모두는 RK3588 ISP를 사용해 카메라 센서에서 오는 이미지를 전용 하드웨어에서 처리하고 싶어 합니다. 이를 위해서는 본질적으로 세 가지가 필요합니다.</p>
-<p>남은 과제 중 첫 번째는 RK3588 VICAP MUX-TOISP 유닛 지원입니다. 이 유닛은 VICAP의 데이터를 ISP로 직접 전달하는 하드웨어 연결입니다. 기술적으로는 꼭 필요한 건 아닙니다. 현재로서는 RK3588 VICAP이 RAW 이미지를 메모리로 스트리밍할 수 있거든요.</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://www.collabora.com/news-and-blog/news-and-events/mainline-video-capture-and-camera-support-for-rockchip-rk3588.html" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-13%20Rockchip%20RK3588%EC%9D%84%20%EC%9C%84%ED%95%9C%20%EB%A9%94%EC%9D%B8%EB%9D%BC%EC%9D%B8%20%EB%B9%84%EB%94%94%EC%98%A4%20%EC%BA%A1%EC%B2%98%20%EB%B0%8F%20%EC%B9%B4%EB%A9%94%EB%9D%BC%20%EC%A7%80%EC%9B%90&labels=feedback%2Cliked&body=**Article**%3A%20Rockchip%20RK3588%EC%9D%84%20%EC%9C%84%ED%95%9C%20%EB%A9%94%EC%9D%B8%EB%9D%BC%EC%9D%B8%20%EB%B9%84%EB%94%94%EC%98%A4%20%EC%BA%A1%EC%B2%98%20%EB%B0%8F%20%EC%B9%B4%EB%A9%94%EB%9D%BC%20%EC%A7%80%EC%9B%90%0A**URL**%3A%20https%3A%2F%2Fwww.collabora.com%2Fnews-and-blog%2Fnews-and-events%2Fmainline-video-capture-and-camera-support-for-rockchip-rk3588.html%0A**Date**%3A%202026-04-13%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./initial-mainline-video-capture-and-camera-support-for-rockchip-rk3588/">./initial-mainline-video-capture-and-camera-support-for-rockchip-rk3588/</a>…</p>
+<script>location.replace("./initial-mainline-video-capture-and-camera-support-for-rockchip-rk3588/");</script>
 </body>
 </html>

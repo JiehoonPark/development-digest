@@ -1,99 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>C 인터프리터에 JIT 컴파일러 개조하기 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./retrofitting-jit-compilers-into-c-interpreters/">
+<meta http-equiv="refresh" content="0; url=./retrofitting-jit-compilers-into-c-interpreters/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/15/">2026-04-15</a> &gt; C 인터프리터에 JIT 컴파일러 개조하기...
-      </div>
-
-      <h1>C 인터프리터에 JIT 컴파일러 개조하기</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Retrofitting JIT Compilers into C Interpreters</p>
-      <div class="article-meta">
-        <span>📅 2026-04-15</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 10</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>yk라는 도구를 통해 C 인터프리터에 최소한의 코드 변경(약 400 LoC 추가, 50 LoC 변경)으로 JIT 컴파일러를 자동으로 추가할 수 있으며, Lua와 MicroPython에서 평균 2배 성능 향상을 보입니다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>인터프리터 기반 언어(Lua, Python, Ruby)의 성능을 최소한의 코드 변경으로 2배 개선</li><li>참조 구현과의 완전한 호환성을 유지하면서 성능과 최신 버전 업데이트 지원의 균형 제시</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>기존 인터프리터 기반 언어 구현의 성능 개선이 가능해져 새로운 언어 개발 및 유지 보수 시 선택지가 확대됩니다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>C 인터프리터를 JIT 컴파일러로 자동 변환하기</h2>
-<p>C 인터프리터는 많은 프로그래밍 언어 구현의 기초입니다. Lua, Ruby, Python 같은 언어들이 C 인터프리터를 기반으로 만들어졌죠. 다만 한 가지 문제가 있는데, C 인터프리터는 JIT 컴파일러를 쓰는 구현에 비해 상당히 느립니다.</p>
-<p>이 글에서는 C 인터프리터를 약간의 코드 수정만으로 JIT 컴파일 VM(Virtual Machine)으로 자동 변환할 수 있다는 걸 보여드리려고 합니다. 이 방식은 성능을 높이면서도 기존 인터프리터와의 호환성을 완벽히 유지할 수 있다는 점에서 지금까지 불가능했던 새로운 선택지를 제시합니다.</p>
-<p>이걸 가능하게 하는 시스템이 바로 <strong>yk</strong>입니다. 우리가 오랫동안 작업해온 프로젝트인데요, 먼저 현 상태를 명확히 해두겠습니다.</p>
-<h3>yk의 현재 상태</h3>
-<p>yk는 아직 알파 단계의 소프트웨어입니다. 프로덕션 환경에서 쓸 수 있는 수준은 아니지만, 단순한 연구 프로토타입을 넘어선 정도의 품질은 갖추고 있습니다. 아직 프로그램을 멈추게 하는 TODO들이 있을 수 있고, 일부 기능이 최적화되지 않은 상태로 동작할 수도 있습니다. 우리가 원하는 최적화의 일부만 구현된 상태고, 현재는 x64 아키텍처만 지원하며, 성능에 대해 확실한 결론을 내리기 위한 충분한 언어와 벤치마크가 아직 모여있지 않은 상태입니다.</p>
-<p>그렇긴 해도 이미 흥미로운 결과들을 볼 수 있습니다.</p>
-<h3>실제 성능 개선 사례</h3>
-<p>Mandelbrot 프로그램으로 테스트해봤는데, 기준이 되는 PUC Lua VM과 우리가 만든 yklua(자동 파생 JIT 컴파일러가 적용된 PUC Lua)를 비교하면 눈에 띄는 차이가 납니다.</p>
-<p>물론 저는 여기서 평균 이상의 성능을 보여주는 예제를 골라서 보여드린 겁니다. 실제로 우리 Lua 벤치마크 스위트로 측정하면 더 현실적인 기하평균은 약 2배 정도의 개선입니다. 작은 벤치마크는 우리가 사용하는 기법에 유리하게 작동하는 경향이 있으니까, 실제 프로그램에서는 이것보다 개선폭이 작을 수 있습니다.</p>
-<p>놀라운 건 이 성능 향상을 얻기 위해 PUC Lua에 추가한 코드가 약 400줄이고, 실제로 변경한 부분은 50줄 미만이라는 점입니다.</p>
-<h3>yk의 트레이드오프</h3>
-<p>이건 yk가 제시하는 트레이드오프를 잘 보여줍니다. yklua는 손으로 정성스럽게 만들어진 LuaJIT 같은 최고 성능에는 못 미칩니다. 하지만 LuaJIT는 13년 전의 Lua 5.1 수준에 머물러 있는 반면, yklua는 PUC Lua의 최신 업데이트를 자동으로 따라갈 수 있죠.</p>
-<p>이 글의 목적은 어느 쪽이 더 나은지 판단하는 게 아닙니다. 오히려 이런 트레이드오프가 존재하며, yk가 지금까지는 거의 불가능했던 설계 영역을 채우고 있다는 걸 보여드리는 것입니다.</p>
-<h3>다른 언어로의 확장</h3>
-<p>yk는 Lua에만 국한되지 않습니다. 여러 소규모 구현들과 함께 최근에는 MicroPython을 yk로 조정하는 작업을 진행했고, 그 결과물이 <strong>ykmicropython</strong>입니다.</p>
-<p>MicroPython 인터프리터는 아직 우리가 지원하지 않는 언어 관례들을 사용하고 있어서, 그런 부분을 만나면 성능이 매우 떨어집니다. 하지만 그런 부분을 많이 사용하지 않는 프로그램이라면 이미 의미 있는 성능 개선을 경험할 수 있습니다.</p>
-<h3>앞으로의 목표</h3>
-<p>궁극적으로 우리의 목표는, C로 만들어진 인터프리터가 있다면 누구든 yk로 쉽게 JIT 컴파일러를 붙이고 추가적인 성능 향상을 거의 무료로 얻을 수 있게 하는 것입니다.</p>
-<p>이 글에서는 우리가 왜 yk를 만들었는지, 어떻게 작동하는지, 그리고 관련된 기술적 과제들을 설명하려고 합니다. 이 글이 길긴 하지만 모든 걸 다 다루지는 못할 것 같고, 많은 부분을 단순화하게 될 겁니다. 앞으로의 글들에서 더 자세한 내용을 채우고, 뉘앙스를 더하고, yk의 진화 과정을 추적해나갈 계획입니다.</p>
-<h3>감사의 말</h3>
-<p>Shopify와 Royal Academy of Engineering에서 이 연구를 지원해주신 점에 감사드립니다. 물론 이들 조직의 공식 입장을 대변하는 것은 아닙니다. 이 글에서 소개하는 작업은 Edd Barrett, Lukas Diekmann, Pavel Durov와의 공동 노력입니다. 그리고 고 Chris Seaton에게 이 작업을 바칩니다. Chris는 yk가 아직 작은 데모에 불과할 때부터 응원해주신 초기 지지자였습니다.</p>
-<hr>
-<h3>인터프리터와 JIT 컴파일의 기초</h3>
-<p>많은 프로그래밍 언어가 인터프리터로 구현됩니다. 동적 타입 언어에서는 가장 일반적인 방식이며, CPU 시뮬레이터부터 도메인 특화 언어까지 다양한 분야에서 쓰입니다. 인터프리터는 구현하기 간단하지만, 성능이 좋지 않다는 게 단점입니다.</p>
-<p>그래서 인터프리터에 JIT(Just-In-Time) 컴파일러를 추가하는 게 일반적입니다. JIT 컴파일의 핵심 원리는 간단합니다. 프로그램이 과거에 실행된 방식이 앞으로도 유사하게 실행될 거라는 가정입니다. JIT 컴파일러는 이 가정에 기반해 프로그램을 추측적으로 최적화합니다. 가정이 맞다면 성능이 좋지만, 가정이 틀리면 성능이 일시적으로 떨어질 수 있습니다.</p>
-<p>따라서 JIT 컴파일러는 실행 중인 프로그램을 관찰하고, 자주 실행되는 핫(hot) 코드를 식별해야 합니다.</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://tratt.net/laurie/blog/2026/retrofitting_jit_compilers_into_c_interpreters.html" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-15%20C%20%EC%9D%B8%ED%84%B0%ED%94%84%EB%A6%AC%ED%84%B0%EC%97%90%20JIT%20%EC%BB%B4%ED%8C%8C%EC%9D%BC%EB%9F%AC%20%EA%B0%9C%EC%A1%B0%ED%95%98%EA%B8%B0&labels=feedback%2Cliked&body=**Article**%3A%20C%20%EC%9D%B8%ED%84%B0%ED%94%84%EB%A6%AC%ED%84%B0%EC%97%90%20JIT%20%EC%BB%B4%ED%8C%8C%EC%9D%BC%EB%9F%AC%20%EA%B0%9C%EC%A1%B0%ED%95%98%EA%B8%B0%0A**URL**%3A%20https%3A%2F%2Ftratt.net%2Flaurie%2Fblog%2F2026%2Fretrofitting_jit_compilers_into_c_interpreters.html%0A**Date**%3A%202026-04-15%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./retrofitting-jit-compilers-into-c-interpreters/">./retrofitting-jit-compilers-into-c-interpreters/</a>…</p>
+<script>location.replace("./retrofitting-jit-compilers-into-c-interpreters/");</script>
 </body>
 </html>

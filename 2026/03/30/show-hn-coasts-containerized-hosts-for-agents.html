@@ -1,142 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coasts – 에이전트용 컨테이너화된 호스트 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./show-hn-coasts-containerized-hosts-for-agents/">
+<meta http-equiv="refresh" content="0; url=./show-hn-coasts-containerized-hosts-for-agents/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/30/">2026-03-30</a> &gt; Coasts – 에이전트용 컨테이너화된 호스트...
-      </div>
-
-      <h1>Coasts – 에이전트용 컨테이너화된 호스트</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Show HN: Coasts – Containerized Hosts for Agents</p>
-      <div class="article-meta">
-        <span>📅 2026-03-30</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 49</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>단일 머신에서 여러 고립된 개발 환경 인스턴스를 실행하는 CLI 도구로, Docker Compose와 호환되며 AI 에이전트 개발용으로 최적화되었습니다. 기존 코드 변경 없이 Coastfile만 추가하면 작동하며, 오프라인 우선 설계로 벤더 락인 위험이 없습니다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>Docker Compose 호환 또는 기존 설정 그대로 다중 격리 환경 구성 가능하며, Git worktree 기반으로 AI 도구 무관하게 동작</li><li>로컬 관찰성 UI와 동적 포트 바인딩으로 여러 환경을 동시에 모니터링 및 개발 가능</li><li>벤더 종속성 없는 오프라인 워크플로우로 완전한 이식성과 자율성 제공</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>AI 에이전트 개발자와 멀티 환경이 필요한 팀이 복잡한 로컬 개발 환경을 간편하게 관리하고 확장할 수 있는 실용적 도구입니다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>Coasts: 로컬 개발 환경을 효율적으로 관리하는 CLI 도구</h2>
-<p>Coasts(Containerized Hosts)는 한 대의 머신에서 여러 개의 독립된 개발 환경 인스턴스를 실행할 수 있는 CLI 도구입니다. 로컬 관찰성 UI까지 함께 제공되어 개발 상황을 한눈에 파악할 수 있어요.</p>
-<p>가장 좋은 점은 기존 애플리케이션 코드를 손댈 필요가 없다는 거예요. 저장소 루트에 작은 Coastfile만 추가하면 되거든요. 이미 Docker Compose를 쓰고 계신다면 기존 docker-compose.yml을 그대로 활용할 수 있고, Docker를 아직 도입하지 않으셨다면 그냥 바로 사용하시면 됩니다.</p>
-<h3>핵심 기능</h3>
-<p>한 번 빌드한 후 원하는 만큼의 인스턴스를 띄울 수 있습니다. 프로젝트에 필요한 볼륨과 네트워킹 구성을 자유롭게 설정할 수 있고, 각 코스트(coast)를 번갈아 체크아웃하여 호스트의 정규 포트를 바인딩하거나 동적 포트를 사용해서 다른 워크트리의 진행 상황을 확인할 수 있어요.</p>
-<p>AI 제공자나 에이전트 프레임워크에 구애받지 않습니다. 유일한 요구사항은 Git 워크트리뿐이라서, 도구를 바꿔도 작업 방식에 변화가 없어요.</p>
-<p>그리고 Coasts는 완전히 오프라인 우선입니다. 호스팅된 서비스에 의존하지 않으니 벤더 록인 위험이 전혀 없어요. 만약 Coasts 팀이 사라져도 로컬 워크플로우는 계속 돌아갑니다.</p>
-<h3>설치</h3>
-<p>최신 버전을 설치하려면 아래 명령어를 실행하세요:</p>
-<pre><code class="language-bash">eval &quot;$(curl -fsSL https://coasts.dev/install)&quot;</code></pre>
-<p>웹사이트, 문서, 상세한 설치 가이드는 coasts.dev에서 확인할 수 있습니다.</p>
-<h3>시작해보기</h3>
-<p>Coasts를 직접 경험해보고 싶으신가요? [coasts-demo 저장소](https://github.com/...)에서 작은 데모 프로젝트를 찾아볼 수 있습니다.</p>
-<p>Claude Code, Codex, Conductor, Cursor 등 다양한 에이전트 도구와의 연동 데모도 제공되고 있습니다.</p>
-<h3>기여하기</h3>
-<p>이 프로젝트에 기여하고 싶으시다면 기여 가이드를 읽어보세요.</p>
-<p>&gt; <strong>참고</strong>: 현재 Coasts는 macOS를 먼저 지원합니다. Linux에서도 개발이 가능하지만, 1024 이하의 정규 포트는 coast checkout 전에 호스트 설정이 필요합니다.</p>
-<p>HTTPS 스택에서 Caddy를 사용한다면, Coasts는 Coast 설치별로 하나의 로컬 Caddy 루트 CA를 재사용합니다. 한 번만 신뢰하면, 같은 COAST_HOME 아래의 모든 워크스페이스가 그걸 계속 사용하게 되는 거죠. coast와 coast-dev는 서로 다른 Coast 홈을 쓰기 때문에 분리되어 있습니다.</p>
-<hr>
-<h3>로컬 개발 환경 세팅</h3>
-<h4>필수 요구사항</h4>
-<ul>
-<li>Rust (stable toolchain)</li>
-<li>Docker</li>
-<li>Node.js</li>
-<li>socat (macOS: <code>brew install socat</code>, Ubuntu: <code>sudo apt install socat</code>)</li>
-<li>Git</li>
-</ul>
-<h4>개발 환경 구축</h4>
-<p>처음 한 번만 세팅 스크립트를 실행하면 웹 UI를 빌드하고, 워크스페이스를 컴파일한 후 <code>coast-dev</code> / <code>coastd-dev</code>를 <code>~/.local/bin</code>으로 심링크합니다:</p>
-<pre><code class="language-bash">./dev_setup.sh</code></pre>
-<p>첫 실행 시 <code>~/.local/bin</code>을 PATH에 추가합니다. 쉘을 다시 시작하거나 <code>~/.zshrc</code>를 소스로 실행해서 적용하세요.</p>
-<p>개발 모드는 <code>~/.coast-dev/</code> 디렉토리와 31416 포트를 사용합니다. 덕분에 전역 Coasts 설치(31415 포트)와 충돌하지 않아요. 로컬 HTTPS 신뢰도 마찬가지인데, <code>coast-dev</code>는 <code>~/.coast-dev/caddy/pki/...</code> 아래의 안정적인 Caddy 루트를 재사용하고, 정규 설치는 <code>~/.coast/caddy/pki/...</code>를 사용합니다.</p>
-<p>활성 설치의 루트 인증서는 다음 명령어로 확인하거나 내보낼 수 있습니다:</p>
-<pre><code class="language-bash">coast cert info
-coast cert export --to ~/Downloads/coast-root.crt</code></pre>
-<p>Coasts가 인증서를 OS나 브라우저 신뢰 저장소에 자동으로 설치하지는 않습니다. 내보낸 후 필요한 곳에서 수동으로 신뢰 설정하세요.</p>
-<h4>일상 개발 워크플로우</h4>
-<p>터미널 3개를 띄워놓고 다음 명령어들을 각각 실행하세요:</p>
-<p><strong>터미널 1 — 개발 데몬:</strong></p>
-<pre><code class="language-bash">coast-dev daemon start # 백그라운드에서 시작
-# 또는: coastd-dev --foreground # 로그를 보려면 포그라운드에서 시작</code></pre>
-<p>Rust 변경사항이 <code>make watch</code>로 다시 컴파일되면, 터미널 1의 데몬을 재시작해서 반영하세요:</p>
-<pre><code class="language-bash">coast-dev daemon restart</code></pre>
-<p><strong>터미널 2 — Rust 재컴파일:</strong></p>
-<pre><code class="language-bash">make watch</code></pre>
-<p><code>cargo watch</code>를 실행해서 Rust 소스 파일이 변경될 때마다 워크스페이스를 다시 컴파일합니다. 재컴파일이 완료되면 터미널 1의 데몬을 재시작하세요.</p>
-<p><strong>터미널 3 — 웹 UI (핫 리로드 포함):</strong></p>
-<pre><code class="language-bash">cd coast-guard
-npm install
-npm run dev:coast-dev</code></pre>
-<p>이렇게 하면 Vite 개발 서버가 <code>http://localhost:5173</code>에서 시작되고, 핫 모듈 리플레이스먼트를 지원합니다. <code>/api</code> 요청은 localhost:31416의 개발 데몬으로 프록시됩니다.</p>
-<p>프로덕션 데몬(31415 포트)으로 UI를 개발할 때는 <code>npm run dev:coast-dev</code> 대신 <code>npm run dev</code>를 사용하세요.</p>
-<h4>Makefile 커맨드</h4>
-<p>Makefile이 개발 작업의 주요 진입점입니다:</p>
-<div class="table-wrapper"><table><thead><tr><th>명령어</th><th>설명</th></tr></thead><tbody><tr><td><code>make lint</code></td><td>포맷팅 확인 (<code>cargo fmt --check</code>) 및 <code>cargo clippy</code> 실행</td></tr><tr><td><code>make fix</code></td><td>자동 포맷팅 및 clippy 경고 자동 수정</td></tr><tr><td><code>make test</code></td><td>모든 워크스페이스 크레이트의 단위 테스트 실행</td></tr><tr><td><code>make check</code></td><td><code>make lint</code> + <code>make test</code> 순차 실행</td></tr><tr><td><code>make coverage</code></td><td>HTML 커버리지 리포트 생성 및 열기</td></tr><tr><td><code>make watch</code></td><td>소스 변경 시 재컴파일 (<code>cargo-watch</code> 필수)</td></tr></tbody></table></div>
-<hr>
-<h3>Coast Guard (웹 UI) 개발</h3>
-<h4>TypeScript 타입 생성</h4>
-<p>웹 UI는 ts-rs를 통해 Rust 구조체로부터 생성된 TypeScript 타입에 의존합니다. UI에서 사용되는 Rust 타입을 변경한 후에는 바인딩을 다시 생성해야 합니다:</p>
-<pre><code class="language-bash">cd coast-guard
-npm run generate:types</code></pre>
-<p>이 명령어는 <code>cargo test -p coast-core export_bindings</code>를 실행하고 <code>src/types/generated/</code> 아래의 배럴 파일을 다시 빌드합니다.</p>
-<h4>문서 매니페스트 생성</h4>
-<p>UI의 문서 뷰어는 생성된 매니페스트를 읽습니다. <code>docs/</code> 디렉토리의 마크다운 파일을 변경한 후에는 다시 생성하세요:</p>
-<pre><code class="language-bash">cd coast-guard
-npm run generate:docs</code></pre>
-<h4>문서 지역화 및 검색 인덱스</h4>
-<p>번역과 검색 인덱스 생성은 Makefile을 통해 호출되는 중앙화된 Python 스크립트로 관리됩니다:</p>
-<pre><code class="language-bash">make docs-status # 문서 번역 상태 확인</code></pre></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://github.com/coast-guard/coasts" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-30%20Coasts%20%E2%80%93%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%EC%9A%A9%20%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88%ED%99%94%EB%90%9C%20%ED%98%B8%EC%8A%A4%ED%8A%B8&labels=feedback%2Cliked&body=**Article**%3A%20Coasts%20%E2%80%93%20%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8%EC%9A%A9%20%EC%BB%A8%ED%85%8C%EC%9D%B4%EB%84%88%ED%99%94%EB%90%9C%20%ED%98%B8%EC%8A%A4%ED%8A%B8%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Fcoast-guard%2Fcoasts%0A**Date**%3A%202026-03-30%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./show-hn-coasts-containerized-hosts-for-agents/">./show-hn-coasts-containerized-hosts-for-agents/</a>…</p>
+<script>location.replace("./show-hn-coasts-containerized-hosts-for-agents/");</script>
 </body>
 </html>

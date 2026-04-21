@@ -1,130 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>검토되지 않은 AI 생성 코드의 자동화된 검증을 향하여 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./toward-automated-verification-of-unreviewed-ai-generated-code/">
+<meta http-equiv="refresh" content="0; url=./toward-automated-verification-of-unreviewed-ai-generated-code/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/17/">2026-03-17</a> &gt; 검토되지 않은 AI 생성 코드의 자동화된 검증을 향하여...
-      </div>
-
-      <h1>검토되지 않은 AI 생성 코드의 자동화된 검증을 향하여</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Toward automated verification of unreviewed AI-generated code</p>
-      <div class="article-meta">
-        <span>📅 2026-03-17</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 78</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>AI 생성 코드를 전체 검토 대신 자동화된 검증(속성 기반 테스트, 뮤테이션 테스트, 타입 체크 등)으로 신뢰할 수 있다는 실험 결과를 제시한다. 이러한 제약 조건들을 통해 AI 생성 코드를 검토 없이도 프로덕션에 사용할 수 있는 가능성을 보여준다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>Review 대신 Verify: 속성 기반 테스트, 뮤테이션 테스트, 부작용 검사를 통한 자동화된 검증으로 AI 코드 신뢰성 확보</li><li>머신 강제 제약: 제약 조건들의 조합으로 유효하지만 잘못된 프로그램의 가능성을 최소화</li><li>컴파일된 코드처럼 취급: 검증된 AI 코드의 유지보수성과 가독성은 덜 중요하며 컴파일된 산출물처럼 다룰 수 있음</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>AI 생성 코드를 프로덕션에서 실용적으로 활용하기 위한 검증 전략을 제공한다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>AI가 작성한 코드, 리뷰 없이 프로덕션에 쓸 수 있을까?</h2>
-<p>AI가 생성한 코드를 프로덕션 환경에서 쓰려면 어떤 조건이 필요할까요? 이 질문에 답하기 위해 실험을 진행했고, 제 생각이 크게 바뀌었습니다. 기존의 &quot;AI 코드는 반드시 리뷰해야 한다&quot;는 입장에서 &quot;AI 코드는 반드시 검증해야 한다&quot;로 전환된 거죠.</p>
-<p>여기서 말하는 리뷰란 코드를 한 줄 한 줄 읽는 행위이고, 검증이란 코드가 정말 맞는지 확인하는 것입니다. 리뷰, 자동화된 도구 제약, 또는 둘 다를 통해서 말이에요.</p>
-<h3>실험: 단순한 FizzBuzz 문제로 시작</h3>
-<p>AI 코딩 에이전트에게 간소화된 FizzBuzz 문제를 풀도록 했습니다. 그 다음 생성된 코드가 여러 제약 조건을 통과하는지 반복해서 검증했어요.</p>
-<h4>1. Property-based 테스트 통과 (부록 B 참조)</h4>
-<p>일반적인 테스트는 특정 입력값에 대한 특정 출력값만 확인합니다. 하지만 property-based 테스트는 훨씬 더 넓은 범위의 값들을 검증하죠. 이를 통해 요구사항이 정말 충족되는지 확인할 수 있습니다.</p>
-<p>여기엔 다음이 포함됩니다:</p>
-<ul>
-<li>예외가 발생하지 않는지 확인</li>
-<li>레이턴시가 충분히 낮은지 확인</li>
-</ul>
-<h4>2. 뮤테이션 테스트 통과 (부록 C 참조)</h4>
-<p>뮤테이션 테스트는 일반적으로 테스트 스위트를 확충할 때 쓰입니다. 하지만 우리 테스트가 정확하다면, 반대로 이를 활용해서 코드를 제약할 수 있어요. 코드가 요구사항 이상의 것을 하지 않도록 보장하는 거죠.</p>
-<h4>3. 부작용(Side Effect) 제거</h4>
-<p>코드가 예상치 못한 부작용을 일으키지 않아야 합니다.</p>
-<h4>4. 타입 체크 및 린팅</h4>
-<p>Python을 사용하므로 타입 체크와 린팅도 강제했습니다. (다른 언어라면 이 단계가 필요 없을 수도 있어요)</p>
-<h3>결과: 사람이 코드를 직접 보지 않아도 괜찮을까?</h3>
-<p>이 모든 검증을 거친 후라면, 생성된 코드를 직접 읽지 않고도 신뢰할 수 있다고 생각합니다. 물론 이 모든 검증을 통과하면서도 여전히 틀린 코드가 존재할 수는 있지만, 그런 경우는 매우 드물고 우연히 마주치기도 어려워요.</p>
-<h3>유지보수성은 어떻게 되나요?</h3>
-<p>처음엔 생성된 코드의 유지보수성을 걱정했습니다. 하지만 생각해보니, 이 관점에서는 유지보수성과 가독성이 그리 중요하지 않을 수도 있겠더라고요. 컴파일된 코드처럼 취급하면 되는 거죠.</p>
-<h3>현재의 한계</h3>
-<p>지금 당장은 이런 검증 체계를 구축하는 데 드는 비용이 코드를 직접 읽는 비용보다 클 수 있습니다. 하지만 이렇게 기초선을 다져두면, AI 에이전트와 도구가 개선되면서 점점 그 비용을 줄여갈 수 있을 거예요.</p>
-<p>실제로 이런 검증들을 직접 구현해보고 싶다면 [fizzbuzz-without-human-review](https://github.com) 리포지토리를 참고하세요. Python으로 이 모든 체크를 어떻게 구현하는지 볼 수 있습니다.</p>
-<hr>
-<h3>부록 A: 관련 연구</h3>
-<p><strong>형식 검증(Formal Verification)</strong></p>
-<p>AI 생성 코드가 정말 작동하는지 보장하기 위해 형식 검증이 제안되어 왔습니다. 하지만 실제로 적용하기엔 상당한 노력이 필요하죠. 아마도 중간 지점이 있을 겁니다. 오류율이 충분히 낮아서 마음 놓고 잘 수 있는 수준 말이에요.</p>
-<p><strong>JustHTML 사례</strong></p>
-<p>JustHTML은 대규모 유닛 테스트 스위트를 통해 AI 생성 코드를 기초 있게 다루는 방식으로 큰 호응을 얻었습니다. 초기 버전에는 작가가 지적한 한계가 있었는데, 일부 코드가 &quot;테스트 데이터를 정확히 따라 하는&quot; 문제였어요. 하지만 &quot;LLM 모델이 개선되면서&quot; 이런 일은 덜 흔해졌습니다. 그들은 코드를 직접 읽어서 이를 감지했지만, property-based 테스트가 이런 전략을 충분히 억제할 수 있다고 생각합니다. 따라서 사람의 리뷰가 필요할 일이 줄어들 거예요.</p>
-<p><strong>Software Factory 프로젝트</strong></p>
-<p>한 팀은 &quot;Software Factory&quot;라는 개념으로 아무도 코드를 리뷰하지 않는 환경을 만들고 있습니다. 그들의 기술에 대해 깊이 있게 생각해본 건 아니지만, 이 개념은 너무 관련이 있어서 언급하지 않을 수 없네요.</p>
-<hr>
-<h3>부록 B: Property-based 테스트 입문</h3>
-<p>일반적인 소프트웨어 테스트는 특정 입력에 특정 출력을 확인합니다:</p>
-<pre><code class="language-python">def test_returns_fizzbuzz_for_multiples_of_3_and_5(n: int) -&gt; None:
-    assert fizzbuzz(15) == &quot;FizzBuzz&quot;
-    assert fizzbuzz(30) == &quot;FizzBuzz&quot;</code></pre>
-<p>Property-based 테스트는 훨씬 더 넓은 범위의 값을 대상으로 실행됩니다. 아래는 Hypothesis를 사용한 예시인데, 3과 5의 배수 100개를 반-무작위로 생성해서 테스트하고, 0이나 극도로 큰 수 같은 &quot;흥미로운&quot; 케이스를 선호합니다:</p>
-<pre><code class="language-python">@given(n=st.integers(min_value=1).map(lambda n: n * 3 * 5))
-def test_returns_fizzbuzz_for_multiples_of_3_and_5(n: int) -&gt; None:
-    assert fizzbuzz(n) == &quot;FizzBuzz&quot;</code></pre>
-<p>특정 입력값 테스트 대비 이 방식은 시스템의 특정 &quot;속성&quot;이 정말 유지되는지 훨씬 더 확신할 수 있게 해줍니다. 다만 속도가 느리고, 실행마다 결과가 다르며, 복잡도가 높다는 단점이 있어요. 더 자세한 정보는 [Hypothesis 문서](https://hypothesis.readthedocs.io/)를 참고하세요.</p>
-<hr>
-<h3>부록 C: 뮤테이션 테스트 입문</h3>
-<p>mutmut 같은 뮤테이션 테스트 도구는 코드를 작은 단위로 변경합니다. 연산자를 바꾸거나 상수를 살짝 조정하는 식으로요. 그 다음 테스트 스위트를 다시 실행합니다. 테스트가 실패하면 &quot;뮤턴트&quot;가 &quot;죽었다&quot;(좋음)고 하고, 통과하면 &quot;생존했다&quot;(안 좋음)고 합니다.</p>
-<p>예를 들어 다음 코드를 봅시다:</p>
-<pre><code class="language-python">def double(n: int):
-    print(f&quot;DEBUG n={n}&quot;)
-    return n * 2
-
-def test_doubles_input():
-    assert double(3) == 6</code></pre>
-<p><code>print(f&quot;DEBUG n={n}&quot;)</code>를 <code>print(None)</code>으로 뮤테이션하면 <code>test_doubles_input</code>이 여전히 통과하므로 뮤턴트가 생존합니다. 이를 해결하려면 부작용을 제거하거나 이에 대한 테스트를 추가해야 해요.</p>
-<hr>
-<h3>부록 D: 감사의 말</h3>
-<p>이 글의 초안에 피드백을 주신 Taha Vasowalla와 다른 리뷰어분들께 감사드립니다.</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://peterlavigne.com/writing/verifying-ai-generated-code" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-17%20%EA%B2%80%ED%86%A0%EB%90%98%EC%A7%80%20%EC%95%8A%EC%9D%80%20AI%20%EC%83%9D%EC%84%B1%20%EC%BD%94%EB%93%9C%EC%9D%98%20%EC%9E%90%EB%8F%99%ED%99%94%EB%90%9C%20%EA%B2%80%EC%A6%9D%EC%9D%84%20%ED%96%A5%ED%95%98%EC%97%AC&labels=feedback%2Cliked&body=**Article**%3A%20%EA%B2%80%ED%86%A0%EB%90%98%EC%A7%80%20%EC%95%8A%EC%9D%80%20AI%20%EC%83%9D%EC%84%B1%20%EC%BD%94%EB%93%9C%EC%9D%98%20%EC%9E%90%EB%8F%99%ED%99%94%EB%90%9C%20%EA%B2%80%EC%A6%9D%EC%9D%84%20%ED%96%A5%ED%95%98%EC%97%AC%0A**URL**%3A%20https%3A%2F%2Fpeterlavigne.com%2Fwriting%2Fverifying-ai-generated-code%0A**Date**%3A%202026-03-17%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./toward-automated-verification-of-unreviewed-ai-generated-code/">./toward-automated-verification-of-unreviewed-ai-generated-code/</a>…</p>
+<script>location.replace("./toward-automated-verification-of-unreviewed-ai-generated-code/");</script>
 </body>
 </html>

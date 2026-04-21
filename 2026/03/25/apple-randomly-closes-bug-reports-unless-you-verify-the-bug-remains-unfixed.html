@@ -1,91 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apple, &quot;확인&quot; 없으면 버그 리포트 무조건 종료 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./apple-randomly-closes-bug-reports-unless-you-verify-the-bug-remains-unfixed/">
+<meta http-equiv="refresh" content="0; url=./apple-randomly-closes-bug-reports-unless-you-verify-the-bug-remains-unfixed/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/25/">2026-03-25</a> &gt; Apple, &quot;확인&quot; 없으면 버그 리포트 무조건 종료...
-      </div>
-
-      <h1>Apple, &quot;확인&quot; 없으면 버그 리포트 무조건 종료</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Apple randomly closes bug reports unless you &quot;verify&quot; the bug remains unfixed</p>
-      <div class="article-meta">
-        <span>📅 2026-03-25</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 210</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>Apple이 개발자들의 버그 리포트를 장시간 방치한 후 갑자기 검증을 요구하고, 검증 기한을 맞추지 못하면 실제 수정 여부와 상관없이 버그를 해결됨으로 표시하는 관행을 지적합니다. 이는 실제로 수정되지 않은 버그까지 종료시키는 결과를 초래합니다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>Apple이 3년간 응답 없던 버그 리포트에 2주 내 검증을 강요하고 미응시 시 강제 종료</li><li>개발자들이 베타 테스트에 투입할 시간과 자원이 부족한데도 검증 책임을 전가</li><li>버그 리포트 수를 인위적으로 줄여 내부 품질 지표를 좋게 보이게 하는 구조적 문제</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>Apple 플랫폼 개발자들의 버그 리포팅이 실질적 효과를 거두기 어려워 생태계 품질 개선이 정체될 수 있습니다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>Apple Feedback Assistant에 버그 리포트를 제출하는 이유? 미쳤거나 중독됐다고 봐야 할 것 같아요</h2>
-<p>솔직히 말하면, 저는 버그 리포트 제출을 끊었다 다시 시작했다를 반복하고 있습니다. 심지어 Feedback Assistant를 개선하라는 공개 보이콧까지 주도해봤지만 다른 개발자들은 참여하지 않았어요. 그럼에도 계속 버그를 보고하는 이유는 단순합니다. Apple이 실제로 일부 버그를 수정하거든요.</p>
-<p>다만 저의 불만은 고쳐지지 않은 버그 때문이 아닙니다. 문제는 Apple이 버그 리포트와 그것을 작성하는 사람들을 얼마나 무시하느냐는 겁니다. Apple은 우리의 시간을 의도적으로 낭비하면서도 전혀 미안해하지 않습니다. 마치 우리의 시간이 가치가 없다거나, Apple을 위해 봉사할 의무가 있는 것처럼요.</p>
-<h3>3년간 아무 답도 없다가</h3>
-<p>2023년 3월에 저는 FB12088655 &quot;Privacy: Network filter extension TCP connection and IP address leak&quot; 버그를 보고했습니다. 당시 제 블로그에서 이 버그에 대해 언급했는데, 재현 방법과 예제 Xcode 프로젝트를 모두 Apple에 제공했었죠.</p>
-<p>그런데 3년이 지났습니다. 아무런 연락이 없다가 2주 전, 갑자기 Apple에서 macOS 26.4 베타 4에서 이 문제를 &quot;검증&quot;해달라고 요청했어요.</p>
-<p>저는 매년 6월 WWDC 베타를 설치하긴 합니다. 하지만 9월 이후에는 베타를 돌리지 않아요. 무료 테스터로 일 년 내내 활동할 만큼 시간이나 Apple 기기가 충분하지 않거든요. 그래서 베타에서 이슈를 검증하는 것은 저에게 매우 번거로운 일입니다.</p>
-<p>과거에 Apple이 &quot;베타에서 검증해달&quot;고 요청한 버그들이 결국 수정되지 않은 적도 있었어요. 이번엔 직접 물었습니다. &quot;베타 4에서 버그가 수정됐나요? 당신들은 이미 제 재현 단계를 가지고 있지 않습니까?&quot;</p>
-<p>그들의 답변은 회피적이었고, 제 질문에 직접 답하지 않았습니다. 게다가 2주 안에 검증하지 않으면 버그 리포트를 닫겠다며 위협했어요. 3년을 침묵하다가 이제 와서 이런 요구를 하다니요.</p>
-<h3>실제로는 아무것도 수정되지 않았다</h3>
-<p>저는 직접 베타를 설치하지 않았지만, Little Snitch 개발자들과 이야기했습니다. 그들은 정기적으로 macOS 베타를 테스트하는데, 친절하게도 macOS 26.4 베타 4에서도 제 버그를 여전히 재현할 수 있다고 알려줬어요.</p>
-<p>어제 Apple이 공개 배포한 macOS 26.4를 받으니, 저도 제 지침과 예제 프로젝트로 버그를 재현할 수 있었습니다. Apple은 알면서도 저를 헛고생하게 만들었던 겁니다. 마치 버그가 저절로 사라질 거라고 기도하듯이, Apple은 아무 노력도 하지 않으면서 저에게 &quot;검증&quot;을 요구했던 거네요.</p>
-<h3>또 다른 경우</h3>
-<p>몇 주 전에 저는 다른 버그에 대해 블로그 글을 올렸습니다. FB22057274 &quot;Pinned tabs: slow-loading target=&quot;_blank&quot; links appear in the wrong tab&quot;인데, 이것도 100% 재현 가능하지만 Apple은 이를 &quot;Investigation complete - Unable to diagnose with current information&quot;으로 표시했어요.</p>
-<p>3월 9일에 저는 Apple에게 &quot;추가로 어떤 정보가 필요한가요?&quot;라고 질문했습니다. 애초에 Apple이 더 많은 정보를 요청한 적이 없었는데도요. 아직까지 답변을 받지 못했습니다.</p>
-<h3>지표 조작이 아닐까</h3>
-<p>저는 Apple 경영진이 하위 직원들에게 버그가 수정됐든 아니든 상관없이 버그 리포트를 닫으라고 인센티브를 주고 있다고 생각할 수밖에 없습니다. 눈에 띄지 않으면 신경 쓰지 않는다는 식이죠. Apple의 내부 지표상 그들은 소프트웨어 품질 문제가 없는 것처럼 보일 겁니다. 열린 버그 리포트 수를 인위적으로 낮게 유지하면 되니까요.</p>
-<p>재미있는 건, iPadOS 26.4 베타가 1달 전에 제가 보고한 Safari 크래시 버그를 재현했는데, Apple은 공개 배포 전에 이것도 수정하지 못했다는 점입니다.</p>
-<p>그러면 베타의 목적이 뭘까요? 제가 보기엔 버그를 보고하는 사람들을 귀찮게 하는 것일 뿐, 실제로 유용한 역할은 하지 않는 것 같습니다.</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://lapcatsoftware.com/articles/2026/3/11.html" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-25%20Apple%2C%20%26quot%3B%ED%99%95%EC%9D%B8%26quot%3B%20%EC%97%86%EC%9C%BC%EB%A9%B4%20%EB%B2%84%EA%B7%B8%20%EB%A6%AC%ED%8F%AC%ED%8A%B8%20%EB%AC%B4%EC%A1%B0%EA%B1%B4%20%EC%A2%85%EB%A3%8C&labels=feedback%2Cliked&body=**Article**%3A%20Apple%2C%20%22%ED%99%95%EC%9D%B8%22%20%EC%97%86%EC%9C%BC%EB%A9%B4%20%EB%B2%84%EA%B7%B8%20%EB%A6%AC%ED%8F%AC%ED%8A%B8%20%EB%AC%B4%EC%A1%B0%EA%B1%B4%20%EC%A2%85%EB%A3%8C%0A**URL**%3A%20https%3A%2F%2Flapcatsoftware.com%2Farticles%2F2026%2F3%2F11.html%0A**Date**%3A%202026-03-25%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./apple-randomly-closes-bug-reports-unless-you-verify-the-bug-remains-unfixed/">./apple-randomly-closes-bug-reports-unless-you-verify-the-bug-remains-unfixed/</a>…</p>
+<script>location.replace("./apple-randomly-closes-bug-reports-unless-you-verify-the-bug-remains-unfixed/");</script>
 </body>
 </html>

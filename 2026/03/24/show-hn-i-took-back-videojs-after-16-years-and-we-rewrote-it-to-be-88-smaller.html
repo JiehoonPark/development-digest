@@ -1,116 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video.js 16년 만에 완전 재작성, 번들 크기 88% 감소 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./show-hn-i-took-back-videojs-after-16-years-and-we-rewrote-it-to-be-88-smaller/">
+<meta http-equiv="refresh" content="0; url=./show-hn-i-took-back-videojs-after-16-years-and-we-rewrote-it-to-be-88-smaller/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/24/">2026-03-24</a> &gt; Video.js 16년 만에 완전 재작성, 번들 크기 88% 감소...
-      </div>
-
-      <h1>Video.js 16년 만에 완전 재작성, 번들 크기 88% 감소</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Show HN: I took back Video.js after 16 years and we rewrote it to be 88% smaller</p>
-      <div class="article-meta">
-        <span>📅 2026-03-24</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 62</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>Video.js v10.0.0 베타가 출시되었으며, 번들 크기를 88% 감축하고 React, TypeScript, Tailwind를 지원하도록 완전히 재설계되었습니다. Plyr, Vidstack, Media Chrome 등 주요 비디오 플레이어 프로젝트들이 협력하여 진행된 대규모 재구축입니다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>기본 번들 크기를 88% 감축(v8 대비)하고 HTML 기준 25.1KB(gzip)로 경량화</li><li>새로운 SPF(Streaming Processor Framework) 엔진으로 적응형 비트레이트 스트리밍 시에도 파일 크기 최소화(HLS 기준 v8의 19% 수준)</li><li>React, TypeScript, Tailwind 같은 최신 프레임워크와 도구에 최적화되고 AI 에이전트 친화적인 API 설계</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>웹 비디오 플레이어의 성능과 번들 크기 문제를 대폭 개선하고 현대적인 개발 패턴을 지원하므로 새로운 프로젝트에서 채택할 가치가 있습니다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>Video.js v10.0.0 베타 출시: 현대적 웹 비디오 플레이어의 재탄생</h2>
-<p>Video.js v10.0.0 베타를 드디어 공개하게 되어 기쁩니다. 이번 출시는 단순한 업데이트가 아닙니다. Video.js뿐만 아니라 Plyr, Vidstack, Media Chrome까지 함께 대규모로 재구축한 결과물이거든요. 웹 비디오를 진심으로 아끼는 개발자들이 힘을 모아 만들었는데, 참여 프로젝트들의 깃허브 스타만 총 75,000개, 월간 비디오 재생 건수는 수십억 건을 넘습니다.</p>
-<p>저는 16년 전 Flash에서 HTML5 비디오로 전환하는 과정을 돕기 위해 Video.js를 만들었습니다. 그동안 많은 사람들의 도움으로 성장했지만, 코드베이스와 API는 여전히 과거의 웹 개발 방식을 반영하고 있었어요. 이번 재구축은 현대적인 개발 패턴에 맞게 플레이어를 현대화하면서, 동시에 AI 기능 통합이라는 다음 단계의 전환을 준비하는 기초를 마련했습니다.</p>
-<p>우리가 집중한 포인트는 이렇습니다.</p>
-<p><strong>번들 크기 줄이기</strong> (기본 번들 크기 88% 감소)</p>
-<p><strong>프레임워크에 맞는 깊이 있는 커스터마이징</strong> (React, TypeScript, Tailwind 완벽 지원)</p>
-<p><strong>기본값부터 아름답고 빠르게</strong> (전문가들이 &quot;어떻게 이렇게 잘 만들었나요?&quot;라고 물어볼 정도)</p>
-<p><strong>AI 에이전트도 잘 이해할 수 있는 구조</strong> (코드베이스와 문서 설계)</p>
-<p>우리는 기존 웹 미디어 플레이어와는 다르게 작동하지만, 당신이 실제로 개발하는 방식에는 훨씬 더 가깝게 느껴질 거라 확신합니다.</p>
-<h3>사용 예시</h3>
-<p><strong>HTML</strong></p>
-<pre><code class="language-html">&lt;video-player&gt;
-&lt;video-skin&gt;
-&lt;video src=&quot;video.mp4&quot;&gt;&lt;/video&gt;
-&lt;/video-skin&gt;
-&lt;/video-player&gt;</code></pre>
-<p><strong>React</strong></p>
-<pre><code class="language-tsx">import '@videojs/react/video/skin.css';
-import { createPlayer } from '@videojs/react';
-import { videoFeatures, VideoSkin, Video } from '@videojs/react/video';
-
-const Player = createPlayer({
-  features: videoFeatures,
-});
-
-function App() {
-  return (
-    &lt;Player.Provider&gt;
-      &lt;VideoSkin&gt;
-        &lt;Video src=&quot;video.mp4&quot; /&gt;
-      &lt;/VideoSkin&gt;
-    &lt;/Player.Provider&gt;
-  );
-}</code></pre>
-<h3>번들 크기: 진짜 중요한 변화</h3>
-<p>요즘 비디오 플레이어에 대한 가장 큰 불만이 파일 크기입니다. 보통 미니파이 후 1MB, gzip 압축 후 수백 KB에 달하거든요. 플레이어는 생각보다 복잡한 애플리케이션이라 줄일 수 있는 바이트에는 한계가 있습니다. 그런데 레거시 플레이어들은 스마트 번들러나 트리 쉐이킹 같은 최적화 기법이 없던 시대에 만들어졌어요. 대부분 당신이 실제로 사용하지 않는 기능들을 잔뜩 들고 있는 거죠.</p>
-<p>Video.js v10의 기본 플레이어는 이전 버전(v8.x.x)보다 <strong>88% 더 작아졌습니다</strong>. 이 감소분의 상당 부분은 적응형 비트레이트(ABR) 지원을 별도 번들로 분리한 덕분입니다. 이전에도 <code>video.js/core</code>에서 따로 임포트하면 ABR을 제외할 수 있었지만, 대부분의 Video.js 사용자는 ABR 기능을 쓰지 않으면서도 기본 번들을 받았거든요. ABR을 제외하고 비교하면, v10 기본 비디오 플레이어(HTML)는 여전히 이전 버전보다 66% 작습니다.</p>
-<div class="table-wrapper"><table><thead><tr><th>플레이어</th><th>미니파이 (kB)</th><th>gzip (kB)</th><th>비고</th></tr></thead><tbody><tr><td>Video.js v8 (core)</td><td>260.5</td><td>75.2</td><td></td></tr><tr><td>Vidstack</td><td>237.4</td><td>74.1</td><td></td></tr><tr><td>Media Chrome</td><td>175.5</td><td>41.3</td><td></td></tr><tr><td>Plyr</td><td>109.8</td><td>32.6</td><td></td></tr><tr><td><strong>Video.js v10 Video Player [HTML]</strong></td><td><strong>97.4</strong></td><td><strong>25.1</strong></td><td></td></tr><tr><td><strong>Video.js v10 Audio Player [HTML]</strong></td><td><strong>85.8</strong></td><td><strong>23.0</strong></td><td></td></tr><tr><td><strong>Video.js v10 Video Player [React]</strong></td><td><strong>62.0</strong></td><td><strong>18.0</strong></td><td></td></tr><tr><td><strong>Video.js v10 Audio Player [React]</strong></td><td><strong>49.2</strong></td><td><strong>15.2</strong></td><td></td></tr><tr><td><strong>Video.js v10 Background Video [HTML]</strong></td><td><strong>22.2</strong></td><td><strong>6.9</strong></td><td></td></tr><tr><td><strong>Video.js v10 Background Video [React]</strong></td><td><strong>10.7</strong></td><td><strong>3.5</strong></td><td></td></tr></tbody></table></div>
-<h3>v10 엔진: 성능의 혁신</h3>
-<p>ABR을 빼고 비교해도, 완전한 기능을 갖춘 비디오 플레이어의 무게는 대부분 스트리밍 엔진에서 나옵니다. HLS와 DASH 같은 적응형 비트레이트(ABR) 포맷을 다루려면 매니페스트 파싱, 세그먼트 로딩, 버퍼 관리, ABR 로직, 코덱 감지, MSE 통합, DRM, 서버사이드 광고 등 정말 많은 작업이 필요하거든요. 기존 스트리밍 엔진들도 비디오 플레이어처럼 모놀리식 구조라 번들 크기를 줄이기 어려웠습니다.</p>
-<p>v10에서 우리는 <strong>SPF</strong>(Streaming Processor Framework)라는 새로운 엔진 프로젝트를 시작했습니다. 함수형 컴포넌트들을 조합해서 목적에 맞는 작은 스트리밍 엔진을 만드는 방식이거든요. 예를 들어 짧은 비디오 앱이라면 DRM이나 광고 코드 없이 간단한 적응형 스트리밍만 포함하는 엔진을 구성할 수 있습니다.</p>
-<p>간단한 HLS만 필요한 경우, Video.js v10 + SPF 조합은 Video.js v8 + 전체 ABR 지원 구성의 <strong>단 19% 크기</strong>입니다.</p>
-<div class="table-wrapper"><table><thead><tr><th>플레이어</th><th>미니파이 (kB)</th><th>gzip (kB)</th><th>비고</th></tr></thead><tbody><tr><td>Vidstack + HLS.js</td><td>764.3</td><td>238.1</td><td></td></tr><tr><td>Media Chrome + HLS.js</td><td>701.2</td><td>202.9</td><td></td></tr><tr><td>Video.js v8 + VHS*</td><td>697.0</td><td>202.7</td><td>*기본 번들에 포함</td></tr><tr><td>Plyr + HLS.js</td><td>614.0</td><td>188.5</td><td></td></tr><tr><td>Video.js v10 + HLS.js</td><td>526.5</td><td>164.1</td><td></td></tr><tr><td><strong>Video.js v10 + SPF [HTML]</strong></td><td><strong>144.6</strong></td><td><strong>38.7</strong></td><td></td></tr><tr><td><strong>Video.js v10 + SPF [React]</strong></td><td><strong>107.3</strong></td><td><strong>31.6</strong></td><td></td></tr><tr><td><strong>v10 Background Video + SPF [HTML]</strong></td><td><strong>61.2</strong></td><td><strong>18.9</strong></td><td></td></tr><tr><td><strong>v10 Background Video + SPF [React]</strong></td><td><strong>49.2</strong></td><td><strong>15.6</strong></td><td></td></tr></tbody></table></div>
-<p>엔진끼리 비교하면 이야기가 더 명확해집니다. 다른 엔진들은 포크하지 않는 이상 더 줄이기 어렵지만, SPF로 구성한 엔진은 간단한 적응형 스트리밍에 필요한 것만 포함합니다.</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://videojs.org/blog/videojs-v10-beta-hello-world-again" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-24%20Video.js%2016%EB%85%84%20%EB%A7%8C%EC%97%90%20%EC%99%84%EC%A0%84%20%EC%9E%AC%EC%9E%91%EC%84%B1%2C%20%EB%B2%88%EB%93%A4%20%ED%81%AC%EA%B8%B0%2088%25%20%EA%B0%90%EC%86%8C&labels=feedback%2Cliked&body=**Article**%3A%20Video.js%2016%EB%85%84%20%EB%A7%8C%EC%97%90%20%EC%99%84%EC%A0%84%20%EC%9E%AC%EC%9E%91%EC%84%B1%2C%20%EB%B2%88%EB%93%A4%20%ED%81%AC%EA%B8%B0%2088%25%20%EA%B0%90%EC%86%8C%0A**URL**%3A%20https%3A%2F%2Fvideojs.org%2Fblog%2Fvideojs-v10-beta-hello-world-again%0A**Date**%3A%202026-03-24%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./show-hn-i-took-back-videojs-after-16-years-and-we-rewrote-it-to-be-88-smaller/">./show-hn-i-took-back-videojs-after-16-years-and-we-rewrote-it-to-be-88-smaller/</a>…</p>
+<script>location.replace("./show-hn-i-took-back-videojs-after-16-years-and-we-rewrote-it-to-be-88-smaller/");</script>
 </body>
 </html>

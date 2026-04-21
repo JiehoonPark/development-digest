@@ -1,132 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>화자의 말 속도에 따라 동영상 재생 속도를 조정하는 Chrome 확장 프로그램 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./chrome-extension-adjusts-video-speed-based-on-how-fast-the-speaker-is-talking/">
+<meta http-equiv="refresh" content="0; url=./chrome-extension-adjusts-video-speed-based-on-how-fast-the-speaker-is-talking/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/17/">2026-03-17</a> &gt; 화자의 말 속도에 따라 동영상 재생 속도를 조정하는 Chrome 확장 프...
-      </div>
-
-      <h1>화자의 말 속도에 따라 동영상 재생 속도를 조정하는 Chrome 확장 프로그램</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Chrome extension adjusts video speed based on how fast the speaker is talking</p>
-      <div class="article-meta">
-        <span>📅 2026-03-17</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 63</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>Web Audio API를 활용하여 화자의 음성 속도를 실시간으로 감지하고 동영상 재생 속도를 자동으로 조정하는 Chrome 확장 프로그램입니다. 느린 화자는 더 빠르게, 빠른 화자는 덜 빠르게 조정하여 모든 음성을 청취하기 편한 속도로 정규화합니다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>300-3000 Hz 대역통과 필터로 음성의 포먼트 에너지 영역 분리</li><li>고주파 필터를 통한 에너지 변조 분석으로 음절 속도 감지 (v3 알고리즘)</li><li>4초 슬라이딩 윈도우의 제로 크로싱 카운팅으로 자연스러운 음절 검출</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>Web Audio API의 실무 활용과 신호처리 알고리즘을 JavaScript로 구현하는 방법을 배울 수 있는 실질적 예제입니다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>Speech Speed - 말하는 속도에 따라 동영상 재생 속도를 자동 조절하는 Chrome 확장 프로그램</h2>
-<h3>개요</h3>
-<p>Speech Speed는 화자의 말하기 속도를 감지해서 동영상 재생 속도를 동적으로 조절하는 Chrome 확장 프로그램입니다. 느리게 말하는 사람은 더 빠르게, 빠르게 말하는 사람은 덜 빠르게 재생되므로, 모든 음성을 편안한 속도로 정규화할 수 있어요. 덕분에 빠른 구간에서도 내용을 알아들을 수 있으면서 동시에 동영상을 더 빠르게 감상할 수 있습니다.</p>
-<h3>작동 원리</h3>
-<h4>오디오 캡처</h4>
-<p>확장 프로그램의 콘텐츠 스크립트가 페이지에서 가장 큰 <code>&lt;video&gt;</code> 요소를 찾아 <code>HTMLMediaElement.captureStream()</code>을 사용해 오디오를 캡처합니다. 일반 재생을 방해하지 않으면서 MediaStream을 얻을 수 있죠. 이 스트림을 Web Audio API 그래프에 연결합니다:</p>
-<pre><code>video.captureStream()
-→ MediaStreamSource
-→ BiquadFilter (highpass 300 Hz)
-→ BiquadFilter (lowpass 3000 Hz)
-→ AnalyserNode (polled at ~33 Hz)</code></pre>
-<p>300~3000 Hz 대역통과 필터는 음절 에너지가 집중된 모음 포먼트 영역을 추출합니다. 저주파 럼블과 고주파 잡음을 제거하는 거죠.</p>
-<h4>음절 속도 감지</h4>
-<p>핵심 알고리즘은 에너지 엔벨로프의 변조를 분석해서 음절 속도를 측정합니다. 세 번의 반복을 거쳤어요:</p>
-<p><strong>v1 (폐기됨): 임계값 피크 카운팅</strong></p>
-<p>평활화된 RMS 엔벨로프를 계산한 후 적응형 임계값 위의 피크를 세는 방식이었습니다. 하지만 빠른 연속 음성은 높은 에너지를 유지하면서 음절 사이의 낮은 지점이 깊지 않아서, 개별 음절이 아닌 하나의 긴 영역으로 감지되었어요. 결과적으로 빠른 음성을 항상 과소 계산했습니다.</p>
-<p><strong>v2 (폐기됨): AudioWorklet 기반 감지</strong></p>
-<p>v1과 동일한 피크 카운팅 알고리즘을 AudioWorklet에서 실행해 메인 스레드 외부에서 처리하려고 했습니다. 그런데 YouTube의 Content Security Policy가 스크립트 로딩을 위한 blob: URL을 거부해서 막혔습니다.</p>
-<p><strong>v3 (현재): 에너지 엔벨로프 변조 분석</strong></p>
-<p>개별 피크를 찾는 대신 고주파 필터를 사용해 에너지 엔벨로프의 음절 속도 변조를 분리한 후, 필터링된 신호의 영점 교차를 센다는 개념입니다.</p>
-<p><strong>알고리즘 상세:</strong></p>
-<ul>
-<li>AnalyserNode.getFloatTimeDomainData()로 각 2048샘플 윈도우(96kHz에서 약 21ms)에 대한 RMS 에너지를 계산합니다.</li>
-<li>1차 IIR 저주파 필터(alpha=0.3)로 엔벨로프를 평활화해 무음 감지와 표시에 사용합니다.</li>
-<li>원본 RMS에 고주파 필터를 적용해 DC와 천천히 변하는 레벨을 제거하고, 음절 속도 변조(2~10 Hz)만 남깁니다. 이는 1차 IIR 고주파 필터입니다:</li>
-</ul>
-<pre><code>filtered[n] = alpha * (filtered[n-1] + rms[n] - rms[n-1])</code></pre>
-<p>33Hz 폴링에서 alpha=0.9이면 차단 주파수는 약 0.5Hz입니다. 0.5Hz 이상의 모든 신호(음절 변조 2~10Hz 포함)가 통과합니다.</p>
-<ul>
-<li>필터링된 신호의 양의 영점 교차를 센다. 필터링된 에너지가 0 아래에서 위로 올라올 때마다 하나의 음절(모음)이 감지됩니다. 교차 사이에 최소 70ms 간격을 두면 최대 감지 속도는 약 14 음절/초로 제한됩니다.</li>
-<li>4초 슬라이딩 윈도우 동안 음절 속도를 초당 교차 수로 계산합니다.</li>
-</ul>
-<p>이 방식이 작동하는 이유는 빠른 연속 음성 중에도 에너지 엔벨로프가 음절핵(모음, 높은 에너지)과 음절 사이 전이(자음, 낮은 에너지) 사이를 진동하기 때문입니다. 고주파 필터는 절대 레벨에 관계없이 이 진동을 추출하고, 영점 교차 카운팅은 진폭 변화에 본질적으로 강건합니다.</p>
-<h4>속도 매핑</h4>
-<p>감지된 음절 속도는 재생 속도로 변환됩니다:</p>
-<pre><code>naturalRate = measuredRate / currentPlaybackSpeed
-targetSpeed = targetSyllableRate / naturalRate
-targetSpeed = clamp(targetSpeed, minSpeed, maxSpeed)
-currentSpeed += smoothingAlpha * (targetSpeed - currentSpeed)</code></pre>
-<p><code>measuredRate / currentPlaybackSpeed</code> 보정은 <code>captureStream()</code>이 현재 재생 속도를 반영한다는 사실을 설명합니다. 동영상이 2배 속도로 재생되면 오디오도 2배 속도로 도착하니까요. 현재 속도로 나누면 화자의 자연스러운 속도를 복구할 수 있습니다.</p>
-<p>기본 목표인 9 음절/초로 설정했을 때:</p>
-<div class="table-wrapper"><table><thead><tr><th>화자 속도</th><th>자연 속도</th><th>재생 속도</th></tr></thead><tbody><tr><td>매우 느림</td><td>~2.5 음절/초</td><td>3.50배 (상한선)</td></tr><tr><td>느림</td><td>~3.0 음절/초</td><td>3.00배</td></tr><tr><td>보통</td><td>~4.5 음절/초</td><td>2.00배</td></tr><tr><td>빠름</td><td>~6.0 음절/초</td><td>1.50배</td></tr><tr><td>매우 빠름</td><td>~8.0 음절/초</td><td>1.12배</td></tr></tbody></table></div>
-<p>무음 구간(낮은 에너지 또는 3초 이상 낮은 음절 속도)에서는 속도가 천천히 1배로 돌아옵니다.</p>
-<h4>평활화</h4>
-<p>속도 변화는 지수 이동 평균(alpha=0.25, 초당 약 33회 갱신)을 사용해 갑작스러운 변화를 방지합니다. 이렇게 하면 시간 상수가 대략 1초가 되어, 화자가 바뀔 때 빠르게 적응하면서도 짧은 일시정지가 속도 진동을 일으키지 않을 만큼 충분히 느립니다.</p>
-<h3>설치</h3>
-<ul>
-<li>이 저장소를 클론하거나 다운로드합니다</li>
-<li>Chrome에서 <code>chrome://extensions</code>를 엽니다</li>
-<li>개발자 모드를 활성화합니다 (오른쪽 상단)</li>
-<li>&quot;확장 프로그램 로드&quot;를 클릭하고 speech-speed 디렉토리를 선택합니다</li>
-<li>동영상이 있는 페이지로 이동해 확장 프로그램 아이콘을 클릭하고 ON으로 토글합니다</li>
-</ul>
-<h3>파일 구조</h3>
-<div class="table-wrapper"><table><thead><tr><th>파일</th><th>용도</th></tr></thead><tbody><tr><td>manifest.json</td><td>Manifest V3 확장 프로그램 설정</td></tr><tr><td>content.js</td><td>콘텐츠 스크립트: 오디오 캡처, 음절 감지, 속도 제어, 진단 오버레이</td></tr><tr><td>popup.html/js/css</td><td>확장 프로그램 팝업: ON/OFF 토글 및 설정 슬라이더</td></tr><tr><td>syllable-worklet.js</td><td>(레거시, 미사용) v2 방식의 AudioWorklet</td></tr></tbody></table></div>
-<h3>설정</h3>
-<p>팝업에서 세 개의 슬라이더를 조절할 수 있습니다:</p>
-<ul>
-<li><strong>목표 속도</strong> (4~14 음절/초, 기본값 9): 원하는 효과적인 음절 속도</li>
-</ul></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://github.com/ywong137/speech-speed" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-17%20%ED%99%94%EC%9E%90%EC%9D%98%20%EB%A7%90%20%EC%86%8D%EB%8F%84%EC%97%90%20%EB%94%B0%EB%9D%BC%20%EB%8F%99%EC%98%81%EC%83%81%20%EC%9E%AC%EC%83%9D%20%EC%86%8D%EB%8F%84%EB%A5%BC%20%EC%A1%B0%EC%A0%95%ED%95%98%EB%8A%94%20Chrome%20%ED%99%95%EC%9E%A5%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8&labels=feedback%2Cliked&body=**Article**%3A%20%ED%99%94%EC%9E%90%EC%9D%98%20%EB%A7%90%20%EC%86%8D%EB%8F%84%EC%97%90%20%EB%94%B0%EB%9D%BC%20%EB%8F%99%EC%98%81%EC%83%81%20%EC%9E%AC%EC%83%9D%20%EC%86%8D%EB%8F%84%EB%A5%BC%20%EC%A1%B0%EC%A0%95%ED%95%98%EB%8A%94%20Chrome%20%ED%99%95%EC%9E%A5%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8%0A**URL**%3A%20https%3A%2F%2Fgithub.com%2Fywong137%2Fspeech-speed%0A**Date**%3A%202026-03-17%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./chrome-extension-adjusts-video-speed-based-on-how-fast-the-speaker-is-talking/">./chrome-extension-adjusts-video-speed-based-on-how-fast-the-speaker-is-talking/</a>…</p>
+<script>location.replace("./chrome-extension-adjusts-video-speed-based-on-how-fast-the-speaker-is-talking/");</script>
 </body>
 </html>

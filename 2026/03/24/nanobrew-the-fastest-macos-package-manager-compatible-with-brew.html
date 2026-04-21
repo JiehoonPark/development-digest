@@ -1,89 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nanobrew: Homebrew와 호환되는 가장 빠른 macOS 패키지 매니저 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./nanobrew-the-fastest-macos-package-manager-compatible-with-brew/">
+<meta http-equiv="refresh" content="0; url=./nanobrew-the-fastest-macos-package-manager-compatible-with-brew/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/24/">2026-03-24</a> &gt; Nanobrew: Homebrew와 호환되는 가장 빠른 macOS 패키지...
-      </div>
-
-      <h1>Nanobrew: Homebrew와 호환되는 가장 빠른 macOS 패키지 매니저</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Nanobrew: The fastest macOS package manager compatible with brew</p>
-      <div class="article-meta">
-        <span>📅 2026-03-24</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 157</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>Zig로 작성된 Nanobrew는 Homebrew 대비 7,000배 빠른 macOS 패키지 매니저이며, 2MB 단일 바이너리로 Ruby 런타임 없이 동작한다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>동시 다운로드, 추출, 재배치, 의존성 해결로 극적인 성능 향상 달성</li><li>Copy-on-write 구현으로 설치당 디스크 오버헤드 제로, SHA256 기반 중복 제거로 재설치 시 다운로드 스킵</li><li>Ruby 런타임 제거로 약 2MB 단일 바이너리만 필요하며 interpreter 오버헤드 완전 제거</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>macOS 개발자의 일일 워크플로에서 패키지 설치 시간을 급격히 단축하며, 특히 M1/M2 Mac에서 Homebrew의 성능 병목을 해결한다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>macOS에서 가장 빠른 패키지 매니저, Zig로 만들어졌어요</h2>
-<p>터미널을 다시 시작하거나 출력된 export 명령을 실행하면 설정이 완료됩니다.</p>
-<h3>성능이 정말 다릅니다</h3>
-<p>Homebrew보다 <strong>7,000배 빠르고</strong>, echo 명령보다도 빠릅니다.</p>
-<p>테스트 환경은 Apple Silicon macOS 15에서 같은 네트워크 조건입니다. Cold 상태는 처음 다운로드할 때, Warm 상태는 저장소에 캐시된 상태를 말합니다.</p>
-<h3>디스크 효율이 뛰어납니다</h3>
-<p>macOS의 Copy-on-write 메커니즘을 활용해서 설치할 때마다 디스크 오버헤드를 거의 없앴어요. 각 패키지마다 실제로 필요한 부분만 메모리에 올려서 사용합니다.</p>
-<h3>동시 처리로 속도를 확보했습니다</h3>
-<p>다운로드, 압축 해제, 파일 재배치, 의존성 해석 같은 작업들을 모두 동시에 진행합니다. 한 작업이 끝날 때까지 기다릴 필요가 없어요.</p>
-<h3>프로세스 생성을 줄였습니다</h3>
-<p>curl 같은 서브프로세스를 따로 띄우지 않습니다. 대신 Zig의 표준 라이브러리에 있는 <code>std.http.Client</code>를 직접 사용해서 각 패키지마다 프로세스 하나를 덜 만들게 되었어요.</p>
-<h3>바이너리 검사를 효율적으로 합니다</h3>
-<p>otool 같은 외부 도구를 부르지 않고 바이너리 헤더의 로드 명령을 직접 읽습니다. 코드 서명 검증도 일괄 처리해요.</p>
-<h3>설치 재실행이 빠릅니다</h3>
-<p>SHA256 키 기반 중복 제거 덕분에 같은 패키지를 다시 설치할 때 다운로드와 압축 해제를 완전히 건너뜁니다.</p>
-<h3>가볍고 간단합니다</h3>
-<p>Ruby 런타임이 필요 없고, 별도의 인터프리터 시작 시간도 없습니다. 복잡한 설정 파일도 없어요. 그냥 약 2MB 크기의 바이너리 하나면 됩니다.</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://nanobrew.trilok.ai/" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-24%20Nanobrew%3A%20Homebrew%EC%99%80%20%ED%98%B8%ED%99%98%EB%90%98%EB%8A%94%20%EA%B0%80%EC%9E%A5%20%EB%B9%A0%EB%A5%B8%20macOS%20%ED%8C%A8%ED%82%A4%EC%A7%80%20%EB%A7%A4%EB%8B%88%EC%A0%80&labels=feedback%2Cliked&body=**Article**%3A%20Nanobrew%3A%20Homebrew%EC%99%80%20%ED%98%B8%ED%99%98%EB%90%98%EB%8A%94%20%EA%B0%80%EC%9E%A5%20%EB%B9%A0%EB%A5%B8%20macOS%20%ED%8C%A8%ED%82%A4%EC%A7%80%20%EB%A7%A4%EB%8B%88%EC%A0%80%0A**URL**%3A%20https%3A%2F%2Fnanobrew.trilok.ai%2F%0A**Date**%3A%202026-03-24%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./nanobrew-the-fastest-macos-package-manager-compatible-with-brew/">./nanobrew-the-fastest-macos-package-manager-compatible-with-brew/</a>…</p>
+<script>location.replace("./nanobrew-the-fastest-macos-package-manager-compatible-with-brew/");</script>
 </body>
 </html>

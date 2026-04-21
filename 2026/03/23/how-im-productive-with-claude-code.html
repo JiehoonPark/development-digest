@@ -1,104 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Claude Code로 생산성을 높이는 방법 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./how-im-productive-with-claude-code/">
+<meta http-equiv="refresh" content="0; url=./how-im-productive-with-claude-code/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/23/">2026-03-23</a> &gt; Claude Code로 생산성을 높이는 방법...
-      </div>
-
-      <h1>Claude Code로 생산성을 높이는 방법</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">How I'm Productive with Claude Code</p>
-      <div class="article-meta">
-        <span>📅 2026-03-23</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 82</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>개발자가 Claude Code를 도입한 6주간 커밋 수가 크게 증가했으며, 이는 AI 에이전트를 팀 멤버처럼 관리하는 방식 전환, 자동화, 빠른 빌드 시간, 병렬 작업 처리 등 인프라 개선 덕분이라고 설명한다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>git-pr 같은 Claude Code 커스텀 스킬로 PR 생성 자동화하여 멘탈 오버헤드 제거</li><li>SWC로 빌드 시간을 1분에서 1초 이하로 단축해 개발 몰입감 유지</li><li>동적 포트 할당으로 5개 워크트리 병렬 실행 가능하게 해 처리량 극대화</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>AI 코딩 어시스턴트의 진정한 가치는 기술 자체보다 개발 인프라 최적화와 병렬 처리에 있으며, 개발자의 역할 변화를 보여준다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>AI 팀의 매니저가 되니 커밋이 6배 늘었다</h2>
-<p>Tano에 합류한 지 6주쯤 된 지금, 제 커밋 히스토리를 보면 정말 흥미롭습니다. 커밋 수는 좋은 지표는 아니지만, 눈에 띄는 가장 직관적인 신호거든요. 일하는 방식이 뭔가 근본적으로 바뀌었다는 걸 느껴집니다.</p>
-<p>그럼 구체적으로 뭐가 달라졌을까요?</p>
-<h3>반복 작업 자동화하기</h3>
-<p>Tano에 처음 왔을 때만 해도 모든 풀 리퀘스트를 손으로 만들고 있었어요. 변경사항 스테이징, 커밋 메시지 작성, PR 설명 작성, 푸시, GitHub에서 PR 생성. 아주 일반적인 프로세스였고, 문제없었습니다.</p>
-<p>한참 뒤에야 깨달았는데, 이것도 반복 작업이었더라고요. 너무 익숙해서 의문을 품은 적도 없었습니다.</p>
-<p>그게 첫 번째 변화의 시작이었습니다. 저는 더 이상 직접 구현하는 사람이 아니라, 구현을 담당하는 에이전트들을 관리하는 사람이 된 거죠. 좋은 매니저라면 팀의 반복 작업을 자동화하는 법을 압니다.</p>
-<p>그렇게 해서 첫 Claude Code 스킬을 만들었어요. <code>/git-pr</code>이란 건데요, 저거 이전에 제가 하던 모든 일을 한답니다. 다만 훨씬 잘합니다. PR 설명이 더 꼼꼼한 이유는 전체 diff를 읽고 변경사항을 제대로 정리하거든요. 저는 반복 작업에 너무 익숙해져서, 그게 고역이라는 것도 모르고 있었네요.</p>
-<p>시간이 절약되는 것도 있지만, 진짜 큰 이득은 정신적 부담이 줄어든 거예요. 이전에는 매 PR마다 작은 컨텍스트 스위칭이 생겼어요. 코드 생각하다가 갑자기 코드를 어떻게 설명할지 생각하게 되는 식이요. 이제는 <code>/git-pr</code>만 치고 다음 작업으로 넘어가면 됩니다.</p>
-<h3>기다리는 시간 없애기</h3>
-<p>변경사항을 검토하는 과정이 짜증났어요. 로컬에서 미리보기를 확인하고, 현재 작업에서 벗어나고, 개발 서버를 끄고, 새 브랜치에서 다시 시작하고, 모든 게 작동하는지 확인하고, 코드를 리뷰하는 식이었거든요.</p>
-<p>서버 빌드가 약 1분 걸렸는데, 컨텍스트 스위칭 와중에는 그게 너무 오래 느껴졌어요. 집중력을 잃기에는 충분한 시간이면서도, 뭔가 다른 걸 하기엔 너무 짧은 시간이었죠.</p>
-<p>빌드 도구를 SWC로 바꿨더니 서버 재시작이 1초 미만으로 떨어졌어요. 정말 쾌감입니다.</p>
-<p>작은 변화처럼 들릴 수도 있지만, 아니었어요. 1초 미만의 재시작 시간은 당신이 절대 몰입 상태에서 빠져나가지 않는다는 뜻이거든요. 파일을 저장하면 서버가 이미 떠 있고, 미리보기를 확인한다. 주의가 산만해질 수 있는 틈이 없어요. 어색한 침묵이 있는 대화와 자연스럽게 흐르는 대화의 차이 같은 거죠.</p>
-<h3>Claude가 화면을 직접 보게 하기</h3>
-<p>예전에는 모든 UI 변경사항을 제가 직접 확인했어요. 로컬에서 미리보기하고, 눈으로 보고, 예상한 것과 맞는지 판단하는 식이었죠. 작동했지만, 저와 모든 기능이 병목이 되는 상황이었습니다.</p>
-<p>Chrome 확장프로그램이 계속 멈춘 뒤로, Claude Code의 미리보기 기능으로 넘어갔어요. 이 기능으로는 에이전트가 직접 미리보기를 설정하고, 세션 데이터를 유지하고, UI가 실제로 어떻게 보이는지 확인할 수 있습니다.</p>
-<p>이걸 워크플로우에 연결했어요. 변경사항은 에이전트가 UI를 직접 검증할 때까지 &quot;완료&quot;로 보지 않는 거죠. 덕분에 저는 검증 작업을 위임하고 최종 리뷰만 담당하면 되었고, 에이전트는 감시 없이 훨씬 더 오래 일할 수 있게 되었어요. 자기 실수를 스스로 잡아냈거든요. 그게 생각보다 훨씬 중요했습니다.</p>
-<h3>모든 걸 동시에 진행하기</h3>
-<p>빠른 빌드와 자동화된 미리보기 덕분에 또 다른 불편함이 드러났어요. 한 번에 한 가지 일에만 집중할 수밖에 없었던 거예요.</p>
-<p>다른 에이전트와 팀원들의 PR을 검토하고 있었거든요. 워크플로우가 번거로웠어요. PR 브랜치를 메인에서 체크아웃하고, 다시 빌드하고, 테스트하는데, 이러면 커밋하지 않은 제 변경사항이 엉망이 되니까요. 그래서 변경사항을 stash하고, 체크아웃하고, 다시 빌드하고, 테스트하고, 돌아가고, stash를 복구하는 식이었어요. 아니면 worktree를 직접 만들고, 설정하고, 미리보기를 실행해보면 포트가 겹치곤 했습니다.</p>
-<p>우리 앱은 프론트엔드와 백엔드로 나뉘어 있고, 각각 포트가 필요했어요. 모든 worktree가 같은 환경 변수를 공유하니, 다들 같은 포트에 바인딩하려고 싸웠던 거죠. 한 번에 두 가지를 실행하는 것도 힘든 상황이었습니다.</p>
-<p>이 문제를 해결할 시스템을 만들었어요. Worktree가 생성될 때마다, 모든 서버가 고유한 범위에서 포트를 할당받도록요. 충돌이 없습니다. 원한다면 동시에 10개의 미리보기를 실행할 수도 있어요.</p>
-<p>2개의 병렬 브랜치로도 벅찼던 저를 생각해보면, 지금은 한 번에 5개의 worktree를 실행합니다. 워크플로우가 완전히 달라졌어요. 여러 에이전트를 동시에 띄워서 각각 다른 기능을 작업하게 하고, 각자가 UI를 검증할 때까지 기다리는 거죠.</p>
-<p>저는 계획에는 깊게 관여하고, 그 다음엔 코드 리뷰 때까지 물러서 있어요. 5개를 동시에 돌릴 때는 에이전트가 자기 실수를 스스로 잡아내는 게 훨씬 더 중요했습니다.</p>
-<p>리뷰도 훨씬 간단해졌어요. 설정에 시간 쓸 필요도 없고, 빌드도 다시 할 필요 없고, 포트 충돌도 없어요. 그냥 읽고, 확인하고, 머지하고, 다음. 이 반복이었죠.</p>
-<h3>중요한 건 AI가 아니라 인프라다</h3>
-<p>제 역할이 완전히 바뀌었어요. 저는 복잡한 문제를 풀고, 완벽한 UI를 만드는 데 며칠을 쓸 때의 그 기쁨이 좋았어요. 지금도 가끔 그래요. 하지만 점점 더 재미있어진 건 에이전트들을 효율적으로 만드는 인프라를 짜는 거예요. 솔로 개발자에서 10명 팀의 매니저로 변신한 느낌이 들어요. 좋은 매니저처럼, 팀이 한 일의 공을 다 가져가는 부분도 있고요.</p>
-<p>화려하지 않은 작업이에요. 그냥 배관 같은 거죠. 하지만 배관이 당신이 몰입 상태를 유지하는지, 아니면 환경과 계속 싸우는지를 결정합니다.</p>
-<p>Tano에서 제가 한 가장 높은 수익의 일은 기능 개발이 아니었어요. 커밋의 작은 흐름을 거대한 흐름으로 바꿔놓은 인프라 구축이었습니다.</p>
-<h3>반복되는 사이클</h3>
-<p>이 각각의 단계가 서로 다른 종류의 불편함을 없애나갔어요.</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://neilkakkar.com/productive-with-claude-code.html" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-23%20Claude%20Code%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EB%86%92%EC%9D%B4%EB%8A%94%20%EB%B0%A9%EB%B2%95&labels=feedback%2Cliked&body=**Article**%3A%20Claude%20Code%EB%A1%9C%20%EC%83%9D%EC%82%B0%EC%84%B1%EC%9D%84%20%EB%86%92%EC%9D%B4%EB%8A%94%20%EB%B0%A9%EB%B2%95%0A**URL**%3A%20https%3A%2F%2Fneilkakkar.com%2Fproductive-with-claude-code.html%0A**Date**%3A%202026-03-23%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./how-im-productive-with-claude-code/">./how-im-productive-with-claude-code/</a>…</p>
+<script>location.replace("./how-im-productive-with-claude-code/");</script>
 </body>
 </html>

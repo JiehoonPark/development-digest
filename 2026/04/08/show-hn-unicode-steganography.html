@@ -1,92 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Unicode 스테가노그래피 공개 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./show-hn-unicode-steganography/">
+<meta http-equiv="refresh" content="0; url=./show-hn-unicode-steganography/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/04/08/">2026-04-08</a> &gt; Unicode 스테가노그래피 공개...
-      </div>
-
-      <h1>Unicode 스테가노그래피 공개</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Show HN: Unicode Steganography</p>
-      <div class="article-meta">
-        <span>📅 2026-04-08</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 45</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>Zero-Width Characters, Homoglyph Substitution, Variation Selectors 등 세 가지 Unicode 스테가노그래피 기법을 비교 분석한 도구다. 각 기법의 탐지 가능성, 용량, 견고성이 다르며 AI 안전성 관점에서 중요하다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>세 가지 Unicode 스테가노그래피 기법 비교: Zero-Width는 높은 대역폭이지만 쉽게 탐지 가능, Homoglyph는 견고하지만 낮은 용량, Variation Selector는 중간 성능</li><li>모든 기법이 인간의 눈을 속이지만 의도된 스캐너는 모두 탐지 가능</li><li>AI 안정성 관점에서 모델이 자동 스캔을 우회하는 새로운 인코딩을 발명할 수 있을지의 문제 제기</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>LLM이 악의적 지시어를 숨길 수 있는 방식을 이해하는 것이 AI 안전 메커니즘 설계에 필수적이다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>기술 비교: 스테ganography 기법들</h2>
-<p>각 기법은 일반 텍스트처럼 보이는 안에 데이터를 숨기지만, 탐지 난이도, 용량, 견고성 측면에서 장단점이 달라요.</p>
-<h3>세 가지 기법 비교표</h3>
-<div class="table-wrapper"><table><thead><tr><th>항목</th><th>영폭 문자(Zero-Width Characters)</th><th>유사 문자 치환(Homoglyph Substitution)</th><th>변형 선택자(Variation Selectors)</th></tr></thead><tbody><tr><td><strong>탐지 난이도</strong></td><td>매우 쉬움</td><td>어려움</td><td>중간</td></tr><tr><td><strong>용량</strong></td><td>높음</td><td>낮음</td><td>중간</td></tr><tr><td><strong>견고성</strong></td><td>취약함</td><td>우수함</td><td>중간</td></tr></tbody></table></div>
-<h4>탐지 난이도</h4>
-<p><strong>영폭 문자</strong>는 가장 먼저 들킬 수 있어요. 유니코드 스캐너나 16진수 편집기로 바로 확인되거든요. 출력되지 않는 코드 포인트는 숨길 수 없는 증거나 마찬가지예요.</p>
-<p><strong>유사 문자 치환</strong>은 좀 더 까다롭습니다. 라틴 문자와 키릴 문자를 비교할 수 없으면 구분하기 어려워요. 화면에는 똑같이 보이고, 대부분의 맞춤법 검사 도구도 이런 문자들을 정상으로 인식하거든요.</p>
-<p><strong>변형 선택자</strong>는 유니코드 스칼라를 훑거나 선택자를 감지하는 방식으로 찾을 수 있어요. 다만 일반 사용자 눈에는 텍스트가 변한 것처럼 보이지 않을 수 있습니다.</p>
-<h4>용량</h4>
-<p><strong>영폭 문자</strong>는 용량이 가장 좋습니다. 어떤 텍스트도 캐리어로 쓸 수 있고, 메시지 길이에 따라 자유롭게 확장되거든요.</p>
-<p><strong>유사 문자 치환</strong>은 심각하게 제한돼요. 치환할 수 있는 문자 개수가 한정되어 있기 때문입니다. 이 구현에서는 라틴-키릴 쌍이 21개뿐이에요.</p>
-<p><strong>변형 선택자</strong>의 경우, 접미사 모드면 한두 글자에 바이트를 집중시킬 수 있어 용량이 나아집니다. 반면 글자별 모드는 텍스트에 포함된 글자 개수에 의존하므로 제약이 있어요.</p>
-<h4>견고성</h4>
-<p><strong>영폭 문자</strong>는 매우 취약합니다. Slack, X(구 Twitter), 많은 이메일 클라이언트가 텍스트를 저장하거나 표시하기 전에 영폭 문자를 제거해버리거든요.</p>
-<p><strong>유사 문자 치환</strong>은 거의 모든 플랫폼에서 복사-붙여넣기를 견뎌냅니다. 이 기법을 특별히 제거하는 일반적인 휴리스틱이 없기 때문이죠. 따라서 견고성이 가장 우수해요.</p>
-<p><strong>변형 선택자</strong>는 중간 정도입니다. 순진한 복사-붙여넣기 환경에서는 영폭 문자보다 잘 남아있지만, NFC나 NFKC 정규화 과정에서 문자열 순서가 바뀌거나 일부가 축약될 수 있어요. 특히 보조 평면의 선택자는 일부 시스템에서 제거되기도 합니다.</p>
-<h3>AI 안전성을 위해 이게 중요한 이유</h3>
-<p>LLM 스테ganography는 AI가 실제로 어떻게 속일 수 있는지 보여주는 구체적인 사례입니다. 위의 기법들은 모두 인간 독자를 속이지만, 이를 찾기 위해 설계된 스캐너 앞에서는 모두 무너져요.</p>
-<p>유니코드 범주 확인으로 영폭 문자를 잡을 수 있고, 유사 문자 알파벳 검사로 키릴 치환을 감지할 수 있으며, 코드 포인트 검사로 변형 선택자의 페이로드를 찾을 수 있거든요.</p>
-<p>더 어려운 질문은 이겁니다. 모델이 인간의 검토를 통과하면서도 이전에 본 적 없는 자동 스캐너를 속일 수 있는 인코딩을 스스로 만들어낼 수 있을까? 이 부분이 AI 정렬(alignment) 분야의 핵심 과제예요.</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://steganography.patrickvuscan.com" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-04-08%20Unicode%20%EC%8A%A4%ED%85%8C%EA%B0%80%EB%85%B8%EA%B7%B8%EB%9E%98%ED%94%BC%20%EA%B3%B5%EA%B0%9C&labels=feedback%2Cliked&body=**Article**%3A%20Unicode%20%EC%8A%A4%ED%85%8C%EA%B0%80%EB%85%B8%EA%B7%B8%EB%9E%98%ED%94%BC%20%EA%B3%B5%EA%B0%9C%0A**URL**%3A%20https%3A%2F%2Fsteganography.patrickvuscan.com%0A**Date**%3A%202026-04-08%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./show-hn-unicode-steganography/">./show-hn-unicode-steganography/</a>…</p>
+<script>location.replace("./show-hn-unicode-steganography/");</script>
 </body>
 </html>

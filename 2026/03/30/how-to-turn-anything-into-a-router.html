@@ -1,124 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>모든 것을 라우터로 만드는 방법 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./how-to-turn-anything-into-a-router/">
+<meta http-equiv="refresh" content="0; url=./how-to-turn-anything-into-a-router/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/30/">2026-03-30</a> &gt; 모든 것을 라우터로 만드는 방법...
-      </div>
-
-      <h1>모든 것을 라우터로 만드는 방법</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">How to turn anything into a router</p>
-      <div class="article-meta">
-        <span>📅 2026-03-30</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 546</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>기존 Linux 기반 컴퓨터(미니PC, 랩탑 등)를 라우터로 만드는 방법을 설명합니다. Debian, hostapd, dnsmasq, bridge-utils를 사용하여 WAN/LAN 인터페이스를 구성하고 Wi-Fi 액세스 포인트를 설정할 수 있습니다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>2개 이상의 이더넷 인터페이스가 있는 Linux PC면 라우터로 동작 가능</li><li>hostapd(Wi-Fi), dnsmasq(DNS/DHCP), bridge-utils(포트 브리징) 패키지로 구성</li><li>구형 하드웨어도 충분한 성능으로 가정/소규모 비즈니스 트래픽 처리 가능</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>기존 컴퓨터를 재활용하여 자체 라우터를 구축할 수 있고, 네트워킹 기초를 이해하는 데 도움이 됩니다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>아무거나 라우터로 만들어보자</h2>
-<p>미국 정부가 신규 소비자용 라우터 수입을 사실상 금지하는 정책을 발표했더군요. 정말 황당한 결정이지만, 혹시 이게 실제로 시행된다면 직접 라우터를 만드는 방법을 배워두는 것도 나쁘지 않을 것 같습니다.</p>
-<p>다행히도 컴퓨터처럼 생긴 거라면 거의 다 라우터로 만들 수 있어요. 저는 리눅스 기반 미니PC를 라우터로 써온 지 벌써 수년째인데, 정말 안정적으로 잘 돌아가거든요. 그동안 유일하게 교체한 부품은 20달러 짜리 mSATA 드라이브뿐입니다.</p>
-<p>저는 보통 Debian을 쓰지만, Alpine Linux도 충분히 잘 작동할 겁니다. 리눅스가 잘 돌아가고 USB 포트가 몇 개 있으면 된다는 거죠.</p>
-<p>미니PC, 데스크톱, SBC, 랙마운트 서버, 구형 노트북 등 뭐든 가능합니다. 물론 이건 미국 정책에 대한 현실적인 해결책이라기보다는, 이미 가지고 있는 하드웨어를 좀 더 활용하는 재미있는 &quot;해킹&quot;이라고 봐주시면 좋겠어요. 결국 라우터도 컴퓨터일 뿐이니까요.</p>
-<h3>하드웨어 선택하기</h3>
-<p>저는 개인적으로 패시브 쿨링 방식의 미니PC를 좋아합니다. 그렇지만 웬만한 건 다 괜찮아요. 이더넷 포트가 2개 있으면 좋지만, USB-이더넷 동글로도 충분합니다. 내장 포트만큼 안정적이지는 않겠지만, 실제로는 잘 작동할 겁니다.</p>
-<p>예를 들어, 이렇게 한데 모아 놓은 부품들만으로도 유선 랜에서는 820~850Mbps, 무선에서는 약 300Mbps 정도를 뽑아낼 수 있습니다.</p>
-<p>이 기계는 1.5GHz에서 도는 Celeron 3205U 듀얼코어인데요. 이 정도면 충분히 가정이나 소규모 사무실의 트래픽을 감당할 수 있어요.</p>
-<p>조금 더 거슬러 올라가면, 2016년 가을학기 초에 저는 이런 구성으로 썼었습니다:</p>
-<ul>
-<li>예전 직장에서 주워온 ThinkPad T60</li>
-<li>ThinkPad의 확장 슬롯에 꽂은 ExpressCard-PCIe 브릿지</li>
-<li>PCIe 슬롯에 꽂은 이름 모를 이더넷 카드(마운팅 브래킷도 없음)</li>
-<li>대학에서 10달러에 산 낡은 Cisco 2960 100Mbps 스위치</li>
-<li>중고 물품점에서 사온 D-Link 라우터(WAN 포트가 망가진 대신 액세스 포인트로 사용)</li>
-</ul>
-<p>네, 이것도 엄연한 라우터입니다! 정크처럼 보이긴 하는데(실제로 정크지만), 라우터 역할을 완벽하게 해내거든요.</p>
-<h3>어떻게 설정하나요?</h3>
-<p>시스템은 이렇게 구성됩니다:</p>
-<div class="table-wrapper"><table><thead><tr><th>인터페이스</th><th>네트워크</th></tr></thead><tbody><tr><td>eth0</td><td>WAN</td></tr><tr><td>eth1</td><td>LAN (유선)</td></tr><tr><td>wlan0</td><td>LAN (무선)</td></tr></tbody></table></div>
-<p>두 LAN 인터페이스는 브릿지로 연결되어 있어서, 유선과 무선 기기들이 자유롭게 통신할 수 있습니다. LAN 포트가 부족하면 USB 이더넷 동글을 얼마든지 연결해서 브릿지에 묶을 수 있어요. 진정한 스위치만큼 빠르지는 않겠지만, 기능은 충분히 합니다.</p>
-<p>Debian을 OS로 쓰는데, 기본 설치 이후 추가로 필요한 패키지는 별로 없습니다:</p>
-<ul>
-<li><strong>hostapd</strong> - Wi-Fi 네트워크 생성</li>
-<li><strong>dnsmasq</strong> - DNS &amp; DHCP 담당</li>
-<li><strong>bridge-utils</strong> - 포트를 하나의 네트워크로 묶기</li>
-<li>기본 설치에 포함되지 않은 펌웨어 블롭들</li>
-</ul>
-<p>참고로 여기서는 IPv4만 다룰 겁니다. IPv6는 모바일 기기에서는 좋지만, 로컬 네트워크 환경에서는 아직도 너무 복잡하거든요.</p>
-<h3>설치 &amp; 설정</h3>
-<p>기본적으로 표준 Debian 설치와 비슷합니다. 몇 가지만 신경 쓰면 돼요:</p>
-<ul>
-<li>BIOS/UEFI에서 PXE 네트워크 부팅을 비활성화하세요</li>
-<li>가능하면 기기의 클록 속도를 낮추되, USB나 PCI 기기의 전원 관리는 꺼두세요</li>
-<li>&quot;AC 전원 복구 후 복원&quot; 같은 옵션을 켜두세요</li>
-<li>일부 기기는 디스플레이가 없으면 제대로 부팅이 안 됩니다. 그럼 HDMI에 더미 동글을 꽂아두세요</li>
-<li>대부분의 하드웨어는 non-free-firmware 저장소가 필요합니다</li>
-</ul>
-<p>무선 하드웨어에 따라 추가 펌웨어 패키지를 설치해야 할 수도 있습니다:</p>
-<p><strong>Intel 기기의 경우:</strong></p>
-<pre><code class="language-bash">sudo apt install firmware-iwlwifi</code></pre>
-<p><strong>Realtek 기기의 경우:</strong></p>
-<pre><code class="language-bash">sudo apt install firmware-ath9k-htc</code></pre>
-<p><strong>정말 구형 기기의 경우:</strong></p>
-<pre><code class="language-bash">sudo apt install firmware-atheros</code></pre>
-<h4>필수 패키지 설치</h4>
-<p>초기 설치 후 몇 가지 유틸리티를 더 설치하면 됩니다:</p>
-<pre><code class="language-bash">sudo apt install bridge-utils hostapd dnsmasq</code></pre>
-<p>소프트웨어적으로는 이게 전부예요. 시스템에 총 250개 정도의 패키지가 설치됩니다.</p>
-<h4>네트워크 인터페이스 이름 지정하기</h4>
-<p>현대의 리눅스 시스템에서는 네트워크 인터페이스가 <code>enp0s31f6</code> 같은 이름으로 물리적 연결과 드라이버 타입을 기반으로 이름 지어집니다. 저는 <code>eth0</code>, <code>eth1</code> 같은 구식 형식이 훨씬 편하더군요.</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://nbailey.ca/post/router/" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-30%20%EB%AA%A8%EB%93%A0%20%EA%B2%83%EC%9D%84%20%EB%9D%BC%EC%9A%B0%ED%84%B0%EB%A1%9C%20%EB%A7%8C%EB%93%9C%EB%8A%94%20%EB%B0%A9%EB%B2%95&labels=feedback%2Cliked&body=**Article**%3A%20%EB%AA%A8%EB%93%A0%20%EA%B2%83%EC%9D%84%20%EB%9D%BC%EC%9A%B0%ED%84%B0%EB%A1%9C%20%EB%A7%8C%EB%93%9C%EB%8A%94%20%EB%B0%A9%EB%B2%95%0A**URL**%3A%20https%3A%2F%2Fnbailey.ca%2Fpost%2Frouter%2F%0A**Date**%3A%202026-03-30%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./how-to-turn-anything-into-a-router/">./how-to-turn-anything-into-a-router/</a>…</p>
+<script>location.replace("./how-to-turn-anything-into-a-router/");</script>
 </body>
 </html>

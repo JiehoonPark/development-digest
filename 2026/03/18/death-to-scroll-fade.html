@@ -1,96 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>스크롤 페이드의 죽음 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./death-to-scroll-fade/">
+<meta http-equiv="refresh" content="0; url=./death-to-scroll-fade/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/18/">2026-03-18</a> &gt; 스크롤 페이드의 죽음...
-      </div>
-
-      <h1>스크롤 페이드의 죽음</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Death to Scroll Fade</p>
-      <div class="article-meta">
-        <span>📅 2026-03-18</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 329</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>웹 디자인에서 흔히 사용되는 스크롤 페이드 효과는 접근성, 인지 오버로드, 코어 웹 바이탈 악화 등의 문제가 있으며, 개발자는 이를 기술적으로 불가능하다고 주장해야 한다고 주장합니다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>스크롤 페이드는 prefers-reduced-motion 무시, 전정계 질환 유발, LCP 성능 악화 등 접근성 문제 초래</li><li>Windows, Linux, Android에서 성능이 저하되고 테스트 없이 적용되는 경우가 많음</li><li>효과를 제대로 구현하려면 초기 단계부터 계획 필요하며, 많은 개발 시간을 소모하는 '빠른 해결책'이 아님</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>개발자가 클라이언트 요청을 거절할 명확한 기술적, 접근성, 성능 이유를 이해할 수 있습니다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>스크롤 페이드는 이제 그만!</h2>
-<p>스크롤 페이드. 페이지를 아래로 내리면서 요소들이 보송보송 사라졌다 나타나는 그 효과 말이에요. 보통 Y축 방향 트랜스폼과 함께 연출됩니다.</p>
-<p>미묘하고 절제된 방식이라면 괜찮을 수도 있습니다. 하지만 현실은 어떻습니까? 스크롤 페이드를 좋아하는 사람들은 절제라는 단어를 모르는 것 같습니다. 타이밍 감각도 마찬가지고요. 저는 프로젝트가 거의 완성 단계에 접어들었을 때 &quot;이 모든 요소에 페이드 인 효과를 넣어야 하지 않을까요?&quot;라는 말을 너무 많이 들었습니다. 뭐를 페이드? 모든 걸 페이드! &quot;너무 정적이잖아요. 좀 더 살아있게 만들어야 하지 않을까요?&quot;</p>
-<p>대부분 이런 요청은 갑자기 나타난 스테이크홀더에게서 옵니다. 그 스테이크홀더 말이에요. 프로젝트가 순탄하게 진행되는 것을 보면 못 견디는 사람 말입니다. 혹시 초반에 일부러 작은 실수들을 만들어두면, 웹 개발 신들이 마지막 보스 단계에서 조금 관대할까요?</p>
-<p>솔직히 말해서 스크롤 페이드는 촌스럽기 그지없습니다. 사용자 입장에서도, 개발자 입장에서도 짜증이 납니다. 이걸 구현하기 위해 작성한 JavaScript 코드 얘기는 꺼내고 싶지도 않습니다.</p>
-<h3>왜 이렇게 싫어할까요?</h3>
-<p>거의 모든 스크롤 페이드가 다목적성이나 다양성 없이 만들어집니다. 1초 opacity 전환에 100px 트랜스폼 정도? 그리고 &quot;좀 더 천천히 해줄 수 있을까요?&quot;라는 요청이 따라옵니다. 사용자가 엄청 천천히 스크롤할 때만 겨우 봐줄 만큼 보입니다.</p>
-<p>저는 스크롤 페이드를 설득해서 없앨 수 있다고 생각해봤습니다. 제 의견은 들리지만 무시됩니다. 취향의 문제라고 하면 이기기 어렵거든요. 클라이언트가 돈을 낸 입장에서는 그 기준으로 승리합니다.</p>
-<p>소셜 미디어에서 의견을 물었고, 꽤 좋은 반박 논거들이 나왔습니다.</p>
-<h3>좀 더 강력한 논리가 필요할 때</h3>
-<p><strong>접근성 문제</strong></p>
-<p>접근성은 진짜 중요한 문제입니다. 다만 이걸로 설득하기는... 쉽지 않습니다. 여러 사람이 전정기관 장애(vestibular disorders)를 언급했습니다. 다행히 <code>prefers-reduced-motion</code>이 있어서 가장 취약한 사용자들을 보호할 수 있죠.</p>
-<p>개인적으로는 모션이 opt-in 방식이었으면 좋겠습니다. 지금은 opt-out이거든요. 혹시 <code>prefers-tacky</code> 미디어 쿼리가 있었으면 좋겠는데, 저는 이 기준의 심사위원이 되고 싶습니다.</p>
-<p><strong>인지 과부하와 성능</strong></p>
-<p>&quot;인지 과부하&quot;라는 지적도 있었습니다. 스크롤 페이드는 사용자의 주의를 산만하게 만든다는 뜻입니다. 한 가지 흥미로운 점은 많은 프로젝트가 Mac에서 개발되는데, Windows, Linux, Android에서는 이 효과가 형편없게 동작한다는 겁니다.</p>
-<p>이건 중요한 질문을 던집니다. 프로젝트에 실제 사용자와 함께 테스트할 예산과 시간이 있나요? 성능 테스트는? 사용성 테스트는? 사용자들이 여전히 기본 기능을 수행할 수 있나요? 이탈률은 증가했나요? 테스트할 의지가 없다면 이런 위험을 감수할 자격이 없습니다.</p>
-<p><strong>Core Web Vitals에 미치는 영향</strong></p>
-<p>아마도 가장 효과적인 반박은 Core Web Vitals 악화입니다. 스크롤 페이드가 Largest Contentful Paint(LCP)를 망치지 않을까요? 이 글을 위해 데이터를 수집할 정도의 게으름은 아니지만, 제가 본 대부분의 사이트는 형편없는 LCP를 기록하고 있었습니다.</p>
-<p>SEO가 여전히 중요할까요? 요즘 Google은 이상한 결과물들을 서빙한다고 들었는데요. 혹시 이 글이 이 관행을 유행 밖으로 밀어낼 수 있을까요? SEO 키워드를 집어넣고 클릭베이트를 노린다든지요.</p>
-<h3>이 정도면 충분하지 않을까요?</h3>
-<p>우리는 모두 개발자입니다. 함께 스크롤 페이드가 기술적으로 불가능하다고 치기로 할 수 없을까요? 또는 노인들이 이런 짓할 시간이 없다고 해서 법으로 금지됐다고 말한다든지?</p>
-<p>아무튼 스크롤 페이드는 이 정도 수준의 &quot;작은 추가 기능&quot;이 아닙니다. 엄청난 노력이 들어갑니다. 누가 제대로 테스트할 계획이 있나요? 이런 건 처음부터 계획해야 합니다. 웹사이트 아키텍처 전체를 이걸 중심으로 짜야 한다는 뜻입니다.</p>
-<p>아니면 그냥 NO라고 말합시다.</p>
-<p><strong>스크롤 페이드는 죽어야 마땅합니다.</strong></p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://dbushell.com/2026/01/09/death-to-scroll-fade/" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-18%20%EC%8A%A4%ED%81%AC%EB%A1%A4%20%ED%8E%98%EC%9D%B4%EB%93%9C%EC%9D%98%20%EC%A3%BD%EC%9D%8C&labels=feedback%2Cliked&body=**Article**%3A%20%EC%8A%A4%ED%81%AC%EB%A1%A4%20%ED%8E%98%EC%9D%B4%EB%93%9C%EC%9D%98%20%EC%A3%BD%EC%9D%8C%0A**URL**%3A%20https%3A%2F%2Fdbushell.com%2F2026%2F01%2F09%2Fdeath-to-scroll-fade%2F%0A**Date**%3A%202026-03-18%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./death-to-scroll-fade/">./death-to-scroll-fade/</a>…</p>
+<script>location.replace("./death-to-scroll-fade/");</script>
 </body>
 </html>

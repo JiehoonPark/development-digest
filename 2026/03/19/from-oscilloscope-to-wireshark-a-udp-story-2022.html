@@ -1,129 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>오실로스코프에서 Wireshark까지: UDP 이야기 (2022) — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./from-oscilloscope-to-wireshark-a-udp-story-2022/">
+<meta http-equiv="refresh" content="0; url=./from-oscilloscope-to-wireshark-a-udp-story-2022/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/19/">2026-03-19</a> &gt; 오실로스코프에서 Wireshark까지: UDP 이야기 (2022)...
-      </div>
-
-      <h1>오실로스코프에서 Wireshark까지: UDP 이야기 (2022)</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">From Oscilloscope to Wireshark: A UDP Story (2022)</p>
-      <div class="article-meta">
-        <span>📅 2026-03-19</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 61</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>물리 계층의 신호에서 시작하여 UDP 패킷 디코딩까지 7개 OSI 계층을 통으로 거치는 네트워크 분석 과정을 상세히 다룬다. QSGMII 프로토콜과 8b/10b 인코딩을 통해 실제 하드웨어 신호를 패킷으로 변환하는 방식을 설명한다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>오실로스코프 신호를 코드로 변환하여 10b/10b 디코딩, QSGMII 프로토콜 분석 수행</li><li>IANA 루트 존 미등록 TLD를 위한 커스텀 DNS 설정 문제 및 해결 방안 제시</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>저수준 네트워크 디버깅, 프로토콜 분석, 하드웨어-소프트웨어 통합 개발에 관심 있는 개발자에게 실제 사례 기반의 심화 학습 자료다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>오실로스코프부터 Wireshark까지: UDP 패킷 추적기</h2>
-<p>UDP는 IP 네트워크를 통해 메시지를 전송하는 전송 계층 프로토콜입니다. OSI 모델의 4계층에 위치하죠.</p>
-<pre><code>7 Application (응용)
-6 Presentation (표현)
-5 Session (세션)
-4 Transport (전송)
-3 Network (네트워크)
-2 Data link (데이터 링크)
-1 Physical (물리)</code></pre>
-<p>저처럼 책상 위에 UDP 패킷을 보내는 하드웨어를 가지고 있다면, 이제 그것들을 자세히 들여다볼 시간이 왔을 겁니다.</p>
-<p>대부분의 &quot;저수준&quot; 네트워킹 튜토리얼은 &quot;tcpdump를 사용해서 원본 패킷을 봐라&quot;는 선에서 멈춥니다. 우리는 스택을 훨씬 더 아래로 내려갈 거예요. 정확히는 여기까지요.</p>
-<p>(이미지를 클릭하면 원본 고해상도 파일을 볼 수 있습니다)</p>
-<p>이건 Oxide Computer Company 랙 스위치에 납땜된 고속 능동 차동 프로브입니다. 물리 계층까지 완전히 파고드는 거죠. (이렇게까지 섬세한 납땜 작업을 해주신 Eric에게 감사합니다!)</p>
-<p>오실로스코프에서 신호를 보면 전선을 통해 데이터가 빠르게 흐르는 걸 볼 수 있습니다.</p>
-<p>이 글에서는 이런 원본 전압 파형에서 시작해서 완전히 디코딩된 UDP 패킷까지 도달할 거예요. 1계층에서 4계층까지 쭉 따라가 봅시다.</p>
-<h3>배경 설명</h3>
-<p>저는 Oxide Computer Company에서 랙 규모 컴퓨터를 위한 임베디드 소프트웨어를 개발하고 있습니다. 최근 몇 개월간 관리 네트워크에 집중했는데, 이건 각 서버의 Service Processor 사이를 연결하는 저속 네트워크거든요.</p>
-<p>Service Processor는 기본적으로 베이스보드 관리 컨트롤러와 같은 역할을 하며, 랙의 원격 관리를 가능하게 해줍니다.</p>
-<p>관리 네트워크의 중심은 VSC7448이라는 52포트, 80G 이더넷 스위치 칩입니다. 이것도 &quot;느린&quot; 스위치라고 부르지만, 여전히 강력한 녀석이죠. 이게 개발 키트입니다.</p>
-<p>(크기 비교를 위해 머그잔을 놨습니다)</p>
-<p>이번 디코딩 작업은 일부 링크가 간헐적으로만 작동하는 성가신 버그를 추적하는 과정의 일부였습니다. 근본 원인은 스위치 IC의 잘못된 설정이었지만, 현대 네트워킹의 물리 계층을 깊이 있게 이해하는 좋은 기회였어요.</p>
-<h3>파형 데이터 내보내기</h3>
-<p>이제 본격적으로 시작해봅시다!</p>
-<p>오실로스코프에 QSGMII 분석 기능이 내장되어 있지 않고, 데이터를 꽤 복잡하게 처리해야 하므로 파형 데이터를 컴퓨터로 내보내기로 했습니다.</p>
-<h4>얼마나 많은 데이터를 캡처해야 할까?</h4>
-<p>아날로그 파형은 쉽게 여러 기가바이트가 될 수 있으니까, 작은 량을 캡처하면서도 패킷 1~2개는 잡아야 합니다. 네트워크의 한 장치가 초당 약 30K개의 UDP 패킷을 내보낸다는 걸 알고 있었어요. 즉, 한 패킷마다 33 µs 정도 간격이 있다는 뜻입니다.</p>
-<p>오실로스코프를 1 TSPS(테라샘플/초, 10¹²)로 1억 샘플을 수집하도록 설정했습니다. 계산해보면 100 µs 분량의 데이터가 되므로 UDP 패킷 1~3개를 잡을 수 있을 거예요.</p>
-<p>결국 191MB 크기의 .wfm 파일을 얻게 됐습니다.</p>
-<p>다행히 Tektronix가 .wfm 파일 형식을 문서화해뒀거든요. 약 400줄의 코드로 <code>nom</code>을 사용해서 간단한 파서를 만들었습니다. nom은 이런 종류의 이진 형식을 다루기에 훌륭한 지원을 제공합니다.</p>
-<p>그런데 실제로는 파서가 과도하긴 합니다. 우리가 실제로 필요한 건 두 가지뿐이거든요.</p>
-<ul>
-<li>샘플 파형(i16 배열)</li>
-<li>샘플 레이트(초당 샘플 간격)</li>
-</ul>
-<p>파일에서 데이터 스트림이 시작되는 위치를 알면 Python 3줄로도 디코더를 쓸 수 있습니다.</p>
-<pre><code class="language-python">import numpy as np
-data = open('udp-spam.wfm', 'rb').read()
-pts = np.frombuffer(data[904:-1], dtype=np.int16)</code></pre>
-<p>이 데이터의 일부를 그려보면 오실로스코프에서 보던 것과 똑같이 나타납니다.</p>
-<p>이제 이것이 무엇을 의미하는지 알아내야 합니다.</p>
-<h3>QSGMII 기초 이해</h3>
-<p>PCB에 납땜된 프로브로 돌아가보면, 우리는 메인 VSC7448 스위치와 VSC8504 PHY 사이의 링크를 프로빙하고 있습니다.</p>
-<p>PHY는 포트 확장기로 동작합니다. 스위치의 네 포트(단일 Tx/Rx 채널로 결합됨)를 받아서 네 개의 별도 채널로 나누어줍니다.</p>
-<p>(VSC7448이 52개 포트를 모두 직접 구동할 만큼의 핀을 갖지 못해서만 이렇게 할 필요가 있습니다)</p>
-<p>스위치와 PHY 사이의 링크는 QSGMII를 사용하는데, 이건 &quot;Quad Serial Gigabit Media-Independent Interface&quot;의 약자입니다.</p>
-<p>QSGMII는 미디어 액세스 제어(MAC) 블록과 이더넷 PHY 사이의 통신을 위한 프로토콜입니다. 구체적으로는 네 개의 SGMII 채널을 단일 Tx/Rx 쌍으로 압축(hence the &quot;quad&quot;)하되, 4배 빠르게(1.25 GBPS 대신 5 GBPS) 실행하는 방식이죠.</p>
-<p>SGMII와 QSGMII 표준은 모두 공개되어 있으며, 읽기 쉬운 편입니다. (IEEE 802.3-2015 같은 건 아니더라도요)</p>
-<p>인코딩부터 시작해봅시다.</p>
-<h3>8b/10b 디코딩</h3>
-<p>SGMII와 QSGMII 모두 8b/10b 인코딩을 사용합니다. 이건 8비트 바이트의 스트림을 10비트 &quot;코드 그룹&quot;(또는 &quot;심볼&quot;이라고도 부름)으로 압축하는 방식인데, 몇 가지 좋은 성질을 갖고 있어요.</p>
-<ul>
-<li>평균적으로 스트림에는 0과 1이 같은 수만큼 들어있습니다.</li>
-<li>클록 복구를 위해 충분한 비트 전환이 있습니다.</li>
-<li>코드 그룹들이 모두 뭉쳐있어서, 원본 데이터를 봐도 코드 그룹이 어디서 시작하고 끝나는지 명확하지 않습니다.</li>
-</ul>
-<p>코드 그룹 프레이밍을 복구하려면 쉼표 문자(comma characters)를 찾아야 합니다. 이건 <code>1100000</code> 또는 <code>0011111</code> 형태의 문자거든요. 이런 문자들은 (거의 유일하게) 5개 이상의 연속된 0 또는 1을 가집니다.</p>
-<p>먼저 이 데이터를 변환해봅시다.</p></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://www.mattkeeter.com/blog/2022-08-11-udp/" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-19%20%EC%98%A4%EC%8B%A4%EB%A1%9C%EC%8A%A4%EC%BD%94%ED%94%84%EC%97%90%EC%84%9C%20Wireshark%EA%B9%8C%EC%A7%80%3A%20UDP%20%EC%9D%B4%EC%95%BC%EA%B8%B0%20(2022)&labels=feedback%2Cliked&body=**Article**%3A%20%EC%98%A4%EC%8B%A4%EB%A1%9C%EC%8A%A4%EC%BD%94%ED%94%84%EC%97%90%EC%84%9C%20Wireshark%EA%B9%8C%EC%A7%80%3A%20UDP%20%EC%9D%B4%EC%95%BC%EA%B8%B0%20(2022)%0A**URL**%3A%20https%3A%2F%2Fwww.mattkeeter.com%2Fblog%2F2022-08-11-udp%2F%0A**Date**%3A%202026-03-19%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./from-oscilloscope-to-wireshark-a-udp-story-2022/">./from-oscilloscope-to-wireshark-a-udp-story-2022/</a>…</p>
+<script>location.replace("./from-oscilloscope-to-wireshark-a-udp-story-2022/");</script>
 </body>
 </html>

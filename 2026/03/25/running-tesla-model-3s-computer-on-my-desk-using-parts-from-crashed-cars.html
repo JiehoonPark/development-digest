@@ -1,110 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>중고 부품으로 테슬라 Model 3 컴퓨터를 책상 위에서 실행하기 — FE 데일리 리포트</title>
-  <link rel="stylesheet" href="https://jiehoonpark.github.io/development-digest/style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<meta charset="utf-8">
+<title>Redirecting…</title>
+<link rel="canonical" href="./running-tesla-model-3s-computer-on-my-desk-using-parts-from-crashed-cars/">
+<meta http-equiv="refresh" content="0; url=./running-tesla-model-3s-computer-on-my-desk-using-parts-from-crashed-cars/">
+<meta name="robots" content="noindex">
 </head>
 <body>
-  <header class="site-header">
-    <div class="container">
-      <h1><a href="https://jiehoonpark.github.io/development-digest/">📬 FE 데일리 리포트</a></h1>
-      <p>AI가 큐레이션한 프론트엔드 개발 뉴스</p>
-      <nav>
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a>
-        <a href="https://jiehoonpark.github.io/development-digest/search.html">검색</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <div class="article-detail">
-      <div class="breadcrumb">
-        <a href="https://jiehoonpark.github.io/development-digest/">홈</a> &gt; <a href="https://jiehoonpark.github.io/development-digest/2026/03/25/">2026-03-25</a> &gt; 중고 부품으로 테슬라 Model 3 컴퓨터를 책상 위에서 실행하기...
-      </div>
-
-      <h1>중고 부품으로 테슬라 Model 3 컴퓨터를 책상 위에서 실행하기</h1>
-      <p style="font-size: 13px; color: #999; margin-bottom: 12px;">Running Tesla Model 3's computer on my desk using parts from crashed cars</p>
-      <div class="article-meta">
-        <span>📅 2026-03-25</span>
-        <span>📰 Hacker News (Top)</span>
-        
-        <span>⬆ 163</span>
-      </div>
-
-      <div class="article-summary">
-        <h2>요약</h2>
-        <p>보안 연구자가 테슬라 버그 바운티 프로그램에 참여하기 위해 eBay에서 충돌 차량 부품을 구입해 MCU와 자동조종 컴퓨터를 책상 위에서 부팅했습니다. Tesla 공개 전기 회로도를 활용해 필요한 케이블을 식별하고 Ethernet 연결로 시스템의 SSH 서버와 웹 서버에 접근했습니다.</p>
-      </div>
-
-      <div class="article-key-points">
-        <h2>핵심 포인트</h2>
-        <ul><li>eBay에서 중고 Tesla 부품($200-$300)을 구입해 MCU와 터치스크린 조립 및 부팅 성공</li><li>Tesla 공개 'Electrical Reference' 문서를 활용해 6핀 Rosenberger 커넥터 대신 LVDS 케이블 대체 사용</li><li>192.168.90.X/24 네트워크에 Ethernet으로 연결해 SSH와 웹서버 발견</li></ul>
-       </div>
-      <div class="article-why">
-        <h2>왜 중요한가</h2>
-        <p>자동차 시스템 보안 연구 방법과 공개된 기술 문서 활용의 중요성을 보여줍니다.</p>
-       </div>
-      <div class="translated-content">
-        <h2>📄 전문 번역</h2>
-        <div class="content"><h2>중고 부품으로 테슬라 Model 3 컴퓨터를 책상 위에서 실행하기</h2>
-<p>2026년 3월 23일</p>
-<p>테슬라는 차량의 보안 취약점을 찾는 버그 바운티 프로그램을 운영 중입니다. 이 프로그램에 참여하려면 실제 하드웨어가 필요했는데, 그래서 eBay에서 테슬라 Model 3 부품을 찾기 시작했습니다. 제 목표는 테슬라 차량용 컴퓨터와 터치스크린을 책상 위에서 구동하고, 차의 운영체제를 부팅하는 것이었습니다.</p>
-<h3>하드웨어 구성 알아보기</h3>
-<p>차량용 컴퓨터는 두 부분으로 이루어져 있습니다. 하단의 MCU(Media Control Unit)와 그 위에 겹쳐진 자동조종 컴퓨터(AP)인데요. 실제 차량에서는 조수석 앞, 대략 글러브박스 뒤쪽에 위치합니다. 부품 자체의 크기는 iPad 정도이고 두께는 약 500페이지 책 정도이며, 수냉식 금속 케이싱으로 덮여 있습니다.</p>
-<h3>부품 구하기</h3>
-<p>eBay에서 &quot;Tesla Model 3 MCU&quot;를 검색하니 $200~$300 가격대의 제품들이 꽤 많이 나왔습니다. 리스팅을 살펴보니 대부분의 판매자들이 사고난 자동차를 사서 분해한 후 부품을 개별로 판매하는 &quot;자동차 부품 해체 회사&quot;였어요. 흥미롭게도 몇몇 회사는 원래 충돌한 차의 사진까지 포함시켰고, 같은 차량에서 추출한 부품으로 필터링하는 방법도 제공했습니다.</p>
-<p>차량을 부팅하고 상호작용하려면 몇 가지가 더 필요했습니다.</p>
-<ul>
-<li>12V를 공급할 수 있는 DC 전원 공급장치</li>
-<li>해체된 Model 3의 터치스크린 모듈</li>
-<li>둘을 연결하는 디스플레이 케이블</li>
-</ul>
-<p>전원 공급장치는 Amazon에서 0~30V 조절 가능한 모델을 골랐습니다. 당시 5A와 10A 버전이 있었는데, 여유가 있는 게 안전하다고 생각해 10A 버전을 선택했어요. 나중에 알고 보니 이건 정말 좋은 판단이었습니다. 실제로 전체 시스템이 최대 전력 상태에서 8A까지 소비했거든요.</p>
-<p>Model 3 화면은 eBay에서 생각보다 비쌌는데, 아마 인기 있는 교체 부품이라서 그런 것 같습니다. 결국 $175에 꽤 좋은 딜을 찾았습니다.</p>
-<h3>가장 까다로웠던 부분: 케이블</h3>
-<p>마지막이자 가장 어려웠던 부분은 MCU를 화면에 연결하는 케이블이었습니다. 구매한 컴퓨터와 화면 모두 커넥터에서 몇 센티미터 떨어진 곳에서 케이블이 잘려 있었거든요. (흥미롭게도 대부분의 판매자들이 케이블을 분리하지 않고 이렇게 자른 채로 팔았습니다.)</p>
-<p>다행히 테슬라는 모든 차량에 대한 배선 &quot;Electrical Reference&quot;를 공개하고 있었습니다. 서비스 웹사이트에서 특정 차종을 찾아 컴포넌트(예: 디스플레이)를 검색하면, 부품이 어떻게 배선되어야 하는지, 어떤 케이블과 커넥터를 사용하는지, 그리고 각 커넥터 내부의 핀이 무엇을 담당하는지 정확히 보여줍니다.</p>
-<p>디스플레이가 6핀 케이블(12V와 그라운드 2개, 데이터 4개)을 사용한다는 걸 알았는데, 특수한 Rosenberger 99K10D-1D5A5-D 커넥터를 써야 했습니다. 그런데 자동차 제조사처럼 대량으로 주문하지 않는 이상, 이런 단일 Rosenberger 케이블을 구할 방법이 없다는 걸 곧 발견했습니다. eBay에도 없고, Aliexpress에도 없고, 검색해도 거의 나오지 않았어요.</p>
-<p>이것저것 찾아다니다가 이 케이블이 BMW 자동차에서 비디오를 전송하는 데 쓰이는 &quot;LVDS&quot;라는 더 널리 사용되는 자동차 케이블과 매우 유사하다는 걸 발견했습니다. 처음 봤을 땐 커넥터가 제 Rosenberger와 완벽하게 맞아 보여서 주문해봤습니다.</p>
-<h3>전원 켜기</h3>
-<p>컴퓨터가 먼저 도착했습니다. 전원을 켜려고 테슬라 회로도와 온라인의 몇 가지 사진(같은 책상-MCU 설정을 한 사람들의 사진)을 참고해서 어느 커넥터의 어느 핀에 12V와 그라운드를 연결해야 하는지 찾아봤습니다. 컴퓨터에 짧게 잘린 케이블이 포함되어 있었으니, 관련 전선을 벗겨내서 전원 공급장치의 클립을 올바른 위치에 연결했습니다.</p>
-<p>빨간색 LED가 깜빡이기 시작했고 컴퓨터가 부팅되었습니다! 아직 화면이 없었으니 차량과 상호작용할 방법이 별로 없었어요. @lewurm이 GitHub에서 한 이전 연구를 읽어보니, 최소한 이전 차량 버전에는 차 내부에 네트워크가 있고, 일부 컴포넌트는 자체 웹서버를 가지고 있다는 걸 알 수 있었습니다. 전원 커넥터 옆의 포트에 이더넷 케이블을 연결했고, 다른 쪽 끝은 제 노트북에 연결했습니다.</p>
-<p>이 네트워크에는 DHCP가 없어서 IP 주소를 수동으로 설정해야 합니다. 선택한 IP는 192.168.90.X/24 범위여야 하고, 다른 호스트와 충돌하지 않으려면 192.168.90.105보다 높아야 합니다. Reddit에서 이전 차량의 <code>/etc/hosts</code> 파일 내용을 찾았는데, 일반적으로 특정 IP에 연결된 호스트들이 나열되어 있었습니다.</p>
-<pre><code>192.168.90.100 cid ice # mcu
-192.168.90.100 ic # Model X/S에만 있음 | IC = 계기판
-192.168.90.102 gw # 게이트웨이
-192.168.90.103 ap ape # ap = 자동조종
-192.168.90.104 lb # 알 수 없음
-192.168.90.105 ap-b ape-b # 역시 자동조종
-192.168.90.30 tuner # 역시 알 수 없음
-192.168.90.60 modem # FTP 서버가 있음</code></pre>
-<p>@lewurm의 블로그에서는 MCU인 192.168.90.100에서 포트 22의 SSH와 8080의 웹서버가 열려 있다고 했습니다. 최신 모델에서도 여전히 그럴까요? 네, 맞았습니다!</p>
-<p>이미 MCU에서 탐색할 수 있는 2가지 서비스를 찾았습니다.</p>
-<ul>
-<li>&quot;SSH allowed: vehicle parked&quot;라고 표시되는 SSH 서버 (현재 상황을 고려하면 꽤 웃기네요)</li>
-<li>이 SSH 서버는 테슬라만이 소유한 특수하게 서명된 SSH 키를 요구합니다</li>
-</ul></div>
-       </div>
-
-      <div class="original-link">
-        <a href="https://bugs.xdavidhu.me/tesla/2026/03/23/running-tesla-model-3s-computer-on-my-desk-using-parts-from-crashed-cars/" target="_blank" rel="noopener">🔗 원문 보기</a>
-        <a href="https://github.com/JiehoonPark/development-digest/issues/new?title=%F0%9F%91%8D%202026-03-25%20%EC%A4%91%EA%B3%A0%20%EB%B6%80%ED%92%88%EC%9C%BC%EB%A1%9C%20%ED%85%8C%EC%8A%AC%EB%9D%BC%20Model%203%20%EC%BB%B4%ED%93%A8%ED%84%B0%EB%A5%BC%20%EC%B1%85%EC%83%81%20%EC%9C%84%EC%97%90%EC%84%9C%20%EC%8B%A4%ED%96%89%ED%95%98%EA%B8%B0&labels=feedback%2Cliked&body=**Article**%3A%20%EC%A4%91%EA%B3%A0%20%EB%B6%80%ED%92%88%EC%9C%BC%EB%A1%9C%20%ED%85%8C%EC%8A%AC%EB%9D%BC%20Model%203%20%EC%BB%B4%ED%93%A8%ED%84%B0%EB%A5%BC%20%EC%B1%85%EC%83%81%20%EC%9C%84%EC%97%90%EC%84%9C%20%EC%8B%A4%ED%96%89%ED%95%98%EA%B8%B0%0A**URL**%3A%20https%3A%2F%2Fbugs.xdavidhu.me%2Ftesla%2F2026%2F03%2F23%2Frunning-tesla-model-3s-computer-on-my-desk-using-parts-from-crashed-cars%2F%0A**Date**%3A%202026-03-25%0A**Source**%3A%20Hacker%20News%20(Top)" class="feedback-link">👍 유용해요</a>
-      </div>
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <p>FE 데일리 리포트 — 94개 소스에서 AI가 큐레이션한 프론트엔드 개발 뉴스레터</p>
-      <p style="margin-top: 4px;">Powered by Claude AI</p>
-    </div>
-  </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script>hljs.highlightAll();</script>
-  <script src="https://jiehoonpark.github.io/development-digest/label-filter.js"></script>
+<p>Redirecting to <a href="./running-tesla-model-3s-computer-on-my-desk-using-parts-from-crashed-cars/">./running-tesla-model-3s-computer-on-my-desk-using-parts-from-crashed-cars/</a>…</p>
+<script>location.replace("./running-tesla-model-3s-computer-on-my-desk-using-parts-from-crashed-cars/");</script>
 </body>
 </html>
