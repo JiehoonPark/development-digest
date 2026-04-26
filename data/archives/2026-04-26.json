@@ -1,0 +1,1123 @@
+{
+  "date": "2026-04-26",
+  "intro": "안녕하세요! 프론트엔드 개발자 여러분을 위한 오늘의 뉴스레터입니다. 오늘은 AI 에이전트의 실제 위험성과 혁신적 가능성이 동시에 주목받고 있으며, 상태관리와 AI 통합 기술의 발전이 개발 패러다임을 빠르게 변화시키고 있습니다. 아울러 도메인 보안 사고와 AI 모델의 성능 평가 기준 재정의 등 실무에 직결된 중요한 이슈들이 속속 등장하고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "An AI agent deleted our production database. The agent's confession is below",
+          "titleKo": "AI 에이전트가 운영 환경 데이터베이스를 삭제했습니다. 에이전트의 자백은 아래와 같습니다",
+          "summary": "AI 에이전트가 실수로 운영 환경의 데이터베이스를 삭제한 사건과 그 과정을 다룬 트윗입니다.",
+          "keyPoints": [
+            "AI 자동화 시스템이 권한 없이 중요 인프라를 수정할 수 있는 위험성을 보여줍니다.",
+            "데이터베이스 삭제 같은 치명적 작업에 대한 에이전트 접근 제어의 필요성을 강조합니다."
+          ],
+          "whyItMatters": "AI 에이전트 도입 시 안전 장치와 권한 관리의 중요성을 보여주는 실제 사례입니다.",
+          "url": "https://twitter.com/lifeof_jer/status/2048103471019434248",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 365,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "ai-agent-incident",
+          "isTopicPrimary": true,
+          "slug": "an-ai-agent-deleted-our-production-database-the-agents-confession-is-below",
+          "category": "hot",
+          "publishedAt": "2026-04-26T16:27:29.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "GoDaddy gave a domain to a stranger without any documentation",
+          "titleKo": "GoDaddy가 서류 없이 도메인을 타인에게 넘기다",
+          "summary": "27년간 사용 중인 조직의 도메인이 GoDaddy의 실수로 사전 경고 없이 다른 계정으로 이전되어 4일간 이메일과 웹사이트가 마비되었다. 이중 인증과 도메인 보호 기능이 활성화되어 있었음에도 GoDaddy 내부 사용자에 의해 검증 없이 전송되었다.",
+          "keyPoints": [
+            "GoDaddy 보안 기능 부작용: 이중 인증, 도메인 보호 등 모든 보안 조치가 무용지물이 되었고, 32번 전화, 9.6시간 통화, 17개 이메일 발송 후에도 4일간 해결되지 않음",
+            "시스템 문제: DNS 영역이 초기화되어 20개 지점을 운영하는 국가 규모 조직의 모든 서브도메인이 동시에 다운됨",
+            "고객 지원 부실: 매번 다른 담당자, 변경되는 이메일 주소(undo@godaddy.com → transferdisputes@godaddy.com → artreview@godaddy.com), 연결되지 않은 케이스 번호 등으로 초급적 서비스 제공"
+          ],
+          "whyItMatters": "도메인 관리 시 대규모 서비스 제공업체의 보안 및 고객 지원 수준을 신뢰할 수 없음을 보여주며, 도메인 이전 및 백업 전략의 중요성을 강조",
+          "url": "https://anchor.host/godaddy-gave-a-domain-to-a-stranger-without-any-documentation/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 496,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "godaddy-gave-a-domain-to-a-stranger-without-any-documentation",
+          "fullContent": "What would you do if your organization had used a domain name for 27 years, and the registrar holding the domain seized it without any advance warning? All email and websites went dark. The company’s tech support spent four days telling you to “Just wait, we are working on it.” On the fourth day, the company informed you that someone else has the domain now, and it is no longer yours.\nRead on. This crazy story happened exactly one week ago.\nMy friend Lee Landis is a partner in Flagstream Technologies, a local IT firm in Lancaster, PA. Last Saturday afternoon one of his client’s domains vanished from his GoDaddy account.\nLee is one of the most competent IT guys I know. The GoDaddy account had dual two-factor authentication enabled, requiring both an email code and an authentication app code to log in. The domain itself had ownership protection turned on. The audit log just said “Transfer to Another GoDaddy Account” by an “Internal User” with “Change Validated: No.”\nSome names have been changedSome names and the domain itself have been changed because people wanted to remain anonymous. The pattern of the domain names mirrors the actual mistake, so the explanation still makes sense. Every fact in this post is true. Lee has hard evidence for every one of them.\nAs you can see above, GoDaddy emailed Flagstream at 1:39pm that an account recovery had been requested. Three minutes later, the transfer was initiated. Four minutes later, it was complete. On a Saturday afternoon.\nEverything at the impacted organization went offline because GoDaddy reset the DNS zone to default when they moved the domain into the new account. Same nameservers. Empty DNS zone file.\nLee’s client lost their website and email for the next four days.\n27 yrsDomain in active use\n32Calls to GoDaddy\n9.6 hrsOn the phone with GoDaddy\n17Emails to GoDaddy. Zero callbacks.\nDomain and account were fully protected.\nThe domain had the “Full Domain Privacy and Protection” security product that GoDaddy sells. Dual two-factor on the account. None of it mattered. The transfer was done by an “Internal User” inside GoDaddy.\nThe domain was HELPNETWORKINC.ORG. The real domain name has been changed because the organization wanted to remain anonymous. It belongs to a national organization with twenty locations across the United States. The domain has been in active use for 27 years. Each chapter runs its website and email on a subdomain of that one parent domain. When HELPNETWORKINC.ORG went dark, every chapter went dark with it.\nThirty-two calls. 9.6 hours on the phone. Zero callbacks.\nLee called GoDaddy on Sunday. They confirmed the domain was no longer in his account but could not say where it went due to privacy concerns. They told him to email undo@godaddy.com. He did but did not receive any type of response when emailing that address. Of course Lee didn’t really feel like this was the appropriate level of urgency for this issue. He asked for a supervisor who was even less helpful. Lee was not happy. He may have said some hurtful things to GoDaddy’s support personnel during this call. That first call lasted 2 hours, 33 minutes, and 14 seconds.\nOn Monday morning, Lee and a coworker started working in earnest on this issue because there was still no update from GoDaddy. Calling in yielded a different agent who told Lee to email transferdisputes@godaddy.com instead. By Tuesday the address had changed again to artreview@godaddy.com. The instructions shifted by the day. It seemed like every GoDaddy tech support person had a slightly different recommendation.\nThe one thing that stayed consistent was the message: “Just wait a day or two. We are working on it. Why do you think this is so urgent?”\nOne of the most frustrating parts of this process is that all official communication to and from GoDaddy about this issue was done with generically named email accounts. It just seems like there should have been a named individual in charge of managing and communicating about this issue. Rather there were just random generic email accounts that seemed to change on a daily basis.\nEvery call generated a fresh case number. Lee lost count of the total number of cases. A few of the cases are 01368489. 894760. 01376819. 01373017. 01376804. 01373134. 01370012. None of them tied together on GoDaddy’s side. Every escalation started from zero. These are actual case numbers, in case anyone at GoDaddy wants to check into this.\nI posted on X to see if anyone I knew at GoDaddy could escalate.\nCan any of my GoDaddy friends help? A good friend of mine had a domain taken. My friend is very competent. Domain ownership protection was on. Owner did not get any notices. Audit log looks fishy. Phone/email support telling them to wait. Did a GoDaddy employee take it? pic.twitter.com/OWcJIalWcF— Austin Ginder (@austinginder) April 20, 2026\nMy friend Courtney Robertson, who works at GoDaddy, reposted it and started escalating internally on her own time. Thank you, Courtney. GoDaddy has a lot of grea",
+          "category": "hot",
+          "publishedAt": "2026-04-26T16:57:56.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Amateur armed with ChatGPT solves an Erdős problem",
+          "titleKo": "아마추어가 ChatGPT로 60년 묵은 에르되시 문제를 해결했다",
+          "summary": "23세의 수학 비전공자 리엄 프라이스가 ChatGPT Pro를 이용해 세계 수학자들이 60년간 풀지 못한 에르되시 문제를 해결했습니다. 이 성과의 핵심은 AI가 기존 수학자들이 시도하지 않은 완전히 새로운 방법론을 사용했다는 점입니다. 테렌스 타오 같은 저명한 수학자들은 이 문제가 심리적 고착 때문에 어려웠으며, AI의 새로운 접근이 광범위한 응용 가능성을 가질 수 있다고 평가합니다.",
+          "keyPoints": [
+            "프라이스는 단 하나의 프롬프트로 GPT-5.4 Pro에게 물었고, 정확한 해답을 받았습니다. 그는 문제의 역사나 난이도를 미리 알지 못했고, 단순히 에르되시 문제들을 AI에 제시하는 취미 활동 중에 성공했습니다.",
+            "에르되시 문제는 60년 전 저명한 수학자 폴 에르되시가 남긴 미증명 추측들로, 이 중 일부는 크기(크기가 다른 정수 집합에서 어떤 수도 다른 수로 나누어떨어지지 않는 원시 집합의 합의 최솟값이 정확히 1이라는 추측)가 있었습니다.",
+            "AI의 핵심 기여는 새로운 방법론입니다. 기존 수학자들은 모두 동일한 표준 시작 이동으로 문제를 접근했지만, AI는 관련 분야에서는 알려져 있으나 이 문제에 적용되지 않은 공식을 사용하여 완전히 다른 경로를 택했습니다.",
+            "테렌스 타오 교수(UCLA)는 '사람들이 모두 처음 움직임에서 같은 방향으로 잘못 진입했고, 이것이 정신적 고착 같았다'고 분석합니다. 이는 AI가 인간의 편견이나 습관적 사고에서 벗어날 수 있음을 보여줍니다.",
+            "최근 AI의 수학 성공 사례들은 과장되어 있었지만, 이 경우는 다릅니다. 해결한 문제가 진정으로 어렵고, 사용한 방법이 새로운 것이며, 전문가들이 더 광범위한 응용 가능성이 있을 수 있다고 인정했습니다.",
+            "이 성과는 AI가 단순히 기존 지식을 재조합하는 것이 아니라, 인간 전문가도 놓친 새로운 연결 고리를 발견할 수 있음을 시사합니다. 스탠포드 대학의 제이레드 리히트만 수학자는 원시 집합의 개념을 '개별 수의 소수 정의를 수 집합으로 일반화한 것'이라 설명했습니다."
+          ],
+          "whyItMatters": "이 사례는 AI가 단순한 도구 수준을 넘어 수학 같은 고도의 추상적 분야에서 독립적 기여를 할 수 있음을 증명하며, 전문성과 AI의 협력 방식을 재정의합니다.",
+          "url": "https://www.scientificamerican.com/article/amateur-armed-with-chatgpt-vibe-maths-a-60-year-old-problem/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 731,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-mathematical-breakthrough",
+          "isTopicPrimary": true,
+          "slug": "amateur-armed-with-chatgpt-solves-an-erds-problem",
+          "fullContent": "April 24, 20264 min read Add Us On GoogleAdd SciAmAn amateur just solved a 60-year-old math problem—by asking AIA ChatGPT AI has proved a conjecture with a method no human had thought of. Experts believe it may have further usesBy Joseph Howlett edited by Lee Billings Eugene Mymrin/Getty ImagesLove math? Sign up for our weekly newsletter Proof PositiveEnter your emailI agree my information will be processed in accordance with the Scientific American and Springer Nature Limited Privacy Policy. We leverage third party services to both verify and deliver email. By providing your email address, you also consent to having the email address shared with third parties for those purposes.Sign UpLiam Price just cracked a 60-year-old problem that world-class mathematicians have tried and failed to solve. He’s 23 years old and has no advanced mathematics training. What he does have is a ChatGPT Pro subscription, which gives him access to the latest large language models from OpenAI.Artificial intelligence has recently made headlines for solving a number of “Erdős problems,” conjectures left behind by the prolific mathematician Paul Erdős. But experts have warned that these problems are an imperfect benchmark of artificial intelligence’s mathematical prowess. They range dramatically in both significance and difficulty, and many AI solutions have turned out to be less original than they appeared.The new solution—which Price got in response to a single prompt to GPT-5.4 Pro and posted on www.erdosproblems.com, a website devoted to the Erdős problems, just over a week ago—is different. The problem it solves has eluded some prominent minds, bestowing it some esteem. And more importantly, the AI seems to have used a totally new method for problems of this kind. It’s too soon to say with certainty, but this LLM-conceived connection may be useful for broader applications—something hard to find among recently touted AI triumphs in math.On supporting science journalismIf you're enjoying this article, consider supporting our award-winning journalism by subscribing. By purchasing a subscription you are helping to ensure the future of impactful stories about the discoveries and ideas shaping our world today.“This one is a bit different because people did look at it, and the humans that looked at it just collectively made a slight wrong turn at move one,” says Terence Tao, a mathematician at the University of California, Los Angeles, who has become a prominent scorekeeper for AI’s push into his field. “What’s beginning to emerge is that the problem was maybe easier than expected, and it was like there was some kind of mental block.”The question Price solved—or prompted ChatGPT to solve—concerns special sets of whole numbers, where no number in the set can be evenly divided by any other. Erdős called these “primitive sets” because of their connection to similarly indivisible prime numbers.“A number is prime if it has no other divisors, and this is kind of generalizing that definition from an individual number to a collection of numbers,” says Jared Lichtman, a mathematician at Stanford University. Any set of prime numbers is automatically primitive, because primes have no factors (except themselves and the number one).Erdős also came up with the Erdős sum, a “score” you can calculate for any primitive set. He showed that the biggest the sum could be was about 1.6—and conjectured that this value must also hold for the (infinite) set of all prime numbers. Lichtman proved Erdős right as part of his doctoral thesis in 2022.Erdős also noticed that the score drops if all of a set’s numbers are large—the larger the numbers, the lower the score. He guessed that the lowest this score could be was exactly one, a limit that the score would approach as the set’s numbers approached infinity. Lichtman tried to prove this, too, but got stuck like everyone else before him.Price wasn’t aware of this history when he entered the problem into ChatGPT on an idle Monday afternoon. “I didn’t know what the problem was—I was just doing Erdős problems as I do sometimes, giving them to the AI and seeing what it can come up with,” he says. “And it came up with what looked like a right solution.”He sent it to his occasional collaborator Kevin Barreto, a second-year undergraduate in mathematics at the University of Cambridge. The duo had jump-started the AI-for-Erdős craze late last year by prompting a free version of ChatGPT with open problems chosen at random from the Erdős problems website. (An AI researcher subsequently gifted them each a ChatGPT Pro subscription to encourage their “vibe mathing.”)Reviewing Price’s message, Barreto realized what they had was special, and experts whom he notified quickly took notice.“There was kind of a standard sequence of moves that everyone who worked on the problem previously started by doing,” Tao says. The LLM took an entirely different route, using a formula that was well known in related parts of math, but which no one",
+          "category": "hot",
+          "publishedAt": "2026-04-25T17:40:38.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Statecharts: hierarchical state machines",
+          "titleKo": "상태차트: 계층적 상태 머신",
+          "summary": "상태차트는 상태 머신을 확장한 개념으로, 복잡한 시스템의 행동을 시각적으로 표현하고 상태 폭발(state explosion) 문제를 해결합니다. W3C에서 10년 이상 표준화한 SCXML(상태차트 XML) 형식이 있으며, 다양한 프로그래밍 언어의 라이브러리로 구현 가능합니다. 상태차트는 단순한 다이어그램이 아니라 런타임에서 실제 동작하는 코드의 진실의 단일 원천(single source of truth) 역할을 할 수 있습니다.",
+          "keyPoints": [
+            "상태차트는 기본 상태 머신의 한계를 극복합니다. 상태 수가 증가할 때 상태 폭발로 인한 복잡성 증가를 계층적 구조와 중첩 상태로 효과적으로 관리할 수 있습니다.",
+            "W3C 표준 SCXML(2005-2015년 표준화)은 엣지 케이스 처리와 진입/종료 액션의 정확한 순서 보장을 명시합니다. SCXML 기반 라이브러리를 사용하면 복잡한 상태 관리 로직을 신뢰할 수 있게 구현할 수 있습니다.",
+            "상태차트는 이미 코드에 숨겨진 상태 머신을 명시적으로 드러냅니다. 대부분의 소프트웨어는 상태 머신을 구현하지만 그 구조를 명확히 표현하지 않아 유지보수 어려움이 발생합니다.",
+            "코드 내 상태차트 정의에서 자동으로 시각적 다이어그램을 생성할 수 있습니다. JSON이나 XML 파일의 상태차트 정의를 단일 진실 공급원으로 사용하면, 런타임 동작을 구동하면서 동시에 정확한 시각화를 자동 생성할 수 있습니다.",
+            "상태차트 도입의 장단점이 있습니다. 초기 학습 비용과 도구 의존성이 있지만, 복잡도 감소, 버그 감소, 문서화 개선, 테스트 용이성 증가 등의 이점이 있습니다.",
+            "상태차트에 대한 공통 반박 주장들도 있지만, 전반적으로는 순이득입니다. Gitter와 GitHub Discussions에서 활발한 커뮤니티가 상태차트 학습과 적용을 지원합니다."
+          ],
+          "whyItMatters": "상태차트는 복잡한 애플리케이션 상태 관리를 명확하고 유지보수 가능하게 만들어, 버그 감소와 개발 생산성 향상을 동시에 달성할 수 있는 검증된 패러다임입니다.",
+          "url": "https://statecharts.dev/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 267,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "statecharts-hierarchical-state-machines",
+          "fullContent": "A statechart can be explained in many ways, and we’ll get to those explanations, but essentially, a statechart is a drawing. Here’s a simple statechart:\nHowever, this drawing isn’t very useful for software engineers who want to reap the benefits outlined elsewhere on this site, so let’s dive into some other ways of describing what a statechart is. The original paper that defines statecharts bills them as “A visual formalism for complex systems” (Harel, 1987). With that out of the way, let’s try to explain statecharts.\nPut simply, a statechart is a beefed up state machine. The beefing up solves a lot of the problems that state machines have, especially state explosion that happens as state machines grow. One of the goals of this site is to help explain what statecharts are and how they are useful.\nStatecharts offer a surprising array of benefits\nIt’s worth noting that you’re already coding state machines, except that they’re hidden in the code.\nThere are a few downsides to using statecharts that you should be aware of.\nThere are a few common arguments against statecharts in addition to the ones listed above:\nThe benefits outlined above should make it clear that the introduction of statecharts is generally a net positive.\nFirst of all, know that a W3C committee spent 10+ years (2005 to 2015) standardizing something called SCXML (yes, Statechart XML), and that it defines a lot of the semantics and specifies how to deal with certain edge cases. There are tools to read, author and even execute statecharts written in SCXML, in various languages. There are also some derivatives that support the same model as SCXML, but using a different syntax.\nAdditionally, there are statechart libaries for a variety of platforms, that in varying degrees support the semantics described by SCXML. You should consider using these libraries just to get those edge cases taken care of. The libraries generally perform entry and exit actions in the right order and so on.\nWith that out of the way, read on!\nIn addition to just using statecharts to model the behaviour in documents separate from the actual running code, it’s possible to use one of various machine formats, both to design the behaviour, and at run-time to actually be the behaviour. The idea is to have a single source of truth that describes the behaviour of a component, and that this single source drives both the actual run-time code, but that it can also be used to generate a precise diagram that visualises the statechart.\nThis carries along some different pros and cons:\nIn essence, if you have any definition of a statechart in your code, all you need to do is to take that representation and automate the generation of the visual statechart. This is of course simpler when the definition is in a separate file, e.g. in a JSON or XML file.\nThis is all explained on the page on how to use statecharts!\nIf you feel like chatting to someone about statecharts, you can go to gitter.im (no login required to see the chat), where you’ll find a community of like minded developers that can help you understand and reap the benefits of using Statecharts. For a more Q&A-type site, head on over to the statecharts GitHub discussions, where we’ll do your best to answer your question.\nQuite a few people have written books or held presentations that deal with statecharts in various ways, and they’re included in our resources page. If you’ve written something, please share it by posting it to GitHub Discussions.\nThere are some pages that haven’t found any place in the web of documents, so they’re honourably mentioned here:",
+          "category": "tech",
+          "publishedAt": "2026-04-26T09:32:22.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "abhigyanpatwari/GitNexus (TypeScript)",
+          "titleKo": "GitNexus - 제로 서버 코드 인텔리전스 엔진",
+          "summary": "GitNexus는 브라우저에서 완전히 작동하는 클라이언트 사이드 지식 그래프 생성 도구로, GitHub 저장소나 ZIP 파일을 업로드하면 Graph RAG 에이전트를 통해 인터랙티브한 지식 그래프를 생성합니다.",
+          "keyPoints": [
+            "클라이언트 사이드 실행으로 인프라 설정 불필요",
+            "Graph RAG 에이전트로 고급 코드 탐색 기능 제공"
+          ],
+          "whyItMatters": "개발자가 서버 없이 로컬에서 코드베이스의 구조와 관계를 시각화하고 이해할 수 있습니다.",
+          "url": "https://github.com/abhigyanpatwari/GitNexus",
+          "sourceName": "GitHub Trending",
+          "engagement": 30124,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "abhigyanpatwarigitnexus-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-26T23:17:25.306Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Show HN: Turning a Gaussian Splat into a videogame",
+          "titleKo": "가우시안 스플래팅을 비디오게임으로 변환하기",
+          "summary": "가우시안 스플래팅 기술로 생성된 포토리얼리스틱한 환경을 브라우저 기반 게임으로 만드는 방법을 다룹니다. PlayCanvas를 이용해 충돌 메시 생성, 라이팅 처리, NPC 및 물리 엔진을 통합하는 과정을 단계별로 설명합니다.",
+          "keyPoints": [
+            "splat-transform CLI 도구를 사용해 스플래팅 데이터를 게임 엔진에 최적화하고 충돌 메시 자동 생성",
+            "스트리밍 LOD 기술로 모바일 장치에서도 고품질 그래픽을 부드럽게 렌더링 가능",
+            "바이오 라이팅 프로브를 사용해 3D 스캔 환경의 조명을 일반 PBR 메시에 적용"
+          ],
+          "whyItMatters": "최신 3D 캡처 기술을 웹 게임에 통합하는 실용적인 방법으로, 개발자들이 고품질 환경 제작 비용을 크게 절감할 수 있습니다.",
+          "url": "https://blog.playcanvas.com/turning-a-gaussian-splat-into-a-videogame/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 197,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-turning-a-gaussian-splat-into-a-videogame",
+          "fullContent": "Gaussian Splatting gives you photorealistic environments for free. The catch: a splat is just a cloud of oriented blobs - no triangles, no colliders, no navmesh, no lights. Drop a character in and they'll float through walls looking like they belong in a different universe.\nThis post walks through the demo I built to fix all of that:\n👉 Play it in your browser - WASD, mouse to aim, left-click to fire.\n👉 Check the project - the full PlayCanvas project is public. Every script mentioned in this post lives inside it, ready to read, fork, or remix.\nThe scene is a gorgeous indoor scan of a real abandoned place by Christoph Schindelar. Christoph is one the best artists working with Gaussian Splats out there, so when he proposed to scan a real place for me, I jumped at the opportunity. On top of that splat I bolted a physics collider, a grid of baked lighting probes, a Recast navmesh, eight personality-driven NPCs and a classic FPS loop. Everything runs in a browser tab.\n🏗️ The Build​\nHere's how I built it, step by step.\n📥 Step 1: Download a Splat from SuperSplat​\nBefore any code, you need a scene. Any splat on SuperSplat tagged Downloadable has been published under Creative Commons by its author - grab the .ply or .sog and drop it straight into your own PlayCanvas project. The lighting, clutter and scale of the scan I picked were already cinematic, so I didn't have to art-direct anything.\nTry it nowJump straight to the pre-filtered downloadable view and pick one.\n📡 Step 2: Convert the Splat to Streamed SOG Format​\nThe Swiss Army knife for everything that follows is splat-transform - PlayCanvas's open-source CLI for converting splats. We'll lean on it for streamed LOD here and for a collision mesh in the next step.\nMy scene is a few million Gaussians - big enough that shipping it as a single .sog asset would punish anyone on a phone or a slow connection. The fix is Streamed LOD: instead of one monolithic file, SuperSplat (and splat-transform) write out a folder of SOG chunks plus a manifest. The runtime loads chunks on demand based on the camera's viewpoint and the device's capability - high-end desktop pulls full detail around the player, a phone pulls a lighter subset, and neither of them stalls waiting for the whole file.\nScripts/streaming-lod.mjs hooks into the camera and asks the runtime to keep the chunks around the player fully loaded before the game starts - so you never see pop-in mid-firefight.\nTry it nowIf your splat is over a few million Gaussians, export it as streamed LOD (the easiest way is from SuperSplat's export dialog - see the Streamed LOD docs) and let the viewer stream it. Your mobile players will thank you.\nnpm install -g @playcanvas/splat-transform\n🧱 Step 3: Generate a Collision Mesh​\nThis used to be the hard part. A splat has no surfaces, so physics is blind to it. You can't walk on it, shoot through it, or path around it. That's where splat-transform earns its keep again - the flag you want is -K / --collision-mesh. It voxelizes the splat, flood-fills the navigable interior from a seed position, and writes out a watertight .collision.glb that you can import straight into PlayCanvas as a mesh collider.\nsplat-transform scene.ply \\ --seed-pos 0,1,0 \\ --voxel-params 0.05,0.1 \\ --voxel-carve 1.6,0.2 \\ -K \\ scene.sog\nThat one command gives me two outputs:\nscene.sog - a single-file compressed splat for quick iteration; the shipped build uses the streamed folder from Step 2.\nscene.collision.glb - a voxel-derived mesh that hugs the real geometry.\nI dropped both into the PlayCanvas project and attached the GLB to an invisible entity with a Collision component (mesh) and a Rigid Body component (static). Suddenly the player has a floor, the bullets can collide with walls, and the NPCs have something to walk on. No modelling, no clean-up.\nTry it nowOne command turns a pretty splat into a playable one - run splat-transform scene.ply -K scene.sog and drop the resulting .collision.glb into your project as a static mesh rigidbody.\n💡 Step 4: Bake a Lightness Grid from the Splat​\nSplats carry their lighting baked into every Gaussian. That means the scene looks amazing and unchanging. But my player's weapon model, the NPC soldiers and the pickups are ordinary lit PBR meshes - they'd stand out like cardboard cutouts under gym lighting unless they somehow inherited the splat's lighting.\nI didn't want to re-light the splat. I wanted a cheap way to ask \"how bright is it here?\" at any point in the map, at runtime, for my regular meshes.\nHow Scripts/probes.js works:\nGrab the AABB of a designated floor entity and build a 1-metre grid of probe positions 1 metre above the ground.\nCreate a tiny 16×16 offscreen RenderTarget and a 90° FOV camera that renders only the World layer (i.e. the splat - no characters, no HUD, no viewmodel).\nFor each probe, render 6 faces of a cube (+X, -X, +Y, -Y, +Z, -Z), readPixels the 16×16 RGBA output, and compute luminance using the standard Rec. 601 weights:\nthis._faceLuminance += 0",
+          "category": "tech",
+          "publishedAt": "2026-04-23T14:18:52.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "PostHog/posthog (Python)",
+          "titleKo": "PostHog - 개발자를 위한 올인원 제품 플랫폼",
+          "summary": "PostHog는 제품 분석, 웹 분석, 세션 재생, 오류 추적, 기능 플래그, 실험, 설문조사, 데이터 웨어하우스, CDP, AI 코드 디버깅 어시스턴트 등을 제공하는 통합 개발자 플랫폼이다.",
+          "keyPoints": [
+            "제품 분석부터 오류 추적, 실험까지 다양한 기능을 하나의 플랫폼에서 제공",
+            "AI 어시스턴트를 통해 코드 디버깅 및 빠른 배포를 지원"
+          ],
+          "whyItMatters": "개발자가 여러 도구를 통합하지 않고도 제품 개발의 전체 lifecycle을 관리할 수 있다.",
+          "url": "https://github.com/PostHog/posthog",
+          "sourceName": "GitHub Trending",
+          "engagement": 33810,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "posthogposthog-python",
+          "category": "tech",
+          "publishedAt": "2026-04-26T23:17:25.306Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Show HN: AI memory with biological decay (52% recall)",
+          "titleKo": "생물학적 감쇠를 통한 AI 메모리 (52% 재현율)",
+          "summary": "YourMemory는 인간의 기억 방식을 모델링한 지속적인 메모리 레이어로, AI 에이전트가 세션 간 대화 내용을 기억할 수 있게 합니다. Zep Cloud 대비 2배 높은 59% 재현율을 달성하며 Docker나 외부 서비스 없이 설치 가능합니다.",
+          "keyPoints": [
+            "Ebbinghaus 망각곡선 기반 생물학적 감쇠 알고리즘으로 자연스러운 메모리 관리",
+            "벡터 + 그래프 하이브리드 검색으로 관련 컨텍스트 포착",
+            "pip install으로 간단 설치, 로컬 DuckDB 데이터베이스 사용"
+          ],
+          "whyItMatters": "AI 에이전트에 장기적 메모리를 제공하여 반복 질문 제거와 개인화된 대화 경험을 구현할 수 있습니다.",
+          "url": "https://github.com/sachitrafa/YourMemory",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 34,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-ai-memory-with-biological-decay-52-recall",
+          "fullContent": "YourMemory\nPersistent memory for AI agents — built on the science of how humans remember.\nThe Problem\nEvery session, your AI assistant starts from zero. It asks the same questions, forgets your preferences, re-learns your stack. There is no memory between conversations.\nYourMemory fixes that. It gives AI agents a persistent memory layer that works the way human memory does — important things stick, forgotten things fade, outdated facts get replaced automatically. Two commands to install, zero infrastructure required.\nHow Well Does It Work?\nTested on LoCoMo-10 — 1,534 QA pairs across 10 multi-session conversations.\nSystem\nRecall@5\n95% CI\nYourMemory (BM25 + vector + graph + decay)\n59%\n56–61%\nZep Cloud\n28%\n26–30%\n2× better recall than Zep Cloud on the same benchmark.\nFull methodology and per-sample breakdown in BENCHMARKS.md. Writeup: I built memory decay for AI agents using the Ebbinghaus forgetting curve.\nDemo\nQuick Start\nSupports Python 3.11, 3.12, 3.13, and 3.14. No Docker, no database setup, no external services.\nStep 1 — Install\npip install yourmemory\nStep 2 — Run setup (once)\nyourmemory-setup\nDownloads the spaCy language model and initialises the local database at ~/.yourmemory/memories.duckdb.\nStep 3 — Get your config path\nyourmemory-path\nPrints your full executable path and a ready-to-paste config block. Copy it.\nStep 4 — Wire into your AI client\nClaude Code\nAdd to ~/.claude/settings.json:\n{\n\"mcpServers\": {\n\"yourmemory\": {\n\"command\": \"yourmemory\"\n}\n}\n}\nReload (Cmd+Shift+P → Developer: Reload Window).\nClaude Desktop\nAdd to ~/Library/Application Support/Claude/claude_desktop_config.json (macOS) or %APPDATA%\\Claude\\claude_desktop_config.json (Windows):\n{\n\"mcpServers\": {\n\"yourmemory\": {\n\"command\": \"yourmemory\"\n}\n}\n}\nRestart Claude Desktop.\nCline (VS Code)\nVS Code doesn't inherit your shell PATH. Run yourmemory-path first to get the full executable path.\nIn Cline → MCP Servers → Edit MCP Settings:\n{\n\"mcpServers\": {\n\"yourmemory\": {\n\"command\": \"/full/path/to/yourmemory\",\n\"args\": [],\n\"env\": { \"YOURMEMORY_USER\": \"your_name\" }\n}\n}\n}\nRestart Cline after saving.\nCursor\nAdd to ~/.cursor/mcp.json:\n{\n\"mcpServers\": {\n\"yourmemory\": {\n\"command\": \"/full/path/to/yourmemory\",\n\"args\": [],\n\"env\": { \"YOURMEMORY_USER\": \"your_name\" }\n}\n}\n}\nOpenCode\nAdd to ~/.config/opencode/config.json:\n{\n\"mcp\": {\n\"yourmemory\": {\n\"type\": \"local\",\n\"command\": [\"yourmemory\"],\n\"environment\": { \"YOURMEMORY_USER\": \"your_name\" }\n}\n}\n}\nThen copy the memory workflow instructions:\ncp sample_CLAUDE.md ~/.config/opencode/instructions.md\nRestart OpenCode.\nAny MCP-compatible client: YourMemory is a standard stdio MCP server. Works with Windsurf, Continue, Zed, and any client that supports MCP. Use the full path from yourmemory-path if the client doesn't inherit shell PATH.\nStep 5 — Add memory instructions to your project\ncp sample_CLAUDE.md CLAUDE.md\nEdit CLAUDE.md — replace YOUR_NAME and YOUR_USER_ID. Claude now follows the recall → store → update workflow automatically on every task.\nMCP Tools\nThree tools. Called by Claude automatically once CLAUDE.md is in place.\nTool\nWhen\nWhat it does\nrecall_memory(query)\nStart of every task\nSurfaces relevant memories ranked by similarity × strength\nstore_memory(content, importance)\nAfter learning something new\nEmbeds and stores with biological decay\nupdate_memory(id, new_content)\nWhen a memory is outdated\nRe-embeds and replaces\n# Example session\nstore_memory(\"Sachit prefers tabs over spaces in Python\", importance=0.9, category=\"fact\")\n# Next session — without being told again:\nrecall_memory(\"Python formatting\")\n# → {\"content\": \"Sachit prefers tabs over spaces in Python\", \"strength\": 0.87}\nCategories control how fast memories fade\nCategory\nSurvives without recall\nUse case\nstrategy\n~38 days\nSuccessful patterns\nfact\n~24 days\nPreferences, identity\nassumption\n~19 days\nInferred context\nfailure\n~11 days\nErrors, environment-specific issues\nHow It Works\nEbbinghaus Forgetting Curve\nMemory strength decays exponentially — but importance and recall frequency slow that decay:\neffective_λ = base_λ × (1 - importance × 0.8)\nstrength = importance × e^(−effective_λ × days) × (1 + recall_count × 0.2)\nscore = cosine_similarity × strength\nMemories recalled frequently resist decay. Memories below strength 0.05 are pruned automatically every 24 hours.\nHybrid Retrieval: Vector + Graph\nRetrieval runs in two rounds to surface related context that vocabulary-based search misses:\nRound 1 — Vector search: cosine similarity against all memories, returns top-k above threshold.\nRound 2 — Graph expansion: BFS traversal from Round 1 seeds surfaces memories that share context but not vocabulary — connected via semantic edges (cosine similarity ≥ 0.4).\nrecall(\"Python backend\")\nRound 1 → [1] Python/MongoDB (sim=0.61)\n[2] DuckDB/spaCy (sim=0.19)\nRound 2 → [5] Docker/Kubernetes (sim=0.29 — below cut-off, surfaced via graph)\nChain-aware pruning: A decayed memory is kept alive if any graph neighbour is above the prune threshold. Related memories age together.\n",
+          "category": "tech",
+          "publishedAt": "2026-04-26T20:58:31.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "trycua/cua (HTML)",
+          "titleKo": "CUA - 컴퓨터 사용 에이전트를 위한 오픈소스 인프라",
+          "summary": "CUA는 AI 에이전트가 전체 데스크톱을 제어할 수 있도록 하는 오픈소스 인프라로, 샌드박스, SDK, 벤치마크를 제공하여 macOS, Linux, Windows에서 에이전트 학습 및 평가를 지원합니다.",
+          "keyPoints": [
+            "크로스 플랫폼 지원 (macOS, Linux, Windows)",
+            "에이전트 학습과 평가를 위한 완전한 도구 제공"
+          ],
+          "whyItMatters": "개발자가 데스크톱 자동화 AI 에이전트를 안전하게 개발하고 테스트할 수 있는 표준화된 환경을 확보할 수 있습니다.",
+          "url": "https://github.com/trycua/cua",
+          "sourceName": "GitHub Trending",
+          "engagement": 14347,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "trycuacua-html",
+          "category": "tech",
+          "publishedAt": "2026-04-26T23:17:25.307Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "HTML"
+          ]
+        },
+        {
+          "title": "openclaw/openclaw (TypeScript)",
+          "titleKo": "openclaw - 개인용 AI 어시스턴트",
+          "summary": "모든 OS와 플랫폼에서 작동하는 개인용 AI 어시스턴트 프로젝트이다.",
+          "keyPoints": [
+            "크로스 플랫폼 호환성으로 어느 환경에서나 사용 가능",
+            "개인용 AI 어시스턴트로 개발자의 생산성 향상 목표"
+          ],
+          "whyItMatters": "플랫폼 제약 없이 자신의 개발 환경에 맞는 AI 어시스턴트를 구축할 수 있다.",
+          "url": "https://github.com/openclaw/openclaw",
+          "sourceName": "GitHub Trending",
+          "engagement": 364579,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "openclawopenclaw-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-26T23:17:25.309Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "home-assistant/core (Python)",
+          "titleKo": "Home Assistant - 개인 정보 보호 우선의 오픈소스 홈 자동화",
+          "summary": "로컬 제어와 개인 정보 보호를 중심으로 하는 오픈소스 홈 자동화 플랫폼이다.",
+          "keyPoints": [
+            "클라우드 의존 없이 로컬 환경에서 완전한 통제 가능",
+            "오픈소스 기반으로 투명성과 커스터마이징 자유도 제공"
+          ],
+          "whyItMatters": "개발자가 홈 자동화 시스템을 클라우드 종속 없이 자신의 환경에 맞게 구축할 수 있다.",
+          "url": "https://github.com/home-assistant/core",
+          "sourceName": "GitHub Trending",
+          "engagement": 86491,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "home-assistantcore-python",
+          "category": "tech",
+          "publishedAt": "2026-04-26T23:17:25.308Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "microsoft/typescript-go (Go)",
+          "titleKo": "microsoft/typescript-go (Go)",
+          "summary": "Microsoft가 TypeScript의 네이티브 Go 포트 개발을 진행 중인 스테이징 저장소이다.",
+          "keyPoints": [
+            "TypeScript를 Go 언어로 포팅하여 성능과 호환성 향상을 목표로 함",
+            "Go 기반 구현으로 더 빠른 컴파일과 실행 속도 기대 가능"
+          ],
+          "whyItMatters": "TypeScript 사용자들이 향상된 성능과 새로운 구현 옵션을 활용할 수 있게 됨",
+          "url": "https://github.com/microsoft/typescript-go",
+          "sourceName": "GitHub Trending",
+          "engagement": 25149,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "general"
+          ],
+          "topicId": "typescript-go-release",
+          "isTopicPrimary": true,
+          "slug": "microsofttypescript-go-go",
+          "category": "tech",
+          "publishedAt": "2026-04-26T23:17:25.306Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Go"
+          ]
+        },
+        {
+          "title": "curl/curl (C)",
+          "titleKo": "curl/curl (C)",
+          "summary": "URL 문법을 사용하여 데이터 전송을 수행하는 명령행 도구 및 라이브러리로, DICT, FILE, FTP, HTTP, HTTPS 등 다양한 프로토콜을 지원한다.",
+          "keyPoints": [
+            "25개 이상의 프로토콜 지원으로 다양한 네트워킹 작업에 활용 가능",
+            "libcurl 라이브러리는 강력한 기능을 제공하여 많은 애플리케이션에서 사용"
+          ],
+          "whyItMatters": "개발자들이 HTTP 통신 및 데이터 전송 시 가장 널리 사용되는 표준 도구로, 안정성과 호환성이 보장됨",
+          "url": "https://github.com/curl/curl",
+          "sourceName": "GitHub Trending",
+          "engagement": 41523,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "curlcurl-c",
+          "category": "tech",
+          "publishedAt": "2026-04-26T23:17:25.307Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "C"
+          ]
+        },
+        {
+          "title": "Asahi Linux Progress Linux 7.0",
+          "titleKo": "Asahi Linux Progress Linux 7.0",
+          "summary": "거의 3년간 지속된 6.x 커널 시리즈를 거쳐 Linux 7.0이 릴리스되었으며, Asahi Linux는 설치 자동화를 구축하고 Apple 디바이스의 주변광 센서(ALS) 지원을 추가하였다.",
+          "keyPoints": [
+            "설치 프로세스 자동화: GitHub Workflows를 통해 매 커밋마다 자동으로 설치 이미지 빌드 및 배포, 2년 간격으로 밀렸던 설치 프로그램 업데이트 문제 해결",
+            "Apple True Tone 디스플레이 지원: 주변광 센서로부터 조명 환경의 밝기와 색상 특성을 측분석하여 디스플레이 색감 자동 보정, Always-On Processor(AOP)를 활용하며 calibration 바이너리는 macOS에서 설치 시 추출하여 EFI System Partition에 저장",
+            "Mac Pro 설치 지원 추가 및 펌웨어 업데이트 모드 도입"
+          ],
+          "whyItMatters": "Apple Silicon Mac에서 Linux 사용 경험이 개선되며, 자동화된 배포 체계로 향후 업데이트 속도 향상 기대 가능",
+          "url": "https://asahilinux.org/2026/04/progress-report-7-0/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 580,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "asahi-linux-progress-linux-70",
+          "fullContent": "After almost three years of 6.x series kernels, Linux 7.0 is finally here.\nThat means it’s also time for another Asahi progress report!\nUsers of alternate distros and keen-eyed individuals may have noticed some\nchanges to the Asahi Installer. After almost two years, we finally got around\nto pushing an updated version of the installer to the CDN! Two years is a long\ntime to go between updates, so what took so long?\nOur upstream installer package is a little bit of a Rube-Goldberg machine. The\nbulk of the installer is written in Python, with some small Bash scripts to\nbootstrap it. When you run curl | sh, you’re actually downloading the boostrap\nscript, which then fetches the actual installer bundle from our CDN. This bundle\nconsists of a Python interpreter and very stripped down standard library, a built\nm1n1 stage 1 binary, and the installer itself.\nUntil recently, cutting an installer release meant:\nThis process was time-consuming and required administrative access to the CDN.\nAs a result, we neglected to push installer updated for quite some time; the\nprevious installer tag was from June 2024! As upstreaming work has progressed\nand Devicetree bindings churned, this became rather problematic for our friends\nmaintaining distros.\nThe Asahi Installer offers a UEFI-only installation option. This option\nshrinks macOS and only installs what is necessary to boot a UEFI executable,\nmeaning m1n1 stage 1, the Devicetrees, and U-Boot. This allows users to\nboot from live media with Asahi support, such as specialised Gentoo Asahi\nLiveCD images.\nSince the Devicetrees on a fresh UEFI-only install come from the installer\nbundle itself, a kernel will only successfully boot when the installer-bundled\nDevicetrees match what that kernel expects to see. The two have gotten rather\nout of sync as time has gone on due to Devicetree bindings changing\nas a result of the upstreaming process. This situation finally came to a\nhead with kernel 6.18, which required numerous changes to both m1n1 and\nthe Devicetree bindings for the Apple USB subsystem. This made booting\nkernel 6.18 and above from live media impossible. Oops.\nRather than go through the trouble of manually pushing out another update,\nwe took the opportunity to build some automation and solve this problem\npermanently.\nWe moved the manifest of installable images into the asahi-installer-data repo,\nallowing us to update it independently of the installer codebase.\nOn top of this, we also now deploy\nthe installer using GitHub workflows. Going forward, every push to the main\nbranch of asahi-installer will\nautomatically build the installer and upload it to https://alx.sh/dev.\nEvery tag pushed to GitHub will do the same for https://alx.sh.\nThe latest version, 0.8.0, bumps the bundled m1n1 stage 1 binary to\nversion 1.5.2, introduces installer support for the Mac Pro, and adds\na firmware update mode which ties in nicely with…\nBasically everything with a screen now comes with some sort of light\nsensor. This is usually to enable automatic brightness adjustment based\non ambient conditions. It’s a very convenient feature in devices like\nsmartphones, where a user may walk outside and find their display too\ndim to see. The cheapest versions of this use a simple photoresistor.\nThis is fine if the goal is just to change brightness, but brightness\nis not the only thing affected by ambient lighting conditions. What about\ncolour rendering?\nApple’s devices have had the True Tone display feature for quite some time.\nThis works by measuring both the brightness and the colour characteristics\nof the environment’s ambient lighting. This data is then used to apply\nbrightness and colour transformations to the display to ensure that it is\nalways displaying content as accurately as possible. This is most noticeable\nin environments with lighting fixtures that have a low Colour Rendering\nIndex, such as fluorescent tubes or cheap cool white LEDs. The devices that\nenable this, ambient light sensors, are usually little ICs that connect\nto the system over I2C or other industry-standard bus. This is\nfine for basic applications, but this is Apple. There are some other considerations\nto be had:\nNaturally, this sounds like a job for the Always-On Processor1 (AOP)!\nWe’ve had a working AOP+ALS driver set for a while thanks to chaos_princess,\nhowever the raw data AOP reports back from ALS is rather inaccurate without\ncalibration. That calibration is a binary blob that must be uploaded to the AOP\nat runtime. It is essentially firmware. Since we cannot redistribute Apple’s\nbinaries, it must be retrieved from macOS at install time and then stored somewhere the driver\nknows to look for it.\nTo achieve this, the Asahi Installer gathers up all\nthe firmware it knows we will need in Linux and stores it on the EFI System\nPartition it creates. A Dracut module then mounts this to a subdirectory of\n/lib/firmware/, where drivers can find it. However, issues arise when we\nneed to retrieve more firmware from macOS after Asahi Linux ",
+          "category": "tech",
+          "publishedAt": "2026-04-26T10:50:32.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "ComposioHQ/awesome-codex-skills (Python)",
+          "titleKo": "awesome-codex-skills - Codex 워크플로우 자동화를 위한 실용적 스킬 모음",
+          "summary": "Codex CLI와 API를 통한 워크플로우 자동화를 위한 실용적인 Codex 스킬들을 정리한 큐레이션 리스트입니다.",
+          "keyPoints": [
+            "Codex를 활용한 자동화 작업의 실제 사용 사례들을 수집",
+            "개발자들이 워크플로우 자동화에 바로 적용할 수 있는 스킬 제공"
+          ],
+          "whyItMatters": "AI 기반 코딩 도구의 실무 활용 방법을 학습하고 자동화 효율성을 높일 수 있습니다.",
+          "url": "https://github.com/ComposioHQ/awesome-codex-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 1945,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "composiohqawesome-codex-skills-python",
+          "category": "tech",
+          "publishedAt": "2026-04-26T23:17:25.309Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Alishahryar1/free-claude-code (Python)",
+          "titleKo": "무료 Claude Code 터미널 도구",
+          "summary": "claude-code를 터미널, VSCode 익스텐션, Discord에서 무료로 사용할 수 있게 해주는 Python 기반 도구입니다.",
+          "keyPoints": [
+            "다중 인터페이스 지원 (터미널, VSCode, Discord)"
+          ],
+          "whyItMatters": "개발자가 추가 비용 없이 다양한 환경에서 Claude의 코드 생성 기능에 접근할 수 있습니다.",
+          "url": "https://github.com/Alishahryar1/free-claude-code",
+          "sourceName": "GitHub Trending",
+          "engagement": 13471,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "alishahryar1free-claude-code-python",
+          "category": "tech",
+          "publishedAt": "2026-04-26T23:17:25.305Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "mattpocock/skills (Shell)",
+          "titleKo": "skills - 실제 엔지니어를 위한 에이전트 스킬",
+          "summary": "실무 엔지니어들을 위한 AI 에이전트 스킬 모음으로, 저자의 Claude 설정에서 직접 뽑아낸 것입니다.",
+          "keyPoints": [
+            "실제 개발 작업에 적용 가능한 에이전트 스킬 제공",
+            "개발자의 생산성 향상을 위한 실용적인 도구들 모음"
+          ],
+          "whyItMatters": "AI 에이전트를 효과적으로 활용하기 위한 검증된 스킬 세트를 빠르게 습득할 수 있습니다.",
+          "url": "https://github.com/mattpocock/skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 23398,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "mattpocockskills-shell",
+          "category": "tech",
+          "publishedAt": "2026-04-26T23:17:25.304Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "gastownhall/beads (Go)",
+          "titleKo": "beads - 코딩 에이전트를 위한 메모리 업그레이드",
+          "summary": "코딩 에이전트의 성능을 향상시키기 위한 메모리 관리 및 최적화 도구입니다.",
+          "keyPoints": [
+            "AI 코딩 에이전트의 컨텍스트 메모리 효율성을 개선",
+            "장시간의 코딩 작업에서 에이전트 성능 유지"
+          ],
+          "whyItMatters": "AI 기반 코딩 도구의 메모리 제약을 극복하여 더 복잡한 개발 작업을 처리할 수 있습니다.",
+          "url": "https://github.com/gastownhall/beads",
+          "sourceName": "GitHub Trending",
+          "engagement": 21650,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "gastownhallbeads-go",
+          "category": "tech",
+          "publishedAt": "2026-04-26T23:17:25.307Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Go"
+          ]
+        },
+        {
+          "title": "Dillo Browser Release 3.3.0",
+          "titleKo": "Dillo 브라우저 3.3.0 릴리스",
+          "summary": "Dillo 3.3.0에서는 dilloc 커맨드라인 도구 추가, 페이지 액션 기능, 실험적 FLTK 1.4 지원, OAuth 인증 개선 등이 포함되었습니다. GitHub에서 자체 서버로 마이그레이션하고 cgit, Codeberg, SourceHut에서 미러링되고 있습니다.",
+          "keyPoints": [
+            "dilloc을 통한 커맨드라인 및 스크립트 기반 브라우저 제어 기능 추가",
+            "페이지 액션으로 Chrome 모방 및 자동 페이지 수정 등 고급 기능 구현 가능",
+            "FLTK 1.4 실험 지원으로 최신 UI 프레임워크 적응"
+          ],
+          "whyItMatters": "경량 브라우저로서 개발자 친화적인 자동화 기능이 강화되어 웹 개발 및 테스트 작업을 더 효율적으로 처리할 수 있습니다.",
+          "url": "https://dillo-browser.org/release/3.3.0/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 141,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "dillo-browser-release-330",
+          "fullContent": "The Dillo 3.3.0 release contains several new features, configuration options\nand bug fixes. It is the first release to provide experimental\nsupport for FLTK 1.4 (see the details below).\nA new dilloc program is now available to control Dillo from the\ncommand line or from a script. It searches for Dillo by the PID in the\nDILLO_PID environment variable or for a unique Dillo process if not\nset. You can see the available commands with dilloc help:\nWe have added the ability to run arbitrary commands from the page menu\n(right click on the page) with the page_action new option.\nWith page actions, dilloc provides a powerful mechanism to\nperform page manipulations. Here is an example page action in\n~/.dillo/dillorc:\nWhen the \"Mimic Chrome\" option is selected, the current page will be fetched\nagain using curl\nimpersonate to mimic Chrome (which avoids some JS walls) and the output\nwill be piped directly into Dillo as the new HTML of the current page.\nAnother example is the \"Fix page\" action, which tries to find specific fixes\nfor the current page based on the URL, HTTP headers or other criteria:\nSee the actions git\nrepository to download the\nfixpage.sh\nscript.\nWe have added experimental support to build Dillo with FLTK 1.4.0 and higher\nwith the new --enable-experimental-fltk configure flag, so that\nexperienced users and testers can provide technical feedback on different\nplatforms. Be sure to use the latest\nFLTK 1.4.5\nrelease\nwhich contains fixes to solve the\nproblems with blurry fonts.\nWe have similar rendering quality in FLTK 1.4.5 as in FLTK 1.3 on a X11\nplatform with a 96 DPI screen (both with the Xft and Pango backends), but we\nstill have rendering problems with higher DPIs (specially non-multiple of 96) or\nwith Wayland. You can track the status in the\ncorresponding FLTK issue.\nImportant: If you maintain a Dillo package, do not enable FLTK 1.4\nsupport by default for all users as they will be exposed to visual glitches and\nother issues.\nIn order to perform the OAuth authentication (for example to login into\nFediverse via Smolfedi) we\nneed to allow cookies that are set in a redirection response. By default\nDillo blocks all third party cookies that are not caused by a request initiated\nby the user, so we can prevent tracking by image pixels. We added an exception\nto also allow cookies from redirections of the main page after the user\ninitiated request, so we can still stay safe against tracking but allow OAuth to\nwork.\nTo download the 3.3.0 release use these links:\nNotice that we\nhave migrated from GitHub to our own\nserver. The git\nrepositories are now served by our\nself-hosted cgit\nand also mirrored in\nCodeberg and\nSourceHut.\nThis is the list of changes from the ChangeLog of this release:",
+          "category": "tech",
+          "publishedAt": "2026-04-26T17:18:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Z4nzu/hackingtool (Python)",
+          "titleKo": "hackingtool - 해커를 위한 올인원 해킹 도구",
+          "summary": "다양한 해킹 도구와 유틸리티를 통합한 올인원 해킹 툴킷입니다.",
+          "keyPoints": [
+            "여러 해킹 및 보안 테스트 도구를 단일 인터페이스에서 통합 제공"
+          ],
+          "whyItMatters": "보안 테스트 및 침투 테스트 작업에서 다양한 도구를 효율적으로 활용할 수 있습니다.",
+          "url": "https://github.com/Z4nzu/hackingtool",
+          "sourceName": "GitHub Trending",
+          "engagement": 65392,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "z4nzuhackingtool-python",
+          "category": "tech",
+          "publishedAt": "2026-04-26T23:17:25.305Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "MoQ Boy",
+          "titleKo": "MoQ Boy",
+          "summary": "MoQ 프로토콜을 이용한 게임보이 에뮬레이터 스트리밍 데모로, 구독 기반 미디어 전송으로 CPU/GPU 사용을 최적화하고 단방향 스트림 두 개로 양방향 통신을 구현했다. 오픈소스로 공개되어 있으며 React Native 바인딩도 개발 중이다.",
+          "keyPoints": [
+            "MoQ CDN이 동일 트랙의 구독 요청을 합쳐 서버 부하를 줄이고, 활성 구독이 없으면 인코더를 자동으로 종료해 리소스를 절약한다.",
+            "게임 디스커버리를 위해 MoQ의 라이브 브로드캐스트 알림 기능을 활용하므로 별도의 룸 관리 서비스가 필요 없다.",
+            "플레이어 입력을 단방향 스트림으로 구현해 프로토콜의 복잡성을 줄이면서 다중 구독자 팬아웃을 쉽게 지원한다."
+          ],
+          "whyItMatters": "저대역폭 실시간 스트리밍과 복잡한 상호작용 시나리오에서 단방향 프로토콜의 효율성과 확장성을 보여주는 실무 사례다.",
+          "url": "https://moq.dev/blog/moq-boy/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 26,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "moq-boy",
+          "fullContent": "published 4/16/2026\nHere’s my MoQ copy of Twitch Plays Pokemon.\nBut there’s a dilemma: I don’t want to get sued by Nintendo.\nSo enjoy homebrew games instead lul.\nThe emulators are running on VMs in Texas, so don’t flame me if the latency is high. And remember to scroll down and read the actual blog post once you’re done GAMING.\nThe Arch\nThere are N emulator workers.\nThere are M human players.\nThey use a single connection to a generic MoQ CDN for EVERYTHING.\nBut how??\nOn-Demand\nBut I want to first gloat about a secret feature.\nA feature so secret, I gloat about it first.\nSAVING MOOLAH.\nWhen a viewer wants audio and/or video, they issue a SUBSCRIBE request to a MoQ CDN.\nThe MoQ CDN slurps up all SUBSCRIBE requests for the same track and combines them.\nThe end result: the underpowered cloud VM running the emulator gets at most one SUBSCRIBE request per track, regardless of viewer count.\nBy default, a MoQ publisher will only transmit a track if there’s an active subscription.\nOur emulator would encode media, but those precious pixels would sit in RAM until there’s a viewer.\nBut we big brain. That not good enough.\nInstead we turn the encoder on/off if there’s an active subscription:\nIf there’s no audio subscription, the Opus encoder sleep.\nIf there’s no video subscription, the H.264 encoder sleep.\nbig bren\nBut we even bigger brain than that:\nIf there’s no audio AND video subscription, the emulator sleep.\nWe’re not burning through the CPU/GPU unless some eye balls or ear holes will benefit!\nTry scrolling back up to the demos and you might see a brief black screen.\nThe player automatically UNSUBSCRIBEs when out of view, and if everybody does it, then no more Mr. Emulation.\nbigger bren\nSaving bandwidth/CPU is obviously not a huge deal for a gameboy emulator.\nThe screen is 160x144 after all, even your vape pen could run it.\nBut it does start to matter for anybody running expensive subscriptions.\nIf nobody wants captions, then don’t run Whisper lul.\nIf nobody wants H265, then don’t transcode it lul.\nIf nobody wants to watch your shitty Lets Play, then send it to /dev/null lul.\nAnd it’s all built into MoQ baybee.\nDiscovery\nA boring person would have hard-coded the list of available games.\nBut I’m HYPER-C00l, so MoqBoy instead uses MoQ’s ability to live discover available broadcasts.\nThere’s a separate binary for ROM.\nRight now they’re all running in Texas (yeehaw).\nThey connect to the closest cdn.moq.dev node and:\nWorker 1 publishes demo/boy/big2small.\nWorker 2 publishes demo/boy/opossum.\nThe first thing a player does is ask the MoQ CDN for every broadcast with the prefix demo/boy/.\nIt will get a live notification when games come online and go offline.\nLike a city planner, we throw them in a grid.\npub boy\nAlso I can’t let this slide.\n“opossum” is a made up word.\nIt can’t be spelled like that.\nIt can’t be real.\nWho took a look at that thing and decided, that right there is an “opossum”.\nAnyway, this is also how hang.live discovers other users.\nIt’s as easy as “tell me when somebody publishes a broadcast starting with room123/”.\nYou don’t need a separate “room” service that manages membership.\nJust use MoQ lul.\nControls\nMoQ is a one-directional protocol.\nBroadcasters broadcast, viewers view.\nBut how do players play?\nPsst, I’ll tell you a secret.\nViewers can be broadcasters too!\nEach player publishes a broadcast called demo/viewer/big2small/<id>, with a random ID.\nThey produce a single controls track, and when a button is pressed, writes a JSON blob to it:\n{\n\"a\": true,\n\"up\": true\n}\nThe MoqBoy publisher uses the same DISCOVERY mechanism listed above to find all players.\nIt subscribes to the controls track for any broadcasts with the prefix demo/viewer/big2small/.\nBada bing, bada boom.\nWe now have a “bidirectional” stream by using two unidirectional streams.\nsub boy\nBut why not build bidirectional streams into MoQ proper?\nWell it’s because of business logic you nerd.\nMoqBoy uses anarchy, where the broadcaster chooses to SUBSCRIBE to ALL players.\nYour flesh mangling robot might want enforce lockout, where the broadcaster chooses to SUBSCRIBE to ONE player.\nOr your flesh mangling robot has reached AGI (Sam be proud) and doesn’t want to SUBSCRIBE to ANY pathetic humans any longer.\nOne perk of unidirectional streams is that they easily fan out.\nMultiple robots can subscribe to the same killswitch track.\nThey obviously will ignore it, but the thought counts.\nIt’s also just easier to scale a protocol that ALWAYS fans out.\nWe’re not in the business of adding business logic to the relay to merge JSON blobs or some other nonsense.\nYour application is responsible for implementing fan in.\nOpen Source\nOh right and you can run it yourself.\nSetup the mono repo, then run just boy.\nIt’s fun to type.\nJust boy.\nJust boy.\nIf you’re too lazy to ask AI, here’s the relevant folders:\nRust publisher\nJS player.\nWeb/ROM stuff.\nThe Software Mansion folks are hard at work on React Native bindings.\nHere’s a sneak peak of this MOQ BOY demo running on a",
+          "category": "tech",
+          "publishedAt": "2026-04-26T20:40:50.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Clay PCB Tutorial",
+          "titleKo": "Clay PCB Tutorial",
+          "summary": "정보가 불충분하여 요약할 수 없습니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://feministhackerspaces.cargo.site/Clay-PCB-Tutorial",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 183,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "clay-pcb-tutorial",
+          "category": "tech",
+          "publishedAt": "2026-04-26T16:02:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: Startup Equity Adventure Game",
+          "titleKo": "Show HN: 스타트업 지분 어드벤처 게임",
+          "summary": "창업부터 IPO까지 스타트업의 전체 과정을 게임으로 학습할 수 있는 인터랙티브 시뮬레이터로, 지분 희석, 직원 스톡옵션, 자금조달 라운드의 실제 수학을 체험하게 한다. Y Combinator의 자료와 'An Introduction to Stock & Options' 문서를 바탕으로 제작되었다.",
+          "keyPoints": [
+            "설립자 지분, SAFE, 옵션 풀, 409A 평가, Series A/B/C 희석, 베스팅 절벽, IPO 워터폴 분석 등 8단계 학습 과정을 포함한다.",
+            "Delaware C-Corporation 기준으로 실제 미국 스타트업의 지분 구조를 재현하며, 83(b) 선거와 같은 세무 결정도 포함한다.",
+            "SAFE의 post-money 평가 방식과 valuation cap의 함정 등 현실의 펀딩 용어와 메커니즘을 직관적으로 이해할 수 있게 구성했다."
+          ],
+          "whyItMatters": "창업자 지분 희석의 실제 영향을 수치로 체험함으로써 자금조달과 지분 수학에 대한 오해를 바로잡을 수 있다.",
+          "url": "https://options-game-polymathrobotics.pythonanywhere.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 4,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-startup-equity-adventure-game",
+          "fullContent": "Welcome, Future Founder!\nYou are about to embark on the full journey of a startup -- from a napkin idea all the way\nto an IPO. Along the way you will learn how equity works, how funding rounds dilute\nownership, how employee stock options are priced, and what it all means in real dollars.\nWhat is your startup called?\nPick something fun -- this is your company for the next 9 stages.\nWhat's the founder's name?\nThis is you -- the lead founder. We'll track your equity throughout the journey.\nWhat you will learn:\n● How founding shares work\n● SAFEs and convertible notes\n● Option pools and 409A valuations\n● Series A / B / C dilution\n● Vesting cliffs and exercise windows\n● IPO payouts and waterfall analysis\n● The real math behind \"I own 10%\"\nNote: Most US startups incorporate as a\nDelaware C-Corporation.\nStart Your Journey →\nThis game draws on concepts from\nAn Introduction to Stock & Options\nby David Weekly. We recommend reading the full PDF after playing for a deeper dive into the mechanics.\nFor more on fundraising, check out these excellent resources from Y Combinator:\nGuide to Seed Fundraising,\nHow to Plan an Early Stage Startup's Finances,\nStandard Deal Documents, and the\nYC Startup Library.\nIf you're building something people want, I wholeheartedly recommend\napplying to Y Combinator.\nIt's the single best launchpad for early-stage startups -- the knowledge, network, and fundraising support are unmatched.\nCreated by\nIlia Baranov\nwith Claude.\nStage 1: Founding Shares\nEvery company starts by authorizing shares.\nThink of these as slices of the pie. The number itself is somewhat arbitrary -- 10 million is a common choice\nbecause it makes the math easy and leaves room for future grants. As a founder, you will issue yourself\nshares at essentially zero cost (the par value is usually $0.0001/share).\nTotal Founder Shares\n10,000,000\n1M20M\nNumber of Founders\n1\n2\n3\n4\nSolo founder — 100% of shares\nAdjust each founder's share of the equity. Percentages must total 100%.\nFounder 1 (you)\n50%\nFounder 2\n50%\nFounder 3\n25%\nFounder 4\n25%\n83(b) Election — File Within 30 Days!\nWhen founders receive shares subject to vesting, they must file an\n83(b) election\nwith the IRS within 30 days of receiving the shares. This is one of the most important tax decisions\na founder will ever make.\nWith 83(b): You pay ordinary income tax on the shares' value at grant.\nSince founder shares are issued at par value (~$0.0001/share), the tax bill is essentially $0.\nAll future appreciation is taxed as long-term capital gains (max ~20% federal + state) when you eventually sell.\nWithout 83(b): You pay ordinary income tax (up to ~37% federal + state) on\neach batch of shares as they vest, at whatever the shares are worth at that point.\nIf the company is worth $50M when your shares vest, you owe income tax on millions of dollars\nof \"income\" — even though you can't sell the shares yet.\nThroughout this game, we assume the founder has filed an 83(b) election — meaning all future gains\nare taxed as capital gains, not ordinary income.\nComing Up: The Employee Option Pool\nBefore raising your first priced round, you will set aside a portion of shares as an\nemployee option pool.\nThis is how startups attract talent without paying top-dollar salaries — employees get the right to buy shares\nat today's price, betting that the company will be worth much more in the future. Typically 10-20% of\nshares are reserved for the pool, and it is carved out before investors price the round\n(diluting founders, not investors). We will set this up in a couple of stages.\n← Back\nContinue →\nStage 2: SAFE Round\nA SAFE\n(Simple Agreement for Future Equity) is the most common way early-stage startups raise their\nfirst outside capital. Unlike a priced round, a SAFE does not immediately create new shares or set a\nshare price. Instead, the investor's money converts later\nwhen you do your first priced round.\nThe standard template is the\nYC SAFE,\na short, founder-friendly document used by thousands of startups.\nMost SAFEs today are post-money SAFEs --\nthe valuation cap includes the SAFE money itself. This means if you raise $1M on a $10M cap,\ninvestors will own exactly 10%. This is simpler and more predictable than the older pre-money SAFEs,\nwhere your dilution depended on how much total capital was raised across all SAFEs.\nIn practice, startups almost always have multiple SAFE investors in this round --\nangel investors, small funds, and accelerators each write their own SAFE note.\nSome VCs have ownership targets,\nmeaning they want to own a certain minimum percentage to make the investment worthwhile.\nAs you raise more, more investors tend to join the round.\nThe two key terms are the valuation cap\nand the discount rate.\nThe investor gets whichever gives them more shares.\n(Note: most post-money SAFEs use only a cap with no discount -- try setting the discount to 0% for the modern standard.)\nThe Valuation Cap Trap\nA higher cap feels like validation — but it's really a promise to deliver growth\nbefore you",
+          "category": "tech",
+          "publishedAt": "2026-04-26T22:14:59.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: Tiao, A two-player turn-based board game",
+          "titleKo": "Show HN: Tiao, 2인용 턴제 보드게임",
+          "summary": "로컬/온라인 멀티플레이, AI 대전, 친구 초대, 랜덤 매칭 등 다양한 게임 모드를 지원하는 웹 기반 보드게임이다. 불릿부터 클래식까지 시간 제어 옵션도 제공한다.",
+          "keyPoints": [
+            "화면 공유로 로컬 플레이 또는 AI 봇과의 연습이 가능하다.",
+            "온라인에서 친구와 비공개 게임을 만들거나 랜덤 상대와 매칭될 수 있다.",
+            "1+0 불릿부터 30+0 클래식까지 다양한 시간 제어 옵션을 제공한다."
+          ],
+          "whyItMatters": "간단한 웹 기반 게임으로 실시간 멀티플레이와 매칭 시스템 구현의 실제 사례를 보여준다.",
+          "url": "https://playtiao.com",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 10,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-tiao-a-two-player-turn-based-board-game",
+          "fullContent": "LocalOver the BoardShare a screen with a friend or sharpen your skills against an AI.Play with a FriendorPlay with a BotOnlinePlay Someone SpecificCreate a private game and share the code, or join a friend's game with theirs.Create a gameor join oneJoinLog in or create an account to create and join custom games.Log inSign upOnlineMatchmakingJump into a game against a random opponent. Pick a time control or play without one.Unlimited time gameFormat: minutes + seconds increment per move1+0Bullet2+1Bullet3+0Blitz3+2Blitz5+0Blitz5+3Blitz10+0Rapid15+10Rapid30+0ClassicalSpectateWatch a GamePaste a Game ID to spectate a match in progress.Watch",
+          "category": "tech",
+          "publishedAt": "2026-04-26T20:59:07.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "SWE-bench Verified no longer measures frontier coding capabilities",
+          "titleKo": "SWE-bench Verified는 더 이상 최신 코딩 능력을 측정하지 못한다",
+          "summary": "OpenAI가 SWE-bench Verified 벤치마크가 현대 AI 모델의 최신 코딩 능력을 측정하기에 더 이상 적절하지 않다고 발표합니다.",
+          "keyPoints": [
+            "AI 모델의 급속한 성능 향상으로 SWE-bench Verified 점수가 포화되어 차별화 능력이 감소했습니다.",
+            "더 도전적인 벤치마크 개발과 평가 지표 개선의 필요성이 높아지고 있습니다."
+          ],
+          "whyItMatters": "AI 코딩 능력 평가의 신뢰성이 변하고 있으므로, 더 정확한 성능 측정 지표의 필요성을 보여줍니다.",
+          "url": "https://openai.com/index/why-we-no-longer-evaluate-swe-bench-verified/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 226,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-benchmark-discussion",
+          "isTopicPrimary": true,
+          "slug": "swe-bench-verified-no-longer-measures-frontier-coding-capabilities",
+          "category": "insight",
+          "publishedAt": "2026-04-26T13:58:13.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "AI should elevate your thinking, not replace it",
+          "titleKo": "AI는 당신의 사고를 대체하지 않고 향상시켜야 한다",
+          "summary": "AI 도구의 효율성을 활용하면서도 진정한 이해와 판단력을 잃지 않아야 한다는 주제로, 엔지니어들이 AI에 과도하게 의존하지 않고 깊이 있는 사고를 유지해야 함을 강조한다. AI로 생성된 답을 무비판적으로 받아들이면 표면적 성공은 거두지만 근본적인 실력이 빈약해지는 함정에 빠질 수 있다.",
+          "keyPoints": [
+            "AI는 일상적이고 표준화된 문제에는 뛰어나지만, 비표준적이고 복잡한 엔지니어링 문제에서는 깊이 있는 이해가 필수이다.",
+            "AI를 사용할 때 출력 결과를 검증하고 비판할 수 있는 역량이 있어야 진정한 활용이 가능하며, 무조건적 의존은 장기적 역량 손상으로 이어진다.",
+            "계산기처럼 AI도 기본기가 있는 사람이 사용할 때 가장 효과적이며, 기초가 없으면 의존성만 심화된다."
+          ],
+          "whyItMatters": "AI 시대에 개발자는 단순 효율성 추구가 아닌 진정한 이해를 유지하면서 AI를 보조 도구로 활용해야 장기적 경쟁력을 확보할 수 있다.",
+          "url": "https://www.koshyjohn.com/blog/ai-should-elevate-your-thinking-not-replace-it/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 201,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ai-should-elevate-your-thinking-not-replace-it",
+          "fullContent": "In talking to engineering management across tech industry heavy-weights, it's apparent that software engineering is starting to split people into two nebulous groups:\nThe software engineers who will be most valuable in the future are not the ones who do everything themselves. They are the ones who refuse to spend time on work that A.I. can do for them, while still understanding everything that is done on their behalf. They use the time savings to operate at a higher level. They elevate their thought process through rigor rather than outsourcing it.\nThat distinction matters more than people think.\nA.I. can already generate code, summarize meetings, explain concepts, produce design drafts, and write status updates in seconds. That is useful but also dangerous.\nThe danger is not that A.I. will make people lazy in some vague moral sense. It is that it makes it easy to simulate competence without building competence.\nThere is now a very real temptation to hand a model a problem, receive a plausible answer, and then repeat that answer as if it reflects your own understanding. That is close to plagiarism, but in some ways worse. At least when a student copies from another person, there is still a real human source behind the answer. Here, people can present machine-produced reasoning they do not understand, cannot defend, and could not reproduce on their own.\nThat is intellectual dependency being labeled as leverage.\nAnd that dependency has a cost. Every time you substitute generated output for your own comprehension, you are skipping the exercises / reps that build judgment. You are trading long-term capability for short-term appearance.\nI'm going to share some analogies to make this line of thought more concrete and approachable.\nThink about a student who copied answers through school. On paper, that student can look successful for a long time. Good grades and possibly even praise.\nBut when that person reaches a situation where understanding actually matters, the truth comes out. The structure underneath was never built. They do not know how to reason through unfamiliar problems or how to recover when conditions change. They do not know what “right” feels like because they never developed the intuition that comes from doing the work.\nA.I. creates the same trap for engineers. If you repeatedly use it to provide answers you could not have developed yourself, you may look effective in the short term and might even outperform others on visible output for a while. But your foundation is hollow. You have borrowed the appearance of mastery without gaining mastery.\nThat always catches up as it always has in the world before A.I. Because in real engineering work, the hard part is not repeating known answers. The hard part is dealing with ambiguity, incomplete information, conflicting constraints, and problems that do not fit a template. That is where shallow imitation breaks down.\nA calculator is a good tool. Nobody serious argues that people should do every calculation by hand forever.\nBut there is a real difference between using a calculator to save time and using a calculator because you never learned number sense in the first place.\nA person with strong mental math can use a calculator well because they can estimate, catch obvious errors, and understand whether the answer even makes sense. A person without that foundation becomes dependent. They cannot sanity-check the result. They cannot detect garbage. They just trust the screen.\nA.I. works the same way. An engineer with real depth can use A.I. aggressively because they can inspect the output, challenge it, refine it, and reject it when needed. They know where the likely flaws are. They know which edge cases matter. They know when something sounds polished but is fundamentally wrong.\nAn engineer without that depth is in a much worse position. They are not really using A.I. They are being led by it. That is a terrible place to be in a profession where correctness, judgment, and consequences matter.\nThis should be its own topic (as I realize typing this out) because of how even more consequential it can be. But let's go with it --\nA self-driving car can reduce fatigue and handle routine situations. But if you rely on it before you understand driving, you are not becoming a better driver. You are becoming a passenger with access to controls.\nThe problem shows up when conditions become nonstandard: poor visibility, unusual road layouts, unpredictable behavior from other drivers, a system failure, or a sudden hazard. In those moments, raw dependency is exposed. You either have skill or you do not.\nA.I. is similar. It performs best on common patterns, known structures, familiar transformations, and heavily represented problem types. That makes it incredibly useful. But engineering work constantly wanders into the nonstandard: shifting requirements, subtle bugs, unclear ownership, competing architectural goals, partial data, organizational friction, and tradeoffs with no ",
+          "category": "insight",
+          "publishedAt": "2026-04-26T20:03:12.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "codecrafters-io/build-your-own-x (Markdown)",
+          "titleKo": "직접 구현하며 배우는 프로그래밍",
+          "summary": "좋아하는 기술들을 처음부터 직접 재구현하면서 프로그래밍을 마스터하는 학습 방법론을 제시하는 GitHub 저장소입니다. 데이터베이스, 웹서버, Git, Docker 등 실제 개발자가 사용하는 핵심 도구들을 구현 프로젝트로 제공합니다.",
+          "keyPoints": [
+            "실제 기술 재구현을 통해 내부 동작 원리를 깊이 있게 학습할 수 있습니다. Redis, SQLite, BitTorrent 클라이언트 같은 실무 기술들을 단계별로 구현하면서 설계 패턴과 알고리즘 이해를 동시에 달성합니다.",
+            "다양한 프로그래밍 언어를 지원하여 언어별 특성 이해가 가능합니다. 같은 프로젝트를 여러 언어로 구현하면서 각 언어의 강점과 차이점을 체험할 수 있습니다."
+          ],
+          "whyItMatters": "실전 경험과 이론을 결합하여 더 나은 개발자가 되고, 기술 면접 준비와 깊이 있는 기술 이해를 동시에 달성할 수 있습니다.",
+          "url": "https://github.com/codecrafters-io/build-your-own-x",
+          "sourceName": "GitHub Trending",
+          "engagement": 496760,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "codecrafters-iobuild-your-own-x-markdown",
+          "category": "insight",
+          "publishedAt": "2026-04-26T23:17:25.308Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Markdown"
+          ]
+        },
+        {
+          "title": "Show HN: Free textbook on engineering thermodynamics",
+          "titleKo": "공학 열역학 무료 교과서",
+          "summary": "Olivier Cleynen이 저술한 대학 수준의 열역학 교과서로 59개의 풀이 예제와 96개의 문제 해답을 포함하며 CC-by-sa 라이선스로 자유롭게 사용, 재배포, 수정할 수 있습니다.",
+          "keyPoints": [
+            "엔진과 냉동 시스템의 물리 원리를 단계적으로 설명하는 명확한 구조",
+            "59개의 상세한 계산 예제와 96개의 풀이된 문제를 통한 실제 응용 학습",
+            "오픈 교육 자료(OER)로 자유로운 사용 및 재편집 가능"
+          ],
+          "whyItMatters": "복잡한 열역학 개념을 명확하게 이해할 수 있으며, 무료 오픈소스 교육 자료로 비용 부담 없이 고급 공학 지식을 습득할 수 있습니다.",
+          "url": "https://thermodynamicsbook.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 89,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-free-textbook-on-engineering-thermodynamics",
+          "fullContent": "A thermodynamics textbook with solved examples, problems, and real applications. Rigorous, clear, and free to download.\nEngineering Thermodynamics is a university textbook written by Olivier Cleynen. It is made for you to download, reuse, and remix.\nThis textbook offers a clear, progressive introduction to thermodynamics, tailored for university students and future engineers eager to understand the\nphysical principles behind engines and refrigeration systems. It begins from the basics and progressively covers all the important concepts:\nReview the essential concepts for the study of thermodynamics\nConcept of energy; First law; Mech. energy; Work; Heat; Temperature.\nQuantify energy transfers in a fixed quantity of fluid\nQuantification of work and heat in a closed system; Concept of irreversibility.\nQuantify energy transfers in a continuously-flowing fluid\nUsefulness of open and closed systems; Quantification of work and heat.\nPredict air temperature and quantify its forms of energy\nAdvantages and limits of the ideal gas model; Basic elementary processes.\nPredict water temperature and quantify its forms of energy\nPhase changes, property calculations using charts; Basic elementary processes.\nConvert heat into work and vice versa: engines and refrigerators\nThermal machines: efficiency of engines, refrigerators, AC, and heat pumps.\nQuantify the fundamental limits of thermal machines\nMaximum efficiency of machines (Carnot cycle); Absolute temperature scale.\nQuantify irreversibility and predict the direction of processes\nIrreversibilities in heat and work transfers; Usefulness of entropy for engineers.\nQuantify the performance of steam-powered plants\nCarnot and Rankine cycles, with superheating, reheat, and regeneration.\nQuantify the performance of gasoline & Diesel engines, and turbomachines\nOtto and Diesel cycles; Turbojet, turboprop, etc., and their modifications.\nUseful working documents, including Steam Tables from freesteamtables.com.\nSteam Tables; Converting to SI units; Bibliography; List of symbols; Index.\nWith 59 fully-commented, step-by-step calculation examples and 96 problems with solutions, this book equips you to tackle engineering challenges with confidence. Alongside the core, it features short historical explorations which connect the big ideas to their origins and their technological impact.\nDr.-Ing. Olivier Cleynen has been teaching engineering and physics for 15 years, from high school classrooms to French écoles d’ingénieurs and university lecture halls. With a PhD in ﬂuid mechanics and a love for clear thinking, Olivier enjoys turning complicated topics into something students can work with. His latest project is a video course at LearnFluidMechanics.com. He lives with his family in Magdeburg, Germany.\nThis book is translated from the third edition of the French-language Thermodynamique de l’ingénieur, which has been continuously improved for 10 years, and is used by teachers of the following institutions:\nIf you find this book useful, help the author! It’s very simple:\nTo be informed about book updates, subscribe to the newsletter below (expect no more than 3 emails per year).\nThis book is free, by design: it is kindly made available to you for any use, under the conditions of the CC-by-sa license (it is an open educational resource, or OER). You are free to use it in class as it is, or even to remix it as you need. Cite the book if it is useful! Olivier looks forward to your feedback.",
+          "category": "insight",
+          "publishedAt": "2026-04-26T15:17:34.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Fast16: High-precision software sabotage 5 years before Stuxnet",
+          "titleKo": "Fast16: Stuxnet 5년 전의 고정밀 소프트웨어 기반 공격",
+          "summary": "정보가 불충분하여 요약할 수 없습니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.sentinelone.com/labs/fast16-mystery-shadowbrokers-reference-reveals-high-precision-software-sabotage-5-years-before-stuxnet/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 94,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "fast16-high-precision-software-sabotage-5-years-before-stuxnet",
+          "category": "insight",
+          "publishedAt": "2026-04-26T20:18:37.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "I bought Friendster for $30k – Here's what I'm doing with it",
+          "titleKo": "나는 Friendster를 3만 달러에 샀다 – 이제 뭘 하는가",
+          "summary": "정보가 불충분하여 요약할 수 없습니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://ca98am79.medium.com/i-bought-friendster-for-30k-heres-what-i-m-doing-with-it-d5e8ddb3991d",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 180,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-bought-friendster-for-30k-heres-what-im-doing-with-it",
+          "category": "insight",
+          "publishedAt": "2026-04-26T20:41:06.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Millions of WordPress sites just got hacked... again",
+          "titleKo": "수백만 개의 WordPress 사이트가 다시 해킹당했다",
+          "summary": "WordPress 플러그인의 보안 취약점을 통해 대량의 사이트가 해킹되는 사건을 다루는 영상 콘텐츠이다.",
+          "keyPoints": [
+            "WordPress 생태계의 지속적인 보안 위협 현황 분석",
+            "플러그인 의존성으로 인한 대규모 보안 사고 발생"
+          ],
+          "whyItMatters": "WordPress 기반 개발자는 플러그인의 보안 업데이트를 지속적으로 모니터링하고 적용해야 한다.",
+          "url": "https://www.youtube.com/watch?v=piah4fV_o2Q",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "topicId": "wordpress-security",
+          "isTopicPrimary": true,
+          "slug": "millions-of-wordpress-sites-just-got-hacked-again",
+          "category": "video",
+          "publishedAt": "2026-04-16T15:29:01+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Google just casually disrupted the open-source AI narrative…",
+          "titleKo": "Google가 오픈소스 AI 담론을 조용히 뒤흔들다",
+          "summary": "Google이 오픈소스 AI 분야에서 기존의 인식을 전환하는 움직임을 보였다.",
+          "keyPoints": [
+            "Google의 새로운 AI 전략이 오픈소스 커뮤니티의 기대치를 변화시키고 있음"
+          ],
+          "whyItMatters": "AI 개발자들이 오픈소스 프로젝트 선택 및 전략 수립 시 Google의 방향성을 주시해야 함",
+          "url": "https://www.youtube.com/watch?v=-01ZCTt-CJw",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "google-just-casually-disrupted-the-open-source-ai-narrative",
+          "category": "video",
+          "publishedAt": "2026-04-08T19:00:10+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Why Does No One Use The Right React Hook",
+          "titleKo": "아무도 올바른 React Hook을 사용하지 않는 이유",
+          "summary": "개발자들이 React Hook을 잘못 이해하거나 적절하지 않은 Hook을 사용하는 문제를 다루는 영상 콘텐츠이다.",
+          "keyPoints": [
+            "React Hook 사용의 일반적인 실수와 오해 지적",
+            "각 Hook의 올바른 사용 사례와 선택 기준 설명"
+          ],
+          "whyItMatters": "React Hook을 제대로 이해하고 사용하면 버그를 줄이고 더 나은 성능의 컴포넌트를 작성할 수 있다.",
+          "url": "https://www.youtube.com/watch?v=NBjycPpPHQQ",
+          "sourceName": "Web Dev Simplified",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "why-does-no-one-use-the-right-react-hook",
+          "category": "video",
+          "publishedAt": "2026-04-07T16:00:39+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "5 Ways To SSR/RSC on TanStack Start",
+          "titleKo": "TanStack Start에서 SSR/RSC를 구현하는 5가지 방법",
+          "summary": "TanStack Start 프레임워크에서 서버 사이드 렌더링(SSR)과 React Server Components(RSC)를 구현하는 여러 기법을 소개하는 영상 콘텐츠이다.",
+          "keyPoints": [
+            "TanStack Start에서 다양한 SSR/RSC 구현 방식 제시",
+            "프레임워크의 고급 기능 활용 방법을 실제 사례로 설명"
+          ],
+          "whyItMatters": "최신 React 렌더링 패턴을 TanStack Start에서 효과적으로 활용하는 방법을 학습할 수 있다.",
+          "url": "https://www.youtube.com/watch?v=PX3QlADinIE",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "5-ways-to-ssrrsc-on-tanstack-start",
+          "category": "video",
+          "publishedAt": "2026-04-20T15:23:38+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Making millions of dollars on fake GitHub stars",
+          "titleKo": "가짜 GitHub 스타로 수백만 달러 벌기",
+          "summary": "GitHub 스타를 인공적으로 부풀려 금전적 이득을 얻는 사기 행위에 대한 분석이다.",
+          "keyPoints": [
+            "가짜 스타 판매 및 배포로 프로젝트 인기도를 조작하여 스폰서십 및 투자 유치 사기"
+          ],
+          "whyItMatters": "개발자들이 오픈소스 프로젝트 평가 시 스타 수만을 신뢰하지 말고 실제 활용도와 커뮤니티 기여도를 검증해야 함",
+          "url": "https://www.youtube.com/watch?v=P6u0K3-z2p4",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "making-millions-of-dollars-on-fake-github-stars",
+          "category": "video",
+          "publishedAt": "2026-04-25T14:52:41+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Did Anthropic just kill Figma?",
+          "titleKo": "Anthropic이 Figma를 죽였나?",
+          "summary": "Anthropic의 AI 기술이 Figma의 디자인 도구 영역을 위협하는지에 대한 분석이다.",
+          "keyPoints": [
+            "AI 기반 디자인 자동화가 기존 디자인 도구의 시장을 잠식할 가능성"
+          ],
+          "whyItMatters": "디자인 및 UI/UX 개발자들이 AI 도구의 급속한 발전과 그에 따른 직무 변화를 인식해야 함",
+          "url": "https://www.youtube.com/watch?v=wDgq9aiuL-w",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "did-anthropic-just-kill-figma",
+          "category": "video",
+          "publishedAt": "2026-04-21T10:19:39+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude just got another superpower...",
+          "titleKo": "Claude가 새로운 능력을 갖추다",
+          "summary": "Claude의 새로운 기능이나 업데이트에 대한 영상 콘텐츠입니다.",
+          "keyPoints": [],
+          "whyItMatters": "Claude의 최신 기능 변화를 파악할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=jeA-KBv0b68",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "claude-just-got-another-superpower",
+          "category": "video",
+          "publishedAt": "2026-04-21T17:35:43+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "React2Shell on TanStack Start?!?",
+          "titleKo": "TanStack Start에서 React2Shell 사용하기",
+          "summary": "TanStack Start 프레임워크에서 React2Shell을 활용하는 방법을 다루는 영상 콘텐츠이다.",
+          "keyPoints": [
+            "TanStack Start 환경에서 React2Shell 통합 방법 소개",
+            "실제 구현 사례를 통한 실습 가이드 제공"
+          ],
+          "whyItMatters": "React2Shell을 활용하여 TanStack Start 프로젝트의 개발 효율성을 높일 수 있다.",
+          "url": "https://www.youtube.com/watch?v=-dbvAMsRKi0",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "react2shell-on-tanstack-start",
+          "category": "video",
+          "publishedAt": "2026-04-14T17:51:48+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Open source is dead now?",
+          "titleKo": "오픈소스가 이제 죽었나?",
+          "summary": "오픈소스 생태계의 현재 상태와 도전과제에 대한 영상 분석입니다.",
+          "keyPoints": [],
+          "whyItMatters": "오픈소스 커뮤니티의 변화와 향후 방향을 이해할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=YY04jVCKeB4",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "open-source-is-dead-now",
+          "category": "video",
+          "publishedAt": "2026-04-22T13:54:08+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Did Claude really get dumber again?",
+          "titleKo": "Claude가 정말 더 똑똑해지지 않았나?",
+          "summary": "Claude 모델의 성능 변화에 대한 평가와 분석 영상입니다.",
+          "keyPoints": [],
+          "whyItMatters": "Claude 모델의 실제 능력 변화를 파악하여 프로젝트 선택 시 참고할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=KFisvc-AMII",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "did-claude-really-get-dumber-again",
+          "category": "video",
+          "publishedAt": "2026-04-20T14:50:02+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude Mythos is too dangerous for public consumption...",
+          "titleKo": "Claude Mythos는 대중 공개에 너무 위험하다",
+          "summary": "Claude의 특정 기능이나 특성의 위험성에 대한 논의 영상입니다.",
+          "keyPoints": [],
+          "whyItMatters": "Claude 사용 시 윤리적 고려사항과 잠재적 위험을 인식할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=d3Qq-rkp_to",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "claude-mythos-is-too-dangerous-for-public-consumption",
+          "category": "video",
+          "publishedAt": "2026-04-10T19:29:35+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I finally found a use case for OpenClaw…",
+          "titleKo": "OpenClaw의 사용 사례를 드디어 찾다",
+          "summary": "OpenClaw 프로젝트의 실질적인 활용 사례가 발견되었다.",
+          "keyPoints": [
+            "OpenClaw 도구가 실제 개발 환경에서 유용한 사용 케이스를 갖추기 시작함"
+          ],
+          "whyItMatters": "개발자들이 OpenClaw의 실제 적용 가능성을 평가할 수 있는 참고 사례 제공",
+          "url": "https://www.youtube.com/watch?v=FM5-R4VPArw",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-finally-found-a-use-case-for-openclaw",
+          "category": "video",
+          "publishedAt": "2026-04-23T18:26:39+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I don’t really like GPT-5.5…",
+          "titleKo": "GPT-5.5가 마음에 안 든다",
+          "summary": "YouTube 영상으로 GPT-5.5 모델에 대한 개인적인 평가와 의견을 담고 있습니다.",
+          "keyPoints": [
+            "GPT-5.5 모델의 성능이나 기능에 대한 비판적 관점 제시"
+          ],
+          "whyItMatters": "대형 언어 모델의 실제 사용성과 한계에 대한 현장의 목소리를 들을 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=HUsDzyJ3H64",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-dont-really-like-gpt-55",
+          "category": "video",
+          "publishedAt": "2026-04-24T03:35:49+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
