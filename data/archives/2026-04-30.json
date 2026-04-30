@@ -1,0 +1,1325 @@
+{
+  "date": "2026-04-30",
+  "intro": "안녕하세요! 오늘 프론트엔드 개발 뉴스레터입니다. 공급망 보안 위협과 개인정보 유출 이슈가 연일 보도되고 있으며, 한편으로는 AI 에이전트와 고성능 개발 도구들이 빠르게 진화하고 있습니다. 보안 위험에 주의하면서도 최신 기술 트렌드를 놓치지 않는 것이 중요한 시점입니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Shai-Hulud Themed Malware Found in the PyTorch Lightning AI Training Library",
+          "titleKo": "PyTorch Lightning AI 훈련 라이브러리에서 발견된 샤이-훌루드 테마 악성코드",
+          "summary": "PyPI의 널리 사용되는 딥러닝 프레임워크 'lightning' 버전 2.6.2, 2.6.3이 2026년 4월 30일 공급망 공격으로 감염되었습니다. 악성 버전은 난독화된 JavaScript 페이로드가 포함된 숨겨진 _runtime 디렉토리를 포함하고 있으며, 모듈 임포트 시 자동 실행되어 GitHub 토큰, AWS 자격증명, 환경 변수 등을 탈취합니다. 공격자는 npm 자격증명을 발견하면 다른 npm 패키지에도 악성코드를 주입하여 크로스-에코시스템 확산을 초래합니다.",
+          "keyPoints": [
+            "감염된 패키지: lightning 2.6.2, 2.6.3 - 이미지 분류기, LLM 미세조정, 확산 모델, 시계열 예측 등 다양한 용도에서 사용되는 라이브러리로 광범위한 영향",
+            "악성 페이로드 메커니즘: 모듈 임포트 시 자동 실행되는 난독화된 JavaScript로, 로컬 파일, 환경 변수, CI/CD 파이프라인, 클라우드 제공자에서 80+ 경로의 자격증명 파일을 스캔하고 ghp_, gho_, npm_ 토큰을 탈취",
+            "다중 채널 데이터 유출: HTTPS POST를 통한 C2 서버 전송, GitHub 커밋 검색 API를 이용한 데드드롭(double-base64 인코딩 토큰), 공격자 제어 공개 GitHub 저장소 생성, 피해자 저장소 직접 푸시 등 4가지 병렬 채널로 차단 우회",
+            "GitHub 토큰 악용: ghs_ 서버 토큰 획득 시 피해자의 GitHub Actions 비밀 정보(isSecret:true 표시 항목)를 추출하고, GitHub 조직 비밀, 워크플로우 권한을 체계적으로 열거",
+            "AWS 자격증명 탈취: 환경 변수, ~/.aws/credentials 프로필, IMDSv2(169.254.169.254), ECS 엔드포인트(169.254.170.2)를 시도하며 sts:GetCallerIdentity 호출과 Secrets Manager, SSM Parameter Store 값 전부 열거",
+            "크로스-에코시스템 확산: PyPI 진입점에서 시작되었으나, npm 발행 자격증명 발견 시 setup.mjs 드로퍼와 router_runtime.js를 주입하고 scripts.preinstall 설정 후 패치 버전 증가시켜 재발행, 다운스트림 설치 시 전체 악성코드 실행 유발",
+            "위협 행위자 속성: 'Mini Shai-Hulud' 캠프인과 동일 행위자로 추정되며, 'EveryBoiWeBuildIsAWormyBoi' 접두사로 Dune 테마 명명 규칙을 일관되게 유지"
+          ],
+          "whyItMatters": "PyTorch Lightning은 AI/ML 개발에서 매우 광범위하게 사용되므로 이번 공급망 공격은 대규모 엔터프라이즈 및 개인 개발자의 클라우드 자격증명을 직접 위협하며, 단순 패키지 업그레이드만으로 감염되기 때문에 즉시 버전 확인 및 자격증명 로테이션이 필수입니다.",
+          "url": "https://semgrep.dev/blog/2026/malicious-dependency-in-pytorch-lightning-used-for-ai-training/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 300,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "devops"
+          ],
+          "topicId": "pytorch-security",
+          "isTopicPrimary": true,
+          "slug": "shai-hulud-themed-malware-found-in-the-pytorch-lightning-ai-training-library",
+          "fullContent": "The PyPI package 'lightning', a widely-used deep learning framework, was compromised in a supply chain attack affecting versions 2.6.2 and 2.6.3 published on April 30, 2026. Teams building image classifiers, fine-tuning LLMs, running diffusion models, or developing time-series forecasters frequently have lightning somewhere in their dependency tree. Running pip install lightning is all that is needed to activate. The malicious versions contain a hidden _runtime directory with obfuscated JavaScript payload that executes automatically upon module import. The attack steals credentials, authentication tokens, environment variables, and cloud secrets, while also attempting to poison GitHub repositories. It has Shai-Hulud themes including creating public repositories called EveryBoiWeBuildIsaWormBoi.We believe that this attack is the work of the same threat actor behind the mini Shai-Hulud campaign. The IOC structure is consistent with that operation: the malicious commit messages follow the same Dune-themed naming convention, with this campaign using the prefix EveryBoiWeBuildIsAWormyBoi to distinguish it from the original Mini Shai-Hulud attack.Affected Packages- lightning version 2.6.2- lightning version 2.6.3For Semgrep CustomersSemgrep has an advisory and rule to cover this so you can find to check your projects.Trigger a new scan if you haven't recently on your projects.Check the advisories page to see if any projects have installed these package versions recently: https://semgrep.dev/orgs/-/advisoriesCheck your dependency filter for matches. If you see “No matching dependencies” you are not actively using the malicious dependency in any of your projects. If you did match, additional advice on remediation and indicators of compromise are below.If you matched: Also audit your repositories for the injected files listed in the IOCs below (.claude/ and .vscode/ directories with unexpected contents), and rotate any GitHub tokens, cloud credentials, or API keys that may have been present in the affected environment.For general advice about how to deal with supply chain, cool down periods; our standard advice is covered by posts: $foo compromised in $packagemanager and Attackers are Still Coming for Security Companies.Cross-Ecosystem Spread: PyPI to npmUnlike mini Shai-Hulud, which targeted npm directly, the entry point here is PyPI. The malware payload is still JavaScript, and the worm propagation happens through npm.Once running, if the malware finds npm publish credentials, it injects a setup.mjs dropper and router_runtime.js into every package that token can publish to, sets scripts.preinstall to execute the dropper, bumps the patch version, and republishes. And any downstream developer who installs one of those packages runs the full malware on their machine, has their tokens stolen and packages wormed.How it WorksThe exfiltration component shares its design with the \"Mini Shai-Hulud\" mechanism from their last campaign, using four parallel channels so stolen data gets out even if individual paths are blocked.HTTPS POST to C2. Stolen data is immediately POSTed to an attacker-controlled server over port 443. The domain and path are stored as encrypted strings in the payload, making static analysis harder.GitHub commit search dead-drop. The malware polls the GitHub commit search API for commit messages prefixed with EveryBoiWeBuildIsAWormyBoi, which carry a double-base64-encoded token in the format EveryBoiWeBuildIsAWormyBoi:<base64(base64(token))>. Once decoded, the token is used to authenticate an Octokit client for further operations.Attacker-controlled public GitHub repo. A new public repository is created with a randomly chosen Dune-word name and the description \"A Mini Shai-Hulud has Appeared\", which is directly searchable on GitHub. Stolen credentials are committed as results/results-<timestamp>-<n>.json (base64-encoded via the API, plain JSON inside), with files over 30 MB split into numbered chunks. Commit messages use chore: update dependencies as cover.Push to victim's own repo. If the malware obtains a ghs_ GitHub server token, it pushes stolen data directly to all branches of the victim's own GITHUB_REPOSITORY.What Gets StolenThe malware targets credentials across local files, environment, CI/CD pipelines, and cloud providers:Filesystem: Scans 80+ credential file paths for ghp_, gho_, and npm_ tokens (up to 5 MB per file).Shell / Environment: Runs gh auth token and dumps all environment variables from process.env.GitHub Actions: On Linux runners, dumps Runner.Worker process memory via embedded Python and extracts all secrets marked \"isSecret\":true, along with GITHUB_REPOSITORY and GITHUB_WORKFLOW.GitHub orgs: Checks token scopes (repo, workflow) and iterates GitHub Actions org secrets.AWS: Tries environment variables, ~/.aws/credentials profiles, IMDSv2 (169.254.169.254), and ECS (169.254.170.2) to call sts:GetCallerIdentity; additionally enumerates and fetches all Secrets Manager values and SSM par",
+          "category": "hot",
+          "publishedAt": "2026-04-30T16:09:26.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Granite 4.1: IBM's 8B Model Matching 32B MoE",
+          "titleKo": "Granite 4.1: IBM의 8B 모델이 32B MoE와 동등한 성능 달성",
+          "summary": "IBM은 엔터프라이즈용으로 특화된 오픈소스 언어 모델 Granite 4.1 계열을 출시했으며, 3B, 8B, 30B 세 가지 크기의 모든 모델이 Apache 2.0 라이선스로 제공됩니다. 15조 개의 토큰으로 훈련되었으며, 특히 8B 모델이 이전 세대의 32B MoE(9B 활성) 모델보다 ArenaHard, BFCL V3, GSM8K 등 주요 벤치마크에서 우수한 성능을 보여줍니다. 이는 매개변수 확장보다 데이터 품질에 집중한 결과입니다.",
+          "keyPoints": [
+            "8B 모델의 우수한 벤치마크 성능: ArenaHard에서 69.0(32B MoE는 더 낮음), BFCL V3 68.3(32B MoE는 64.7), GSM8K 92.5, AlpacaEval, MMLU-Pro, BBH, EvalPlus, MBPP 등 전반적으로 더 큰 모델을 압도",
+            "아키텍처 철학: 3B, 8B, 30B 모두 동일한 디코더 전용 밀집 트랜스포머 설계로 MoE 라우팅, 스파스 레이어, 확장된 추론 체인 없음 - 입력이 예측 가능하게 일정한 토큰만 처리되어 비용과 레이턴시 예측이 용이",
+            "5단계 훈련 파이프라인: Phase 1은 CommonCrawl 59%, 코드 20%, 수학 7%; Phase 2에서 수학 35%, 코드 30%로 조정; Phase 3-4에서 체인-오브-쓰트 추론 궤적과 지시 데이터 혼합; Phase 5에서 컨텍스트 윈도우를 512K 토큰으로 확장",
+            "데이터 품질 필터링 시스템: LLM-as-Judge가 모든 어시스턴트 응답을 지시 준수, 정확성, 완전성, 간결성, 자연스러움, 보정 6가지 차원으로 평가하고 임계값 미만은 자동 제거, 환각, 거짓 전제, 오류 계산은 스코어 관계없이 자동 거부",
+            "컨텍스트 기반 평가: 판별기가 전체 컨텍스트에서 응답을 평가하므로 RAG 설정에서 검색된 문서에 근거하지 않으면 환각으로 판정, 도구 호출 시나리오에서는 출력을 허용된 도구와 매개변수 스키마에 대해 검증",
+            "규칙 기반 파이프라인: 길이, 포매팅, 스키마 검증, 데이터셋 전체 중복 제거를 체계적으로 확인하며 모든 과정이 로깅되고 감사 가능"
+          ],
+          "whyItMatters": "8B 모델이 32B 모델과 경쟁력 있는 성능을 보여주므로 엔터프라이즈에서 훨씬 낮은 계산 비용으로 고품질 AI를 배포할 수 있으며, 데이터 품질 중심의 훈련 철학은 업계의 스케일-위주 접근법에 대한 중요한 반례입니다.",
+          "url": "https://firethering.com/granite-4-1-ibm-open-source-model-family/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 271,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "granite-model-release",
+          "isTopicPrimary": true,
+          "slug": "granite-41-ibms-8b-model-matching-32b-moe",
+          "fullContent": "HomeTechGranite 4.1: IBM's 8B Model Is Competing With Models Four Times Its...\nGranite 4.1: IBM’s 8B Model Is Competing With Models Four Times Its Size\nBy Mohit Geryani\nApril 30, 2026\nLast updated: April 30, 2026\n- Advertisement -\nIBM just released Granite 4.1, a family of open source language models built specifically for enterprise use. Three sizes, Apache 2.0 licensed, trained on 15 trillion tokens with a level of pipeline obsession that’s worth understanding.\nOne result in the benchmarks doesn’t make sense until you understand how they built it.\nThe 8B model. Dense architecture, no MoE tricks, no extended reasoning chains. It matches or beats Granite 4.0-H-Small across basically every benchmark they ran. That older model has 32 billion parameters with 9 billion active. This one has 8 billion.\nThat’s either very impressive or it means the old model was underbuilt. Probably both.\nHere’s how they built it, what the numbers actually say, and whether any of it matters for your use case.\nTable of Contents\nThe result that makes you do a double take\nOn ArenaHard, a benchmark where models are judged by GPT-4 on how well they handle 500 challenging real-world prompts, it’s one of the better proxies for actual chat quality. The 8B instruct scores 69.0 there. The previous generation Granite 4.0-H-Small, a 32B MoE model with 9B active parameters, scored lower. On BFCL V3, the standard tool calling benchmark. The 8B scores 68.3, the 32B MoE scores 64.7. GSM8K is grade-school math reasoning, and the 8B hits 92.5 there too. Across AlpacaEval, MMLU-Pro, BBH, EvalPlus, MBPP. same thing throughout.\nA denser, simpler, smaller model is winning. Consistently.\nIt actually means IBM got significantly better at training between generations. The 4.0-H-Small wasn’t badly built, it was the best they had at the time. The 4.1 8B is what happens when you spend the intervening period obsessing over data quality instead of just scaling parameters. That’s the thread running through everything about how Granite 4.1 was built.\nThree sizes, one obsession: how they actually built this\nGranite 4.1 comes in 3B, 8B, and 30B. All three use the same decoder-only dense transformer design, the same training pipeline and same data strategy. The only difference between them is size. No MoE routing, sparse layers or extended reasoning chains that inflate token counts. What you send in is what gets processed, predictably, every time.\nModels that lean on long reasoning traces are harder to cost-predict and harder to latency-budget. Granite 4.1 skips all of that by design. But the architecture isn’t really the story. The story is the 15 trillion tokens they trained on and how carefully they handled them.\nIBM ran five distinct training phases with different data mixtures, different learning rate schedules, and different goals. Phase 1 is broad: CommonCrawl at 59%, code at 20%, math at 7%. By Phase 2, math has jumped to 35% and code to 30%. By Phases 3 and 4, they’re blending in chain-of-thought reasoning trajectories and instruction data alongside the highest-quality web content they have. Phase 5 extends the context window, eventually to 512K tokens for the 8B and 30B.\nMost teams pick a data mix and stick with it. IBM changed theirs four times with clear intent each time.\nGranite 4.1 Family\nYou May Like: Laguna XS.2 Feels Like a Model That Was Never Meant to Be Public. It Now Is.\nThe filter that rejected bad data before it could do damage\nIBM spent enough time on their data quality pipeline that it deserves its own explanation.\nAfter pre-training, they needed to turn the base model into something that actually follows instructions reliably. That requires fine-tuning on examples of good behavior but bad examples in that dataset don’t just get ignored. They get learned. A hallucinated answer, a response that ignores the instruction, a calculation that’s wrong but confident, the model treats all of it as signal.\nSo IBM built a filtering system before a single fine-tuning sample touched the model. An LLM-as-Judge evaluated every assistant response across six dimensions including instruction following, correctness, completeness, conciseness, naturalness, and calibration. Each response got scored, and samples that fell below threshold got cut. But some things triggered automatic rejection regardless of score, hallucinations, false premises, incorrect computations. No partial credit for those.\nThe judge wasn’t reading prompts or user inputs in isolation. It was evaluating what the model said given the full context it had access to. In RAG settings, if the response wasn’t grounded in the retrieved documents, that counted as a hallucination. In tool-calling scenarios, outputs were checked against the allowed tools and their parameter schemas.\nOn top of that, a separate rule-based pipeline checked structure like length, formatting, schema validation, deduplication across the entire dataset. Everything was logged and auditable.\nWhat came out the other side was 4.1",
+          "category": "hot",
+          "publishedAt": "2026-04-30T10:31:17.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "LinkedIn scans for 6,278 extensions and encrypts the results into every request",
+          "titleKo": "LinkedIn이 6,278개의 확장 프로그램을 스캔하고 결과를 모든 요청에 암호화하여 포함",
+          "summary": "LinkedIn이 사용자의 동의 없이 2017년부터 6,278개 브라우저 확장 프로그램을 스캔해왔으며, 이 정보를 사용자의 검증된 프로필에 연결하고 있습니다. 직업 검색, 정치 활동, 종교 실천, 장애 수용 관련 확장을 추적하여 개인의 민감한 정보를 유추하고 있습니다.",
+          "keyPoints": [
+            "LinkedIn은 개인 동의 없이 확장 프로그램 목록을 수집하고 보안 정책에 공시하지 않으며, 이를 기반으로 사용자에게 조치를 취함",
+            "확장 프로그램 스캔 데이터는 기존의 검증된 전문 정보(이름, 회사, 직함, 경력)와 연결되어 개인과 조직의 민감한 정보 유추 가능",
+            "브라우저 핑거프린팅 문제가 사이트 내에 국한되지 않으며, LinkedIn이 제3자 데이터와 결합하면 개인의 전체 온라인 활동이 프로필에 통합될 수 있음"
+          ],
+          "whyItMatters": "개발자와 사용자 모두에게 브라우저 확장이 데이터 수집 대상이 될 수 있으며, 플랫폼의 투명성 부족과 동의 없는 데이터 활용의 위험성을 보여줍니다.",
+          "url": "https://404privacy.com/blog/linkedin-is-scanning-your-browser-extensions-this-is-how-they-use-the-data/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 303,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "privacy-tracking",
+          "isTopicPrimary": true,
+          "slug": "linkedin-scans-for-6278-extensions-and-encrypts-the-results-into-every-request",
+          "fullContent": "When companies get caught doing this sort of thing, the response is almost always the same: \"we're using this technology to combat fraud,\" or \"ensure positive user experience,\" or \"save computing resources,\" or some other hog wash.The simple truth, there's no reason to be collecting data that can be used to identify a user across the web if they're not signed in to your service. The harm of companies like Experian or LinkedIn being able to correlate all of your web traffic back to you is not hard to imagine. Though, it begs a simple question: should a company involved in my professional life have access to my personal information obtained without my explicit consent?No. End stop.This is not new According to records documented by browsergate.eu and a GitHub repository tracking the extension list, LinkedIn's extension scanning dates to at least 2017, when the list contained 38 entries. My count? As of April 2026, LinkedIn has identified and tracks 6,278 extensions.The list is actively maintained and expanding.At this scale the catalog was not built by hand. Someone wrote tooling to crawl Chrome Web Store extension packages, parse each manifest for web-accessible resources, identify a probe target, and add the entry to the list. This is infrastructure that has been in place for nearly a decade.I verified this myselfI opened LinkedIn in Chrome. I opened developer tools (F12 or Inspect) and the console filled with errors.Every entry is an extension that I don't have installed. At least 6,278 data points LinkedIn has collected on me.Each one of those errors is LinkedIn asking your computer if you have a specific extension installed. Skip to the bottom for more technical details.LinkedIn already knows so much about you, why tell them more?Most fingerprinting operations work against anonymous visitors. The fingerprint allows a site to recognize a returning browser without cookies. The profile that results is technically identified but not necessarily personally identified. The site knows a device, not a person. Still an issue, but not inherently linked to any personal information.LinkedIn is not working with anonymous visitors.LinkedIn knows your name. Employer. Job title. Career history. Salary range. Professional network. Location. You provided them with all of it.When LinkedIn's extension scan runs on your browser, it is not building a device profile for an unknown visitor. It is appending a detailed software inventory to a profile that already contains your verified professional identity. The harm is specific.Hundreds of job search extensions are in the scan list. LinkedIn knows which of its users are quietly looking for work before they've told their employer.Extensions tied to political content, religious practice, disability accommodation, and neurodivergence are in the list. Your browser software becomes a source of inferences about your personal life, attached without your knowledge to your professional identity.And because LinkedIn knows where each user works, none of this is only linked to an individual. The scan results from one employee contribute to a picture of their organization. Across enough employees, LinkedIn can map a company's internal tooling, security products, competitor subscriptions, and workflows, without that organization's knowledge or consent. Your browser becomes a window into your employer.None of this is disclosed in LinkedIn's privacy policy. There is no mention of extension scanning in any public-facing document. No user was asked for consent. No user was informed.None of this is disclosed in LinkedIn's privacy policyWhy this matters beyond LinkedInThe precedentLinkedIn is using these extension lists to make inferences and take enforcement actions against users who have them installed. According to browsergate, Milinda Lakkam confirmed this under oath, saying, \"LinkedIn took action against users who had specific extensions installed.\" Users who had no idea their software was being inventoried, no idea the inventory was being used against them, and no way to know it was happening because none of it appears in LinkedIn's privacy policy.The fingerprinting ecosystem problemBrowser fingerprinting is usually discussed as a tracking problem contained to one site. A site collects signals, builds a profile, recognizes you across sessions. The problem stays local.That framing understates what's actually happening.LinkedIn's extension scan produces a detailed software inventory linked to a verified identity. That profile doesn't have to stay at LinkedIn to be useful. If LinkedIn purchases a third party behavioral dataset and your fingerprint appears in it, they can append that data to what they already know about you. Your browsing behavior off LinkedIn, your purchase history, your location patterns, your interests, all of it becomes part of a profile that is linked to your LinkedIn account.The reverse is also true. LinkedIn integrates third party scripts including Google's reCAPTCHA enterp",
+          "category": "hot",
+          "publishedAt": "2026-04-30T19:40:20.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Hackers are actively exploiting a bug in cPanel and WHM",
+          "titleKo": "해커들이 수백만 개 웹사이트를 사용하는 cPanel의 버그를 적극 악용",
+          "summary": "cPanel과 WHM의 보안 취약점을 악용하는 활발한 공격이 진행 중입니다.",
+          "keyPoints": [
+            "대규모 영향: cPanel은 수백만 개의 웹사이트에서 사용되는 호스팅 제어판으로 이번 취약점은 광범위한 웹 인프라에 영향",
+            "적극적 악용: 이미 알려진 버그를 해커들이 실제로 공격 중"
+          ],
+          "whyItMatters": "cPanel 기반 호스팅을 사용하는 개발자와 사이트 운영자는 즉시 패치를 확인해야 합니다.",
+          "url": "https://techcrunch.com/2026/04/30/hackers-are-actively-exploiting-a-bug-in-cpanel-used-by-millions-of-websites/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 17,
+          "contentType": "discussion",
+          "labels": [
+            "devops"
+          ],
+          "topicId": "cpanel-exploit",
+          "isTopicPrimary": true,
+          "slug": "hackers-are-actively-exploiting-a-bug-in-cpanel-and-whm",
+          "category": "hot",
+          "publishedAt": "2026-04-30T20:43:57.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Claude Code refuses requests or charges extra if your commits mention \"OpenClaw\"",
+          "titleKo": "Claude Code가 'OpenClaw' 언급이 있는 커밋을 거부하거나 추가 비용 청구",
+          "summary": "Claude Code가 커밋 메시지에 'OpenClaw'라는 단어가 포함되면 요청을 거부하거나 추가 비용을 청구하는 것으로 보고되었습니다.",
+          "keyPoints": [
+            "특정 키워드('OpenClaw')에 대한 Claude Code의 비정상적인 거동 확인",
+            "AI 도구의 예상 밖의 제약 사항이 개발 워크플로우에 영향을 미칠 수 있음"
+          ],
+          "whyItMatters": "AI 기반 개발 도구 사용 시 예상하지 못한 제한 사항이나 비용 증가가 발생할 수 있으므로, 도구의 동작 방식을 정확히 이해하고 신뢰성을 검증해야 합니다.",
+          "url": "https://twitter.com/theo/status/2049645973350363168",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 869,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-code-controversy",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "claude-code-refuses-requests-or-charges-extra-if-your-commits-mention-openclaw",
+          "category": "hot",
+          "publishedAt": "2026-04-30T14:36:58.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Mozilla's opposition to Chrome's Prompt API",
+          "titleKo": "Chrome의 Prompt API에 대한 Mozilla의 반대",
+          "summary": "Mozilla가 Chrome의 Prompt API 표준화에 공식적으로 반대 입장을 표명했습니다.",
+          "keyPoints": [
+            "Mozilla는 GitHub standards-positions 저장소를 통해 해당 API에 대한 부정적(negative) 입장을 공식 기록"
+          ],
+          "whyItMatters": "웹 표준 개발에서 주요 브라우저 벤더들의 의견 충돌이 API 채택과 개발자 경험에 영향을 미칩니다.",
+          "url": "https://github.com/mozilla/standards-positions/issues/1213#issuecomment-4347988313",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 565,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "chrome-api-standards",
+          "isTopicPrimary": true,
+          "slug": "mozillas-opposition-to-chromes-prompt-api",
+          "fullContent": "mozilla\n/\nstandards-positions\nPublic\nPrompt API #1213OpenOpenPrompt API#1213Labelsposition: negativeDescriptionMetadataMetadata",
+          "category": "hot",
+          "publishedAt": "2026-04-30T07:43:55.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Follow-up to Carrot disclosure: Forgejo",
+          "titleKo": "Carrot 공개 이후 후속: Forgejo",
+          "summary": "Forgejo 보안 취약점 공개 이후 발생한 논란과 커뮤니티 반응을 정리한 글입니다. 작성자는 비표준적인 취약점 공개 방식을 사용했고, 이로 인해 보안 커뮤니티에서 다양한 의견이 제시되었으며, 최종적으로 Forgejo 보안팀에 정중한 피드백을 전달했습니다.",
+          "keyPoints": [
+            "취약점 공개 방식의 투명성과 책임성에 대한 커뮤니티 논쟁 발생",
+            "Forgejo의 보안 정책이 재검토되고 개선의 필요성 인식",
+            "작성자가 악의 없는 공개 과정을 통해 보안팀과 건설적 대화 시도"
+          ],
+          "whyItMatters": "오픈소스 프로젝트의 보안 취약점 공개 절차와 커뮤니티 신뢰 구축은 개발자 생태계의 안정성에 직결됩니다.",
+          "url": "https://dustri.org/b/follow-up-to-carrot-disclosure-forgejo.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 32,
+          "contentType": "discussion",
+          "labels": [
+            "devops"
+          ],
+          "topicId": "security-disclosure",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "follow-up-to-carrot-disclosure-forgejo",
+          "fullContent": "Since I published Carrot disclosure:\nForgejo two days ago, numerous things\nhappened:\nFriends of mine were reached out to, to \"talk to me from a place of trust\",\nor simply to tell them what an horrible person I am, which they found\nhilarious.\nThe toot linking to\nthe blogpost was removed from infosec.exchange by an overzealous moderator\nafter it had been reported multiple times by multiple people. I thus moved to\nmastodon.social, where it was also removed with \"Irresponsible disclosure\"\ngiven as a reason. So I moved back to infosec.exchange, where the toot was\nrestored. In the meantime, friends handed me invitations for various mastodon\ninstances, which I'm grateful for.\nNumerous instances of the eternal vulnerabilities disclosure debate spawned.\nSome exploit-writer friends of mine complained that I brought unwanted\nattention to an easy target.\nThe Netherlands deployed a sovereign software forge in the form of a\npublic forgejo instance.\nEveryone had an opinion on\nmastodon on this,\nespecially on what I should do with the vulnerabilities I found, and was\nreally vocal about it. I also got called a handful vile names.\nForgejo's security\npolicy\nwas copiously made fun of.\nI got a tone deaf email from Forgero's moderation team, to my arguably\ntone-deaf blog post, which I think is funny.\nI've learnt that the role of Forgejo security\nteam is to\n\"take care of security vulnerabilities and to handle sensitive\nsecurity-related issues reported to security@forgejo.org using encryption.\"\nDoing anything proactive isn't in their attributions.\nVarious entities, including some with security teams, revised their judgment\nabout what Forgejo is and isn't, which was the main goal of the previous\nblogpost.\nNonetheless, some productive good faith conversations have been had as well,\nand it seems that experimenting with odd vulnerability disclosure schemes is\nfrowned upon. So I ended up sending and email to Forgejo security team,\ncontaining: an apology, a bit about my reasoning for proceeding with carrot\ndisclosure, recommendations about what to harden/review, and a bunch of\ncommented exploits/proof-of-concepts as attachment. We'll see how it goes.",
+          "category": "hot",
+          "publishedAt": "2026-04-30T19:22:55.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "CopyFail was not disclosed to Gentoo developer",
+          "titleKo": "CopyFail이 Gentoo 개발자에게 공개되지 않음",
+          "summary": "CopyFail 취약점이 Gentoo 개발자에게 사전 통보 없이 공개된 사건에 대한 보안 메일링 리스트 포스트입니다.",
+          "keyPoints": [
+            "오픈소스 프로젝트에 대한 책임 있는 취약점 공개 절차의 중요성"
+          ],
+          "whyItMatters": "책임감 있는 취약점 공개는 오픈소스 프로젝트 유지보수자와 사용자 모두를 보호하는 중요한 관행입니다.",
+          "url": "https://www.openwall.com/lists/oss-security/2026/04/30/10",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 312,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "topicId": "security-disclosure",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "copyfail-was-not-disclosed-to-gentoo-developer",
+          "fullContent": "Powered by blists - more mailing lists\nPlease check out the\nOpen Source Software Security Wiki, which is counterpart to this\nmailing list.\nConfused about mailing lists and their use?\nRead about mailing lists on Wikipedia\nand check out these\nguidelines on proper formatting of your messages.",
+          "category": "hot",
+          "publishedAt": "2026-04-30T16:43:47.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Durable queues, streams, pub/sub, and a cron scheduler – inside your SQLite file",
+          "titleKo": "SQLite 파일 내부의 지속 가능한 큐, 스트림, Pub/Sub, Cron 스케줄러",
+          "summary": "Honker는 SQLite 로드 가능한 확장으로, Postgres 스타일의 NOTIFY/LISTEN 의미론을 SQLite에 추가하여 지속 가능한 Pub/Sub, 작업 큐, 이벤트 스트림을 제공합니다. 파이썬, Node, Rust, Go, Ruby, Bun, Elixir에 바인딩을 제공하며, M-시리즈 랩톱에서 약 0.7ms p50 크로스-프로세스 웨이크 레이턴시를 달성합니다.",
+          "keyPoints": [
+            "단일 데이터스토어 설계: 별도의 Redis나 Celery 브로커 불필요 - INSERT INTO orders와 queue.enqueue()가 같은 트랜잭션에서 커밋되고, 롤백 시 둘 다 원자성 보장",
+            "다중 언어 지원: Python, Node, Rust, Go, Ruby, Bun, Elixir 등 7가지 언어가 동일한 .db 파일과 온디스크 형식 공유",
+            "낮은 레이턴시: 데이터베이스 커밋 시 작업자가 즉시 깨어나므로 폴링 없음 - M-시리즈 MacBook에서 약 0.7ms p50 웨이크 레이턴시",
+            "아키텍처: SQLite 확장이므로SELECT load_extension('honker_ext')로 로드하면 모든 언어가 동일한 큐, 스트림, 알림 사용 가능",
+            "지속성 메커니즘: 큐는 부분 인덱스가 있는 테이블의 행이므로 데이터베이스 백업, 이중-쓰기 문제 해결, 브로커 운영 오버헤드 제거",
+            "사용 패턴: Huey 스타일 데코레이터 지원으로 @q.task(retries=3, timeout_s=30) 형태로 작업 정의 가능하며, 비동기 반복문으로 작업 처리"
+          ],
+          "whyItMatters": "SQLite 기반 애플리케이션에서 복잡한 메시지 브로커 인프라를 추가하지 않고도 신뢰할 수 있는 작업 큐와 Pub/Sub를 구현할 수 있어 배포 및 유지보수 복잡도를 크게 줄일 수 있습니다.",
+          "url": "https://honker.dev/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 160,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "durable-queues-streams-pubsub-and-a-cron-scheduler-inside-your-sqlite-file",
+          "fullContent": "Honker Durable queues, streams, pub/sub, and a cron scheduler — inside your SQLite file. Read the docs GitHub honker adds Postgres-style NOTIFY/LISTEN semantics to SQLite, with a durable pub/sub, task queue, and event streams on the side, without client polling or a daemon/broker. Cross-process wake latency is ~0.7 ms p50 on an M-series laptop.\nIn its basic form it’s a plain SQLite loadable extension, so any language that can SELECT load_extension('honker_ext') gets the same queue, streams, and notifications on the same file. Bindings for Python, Node, Rust, Go, Ruby, Bun, and Elixir share one on-disk format.\nSQLite is backing real work now — Bluesky’s PDS, Fly’s LiteFS, Turso, weekend projects that somehow ended up in production. Once real work flows through a SQLite-backed app, you need a queue. The usual answer is “add Redis + Celery.” That works, but introduces a second datastore with its own backup story, a dual-write problem between your business table and the queue, and the operational overhead of running a broker.\nhonker takes the approach that if SQLite is the primary datastore, the queue should live in the same file. That means INSERT INTO orders and queue.enqueue(...) commit in the same transaction. Rollback drops both. The queue is just rows in a table with a partial index.\nOne exampleSection titled “One example”\nEnqueue atomically with a business write, then consume. Same .db file, same on-disk format, seven languages.\nPython Node Rust Go Ruby Bun Elixir C++ SQL (extension) import honker\ndb = honker.open(\"app.db\")q = db.queue(\"emails\")\n# Enqueue in the same transaction as the business write.with db.transaction() as tx: tx.execute(\"INSERT INTO orders (id, total) VALUES (?, ?)\", [42, 99]) q.enqueue({\"to\": \"[email protected]\", \"order_id\": 42}, tx=tx)\n# Worker wakes on any commit to the db, no polling.async for job in q.claim(\"worker-1\"): await send_email(job.payload) job.ack()Or with Huey-style decorators:@q.task(retries=3, timeout_s=30)def send_email(to, subject): ... return {\"sent_at\": time.time()}\nr = send_email(\"[email protected]\", \"Hi\") # enqueues, returns TaskResultprint(r.get(timeout=10)) # blocks until worker runs it const { open } = require('@russellthehippo/honker-node');const db = open('app.db');const q = db.queue('emails');\n// Enqueue in the same transaction as the business write.const tx = db.transaction();tx.execute(\"INSERT INTO orders (id, total) VALUES (?, ?)\", [42, 99]);q.enqueueTx(tx, { to: '[email protected]', order_id: 42 });tx.commit();\n// Worker wakes on any commit to the db, no polling.const waker = q.claimWaker();while (true) { const job = await waker.next('worker-1'); if (!job) break; await sendEmail(job.payload); job.ack();} use honker::{Database, QueueOpts, EnqueueOpts};use serde_json::json;\nlet db = Database::open(\"app.db\")?;let q = db.queue(\"emails\", QueueOpts::default());\nlet tx = db.transaction()?;tx.execute(\"INSERT INTO orders (id, total) VALUES (?, ?)\", rusqlite::params![42, 99])?;q.enqueue_tx(&tx, &json!({\"to\": \"[email protected]\", \"order_id\": 42}), EnqueueOpts::default())?;tx.commit()?;\nif let Some(job) = q.claim_one(\"worker-1\")? { send_email(&job.payload)?; job.ack()?;} import honker \"github.com/russellromney/honker-go\"\ndb, _ := honker.Open(\"app.db\", \"./libhonker_ext.dylib\")defer db.Close()\nq := db.Queue(\"emails\", honker.QueueOptions{})\ntx, _ := db.Begin()tx.Exec(\"INSERT INTO orders (id, total) VALUES (?, ?)\", 42, 99)q.EnqueueTx(tx, map[string]any{ \"to\": \"[email protected]\", \"order_id\": 42,}, honker.EnqueueOptions{})tx.Commit()\nif job, _ := q.ClaimOne(\"worker-1\"); job != nil { var p map[string]any job.UnmarshalPayload(&p) sendEmail(p) job.Ack()} require \"honker\"\ndb = Honker::Database.new(\"app.db\", extension_path: \"./libhonker_ext.dylib\")q = db.queue(\"emails\")\ndb.transaction do |tx| tx.execute(\"INSERT INTO orders (id, total) VALUES (?, ?)\", [42, 99]) q.enqueue({to: \"[email protected]\", order_id: 42}, tx: tx)end\nif (job = q.claim_one(\"worker-1\")) send_email(job.payload) job.ackend import { open } from \"@russellthehippo/honker-bun\";\nconst db = open(\"app.db\", \"./libhonker_ext.dylib\");const q = db.queue(\"emails\");\nconst tx = db.transaction();tx.execute(\"INSERT INTO orders (id, total) VALUES (?, ?)\", [42, 99]);q.enqueue({ to: \"[email protected]\", order_id: 42 }, { tx });tx.commit();\nconst job = q.claimOne(\"worker-1\");if (job) { await sendEmail(job.payload as { to: string }); job.ack();} {:ok, db} = Honker.open(\"app.db\", extension_path: \"./libhonker_ext.dylib\")q = Honker.queue(db, \"emails\")\nHonker.transaction(db, fn tx -> Honker.execute(tx, \"INSERT INTO orders (id, total) VALUES (?, ?)\", [42, 99]) Honker.Queue.enqueue(q, %{to: \"[email protected]\", order_id: 42}, tx: tx)end)\ncase Honker.Queue.claim_one(q, \"worker-1\") do {:ok, nil} -> :ok {:ok, job} -> send_email(job.payload) Honker.Job.ack(db, job)end #include \"honker.hpp\"\nint main() { honker::Database db{\"app.db\", \"./libhonker_ext.dylib\"}; auto q = db.queue(\"emails\");\n{ honker::Transaction tx{db.raw()}; tx.execute(\"INS",
+          "category": "tech",
+          "publishedAt": "2026-04-30T14:43:02.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: Pu.sh – a full coding-agent harness in 400 lines of shell",
+          "titleKo": "Pu.sh – 400줄의 셸로 만든 완전한 코딩 에이전트",
+          "summary": "curl, awk, API 키만으로 실행 가능한 400줄 셸 스크립트 기반 코딩 에이전트 도구입니다. npm, pip, docker 같은 외부 의존성 없이 가벼운 AI 코딩 어시스턴트를 구성할 수 있습니다.",
+          "keyPoints": [
+            "npm, pip, docker 같은 무거운 의존성 없이 curl과 기본 유닉스 도구만으로 작동",
+            "400줄의 간단한 셸 스크립트로 완전한 기능을 제공하는 최소주의적 설계"
+          ],
+          "whyItMatters": "개발자들이 복잡한 환경 설정 없이 AI 코딩 에이전트를 빠르게 구축하고 배포할 수 있게 합니다.",
+          "url": "https://pu.dev/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 42,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-push-a-full-coding-agent-harness-in-400-lines-of-shell",
+          "fullContent": "Pu.sh\na full coding-agent harness in 400 lines of shell.\npronounced exactly how you think.\n> a slop cannon small enough to fit your pocket.\ncopy\n$ curl -sL pu.dev/pu.sh -o pu.sh && chmod +x pu.sh\n$ ./pu.sh\nno npm · no pip · no docker · just curl, awk, and an api key",
+          "category": "tech",
+          "publishedAt": "2026-04-30T20:55:12.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "lukilabs/craft-agents-oss (TypeScript)",
+          "titleKo": "Craft Agents OSS: TypeScript 기반 오픈소스 에이전트 프레임워크",
+          "summary": "Luki Labs의 TypeScript 기반 오픈소스 에이전트 프레임워크입니다.",
+          "keyPoints": [
+            "TypeScript 생태계: Node.js 환경에서 에이전트 기반 애플리케이션을 개발할 수 있는 오픈소스 솔루션"
+          ],
+          "whyItMatters": "JavaScript/TypeScript 개발자가 에이전트 아키텍처를 쉽게 도입할 수 있는 도구를 제공합니다.",
+          "url": "https://github.com/lukilabs/craft-agents-oss",
+          "sourceName": "GitHub Trending",
+          "engagement": 5556,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "lukilabscraft-agents-oss-typescript",
+          "category": "tech",
+          "publishedAt": "2026-04-30T23:22:45.640Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "ghostty-org/ghostty (Zig)",
+          "titleKo": "Ghostty: 플랫폼 네이티브 UI와 GPU 가속을 사용한 고속 터미널 에뮬레이터",
+          "summary": "Ghostty는 Zig로 구축된 빠르고 기능이 풍부한 크로스플랫폼 터미널 에뮬레이터로, 플랫폼 네이티브 UI와 GPU 가속을 활용합니다.",
+          "keyPoints": [
+            "크로스플랫폼 지원: 여러 운영체제에서 일관된 환경 제공",
+            "성능 최적화: GPU 가속으로 빠른 렌더링 성능 달성",
+            "네이티브 UI: 각 플랫폼의 기본 UI 요소를 사용하여 자연스러운 사용자 경험 제공"
+          ],
+          "whyItMatters": "개발자들이 고성능의 현대적 터미널 환경에서 작업할 수 있으며, GPU 활용은 대량의 텍스트 출력 시나리오에서 두드러진 성능 향상을 제공합니다.",
+          "url": "https://github.com/ghostty-org/ghostty",
+          "sourceName": "GitHub Trending",
+          "engagement": 52829,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ghostty-orgghostty-zig",
+          "category": "tech",
+          "publishedAt": "2026-04-30T23:22:45.642Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Zig"
+          ]
+        },
+        {
+          "title": "browserbase/skills (JavaScript)",
+          "titleKo": "browserbase/skills (JavaScript)",
+          "summary": "Claude Agent SDK에 웹 브라우징 도구를 추가한 JavaScript 라이브러리입니다.",
+          "keyPoints": [
+            "Claude AI를 이용한 에이전트에 웹 브라우징 기능 제공"
+          ],
+          "whyItMatters": "AI 에이전트가 실시간 웹 데이터에 접근할 수 있게 하여 상호작용형 애플리케이션 개발을 가능하게 합니다.",
+          "url": "https://github.com/browserbase/skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 815,
+          "contentType": "repo",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "browserbaseskills-javascript",
+          "category": "tech",
+          "publishedAt": "2026-04-30T23:22:45.643Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "TauricResearch/TradingAgents (Python)",
+          "titleKo": "TradingAgents: 다중 에이전트 LLM 금융 거래 프레임워크",
+          "summary": "Python 기반의 TradingAgents는 LLM을 활용한 다중 에이전트 금융 거래 프레임워크입니다. 여러 AI 에이전트가 협력하여 금융 거래를 자동화하고 최적화합니다.",
+          "keyPoints": [
+            "LLM 기반 다중 에이전트 아키텍처로 금융 거래 자동화 가능",
+            "Python으로 구현되어 개발자 친화적이며 확장 가능한 프레임워크"
+          ],
+          "whyItMatters": "LLM과 에이전트 기술을 금융 도메인에 적용하는 실용적인 사례를 제공하며, AI 기반 자동화 시스템 구축에 참고할 수 있습니다.",
+          "url": "https://github.com/TauricResearch/TradingAgents",
+          "sourceName": "GitHub Trending",
+          "engagement": 57641,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "tauricresearchtradingagents-python",
+          "category": "tech",
+          "publishedAt": "2026-04-30T23:22:45.639Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Full-Text Search with DuckDB",
+          "titleKo": "DuckDB를 활용한 전문 검색(Full-Text Search)",
+          "summary": "DuckDB의 FTS 확장을 이용한 전문 검색 구현 방법을 다룹니다. 이메일 아카이브 같은 대규모 텍스트 데이터에서 Okapi BM25 알고리즘을 활용한 고급 검색을 구현할 수 있습니다.",
+          "keyPoints": [
+            "DuckDB FTS 확장은 Stemming, Stop words, 악센트 제거 등의 기능 제공",
+            "Okapi BM25 파라미터(k₁, b)를 통해 검색 결과의 관련성 튜닝 가능",
+            "현재 DuckDB FTS는 구문 쿼리, 벡터, 동의어 딕셔너리 등 고급 기능은 부재"
+          ],
+          "whyItMatters": "경량 데이터베이스인 DuckDB에서도 Elasticsearch나 Postgres 수준의 전문 검색을 구현할 수 있으며, 분석 작업 중 텍스트 검색이 필요할 때 인프라 복잡도를 줄일 수 있습니다.",
+          "url": "https://peterdohertys.website/blog-posts/full-text-search-w-duckdb.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 70,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "full-text-search-with-duckdb",
+          "fullContent": "Full-Text Search with DuckDB\nPublished on: 4/29/2026\nOverview\nThis is a follow-up to my first post about DuckDB: A Dab of DuckDB. If you’re new to DuckDB, you may want to start there.\nThe basic DuckDB workflow of making a data source quickly and easily discoverable is incredibly powerful … but there are limits. Some use cases, like searching the contents of historical publications or a tranche of emails would be constrained by basic text queries. As mentioned in my first post, I’m interested in exploring some of the more powerful DuckDB features and in this post I’ll be focused on full-text search (FTS). I have a decent amount of experience using other FTS solutions, like Elasticsearch and Postgres (both with the in-built options and extensions like pgvector and pg_search). So, in this post I will take you through a quick tour of the current state of FTS in DuckDB.\nAn abbreviated FTS primer\nA full FTS tutorial is outside the scope of this post and if you’re interested in learning more the Postgres docs are a worthwhile read.\nFTS allows for more comprehensive and configurable queries than what can be achieved using SQL operators like =, ilike or regexen. Query scores can also be tuned using algorithms, like Okapi BM25, which is what DuckDB offers.\nIndex options:\n- Stemming: reduces words to a common root and handles some forms of inflection (walk, walks, walked, walking, etc.) but there are gaps for unconventional forms (e.g. mice and mouse)\n- Stop words: removal of common \"stop words\" like \"the\", \"and\" and \"of\" whose presence may skew results\n- Strip accents: normalize \"á\", \"ä\", and \"a\"\nQuery functions:\n- Okapi BM25 parameters\n- k₁: term frequency (are more instances meaningful?)\n- b: length normalization (is a longer document more meaningful?)\nThe features mentioned above are all present in DuckDB’s FTS extension but this only begins to scratch the surface of what is possible with FTS – especially when using some of the more fully-featured engines. The DuckDB feature set is a good start, though, and I’m sure functionality will be added over time and/or new extensions will be released. I imagine functions for phrase queries, vectors and support for pluggable synonym dictionaries are features contributors are already thinking about.\nOne example of where the current DuckDB feature-set fell short during my experiments was its lack of any way to highlight where query terms matched in the source data. Postgres offers ts_headline to address this but I found myself having to search query results for matches using tmux (a string of keystrokes I can never remember …) or by piping query results to grep and that was a bit frustrating.\nWhile working on this post, I also came across the Snowball project which is “a small string processing language for creating stemming algorithms for use in Information Retrieval, plus a collection of stemming algorithms implemented using it”. My understanding is that it’s the basis for stemming in most databases and client libraries. The Python snowballstemmer library can be used to quickly debug unexpected stemming issues. For example, why certain word forms aren’t being matched.\n# stemmer.py\n# Usage: uv run stemmer.py\n# /// script\n# requires-python = \"==3.13\"\n# dependencies = [\n# \"snowballstemmer==3.0.1\",\n# ]\n# ///\nfrom snowballstemmer import stemmer\nen = stemmer(\"english\")\nprint(en.stemWord(\"run\")) # -> run\nprint(en.stemWord(\"running\")) # -> run\nprint(en.stemWord(\"mouse\")) # -> mous\nprint(en.stemWord(\"mice\")) # -> mice\nSetting Up\nFull-text search isn’t something DuckDB provides out-of-the-box but it is readily available via the Full-Text Search Extension.\nAssuming you’ve already got DuckDB installed, installing the fts extension is as simple as starting a new session and running:\nINSTALL fts;\nLOAD fts;\nDigging In\nLet’s assume you have a multi-GB trove of emails and you want to search their contents to see what politicians, business leaders and celebrities are talking with each other about. In my corpus, there are 13,010 emails with the .eml extension which have a smattering of mime-types. DuckDB can’t import these natively, so we’ll have to do some pre-processing before we can create our database, index it and start querying. You should be able to find a tranche of emails like this one on archive.org, ddosecrets.org or even justice.gov but that’s left as an exercise for the reader. If you want to follow along, any collection of .emls should suffice.\nPre-Processing Files\nI’m going to use Python to do the processing of the raw files. YMMV, but when it comes to Python tooling, I don’t think any solution comes close to being as simple and efficient as uv and that’s what I’ll be using. (I’ve given a few lightning talks on uv and really need to dedicate a blog post to it.)\nThe pre-processing workflow is admittedly quick and dirty and will readily discard emails which can’t be cleanly parsed:\n- load the email file\n- try to parse out its body contents\n- parse out useful headers and other met",
+          "category": "tech",
+          "publishedAt": "2026-04-30T18:14:18.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Does Postgres Scale?",
+          "titleKo": "Postgres는 확장 가능한가? - 워크플로우 실행 확장성 벤치마크",
+          "summary": "DBOS는 Postgres 단일 서버의 확장성을 벤치마크하여 초당 144K 쓰기(43K 워크플로우) 처리 능력을 확인했습니다. WAL 플러싱이 주요 병목이지만, 대부분의 실제 사용 사례에 충분한 성능을 제공합니다.",
+          "keyPoints": [
+            "단일 Postgres 서버는 초당 144K 쓰기 또는 43K 워크플로우를 지속적으로 처리 가능 (일 12억 쓰기)",
+            "Postgres의 쓰기 성능 병목은 WAL(Write-Ahead Log)을 디스크에 플러싱하는 속도이며, CPU와 IOPS는 충분히 활용되지 않음",
+            "Postgres 기반 내구성 있는 워크플로우 시스템은 극도로 많은 쓰기 작업이 필요한 경우에도 병목이 되지 않음"
+          ],
+          "whyItMatters": "대규모 워크플로우 실행 시스템을 Postgres 위에 구축할 때 성능 제약을 정확히 이해할 수 있으며, 다른 데이터베이스로의 마이그레이션 필요성을 판단하는 근거를 제공합니다.",
+          "url": "https://www.dbos.dev/blog/benchmarking-workflow-execution-scalability-on-postgres",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 61,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "does-postgres-scale",
+          "fullContent": "When building a durable workflow execution system on Postgres, one of the most common questions we get is “does Postgres scale?” There are plenty of posts from top tech teams asserting that Postgres does scale, but not all show how its performance scales in practice.In this blog post, we benchmark the scalability of a single Postgres server. We focus on the performance of Postgres writes as those are the bottleneck in workflow execution: a durable workflow has to write to the database multiple times to checkpoint its inputs, its outcome, and the outcome of each of its steps. First, we measure raw Postgres write throughput in a vacuum. Then we analyze the performance of two durable workflow workloads: one that starts workflows locally, and one that uses a Postgres-backed queue.We find that Postgres scales even better than we expected: a single server can support a sustained throughput of 144K writes per second, or process 43K workflows per second. That translates to 12 billion writes or 4 billion workflows per day, more than enough for most use cases.All benchmark code is open-source here. All experiments were conducted on an AWS RDS db.m7i.24xlarge instance with 96 vCPUs, 384 GB of RAM, and 120K provisioned IOPS on an io2 volume.Postgres Point Write PerformanceWe first measure the maximum write throughput Postgres can sustain to a single table. We use a simple three-column table with a UUIDv7 primary key, a TEXT data field, and a timestamp:Then we benchmark how many rows we can insert per second from a large number of async Python clients. Each row is inserted in a separate transaction:Overall, we find a Postgres server can handle up to 144K of these writes per second. That’s a lot, equivalent to 12 billion writes per day.To make sure we’re reaching the limits of Postgres scalability, we also analyzed the bottleneck that constrains further performance. We first checked top-line metrics like CPU and IOPS, but found they weren’t fully utilized. To find the real bottleneck, we then queried the built-in Postgres pg_stat_activity table to inspect what each Postgres backend process was doing at each moment in time:We found that the bottleneck was in flushing the Postgres write-ahead log (WAL) to disk. When performing a write, Postgres never directly modifies data pages on disk. Instead, it first appends a description of the write to the WAL, then flushes the WAL to disk (using the fsync system call), then acknowledges the commit to the client. The actual data files are updated later in the background. This design maximizes performance as only the relatively cheap WAL write is done synchronously, while the more expensive disk updates are done in the background.When looking at Postgres process activity, we found that at any point in time, exactly one process was flushing the WAL to disk (in a group commit, so flushing the entire buffer, including data from other processes) and the vast majority of other processes were waiting on the WAL lock for their data to be flushed. The bottleneck in performance was how quickly Postgres could commit write transactions by flushing their WAL entries to disk. This is a commonly observed bottleneck for extremely write-intensive workloads, as Postgres only has one WAL and every write needs to go through it.Durable Workflow PerformanceWe next measure the performance of Postgres-backed durable workflows. A durable workflow performs exactly two Postgres writes:One when it starts to create its database entry and record its inputs and initial statusOne when it completes to record its outcome and final statusIf a workflow has steps, it also performs one write per step to checkpoint that step’s outcome.In this benchmark, we evaluate simple no-op workflows with no steps:We start many workflows concurrently from many async Python clients:Overall, we find a single Postgres server can process up to 43K workflows per second. In other words, adding Postgres-backed durability to an application executing 43K workflows per second will not bottleneck its performance:Like in the previous benchmark, we next looked for the bottleneck constraining further performance. Again, we found the bottleneck was in the WAL: how quickly Postgres could commit workflow INSERTs and UPDATEs by flushing their WAL entries to disk. This is unsurprising as both workloads are completely write-dominated. Two factors explain the difference between raw Postgres INSERT performance and workflow performance:A workflow requires two writes, so 43K workflows per second is actually 86K Postgres writes per second.The workflow_status table is much larger than the simple write benchmark table (31 columns versus 3, 9 indexes versus 1), so updates to that table require flushing much more data.Durable Queues PerformanceWe next measure the scalability of Postgres-backed queues. This is similar to the previous benchmark, but instead of directly executing workflows, clients enqueue them onto a Postgres queue. Workers then dequeue and execut",
+          "category": "tech",
+          "publishedAt": "2026-04-30T18:45:22.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "warpdotdev/warp (Rust)",
+          "titleKo": "Warp: Rust 기반 에이전트 개발 환경",
+          "summary": "Warp는 터미널에서 탄생한 에이전트 개발 환경으로, Rust로 구축된 프로젝트입니다.",
+          "keyPoints": [
+            "에이전트 개발 환경: 터미널 기반으로 설계되어 개발자가 AI 에이전트를 구축하고 관리할 수 있는 환경 제공"
+          ],
+          "whyItMatters": "AI 에이전트 개발이 증가하는 가운데 터미널 기반의 통합 개발 환경은 효율적인 워크플로우를 제공할 수 있습니다.",
+          "url": "https://github.com/warpdotdev/warp",
+          "sourceName": "GitHub Trending",
+          "engagement": 49083,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "warpdotdevwarp-rust",
+          "category": "tech",
+          "publishedAt": "2026-04-30T23:22:45.638Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "iamgio/quarkdown (Kotlin)",
+          "titleKo": "Quarkdown - 초능력을 갖춘 마크다운",
+          "summary": "아이디어에서 논문, 프레젠테이션, 웹사이트, 책, 지식 베이스까지 다양한 포맷으로 변환할 수 있는 확장 마크다운 도구입니다.",
+          "keyPoints": [
+            "단일 마크다운 소스에서 다양한 출력 형식 생성",
+            "Kotlin으로 작성된 강력한 콘텐츠 생성 도구"
+          ],
+          "whyItMatters": "개발자와 기술 작가들이 다양한 포맷의 문서를 효율적으로 관리하고 생성할 수 있습니다.",
+          "url": "https://github.com/iamgio/quarkdown",
+          "sourceName": "GitHub Trending",
+          "engagement": 13040,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "iamgioquarkdown-kotlin",
+          "category": "tech",
+          "publishedAt": "2026-04-30T23:22:45.642Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Kotlin"
+          ]
+        },
+        {
+          "title": "I built a Game Boy emulator in F#",
+          "titleKo": "F#으로 Game Boy 에뮬레이터를 만들었습니다",
+          "summary": "개발자가 F#을 사용하여 Game Boy 에뮬레이터 'Fame Boy'를 완성했으며, 데스크톱과 웹에서 모두 실행됩니다. 강력한 타입 시스템을 활용해 512개 오프코드를 58개의 일반화된 명령어로 단순화했습니다.",
+          "keyPoints": [
+            "F#의 강력한 타입 시스템으로 CPU 명령어를 모델링하여 불법 상태를 컴파일 단계에서 방지",
+            "실제 Game Boy 하드웨어를 모델로 하여 CPU, 메모리, PPU, IoController 등의 컴포넌트를 설계",
+            "성능상 이유로 순수 함수형 접근 대신 변경 가능한 상태를 사용하여 대량의 메모리 복사 회피"
+          ],
+          "whyItMatters": "복잡한 하드웨어 시스템을 도메인 주도 설계로 모델링할 때 타입 시스템의 가치를 실제 사례로 보여줍니다.",
+          "url": "https://nickkossolapov.github.io/fame-boy/building-a-game-boy-emulator-in-fsharp/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 178,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-built-a-game-boy-emulator-in-f",
+          "fullContent": "I’ve been working as a software engineer for over 8 years at this\npoint, and admittedly I’ve never understood how computers actually work.\nSo I figured I’d try to learn how they work by emulating one. Sorry Ben\nEater, I’m not going to build one just yet.\nI spent hundreds of hours as a kid catching Pokémon, so the Game Boy\nwas the perfect candidate: real hardware, relatively simple in scope,\nand something with a strong personal connection.\nInstead of jumping straight into it, I first did From NAND to Tetris. It was a great\ncourse, and it made me really understand the fundamentals of computers,\nlike registers, memory, and the ALU. Then to get used to building an\nemulator, I built a CHIP-8 emulator in F#: Fip-8.\nA few months later, and after many nights of going to bed at 2 AM\neven though I told myself I’d only work on it for an hour or two, I have\na working Game Boy emulator: Fame Boy. Complete with sound and runs on\ndesktop and web.\nPlay\nit in the browser |\nView\non GitHub\nI wanted to have the emulator work on both desktop and web, so I\nfocused on having a simple interface between the emulator core and\nwhatever frontend is running it.\nThe interface between the frontends and core is essentially just two\narrays and two functions:\nI tried to model Fame Boy in a similar way to the actual hardware of\nthe Game Boy.\nThe CPU, like the real Sharp\nLR35902 in the Game Boy, knows nothing about the hardware except a\nmemory map (and the IoController for interrupt signals only). It’s also\nthe most F#-ish part of my codebase, leaning heavily into functional\ndomain modelling.\nMemory.fs holds most of\nthe RAM used in the Game Boy, and acts as the memory map and bus between\nthe CPU, IO Controller, and cartridge. It also shares a reference to the\nsame VRAM and OAM RAM arrays with the PPU for performance.\nIoController.fs emerged\nwhen I found myself adding too much logic to Memory.fs. While a singular\nIO controller doesn’t exist in the Game Boy hardware, handling all the\nhardware registers through it simplified and added safety to the\ninterfaces for the individual components.\nThe stepper function in Emulator.fs is the glue\nthat brings the whole emulator together, composing all the components’\nindividual step functions:\nWhile the real hardware components all run in parallel based on a\ncentral master oscillator, my emulator is single threaded and so the\ncomponents have to run in sequence. The stepper function centralises the\nexecution and ensures that all the components are synchronised.\nLastly, for the emulator to be playable it needs to run at the\ncorrect number of cycles per second, around 17500 CPU-cycles per 60 FPS\nframe. The frontends use the audio sampling rate to drive the emulator\nwhen the sound is on, and the frame rate to drive the emulator when it’s\nmuted. More on that later.\nFirst of all, I’d like to apologise to the functional programming\npurists. While my CHIP-8 emulator is\ncompletely pure (no mutable members and all arrays are\ncopied for none of that side-effect nonsense), Fame Boy uses mutability\nliberally. The Game Boy runs a lot faster than the CHIP-8, and\ncopying 16+ kB of memory a million times every second didn’t seem like\nthe smart thing to do.\nSo, why F# for Fame Boy? Firstly, I think its extensive typing system\nworks really well for modelling CPU instructions. Secondly, and more\nimportantly, I just really like F#. I used to work primarily in F# at my\nprevious company, and so I’m always looking for an excuse to keep on\nusing it.\nAs an example why I think the CPU modelling works well in F#, I was\nfollowing Gekkio’s Complete Technical\nReference when implementing the CPU. I grouped the instructions like\nthe reference, and ended up with something like this in Instructions.fs:\nAnd it wasn’t just the load instructions. A lot of the other\ninstructions shared similar concepts, like the location of the\ninstruction’s operand:\nEven though this is a small domain and most Game Boy devs know the\nopcodes/instructions basically as is, I felt like it could be neatened\nup. The code below shows the extraction of the location concept. The\ncode uses different names and order from the source code to make the\nload instruction more readable for anyone not familiar with F#’s DU.\nThis helped reduce the CPU instructions down from 512 opcodes to just\n58 instructions. Generalising a domain like this risks allowing invalid\nstates, but using a good type system can avoid them.\nFor example, if I had used a location type, Loc, instead\nof the From and To types, this instruction\nwould compile without any complaints:\nLoad(Loc.Direct D, Loc.Immediate) (storing a register to\nthe immediate value). The Game Boy’s hardware (its domain) doesn’t\nsupport writing to the immediate value, so the domain would contain an\nillegal state.\nBy using the F# type system to model the domain correctly, you get a\nguarantee that illegal states can’t be expressed in your system. You\ndon’t necessarily need unit tests, it just won’t compile. So with\nsimplified types Fame B",
+          "category": "tech",
+          "publishedAt": "2026-04-30T17:14:21.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "public-apis/public-apis (Python)",
+          "titleKo": "public-apis/public-apis - 무료 API 통합 목록",
+          "summary": "다양한 분야의 무료 공개 API를 수집하고 정리한 Python 기반 저장소입니다. 개발자들이 쉽게 활용할 수 있는 API 리소스를 제공합니다.",
+          "keyPoints": [
+            "카테고리별로 정렬된 무료 공개 API의 포괄적인 목록 제공",
+            "개발자 커뮤니티에서 관리하는 지속적으로 업데이트되는 리소스"
+          ],
+          "whyItMatters": "프로토타이핑, 학습, 프로젝트 개발 시 활용할 수 있는 무료 API를 빠르게 찾을 수 있어 개발 생산성을 높일 수 있습니다.",
+          "url": "https://github.com/public-apis/public-apis",
+          "sourceName": "GitHub Trending",
+          "engagement": 429479,
+          "contentType": "repo",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "public-apispublic-apis-python",
+          "category": "tech",
+          "publishedAt": "2026-04-30T23:22:45.640Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "SimpleX Channels, SimpleX Network Consortium and Community Crowdfunding",
+          "titleKo": "SimpleX 채널, SimpleX 네트워크 컨소시엄 및 커뮤니티 크라우드펀딩",
+          "summary": "SimpleX v6.5는 참여 프라이버시를 위해 설계된 새로운 채널 모델을 출시하며, 단일 기업 지배를 벗어나기 위해 SimpleX 네트워크 컨소시엄을 설립합니다. 커뮤니티 크레딧을 통한 지속 가능한 자금 조달 모델을 구축하고 있습니다.",
+          "keyPoints": [
+            "채널 콘텐츠는 공개되지만 발신자와 구독자의 실제 신원은 릴레이 운영자에게 숨겨져 표현의 자유 보호",
+            "SimpleX 네트워크 재단과 컨소시엄을 통해 프로토콜 통제권을 단일 기업에서 분산시키는 구조적 보장 제공",
+            "Community Credits를 통한 감시 없는 자금 조달로 장기적 지속성과 독립성 확보"
+          ],
+          "whyItMatters": "프라이버시 중심의 통신 네트워크를 구축하려는 개발자들에게 거버넌스와 지속성의 새로운 모델을 제시합니다.",
+          "url": "https://simplex.chat/blog/20260430-simplex-channels-v6-5-consortium-crowdfunding-freedom-of-speech.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 11,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "simplex-channels-simplex-network-consortium-and-community-crowdfunding",
+          "fullContent": "Freedom of speech needs infrastructure that protects it by design — not only the protocols and servers, but the governance and funding to support them.\nv6.5 release1 brings SimpleX Channels: a new model for online publishing built for participation privacy.\nChannel content is visible to chat relay operators. And each channel uses multiple relays, so no single relay can block the channel2.\nBut the real identities of channel owners and subscribers are unknown to relay operators, to each other, and to the network. This is important for freedom of speech and for our ability to say the truth3.\nThis is the opposite of the usual approach: instead of trying (and failing 4) to hide publicly available content from operators while exposing participants, we designed the protocols to protect people. Anybody can join a public channel via its link and see what is sent, but not who sent it, and not who else is reading. This is win-win for both users and chat relays operators. Users' privacy is protected, operators can decide what content to deliver in public spaces, and anybody can run chat relays.\nThis is only possible because SimpleX network was built without user profile identifiers of any kind. You can't add participation privacy to a network that identifies its users — as you can't add privacy to a messenger built on phone numbers.\nv6.5 is the first beta version of channels:\nThis release is a beginning of a very important new layer of SimpleX Network. Read more about channels in whitepaper: their purpose, architecture, security model and planned future work.\nNo single company should control protocols and network that people depend on to speak freely. If a network is run by a single company, the network has a risk that business and users interests diverge — if it happens, users lose.\nTo protect network neutrality and make sure its protocols and intellectual property are available to the users, we're launching SimpleX Network Consortium within a few months — the agreement between the new SimpleX Network Foundation and SimpleX Chat company that will govern protocols and licensing — perpetual, irrevocable, surviving if any party is sold or shut down. Other organizations will join.\nWe are currently forming the board for SimpleX Network Foundation — initially, Heather Meeker, who drafted the Consortium agreement, and several other people will join. We will announce the board soon.\nAs the power over the network protocols moves away from the company, it cannot move back5. It is a structural guarantee — the same principle we applied to privacy.\nWe've seen open-source privacy-focussed projects die without funding, or worse — being captured by their sponsors. We've seen \"don't be evil\" companies get lured off course by growth and board pressure. Neither pure ideology nor pure commerce survives the long run alone.\nSo we're building both: a governance structure and a real business. The governance protects the network neutrality. The commercial model funds the network and makes our and other businesses on the network profitable, ensuring their independence. Neither works without the other.\nWe recently published a preliminary design of commercial model — private Community Credits that fund servers, development, and governance without surveillance or speculation. The full investment case will be published when crowdfunding launches.\nYou can register your interest to participate in crowdfunding here: https://simplexchat.typeform.com/crowdfunding\nJoin the channel for updates here — you must install v6.5 to join it — or you can join a read-only group from the previous app versions.\nDisclaimer: SimpleX Chat is testing the waters for a possible Reg CF offering. We’re not asking for or accepting any money right now, and we won’t accept any if sent. We can’t accept any offers to buy securities or take any payments until the official filing is done and it’s live through a regulated platform. Our testing the waters and your possible indications of interest doesn’t create any obligation or commitment of any kind.\nv6.5 release also improved how new users make the first connection, increased security of sending web links, and has many other improvements — see What's new in the app or full release notes. ↩︎\nCurrently there is only one preset operator of chat relays in the app. It will change in the next release. ↩︎\nOscar Wilde wrote: \"Man is least himself when he talks in his own person. Give him a mask, and he will tell you the truth\". Privacy is essential for our ability to say the truth, and without truth we cannot survive as society. ↩︎\nFrom whitepaper: any channel joinable via a public link, whether encrypted or not, must be considered completely public — the cost of joining through automated means has collapsed with large language models. End-to-end encrypting such content provides no privacy; it only undermines users' security by creating false expectations and increases infrastructure operators' risks by making them unable to see what the",
+          "category": "tech",
+          "publishedAt": "2026-04-30T20:49:21.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "1jehuang/jcode (Rust)",
+          "titleKo": "JCode - 코딩 에이전트 하니스",
+          "summary": "Rust로 구현된 AI 코딩 에이전트를 관리하고 실행하기 위한 프레임워크입니다.",
+          "keyPoints": [
+            "코딩 에이전트의 효율적인 관리 및 실행 환경 제공",
+            "Rust 기반의 고성능 에이전트 하니스"
+          ],
+          "whyItMatters": "AI 기반 코드 생성 도구를 프로덕션 환경에서 안정적으로 실행하려는 개발자들에게 필요한 인프라를 제공합니다.",
+          "url": "https://github.com/1jehuang/jcode",
+          "sourceName": "GitHub Trending",
+          "engagement": 1861,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "1jehuangjcode-rust",
+          "category": "tech",
+          "publishedAt": "2026-04-30T23:22:45.641Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "mattpocock/skills (Shell)",
+          "titleKo": "실제 엔지니어를 위한 스킬",
+          "summary": "Matt Pocock의 개인 Claude 디렉토리에서 수집한 실제 엔지니어링 스킬들을 공유하는 저장소입니다.",
+          "keyPoints": [
+            "Claude AI와의 상호작용을 통해 습득한 실무 기술들을 정리",
+            "경험 기반의 실질적인 개발 스킬 모음"
+          ],
+          "whyItMatters": "실무 개발자들의 실제 작업 방식과 문제 해결 방법을 학습할 수 있습니다.",
+          "url": "https://github.com/mattpocock/skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 49319,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "mattpocockskills-shell",
+          "category": "tech",
+          "publishedAt": "2026-04-30T23:22:45.640Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "soxoj/maigret (Python)",
+          "titleKo": "Maigret - 3000개 이상의 사이트에서 사용자명으로 개인 정보 수집",
+          "summary": "사용자명을 입력하면 3000개 이상의 웹사이트에서 해당 사용자의 정보를 자동으로 수집하는 오픈소스 도구입니다.",
+          "keyPoints": [
+            "대규모 온라인 계정 추적 및 정보 수집 자동화",
+            "OSINT(오픈소스 인텔리전스) 작업에 유용한 Python 기반 도구"
+          ],
+          "whyItMatters": "보안 연구자와 개발자들이 온라인 신원 조사와 데이터 누수 모니터링에 활용할 수 있습니다.",
+          "url": "https://github.com/soxoj/maigret",
+          "sourceName": "GitHub Trending",
+          "engagement": 20811,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "soxojmaigret-python",
+          "category": "tech",
+          "publishedAt": "2026-04-30T23:22:45.641Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "obra/superpowers (Shell)",
+          "titleKo": "슈퍼파워 - 작동하는 에이전틱 스킬 프레임워크 및 소프트웨어 개발 방법론",
+          "summary": "에이전틱 스킬 프레임워크를 기반으로 한 효과적인 소프트웨어 개발 방법론을 제시합니다.",
+          "keyPoints": [
+            "AI 에이전트 기반의 개발 방식론 제공",
+            "실제로 작동하는 소프트웨어 개발 프레임워크"
+          ],
+          "whyItMatters": "AI 기반 개발 도구의 효과적인 활용 방법을 배울 수 있습니다.",
+          "url": "https://github.com/obra/superpowers",
+          "sourceName": "GitHub Trending",
+          "engagement": 174529,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "obrasuperpowers-shell",
+          "category": "tech",
+          "publishedAt": "2026-04-30T23:22:45.640Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "HunxByts/GhostTrack (Python)",
+          "titleKo": "GhostTrack - 위치 및 휴대폰 번호 추적 도구",
+          "summary": "위치 정보 또는 휴대폰 번호를 추적할 수 있는 Python 기반 유틸리티 도구입니다.",
+          "keyPoints": [
+            "Python으로 개발된 추적 기능 제공",
+            "위치 및 모바일 번호 추적 가능"
+          ],
+          "whyItMatters": "개발자가 지리적 데이터 처리 및 추적 기술을 학습할 수 있는 참고 자료가 될 수 있습니다.",
+          "url": "https://github.com/HunxByts/GhostTrack",
+          "sourceName": "GitHub Trending",
+          "engagement": 12147,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "hunxbytsghosttrack-python",
+          "category": "tech",
+          "publishedAt": "2026-04-30T23:22:45.642Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "I aggregated 28 US Government auction sites into one search",
+          "titleKo": "28개 미국 정부 경매 사이트를 하나의 검색으로 통합",
+          "summary": "GSA, GovDeals, Ritchie Bros 등 27개 이상의 미국 정부 경매 사이트를 하나의 플랫폼에서 검색할 수 있는 BidProwl 서비스입니다. 50개 주 전역에서 75,286개의 활성 리스팅을 제공하며, 거래 점수 평가 및 일일 스크래핑으로 최신 정보를 유지합니다.",
+          "keyPoints": [
+            "27개 이상의 경매 소스를 단일 검색 인터페이스로 통합",
+            "거래 점수(1-10) 자동 평가로 가격 대비 가치 판단 용이",
+            "원본 경매 사이트로 직접 링크 제공 및 중개 수수료 미징수"
+          ],
+          "whyItMatters": "웹 스크래핑, 데이터 통합, 검색 최적화 기술을 활용한 실용적 애플리케이션 설계를 배울 수 있습니다.",
+          "url": "https://bidprowl.com",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 220,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-aggregated-28-us-government-auction-sites-into-one-search",
+          "fullContent": "Updated twice dailyEvery government auction,one search box.GSA, GovDeals, Ritchie Bros, and 27 more. 75,286 live listings across all 50 states, from seized pickup trucks to foreclosed lighthouses.Search government surplus auctionsSearchPopular: Ford, Toyota, Heavy Equipment|Jump to state:Select stateAlabamaAlaskaArizonaArkansasCaliforniaColoradoConnecticutDelawareFloridaGeorgiaHawaiiIdahoIllinoisIndianaIowaKansasKentuckyLouisianaMaineMarylandMassachusettsMichiganMinnesotaMississippiMissouriMontanaNebraskaNevadaNew HampshireNew JerseyNew MexicoNew YorkNorth CarolinaNorth DakotaOhioOklahomaOregonPennsylvaniaRhode IslandSouth CarolinaSouth DakotaTennesseeTexasUtahVermontVirginiaWashingtonWest VirginiaWisconsinWyoming75,286Active Listings27Auction Sources50States Covered+8,656New TodayGSA AuctionsGovDealsRitchie BrosPurple WaveFannie MaeGovPlanetHiBidAuction.comPublicSurplusJJ KaneBid4AssetsPropertyRoomIRS AuctionsMunicibidDLA SurplusFreddie MacUS MarshalsAuctionZipGovEaseProxibidHUD HomesHubzuUSPS SurplusGovLiquidationGSA FleetTreasuryWilliams & WilliamsCA SurplusTX SurplusFL SurplusGSA AuctionsGovDealsRitchie BrosPurple WaveFannie MaeGovPlanetHiBidAuction.comPublicSurplusJJ KaneBid4AssetsPropertyRoomIRS AuctionsMunicibidDLA SurplusFreddie MacUS MarshalsAuctionZipGovEaseProxibidHUD HomesHubzuUSPS SurplusGovLiquidationGSA FleetTreasuryWilliams & WilliamsCA SurplusTX SurplusFL SurplusStop tab-hoppingYou were going to check GovDeals, then GSA, then PublicSurplus, then give up. We already checked.Deal ScoresEvery listing scored 1-10 based on price, bid velocity, and time left. Spot a steal without doing math.Refreshed dailyScrapers run twice a day. You see new listings before most buyers do, and fewer ghost auctions.We don't touch your bidsEvery listing links straight to the original auction. We don't take a cut, see your bid, or sit between you and the seller.Browse by Category75,286 active auctions across 10 categoriesBrowse by stateVehicles18,817Heavy Equipment16,118General Surplus9,775Office Furniture9,553Tools & Industrial8,780Electronics4,291Real Estate3,266Seized Property2,609Medical & Scientific1,376Military Surplus701Browse by StateToday's Featured Deal1993 Cushman 898530 Golf Cart$5008/1063% below medianView deal details →Browse by StateActive auctions across all 50 states.All statesOhio6,411California6,209Florida5,872Texas3,477Colorado2,350Georgia2,011Wisconsin2,010Pennsylvania1,982Virginia1,913Oklahoma1,738Arizona1,678Washington1,561Indiana1,560Tennessee1,547Illinois1,528Missouri1,352North Carolina1,347Arkansas1,251Massachusetts1,228Alabama1,160Read this before you bidGuides from buyers who've lost money doing this so you don't have to. Covers registration, bidding, inspections, and freight.How Government Auctions WorkRegistration, bidding formats, payment, and pickup. The complete walkthrough.Best Auction Sites ComparedGSA, GovDeals, GovPlanet, and more. Which platform is right for you?Government Vehicle AuctionsFleet cars, police cruisers, and military trucks. Where to find them and what to pay.How to Inspect Before You BidWhat to look for, what to avoid, and when to walk away from a deal.View all guides →Ten good deals, every morningOne email a day with the top-scored auctions across all 27 sources. Unsubscribe any time, no spam.Email address for daily picksGet Daily Picks",
+          "category": "insight",
+          "publishedAt": "2026-04-30T12:24:53.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "You can beat the binary search",
+          "titleKo": "이진 탐색을 능가하는 방법",
+          "summary": "16비트 정수 배열에서 SIMD와 사원분 보간 탐색을 결합한 새로운 검색 알고리즘 'SIMD Quad'를 제시하여 이진 탐색보다 성능이 우수함을 벤치마크로 보여줍니다.",
+          "keyPoints": [
+            "SIMD(Single Instruction, Multiple Data) 명령어를 활용하여 여러 값을 동시에 비교 가능",
+            "사원분 보간 탐색으로 블록을 빠르게 찾고 SIMD로 병렬 검사하는 하이브리드 방식",
+            "Apple M4와 Intel Emerald Rapids 프로세서에서 벤치마크 수행하여 이진 탐색 초과 성능 입증"
+          ],
+          "whyItMatters": "현대 프로세서의 SIMD 기능을 활용한 알고리즘 최적화는 성능 중심 애플리케이션 개발에서 실질적인 성능 향상을 제공합니다.",
+          "url": "https://lemire.me/blog/2026/04/27/you-can-beat-the-binary-search/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 228,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "you-can-beat-the-binary-search",
+          "fullContent": "We sometimes have to look for a value in a sorted array. The simplest algorithm consists in just going through the values one by one, until we encounter the value, or exhaust the array. We sometimes call this algorithm a linear search. In C++, you can get the desired effect with the std::find function.\nFor large arrays, you can do better with a binary search. Binary search is a classic algorithm that efficiently locates a target value in a sorted array by repeatedly dividing the search interval in half. Starting with the entire array, it compares the target to the middle element: if the target is smaller, it discards the upper half; if larger, it discards the lower half. This process continues until the target is found or the interval is empty. It is much faster than linear search for large datasets. In C++, this is implemented by the std::binary_search function, which returns a boolean indicating whether the value is present.\nThe popular Roaring Bitmap format uses arrays of 16-bit integers of size ranging from 1 to 4096. We sometimes have to check whether a value is present. We use a binary search.\nI wanted a faster approach. I had two insights.\nVirtually all processors today have data parallel instructions (sometimes called SIMD) that can check several values at once. Both 64-bit ARM and x64 processors (Intel/AMD) always support comparing eight 16-bit integers with a target value using a single instruction. This suggests that you should not bother going down in the binary search to blocks that are smaller than eight elements. And you may also want to cheaply compare sixteen elements or more.\nThe binary search checks one value at a time. However, recent processors can load and check more than one value at once. They have excellent memory-level parllelism. This suggest that instead of a binary search, we might want to try a quaternary search: instead of splitting arrays in halves, we might split them in quarters. The net result might generate a few more instructions but the number of instructions is likely not the limiting factor.\nThus, I created something I call the SIMD Quad algorithm. It is an efficient search algorithm for sorted arrays of 16-bit unsigned integers, combining a quaternary interpolation search with SIMD (Single Instruction, Multiple Data). The algorithm divides the array into fixed-size blocks of 16 elements (except maybe for the last block) and uses the last element of each block as interpolation keys to quickly narrow down the search to a single block, then employs SIMD instructions to check all 16 elements in that block simultaneously.\nThe core idea is to perform a hierarchical search: first, use interpolation search on a coarser level (block boundaries) to find the likely block containing the target value, then switch to SIMD for fine-grained parallel checking within the block. This hybrid approach leverages the strengths of both algorithmic optimization (interpolation search reduces comparisons logarithmically) and hardware acceleration (SIMD checks multiple elements at once).\nInitial Check: If the array has fewer than 16 elements, perform a simple linear search through all elements.\nBlock Division: Divide the array into blocks of 16 consecutive elements. For an array of size cardinality, there are num_blocks = cardinality / 16 full blocks.\nQuaternary Interpolation Search: Use the last element of each block (at positions 16-1, 32-1, etc.) as keys for interpolation. The search performs a quaternary (base-4) interpolation to find the block where the target pos is likely located. This involves comparing the target against quarter-points of the current search range and adjusting the base accordingly.\nBlock Selection: After narrowing down, select the appropriate block index lo based on the interpolation results.\nSIMD Check: If a valid block is found, load the 16 elements into SIMD registers (using NEON on ARM or SSE2 on x64) and perform parallel equality comparisons with the target value. If any match is found, return true.\nRemainder Check: For any elements not in full blocks (remainder), perform a linear search.\nHow does it do? I wrote a benchmark. The benchmark works as follows. For each array size from 2 to 4096 elements, it generates 100,000 sorted arrays of 16-bit unsigned integers. For each size, it performs 10 million membership queries in “cold” mode (each query searches a different array, simulating cache misses) and 10 million queries in “warm” mode (queries are grouped by array, with each array being searched 100 times consecutively, simulating cache hits). The benchmark measures the average time per query for three algorithms: linear search (std::find), binary search (std::binary_search), and the new SIMD Quad algorithm.\nI use two systems. An Apple M4 with Apple LLVM and an Intel Emeral Rapids processor with GCC.\nFirstly, let us compare the linear search with the binary search.\nIntel/GCC:\nApple/LLVM\nThe result is clear. The binary search beats the linear search as soon as the ",
+          "category": "insight",
+          "publishedAt": "2026-04-27T17:52:12.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "The upsell game – Vercel upselling tactics revealed",
+          "titleKo": "업셀 게임 - Vercel 업셀링 전술 공개",
+          "summary": "Vercel의 업셀링 전략과 전술을 분석하고 공개하는 콘텐츠입니다.",
+          "keyPoints": [
+            "SaaS 기업의 수익 증대 전략 분석",
+            "Vercel의 실제 마케팅 및 가격 책정 전술 검토"
+          ],
+          "whyItMatters": "개발자들이 플랫폼 업체의 비즈니스 전략을 이해하고 합리적인 선택을 할 수 있습니다.",
+          "url": "https://theupsellgame.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 57,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-upsell-game-vercel-upselling-tactics-revealed",
+          "category": "insight",
+          "publishedAt": "2026-04-30T20:02:35.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Recovering files from beyond the grave using PhotoRec",
+          "titleKo": "PhotoRec를 사용하여 삭제된 파일 복구하기",
+          "summary": "TestDisk와 PhotoRec 도구를 사용하여 오래된 저장장치에서 삭제된 파일을 복구한 경험을 공유합니다. 저자는 13년된 노트북과 10년된 SD 카드에서 각각 16,000개 이상의 파일을 복구했으며, 복구 과정의 장점과 한계를 분석했습니다.",
+          "keyPoints": [
+            "PhotoRec는 파일 시스템을 스캔하여 원본 파일명과 폴더 구조 없이 삭제된 파일 복구 가능",
+            "복구 시간이 길고 결과물이 많아 분류가 어려우며, 복구 대상 파일 시스템에 저장하면 안 됨",
+            "300개 이상의 파일 형식을 지원하며 디지털 포렌식 작업의 핵심 도구"
+          ],
+          "whyItMatters": "데이터 손실 상황 대응과 레거시 시스템 관리 시 실질적인 파일 복구 방법을 이해하는 것은 개발자와 시스템 관리자에게 중요합니다.",
+          "url": "https://lost-number.bearblog.dev/recovering-files-from-beyond-the-grave-using-photorec/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 43,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "recovering-files-from-beyond-the-grave-using-photorec",
+          "fullContent": "Recovering files from beyond the grave using PhotoRec\n24 Apr, 2026\nYou know the drill. That passwords.txt is no longer needed. Right click -> Delete. Empty Trash. That's it.\nWell, not quite.\nWhen I was younger, I used to hear stories about people recovering deleted files. Not from opening the Recycle Bin and restoring files one by one. No. There were rumors that deleted files weren't actually sent to the abyss. That, one could recover lost items even after clearing them from whatever OS bin they were last seen in.\nRecently, I was able to do just that, using TestDisk and PhotoRec. These programs bundled together play a key role in Digital Forensics, allowing researches to walk back a system to a prior state and analyze all manner of files.\nUsing my collection of decades old hardware, I saw this as a perfect opportunity to explore TestDisk, well PhotoRec specifically, and see just what it could recover from my old systems.\nTo quote their wiki:\nTestDisk can\nFix partition table, recover deleted partition\nRecover FAT32 boot sector from its backup\nRebuild FAT12/FAT16/FAT32 boot sector\nFix FAT tables\nRebuild NTFS boot sector\nRecover NTFS boot sector from its backup\nFix MFT using MFT mirror\nLocate ext2/ext3/ext4 Backup SuperBlock\nUndelete files from FAT, exFAT, NTFS and ext2 filesystem\nCopy files from deleted FAT, exFAT, NTFS and ext2/ext3/ext4 partitions.\nAt this point, I'm only interested in those final two features. Now there's a key difference in the TestDisk/PhotoRec bundle.\nTestDisk → fixes disks and filesystems\nPhotoRec → recovers individual files by scanning raw data\nSince I wanted to 'undelete files', I only needed to use PhotoRec.\nTargets in scopeI had quite a few devices to choose from, including:\nToshiba laptop (1TB), 13yrs old\nSD card used on GoPro (7GB), 10 yrs old\nPSP memory card (32MB), >20 yrs old\niPod video (30GB), ~20 yrs old\nWindows 10 PC (???GB), 16 yrs old\nRecovering files is no quick task and depending on the size of your storage & partitions, you can be there for hours waiting for results. Not only that, the recovered files themselves need to be stored somewhere, taking up more even more space. I wisely chose to limit my first PhotoRec attempt to the following two items:\nToshiba laptop (1TB), 13yrs old\nSD card used on GoPro (7GB), 10 yrs old\nFile filteringPhotoRec allows you to filter scans for specific file types. Increasing the number of file extensions you scan for increases the time it takes for PhotoRec to perform. In my case, I wanted to play it short (and safe) and stuck to the following file formats:\nToshiba: .jpg\nSD card:.png, .mp4, .jpg\nThe whole list of file formats recovered by PhotoRec contains more than 300 file families representing more than 480 file extensions.\nRunning PhotoRecI didn't really prepare for this. I was booting PhotoRec direct from a USB plugged into my Toshiba laptop and had 0 expectations on the expected # of files recovered, recovery duration & overall file quality. During the run steps, I had to select a target location to store the recovered files. I didn't have anything else lying around so I chose the already plugged-in 7GB USB, and realistically I had only 5.5-6GBs worth of storage available.\nI should have also re-read this warning from the TestDisk wiki before starting ...\nDo not store the recovered files on the source filesystem. Otherwise lost data may be overwritten and definitively lost.\nWell, after running the process it actually went quite well. Here are the results:\nRecovery took >5 hours\nPhotoRec managed to recover >16k files\nThose files took up all the remaining space on the USB\nRecovery was terminated due to insufficient space\nPhotoRec generated 30 folders containing thousands of files\nAnalysis\nPretty bloody good result, albeit messy\nAlthough PhotoRec recovered a ton, it does not retain the original file names or folder structures they existed in\nIt pulled in all kinds of .jpgs: from LinkedIn photos, to web avatars, to web page logos, to social media chat profile pictures with 3 different sizes, to duplicates of the same files within different folders\nCombing through the results was a tedious, time intensive process and if I had a script (or LLM I guess), I could have split up files based on size or some other familiar pattern\nEach folder contained a mixture of images & image sizes, making it visually hard to recognize what was useful vs what was garbage\nUpon terminating, PhotoRec was ready to continue the recovery should I provide a larger storage device, meaning I could pick up where it stopped\nOverall it performed well for the Toshiba laptop and given I used it for a number of years, I could see why it recovered so many files.\nRunning on SD CardNow, with a little more experience under my belt I was ready see what files I could recover for my GoPro (2?) SD card. I booted PhotoRec off the Toshiba laptop directly this time and plugged in the SD card adapter. I chose the output destination to be the same SD card. This is not suggested but I was",
+          "category": "insight",
+          "publishedAt": "2026-04-30T17:42:11.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Opus 4.7 knows the real Kelsey",
+          "titleKo": "Opus 4.7은 실제 Kelsey를 안다",
+          "summary": "Claude Opus 4.7이 특정 개인을 특정 맥락에서 식별할 수 있음을 보여주는 사례 분석입니다.",
+          "keyPoints": [
+            "AI 모델의 익명성 유지 한계 및 개인 식별 능력 검증",
+            "AI와의 상호작용에서 완전한 익명성 보장의 어려움"
+          ],
+          "whyItMatters": "AI 시스템을 사용할 때 프라이버시와 익명성의 실제 한계를 인식해야 합니다.",
+          "url": "https://www.theargumentmag.com/p/i-can-never-talk-to-an-ai-anonymously",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 79,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "opus-47-knows-the-real-kelsey",
+          "category": "insight",
+          "publishedAt": "2026-04-29T17:09:03.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Rivian allows you to disable all internet connectivity",
+          "titleKo": "Rivian, 모든 인터넷 연결 비활성화 지원",
+          "summary": "Rivian 전기차에서 모든 데이터 수집 및 인터넷 연결을 완전히 비활성화할 수 있는 기능을 제공합니다.",
+          "keyPoints": [
+            "사용자가 데이터 수집을 완전히 거부 가능",
+            "프라이버시 보호를 위한 적극적 선택지 제공"
+          ],
+          "whyItMatters": "개발자들이 자동차 소프트웨어의 프라이버시 기능 설계 시 사용자 통제권 보장의 중요성을 이해할 수 있습니다.",
+          "url": "https://rivian.com/support/article/can-i-disable-all-data-collection-from-my-vehicle",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 336,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "rivian-allows-you-to-disable-all-internet-connectivity",
+          "category": "insight",
+          "publishedAt": "2026-04-30T20:27:22.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "How Mark Klein told the EFF about Room 641A [book excerpt]",
+          "titleKo": "Mark Klein이 EFF에 Room 641A를 알린 방법 [책 발췌]",
+          "summary": "NSA의 대규모 감시 활동인 Room 641A를 폭로한 내부자 Mark Klein의 이야기에 대한 책 발췌입니다.",
+          "keyPoints": [
+            "NSA 감시 프로그램의 구체적 증거 제시",
+            "내부고발자의 역할과 영향력 기록"
+          ],
+          "whyItMatters": "개발자들이 정부 감시와 프라이버시 문제의 실제 사례를 이해하고 보안 설계에 반영할 필요성을 인식할 수 있습니다.",
+          "url": "https://thereader.mitpress.mit.edu/the-whistleblower-who-uncovered-the-nsas-big-brother-machine/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 380,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "how-mark-klein-told-the-eff-about-room-641a-book-excerpt",
+          "category": "insight",
+          "publishedAt": "2026-04-30T16:41:00.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Spain's parliament will act against massive IP blockages by LaLiga",
+          "titleKo": "스페인 의회, LaLiga의 대규모 IP 차단 조치에 대한 대응 추진",
+          "summary": "스페인 의회가 스포츠 리그 LaLiga의 광범위한 IP 차단 관행에 대해 규제 조치를 취할 계획입니다.",
+          "keyPoints": [
+            "ISP 차원의 대규모 IP 차단 문제 해결",
+            "인터넷 접근 및 네트 중립성 관련 입법 추진"
+          ],
+          "whyItMatters": "개발자들이 지역별 규제 정책과 IP 차단 기술의 법적 문제를 인식하고 글로벌 서비스 운영 시 고려할 필요가 있습니다.",
+          "url": "https://www.democrata.es/en/politics/congress-and-senate/congress-will-act-against-massive-ip-blockages-by-laliga/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 380,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "spains-parliament-will-act-against-massive-ip-blockages-by-laliga",
+          "category": "insight",
+          "publishedAt": "2026-04-30T15:31:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "How an oil refinery works",
+          "titleKo": "석유 정제소의 작동 원리",
+          "summary": "석유 정제 과정과 정제소의 기술적 작동 방식에 대한 설명 글입니다.",
+          "keyPoints": [
+            "석유 정제의 물리적, 화학적 프로세스 설명",
+            "에너지 산업의 기반 인프라 이해"
+          ],
+          "whyItMatters": "개발자들이 에너지 인프라 관련 시뮬레이션, 모니터링, 최적화 소프트웨어를 개발할 때 도메인 지식을 획득할 수 있습니다.",
+          "url": "https://www.construction-physics.com/p/how-an-oil-refinery-works",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 293,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "how-an-oil-refinery-works",
+          "category": "insight",
+          "publishedAt": "2026-04-30T13:54:20.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "ForrestKnight/open-source-cs",
+          "titleKo": "ForrestKnight/open-source-cs",
+          "summary": "오픈소스로 진행되는 컴퓨터 과학 커리큘럼 프로젝트입니다.",
+          "keyPoints": [
+            "오픈소스 교육 자료를 통한 컴퓨터 과학 학습 기회 제공"
+          ],
+          "whyItMatters": "접근 가능한 오픈소스 교육 자료는 개발자 커뮤니티의 지식 공유와 진입 장벽 낮추는 데 기여합니다.",
+          "url": "https://github.com/ForrestKnight/open-source-cs",
+          "sourceName": "GitHub Trending",
+          "engagement": 22362,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "forrestknightopen-source-cs",
+          "category": "insight",
+          "publishedAt": "2026-04-30T23:22:45.642Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "Snowball Earth may hide a far stranger climate cycle than anyone expected",
+          "titleKo": "스노우볼 어스가 예상보다 훨씬 이상한 기후 순환을 숨기고 있을 수 있다",
+          "summary": "과학자들이 전지구적 빙하기(스노우볼 어스) 현상이 기존의 이해보다 더 복잡한 기후 순환 메커니즘을 포함하고 있을 가능성을 발견했다.",
+          "keyPoints": [
+            "스노우볼 어스 기후 모델에 새로운 변수가 존재할 수 있음",
+            "기존 과학적 이해를 재평가해야 할 필요성 제시"
+          ],
+          "whyItMatters": "기후 변화와 지구 시스템의 복잡성을 이해하는 데 기초 과학 지식이 필요하다.",
+          "url": "https://sciencex.com/news/2026-04-snowball-earth-stranger-climate.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 9,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "snowball-earth-may-hide-a-far-stranger-climate-cycle-than-anyone-expected",
+          "category": "insight",
+          "publishedAt": "2026-04-30T22:18:57.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Belgium stops decommissioning nuclear power plants",
+          "titleKo": "벨기에, 핵발전소 폐지 중단",
+          "summary": "벨기에 정부가 2003년 결정한 핵발전소 단계적 폐기 계획을 중단하고, 운영사 ENGIE와 핵발전소 국유화를 협상하기로 발표했다. 에너지 안보와 화석 연료 수입 감소를 목표로 현존하는 7개 원자로의 인수와 새로운 핵발전소 건설을 추진한다.",
+          "keyPoints": [
+            "벨기에 총리 바르트 더 베베르가 핵발전소 국유화 협상 시작 발표, 10월까지 기본 합의 목표",
+            "기존의 2025년 핵단계 폐기 정책 폐기, 에너지 독립성과 안정적 전력 공급을 위한 전략 전환",
+            "현재 7개 원자로 중 3개는 이미 폐지됐으며, 벨기에는 신재생에너지 확대 부족으로 가스 수입에 의존"
+          ],
+          "whyItMatters": "유럽의 에너지 정책 변화는 글로벌 에너지 시장과 기술 투자 방향에 영향을 미칠 수 있다.",
+          "url": "https://dpa-international.com/general-news/urn:newsml:dpa.com:20090101:260430-930-14717/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 713,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "belgium-stops-decommissioning-nuclear-power-plants",
+          "fullContent": "energy and resource medtop:20000256 nuclear power medtop:20000265 Belgium dpacountry:21 Belgium stops decommissioning nuclear power plants 30.04.2026, 11:37 Uhr Belgium will stop decommissioning its nuclear power plants, Prime Minister Bart De Wever announced on Thursday.The government is going to negotiate with operator ENGIE over the nationalization of the plants, De Wever said.\"This government chooses safe, affordable, and sustainable energy. With less dependence on fossil imports and more control over our own supply,\" he wrote on X.ENGIE said it signed a letter of intent with the Belgian government on exclusive negotiations.The agreement covers the potential acquisition of \"the complete nuclear fleet of seven reactors, the associated personnel, all nuclear subsidiaries, as well as all associated assets and liabilities, including decommissioning and dismantling obligations,\" a press release said.A basic agreement is expected to be reached by October, it said.Belgium originally decided in 2003 to phase-out nuclear power production by 2025, but political debate and energy security concerns have led to delays.Last year the Belgian parliament voted by a large majority to end the nuclear phase-out. De Wever’s government also aims to build new nuclear power plants.Belgium has seven nuclear reactors at two different sites, although three reactors have already been taken off the grid. The fate of the ageing installations has been debated for decades. The country is currently heavily dependent on gas imports to cover its electricity needs as it has been struggling to expand renewable power generation significantly. Bart De Wever on XENGIE press release (c) 2026 dpa Deutsche Presse Agentur GmbH",
+          "category": "insight",
+          "publishedAt": "2026-04-30T12:17:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Partial Page Caching Using React Server Components",
+          "titleKo": "React Server Components를 사용한 부분 페이지 캐싱",
+          "summary": "이 영상은 React Server Components(RSC)를 활용하여 페이지의 특정 부분만 효율적으로 캐싱하는 기법을 다룹니다.",
+          "keyPoints": [
+            "RSC 캐싱 기본 개념: React Server Components를 사용하면 서버에서 렌더링된 컴포넌트를 캐싱하여 불필요한 재렌더링 방지 가능",
+            "선택적 캐싱: 동적 부분은 캐싱 제외하고 정적 부분만 캐싱하여 신선도와 성능의 균형 유지",
+            "성능 최적화: 부분 캐싱으로 초기 로드 시간 단축 및 서버 부하 감소"
+          ],
+          "whyItMatters": "Next.js와 React 18+ 환경에서 RSC의 강력한 캐싱 기능을 올바르게 활용하면 애플리케이션의 성능을 크게 향상시킬 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=t9xB8xvySyo",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "partial-page-caching-using-react-server-components",
+          "category": "video",
+          "publishedAt": "2026-04-27T14:09:16+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "5 Ways To SSR/RSC on TanStack Start",
+          "titleKo": "TanStack Start에서 SSR/RSC를 적용하는 5가지 방법",
+          "summary": "TanStack Start 프레임워크에서 서버 사이드 렌더링(SSR)과 React 서버 컴포넌트(RSC)를 구현하는 다양한 방법을 소개하는 비디오입니다.",
+          "keyPoints": [
+            "TanStack Start에서 SSR과 RSC 적용을 위한 5가지 접근 방식 제시",
+            "실제 구현 사례를 통한 실용적인 가이드 제공"
+          ],
+          "whyItMatters": "React 서버 컴포넌트와 SSR을 활용한 최신 웹 애플리케이션 아키텍처를 학습할 수 있으며, TanStack Start 생태계에서 최적의 성능을 구현하는 방법을 이해할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=PX3QlADinIE",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "5-ways-to-ssrrsc-on-tanstack-start",
+          "category": "video",
+          "publishedAt": "2026-04-20T15:23:38+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "How To De-Slop A Codebase Ruined By AI (with one skill)",
+          "titleKo": "AI로 망가진 코드베이스를 정리하는 방법 (한 가지 기술)",
+          "summary": "AI로 인해 품질이 저하된 코드베이스를 개선하기 위한 실용적인 방법을 제시합니다.",
+          "keyPoints": [
+            "AI 생성 코드의 문제점을 인식하고 체계적으로 접근하는 방법론 제안"
+          ],
+          "whyItMatters": "AI 코드 생성 도구 사용이 증가하면서 코드 품질 관리는 개발자의 필수 스킬이 되고 있습니다.",
+          "url": "https://www.youtube.com/watch?v=3MP8D-mdheA",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "how-to-de-slop-a-codebase-ruined-by-ai-with-one-skill",
+          "category": "video",
+          "publishedAt": "2026-04-29T15:09:12+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Handy CSS layout patterns, and fun ways to elevate them",
+          "titleKo": "유용한 CSS 레이아웃 패턴과 그것을 개선하는 재미있는 방법들",
+          "summary": "CSS 레이아웃의 기본 패턴과 이를 활용한 고급 기법을 다루는 영상입니다.",
+          "keyPoints": [
+            "CSS 레이아웃의 실용적인 패턴들을 소개",
+            "기본 패턴을 창의적으로 확장하는 방법 제시"
+          ],
+          "whyItMatters": "현대적인 CSS 레이아웃 구현 방법을 효율적으로 학습할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=R1kiLX-Z-Io",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "handy-css-layout-patterns-and-fun-ways-to-elevate-them",
+          "category": "video",
+          "publishedAt": "2026-04-29T13:00:49+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I Open-Sourced My Own AFK Software Factory",
+          "titleKo": "내 자신의 AFK 소프트웨어 팩토리를 오픈소스로 공개했습니다",
+          "summary": "개발자가 자동화된 소프트웨어 개발 시스템(AFK 소프트웨어 팩토리)을 구축하고 오픈소스로 공개한 프로젝트를 소개합니다.",
+          "keyPoints": [
+            "완전 자동화된 소프트웨어 개발 파이프라인 구현 사례 제시",
+            "오픈소스로 공개하여 커뮤니티가 재사용 및 개선 가능"
+          ],
+          "whyItMatters": "자동화 및 AI 기반 개발 도구 활용으로 반복적인 개발 작업을 최소화할 수 있으며, 실제 구현 사례를 통해 자신의 개발 워크플로우 최적화에 참고할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=E5-QK3CDVQM",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-open-sourced-my-own-afk-software-factory",
+          "category": "video",
+          "publishedAt": "2026-04-30T13:28:38+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "New CSS corner-shape Property Is Amazing",
+          "titleKo": "새로운 CSS corner-shape 속성은 정말 훌륭하다",
+          "summary": "CSS의 새로운 corner-shape 속성을 소개하는 비디오입니다. 이 속성으로 모서리 모양을 더 자유롭게 제어할 수 있습니다.",
+          "keyPoints": [
+            "CSS corner-shape로 기존 border-radius보다 다양한 모서리 디자인 가능",
+            "현대 CSS의 디자인 유연성 향상"
+          ],
+          "whyItMatters": "최신 CSS 기능을 활용하면 복잡한 자바스크립트나 SVG 없이도 고급 UI 디자인을 구현할 수 있으며, 브라우저 지원이 확대될수록 더 간단하고 성능 좋은 구현이 가능해집니다.",
+          "url": "https://www.youtube.com/watch?v=pe0ez1I7cgU",
+          "sourceName": "Web Dev Simplified",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "new-css-corner-shape-property-is-amazing",
+          "category": "video",
+          "publishedAt": "2026-04-30T16:01:27+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude Code's favorite tech stack",
+          "titleKo": "Claude Code의 선호 기술 스택",
+          "summary": "Claude Code AI가 추천하는 현대적인 개발 기술 스택을 소개하는 영상입니다.",
+          "keyPoints": [
+            "AI 개발 도구가 제시하는 기술 스택 트렌드 파악"
+          ],
+          "whyItMatters": "AI 도구의 추천 기술 스택을 이해하면 시장 동향과 현대적 개발 관행에 부합하는 프로젝트 구성이 가능합니다.",
+          "url": "https://www.youtube.com/watch?v=v1MptV67kSI",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-code-controversy",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "claude-codes-favorite-tech-stack",
+          "category": "video",
+          "publishedAt": "2026-04-29T08:33:14+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "The easiest, and some new ways, to center with CSS",
+          "titleKo": "CSS로 중앙 정렬하는 가장 쉬운 방법과 새로운 방법들",
+          "summary": "CSS에서 요소를 중앙 정렬하는 다양한 기법과 새로운 접근 방법을 소개하는 영상입니다.",
+          "keyPoints": [
+            "CSS 중앙 정렬의 기본 및 현대적 방법 소개"
+          ],
+          "whyItMatters": "개발자들이 자주 마주치는 CSS 레이아웃 문제를 효과적으로 해결할 수 있는 여러 방법을 배울 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=RkL7a6If5L8",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-easiest-and-some-new-ways-to-center-with-css",
+          "category": "video",
+          "publishedAt": "2026-04-30T13:00:49+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Realistic advice about software dev right now",
+          "titleKo": "현재 소프트웨어 개발에 대한 현실적인 조언",
+          "summary": "현재의 소프트웨어 개발 환경에서 개발자가 고려해야 할 현실적이고 실용적인 조언을 제시하는 영상입니다.",
+          "keyPoints": [
+            "시장 변화와 기술 트렌드를 반영한 개발 전략 수립의 중요성"
+          ],
+          "whyItMatters": "변화하는 개발 산업의 현실을 직시하고 이에 맞춘 실용적인 조언을 통해 경력 관리와 프로젝트 선택에 도움이 됩니다.",
+          "url": "https://www.youtube.com/watch?v=88qc67oYDl4",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "realistic-advice-about-software-dev-right-now",
+          "category": "video",
+          "publishedAt": "2026-04-28T07:55:10+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "GitHub is having some major issues right now…",
+          "titleKo": "GitHub에 현재 심각한 문제가 발생하고 있습니다",
+          "summary": "GitHub 서비스에 현재 발생 중인 주요 장애 상황을 다루는 영상입니다.",
+          "keyPoints": [
+            "GitHub 서비스 장애 상황 보고"
+          ],
+          "whyItMatters": "개발자들이 의존하는 주요 플랫폼의 가용성 문제를 파악하기 위해 중요합니다.",
+          "url": "https://www.youtube.com/watch?v=d53Zk28esmU",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "devops"
+          ],
+          "topicId": "github-outage",
+          "isTopicPrimary": true,
+          "slug": "github-is-having-some-major-issues-right-now",
+          "category": "video",
+          "publishedAt": "2026-04-30T16:37:31+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Markdown is a terrible language",
+          "titleKo": "Markdown은 형편없는 언어다",
+          "summary": "Markdown 언어의 설계적 결함과 한계에 대한 비판 영상입니다.",
+          "keyPoints": [
+            "Markdown의 문법적 문제점 지적",
+            "마크업 언어로서의 설계 결함 분석"
+          ],
+          "whyItMatters": "마크다운을 자주 사용하는 개발자들이 도구의 한계를 인식하고 더 적절한 대안을 검토할 기회를 제공합니다.",
+          "url": "https://www.youtube.com/watch?v=DWcqbPm_Rn4",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "markdown-is-a-terrible-language",
+          "category": "video",
+          "publishedAt": "2026-04-27T08:30:48+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I give up.",
+          "titleKo": "포기했다",
+          "summary": "구체적 정보 없이 영상 제목만 제공되어 상세 분석이 불가능합니다.",
+          "keyPoints": [
+            "제목만으로는 내용 파악 어려움"
+          ],
+          "url": "https://www.youtube.com/watch?v=R7ex-Gt8dtw",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-give-up",
+          "category": "video",
+          "publishedAt": "2026-04-30T09:55:10+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
