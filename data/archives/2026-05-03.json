@@ -1,0 +1,1310 @@
+{
+  "date": "2026-05-03",
+  "intro": "안녕하세요! 오늘은 프론트엔드 개발에 중대한 영향을 미칠 보안 이슈와 AI 기술의 급속한 진화가 주요 화제입니다. React Server Components의 심각한 보안 취약점 발견과 Claude Code 같은 AI 코딩 도구의 확산으로 개발 생태계가 빠르게 변화하고 있으며, 동시에 TUI 같은 클래식 기술이 재조명되고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Critical Security Vulnerability in React Server Components",
+          "titleKo": "React 서버 컴포넌트의 중대 보안 취약점",
+          "summary": "React 서버 컴포넌트에서 인증되지 않은 원격 코드 실행(RCE) 취약점이 발견되었습니다. 이 취약점은 React 19.0.1, 19.1.2, 19.2.1 버전에서 수정되었으며, 즉시 업그레이드가 권장됩니다. 이는 서버 측에서 실행되는 컴포넌트의 보안 메커니즘을 우회할 수 있는 심각한 문제입니다.",
+          "keyPoints": [
+            "React 서버 컴포넌트에 인증 절차를 거치지 않고도 임의의 코드를 원격에서 실행할 수 있는 취약점 존재. 이는 서버의 민감한 데이터나 시스템 리소스에 직접 접근할 수 있음을 의미합니다.",
+            "해당 취약점은 React 19.x 시리즈의 여러 마이너 버전(19.0.1, 19.1.2, 19.2.1)에서 동시에 해결됨. 각 버전 라인을 유지 중인 사용자들이 최소한 해당 패치 버전 이상으로 업그레이드해야 합니다.",
+            "즉시 업그레이드 권장사항은 취약점의 심각도와 실제 악용 가능성을 반영합니다. 서버 컴포넌트를 사용 중인 모든 프로덕션 애플리케이션이 우선적으로 대응해야 합니다."
+          ],
+          "whyItMatters": "React 서버 컴포넌트를 사용하는 개발자는 원격 코드 실행 공격에 노출되어 있을 수 있으므로, 즉시 보안 패치를 적용하지 않으면 프로덕션 서버가 완전히 침탈당할 위험이 있습니다.",
+          "url": "https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "backend"
+          ],
+          "topicId": "react-security",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "critical-security-vulnerability-in-react-server-components",
+          "category": "hot",
+          "publishedAt": "2025-12-03T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "OpenAI's o1 correctly diagnosed 67% of ER patients vs. 50-55% by triage doctors",
+          "titleKo": "OpenAI의 o1이 응급실 환자 67% 진단 성공, 진료 의사는 50-55%",
+          "summary": "Harvard 연구에서 OpenAI의 o1 모델이 응급실 응급 진료에서 인간 의사보다 정확한 진단을 내렸으며, 제한된 정보로 빠른 결정을 내야 하는 상황에서 특히 우수했다. 연구진은 AI가 의료를 재편할 '심각한 기술 변화'라고 언급했으나, AI는 여전히 환자의 시각적 신호 등을 감지할 수 없어 의사를 완전히 대체하지는 못할 것으로 예상했다.",
+          "keyPoints": [
+            "o1 모델은 제한된 정보로 진단할 때 67% 정확도를 기록했으며, 인간 의사(50-55%)를 크게 상회했다.",
+            "AI의 장점은 신속한 의사결정이 필요한 응급 상황에서 특히 두드러졌으며, 장기 치료 계획 수립에서도 우수했다(89% vs 34%).",
+            "연구진은 AI가 의사를 대체하지 않고 '의사-환자-AI 시스템'의 삼자 모델로 의료 현장에 통합될 것으로 예측했다."
+          ],
+          "whyItMatters": "AI가 의료 진단 및 의사결정 지원 도구로서 실질적 가치를 보이기 시작했으며, 개발자들은 의료 AI 시스템 개발 시 인간-AI 협력 모델을 고려해야 함을 의미한다.",
+          "url": "https://www.theguardian.com/technology/2026/apr/30/ai-outperforms-doctors-in-harvard-trial-of-emergency-triage-diagnoses",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 227,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-medical-diagnosis",
+          "isTopicPrimary": true,
+          "slug": "openais-o1-correctly-diagnosed-67-of-er-patients-vs-50-55-by-triage-doctors",
+          "fullContent": "The study found the AI advantage was particularly pronounced in triage situations requiring fast decisions with minimal information. Photograph: Cherdchai Chawienghong/Getty ImagesView image in fullscreenThe study found the AI advantage was particularly pronounced in triage situations requiring fast decisions with minimal information. Photograph: Cherdchai Chawienghong/Getty ImagesAI outperforms doctors in Harvard trial of emergency triage diagnosesResearchers say results mark a ‘profound change in technology that will reshape medicine’From George Clooney in ER to Noah Wyle in The Pitt, emergency department doctors have long been popular heroes. But will it soon be time to hang up the scrubs?A groundbreaking Harvard study has found that AI systems outperformed human doctors in high-pressure emergency medicine triage, diagnosing more accurately in the potentially life and death moments when people are first rushed to hospital.The results were described by independent experts as showing “a genuine step forward” in the clinical reasoning of AIs and came as part of trials that tested the responses of hundreds of doctors against an AI.The authors said the results, published in the journal Science, showed large language models (LLMs) “have eclipsed most benchmarks of clinical reasoning”.One experiment focused on 76 patients who arrived at the emergency room of a Boston hospital. An AI and a pair of human doctors were each given the same standard electronic health record to read – typically including vital sign data, demographic information and a few sentences from a nurse about why the patient was there. The AI identified the exact or very close diagnosis in 67% of cases, beating the human doctors, who were right only 50%-55% of the time.It showed the AIs’ advantage was particularly pronounced in triage circumstances requiring rapid decisions with minimal information. The diagnosis accuracy of the AI – OpenAI’s o1 reasoning model – rose to 82% when more detail was available, compared with the 70-79% accuracy achieved by the expert humans, though this difference was not statistically significant.It also outperformed a larger cohort of human doctors when asked to provide longer term treatment plans, such as providing antibiotics regimes or planning end-of-life processes. The AI and 46 doctors were asked to examine five clinical case studies and the computer made significantly better plans, scoring 89% compared with 34% for humans using conventional resources, such as search engines.But it is not curtains for emergency doctors yet, the researchers said. The study only tested humans against AIs looking at patient data that can be communicated via text. The AI’s reading of signals, such as the patient’s level of distress and their visual appearance, were not tested. That means the AI was performing more like a clinician producing a second opinion based on paperwork.“I don’t think our findings mean that AI replaces doctors,” said Arjun Manrai, one of the lead authors of the study who heads an AI lab at Harvard Medical School. “I think it does mean that we’re witnessing a really profound change in technology that will reshape medicine.”Dr Adam Rodman, another lead author and a doctor at Boston’s Beth Israel Deaconess medical centre where the study took place, said AI LLMs were among “the most impactful technologies in decades”. Over the next decade, he said, AI would not replace physicians but join them in a new “triadic care model … the doctor, the patient, and an artificial intelligence system”.In one case in the Harvard study, a patient presented with a blood clot to the lungs and worsening symptoms. Human doctors thought the anti-coagulants were failing, but the AI noticed something the humans did not: the patient’s history of lupus meant this might be causing the inflammation of the lungs. The AI was proved correct.Nearly one in five US physicians are already using AI to assist diagnosis, according to research published last month. In the UK, 16% of doctors are using the tech daily and a further 15% weekly, with “clinical decision-making” being one of the most common uses, according to a recent Royal College of Physicians survey.The UK doctors’ biggest concerns were AI error and liability risks. Billions are being invested in AI healthcare companies, but questions remain about the consequences of AI error.“There is not a formal framework right now for accountability,” said Rodman, who also stressed patients ultimately “want humans to guide them through life or death decisions [and] to guide them through challenging treatment decisions”.Prof Ewen Harrison, co-director of the University of Edinburgh’s centre for medical informatics, said the study was important and showed that “these systems are no longer just passing medical exams or solving artificial test cases. They are starting to look like useful second-opinion tools for clinicians, particularly when it is important to consider a wider range of possible diagnos",
+          "category": "hot",
+          "publishedAt": "2026-05-03T00:30:50.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Denuvo has been cracked in all single-player games it previously protected",
+          "titleKo": "Denuvo가 이전에 보호한 모든 싱글플레이 게임에서 해킹되었습니다",
+          "summary": "Tom's Hardware 기사로, 게임 저작권 보호 기술인 Denuvo가 싱글플레이 게임에서 모두 우회되었으며, 이에 대응하여 Denuvo와 2K Games가 강제 온라인 접속 검증을 도입하는 상황을 보도합니다.",
+          "keyPoints": [
+            "Denuvo 보안 기술의 전면 우회 달성",
+            "개발사의 반격: 14일 온라인 체크 강제화로 규제 강화"
+          ],
+          "whyItMatters": "게임 개발자들이 저작권 보호와 사용자 경험 간의 균형을 고려해야 함을 시사합니다.",
+          "url": "https://www.tomshardware.com/video-games/pc-gaming/denuvo-has-been-bypassed-in-all-single-player-games-it-previously-protected-2k-games-and-denuvo-reportedly-retaliate-with-mandatory-14-day-online-checks",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 196,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "denuvo-has-been-cracked-in-all-single-player-games-it-previously-protected",
+          "category": "hot",
+          "publishedAt": "2026-04-28T21:08:29.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Metal Gear Solid 2's source code has been leaked on 4chan",
+          "titleKo": "Metal Gear Solid 2의 소스 코드가 4chan에 유출되었습니다",
+          "summary": "Metal Gear Solid 2 HD 리마스터(2011)의 전체 소스 코드가 4chan에 유출되었습니다. PlayStation Vita와 Xbox 360 포트 코드이며, 30GB에 달하는 미사용 자산을 포함하고 있어 게임 보존 및 모딩 커뮤니티에 의미 있는 자료가 될 것으로 예상됩니다.",
+          "keyPoints": [
+            "게임 소스 코드 유출: 2011년 HD 리마스터 버전의 전체 코드 공개",
+            "게임 보존 기반 제공: 과거 Zelda: Ocarina of Time의 Ship of Harkinian 같은 프로젝트처럼 향후 모딩과 커뮤니티 개선의 토대 제공"
+          ],
+          "whyItMatters": "게임 업계의 소스 코드 유출 사건은 게임 보존, 모딩 커뮤니티, 그리고 엔터테인먼트 소프트웨어의 지적 자산 보호 논의를 촉발합니다.",
+          "url": "https://www.thegamer.com/mgs2-hd-edition-source-code-massive-leak/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 202,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "metal-gear-solid-2s-source-code-has-been-leaked-on-4chan",
+          "fullContent": "By\nQuinton O'Connor\nPublished May 1, 2026, 6:00 PM EDT\nQuinton is a Staff Writer from the United States. In his youth, Quinton was ridiculed for making video game ranking lists instead of paying attention in math class. In adulthood, people sometimes pay him for it. Life's a trip.\nTaking his first steps into the industry in 2020, Quinton has written for several digital publications, but his permanent literary home is right here at TheGamer.\nBefore striking up a conversation with Quinton, consider the risks: he'll find a way to transform almost any topic into an analysis of either world history, Star Trek, or - at least this one's relevant to his career - all his favorite role-playing games.\nIt's always an exciting day when a beloved video game's source code leaks on to the internet. We've seen such tremendous good times with projects like Ship of Harkinian, for The Legend of Zelda: Ocarina of Time, bringing fresh coats of paint and incredible mods galore to timeless works of art. If you just so happen to have dreamed big for Metal Gear Solid 2 modding, the world may now be your oyster, as the full source code just hit the net. It's not the original PlayStation 2 version, but rather, the 2011 HD remaster, so hey. It even comes in (relatively!) crisp 720p. These are, I've seen it said, uncompressed assets, including a whopping 30 gigs' worth of unused material.\nIf Only It Happened A Single Day Sooner\nMay 1, 2026. That is, as of this writing, today. Would that this had occured on April 30. MGS2 fans know exactly what I'm on about. But I digress—let's dig in. This is actually the PlayStation Vita and Xbox 360 ports' code, from what I'm reading right now, specifically from work done by support studio Armature. For most of us, Metal Gear Solid: Master Collection Volume 1 is still the way to go for MGS2, but once the ball gets rolling on decompiling the code, who knows what the future might bring? I'm still in the process of verifying certain details here. Kotaku, for instance, is reporting that this is actually devoid of assets, which runs quite contrary to the above tweet. Even if it's \"just\" the code, however, this remains a tremendous milestone for games preservation and for the modding scene for years to come. As for where this leak took place, the answer's 4chan; I won't link directly to either of the pertinent threads on there, but the Kotaku article has been gracious enough to do so for us.\nAs there is conflicting information right now concerning the exact details of the leak's contents, this article may be updated further before day's end. Regardless, it's a pretty good time to be a Metal Gear fan.\nNext\nSony Just Raised The Price Of Refurbished PlayStation 5 Slim Consoles\nYet another price hike for PS5.\nBy\nQuinton O'Connor\nClose",
+          "category": "hot",
+          "publishedAt": "2026-05-03T16:48:11.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Mercedes-Benz commits to bringing back physical buttons",
+          "titleKo": "Mercedes-Benz, 물리 버튼 복귀 약속",
+          "summary": "Mercedes-Benz는 고객의 요청에 응해 터치식 버튼과 메뉴 숨김 방식이 실패했음을 인정하고 향후 모델에 물리 버튼을 복귀시키기로 결정했다. 대형 스크린은 유지하면서 자주 사용하는 기능에는 하드 키를 추가하는 하이브리드 접근 방식을 채택한다.",
+          "keyPoints": [
+            "고객 피드백에 따라 터치 센서 중심의 UI를 포기하고 물리 버튼을 재도입한다.",
+            "2027 GLC, C-Class 등 향후 모델은 39.1인치 MBUX 하이퍼스크린과 함께 물리 조작 장치를 함께 제공할 예정이다."
+          ],
+          "whyItMatters": "UX/UI 설계자들에게 터치 인터페이스 중심성에 대한 재검토와 물리적 조작성의 중요성을 상기시키는 실제 사례이다.",
+          "url": "https://www.drive.com.au/news/mercedes-benz-commits-to-bringing-back-phycial-buttons/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 564,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "mercedes-benz-commits-to-bringing-back-physical-buttons",
+          "fullContent": "Another brand backflips and admits that touch-sensitive buttons for frequently used controls were a mistake, but only after the nudge from customers.\nMercedes-Benz joins the growing list of manufacturers listening to customers and admitting that touch-sensitive controls and burying controls in menus were mistakes.\nThe German brand remains committed to offering large screens in its models, but has listened to its customers and will offer physical buttons for key functions in future.\nThis is partly unlike Audi and Volkswagen, which have chosen to reduce the size of their infotainment screens to make room for the returning physical controls.\nThe upcoming GLC and C-Class will be offered with the 39.1-inch MBUX 'Hyperscreen' that covers almost the entire width of the dashboard, but with physical buttons in front of the dual wireless chargers, along with physical buttons and switches returning to the steering wheel.\nMORE: 2027 Mercedes-Benz C-Class EV revealed, due in Australia early next year\nMercedes-Benz Sales boss Mathias Geisen, when speaking to Autocar, said the brand has changed its course: \"Customers told us two years ago, 'guys, nice idea, but it just doesn't work for us', so we changed that and made it more analogue.\"\nPhysical buttons, switches, and dials will continue to be incorporated into upcoming models, as the brand plans to blend its screen with the required physical controls.\nHe also explained that \"I'm a big believer in screens, because I really believe if you want to connect, you have to make the magic work behind the screen.\"\n\"But in our future products, you will see more hard keys for specific functions that customers want to have direct access for with hard keys.\nMORE: 2026 Mercedes-Benz EQS revealed with 925km EV range claim\n\"When we do car research clinics, customers are very clear: 'We love the big screens, but we want to have [hard controls for] specific functionalities.'\"\nThe brand will also offer a customisable wallpaper element for the near metre-wide seamless touchscreen, a choice that its sales boss admits was brought because phones are such a huge part of people's lives and they are used to that level of technology.\n\"If you want to connect to the customer, you’ve got to find a way to translate this digital experience from your phone to the customer.\"\nMORE: 2027 Mercedes-Benz GLC EQ electric SUV on track for Australia within 2026\nThe new-generation GLC SUV will showcase the brand's new MB.EA electric vehicle platform when it arrives in the fourth quarter of 2026 (October to December), shared with the upcoming C-Class when it's due early next year.",
+          "category": "hot",
+          "publishedAt": "2026-05-03T14:43:27.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "New statue in London, attributed to Banksy, of a suited man, blinded by a flag",
+          "titleKo": "런던의 새로운 동상, Banksy 작품으로 추정, 깃발에 눈이 가려진 양복남자",
+          "summary": "Banksy로 추정되는 예술가가 런던 중심부 Waterloo Place에 밤사이 동상을 설치했다. 동상은 깃발에 눈이 가려진 양복 남자가 받침대에서 떨어지는 모습을 묘사하며, Banksy의 서명과 Instagram 영상 확인으로 진정성이 인증되었다.",
+          "keyPoints": [
+            "동상은 유리섬유로 추정되며 주변 Edward VII, Florence Nightingale 등의 동상들과 비슷한 높이와 마감으로 설계되었다.",
+            "런던 시당국은 안전 울타리를 설치했지만 동상 철거 계획은 없으며, Khan 시장은 이 작품을 보존하기를 희망한다고 밝혔다."
+          ],
+          "whyItMatters": "디지털 아트와 공공 설치 미술에 관심 있는 개발자들이 전통 예술과 현대 사회의 상호작용, 그리고 영구성 vs 임시성의 개념을 탐색할 수 있다.",
+          "url": "https://www.smithsonianmag.com/smart-news/attributed-to-banksy-a-new-statue-of-a-suited-man-blinded-by-a-flag-and-walking-off-a-ledge-appeared-in-central-london-180988662/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 215,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "new-statue-in-london-attributed-to-banksy-of-a-suited-man-blinded-by-a-flag",
+          "fullContent": "A new statue possibly by the artist Banksy was erected this week in the middle of the night in central London. The artwork depicts a suited man, blinded by the wind-blown flag he is carrying and walking unknowingly off the ledge of a tall pedestal.\nWhen the sun came up on the statue Wednesday morning, people were quick to note Banksy’s signature scrawled along the base of the statue’s plinth. On Thursday, the artist’s Instagram account posted a video seemingly confirming his involvement—the post includes footage of the statue’s apparent installation, interspersed with cuts to London icons including Big Ben, a statue of Winston Churchill, a black cab and a guardsman soldier.\n“Personally, I think what’s rather clever about it is he’s got the proportions perfectly right for the space,” says Philip Mould, a London-based art dealer whose gallery is near the statue, in an Instagram video of his own. “I also rather like it when art, which is often forgotten, can be controversial, can be stimulating in this way.” View this post on Instagram A post shared by Banksy (@banksy)\nThe statue, which Mould speculated is made of fiberglass, shares a similar height and finish to the many others in Waterloo Place. In its vicinity are statues of King Edward VII, who reigned between 1901 and 1910; Florence Nightingale, widely regarded as the founder of modern nursing; the Crimean War Memorial; and several other monuments to military figures, dukes and lords.\nAuthorities on Thursday placed safety barriers around the statue as growing crowds of onlookers gathered. As of May 1, the provocative new installation is still standing, and Reuters’ Paul Sandle reports that London authorities say they don’t plan to remove it.\n“Banksy has a great ability to inspire people from a range of backgrounds to enjoy modern art,” a representative from the office of London Mayor Sadiq Khan tells the New York Times’ Michael Levenson in an email. “His work always draws great interest and debate, and the mayor is hopeful that his latest piece can be preserved for Londoners and visitors to enjoy.”\nDid you know? Banksy’s latest\nThe surprise statue continues Banksy’s recent run of new public art installations. Days before Christmas in 2025, he unveiled two identical black-and-white murals of two children laying on their backs, gazing up, interpreted as a statement on child homelessness.\nStill, given the often limited public lifespan of many of Banksy’s past works, some fans of the elusive artist aren’t taking any chances. For example, in September 2025, Banksy painted a mural on the Royal Courts of Justice depicting a judge bludgeoning a protester with a gavel. Authorities swiftly destroyed it.\n“With Banksy, it’s a limited time event because it’s public art—you don't know how long it’s going to be up,” Ollie Isaac, a 23-year-old student observing the statue in Waterloo Place, tells BBC News’ Aurelia Foster.\nBanksy unveiled two murals depicting children laying on their backs in London in December 2025.\nStefan Rousseau / PA Images / Getty Images\nA Reuters investigation published in March aimed to reveal Banksy’s true identity, but the artist declined to confirm or deny details.\nStatues are a relatively rare medium for Banksy, who is better known for his murals, including his Girl with Balloon series, which debuted in London in 2002. But in 2004, the artist installed in London The Drinker, a satire of Rodin’s famed The Thinker statue, depicting a man sitting in a similar pose as the original but also wearing a traffic cone on his head.\nChristian Thorsberg\n| Read More\nChristian Thorsberg is an environmental writer and photographer from Chicago. His work, which often centers on freshwater issues, climate change and subsistence, has appeared in Circle of Blue, Sierra magazine, Discover magazine and Alaska Sporting Journal.",
+          "category": "hot",
+          "publishedAt": "2026-05-03T18:54:28.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Denial of Service and Source Code Exposure in React Server Components",
+          "titleKo": "React 서버 컴포넌트의 서비스 거부 및 소스 코드 노출 취약점",
+          "summary": "지난주 중대 취약점의 패치를 분석하던 보안 연구자들이 React 서버 컴포넌트에서 추가로 두 가지 취약점을 발견 및 공개했습니다. 높은 심각도의 서비스 거부(DoS, CVE-2025-55184)와 중간 심각도의 소스 코드 노출(CVE-2025-55183) 취약점이 확인되었습니다. 이는 이전 보안 수정이 완전하지 않았음을 시사합니다.",
+          "keyPoints": [
+            "서비스 거부(DoS, CVE-2025-55184) 취약점은 높은 심각도로 분류됨. 공격자가 특정한 요청을 통해 서버 리소스를 과다하게 소비하게 만들어 정상적인 사용자 요청을 처리할 수 없게 만들 수 있습니다.",
+            "소스 코드 노출(CVE-2025-55183) 취약점은 중간 심각도로 분류됨. 서버 컴포넌트의 민감한 소스 코드나 환경 변수 같은 중요 정보가 클라이언트에 노출될 수 있어 추가적인 공격의 기초가 될 수 있습니다.",
+            "이전주 중대 취약점의 패치 과정에서 새로운 취약점이 함께 발견됨. 이는 보안 수정이 전체 시스템을 고려하지 못했거나, 한 취약점 해결 과정에서 새로운 공격 벡터가 생겼을 가능성을 시사합니다."
+          ],
+          "whyItMatters": "React 서버 컴포넌트 사용자들은 초기 보안 패치만으로는 완전히 안전하지 않으며, 추가 업데이트를 계속 모니터링하고 적용해야 할 수 있습니다.",
+          "url": "https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "backend"
+          ],
+          "topicId": "react-security",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "denial-of-service-and-source-code-exposure-in-react-server-components",
+          "category": "tech",
+          "publishedAt": "2025-12-11T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Why TUIs Are Back",
+          "titleKo": "TUI(터미널 사용자 인터페이스)가 다시 부각되는 이유",
+          "summary": "TUI(Terminal User Interfaces)가 다시 주목받고 있는 이유를 분석한 글입니다. 저자는 Windows와 Linux의 GUI 전략 실패, Electron 앱의 한계, 그리고 네이티브 애플리케이션 개발의 복잡성 증가가 TUI의 부활로 이어지고 있다고 설명합니다.",
+          "keyPoints": [
+            "Windows는 수십 년간 MFC, COM, WinForms, WPF, MAUI 등 일관성 있는 GUI 전략 없이 계속 API를 변경해왔고, Linux는 설계 차원에서 GTK와 Qt의 UI 불일치를 초래했습니다.",
+            "Electron 앱은 메모리 소비, 시각적 불일치, 키보드 기반 워크플로우 부족 등의 문제를 안고 있어 네이티브 경험을 제공하지 못합니다.",
+            "복잡한 GUI 프레임워크 대신 TUI는 즉각적인 피드백, 낮은 리소스 사용, 일관된 사용자 경험을 제공합니다."
+          ],
+          "whyItMatters": "개발자들이 GUI 복잡성을 피하고 TUI 기반 도구 개발을 고려할 때 유용한 배경 지식을 제공하며, 특히 CLI 도구와 개발자 경험 설계에 영향을 미칩니다.",
+          "url": "https://wiki.alcidesfonseca.com/blog/why-tuis-are-back/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 224,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "tui-renaissance",
+          "isTopicPrimary": true,
+          "slug": "why-tuis-are-back",
+          "fullContent": "Why TUIs are back\nTerminal User Interfaces (TUIs) are making a comeback. DHH’s Omarchy is made of three types of user interfaces: TUIs, for immediate feedback and bonus geek points, webapps because 37signals (his company) sells SAAS web applications and the unavoidable gnome-style native applications that really do not fit well in the style of the distro.\nThe same pattern occurred around 10 years ago in code editors. We came from the native editors of BBEdit, Textmate (also promoted by DHH), Notedpad++ and Sublime to Electro-powered apps like Atom, VSCode and all its forks. The hardcore, moved to vim or emacs, trading immediate feedback and higher usability for the steepest learning curve I’ve seen.\nWindows\nThe lesson is clear: Native applications are losing. Windows is doing the GUI library standard joke. Because one API does not have success, they make up another one, just for that one to fail within the sea of alternatives that exist.\nMFC (1992) wrapped Win32 in C++. If Win32 was inelegant, MFC was Win32 wearing a tuxedo made of other tuxedos. Then came OLE. COM. ActiveX. None of these were really GUI frameworks – they were component architectures – but they infected every corner of Windows development and introduced a level of cognitive complexity that makes Kierkegaard read like Hemingway.\n— Jeffrey Snover, in Microsoft hasn’t had a coherent GUI strategy since Petzold\nSince then, Microsoft has gone through Winforms, WPF, Silverlight, WinUIs, MAUI without success. Many enterprise and personal desktop application still rely on Electron Apps, and the last memory of coherent visual integration of the whole OS I have is of Windows 98 or 2000.\nIt turns out that it’s a lot of work to recreate one’s OS and UI APIs every few years. Coupled with the intermittent attempts at sandboxing and deprecating “too powerful” functionality, the result is that each new layer has gaps, where you can’t do certain things which were possible in the previous framework.\n— Domenic Denicola, in Windows Native App Development Is a Mess\nLinux\nThe UI inconsistency in Linux was created by design. Different teams wanted different outcomes and they had the freedom to do it. GTK and Qt became the two reigning frameworks. While Qt is most known for it, both aimed to support cross-platform native development (once upon a time, I successfully compiled gedit on Windows, learning a lot about C compilation, make files and environment variables in the process) but are only widely used in Linux land. Luckily, applications made in the different toolkits can look okay-ish next to each other, something that the different frameworks on Windows fail to achieve. How many engineer-hours does it take to redo the windows Control Panel?\nGiven the difficulty in testing the million different combinations of distros, desktop environments and hardware in general, most companies do not bother with a native Linux application — they either address it using electron (minting the lock-down), or they let the open-source community solve it self (when they have open APIs).\nmacOS\nApple used to be a one-book religion. Apple’s Human Interface Guidelines used to be cited by every User Interface course over the world. Xerox PARC and Apple were the two institutions that studied what it means to have a good human interface. Fast forward a few decades, and Apple is doing the best worst it can to break all the guidelines and consistency it was known for.\nNow, Apple has been ignoring Fitts’ law, making resizing windows near-impossible (even after trying to fix it) and adding icons to every single menu. MacOS is no longer the safe heaven where designers can work peacefully.\nElectron\nEveryone knows that the user experience of electron apps sucks. The most popular claim is the memory consumption, which to be fair has been decreasing over the last decade, but my main complaint (as I usually drive a 64GB RAM MacBook Pro) is the lack of visual consistency and lack of keyboard-driven workflows. Looking at my dock, I have 8 native apps (text mate and macOS system utilities) and 6 electron apps (Slack, Discord, Mattermost, VScode, Cursor, Plexampp). And that’s from someone who really wishes he could avoid having any electron app at all.\nLet us take the example of Cursor (but would be true for VSCode as well). If you are in the agent panel, requesting your next feature, can you move to the agent list on the side panel with just the keyboard? Can you archive it? These are actions that should be the same across every macOS application, and even if there are shortcuts, they are not announced in the menus. And over the last decade, developers have been forgetting to add menus to do the same things that are available in their application (mostly because the application is HTML within its sandbox). For the record, Slack does this better than the others, but it’s not perfect.\nRestarting from scratch\nTogether with Dart, Google wanted to design a new operating system, without all the legacy of An",
+          "category": "tech",
+          "publishedAt": "2026-05-03T18:42:28.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "DeepClaude – Claude Code agent loop with DeepSeek V4 Pro, 17x cheaper",
+          "titleKo": "DeepClaude – DeepSeek V4 Pro를 사용한 Claude Code 에이전트 루프, 17배 저렴",
+          "summary": "Claude Code의 자동 에이전트 루프 기능을 유지하면서 DeepSeek V4 Pro, OpenRouter 등 저가 모델로 대체하는 도구로, 월간 비용을 200달러에서 20-80달러로 절감할 수 있다. 파일 읽기, 수정, bash 실행, git 작업 등 모든 기능이 동일하게 작동한다.",
+          "keyPoints": [
+            "Claude Code의 UI와 기능은 유지하면서 백엔드 모델을 DeepSeek V4 Pro(0.87달러/M 토큰) 또는 OpenRouter(0.87달러/M)로 변경하여 비용을 90% 절감할 수 있다.",
+            "DeepSeek의 자동 컨텍스트 캐싱으로 반복 턴에서 120배 더 저렴하며, 일반적인 코딩 작업(80%)에서 Claude Opus와 동등한 성능을 보인다.",
+            "Windows/macOS/Linux에서 간단한 설정으로 설치 가능하며, 복잡한 추론이 필요한 경우 --backend anthropic으로 원본 Claude Opus로 전환할 수 있다."
+          ],
+          "whyItMatters": "개발자는 Claude Code의 강력한 자동 코딩 에이전트 기능을 월 20-80달러의 저렴한 비용으로 사용할 수 있어, 고비용 장벽을 크게 낮출 수 있다.",
+          "url": "https://github.com/aattaran/deepclaude",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 30,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "deepseek-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "deepclaude-claude-code-agent-loop-with-deepseek-v4-pro-17x-cheaper",
+          "fullContent": "deepclaude\nUse Claude Code's autonomous agent loop with DeepSeek V4 Pro, OpenRouter, or any Anthropic-compatible backend. Same UX, 17x cheaper.\nWhat this does\nClaude Code is the best autonomous coding agent — but it costs $200/month with usage caps. DeepSeek V4 Pro scores 96.4% on LiveCodeBench and costs $0.87/M output tokens.\ndeepclaude swaps the brain while keeping the body:\nYour terminal\n└── Claude Code CLI (tool loop, file editing, bash, git — unchanged)\n└── API calls → DeepSeek V4 Pro ($0.87/M) instead of Anthropic ($15/M)\nEverything works: file reading, editing, bash execution, subagent spawning, autonomous multi-step coding loops. The only difference is which model thinks.\nQuick start (2 minutes)\n1. Get a DeepSeek API key\nSign up at platform.deepseek.com, add $5 credit, copy your API key.\n2. Set environment variables\nWindows (PowerShell):\nsetx DEEPSEEK_API_KEY \"sk-your-key-here\"\nmacOS/Linux:\necho 'export DEEPSEEK_API_KEY=\"sk-your-key-here\"' >> ~/.bashrc\nsource ~/.bashrc\n3. Install\nWindows:\n# Copy the script to a directory in your PATH\nCopy-Item deepclaude.ps1 \"$env:USERPROFILE\\.local\\bin\\deepclaude.ps1\"\n# Or add the repo directory to PATH\nsetx PATH \"$env:PATH;C:\\path\\to\\deepclaude\"\nmacOS/Linux:\nchmod +x deepclaude.sh\nsudo ln -s \"$(pwd)/deepclaude.sh\" /usr/local/bin/deepclaude\n4. Use it\ndeepclaude # Launch Claude Code with DeepSeek V4 Pro\ndeepclaude --status # Show available backends and keys\ndeepclaude --backend or # Use OpenRouter (cheapest, $0.44/M input)\ndeepclaude --backend fw # Use Fireworks AI (fastest, US servers)\ndeepclaude --backend anthropic # Normal Claude Code (when you need Opus)\ndeepclaude --cost # Show pricing comparison\ndeepclaude --benchmark # Latency test across all providers\nHow it works\nClaude Code reads these environment variables to determine where to send API calls:\nVariable\nWhat it does\nANTHROPIC_BASE_URL\nAPI endpoint (default: api.anthropic.com)\nANTHROPIC_AUTH_TOKEN\nAPI key for the backend\nANTHROPIC_DEFAULT_OPUS_MODEL\nModel name for Opus-tier tasks\nANTHROPIC_DEFAULT_SONNET_MODEL\nModel name for Sonnet-tier tasks\nANTHROPIC_DEFAULT_HAIKU_MODEL\nModel name for Haiku-tier (subagents)\nCLAUDE_CODE_SUBAGENT_MODEL\nModel for spawned subagents\ndeepclaude sets these per-session (not permanently), launches Claude Code, then restores your original settings on exit.\nSupported backends\nBackend\nFlag\nInput/M\nOutput/M\nServers\nNotes\nDeepSeek (default)\n--backend ds\n$0.44\n$0.87\nChina\nAuto context caching (120x cheaper on repeat turns)\nOpenRouter\n--backend or\n$0.44\n$0.87\nUS\nCheapest, lowest latency from US/EU\nFireworks AI\n--backend fw\n$1.74\n$3.48\nUS\nFastest inference\nAnthropic\n--backend anthropic\n$3.00\n$15.00\nUS\nOriginal Claude Opus (for hard problems)\nSetup per backend\nDeepSeek (default — just needs DEEPSEEK_API_KEY):\nsetx DEEPSEEK_API_KEY \"sk-...\" # Windows\nexport DEEPSEEK_API_KEY=\"sk-...\" # macOS/Linux\nOpenRouter (optional):\nsetx OPENROUTER_API_KEY \"sk-or-...\" # Windows\nexport OPENROUTER_API_KEY=\"sk-or-...\" # macOS/Linux\nFireworks AI (optional):\nsetx FIREWORKS_API_KEY \"fw_...\" # Windows\nexport FIREWORKS_API_KEY=\"fw_...\" # macOS/Linux\nCost comparison\nUsage level\nAnthropic Max\ndeepclaude (DeepSeek)\nSavings\nLight (10 days/mo)\n$200/mo (capped)\n~$20/mo\n90%\nHeavy (25 days/mo)\n$200/mo (capped)\n~$50/mo\n75%\nWith auto loops\n$200/mo (capped)\n~$80/mo\n60%\nDeepSeek's automatic context caching makes agent loops extremely cheap — after the first request, the system prompt and file context are cached at $0.004/M (vs $0.44/M uncached).\nWhat works and what doesn't\nWorks\nFile reading, writing, editing (Read/Write/Edit tools)\nBash/PowerShell execution\nGlob and Grep search\nMulti-step autonomous tool loops\nSubagent spawning\nGit operations\nProject initialization (/init)\nThinking mode (enabled by default)\nDoesn't work or degraded\nFeature\nReason\nImage/vision input\nDeepSeek's Anthropic endpoint doesn't support images\nParallel tool use\nDisabled — tools execute one at a time\nMCP server tools\nNot supported through compatibility layer\nPrompt caching savings\nDeepSeek has its own caching (automatic), but Anthropic's cache_control is ignored\nIntelligence difference\nRoutine tasks (80% of work): DeepSeek V4 Pro is comparable to Claude Opus\nComplex reasoning (20%): Claude Opus is stronger — switch with --backend anthropic\nVS Code / Cursor integration\nAdd terminal profiles so you can launch deepclaude from the IDE:\nSettings > JSON:\n{\n\"terminal.integrated.profiles.windows\": {\n\"DeepSeek Agent\": {\n\"path\": \"powershell.exe\",\n\"args\": [\"-ExecutionPolicy\", \"Bypass\", \"-NoExit\", \"-File\", \"C:\\\\path\\\\to\\\\deepclaude.ps1\"]\n}\n}\n}\nOr on macOS/Linux:\n{\n\"terminal.integrated.profiles.linux\": {\n\"DeepSeek Agent\": {\n\"path\": \"/usr/local/bin/deepclaude\"\n}\n}\n}\nRemote control (--remote)\nOpen a Claude Code session in any browser — with DeepSeek as the brain:\ndeepclaude --remote # Remote control + DeepSeek\ndeepclaude --remote -b or # Remote control + OpenRouter\ndeepclaude --remote -b anthropic # Remote control + Anthropic (normal)\nThis prints a https://claude.a",
+          "category": "tech",
+          "publishedAt": "2026-05-03T22:13:20.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "browserbase/skills (JavaScript)",
+          "titleKo": "browserbase/skills (JavaScript) – Claude Agent SDK와 웹 브라우징 도구",
+          "summary": "Claude Agent SDK에 웹 브라우징 기능을 통합한 JavaScript 라이브러리로, 에이전트가 웹 상호작용을 수행할 수 있게 한다.",
+          "keyPoints": [
+            "Claude AI 에이전트에 웹 브라우징 능력을 제공하는 도구이다.",
+            "JavaScript 환경에서 Claude 에이전트의 기능을 확장할 수 있다."
+          ],
+          "whyItMatters": "개발자는 Claude AI를 활용한 자동화 작업에서 웹 상호작용 능력을 추가할 수 있어 활용 범위를 크게 확대할 수 있다.",
+          "url": "https://github.com/browserbase/skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 1804,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "browserbaseskills-javascript",
+          "category": "tech",
+          "publishedAt": "2026-05-03T23:19:37.646Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "Show HN: Apple's SHARP running in the browser via ONNX runtime web",
+          "titleKo": "Apple의 SHARP가 ONNX 런타임 웹을 통해 브라우저에서 실행된다",
+          "summary": "Apple의 SHARP 모델을 ONNX 런타임 웹을 이용해 브라우저에서 직접 실행하는 프로젝트입니다. 사용자는 이미지를 업로드하면 브라우저 내에서 Gaussian splat을 생성하고 .ply 파일로 다운로드할 수 있습니다.",
+          "keyPoints": [
+            "React, TypeScript, Vite, ONNX Runtime Web을 활용한 클라이언트 사이드 기계학습 추론으로 모든 처리가 브라우저에서 완료됩니다.",
+            "SHARP 모델의 무거운 연산(약 2.4GB)을 WASM과 WebGPU를 통해 브라우저에서 실행하며, 별도의 서버 계산 없이 개인 정보 보호를 보장합니다.",
+            "Bun, Vite, 그리고 Gaussian Splats 3D 뷰어를 활용한 풀 스택 브라우저 기반 솔루션입니다."
+          ],
+          "whyItMatters": "대규모 머신러닝 모델을 서버 없이 브라우저에서 실행하는 기술적 가능성을 보여주며, 3D 생성 작업에 대한 새로운 웹 기반 워크플로우를 제시합니다.",
+          "url": "https://github.com/bring-shrubbery/ml-sharp-web",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 149,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-apples-sharp-running-in-the-browser-via-onnx-runtime-web",
+          "fullContent": "ml-sharp-web\nA browser-based Gaussian splat generator built on top of Apple SHARP. ✨\nThis project lets you:\nupload one image\ngenerate Gaussian splats in the browser\npreview the result\ndownload a .ply file\nLinks\nProject repo: bring-shrubbery/ml-sharp-web\nFollow the author on X: @bringshrubberyy\nUpstream SHARP repo (Apple): apple/ml-sharp\nSHARP project page: apple.github.io/ml-sharp\nSHARP paper: arXiv:2512.10685\nBefore you start (important license note)\nApple's SHARP repository has separate licenses for code and model weights.\nSHARP code license: LICENSE\nSHARP model license: LICENSE_MODEL\nIf you use Apple's released SHARP checkpoint/weights, you must follow LICENSE_MODEL (research-use restrictions apply).\nWhat you need\nBun installed\nA modern desktop browser (Chrome or Edge recommended)\nEnough disk space and RAM for the SHARP model (the exported ONNX sidecar is large, ~2.4 GB)\nQuick start (run the app) 🚀\n1. Star this repo 🤩\nIf this project helps you, please star it:\nbring-shrubbery/ml-sharp-web\n2. Install dependencies\nbun install\nThis also copies ONNX Runtime Web WASM assets into public/ort/ automatically.\n3. Start the app\nbun dev\nOpen the URL shown by Vite (usually http://localhost:5173).\n4. Use the app\nUpload an image.\nClick Generate Splat.\nPreview the result and download the .ply file.\nImportant model file note (.onnx + .onnx.data)\nSHARP exports usually produce two files:\nsharp_web_predictor.onnx\nsharp_web_predictor.onnx.data\nBoth files must be served together from the same folder (for example public/models/).\nWhy this matters:\nThe .onnx file is only the graph and metadata.\nThe .onnx.data file contains most of the model weights.\nFor that reason, the app uses the hosted model by default.\nUploading only the .onnx file directly in the browser usually will not work because the .onnx.data sidecar is separate.\nExport the SHARP model to ONNX (beginner-friendly steps)\nEverything runs in the browser, but you still need an exported SHARP ONNX model.\n1. Clone Apple's SHARP repo (reference code)\ngit clone https://github.com/apple/ml-sharp /tmp/ml-sharp-upstream\n2. Prepare a Python environment for export\nYou need Python + SHARP dependencies + ONNX export dependencies.\nThe easiest route is to follow the upstream SHARP setup first, then run this exporter script from this repo.\n3. Export the browser predictor ONNX\nFrom this repo:\npython3 scripts/export_sharp_onnx.py \\\n--sharp-repo /tmp/ml-sharp-upstream \\\n--output public/models/sharp_web_predictor.onnx\nIf the model is large (it is), the script will also write:\npublic/models/sharp_web_predictor.onnx.data\nOptional export flags\n--checkpoint /path/to/sharp_2572gikvuh.pt to use a manually downloaded checkpoint\n--device cuda to export on GPU (if your environment supports it)\n--opset 20 to change ONNX opset (default is 20)\nStatic build (optional)\nIf you want a static build instead of running bun dev:\nbun run build\nbun run preview\nNotes:\nbun run build copies public/ into dist/, including the model files.\nIf sharp_web_predictor.onnx.data is present, the build output will be very large.\nHow it works (high level)\nReact + TypeScript UI (src/)\nONNX Runtime Web worker for inference (src/workers/sharpWorker.ts)\nBrowser-side SHARP postprocessing (NDC -> metric gaussian conversion)\nBrowser-side PLY writer\nIn-page preview with @mkkellogg/gaussian-splats-3d\nTroubleshooting 🛠️\n\"expected magic word ... found 3c 21 64 6f\" (WASM error)\nThis means a WASM file request returned HTML instead.\nTry:\nrun the app with bun dev (not file://...)\nrestart the dev server after bun install\nverify these load in your browser:\n/ort/ort-wasm-simd-threaded.asyncify.mjs\n/ort/ort-wasm-simd-threaded.asyncify.wasm\n\"Failed to load external data file ... sharp_web_predictor.onnx.data\"\nThis means the ONNX sidecar file is missing or not served correctly.\nCheck:\npublic/models/sharp_web_predictor.onnx\npublic/models/sharp_web_predictor.onnx.data\nThe app can reach the hosted model files in your deployment/browser environment\nThe app runs, but generation is very slow or crashes\nSHARP is large and browser inference is heavy.\nTry:\nChrome or Edge (desktop)\nsmaller Max gaussians in the UI\nclosing other memory-heavy tabs/apps\nwaiting longer on first run (model + runtime initialization can take time)\nTech stack\nBun\nReact\nTypeScript\nVite\nONNX Runtime Web\nGaussianSplats3D viewer\nProject status\nWorking prototype / experimental. 🧪\nThe app runs end-to-end in the browser, but performance and compatibility depend heavily on browser WebGPU/WASM support and your machine's available memory.",
+          "category": "tech",
+          "publishedAt": "2026-05-03T09:14:56.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "ruvnet/ruflo (TypeScript)",
+          "titleKo": "ruvnet/ruflo (TypeScript)",
+          "summary": "Ruflo는 Claude를 위한 선도적인 에이전트 오케스트레이션 플랫폼입니다. 멀티에이전트 스웜 배포, 자율 워크플로우 조정, 대화형 AI 시스템 구축을 지원하며 엔터프라이즈급 아키텍처를 제공합니다.",
+          "keyPoints": [
+            "Claude AI를 기반으로 한 멀티에이전트 시스템 구축 및 오케스트레이션을 전문으로 합니다.",
+            "자학 스웜 인텔리전스, RAG 통합, Claude Code/Codex 네이티브 통합 등 엔터프라이즈급 기능을 포함합니다.",
+            "TypeScript 기반으로 개발되어 JavaScript/Node.js 생태계에서 쉽게 통합할 수 있습니다."
+          ],
+          "whyItMatters": "Claude API를 활용한 복잡한 멀티에이전트 시스템을 구축하려는 개발자들에게 프로덕션 레벨의 오케스트레이션 플랫폼을 제공합니다.",
+          "url": "https://github.com/ruvnet/ruflo",
+          "sourceName": "GitHub Trending",
+          "engagement": 38877,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ruvnetruflo-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-03T23:19:37.644Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "czlonkowski/n8n-mcp (TypeScript)",
+          "titleKo": "n8n을 위한 MCP (Model Context Protocol)",
+          "summary": "Claude Desktop, Claude Code, Windsurf, Cursor 환경에서 n8n 워크플로우를 자동으로 구축할 수 있는 TypeScript 기반 MCP 구현입니다. AI 어시스턴트가 자연어 명령으로 n8n 자동화 워크플로우를 생성할 수 있게 합니다.",
+          "keyPoints": [
+            "MCP를 통해 주요 AI 코딩 도구들과 n8n을 통합",
+            "자연어 기반 워크플로우 생성으로 자동화 설정 진입장벽 제거"
+          ],
+          "whyItMatters": "개발자들이 복잡한 n8n 워크플로우를 AI의 도움으로 신속하게 구축할 수 있습니다.",
+          "url": "https://github.com/czlonkowski/n8n-mcp",
+          "sourceName": "GitHub Trending",
+          "engagement": 19495,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "czlonkowskin8n-mcp-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-03T23:19:37.646Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "TauricResearch/TradingAgents (Python)",
+          "titleKo": "TauricResearch/TradingAgents (Python)",
+          "summary": "TradingAgents는 LLM(Large Language Models)을 활용한 멀티에이전트 금융 거래 프레임워크입니다. 이 프로젝트는 AI 에이전트를 통해 자동화된 트레이딩 시스템을 구축할 수 있는 솔루션을 제공합니다.",
+          "keyPoints": [
+            "다중 에이전트 아키텍처로 설계되어 복잡한 금융 거래 로직을 분산 처리할 수 있습니다.",
+            "LLM을 기반으로 하여 자연어 처리와 의사결정 능력을 갖춘 금융 거래 시스템을 구축합니다."
+          ],
+          "whyItMatters": "AI 에이전트를 금융 도메인에 적용하고자 하는 개발자들에게 실제 구현 가능한 프레임워크를 제공합니다.",
+          "url": "https://github.com/TauricResearch/TradingAgents",
+          "sourceName": "GitHub Trending",
+          "engagement": 65186,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "tauricresearchtradingagents-python",
+          "category": "tech",
+          "publishedAt": "2026-05-03T23:19:37.645Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Hmbown/DeepSeek-TUI (Rust)",
+          "titleKo": "DeepSeek 모델용 터미널 코딩 에이전트",
+          "summary": "DeepSeek 모델을 터미널에서 실행할 수 있는 Rust 기반 TUI 도구입니다. 개발자가 명령줄 환경에서 직접 DeepSeek을 활용한 코딩 작업을 수행할 수 있습니다.",
+          "keyPoints": [
+            "Rust로 구현된 터미널 사용자 인터페이스로 경량 실행 환경 제공",
+            "DeepSeek 모델과의 직접 상호작용으로 CLI 기반 개발 워크플로우 지원"
+          ],
+          "whyItMatters": "개발자들이 IDE 없이 터미널 환경에서도 AI 기반 코딩 어시스턴스를 활용할 수 있게 해줍니다.",
+          "url": "https://github.com/Hmbown/DeepSeek-TUI",
+          "sourceName": "GitHub Trending",
+          "engagement": 2101,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "topicId": "deepseek-tools",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "hmbowndeepseek-tui-rust",
+          "category": "tech",
+          "publishedAt": "2026-05-03T23:19:37.645Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "Alert-driven monitoring",
+          "titleKo": "경고 기반 모니터링",
+          "summary": "인프라 모니터링의 핵심은 대시보드가 아닌 경고(alerts)라는 원칙에 따라, 거짓 경보를 제거하고 반복적으로 개선하는 체계적인 모니터링 접근 방식을 제시합니다. 팀은 서비스 실패 행동부터 역으로 추론하여 경고 규칙을 설계하고, 주간 리뷰와 근본 원인 분석을 통해 모니터링 시스템을 점진적으로 강화해야 합니다.",
+          "keyPoints": [
+            "거짓 경보에 대한 엄격한 무관용 정책 필요 - 무시할 수 있는 경보는 알림이 아님",
+            "서비스 실패를 나타내는 메트릭을 먼저 파악한 후 경고 규칙을 설계해야 함",
+            "주간 리뷰, 잦은 정리, 근본 원인 분석으로 경고 시스템을 지속적으로 개선"
+          ],
+          "whyItMatters": "개발팀의 경보 피로도를 줄이고 모니터링 시스템에 대한 신뢰도를 높여 실제 장애에 신속히 대응할 수 있게 합니다.",
+          "url": "https://simpleobservability.com/docs/alert-driven-monitoring",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 98,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "alert-driven-monitoring",
+          "fullContent": "Alert-driven monitoring Teams usually associate the idea of infrastructure monitoring as a project to “hook up metrics” and “build dashboards”.\nIn fact, in almost every monitoring platform, dashboards are the first-class citizen. Teams often see them as the primary output of their work. It feels productive to see rows of glowing charts and telemetry. They make for some cool office art when you put them on a giant TV on the wall. But nobody spends their day watching graphs.\nThe real core of infrastructure monitoring isn’t dashboards. It’s the alerts.\nWhile other platforms treat alerts as an afterthought, a checkbox you tick after the “real work” of visualization is done, we believe they are the entire point. Alerts are the backbone of your operations.\nStart with the failure\nWhen it’s time to set up alerts, most teams start with the metrics they already have. They look at a list of available data points and ask: “I have CPU usage for these servers. What should the threshold be? What’s a reasonable evaluation window?”\nThis is exactly how you end up with a noisy, untrustworthy system. To build a system you actually trust, you have to start from first principles.\nInstead of looking at your metrics, look at your service. Ask yourself: what behavior actually indicates that this service is failing for a user? What behavior predicts that it is about to fail? Generally speaking, what metric behavior could indicate, or even better, predict a service failure?\nTip\nSimple Observability includes a catalogue of alert templates to jumpstart your configuration. While these aren't tailored to your specific environment, they serve as an excellent foundation for the iterative hardening process described below.\nThe boy who cried wolf stage\nWhen setting up alerts, teams prefer to be conservative. They don’t know the optimal thresholds yet, so they understandably tend to play it safe. But this usually starts producing a lot of false alarms.\nAt first, the notifications are manageable. But then the reality of a live system kicks in.\nA cron job runs at 2:00 AM and spikes the CPU for three minutes. Ping…\nA random bot crawler hits a few dead links and bumps the error rate. Ping…\nA database backup causes a tiny latency lag that clears itself up in seconds. Ping…\nYou check the first few. You realize they aren’t “real” problems. You go back to work. But the pings don’t stop. They become a steady hum in the background of your day that you learn to ignore.\nEventually, your Slack channel or email folders fill up with alerts, to a point where you can’t even tell what alerts are firing. “Is something actually wrong? Or is it just another Tuesday?”\nThis is alert fatigue. It’s a feeling that creeps up on teams when monitoring isn’t set up correctly.\nThe danger zone is when the entire team stops trusting monitoring entirely. This is the boy who cried wolf story. The whole system fails because the team stops believing it.\nWhat to do about it\nFixing alert fatigue isn’t about finding a better math formula for your thresholds. It’s about putting clear systems in place, based on these two simple principles:\nZero tolerance for false alarms\nIf an alert can be ignored, then it should not be an alert.\nAlerts should be actionable. If no action can or should be taken, then the alert is not needed.\nTeams must enforce a strict zero-tolerance policy on false alarms. If an alert fires and no action was needed, you don’t just ignore it. You either delete it, or you refine it until it only fires when a human is actually required to intervene.\nContinual improvements\nYou cannot build a perfect monitoring system on day one. You don’t yet know every way your infrastructure will fail, and you can’t predict every edge case.\nInstead of trying to architect the perfect system from the start, design a process that makes your system smarter over time. Just as you write unit tests to catch regressions, you should treat alert rules as living code that must be maintained.\nIn practice, it looks like this:\nWeekly reviews: Teams should regularly meet and review every incident triggered by the monitoring system.\nFrequent pruning: If an alert was a false alarm, it is deleted immediately. If it didn’t help, it’s noise.\nRoot cause analysis: If a real incident happened but the monitoring system didn’t catch it until it was too late, perform a root cause analysis. What was the earliest metric that signaled this failure? Create a new alert for that specific behavior so you can catch it earlier next time.\nJust as you use unit tests to harden your code, you use this cycle to iteratively harden your monitoring. Your goal is to make your alert rules more robust every single week, while reducing the total number of incidents.\nBy pushing this iterative system as a team, you make alerts a core part of your engineering culture.",
+          "category": "tech",
+          "publishedAt": "2026-05-03T14:02:23.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "How far behind is each major Chromium browser?",
+          "titleKo": "각 주요 Chromium 브라우저가 얼마나 뒤처져 있는가",
+          "summary": "Chromium 버전 지연이 사용자 보안에 미치는 영향을 분석한 대시보드입니다. 오래된 Chromium 버전을 사용하는 브라우저는 이미 패치된 보안 취약점에 노출되어 있습니다.",
+          "keyPoints": [
+            "구형 Chromium 버전을 사용하는 브라우저 사용자는 공개된 보안 패치가 아직 적용되지 않은 알려진 취약점에 노출됩니다.",
+            "공격자들은 Chromium 소스에서 공개된 패치를 바탕으로 아직 업데이트되지 않은 브라우저를 적극적으로 공격합니다."
+          ],
+          "whyItMatters": "브라우저 업데이트 관리가 사용자 보안에 직접적인 영향을 미치므로 개발자와 사용자 모두 Chromium 버전 추적의 중요성을 인식해야 합니다.",
+          "url": "https://chromium-drift.pages.dev/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 152,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "how-far-behind-is-each-major-chromium-browser",
+          "fullContent": "Why does Chromium version lag matter?\nWhen a browser ships an older Chromium version, its users are exposed to known, already-patched security vulnerabilities. Attackers actively exploit these flaws, since the fixes are public in Chromium's source but not yet shipped to users of the lagging browser.\nCheck your own browser's Chromium version →",
+          "category": "tech",
+          "publishedAt": "2026-05-03T17:05:58.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "AIDC-AI/Pixelle-Video (Python)",
+          "titleKo": "Pixelle-Video: AI 완전 자동 단편 영상 엔진",
+          "summary": "Python 기반의 AI 자동화 플랫폼으로 짧은 동영상을 전자동으로 생성하는 도구입니다. 콘텐츠 제작 자동화를 위한 엔드-투-엔드 솔루션을 제공합니다.",
+          "keyPoints": [
+            "Python으로 구현된 완전 자동화 비디오 생성 파이프라인",
+            "콘텐츠 제작의 수동 작업을 제거하는 AI 기반 솔루션"
+          ],
+          "whyItMatters": "개발자들이 영상 콘텐츠 자동 생성 기능을 자신의 애플리케이션에 통합할 수 있습니다.",
+          "url": "https://github.com/AIDC-AI/Pixelle-Video",
+          "sourceName": "GitHub Trending",
+          "engagement": 9897,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "aidc-aipixelle-video-python",
+          "category": "tech",
+          "publishedAt": "2026-05-03T23:19:37.645Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "openwrt/openwrt (C)",
+          "titleKo": "OpenWrt: 오픈소스 라우터 운영 체제",
+          "summary": "git.openwrt.org의 공식 저장소 미러로, C 언어로 구현된 임베디드 리눅스 기반 라우터 운영 체제입니다. PR 수락 후 스테이징 트리를 통해 공식 저장소에 병합됩니다.",
+          "keyPoints": [
+            "임베디드 장치 및 라우터용 오픈소스 운영 체제",
+            "GitHub을 통한 PR 기반 협업 진행 중"
+          ],
+          "whyItMatters": "임베디드 시스템 개발자들이 네트워크 기능을 갖춘 커스텀 장치를 개발할 수 있는 기반을 제공합니다.",
+          "url": "https://github.com/openwrt/openwrt",
+          "sourceName": "GitHub Trending",
+          "engagement": 26602,
+          "contentType": "repo",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "openwrtopenwrt-c",
+          "category": "tech",
+          "publishedAt": "2026-05-03T23:19:37.647Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "C"
+          ]
+        },
+        {
+          "title": "BYOMesh – New LoRa mesh radio offers 100x the bandwidth",
+          "titleKo": "BYOMesh – 새로운 LoRa 메시 라디오로 대역폭 100배 향상",
+          "summary": "BYOMesh는 기존 LoRa 메시 라디오 대비 100배 향상된 대역폭을 제공하는 새로운 제품이다.",
+          "keyPoints": [
+            "LoRa 메시 라디오의 대역폭을 100배 증대"
+          ],
+          "whyItMatters": "IoT 및 원거리 통신 애플리케이션의 성능을 크게 개선할 수 있는 기술이다.",
+          "url": "https://partyon.xyz/@nullagent/116499715071759135",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 209,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "byomesh-new-lora-mesh-radio-offers-100x-the-bandwidth",
+          "category": "tech",
+          "publishedAt": "2026-05-03T18:03:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "soxoj/maigret (Python)",
+          "titleKo": "soxoj/maigret - 사용자명으로 3000개 이상 사이트에서 정보 수집",
+          "summary": "maigret는 주어진 사용자명으로 3000개 이상의 웹사이트에서 사람 정보를 수집하는 Python 기반 OSINT 도구이다.",
+          "keyPoints": [
+            "3000개 이상의 사이트를 검색하여 사용자명 기반 정보 수집",
+            "오픈 소스 인텔리전스(OSINT) 작업에 유용한 자동화 도구"
+          ],
+          "whyItMatters": "보안 연구, 신원 확인, 정보 수집 작업에서 효율성을 크게 높일 수 있다.",
+          "url": "https://github.com/soxoj/maigret",
+          "sourceName": "GitHub Trending",
+          "engagement": 23750,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "soxojmaigret-python",
+          "category": "tech",
+          "publishedAt": "2026-05-03T23:19:37.645Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "1jehuang/jcode (Rust)",
+          "titleKo": "1jehuang/jcode - Rust 기반 코딩 에이전트 프레임워크",
+          "summary": "jcode는 Rust로 작성된 코딩 에이전트 지원 프레임워크이다.",
+          "keyPoints": [
+            "Rust로 구현된 코딩 에이전트 하네스"
+          ],
+          "whyItMatters": "AI 에이전트 기반 코드 생성 및 자동화 작업을 지원한다.",
+          "url": "https://github.com/1jehuang/jcode",
+          "sourceName": "GitHub Trending",
+          "engagement": 3402,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "1jehuangjcode-rust",
+          "category": "tech",
+          "publishedAt": "2026-05-03T23:19:37.647Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "Introduction to Atom",
+          "titleKo": "Atom 소개 - 피드 형식의 기술 이해",
+          "summary": "Atom은 XML 기반의 웹 콘텐츠 및 메타데이터 신디케이션 형식으로, 주기적으로 업데이트되는 웹사이트의 자원을 발행하고 편집하기 위한 애플리케이션 레벨 프로토콜이다. 모든 Atom 피드는 잘 형성된 XML 문서여야 하며, application/atom+xml 미디어 타입으로 식별된다.",
+          "keyPoints": [
+            "Atom은 RSS와 유사한 XML 기반 피드 형식이며, IETF AtomPub Working Group에서 표준화됨",
+            "feed와 entry 요소로 구성되며, link, category, content, author 등의 필수 및 선택 요소를 포함",
+            "다양한 미디어 타입과 언어를 지원하며, 다른 XML 네임스페이스 확장이 가능"
+          ],
+          "whyItMatters": "웹 콘텐츠 신디케이션과 피드 처리를 구현할 때 표준 형식을 이해하는 것이 중요하다.",
+          "url": "https://validator.w3.org/feed/docs/atom.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 6,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "introduction-to-atom",
+          "fullContent": "Check the syntax of Atom or RSS feeds\nAtom is the name of an XML-based Web content and metadata syndication format, and an application-level protocol for publishing and editing Web resources belonging to periodically updated websites.\nAll Atom feeds must be well-formed XML documents, and are identified with the application/atom+xml media type.\nThis document focuses on\nThe Atom Syndication Format\nproduced by the\nIETF\nAtomPub Working Group. In the event that this document differs from the Internet Draft, the Internet Draft is to be considered authoritative.\nHere's a list of the required feed elements, each with a brief description, and an example.\nHere's a list of optional feed elements.\nHere's a list of the required feed elements, each with a brief description, and an example.\nHere's a list of optional feed elements.\n<category> has one required attribute, term, and two optional attributes, scheme and label.\nscheme identifies the categorization scheme via a\nURI.\nlabel provides a human-readable label for display\n<content> either contains, or links to, the complete content of the entry.\nIn the most common case, the type attribute is either text, html, xhtml, in which case the content element is defined identically to other text constructs, which are described here.\nOtherwise, if the src attribute is present, it represents the URI of where the content can be found. The type attribute, if present, is the media type of the content.\nOtherwise, if the type attribute ends in +xml or /xml, then an xml document of this type is contained inline.\nOtherwise, if the type attribute starts with text, then an escaped document of this type is contained inline.\nOtherwise, a base64 encoded document of the indicated media type is contained inline.\n<link> is patterned after html's link element. It has one required attribute, href, and five optional attributes: rel, type, hreflang, title, and length.\nhref is the URI of the referenced resource (typically a Web page)\nrel contains a single link relationship type. It can be a full URI (see extensibility), or one of the following predefined values (default=alternate):\ntype indicates the media type of the resource.\nhreflang indicates the language of the referenced resource.\ntitle human readable information about the link, typically for display purposes.\nlength the length of the resource, in bytes.\n<author> and <contributor> describe a person, corporation, or similar entity. It has one required element, name, and two optional elements: uri, email.\n<name> conveys a human-readable name for the person.\n<uri> contains a home page for the person.\n<email> contains an email address for the person.\n<title>, <summary>, <content>, and <rights> contain human-readable text, usually in small quantities. The type attribute determines how this information is encoded (default=\"text\")\nIf type=\"text\", then this element contains plain text with no entity escaped html.\nIf type=\"html\", then this element contains entity escaped html.\nIf type=\"xhtml\", then this element contains inline xhtml, wrapped in a div element.\nThe atom content element is designed to support the direct inclusion of other XML vocabularies.\nAny fully qualified URI may be used a value for the rel attribute of link elements.\nElements from other namespaces may be included pretty much anywhere. This means that most RSS 1.0 and RSS 2.0 modules may be used in Atom.",
+          "category": "tech",
+          "publishedAt": "2026-05-03T22:08:47.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "Bad Connection: Global telecom exploitation by covert surveillance actors",
+          "titleKo": "Bad Connection: 비밀 감시 행위자들에 의한 글로벌 통신사 착취",
+          "summary": "Citizen Lab 연구팀이 3G/4G 신호 프로토콜 조작과 SMS 악용을 통해 전 세계 통신망에서 진행 중인 정교한 감시 작업을 적발했습니다. 이스라엘, 영국, 중국 등 여러 국가의 통신사 인프라를 악용한 두 개의 장기 감시 캠프인을 발견했습니다.",
+          "keyPoints": [
+            "SIM 카드 악용을 통한 위치 추적: 악의적인 SMS 명령을 통해 장치를 몰래 추적 비콘으로 변환하는 공격 기술 발견",
+            "광범위한 글로벌 네트워크 침해: 18개 이상의 국가에 걸친 통신사 인프라를 악용한 감시 작업 지속",
+            "구조적 취약점: 통신사 간 상호연결 신뢰 모델이 감시 목적으로 악용되고 있으며 규제 및 감시가 어려움"
+          ],
+          "whyItMatters": "개발자들이 모바일 통신 보안의 근본적인 취약점을 이해하고, 사용자 데이터 보호에 대한 책임감을 가져야 합니다.",
+          "url": "https://citizenlab.ca/research/uncovering-global-telecom-exploitation-by-covert-surveillance-actors/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 81,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "bad-connection-global-telecom-exploitation-by-covert-surveillance-actors",
+          "fullContent": "Contents\nKey Findings\nIntroduction\nMethods\nBackground: Continued Broken Trust in Mobile Communications\nInsecure by Design\nTelecom Surveillance Actors: A Crowded and Shadowy Marketplace\nFingerprinting Telecom Surveillance Actors\nGateways to Surveillance\nSTA1: A Persistent Location Tracking Campaign\nSTA2: The SIM as the Spy\nConclusion\nAcknowledgements\nKey Findings\nMulti-Vector Surveillance: We identified actors using multiple techniques to track targets by combining 3G and 4G signalling network protocols with direct device exploitation via SMS.\nSIM Card Exploitation: One campaign sent a malicious SMS containing hidden SIM card commands to extract location information, attempting to turn the device into a covert tracking beacon.\nSophisticated and Customized Tooling: Both actors used customized surveillance tooling to spoof operator identities, manipulate signalling protocols, and steer traffic through specific interconnect network paths to evade defenses and mask attribution.\nGlobal Network Infrastructure: The attacks leveraged identifiers and infrastructure associated with operators worldwide, including networks based in the UK, Israel, China, Thailand, Sweden, Italy, Liechtenstein, Cambodia, Mozambique, Uganda, Rwanda, Poland, Switzerland, Morocco, Namibia, Lesotho, and the self-governing Island of Jersey, demonstrating extensive global reach.\nPersistent Campaign Activity: Telemetry shared by mobile signalling security provider Cellusys reveals that operator identifiers were reused over multiple years, forming consistent clusters that enabled long-running surveillance operations.\nWeak Intercarrier Provider OPSEC: Weak screening of interconnect traffic allowed attackers to route surveillance messages through trusted operator pathways, enabling access to targeted networks.\nIntroduction\nIn recent years, several investigations have exposed vulnerabilities in the mobile telecommunications ecosystem and how government security agencies have exploited them to track targets abroad while roaming. These studies include several Citizen Lab reports, along with work from other researchers. Our work builds on those findings, prompting further research into the structural weaknesses that continue to enable and evolve targeted surveillance.\nIn late 2024, the Citizen Lab launched an investigation into coordinated location-tracking activity following the identification of a series of unusual events in mobile signalling firewall logs and further intelligence provided by Cellusys. What initially appeared to be an isolated incident targeting a single mobile subscriber led to a broader investigation that uncovered campaigns by two distinct CSVs conducting long-term espionage operations by exploiting the global telecommunications ecosystem.\nThe first campaign, observed in November 2024, involved a multi-stage effort to track a high-profile mobile subscriber using multiple 3G and 4G networks. Information provided by the targeted user’s network operator indicated that the mobile number belonged to a well-known company executive, further described as a “VVIP.” This context indicated that the user was a high-value surveillance target.In early 2025, we identified an additional coordinated-tracking event, with the use of a specially formatted SMS message. While technically distinct, both campaigns demonstrated advanced, highly structured, and repeated methods consistent with purpose-built surveillance platforms.\nOur collaboration with mobile industry partners enabled a broad investigation using metadata from signalling logs, packet captures, routing data, and other telecommunications sources to trace the methods and origins of advanced surveillance activity. This analysis identified 4G infrastructure associated with operator networks based in Israel, the United Kingdom, and the Channel Islands. Notably, in prior public reporting these same countries have been linked to CSVs targeting mobile users.\nOur findings highlight a systemic issue at the core of global telecommunications: operator infrastructure designed to enable seamless international connectivity is being leveraged to support covert surveillance operations that are difficult to monitor, attribute, and regulate. Despite repeated public reporting, this activity continues unabated and without consequence. The continued use of mobile networks, built on a close inter-operator trust model and relied upon by users worldwide, raises broader questions for national regulators, policymakers, and the telecom industry about accountability, oversight, and global security.\nMethods\nThis report is based on analysis in collaboration with multiple industry firms including the signalling firewall provider Cellusys, international signalling network provider Telenor Linx, telecom data intelligence provider Roaming Audit, and telecom network security firm P1 Security.\nWe validated our research by correlating signalling data with additional independent data sources, enabling analysis of how messages w",
+          "category": "insight",
+          "publishedAt": "2026-05-03T16:15:49.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Security through obscurity is not bad",
+          "titleKo": "보안 난독화는 나쁘지 않다",
+          "summary": "\"보안 난독화는 나쁘다\"는 일반적인 주장에 대해, 난독화를 추가 방어층으로 사용하는 것은 실제로 효과적이라는 주장을 제시한다. 저자는 WordPress 테이블 프리픽스 변경과 CSGO 바이너리 분석 등 실제 사례를 통해 난독화의 가치를 설명한다.",
+          "keyPoints": [
+            "\"난독화만으로는 안 되지만, 추가 방어층으로서의 난독화는 유효하다\" - Kerckhoffs의 원칙을 기반으로 함",
+            "WordPress DB 테이블명 변경, 바이너리 난독화 등으로 공격 비용을 증가시켜 공격자의 포기 가능성을 높임",
+            "방어 심층화 전략의 일부로서 난독화는 공격 시간과 비용을 증가시키는 실질적인 가치를 제공"
+          ],
+          "whyItMatters": "보안 설계 시 난독화를 적절한 추가층으로 활용함으로써 실제 공격 저항성을 높일 수 있다.",
+          "url": "https://mobeigi.com/blog/security/security-through-obscurity-is-not-bad/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 103,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "security-through-obscurity-is-not-bad",
+          "fullContent": "Escaping the crowded echo chamberI was recently reading a post by a user on a web development forum. This user, whom we’ll call Mini, was asking the community whether it was worth using JavaScript obfuscation for some of the scripts running on their website. Their main goal was to make it harder for data-scraping bots to reverse engineer and replicate the API requests powering the page.Then I saw it: like a solo LGTM comment on a +4,156/-1,640 line PR, a comment from another user whom we'll call Echo:Security through obscurity is badWhat was worse was that this comment had many upvotes, likely from others who had heard the phrase once and simply channelled their inner parrot to repeat it forever.I decided to reply to Echo's comment and share my thoughts:Security through obscurity is NOT bad.Security ONLY through obscurity is bad (Kerckhoffs's Principle).Security through obscurity, as an additional layer, is good!At first, I thought this was what Echo actually meant, but to my surprise, Echo believed that all forms of obscurity were redundant and should not be used at all. They also specifically argued that, in the modern day, AI had made getting around any sort of obscurity trivial.In this post, I will explain why Echo is wrong and why security through obscurity has its place.Don't show your working outSecurity through obscurity is the practice of reducing exposure by keeping an application's inner workings or implementation details less visible to attackers. Unlike in mathematics, you do not want to show your working out.It's the digital equivalent of hiding a spare key under the doormat instead of leaving it in the lock. In this scenario, a malicious actor might not bother looking under the doormat and might just leave. Congratulations, obscurity just saved you a break-in. They might still find the key, but they may check a nearby potted plant or mailbox first. That costs time, and time is money. To a malicious actor, the longer they spend chasing dead ends, the more likely they are to give up and move on.Now, of course, proper security here would be not hiding a spare key near the door at all, but instead leaving it with a trusted family member or friend. Relying only on obscurity for security is bad. You should always secure your applications to the degree warranted, then sprinkle some obscurity on top to make the endeavour of attacking you more expensive. This is simply one part of a defence-in-depth strategy.Obscurity in the real worldOf course, some examples might help drive the point home. Here are some specific examples I have personally encountered.WordPress database table prefixThere is a long-standing security recommendation to change WordPress's default database table prefix to a random one. For example, wp_users becomes wp_8df7b8_users. This is often dismissed as \"worthless\" because it is security through obscurity.I used to run this very blog on WordPress. Back in 2015, one of the plugins I used had an SQL injection vulnerability that allowed malicious actors to dump the databases of websites using it. These actors had bots scouring the web for vulnerable WordPress targets.My website was vulnerable. However, I was not impacted by any attacks, and I updated the plugin to a patched version a few days later. While other sites were \"nulled\" and destroyed, I was spared. I later found a PoC script on GitHub showcasing the exploitation. Using that PoC on my own site failed with a generic error like Table 'wordpress.wp_users' doesn't exist. Therefore, while I was likely still vulnerable and could have been exploited with different SQL queries, the standard query targeting most users did not impact me.I was spared thanks to that additional layer of security through obscurity. AI tooling today could keep trying different queries, and it may produce good results for malicious actors, but tokens still cost money. The more time and money the bot spends, the more likely it is to give up and move on. It's a battle of sustained resistance.CSGO's debug symbol leakI ran an Australian and New Zealand-based CSGO community server called Invex Gaming for several years. As a server operator, I tried to distinguish the servers I ran by adding unique custom mods. To do this, I used an amazing platform called SourceMod, which allowed you to write custom plugins and extensions. To write useful mods, you would often have to find and call functions directly in the game's binaries. CSGO ships with binaries such as engine.dll, client.dll, and server.dll. These binaries contained much of the game logic we wanted to invoke.For example, I might want one of my mods to programmatically set a player's health. To do this, my script, running on the CSGO server, had to call the right function in the game. In this case, CBaseEntity::SetHealth is one such function, and calling it programmatically would allow me to set the health of any entity.This is what the function signature looks like:class CBaseEntity {\npublic:\nvirtual void SetH",
+          "category": "insight",
+          "publishedAt": "2026-05-03T14:49:56.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "A desktop made for one",
+          "titleKo": "한 사람을 위해 만들어진 데스크톱",
+          "summary": "개발자가 25년간 사용하던 기존 소프트웨어들을 Claude Code의 도움으로 개인의 워크플로우에 맞는 커스텀 도구로 교체한 경험을 기록했습니다. 순수 x86_64 어셈블리(CHasm)와 Rust(Fe₂O₃)로 구성된 완전히 개인화된 데스크톱 환경을 구축했습니다.",
+          "keyPoints": [
+            "AI 지원으로 개발 난이도 대폭 낮아짐: Claude Code를 활용하여 전통적으로 수년 걸리던 커스텀 소프트웨어 개발이 며칠~주 단위로 축소됨",
+            "개인화된 도구의 힘: Vim을 대체하는 scribe 편집기를 3일 만에 개발하여 25년간의 근육 기억을 재구성한 사례",
+            "구현 기술 스택: CHasm(어셈블리 기반 윈도우 관리자, 터미널), Fe₂O₃(Rust 기반 애플리케이션 레이어)로 Firefox를 제외한 모든 도구를 자체 개발"
+          ],
+          "whyItMatters": "Rust와 AI 코딩 어시스턴트의 발전으로 개발자가 개인화된 개발 환경을 현실적으로 구축할 수 있게 되었음을 보여줍니다.",
+          "url": "https://isene.org/2026/05/Audience-of-One.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 200,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-desktop-made-for-one",
+          "fullContent": "A desktop made for one\nFor the first time in twenty-five years I’m sitting in front of a computer where almost every program I touch was designed by me. One tool at a time, the off-the-shelf option got swapped out for something a little closer to how my hands wanted to work. (I wrote about the start of this a couple of weeks ago — that post laid out the early swaps; this one is the view from the other side of the journey.)\nIt’s been a crazy few weeks guiding Claude Code inbetween all the other stuff I’m doing in life. I direct CC, it works while I do other stuff. I get a second or few in between tasks, and I respond. Then off it goes adding features or hunting bugs.\nTwo suites in a happy marriage: CHasm, the bedrock — pure x86_64 assembly, no libc, the layer that paints pixels and reads keys. Fe₂O₃, the application layer in Rust, sitting on a small shared TUI library called crust.\nThe CHasm layer (assembly)\nRole\nWas\nNow\nWindow manager\ni3-wm\ntile\nStatus bar / tray\ni3bar + conky\nstrip + asmites\nScreen locker\ni3lock\nbolt\nTerminal emulator\nkitty\nglass\nLogin shell\nzsh → rsh\nbare\nFile viewer\nless\nshow\nThe Fe₂O₃ layer (Rust on crust)\nRole\nWas\nNow\nText editor\nVIM\nscribe\nFile manager\nranger → RTFM\npointer\nEmail / RSS / chat\nmutt + newsbeuter + various web logins\nkastrup\nCalendars\nGoogle + MS web\ntock\nAstronomy panel\nastropanel\nastro\nMovies / series\nIMDB-terminal\nwatchit\nWhat’s left? WeeChat for IRC and other chats. Firefox — the only GUI program I still use regularly. That’s it. Everything else is mine.\nThe vim line\nLet me get a bit sentimental about vim, because vim was the one I thought I’d never replace.\nI started using it in 2001. For twenty-five years, every email I wrote went through vim. Every article. Every blog post. Every line of code, every HyperList, and every book. It was the one tool I would have called part of how I think. The muscle memory was so deep that I’d open random text fields in browsers and ended with typing :w.\nThen in three days I had scribe and stopped using vim.\nThe first commit landed at 00:09 on May 1st. By afternoon today (May 3rd) vim was replaced. Twenty-five years of muscle memory rerouted in seventy-two hours.\nVim is wonderful, but scribe is mine. It’s modal like vim, but missing the ninety percent of features I never used, and carrying the handful of writer-shaped tweaks I always wished vim had. Soft-wrap by default. Reading mode with Limelight-style focus. AI in the prompt without leaving the buffer. HyperList editing with full syntax highlighting and the encryption format the Ruby HyperList app uses. Persistent registers shared across concurrent sessions is a cool feature. None of it revolutionary, but all of it shaped to my exact workflow. And whenever I think of an enhancement I want, it’s just minutes away. It used to be waiting for months or years or forever for some developer to get the same idea as mine and introduce it into the tool I use.\nWhy this is possible now\nIt used to be that writing your own editor, your own file manager, your own window manager, was a project of years. I know, it took me a few years to get RTFM right. A serious undertaking with a serious cost. The economics of it didn’t work for most people, even programmers. You’d touch a piece of it, get most of the way, run out of weekend, and go back to the off-the-shelf tool.\nThat barrier is much lower now. With Rust, CC as the workhorse, and the fact that the hard problems of TUI programming have been documented to death… the cost of “build the tool you actually want” has fallen by orders of magnitude.\nI don’t think this is a story about AI or about Rust specifically. Both helped. But the deeper point is that the gap between “I wish my editor did X” and “okay, here’s an editor that does X” is now small enough to fit inside a few evenings of focused work.\nI’m not selling anything\nI should say what this post is not.\nIt’s not an invitation to use my software. Honestly, please don’t. None of it is built for you. It’s built for me — for the way I hold my hands, the way I think about email, the way I want my calendar to render. I’m sure other people would find a hundred sharp edges I’ve never noticed because they happen to align perfectly with what I do.\nIt’s also not a request for kudos. The code isn’t novel, nor are the ideas. There’s nothing here that hasn’t been done before by someone with more taste, discipline or talent.\nWhat I want to do is show one specific thing: it is now genuinely feasible to make a desktop computing environment that fits one person. Instead of a configuration of someone else’s tools. This is no longer a heroic decade-long undertaking. This is an actual, weekend-by-weekend, “this thing in my life now does exactly what I want” replacement.\nThe joy of an audience of one\nThe best part of building for myself: the relief of not having to care.\nI don’t have to think about configurability for someone with different preferences. And I don’t have to support corner cases I’d never personally hi",
+          "category": "insight",
+          "publishedAt": "2026-05-03T15:32:05.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Southwest Headquarters Tour",
+          "titleKo": "Southwest 본사 투어",
+          "summary": "한 개발자가 Southwest Airlines 본사 투어 경험을 상세히 기록했으며, 파일럿 훈련 시뮬레이터, 비행승무원 교육 시설, 네트워크 운영 센터 등 항공 운영의 기술 인프라를 소개한다. 특히 1,420만 달러 규모의 전체 동작 시뮬레이터와 'The Baker'라는 스케줄링 최적화 도구가 주목된다.",
+          "keyPoints": [
+            "Southwest의 네트워크 운영 센터는 시간당 발생하는 런웨이 문제 등 실시간 이슈 대응을 위해 설계되었으며, 고위 관리자들이 하루 3회 상황 회의를 진행한다.",
+            "파일럿 교육은 F3 토네이도를 견딜 수 있는 12인치 콘크리트 건물에 26대의 6백만 달러대 시뮬레이터를 갖춘 최고 수준의 시설에서 진행된다."
+          ],
+          "whyItMatters": "개발자들이 대규모 실시간 시스템, 최적화 알고리즘, 재해 복구 인프라 설계의 현실적 예시를 통해 복잡한 운영 시스템 아키텍처를 이해할 수 있다.",
+          "url": "https://katherinemichel.github.io/blog/travel/southwest-headquarters-tour-2026.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 163,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "southwest-headquarters-tour",
+          "fullContent": "Southwest Headquarters Tour¶\nTable of Contents¶\nIntro\nMorning\nFlight Attendant Training\nPilot Training\nLunch\nSouthwest Store\nSocial Media Serendipity\nAfternoon\nNetwork Operations Center\nTechOps Hangar\nHerb and Colleen Offices\nListening Center\nThank You\nIntro¶\nI flew Southwest to my first tech conference in August of 2017 and quickly learned how beneficial conferences would be to my career. In the early days, I had a shoestring budget, and would often apply for financial aid. The combination of Southwest’s Wanna Get Away tickets and flexible travel credit policy enabled me to attend many conferences.\nA few weeks ago, I was offered the chance to tour Southwest Headquarters along with other fans. I jumped at the chance. I knew it would be a once-in-a-lifetime experience!\nOur tour group gathered in the lobby of the LEAD Center (Leadership, Education, and Aircrew Development)! Our sweet host Carlye Thornton is the second from the left.\n🔝 back to top\nMorning¶\nFlight Attendant Training¶\nDallas LEAD Center is one of 13 facilities around the US where Southwest flight attendants complete training. In addition to learning the typical service you see in a cabin, they practice land and sea evacuation, emergency tool use, fire fighting, and self defense. They return annually for short, refresher training that is regularly updated to address real world trends.\nIn this sea evacuation area, a replica of a 100 pound raft inflates to half its normal height. The flight attendants are not required to be good swimmers. The life vest will do its job.\nIn this fire fighting area, we saw an oxygen hood demo and learned different methods of exinguishing fire. Flight attendants are taught to find the base of the fire.\nThese Vintage uniforms are among what must be thousands of pictures and momentos covering Southwest campus walls.\nThe pilot uniform shop. We later learned that sadly only 6% of Southwest pilots are women, which is in line with the industry as a whole. Southwest supports the Women in Aviation organization and would love to see that change.\nOur tour guide Glenn introducing us to a mockup plane used for training\nIt’s not as easy as it looks. Tour participants volunteered to give the safety demonstration a try!\nFlight attendants are required to demonstrate a mastery of emergency procedures and equipment.\nEmergency door demo and evacuation slide\n🔝 back to top\nPilot Training¶\nSouthwest pilots must be able to put an oxygen mask on with one hand in eight seconds while their other hand is on the controls. They can have a moustache, but not a full beard, in order to be able to create the necessary seal. This testing station accommodates different masks for different types of airplanes.\nThis fixed-motion simulator was our first simulator experience. 23 are in use and cost $1 million each.\nNext, we saw full-motion CAE 737 series 700, 800, and MAX 8 simulators. As we watched, a simulator would rise up, tip back, and rotate at angles that simulate real flight. An instructor saw our group and invited us inside of one for a look.\nInside a full-motion CAE 800 series simulator. These simulators can be programmed to fly any route and can replicate special scenarios such as ETOPs (extended range, over-water, such as Hawaii) and emergencies. While real “turbine hours” can be logged in this simulator, it can also cause real motion sickness. Ask them about the chickens hanging from the bottom.\nMe in front of a full-motion CAE 700 series simulator with the bridge raised, a sign that it is in-use.\nMe at one end of the hall. There are 26 simulators here. Each one costs $14.2 million.\nGiven the risk to operations and equipment, this building could withstand an F3 tornado. Garage-like doors descend and inside, it is business as usual. The walls around the Network Command Center are fortified with 12 inch concrete.\n🔝 back to top\nLunch¶\nThank you Southwest for a delicious complimentary lunch in the cafeteria!\nSouthwest Store¶\nAn adult onesie that was a crowd favorite in the Southwest Shop\nSocial Media Serendipity¶\nBefore the afternoon tour began, I began to ask our host Carlye, “You know what I love about Southwest social media…?” She pointed out that the social media experts were standing right next to us. I had the opportunity to compliment them on the warm and fuzzy Southwest stories that no other brand does better.\n🔝 back to top\nAfternoon¶\nNetwork Operations Center¶\nOur tour group was riveted by the Network Operations Center (NOC) livestream (NOC is undergoing construction), and bombarded our tour guide Jake with questions. Our session took place in a Situation Room where chief officers from each operational area convene three times a day to address flight issues. Jake shared that he prefers troubleshooting over business-as-usual. All of a sudden a runway might have a pothole and 10 planes are backed up, and he is scrambling to alleviate. It is an adrenaline rush. A scheduling optimization tool called “The Baker” was also a topic of interest.",
+          "category": "insight",
+          "publishedAt": "2026-05-03T17:02:13.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Modern jet engine turbines: each blade a single crystal (2015)",
+          "titleKo": "현대식 제트 엔진 터빈: 각 날개는 단결정",
+          "summary": "현대 제트 엔진의 터빈 날개는 단일 결정 구조로 제작되어 극한의 온도와 압력 조건에서 뛰어난 성능을 발휘한다. 이러한 단결정 설계는 항공기 엔진의 효율성과 안정성을 크게 향상시킨다.",
+          "keyPoints": [
+            "터빈 날개의 단결정 구조는 고온 환경에서 금속의 강도와 내구성을 극대화한다.",
+            "단결정 제조 기술은 우주항공 산업의 핵심 혁신으로 엔진 성능 향상에 직결된다."
+          ],
+          "whyItMatters": "항공 기술과 고성능 엔지니어링에 관심 있는 개발자들이 실제 산업 적용 사례를 통해 재료공학의 중요성을 이해할 수 있다.",
+          "url": "https://www.americanscientist.org/article/each-blade-a-single-crystal",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 48,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "modern-jet-engine-turbines-each-blade-a-single-crystal-2015",
+          "category": "insight",
+          "publishedAt": "2026-05-03T14:02:33.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "I built my own hair electrolysis machine",
+          "titleKo": "직접 만든 머리 전해질 제거 기계",
+          "summary": "한 개발자가 전기분해를 이용해 영구적인 체모 제거 기계를 직접 제작했다. 자동차 배터리, 포텐셜미터, 저항, 전류계를 활용한 갈바닉 전해질 방식으로 성공적으로 작동하는 프로토타입을 만들었다.",
+          "keyPoints": [
+            "갈바닉 전해질 방식은 FDA가 유일하게 인정한 영구 제모 방법으로, 1mA의 전류를 1초간 적용하면 10 LU(낍 단위)의 수산화나트륨을 생성한다.",
+            "프로토타입은 기본적인 전자 부품으로 제작되었으나 실제 사용에 성공했으며, RF 방식보다 안전하고 실패 위험이 낮다."
+          ],
+          "whyItMatters": "전자공학과 DIY 프로젝트에 관심 있는 개발자들이 간단한 회로 설계로 실제 작동하는 의료 기기를 만드는 사례를 배울 수 있다.",
+          "url": "https://www.scd31.com/posts/diy-hair-electrolysis-machine",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 152,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-built-my-own-hair-electrolysis-machine",
+          "fullContent": "Axiom: body hair is cringe. That's how I feel, at least. I decided to build a machine that lets me permanently remove it using electricity.There are lots of ways to get rid of body hair temporarily. Shaving is probably the most common. There are other methods that last a little longer, like epilation or waxxing. These remove the entire hair, which takes more time to grow back than just cutting it at the surface.If you're looking for something more permanent, laser hair removal is an option. This is when laser light is used to heat the follicles and kill them. Most people regard this as permanent, but it's really more of a permanent hair reduction, not overall removal.There's actually only one type of hair removal that the FDA considers permanent, and that's hair electrolysis.A brief primer on hair electrolysisNow's as good a time as any to give you a little disclaimer. I am not a doctor. I have no qualifications on anything even remotely related to this project. I am just some cat on the internet who happens to own a soldering iron. Take everything I say with a huge grain of salt.With that out of the way, let's talk about hair electrolysis. There are 3 main types:Galvanic hair electrolysis is the simplest type. A needle is inserted into the follicle and a small current is applied for a few seconds. This causes lye (sodium hydroxide) to be generated through the chemical process of electrolysis. This lye permanently kills the follicle.Thermolysis is technically not really electrolysis, but they get lumped together. A needle is still inserted, but this time, an RF current is applied. This causes very localized heating which kills the follicle. This process is much quicker - supposedly just a fraction of a second per follicle.Blend electrolysis is where you use a combination of the two methods. A single needle is used, which applies both a DC current and RF current. This provides many of the advantages of both methods. My understanding is that this is the most common method in professional settings.I chose to focus my efforts on building a galvanic machine. It's easier than RF magic, and I could generally find more information about the specifics. Even in textbooks, the specifications of the RF were hard to find. RF is generally a lot easier to mess up as well, which can cause burns or even scarring. Galvanic seems a little more idiot-proof. Of course, it's still possible to do some damage if you really try.Some more depth on galvanic electrolysisTaken from sensationalbeautyclinic.comSince I'm going with galvanic electrolysis, I want to provide a little more information on it. Like I said before, we want to generate lye in the follicle. We do this by passing an electric current between two electrodes. One electrode is the needle which is inserted into the follicle. The other electrode goes on the outside of the body. Its location is not critical.As it turns out, the amount of lye generated can be found by computing the integral of current over time. In the context of hair electrolysis, the amount of lye is specified in units of lye (LU), where 1 mA for 1 s produces 10 LU. Maximum current is generally limited by the user's pain tolerance, but lower current can be compensated for by running the machine for longer. It's actually pretty simple!Here's a table of lye values, taken from a medical textbook titled \"The Principles and Practice of Electrical Epilation\" (3rd edition, 2001).Hair typeAmount of lye (LU)Fine, unpigmented vellus hair10 - 15Fine, pigmented, soft hair10 - 20Medium/shallow terminal hair15 - 30Deep terminal hair30 - 45Very deep terminal hair45 - 60With all of this in mind, I was ready to build my first prototype.The prototypeI had most of what I needed lying around my apartment. One thing I didn't have was a needle for actually inserting into the follicle. Luckily my friend Olivia came in clutch; when I visited her in Portland she gave me 20 spare needles she had from her own hair electrolysis project.What I built for a first attempt was extremely crude. I connected the needle to a potentiometer, which was used for approximate current limiting, and then to a car battery. I also inserted a current meter into the circuit so I could monitor things. For the other electrode I used a pop can. Grabbing the can would complete the circuit and start the flow of electricity. One side effect of this is that I could loosely tune the current by how hard I squeezed the can. Squeezing harder would lower the resistance slightly and allow more current to flow.This is what the result of my efforts looked like:I'll admit that it doesn't look like the safest contraption in the world. I would watch the current meter and time it by counting seconds to work out roughly the amount of lye generated. Once I got to the target, I'd let go of the can. As janky as this was, I was able to successfully use it to remove some hair from my arm! This was a euphoric moment where I realized this project was going to work. The follicle t",
+          "category": "insight",
+          "publishedAt": "2026-04-29T02:42:46.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Make Your Own Microforest",
+          "titleKo": "직접 만드는 마이크로포레스트",
+          "summary": "Miyawaki 방식의 산림 재생 기술을 이용해 도시 환경에 소형 숲을 빠르게 조성할 수 있다. Pennsylvania의 Horn Farm Center는 2019년 미국 동부 최초의 Miyawaki 숲을 조성했으며, 6년 후 30피트 높이의 성숙한 산림으로 성장했다.",
+          "keyPoints": [
+            "Miyawaki 방식은 25개 이상의 원생 수종을 높은 밀도로 심어 경쟁과 협력을 통해 빠른 성장을 촉진하며, 일반적인 산림 재생보다 훨씬 빠르다.",
+            "마이크로포레스트는 생물 다양성, 토양 개선, 수질 정화, 폭우 흡수 등 다중 환경 이익을 제공하며 농업 시스템과 결합 시 자연 해충 방제를 지원한다."
+          ],
+          "whyItMatters": "생태 시스템 설계와 환경 복원에 관심 있는 개발자들이 데이터 기반의 재조림 방법론과 그 실제 효과를 이해할 수 있다.",
+          "url": "https://ambrook.com/offrange/environment/a-forest-in-your-pocket",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 41,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "make-your-own-microforest",
+          "fullContent": "The Miyawaki method of reforestation inserts small, densely packed wild acreage into urban environs. It’s proving wildly successful.Route 30 has been carrying vehicles across Pennsylvania for nearly a century. It’s the fastest way to travel east-west across the southern portion of the state, a divided four-lane highway that never stops making noise. For the Horn Farm Center for Agricultural Education in York, the endless roar of cars and trucks speeding past — not to mention the pollution they cough up — had long disrupted an otherwise peaceful site for regenerative farming and community programming.Read NextThe Time Traveler’s GardenBritish \"Rewilding\" Effort Merges Husbandry, Carbon Sequestration, and ConservationEveryone Wants to Repair Our Damaged Ecosystems — But Where Are the Seeds?If only there were a forest to serve as a buffer, the organization’s staff thought. So they planted one.Trees move at their own pace, often taking decades to reach maturity once planted, but Horn Farm didn’t want to wait that long to address its concerns. Instead, it opted to experiment with the Miyawaki method, an approach to reforestation developed by a Japanese botanist. It places a dense, diverse assortment of native species in close proximity to one another in an effort to rapidly regenerate degraded land. Andrew Leahy, the farm’s education and outreach specialist, describes it as “the marriage of competition and collaboration,” a riot of trees fighting for and sharing resources as they grow.Miyawaki forests — alternately described as micro, tiny, or pocket forests because of their small stature — have been spreading internationally for years. Katherine Pakradouni, a horticulturalist who has planted several in Los Angeles through her landscaping and restoration business, Seed to Landscape, says the movement “has altered the way people think about reforestation.” The method is still building steam in the U.S., where supporters admire it for quickly establishing young forests with myriad environmental benefits and the ability to reconnect people with nature.In 2019, Horn Farm planted what it believes was the first Miyawaki-style forest in the Eastern U.S. — more than 500 native trees in a 12-foot-wide strip along Route 30. Roughly 100 feet long, it features five major species and 23 supporting species. Six years later, a thriving overstory of oaks, hickories, and sycamores stands nearly 30 feet tall, surrounded by redbuds, dogwoods, and shrubs including elderberry and viburnum. Bluejays and robins nest in the branches, pollinators gather among their host plants, and predators like wasps feed on agricultural pests. On a bright morning in early October, the forest was thick enough to nearly drown out the sights and sounds of the highway just a few paces away. It’s “infinitely eye-catching” for anyone who spends time near it, Leahy says, but more importantly it’s a haven for biodiversity and a boon for soil, air, and water remediation.Although Miyawaki forests are often found in urban settings, where land is precious and trees are hard to come by, Leahy says they could be a welcome complement for agriculture, particularly on farms with a regenerative bent.“As opposed to creating systems where we’re farming in a vacuum and then relying on insecticides and chemicals to make it possible to grow things, why not foster the habitat needed by the very predators that naturally keep those things in balance?” he says.Horn Farm has gone on to apply the method to other sections of its land, including a flood-prone plot that also borders Route 30. With root systems in place, it stopped flooding, instead serving as a sponge that absorbs water during storms. The forest helps prevent run-off and soil erosion, while supporting the farm’s effort to rehabilitate a nearby stream that feeds the Susquehanna River. To make way for its young forests, Horn Farm first decompacted and aerated soil that had been used for conventional agriculture for decades, then planted its seedlings and gave them a heavy mulching, including inches of leaf litter gathered by the surrounding township.He describes it as “the marriage of competition and collaboration,” a riot of trees fighting for and sharing resources as they grow.“It’s a cool thing to say we took all the leaves from the community and built a forest with them,” Leahy says.Reforestation is a global undertaking, backed by a vast assortment of governments, nonprofits, and private companies seeking to address habitat loss and respond to climate change. There’s no shortage of opportunity: 482 million acres globally could support reforestation, according to a recent study by The Nature Conservancy. U.S. nurseries produce 1.3 billion trees annually, enough to plant around 2.5 million acres. For its part, the Forest Service reforests about 190,000 acres annually, partly by planting trees and partly through projects that support the natural regeneration of forests. In traditional reforestation efforts, seedling",
+          "category": "insight",
+          "publishedAt": "2026-05-03T19:31:35.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Underwater robot tracks sperm whale conversations in real time",
+          "titleKo": "수중 로봇, 향고래 대화를 실시간으로 추적",
+          "summary": "수중 로봇이 향고래들의 의사소통을 실시간으로 감지하고 추적하는 기술이 개발되었다.",
+          "keyPoints": [
+            "이 기술은 향고래의 음성 신호를 수집하고 분석하여 동물 행동 연구에 새로운 가능성을 제시한다.",
+            "실시간 추적 능력은 해양 생물학자들이 고래 집단의 상호작용을 더 깊이 이해하는 데 도움이 된다."
+          ],
+          "whyItMatters": "센서 기술과 실시간 데이터 처리에 관심 있는 개발자들이 해양 생물 모니터링 시스템의 기술적 구현 사례를 배울 수 있다.",
+          "url": "https://www.reuters.com/business/environment/underwater-robot-tracks-sperm-whale-conversations-real-time-2026-05-01/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 26,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "underwater-robot-tracks-sperm-whale-conversations-in-real-time",
+          "category": "insight",
+          "publishedAt": "2026-05-03T16:35:20.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Nuclear receptor 4A1 linked to health effects of coffee: study",
+          "titleKo": "핵수용체 4A1, 커피의 건강 효과와 연관: 연구",
+          "summary": "최근 연구에서 핵수용체 4A1(NR4A1)이 커피 섭취의 건강 영향을 조절하는 주요 생물학적 경로로 밝혀졌다.",
+          "keyPoints": [
+            "NR4A1은 커피의 생리적 효과를 중개하는 핵심 단백질로, 이를 이해하면 커피의 건강상 이점을 더 정확히 파악할 수 있다.",
+            "이 발견은 커피 섭취와 건강 사이의 생화학적 메커니즘을 규명하는 데 기여한다."
+          ],
+          "whyItMatters": "생명과학 데이터 분석에 관심 있는 개발자들이 생물학적 신호 전달 경로와 식품 성분의 건강 영향 연구 방법론을 이해할 수 있다.",
+          "url": "https://sciencex.com/news/2026-04-coffee-doesnt-key-biological-pathway.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 106,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "nuclear-receptor-4a1-linked-to-health-effects-of-coffee-study",
+          "category": "insight",
+          "publishedAt": "2026-05-03T11:12:29.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Partial Page Caching Using React Server Components",
+          "titleKo": "React Server Components를 사용한 부분 페이지 캐싱",
+          "summary": "React Server Components를 활용한 부분 페이지 캐싱 기법에 대한 영상 콘텐츠",
+          "keyPoints": [
+            "React Server Components를 통한 선택적 페이지 캐싱 전략을 다룬다."
+          ],
+          "whyItMatters": "React Server Components의 캐싱 기능을 효과적으로 활용하면 성능 최적화와 서버 부하 감소를 동시에 달성할 수 있다.",
+          "url": "https://www.youtube.com/watch?v=t9xB8xvySyo",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "react-rsc",
+          "isTopicPrimary": true,
+          "relatedCount": 3,
+          "slug": "partial-page-caching-using-react-server-components",
+          "category": "video",
+          "publishedAt": "2026-04-27T14:09:16+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "5 Ways To SSR/RSC on TanStack Start",
+          "titleKo": "TanStack Start에서 SSR/RSC 구현하는 5가지 방법",
+          "summary": "TanStack Start 프레임워크에서 SSR(Server-Side Rendering)과 RSC(React Server Components)를 구현하는 다양한 방법을 설명한 영상 콘텐츠",
+          "keyPoints": [
+            "TanStack Start 환경에서 SSR과 RSC의 여러 구현 패턴을 소개한다."
+          ],
+          "whyItMatters": "TanStack Start 사용자가 최적의 렌더링 전략을 선택하여 성능과 개발자 경험을 모두 개선할 수 있다.",
+          "url": "https://www.youtube.com/watch?v=PX3QlADinIE",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "react-rsc",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "5-ways-to-ssrrsc-on-tanstack-start",
+          "category": "video",
+          "publishedAt": "2026-04-20T15:23:38+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "New CSS corner-shape Property Is Amazing",
+          "titleKo": "새로운 CSS corner-shape 속성이 놀라울 정도로 훌륭하다",
+          "summary": "CSS에 새로운 corner-shape 속성이 추가되어 모서리 디자인에 혁신을 가져왔습니다. 이 속성을 통해 개발자들은 더 다양하고 창의적인 UI를 구현할 수 있게 되었습니다.",
+          "keyPoints": [
+            "corner-shape 속성은 border-radius의 한계를 극복하고 더 정교한 모서리 스타일링을 가능하게 합니다.",
+            "기존의 복잡한 CSS 해킹이나 이미지 없이도 고급 모서리 효과를 구현할 수 있습니다."
+          ],
+          "whyItMatters": "웹 디자인의 표현 능력을 확장하여 더 세련된 UI 구현이 가능해집니다.",
+          "url": "https://www.youtube.com/watch?v=pe0ez1I7cgU",
+          "sourceName": "Web Dev Simplified",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "new-css-corner-shape-property-is-amazing",
+          "category": "video",
+          "publishedAt": "2026-04-30T16:01:27+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Netlify.new - AI Builder for TanStack Start Apps!",
+          "titleKo": "Netlify.new - TanStack Start 앱용 AI 빌더",
+          "summary": "Netlify가 TanStack Start 애플리케이션을 위한 AI 기반 빌더 도구를 출시했습니다. 이 도구는 개발자가 더 빠르고 효율적으로 애플리케이션을 구축할 수 있도록 지원합니다.",
+          "keyPoints": [
+            "Netlify.new는 AI를 활용한 자동화된 애플리케이션 빌더로, TanStack Start와 통합되어 있습니다.",
+            "개발 생산성 향상과 빠른 프로토타이핑을 목표로 설계되었습니다."
+          ],
+          "whyItMatters": "모던 풀스택 프레임워크인 TanStack Start 개발자들의 개발 속도와 생산성을 크게 향상시킬 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=xMmaScSyaaU",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "netlifynew-ai-builder-for-tanstack-start-apps",
+          "category": "video",
+          "publishedAt": "2026-03-18T19:07:12+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "React 2025 – Adding MDX",
+          "titleKo": "React 2025 – MDX 추가하기",
+          "summary": "React 2025 버전에서 MDX를 통합하는 방법을 다룬 영상 콘텐츠",
+          "keyPoints": [
+            "React 환경에서 MDX를 효과적으로 추가하고 활용하는 기법을 설명한다."
+          ],
+          "whyItMatters": "MDX 통합으로 React 프로젝트에서 마크다운과 컴포넌트를 함께 사용하여 문서 작성과 동적 콘텐츠 생성을 더욱 효율적으로 할 수 있다.",
+          "url": "https://www.youtube.com/watch?v=TUnbglpVhiU",
+          "sourceName": "Lee Robinson",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "react-rsc",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "react-2025-adding-mdx",
+          "category": "video",
+          "publishedAt": "2025-11-07T14:31:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "React2Shell on TanStack Start?!?",
+          "titleKo": "TanStack Start에서 React2Shell 사용하기",
+          "summary": "TanStack Start 프레임워크와 React2Shell을 결합하는 방법에 대한 영상 콘텐츠",
+          "keyPoints": [
+            "TanStack Start 환경에서 React2Shell 도구를 활용하는 방법을 다룬다."
+          ],
+          "whyItMatters": "React2Shell을 TanStack Start와 함께 사용하여 개발 효율성과 통합 개발 경험을 향상시킬 수 있다.",
+          "url": "https://www.youtube.com/watch?v=-dbvAMsRKi0",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "react-rsc",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "react2shell-on-tanstack-start",
+          "category": "video",
+          "publishedAt": "2026-04-14T17:51:48+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Introducing TanStack AI Code Mode",
+          "titleKo": "TanStack AI Code Mode 소개",
+          "summary": "TanStack이 새롭게 출시한 AI Code Mode 기능을 소개하는 영상 콘텐츠",
+          "keyPoints": [
+            "TanStack의 새로운 AI 기반 코드 모드 기능을 설명한다."
+          ],
+          "whyItMatters": "TanStack AI Code Mode는 개발자의 코드 작성 생산성을 AI 지원으로 향상시킬 수 있는 새로운 기능이다.",
+          "url": "https://www.youtube.com/watch?v=s9Cs_RmkVPg",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "introducing-tanstack-ai-code-mode",
+          "category": "video",
+          "publishedAt": "2026-04-08T17:31:33+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude Code's favorite tech stack",
+          "titleKo": "Claude Code가 선호하는 기술 스택",
+          "summary": "Claude Code가 선택한 추천 기술 스택에 대한 영상 콘텐츠입니다.",
+          "keyPoints": [
+            "Claude Code의 개발 도구 선택 기준과 추천 기술을 소개"
+          ],
+          "whyItMatters": "AI 기반 개발 도구의 관점에서 본 현대적 기술 스택 선택 기준을 이해할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=v1MptV67kSI",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "frontend",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "claude-codes-favorite-tech-stack",
+          "category": "video",
+          "publishedAt": "2026-04-29T08:33:14+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Millions of WordPress sites just got hacked... again",
+          "titleKo": "수백만 개의 WordPress 사이트가 또다시 해킹되었다",
+          "summary": "대규모 WordPress 사이트 해킹 사건이 발생했습니다. 이는 WordPress 플랫폼의 보안 취약점이 계속되고 있음을 나타냅니다.",
+          "keyPoints": [
+            "수백만 개의 WordPress 사이트가 공격 대상이 되었습니다.",
+            "반복되는 보안 침해는 WordPress 플러그인이나 코어의 취약점과 관련이 있습니다."
+          ],
+          "whyItMatters": "WordPress 기반 프로젝트를 개발하거나 운영하는 개발자들이 보안 패치 적용과 취약점 관리의 중요성을 인식해야 합니다.",
+          "url": "https://www.youtube.com/watch?v=piah4fV_o2Q",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "millions-of-wordpress-sites-just-got-hacked-again",
+          "category": "video",
+          "publishedAt": "2026-04-16T15:29:01+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Life after GitHub",
+          "titleKo": "GitHub 이후의 삶",
+          "summary": "GitHub을 넘어선 대안 플랫폼과 소프트웨어 개발 협업의 미래에 대한 영상 콘텐츠입니다.",
+          "keyPoints": [
+            "GitHub 의존성에서 벗어난 개발 도구 및 플랫폼 탐색"
+          ],
+          "whyItMatters": "개발팀이 다양한 코드 호스팅 및 협업 플랫폼 옵션을 검토하여 자신들의 요구에 맞는 선택을 할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=Hy-tQlk5RTU",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "devops",
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "life-after-github",
+          "category": "video",
+          "publishedAt": "2026-05-03T19:46:28+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude just got another superpower...",
+          "titleKo": "Claude가 새로운 능력을 얻었습니다",
+          "summary": "Claude의 새로운 기능 추가에 관한 영상 콘텐츠입니다.",
+          "keyPoints": [
+            "Claude의 업데이트된 기능 소개"
+          ],
+          "whyItMatters": "AI 어시스턴트의 최신 기능을 파악하여 개발 워크플로우에 활용할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=jeA-KBv0b68",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "claude-just-got-another-superpower",
+          "category": "video",
+          "publishedAt": "2026-04-21T17:35:43+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "GitHub is having some major issues right now…",
+          "titleKo": "GitHub에서 현재 주요 장애 발생 중",
+          "summary": "GitHub에서 현재 심각한 장애가 발생하고 있는 상황이다.",
+          "keyPoints": [
+            "GitHub 플랫폼의 주요 장애 발생"
+          ],
+          "whyItMatters": "개발자들의 저장소 접근 및 협업에 영향을 미칠 수 있다.",
+          "url": "https://www.youtube.com/watch?v=d53Zk28esmU",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "github-is-having-some-major-issues-right-now",
+          "category": "video",
+          "publishedAt": "2026-04-30T16:37:31+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Seriously, Anthropic??",
+          "titleKo": "Anthropic에 대한 의문의 목소리",
+          "summary": "Anthropic의 특정 정책이나 결정에 대한 비판적 관점을 다룬다.",
+          "keyPoints": [
+            "Anthropic의 의사결정에 대한 의문 제기"
+          ],
+          "whyItMatters": "AI 기업의 투명성과 방향성에 대한 개발자의 관심을 반영한다.",
+          "url": "https://www.youtube.com/watch?v=J8O9LLpJNrg",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "seriously-anthropic",
+          "category": "video",
+          "publishedAt": "2026-05-01T21:26:53+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I recreated the Apple Lisa computer inside an FPGA [video]",
+          "titleKo": "FPGA 내에서 Apple Lisa 컴퓨터 재현 [영상]",
+          "summary": "누군가가 FPGA를 사용하여 Apple Lisa 컴퓨터를 완전히 재현한 프로젝트이다.",
+          "keyPoints": [
+            "FPGA 기술을 활용한 레트로 컴퓨터 재현",
+            "Apple Lisa의 하드웨어 아키텍처를 디지털로 구현"
+          ],
+          "whyItMatters": "FPGA 설계와 하드웨어 에뮬레이션 기술의 가능성을 보여주는 좋은 참고 사례이다.",
+          "url": "https://www.youtube.com/watch?v=8jNQDcpHc68",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 62,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-recreated-the-apple-lisa-computer-inside-an-fpga-video",
+          "category": "video",
+          "publishedAt": "2026-05-03T17:45:47.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Realistic advice about software dev right now",
+          "titleKo": "현재 소프트웨어 개발에 대한 현실적인 조언",
+          "summary": "YouTube 영상으로, 현재 소프트웨어 개발 업계의 현실적인 상황과 조언에 대해 다룬 것으로 보입니다.",
+          "keyPoints": [
+            "현재 개발 환경의 실질적인 문제점과 해결 방안 제시"
+          ],
+          "whyItMatters": "개발자들이 현실적인 직무 환경과 커리어 관리에 대한 인사이트를 얻을 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=88qc67oYDl4",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "realistic-advice-about-software-dev-right-now",
+          "category": "video",
+          "publishedAt": "2026-04-28T07:55:10+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude Mythos is too dangerous for public consumption...",
+          "titleKo": "Claude Mythos는 공개적 소비에는 너무 위험하다",
+          "summary": "YouTube 영상으로, AI 모델 Claude와 관련된 우려 사항이나 논쟁을 다룬 것으로 보입니다.",
+          "keyPoints": [
+            "Claude AI 모델의 위험성이나 한계에 관한 논의"
+          ],
+          "whyItMatters": "개발자들이 AI 도구 사용 시 주의해야 할 점을 이해할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=d3Qq-rkp_to",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "claude-mythos-is-too-dangerous-for-public-consumption",
+          "category": "video",
+          "publishedAt": "2026-04-10T19:29:35+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I give up.",
+          "titleKo": "포기했습니다",
+          "summary": "YouTube 영상으로, 제작자의 개인적인 경험이나 특정 주제에 대한 포기를 주제로 한 것으로 보입니다.",
+          "keyPoints": [
+            "개인적인 경험 공유"
+          ],
+          "whyItMatters": "개발자 커뮤니티의 다양한 관점과 경험을 이해하는 데 도움이 됩니다.",
+          "url": "https://www.youtube.com/watch?v=R7ex-Gt8dtw",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-give-up",
+          "category": "video",
+          "publishedAt": "2026-04-30T09:55:10+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I finally found a use case for OpenClaw…",
+          "titleKo": "드디어 OpenClaw의 사용 사례를 찾았습니다",
+          "summary": "YouTube 영상으로, OpenClaw라는 도구의 실질적인 적용 사례를 소개하는 것으로 보입니다.",
+          "keyPoints": [
+            "OpenClaw 도구의 실제 활용 방법 제시"
+          ],
+          "whyItMatters": "개발자들이 특정 개발 도구의 실질적인 활용 사례를 학습할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=FM5-R4VPArw",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-finally-found-a-use-case-for-openclaw",
+          "category": "video",
+          "publishedAt": "2026-04-23T18:26:39+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
