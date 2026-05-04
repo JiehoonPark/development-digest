@@ -1,0 +1,946 @@
+{
+  "date": "2026-05-04",
+  "intro": "안녕하세요! 오늘은 AI 음성 기술의 대규모 운영, 기업 인수 후의 제품 품질 변화, 그리고 개인정보 유출 사건 등 프론트엔드와 개발자 커뮤니티에 중요한 영향을 미치는 소식들이 많습니다. 특히 AI 에이전트 기술의 빠른 성장과 대형 기술 기업들의 정책 변화가 주목할 만한 트렌드입니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "How OpenAI delivers low-latency voice AI at scale",
+          "titleKo": "OpenAI가 대규모 저지연 음성 AI를 제공하는 방식",
+          "summary": "현재 기사 본문이 제공되지 않았습니다. 제목만으로 볼 때, OpenAI가 음성 AI 서비스를 대규모로 운영하면서 낮은 지연시간(low-latency)을 유지하는 기술적 방법론을 다루는 것으로 추정됩니다. 아키텍처, 인프라 최적화, 또는 실시간 처리 기법 등이 포함될 것으로 예상됩니다.",
+          "keyPoints": [
+            "대규모 사용자를 대상으로 음성 AI 서비스를 제공할 때 지연시간을 최소화하는 것이 핵심 과제입니다."
+          ],
+          "whyItMatters": "음성 기반 AI 애플리케이션 개발자들에게 실시간 응답성을 확보하는 기술적 인사이트를 제공할 수 있습니다.",
+          "url": "https://openai.com/index/delivering-low-latency-voice-ai-at-scale/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 188,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "openai-voice-ai",
+          "isTopicPrimary": true,
+          "slug": "how-openai-delivers-low-latency-voice-ai-at-scale",
+          "category": "hot",
+          "publishedAt": "2026-05-04T19:42:47.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Microsoft Edge stores all passwords in memory in clear text, even when unused",
+          "summary": "",
+          "keyPoints": [],
+          "url": "https://twitter.com/L1v1ng0ffTh3L4N/status/2051308329880719730",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 337,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "topicId": "edge-security",
+          "isTopicPrimary": true,
+          "slug": "microsoft-edge-stores-all-passwords-in-memory-in-clear-text-even-when-unused",
+          "category": "hot",
+          "publishedAt": "2026-05-04T18:22:42.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "I am worried about Bun",
+          "titleKo": "Bun에 대해 걱정합니다",
+          "summary": "Anthropic의 Bun 인수 이후 Claude Code의 품질 저하와 제한 정책이 증가하고 있으며, 개발자는 Bun도 같은 경로를 따를 수 있다는 우려를 제기합니다. Bun 자체는 우수하지만 Anthropic의 정책 영향으로 인한 '품질 저하(enshittification)' 위험성을 경고하는 글입니다.",
+          "keyPoints": [
+            "Claude Code가 제한, 청구 이상, 예측 불가능한 동작 등으로 악화되고 있음",
+            "Bun이 Claude Code에 내장되어 있어 Anthropic의 정책 변화에 영향을 받을 가능성",
+            "VC 펀딩의 지속 가능성 문제 해결을 위한 인수였으나 제품 관리 측면에서 우려 증가"
+          ],
+          "whyItMatters": "JavaScript 개발자들이 의존하는 Bun의 미래 방향과 정책 변화가 개발 환경에 직접 영향을 미칠 수 있습니다.",
+          "url": "https://wwj.dev/posts/i-am-worried-about-bun/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 347,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "topicId": "bun-concerns",
+          "isTopicPrimary": true,
+          "slug": "i-am-worried-about-bun",
+          "fullContent": "Bun is great software.I use it all the time. It is fast and practical, and the team ships constantly. It makes TypeScript a joy to work with in small scripts, apps, tests, and tooling. That is why this is frustrating. I want Bun to win. I want a serious Node.js alternative. I want faster installs, faster tests, better bundling, and less toolchain bloat.But I am worried about Bun now.Anthropic owns BunAnthropic acquired Bun in December 2025.The announcement said everything I wanted to hear: Bun stays open source and MIT-licensed, the same team keeps working on it, and the roadmap keeps focusing on high-performance JavaScript tooling and Node.js compatibility.It also said this:Claude Code ships as a Bun executable to millions of users. If Bun breaks, Claude Code breaks. Anthropic has direct incentive to keep Bun excellent.In December, that sounded reassuring. Anthropic had a huge product built on Bun. That meant Anthropic had a direct incentive to keep Bun fast, stable, and excellent. I still think that argument has merit, but now cracks are showing.Bun is still a great JavaScript runtime, but now it's in the hands of a company that doesn't seem to care at all about their software.Anthropic models are still greatThis is not an \"Anthropic bad\" post. Well, not entirely. I still think Anthropic's models are great. Claude Opus (4.6 I guess) is still one of the best model families for coding, writing, reasoning, and general dev work. The model quality is not my concern here. My concern is the product layer around the models. Claude Code kind of sucks to use today.Claude Code used to be greatClaude Code felt incredible a year ago. It was one of the first AI coding tools that convinced me developer workflows would change from mostly autocomplete to agents. It could read a project, make focused edits, run commands, fix mistakes, and keep going. It felt like a tool built by people who understood how devs actually work. Combined with Anthropic's models, which up until recently (GPT-5.5) were best-in-class, Claude Code felt unbeatable.Though even in December Claude Code was already getting worse, it was still good and that made the Bun acquisition make sense to me. If Anthropic was building the future of coding tools, and Bun was the runtime underneath those tools, maybe Bun had found the best possible home. I was always a little worried about how Bun was going to become a sustainable business given it was VC funded. So the acquisition made sense, and I was optimistic.Claude Code is badThere are so many good coding agents out there right now. Cursor, Augment, Codex, OpenCode, T3 Code, Pi, probably more. For a long time Cursor was my main driver, because while Claude Code was getting worse over time Cursor (the CLI) was so good at using Anthropic models. Recently, I had to stop using Cursor for reasons. I hadn't used Claude Code in a couple months, so I picked it back up and was actually shocked at how bad it has become.In April 2026, devs started complaining about Claude Code quality, limit behavior, third-party harness restrictions, confusing billing, and slow communication.Anthropic published an engineering postmortem that blamed product-layer issues, including a reduced default reasoning effort, a stale-session bug, and a prompt change that hurt coding quality. I appreciate the postmortem. It is better than pretending nothing happened. Honestly, it was possibly the first time Anthropic mentioned anything being their own fault.Then there was the OpenClaw mess. TechCrunch reported that Anthropic told Claude Code subscribers they would need to pay extra for OpenClaw and other third-party harnesses. That is already bad enough. But the weird part came later.Gigazine covered reports that simply having OpenClaw in git history could cause Claude Code to refuse a request or bill extra. That article quotes Theo saying a recent commit mentioning OpenClaw in a JSON blob could trigger the behavior, even in an empty repo while calling claude -p \"hi\" directly. If you're interested in watching the clip, it's incredible.Theo's read, and one I find plausible, is that this looks like a product where nobody is carefully dogfooding the actual code-level experience before shipping changes. Maybe that is unfair, I don't know what actually goes on at Anthropic. But from the outside, Claude Code looks like a tool moving in the wrong direction. More restrictions, billing weirdness, surprise behavior based on text in commits.That is textbook enshittification.That is why Bun worries meBun is embedded in Claude Code. Claude Code appears to be enshittifying. So now I have to worry that Bun could enshittify too. Not because Bun is bad. Bun is not bad. Bun is excellent. Not because the Bun team stopped caring. I do not believe that.The problem is as Bun and its team get further integrated into Anthropic, so will their policies. The same policies that have led to the collapse of Claude Code. Will we see issues start popping up in Bun that make it se",
+          "category": "hot",
+          "publishedAt": "2026-05-04T16:45:00.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "US healthcare marketplaces shared citizenship and race data with ad tech giants",
+          "titleKo": "미국 의료 보험 시장, 시민권 및 인종 정보를 광고 기업에 공유",
+          "summary": "Bloomberg 조사에 따르면 미국의 20개 주 정부 의료 보험 시장 거의 모두가 주민의 신청 정보를 Google, LinkedIn, Meta, Snap 등 광고 및 기술 회사와 공유했습니다. 픽셀 추적기를 통한 설정 오류로 인해 민감한 의료 정보가 의도하지 않게 노출되었습니다.",
+          "keyPoints": [
+            "뉴욕의 의료 보험 거래소는 투옥된 가족 관계 여부 등 개인 정보를 기술 회사와 공유했으며, 워싱턴 D.C는 인종 및 성별 정보가 TikTok 추적기를 통해 공유됨",
+            "픽셀 추적기의 설정 오류로 인해 정부 웹사이트에 있는 700만 명 이상의 개인 건강 정보가 광고 기업에 노출"
+          ],
+          "whyItMatters": "개발자는 웹사이트에 추적 도구를 배치할 때 민감한 개인 정보가 의도치 않게 외부 서비스로 전송되지 않도록 주의해야 하며, 특히 정부 및 의료 관련 사이트에서 더욱 신중한 데이터 보호 체계가 필요합니다.",
+          "url": "https://techcrunch.com/2026/05/04/us-healthcare-marketplaces-shared-citizenship-and-race-data-with-ad-tech-giants/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 377,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "us-healthcare-marketplaces-shared-citizenship-and-race-data-with-ad-tech-giants",
+          "fullContent": "Almost all of the 20 U.S. state government-run health insurance marketplaces shared residents’ application information with advertising and tech giants, including Google, LinkedIn, Meta, and Snap, according to a new investigation by Bloomberg.\nThe report drives home the privacy problems created by pixel-sized trackers, which allow website owners to collect information about their visitors, often for web analytics and identifying bugs. A common tool in digital advertising, these trackers also allow the collection of personal information if misconfigured and placed on websites that contain sensitive content, such as healthcare data.\nPer Bloomberg, New York’s health insurance exchange shared information with several tech companies about a person’s application, including whether they provided details about whether they have incarcerated family members.\nThe health insurance exchange for Washington, D.C. also asked residents about the person’s sex and race, which TikTok’s pixel tracker attempted to redact. Some races were masked and others were not, the publication reported. A spokesperson for the Washington, D.C. exchange told Bloomberg that residents’ email address, phone number, and country identifiers were also shared with TikTok.\nWashington, D.C. paused its rollout of the TikTok tracker, and Virginia removed the Meta tracker from its website after Bloomberg found it was sharing residents’ ZIP codes with the tech giant.\nThis is not a new problem, and has previously caught out telehealth startups and healthcare giants alike. Several companies and healthcare giants have had to notify millions that they inadvertently collected and shared their health information with tech giants, whose profits are derived from using consumer data for advertising.\nBut Bloomberg’s investigation shows that these pixel trackers can affect large swathes of the population when placed on government websites. The publication noted that more than seven million Americans purchased health insurance for this year through a state health insurance exchange.\nTechcrunch event\nMeet your next investor or portfolio startup at Disrupt\nYour next round. Your next hire. Your next breakout opportunity. Find it at TechCrunch Disrupt 2026, where 10,000+ founders, investors, and tech leaders gather for three days of 250+ tactical sessions, powerful introductions, and market-defining innovation. Register now to save up to $410.\nMeet your next investor or portfolio startup at Disrupt\nYour next round. Your next hire. Your next breakout opportunity. Find it at TechCrunch Disrupt 2026, where 10,000+ founders, investors, and tech leaders gather for three days of 250+ tactical sessions, powerful introductions, and market-defining innovation. Register now to save up to $410.\nSan Francisco, CA\n|\nOctober 13-15, 2026\nREGISTER NOW",
+          "category": "hot",
+          "publishedAt": "2026-05-04T17:16:36.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "ruvnet/ruflo (TypeScript)",
+          "titleKo": "Ruflo - Claude 기반 에이전트 오케스트레이션 플랫폼",
+          "summary": "Claude를 활용하여 다중 에이전트 스웜을 배포하고 자율 워크플로우를 조율하는 엔터프라이즈급 에이전트 오케스트레이션 플랫폼입니다.",
+          "keyPoints": [
+            "멀티 에이전트 스웜 지능과 자가 학습 기능 제공",
+            "RAG 통합, Claude Code 네이티브 지원, 엔터프라이즈급 아키텍처"
+          ],
+          "whyItMatters": "복잡한 다중 에이전트 시스템을 체계적으로 구축하고 관리할 수 있는 플랫폼으로, 대규모 AI 자동화 구현의 진입장벽을 낮춥니다.",
+          "url": "https://github.com/ruvnet/ruflo",
+          "sourceName": "GitHub Trending",
+          "engagement": 41291,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ruvnetruflo-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-04T23:22:34.259Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "czlonkowski/n8n-mcp (TypeScript)",
+          "titleKo": "n8n MCP - Claude Desktop/Cursor를 위한 n8n 워크플로우 빌더",
+          "summary": "Claude Desktop, Claude Code, Windsurf, Cursor에서 n8n 워크플로우를 자동으로 구축할 수 있는 MCP(Model Context Protocol)입니다.",
+          "keyPoints": [
+            "Claude 기반 AI 도구들과 n8n 자동화 플랫폼을 통합하는 프로토콜",
+            "개발자가 자연어로 워크플로우를 작성하고 배포할 수 있게 지원"
+          ],
+          "whyItMatters": "LLM 코딩 에이전트가 복잡한 자동화 워크플로우를 직접 구축할 수 있게 해주므로 개발 생산성을 높입니다.",
+          "url": "https://github.com/czlonkowski/n8n-mcp",
+          "sourceName": "GitHub Trending",
+          "engagement": 19893,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "backend",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "czlonkowskin8n-mcp-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-04T23:22:34.262Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "msitarzewski/agency-agents (Shell)",
+          "titleKo": "Agency Agents - 전문화된 AI 에이전트 조합 플랫폼",
+          "summary": "프론트엔드, 커뮤니티 관리, 콘텐츠 생성 등 다양한 역할의 전문화된 AI 에이전트들을 조합하여 사용할 수 있는 완전한 AI 에이전시 플랫폼입니다.",
+          "keyPoints": [
+            "각각 고유한 성격과 프로세스를 가진 특화된 에이전트 제공",
+            "여러 에이전트를 조합하여 복잡한 작업 자동화 가능"
+          ],
+          "whyItMatters": "멀티 에이전트 아키텍처로 다양한 업무를 자동화할 수 있는 확장 가능한 시스템을 구축할 수 있습니다.",
+          "url": "https://github.com/msitarzewski/agency-agents",
+          "sourceName": "GitHub Trending",
+          "engagement": 92600,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "msitarzewskiagency-agents-shell",
+          "category": "tech",
+          "publishedAt": "2026-05-04T23:22:34.262Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "browserbase/skills (JavaScript)",
+          "titleKo": "Browserbase Skills - Claude 에이전트 웹 브라우징 SDK",
+          "summary": "Claude 에이전트가 웹을 브라우징하고 상호작용할 수 있도록 하는 JavaScript SDK입니다.",
+          "keyPoints": [
+            "Claude 에이전트에 웹 브라우징 기능을 통합",
+            "실시간 웹 데이터 수집과 상호작용 자동화"
+          ],
+          "whyItMatters": "LLM 에이전트가 웹 환경에서 자율적으로 작동할 수 있게 하여 정보 수집과 자동화 범위를 크게 확장합니다.",
+          "url": "https://github.com/browserbase/skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 2101,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "browserbaseskills-javascript",
+          "category": "tech",
+          "publishedAt": "2026-05-04T23:22:34.260Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "TauricResearch/TradingAgents (Python)",
+          "summary": "TradingAgents: Multi-Agents LLM Financial Trading Framework",
+          "keyPoints": [],
+          "url": "https://github.com/TauricResearch/TradingAgents",
+          "sourceName": "GitHub Trending",
+          "engagement": 67382,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "tauricresearchtradingagents-python",
+          "category": "tech",
+          "publishedAt": "2026-05-04T23:22:34.260Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "virattt/dexter (TypeScript)",
+          "titleKo": "Dexter - 금융 리서치 자율 에이전트",
+          "summary": "깊이 있는 금융 조사를 자동으로 수행하는 자율 에이전트로, TypeScript로 구현되어 있습니다.",
+          "keyPoints": [
+            "금융 데이터 분석과 리서치 자동화에 특화된 AI 에이전트",
+            "복잡한 금융 정보 수집과 분석을 자동으로 처리"
+          ],
+          "whyItMatters": "금융 도메인에서 LLM 에이전트의 실제 활용 사례로, 특화된 작업 자동화의 가능성을 보여줍니다.",
+          "url": "https://github.com/virattt/dexter",
+          "sourceName": "GitHub Trending",
+          "engagement": 23169,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "viratttdexter-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-04T23:22:34.263Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Hmbown/DeepSeek-TUI (Rust)",
+          "titleKo": "DeepSeek-TUI - 터미널에서 실행되는 DeepSeek 코딩 에이전트",
+          "summary": "Rust로 작성된 DeepSeek 모델용 코딩 에이전트로, 터미널에서 직접 실행할 수 있다. 개발자가 명령줄 환경에서 AI 기반 코딩 지원을 받을 수 있도록 설계되었다.",
+          "keyPoints": [
+            "Rust 기반으로 빠른 성능과 안정성 제공",
+            "터미널 기반 인터페이스로 개발 워크플로우에 직접 통합 가능"
+          ],
+          "whyItMatters": "개발자가 IDE를 떠나지 않고도 AI 코딩 어시스턴트를 활용할 수 있는 효율적인 솔루션을 제공한다.",
+          "url": "https://github.com/Hmbown/DeepSeek-TUI",
+          "sourceName": "GitHub Trending",
+          "engagement": 3866,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "hmbowndeepseek-tui-rust",
+          "category": "tech",
+          "publishedAt": "2026-05-04T23:22:34.261Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "fspecii/ace-step-ui (JavaScript)",
+          "titleKo": "ACE-Step UI - 오픈소스 Suno 대안 AI 음악 생성 전문 UI",
+          "summary": "JavaScript로 개발된 ACE-Step 1.5 AI 음악 생성 도구의 전문가급 UI로, 로컬에서 무제한 사용 가능한 Suno의 오픈소스 대안이다.",
+          "keyPoints": [
+            "Suno 유료 서비스를 대체하는 무료 오픈소스 솔루션",
+            "로컬 환경에서 실행되어 무제한 음악 생성 가능"
+          ],
+          "whyItMatters": "AI 음악 생성 기능이 필요한 프로젝트에서 비용 없이 자체 솔루션을 구축할 수 있다.",
+          "url": "https://github.com/fspecii/ace-step-ui",
+          "sourceName": "GitHub Trending",
+          "engagement": 2817,
+          "contentType": "repo",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "fspeciiace-step-ui-javascript",
+          "category": "tech",
+          "publishedAt": "2026-05-04T23:22:34.263Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "cocoindex-io/cocoindex (Python)",
+          "titleKo": "CocoIndex - 장기 지평 에이전트를 위한 증분 엔진",
+          "summary": "Python으로 개발된 라이브러리로, 장시간 동작하는 AI 에이전트를 위한 증분(incremental) 처리 엔진을 제공한다.",
+          "keyPoints": [
+            "장기 지평 에이전트의 효율적 동작을 위한 증분 처리 아키텍처",
+            "복잡한 에이전트 시스템의 성능 최적화에 활용"
+          ],
+          "whyItMatters": "장시간 실행되는 AI 에이전트 시스템의 성능과 안정성을 개선하는 핵심 기술을 제공한다.",
+          "url": "https://github.com/cocoindex-io/cocoindex",
+          "sourceName": "GitHub Trending",
+          "engagement": 7985,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "cocoindex-iococoindex-python",
+          "category": "tech",
+          "publishedAt": "2026-05-04T23:22:34.264Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "docusealco/docuseal (Ruby)",
+          "titleKo": "DocuSeal - 오픈소스 DocuSign 대안",
+          "summary": "Ruby로 개발된 오픈소스 문서 서명 솔루션으로, 디지털 문서 작성, 작성, 서명 기능을 제공한다. DocuSign의 상용 솔루션을 대체할 수 있다.",
+          "keyPoints": [
+            "전체 문서 생명주기(작성, 작성, 서명) 지원",
+            "오픈소스로 자유로운 커스터마이징 및 배포 가능"
+          ],
+          "whyItMatters": "전자 문서 서명 기능이 필요한 애플리케이션에서 높은 비용 없이 자체 솔루션을 구축할 수 있다.",
+          "url": "https://github.com/docusealco/docuseal",
+          "sourceName": "GitHub Trending",
+          "engagement": 13218,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "docusealcodocuseal-ruby",
+          "category": "tech",
+          "publishedAt": "2026-05-04T23:22:34.264Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Ruby"
+          ]
+        },
+        {
+          "title": "jellyfin/jellyfin (C#)",
+          "titleKo": "Jellyfin - 무료 소프트웨어 미디어 시스템",
+          "summary": "Jellyfin은 C#으로 개발된 오픈소스 미디어 서버 백엔드 및 API입니다.",
+          "keyPoints": [
+            "자체 호스팅 가능한 무료 미디어 시스템 제공",
+            "서버 백엔드와 API를 통한 확장 가능한 아키텍처"
+          ],
+          "whyItMatters": "개발자들이 독립적으로 미디어 서비스를 구축하고 커스터마이징할 수 있는 오픈소스 솔루션을 제공합니다.",
+          "url": "https://github.com/jellyfin/jellyfin",
+          "sourceName": "GitHub Trending",
+          "engagement": 51140,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "jellyfinjellyfin-c",
+          "category": "tech",
+          "publishedAt": "2026-05-04T23:22:34.264Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "C#"
+          ]
+        },
+        {
+          "title": "soxoj/maigret (Python)",
+          "titleKo": "Maigret - 사용자명 기반 정보 수집 도구",
+          "summary": "Maigret는 3000개 이상의 사이트에서 사용자명을 기반으로 개인 정보를 수집하는 Python 기반 조사 도구입니다.",
+          "keyPoints": [
+            "3000개 이상의 웹사이트를 대상으로 사용자명 검색 수행",
+            "여러 온라인 소스에서 통합된 프로필 정보 수집"
+          ],
+          "whyItMatters": "보안 연구, 신원 검증, 정보 수집 작업에 활용될 수 있는 자동화 도구입니다.",
+          "url": "https://github.com/soxoj/maigret",
+          "sourceName": "GitHub Trending",
+          "engagement": 24787,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "soxojmaigret-python",
+          "category": "tech",
+          "publishedAt": "2026-05-04T23:22:34.261Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "1jehuang/jcode (Rust)",
+          "titleKo": "JCode - 코딩 에이전트 프레임워크",
+          "summary": "JCode는 Rust로 개발된 코딩 에이전트 하네스입니다.",
+          "keyPoints": [
+            "Rust로 구현된 코딩 자동화 에이전트 도구"
+          ],
+          "whyItMatters": "개발 프로세스를 자동화하고 AI 기반 코딩 에이전트를 구축하기 위한 인프라 제공합니다.",
+          "url": "https://github.com/1jehuang/jcode",
+          "sourceName": "GitHub Trending",
+          "engagement": 3888,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "1jehuangjcode-rust",
+          "category": "tech",
+          "publishedAt": "2026-05-04T23:22:34.262Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "qbittorrent/qBittorrent (C++)",
+          "titleKo": "qBittorrent - BitTorrent 클라이언트",
+          "summary": "qBittorrent는 C++로 개발된 오픈소스 BitTorrent 클라이언트입니다.",
+          "keyPoints": [
+            "파일 공유를 위한 경량 BitTorrent 클라이언트 제공",
+            "크로스 플랫폼 오픈소스 솔루션"
+          ],
+          "whyItMatters": "P2P 파일 전송과 분산 네트워크 기술을 학습하고 구현할 수 있는 오픈소스 프로젝트입니다.",
+          "url": "https://github.com/qbittorrent/qBittorrent",
+          "sourceName": "GitHub Trending",
+          "engagement": 37032,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "qbittorrentqbittorrent-c",
+          "category": "tech",
+          "publishedAt": "2026-05-04T23:22:34.261Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "C++"
+          ]
+        },
+        {
+          "title": "Flowseal/zapret-discord-youtube (Batchfile)",
+          "titleKo": "Zapret Discord YouTube",
+          "summary": "Discord와 YouTube 접근을 위한 네트워크 우회 도구입니다.",
+          "keyPoints": [
+            "배치 파일 기반 네트워크 도구"
+          ],
+          "whyItMatters": "네트워크 제한 우회 기술을 이해하는 데 참고할 수 있습니다.",
+          "url": "https://github.com/Flowseal/zapret-discord-youtube",
+          "sourceName": "GitHub Trending",
+          "engagement": 27308,
+          "contentType": "repo",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "flowsealzapret-discord-youtube-batchfile",
+          "category": "tech",
+          "publishedAt": "2026-05-04T23:22:34.263Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Batchfile"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "Sierra Raises $950M at $15B Valuation",
+          "titleKo": "Sierra, 150억 달러 투자로 9억 5000만 달러 조달",
+          "summary": "AI 고객 경험 플랫폼 Sierra가 Tiger Global과 GV 주도로 150억 달러 가치 평가에서 9억 5000만 달러를 조달했으며, Fortune 50의 40% 이상을 서빙하고 있습니다. 플랫폼 기반 AI 에이전트가 수십억 건의 고객 상호작용을 처리하고 있으며, 2년 만에 1억 달러 ARR을 달성했습니다.",
+          "keyPoints": [
+            "Fortune 50의 40% 이상이 고객 경험 자동화에 Sierra 플랫폼 사용 중이며, Nordstrom(5주), Singtel(10주), Cigna(8주) 등에서 빠른 배포 달성",
+            "AI 에이전트가 고객 라이프사이클 전체(구매 검토부터 유지까지)를 관리하도록 진화했으며, 이전의 일회성 지원 기능에서 관계 관리로 전환",
+            "2024년 2월 출시 후 7분기 만에 1억 달러 ARR 달성으로 역사상 가장 빠르게 성장하는 엔터프라이즈 소프트웨어 회사 중 하나"
+          ],
+          "whyItMatters": "AI 에이전트 기술이 엔터프라이즈 규모의 고객 경험 자동화에서 실제 비즈니스 임팩트를 보여주는 사례로, 개발자들에게 AI 기반 솔루션의 시장 가치와 성장 가능성을 시사합니다.",
+          "url": "https://sierra.ai/blog/better-customer-experiences-built-on-sierra",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 77,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "sierra-raises-950m-at-15b-valuation",
+          "fullContent": "We’re raising $950 million from new and existing investors, led by Tiger Global and GV, at a valuation of over $15 billion. Sierra now has more than $1 billion to invest in becoming the global standard for companies wanting to transform their customer experiences with AI.We have never had such conviction in the opportunity for Sierra and our customers. Just a couple of years ago, we had four design partners. Now, Sierra is serving over 40% of the Fortune 50, and agents built on our platform are powering billions of customer interactions — everything from refinancing homes to processing insurance claims, returning orders, and helping people raise millions in fundraisers.An intelligence inflection pointAI has evolved more rapidly in the past two years than anyone predicted. AI agents have solved math conjectures and written a web browser from scratch. And thanks to OpenClaw, Codex, and Claude, millions of people have used personal AI agents for the first time.As the capabilities of AI have expanded, so have our customers’ ambitions for their customer experience.Two years ago, most of our customers’ agents were limited to support — tracking orders, troubleshooting devices, and resetting passwords. Now, AI agents built on Sierra are powering all parts of the customer life cycle, from purchase consideration to retention.Insurance: Powering first notice of loss, claims processing, and sales.Home lending: Helping people find homes, originate mortgages, refinance, and service their loans.Banking: Moving from service to sale, with tailored offers that increase a customers’ lifetime value.Healthcare: Running the revenue cycle management process between providers and payers.Telecommunications: Managing acquisition and subscription management.Retail: Driving product discovery and recommendations, and increasing cart sizes.And thanks to the ease of use of Sierra’s platform, our customers are deploying these experiences faster than ever before. Nordstrom launched their voice agent, Nora, in just five weeks. Singtel, Asia’s leading communications technology company, launched in 10 weeks, with resolution rates of over 70%. And Cigna, one of the world’s largest health insurance companies, went into production in eight weeks, cutting the time taken to authenticate a patient by 80%.From digitization to true transformationWe’re in the very early stages of AI adoption. Agents have enabled us to digitize the last remaining analog channel: the telephone. All of us can now get things done without waiting on hold, in any language, and at any time of day (good riddance, IVR systems).But once we’ve digitized these slow, expensive, and frustrating experiences, what’s possible now that wasn’t possible before? What does it mean to truly transform your customer experience?AI agents are different from what came before because they are personal, proactive, and act independently — serving each of your customers individually, and optimizing for their happiness and your business goals.Rather than building agents to have one and done conversations, you’ll build agents that manage relationships — anticipating your customers’ needs, resolving issues, and driving outcomes like sales, retention, and loyalty. That’s the shift Sierra is building for, with a product and partnership model that enables the great companies of the world to transform their businesses with AI as fast as they can deploy agents today.We’re deeply grateful to our customers for helping show what’s possible. If you’re not yet using Sierra, we’d love to partner with you.Year two in reviewSierra is heading into year three with over $150M in ARR, powered by rapid adoption from some of the world’s largest companies. The growth reflects a simple idea: when AI is built around real jobs to be done (not experiments), even the biggest enterprises can see meaningful impact fast.February 6, 2026Sierra hits $100M ARR milestone in 7 quartersSierra just hit $100M in ARR — seven quarters after we launched in February 2024. That’s a heck of a lot quicker than we expected, and makes Sierra one of the fastest-growing enterprise software companies in history. November 21, 2025Agents as a ServiceSierra is reimagining software for the agent era—where you simply describe the outcome, and intelligent agents build, execute, and continuously improve the work for you. Meet Ghostwriter, the agent that creates and optimizes other agents, turning your ideas into production-ready customer experiences without clicks, code, or complexity.March 25, 2026",
+          "category": "insight",
+          "publishedAt": "2026-05-04T15:51:37.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Formatting a 25M-line codebase overnight",
+          "titleKo": "2,500만 줄 코드베이스를 밤새 포맷팅하기: rubyfmt 이야기",
+          "summary": "Stripe이 rubyfmt를 사용하여 2,500만 줄의 Ruby 코드베이스를 자동으로 포맷팅한 사례를 다룹니다. 이 글은 대규모 코드베이스 관리의 도전과 해결 방법에 관한 내용입니다.",
+          "keyPoints": [
+            "rubyfmt를 이용한 자동 코드 포맷팅으로 대규모 리팩토링 효율화",
+            "2,500만 줄 규모의 코드베이스에 대한 일괄 포맷팅 성공"
+          ],
+          "whyItMatters": "대규모 프로젝트의 코드 스타일 통일과 유지보수 자동화 전략에 대한 실제 사례를 제공합니다.",
+          "url": "https://stripe.dev/blog/formatting-an-entire-25-million-line-codebase-overnight-the-rubyfmt-story",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 92,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "formatting-a-25m-line-codebase-overnight",
+          "fullContent": "Formatting an entire 25 million line codebase overnight: the rubyfmt story/ArticleAbout the authors/About the authorsFable TalesFable works on Developer Productivity at Stripe.Anna MasonAnna Mason is a technical writer at Stripe working across the engineering organization./Additional resourcesSubscribe to Stripe Developers on YouTube.Check out the docs for the in-depth developer guidance.Join the Stripe Discord server to chat live with other developers.Join a local Stripe Developer Meetup to learn about the latest features and network with your community./DocsExplore our guides and examples to integrate Stripe.Learn more/SocialYoutubeTwitter/XDiscord/ResourcesDocsDeveloper Meetups© 2026 Stripe, Inc.PrivacyLegalStripe.com",
+          "category": "insight",
+          "publishedAt": "2026-05-04T20:11:53.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Let's talk about LLMs",
+          "titleKo": "LLM에 대해 이야기해봅시다",
+          "summary": "개발 분야에서 LLM의 영향과 역할에 대한 기술 블로그 글로, Fred Brooks의 'No Silver Bullet' 개념을 바탕으로 LLM이 소프트웨어 개발의 본질적 어려움을 해결할 수 있는지 분석합니다.",
+          "keyPoints": [
+            "LLM은 소프트웨어 개발의 우발적 어려움(accidental difficulty)은 줄일 수 있지만 본질적 어려움(essential difficulty)은 해결하지 못함",
+            "소프트웨어 개발의 핵심은 코드 작성이 아닌 사양 설계와 테스트이므로 LLM의 한계가 명확함"
+          ],
+          "whyItMatters": "LLM 코딩이 개발자의 역할을 어떻게 변화시킬지 합리적으로 이해하는 데 도움이 됩니다.",
+          "url": "https://www.b-list.org/weblog/2026/apr/09/llms/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 110,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "topicId": "llm-discussion",
+          "isTopicPrimary": true,
+          "slug": "lets-talk-about-llms",
+          "fullContent": "Let’s talk about LLMs\nApril 9, 2026\nProgramming\nEverybody seems to agree we’re in the middle of something, though what, exactly, seems to be up for debate. It might be an unprecedented revolution in productivity and capabilities, perhaps even the precursor to a technological “singularity” beyond which it’s impossible to guess what the world might look like. It might be just another vaporware hype cycle that will blow over. It might be a dot-com-style bubble that will lead to a big crash but still leave us with something useful (the way the dot-com bubble drove mass adoption of the web). It might be none of those things.\nMany thousands of words have already been spent arguing variations of these positions. So of course today I’m going to throw a few thousand more words at it, because that’s what blogs are for. At least all the ones you’ll read here were written by me (and you can pry my em-dashes from my cold, dead hands).\nTerminology, and picking a lane\nBut first, a couple quick notes:\nI’m going to be using the terms “LLM” and “LLMs” almost exclusively in this post, because I think the precision is useful. “AI” is a vague and overloaded term, and it’s too easy to get bogged down in equivocations and debates about what exactly someone means by “AI”. And virtually everything that’s contentious right now about programming and “AI” is really traceable specifically to the advent of large language models. I suppose a slightly higher level of precision might come from saying “GPT” instead, but OpenAI keeps trying to claim that one as their own exclusive term, which is a different sort of unwelcome baggage. So “LLMs” it is.\nAnd when I talk about “LLM coding”, I mean use of an LLM to generate code in some programming language. I use this as an umbrella term for all such usage, whether done under human supervision or not, whether used as the sole producer of code (with no human-generated code at all) or not, etc.\nI’m also going to try to limit my comments here to things directly related to technology and to programming as a profession, because that’s what I know (I have a degree in philosophy, so I’m qualified to comment on some other aspects of LLMs, but I’m deliberately staying away from them in this post because I find a lot of those debates tedious and literally sophomoric, as in reminding me of things I was reading and discussing when I was a sophomore).\nIf you’re using an LLM in some other field, well, I probably don’t know that field well enough to usefully comment on it. Having seen some truly hot takes from people who didn’t follow this principle, I’ve thought several times that we really need some sort of cute portmanteau of “LLM” and “Gell-Mann Amnesia” for the way a lot of LLM-related discourse seems to be people expecting LLMs to take over every job and field except their own.\nNo silver bullet\nA few years ago I wrote about Fred Brooks’ No Silver Bullet, and said I think it may have been the best thing Brooks ever wrote. If you’ve never read No Silver Bullet, I strongly recommend you do so, and I recommend you read the whole thing for yourself (rather than just a summary of it).\nNo Silver Bullet was published at a time when computing hardware was advancing at an incredible rate, but our ability to build software was not even close to keeping up. And so Brooks made a bold prediction about software:\nThere is no single development, in either technology or management technique, which by itself promises even a single order-of-magnitude improvement within a decade in productivity, in reliability, in simplicity.\nTo support this he looked at sources of difficulty in software development, and assigned them to two broad categories (emphasis as in the original):\nFollowing Aristotle, I divide them into essence—the difficulties inherent in the nature of the software—and accidents—those difficulties that today attend its production but that are not inherent.\nA classic example is memory management: some programming languages require the programmer to manually allocate, keep track of, and free memory, which is a source of difficulty. And this is accidental difficulty, because there’s nothing which inherently requires it; plenty of other programming languages have automatic memory management.\nBut other sources of difficulty are different, and seem to be inherent to software development itself. Here’s one of the ways Brooks summarizes it (emphasis matches what’s in my copy of No Silver Bullet):\nThe essence of a software entity is a construct of interlocking concepts: data sets, relationships among data items, algorithms, and invocations of functions. This essence is abstract, in that the conceptual construct is the same under many different representations. It is nonetheless highly precise and richly detailed.\nI believe the hard part of building software to be the specification, design, and testing of this conceptual construct, not the labor of representing it and testing the fidelity of the representation. We still make s",
+          "category": "insight",
+          "publishedAt": "2026-05-04T17:29:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Securing a DoD contractor: Finding a multi-tenant authorization vulnerability",
+          "titleKo": "DoD 계약자 보안: 멀티테넌트 권한 취약점 발견",
+          "summary": "Strix는 국방성(DoD) 지원 스타트업에서 멀티테넌트 인증 취약점을 발견하고 분석했다. 이 취약점으로 인해 테넌트 간 미인가 접근이 가능했을 것으로 보인다.",
+          "keyPoints": [
+            "멀티테넌트 아키텍처의 권한 검증 부재로 인한 보안 결함 발견",
+            "DoD 계약자 수준의 중요 인프라도 취약점에 노출될 수 있음을 시사"
+          ],
+          "whyItMatters": "엔터프라이즈 및 보안이 중요한 애플리케이션 개발 시 멀티테넌트 환경에서 철저한 권한 검증의 필수성을 강조한다.",
+          "url": "https://www.strix.ai/blog/how-strix-found-zero-auth-vulnerability-dod-backed-startup",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 148,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "securing-a-dod-contractor-finding-a-multi-tenant-authorization-vulnerability",
+          "category": "insight",
+          "publishedAt": "2026-05-04T17:46:32.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Redis array: short story of a long development process",
+          "summary": "",
+          "keyPoints": [],
+          "url": "https://antirez.com/news/164",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 205,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "topicId": "redis-development",
+          "isTopicPrimary": true,
+          "slug": "redis-array-short-story-of-a-long-development-process",
+          "category": "insight",
+          "publishedAt": "2026-05-04T14:23:07.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Agent Skills",
+          "summary": "",
+          "keyPoints": [],
+          "url": "https://addyosmani.com/blog/agent-skills/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 27,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "agent-skills",
+          "category": "insight",
+          "publishedAt": "2026-05-04T21:40:42.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "How Monero’s proof of work works",
+          "titleKo": "Monero의 작업증명(Proof of Work) 방식 해석",
+          "summary": "Monero의 RandomX 작업증명은 Bitcoin의 SHA-256과 달리 특정 ASIC 칩이 아닌 일반 CPU에서 효율적으로 동작하도록 설계된 동적 코드 실행 기반 알고리즘입니다. Argon2d로 생성한 256MB 캐시와 2GB 이상의 데이터셋을 통해 메모리 접근을 강제하며, 임의의 명령어로 구성된 8개 연쇄 프로그램을 실행합니다.",
+          "keyPoints": [
+            "RandomX는 일반 CPU의 다중 캐시 레벨, 정수/부동소수점 연산, 메모리 컨트롤러 등 다양한 기능을 활용하도록 설계되어 ASIC 특화 채굴 하드웨어의 이점을 제거",
+            "키 K(이전 블록 해시)로 256MB 캐시를 생성한 후 2GB 데이터셋으로 확장하며, 매 시도마다 후보 블록 헤더로 동적 코드를 생성 실행하여 채굴 중앙화 방지"
+          ],
+          "whyItMatters": "Monero의 RandomX 알고리즘은 ASIC 채굴에 저항하는 작업증명 설계의 실제 구현 사례로, 개발자들이 공정한 합의 메커니즘과 채굴 민주화의 기술적 트레이드오프를 이해하는 데 도움이 됩니다.",
+          "url": "https://blog.alcazarsec.com/tech/posts/how-moneros-proof-of-work-works",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 219,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "how-moneros-proof-of-work-works",
+          "fullContent": "Published Apr 27, 2026 How Monero’s proof of work works Ask AI ChatGPT Claude Gemini Perplexity Grok Duck.ai Monero’s proof of work is called RandomX. Monero does not ask miners to run the same tiny hash function over and over. It asks them to run a small random program on a virtual machine, hit memory hard while doing it, and then hash the result. Bitcoin’s proof of work is great for specialized chips because the work never changes. RandomX was built to do the opposite. It tries to make efficient mining look as much like a normal CPU workload as possible. Short version Here is the shortest useful summary: Monero takes the candidate block header plus a nonce. It also uses an older block hash as a medium-term key. That key builds a large shared memory dataset. The candidate block input is hashed to create a seed for a special virtual machine. The VM runs integer math, floating-point math, branches, and lots of memory accesses across 8 chained programs. The final machine state is hashed into a 256-bit output. If that output is below the network target, the block is valid. The interesting part is not the yes-or-no rule at the end. Every proof-of-work system has that. The interesting part is how Monero makes each hash attempt expensive in the exact ways normal CPUs are good at and custom chips hate. Why Monero does not use a simple hash If your proof of work is just “run this fixed function on new inputs until you get a lucky output,” hardware designers have a clear job: build silicon that runs that exact function as cheaply and as fast as possible. That is what happened to Bitcoin with SHA-256 ASICs. Monero did not want that path. Long before RandomX, the project was explicit that specialized mining hardware creates centralization pressure. Fewer manufacturers matter more. Large farms matter more. Ordinary users matter less. Monero’s earlier answer was the CryptoNight family. Later, in late 2019, Monero switched to RandomX, which its own release notes described as a new proof of work “based on random instructions, adapted to CPUs.” So the design target changed from make memory matter to make a whole CPU matter. The core idea behind RandomX RandomX starts from one observation: CPUs are not just arithmetic boxes. They are flexible machines built to run changing code and juggle a lot of hardware features at once. A modern CPU has: multiple cache levels integer units floating-point units branch handling out-of-order execution speculative execution memory controllers Normal cryptographic hashes do not use much of that variety. They mostly push data through a fixed pipeline. RandomX tries to bind proof of work to those broader CPU strengths. Its design document says the work must be dynamic. That means the miner is not just feeding in new data. The miner is also getting new code to run. That is why RandomX is based on random code execution. What a miner is actually computing At the Monero level, RandomX takes two important inputs: a key K a hashing input H For Monero, K comes from an older block hash, called the key block. The RandomX reference README recommends changing this key every 2048 blocks with a 64-block delay, and that is how Monero wires it in. That detail matters because miners do not rebuild the heavy shared memory structures for every nonce. They rebuild them only when the key changes, roughly every 2.8 days. H is the candidate block hashing blob with a chosen nonce. That is the part miners keep changing over and over. So you can think of Monero mining like this: the network gives you a medium-term environment through K your candidate block gives you a per-attempt input through H The environment changes slowly. The attempt changes constantly. Step 1: build the cache from the key RandomX first takes the key K and runs Argon2d on it. Argon2d is better known as a password-hashing and key-derivation function. It is useful here for the same reason it is useful there: it is memory-hard. It forces the machine to touch a lot of memory in a way that is annoying to cheat. In the default RandomX parameters, this produces a 256 MiB cache. That cache is the smaller of the two big memory structures in RandomX. It is not the structure miners want to use directly for maximum speed. It is the structure used to build the bigger one. Step 2: expand the cache into the dataset From that 256 MiB cache, RandomX builds the dataset. The default dataset size is: 2,147,483,648 bytes base size 33,554,368 bytes extra size Together that is about 2080 MiB, a little over 2 GiB. This odd-looking size is deliberate. It is big enough to spill out of on-chip memory and into DRAM, and the extra non-power-of-two tail makes life more annoying for hardware designers. The dataset is read-only during hashing. RandomX uses it to force regular DRAM traffic. The design doc says each program iteration reads one 64-byte dataset item, and across a whole hash result that becomes 16,384 dataset reads. That gives RandomX one of its main bottlenecks: me",
+          "category": "insight",
+          "publishedAt": "2026-05-04T14:10:50.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Transformers Are Inherently Succinct",
+          "titleKo": "트랜스포머는 본질적으로 간결하다",
+          "summary": "학술 논문으로, 트랜스포머 모델의 간결성(succintness)에 관한 이론적 분석을 제시한다. 트랜스포머가 정보를 효율적으로 압축할 수 있는 구조임을 보여준다.",
+          "keyPoints": [
+            "트랜스포머의 수학적 특성이 자연스러운 정보 압축을 가능하게 함",
+            "모델 효율성과 성능의 이론적 기초를 제공"
+          ],
+          "whyItMatters": "트랜스포머 기반 모델을 최적화하고 설계할 때 참고할 수 있는 이론적 근거를 제공한다.",
+          "url": "https://arxiv.org/abs/2510.19315",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 16,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "transformers-are-inherently-succinct",
+          "category": "insight",
+          "publishedAt": "2026-05-04T20:03:08.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Stop big tech from making users behave in ways they don't want to",
+          "titleKo": "빅테크 기업들이 사용자에게 원하지 않는 행동을 강요하지 못하도록 막아야 한다",
+          "summary": "대형 기술 기업들이 설계를 통해 사용자의 행동을 조작하는 문제에 대한 의견 기사입니다.",
+          "keyPoints": [
+            "빅테크 기업의 행동 조작 메커니즘에 대한 비판"
+          ],
+          "whyItMatters": "기술 개발자와 제품 설계자들이 윤리적인 사용자 인터페이스 설계의 중요성을 인식하도록 함",
+          "url": "https://economist.com/by-invitation/2026/04/29/stop-big-tech-from-making-users-behave-in-ways-they-dont-want-to",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 196,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "stop-big-tech-from-making-users-behave-in-ways-they-dont-want-to",
+          "category": "insight",
+          "publishedAt": "2026-05-04T17:10:57.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Microsoft and OpenAI break up (Amazon is pumped)",
+          "titleKo": "Microsoft와 OpenAI의 결별 (Amazon은 고소해하고 있음)",
+          "summary": "2019년부터 시작된 Microsoft와 OpenAI의 파트너십이 2025년 의미 있는 변화를 맞이하고 있습니다. Microsoft가 ChatGPT 성공 이후 100억 달러를 추가 투자했지만, OpenAI가 o1에서 달성한 혁신적인 추론 모델 기술을 Microsoft와 공유하지 않으면서 갈등이 심화되었습니다. Microsoft의 Satya Nadella가 OpenAI 직원들을 상대로 소리를 지르며 기술 정보 공유를 강요했고, 이를 계기로 두 회사의 관계는 실질적인 결별 단계에 접어들었습니다. 새로운 계약에서는 AGI 선언 시 독립 전문가 패널의 검증이 필요하고, Microsoft의 IP 권리는 2032년까지 확장되었습니다.",
+          "keyPoints": [
+            "Microsoft의 초기 투자와 배타적 클라우드 제공 계약: 2019년 Microsoft는 OpenAI에 10억 달러를 투자하고 Azure를 OpenAI의 독점 클라우드 제공자로 확보했습니다. 계약에는 AGI 달성 전까지 모든 OpenAI IP를 Microsoft가 라이선스할 수 있다는 조항이 포함되었으며, 이는 명확한 시간 제한이 없었습니다.",
+            "AGI 정의의 모호함이 계약의 약점: 계약이 AGI 달성을 종료 조건으로 설정했으나, AGI의 명확한 정의가 없어 계약이 무한정 지속될 수 있는 구조였습니다. 이는 나중에 Microsoft가 OpenAI의 AGI 선언을 검증하기 위해 독립 전문가 패널을 요구하게 만든 원인이 되었습니다.",
+            "o1 모델과 추론 기술의 등장이 갈등의 촉발점: 2024년 9월 OpenAI가 o1을 공개했을 때 추론 모델(내부적으로 사고 과정을 거쳐 답변하는 방식)은 기존 GPT-4o 대비 매우 큰 성능 향상을 이루었습니다. 수학 올림피아드 상위 500위권, 박사 수준 과학 문제 정확도 달성 등으로 AI 역사상 가장 큰 도약이었습니다.",
+            "Microsoft의 기술 공유 강요와 공식적 불화: 2024년 10월 기사에서 Microsoft의 Satya Nadella가 OpenAI 직원들에게 o1의 작동 방식과 chain-of-thought 기술에 대한 정보를 제공하지 않는다고 소리쳤다고 보도되었습니다. 이는 Microsoft가 자체 추론 모델을 개발하기 위해 이 기술 정보가 필요했기 때문입니다.",
+            "Microsoft의 대규모 추가 투자와 독점성 강화: 2023년 Microsoft는 OpenAI에 추가로 100억 달러를 투자하여 총 투자액을 110억 달러로 확대했습니다. 재정상 기여도에 따라 Microsoft가 OpenAI의 약 27% 지분을 보유하게 되었으며, 투자 수익률은 10배로 상한선이 정해져 있습니다.",
+            "Anthropic의 역할과 경쟁 구도 변화: Anthropic이 이 모든 갈등의 근본 원인이라는 주장이 제시됩니다. Microsoft가 경쟁 기업으로 간주하는 회사를 인수하려 했고, 해당 직원이 OpenAI-Microsoft 협력팀에 포함되어 있었던 점이 신뢰 문제를 야기했습니다.",
+            "2025년 새로운 계약 조건과 결별의 실질화: 재정적 구조 변경 후 새 계약은 Microsoft의 IP 권리를 2032년까지 연장하고 AGI 선언 후 모델까지 포함시켰습니다. 그러나 AGI 선언은 이제 독립 전문가 패널의 검증을 거쳐야 하므로, Microsoft가 조기 종료를 방지하려는 의도가 명확합니다.",
+            "OpenAI가 Microsoft로부터 독립하려는 의지: OpenAI는 새로운 AI 돌파구(추론 모델)를 발견했을 때 이를 Microsoft와 공유하기를 거부함으로써, 배타적 계약에서 벗어나려는 의도를 드러냈습니다. Sam Altman이 과거 'Microsoft와의 관계를 최고의 기술 로맨스'라고 칭했지만, 이제는 완전히 다른 입장을 취하고 있습니다.",
+            "DeepSeek의 성공과 기술 경쟁력 급변: 추론 모델의 등장 이후 DeepSeek이 R1으로 OpenAI에 접근할 수 있었던 이유는 이 회사가 과거 AI에 대규모 투자를 하지 않았기에 신기술 전환이 유연했기 때문입니다. 이는 과거의 큰 투자가 오히려 약점이 될 수 있음을 보여줍니다."
+          ],
+          "whyItMatters": "Microsoft-OpenAI 관계의 변화는 향후 AI 기술의 클라우드 생태계, 모델 접근성, 기술 오픈 소스 정책에 큰 영향을 미칠 것이며, 개발자들이 사용할 수 있는 AI 플랫폼의 선택지와 가격 정책도 재편될 가능성이 있습니다.",
+          "url": "https://www.youtube.com/watch?v=fxxpQhJyupQ",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "topicId": "microsoft-openai-breakup",
+          "isTopicPrimary": true,
+          "slug": "microsoft-and-openai-break-up-amazon-is-pumped",
+          "fullContent": "going to open this video a bit differently. I want to thank you for clicking on it because I know this is not the hottest topic for the developer audience. It's rare you guys care basically at all about anything with the word Microsoft in it. And I understand I've had to write code on Windows before myself and I would never wish my worst enemy to have to do the same thing. But the Microsoft OpenAI relationship is way more interesting than you think. And the direction it's going in as well as how OpenAI is going to follow through with this is fascinating. Their relationship started all the way back in 2019 and it is changing meaningfully now. As of a few days ago, they announced a change in their relationship, the next phase, and it's effectively a breakup. We'll go in depth on this relationship, the chaos that has ensued between them, and why OpenAI feels as though Microsoft has been holding them back for years now, and also very interestingly, what the role of this is with Anthropic. Because believe it or not, Anthropic is the reason all of this is happening. The details in this case are even crazier than I initially expected. And the more I dive in, the more absurd it all is. From heated fights between Microsoft and OpenAI executives about sharing details on reasoning models to the absurd nature of the exclusivity deal, the definition of AGI and how that was important for the agreement, and so much more. This one's going to be a bit of a wild ride, and I am so thankful you decided to come on it with us. But in order to pay the cost of doing all this, we got to take a quick break for today's sponsor. First, fun fact. Did you know that 85% of the web can't be accessed via APIs? I know that sounds crazy, but think about it. How many websites require you to sign in, click buttons, navigate, pass captions, and more just to get some basic information out of them. If that's frustrating you or blocking your agents, you really need to check out Browser Base. These guys get it. These guys built the browser that your agents need to do everything from searching to fetching to navigating real websites and doing real actions. You can use this to catch bugs in your own services or do tons of research across the entire internet or unblock your agents that are getting stuck on captions. If you want to see when prices change on some service that you rely on or your competitors are doing things on their websites, they can help you do that automatically. That's why companies like Microsoft, DeepMind, Lovable, Ramp, and more are all relying on Browserbase to run their browsers in the cloud. If you're building with agents, you've already hit a ton of limitations. I bet you'll be surprised how many browserbased can work around. Check them out now at soy.link/browserbase. For any of this to make any sense, we got to go to the start where Microsoft first invested in and partnered with OpenAI to support us building beneficial AGI. Remember way way back, the point of open AI was to try and make sure that when AGI happened, when we had general level intelligence where AI could do anything a human could do. When we hit that point, the goal of OpenAI was to make sure it wasn't just one company that was there and instead everyone could benefit from these advancements in AI. That's why Sam Alman, Greg Brockman, Elon Musk, and others decided to create and fund open AI. They wanted to make it possible for AI to exist outside of the bubble of specifically Google because they were the only company that seemed like they had any chance of doing it. They want to make sure everyone benefited. Obviously, OpenAI is in a very different state than they were when they started the company, and the only open- source thing they've done for a while has been GPTOSS, both 2120. Both pretty solid models, but it's been almost a year since then. Open a guy is a very different company than they were when they started as a nonprofit, but they do let everyone use their models at the very least. Anyways, let's go into how this all started because I think it'll make where they are now very interesting. Microsoft is investing $1 billion into open AI to support us building artificial general intelligence with widely distributed economic benefits. Remember, this is pre-Chat GPT. This is way, way back. We're partnering to develop a hardware and software platform within Microsoft Azure which will scale to AGI. We'll jointly develop a new Azure AI supercomputing technologies and Microsoft will become our exclusive cloud provider. So we'll be working hard together to further extend Microsoft Azure's capabilities in largecale AI systems. I hate that I'm fixating on this mdash here because this was before the models could write. So they actually just liked M dashes. The key piece here is Microsoft will become our exclusive cloud provider. What this means is that if you want to use OpenAI models, you have two places you can go. You can use the official OpenAI platform or you can use Azure because Azure is the only other place the weights will ever be sent. So if you want to use OpenAI models, you have two choices. It is also worth noting that earlier in the same year, they had the breakthrough with GPT2, which was the first breakthrough in text generation with large transformer models, now called LLMs. This is a big deal at the time, 2019, that nobody cared about outside of the research world, because again, it didn't seem like any of this was going particularly interesting places yet. I certainly didn't care yet. It was GPT3 and chat GPT that caused everything to start accelerating. Nobody cared at this point, but Microsoft had an instinct, an intuition that it might matter, so they decided to invest in it. This was the entire OpenAI team at the time. And I bet if we hunt in here, our boy Daario, beautiful. Knew I could find him if I hunted cuz remember Daario was the lead of the GPT3 training. He was the research lead when they trained GPT3. We'll have to talk about that in a bit. Open is producing a sequence of increasingly powerful AI technologies which require a lot of capital for computational power. The most obvious way to cover costs is to build a product, but that would mean changing our focus. Oh, how the tides have turned. Instead, we intend to license some of our preaggi technologies with Microsoft, becoming our preferred partner for commercializing them. So, the plan here was that OpenAI would make these models and make them work as well as they could and focus on research and Microsoft would take all of the things they built up until AGI was reached and they would be able to sell them to their customers in order to fund OpenAI and they would pay upfront a billion dollars. So they had the money they needed and the compute they needed to make new models and make AGI happen. And this piece is incredibly important here. We intend to license some of our pre-agi technologies. This eventually expanded in its breath to all OpenAI IP will be licensed to Microsoft to use how they want until AGI is achieved. So this wasn't a strict timeline. It wasn't we will do this for 5 years. It wasn't we'll do this till we hit a revenue target. It was, \"We will share this until we reach the definition of AGI.\" There's a problem, though. I'm sure many of y'all know it. Now, what the [ __ ] is AGI? What is the definition of AGI? We don't have a very clear one. And this is the problem. They set a bar that was incredibly unclear. And that means there's no way for this deal to end. In 2023, Microsoft doubled down. Not really doubling down, they 10xed down. They put another $10 billion into OpenAI after Chat GPT started doing well and blowing up. They they knew that it was going to happen. So they decided to invest way more at that point. They also confirmed that they had done another quiet private investment in 2021 and that this collaboration would continue to share investment in the supercomputing at scale new AI powered experiences and most importantly exclusivity in the cloud provider. is OpenAI's exclusive cloud provider. Azure will power all OpenAI workloads across research products and API services. This deal was a big deal. This was why OpenAI and Microsoft were so tight together. But then something important happened. In September of 2024, OpenAI introduced 01, a new series of AI models designed to spend more time thinking before they respond. These were the first reasoning models where the model would generate text not to show you but to almost talk to itself to get to a better answer which has since become the way almost every single model works. But at the time it was really novel and back in September of 2024 this was a massive deal. OpenAI01 ranks in the 89th percentile on competitive programming questions. Places among the top 500 students in the US in a qualifier for the USA Math Olympiad. It exceeds human PhD level accuracy on a benchmark of physics, bio, and chemistry problems. Since then, it's become number one, number one, and number one in all of those. But the reason they had this huge leap at the time was that 01 by doing this reasoning was able to be way smarter. When you compare the scores with GBG40, which was their best model at the time, against 01 preview in 01, the final potential public version, the gap is hilarious. This was one of the biggest leaps in intelligence in the history of AI, and it changed everything. And they did a lot to keep the results private. They never shared the reasoning traces or the data. They just took a long time to generate a result instead. And the first company to even come close to catching up to this was Deepseek. But it was clear OpenAI had a massive lead at this point in time. Their models were smarter and better, and they had stumbled on this reasoning thing that made them way more powerful, but also the price was absurd. Oh, it's actually not too bad in retrospect, but it was $15 per 1 mil in and $60 per 1 mil out. But then they put out 01 mini, which was surprisingly cheap. And then they eventually put out 03 mini, which was a god tier model. I loved 03. It was one of the first models I fell like in love with. I really liked using it. But Deep Seek was so impressive it led to me building T3 Chat. The point I'm trying to make here is that OpenAI was really ahead and everybody who had invested heavily in AI up to that point almost was at a bit of a disadvantage because reasoning became the model. So Deepseeku hadn't done as big of investments, was more capable of flexing over to doing reasoning and that's why R1 was so groundbreaking. At the same time though, OpenAI had just gotten this huge investment from Microsoft and part of this was that IP deal where Microsoft would still get that exclusive access to their IP. Doesn't say here specifically, but you get the idea. And this means that very specifically all of the stuff OpenAI discovered around doing reasoning was stuff that they were supposed to share with Microsoft which they proceeded to not do. This article that came out a month after 01 says a lot. Microsoft and OpenAI bromance begins to fray. Apparently Microsoft wouldn't give them more money even though they wanted it after this breakthrough. But at the same time they were not happy. Alman once called OpenAs partnership with Microsoft the best bromance in tech. But the ties have started to fray. Microsoft had acquired a company that OpenAI saw as a competitor and they were very unhappy about that specifically because one of the employees from the company that was acquired was now part of the relationship between OpenAI and Microsoft. Dozens of Microsoft engineers work on site at OpenAI's offices in San Francisco and use laptops provided by OpenAI that are set up to maintain the startup security protocols. And here's where things fell apart. Some OpenAI staff recently complained that Sullman yelled at an OpenAI employee during a recent video call because he thought the startup was not delivering new technology to Microsoft as quickly as it should, according to two people familiar with the call. I can't find the source, but I have heard many times that this was about 01 and reasoning models. Since OpenAI had this massive breakthrough in model intelligence and Microsoft was still trying to train their own models, they felt as though they deserved that IP and any information that they had found as they did this research so they could build their own reasoning models as well. Remember this is still months before DeepSeek R1 dropped. Thank you chat for finding the information source here. This is important. At this point in time, Sman was trying to get more Microsoft stuff to be on Microsoft models instead of OpenAI models, which in retrospect is hilarious. like absolutely hilarious. This one calls out again that Microsoft wanted to know how 01 worked and OpenAI was not providing Microsoft with documentation about how it programmed 01 to think about user queries before answering them. The process known as chain of thought is a key ingredient in the secret recipe of any AI model. To be fair, this did not exist as a concept before. But yeah, raising his voice, Sman told OpenAI employees, including Mera Morati, who was a CTO at the time, the AI startup wasn't holding up its end of the wide-ranging deal that it had with Microsoft. The people familiar with the conversation said, \"That's the key piece. This guy who was in charge of AI at Microsoft was pissed that OpenAI was not giving them the info on how 01 worked and how reasoning worked. And this was the start of the breakup. I would without question argue that the start of the end was this moment. And then we got an update in 2025, the next chapter of the OpenAI Microsoft partnership. Since 2019, Microsoft and Open have shared a vision to advance artificial intelligence responsibly and to make the benefits broadly available. yada yada yada. They formed a public benefit corporation and did recapitalization. Following the recapitalization, Microsoft holds an investment in OpenAI group PBC valued at approximately 135 billion representing roughly 27% on an asverted diluted basis. yada yada they own a big percentage. Part of the deal is that with their investment, it could only up to 10x in its value. So this 135 bill is largely because they put in 13.5 bill and 10x was the cap. And once they made it a real public benefit corporation, that converted to about 27% of their existing value. I don't want to go into all the details of the weirdness of that deal. I've covered it many times before, but here are the things that have evolved. Now, once AGI is declared by OpenAI, the declaration will now be verified by an independent expert panel because Microsoft was scared OpenAI would say we hit AGI early in order to get out of their shared IP deal. Microsoft's IP rights for both models and products are extended through 2032 and now include models post AGI with appropriate safety guardrai",
+          "category": "video",
+          "publishedAt": "2026-05-04T09:12:17+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "5 Ways To SSR/RSC on TanStack Start",
+          "titleKo": "TanStack Start에서 5가지 SSR/RSC 방법",
+          "summary": "TanStack Start 프레임워크에서 Server-Side Rendering과 React Server Components를 구현하는 5가지 방식을 다루는 영상입니다.",
+          "keyPoints": [
+            "TanStack Start의 다양한 렌더링 전략 비교",
+            "SSR과 RSC 선택의 트레이드오프 이해"
+          ],
+          "whyItMatters": "최신 풀스택 프레임워크의 렌더링 패턴을 학습하여 성능 최적화된 애플리케이션을 구축할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=PX3QlADinIE",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "react-rsc",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "5-ways-to-ssrrsc-on-tanstack-start",
+          "category": "video",
+          "publishedAt": "2026-04-20T15:23:38+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "WebMCP Is A Free AI In Your App",
+          "titleKo": "WebMCP - 앱에 내장할 수 있는 무료 AI",
+          "summary": "애플리케이션에 직접 통합할 수 있는 무료 웹 기반 MCP(Model Context Protocol) 도구를 소개하는 영상입니다.",
+          "keyPoints": [
+            "MCP를 활용한 AI 기능의 간편한 앱 통합",
+            "웹 기반 구현으로 배포와 확장이 용이"
+          ],
+          "whyItMatters": "개발자가 별도의 복잡한 설정 없이 AI 기능을 애플리케이션에 빠르게 추가할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=pqlPqIgufEI",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "webmcp-is-a-free-ai-in-your-app",
+          "category": "video",
+          "publishedAt": "2026-05-04T15:25:30+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "732 bytes of Python just borked every Linux machine on earth…",
+          "summary": "",
+          "keyPoints": [],
+          "url": "https://www.youtube.com/watch?v=lkifbWtxxlk",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "732-bytes-of-python-just-borked-every-linux-machine-on-earth",
+          "category": "video",
+          "publishedAt": "2026-05-04T18:40:40+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Partial Page Caching Using React Server Components",
+          "summary": "",
+          "keyPoints": [],
+          "url": "https://www.youtube.com/watch?v=t9xB8xvySyo",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "react-rsc",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "partial-page-caching-using-react-server-components",
+          "category": "video",
+          "publishedAt": "2026-04-27T14:09:16+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude Code's favorite tech stack",
+          "titleKo": "Claude Code가 선호하는 기술 스택",
+          "summary": "YouTube 영상으로, Claude Code가 추천하는 개발 기술 스택과 도구들을 소개한다.",
+          "keyPoints": [
+            "AI 코딩 어시스턴트 관점에서의 기술 스택 분석 및 추천",
+            "실제 프로젝트 개발에 활용 가능한 인사이트 제공"
+          ],
+          "whyItMatters": "현대적인 개발 환경에서 AI 어시스턴트와 호환성이 높은 기술 선택에 대한 지침을 얻을 수 있다.",
+          "url": "https://www.youtube.com/watch?v=v1MptV67kSI",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "claude-codes-favorite-tech-stack",
+          "category": "video",
+          "publishedAt": "2026-04-29T08:33:14+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Seriously, Anthropic??",
+          "titleKo": "정말로, Anthropic??",
+          "summary": "YouTube 영상으로, Anthropic(Claude 개발사)의 최근 정책, 기술, 또는 결정에 대한 비판적 분석 및 의견을 제시한다.",
+          "keyPoints": [
+            "Anthropic의 최근 움직임에 대한 비판적 검토",
+            "개발자 커뮤니티의 우려 또는 의견 반영"
+          ],
+          "whyItMatters": "Claude 및 다른 AI 도구를 사용하는 개발자들이 기술 제공사의 정책 변화를 이해하고 대응하는 데 도움이 된다.",
+          "url": "https://www.youtube.com/watch?v=J8O9LLpJNrg",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "seriously-anthropic",
+          "category": "video",
+          "publishedAt": "2026-05-01T21:26:53+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I give up.",
+          "titleKo": "포기했다",
+          "summary": "제목만 제공되어 구체적인 내용을 파악할 수 없습니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=R7ex-Gt8dtw",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-give-up",
+          "category": "video",
+          "publishedAt": "2026-04-30T09:55:10+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
