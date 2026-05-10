@@ -1,0 +1,1297 @@
+{
+  "date": "2026-05-10",
+  "intro": "안녕하세요! 오늘의 프론트엔드 뉴스레터입니다. 🚀 AI 에이전트와 로컬 AI 모델이 개발 생태계의 중심으로 떠오르고 있으며, 동시에 공급망 보안 위협과 법적 문제들이 개발자 커뮤니티에 새로운 도전과제로 대두되고 있습니다. React Server Components를 활용한 성능 최적화와 ChatGPT의 수학 연구 능력 등 기술의 경계가 계속 확장되는 흥미진진한 한주입니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Incident Report: CVE-2024-YIKES",
+          "titleKo": "사건 보고서: CVE-2024-YIKES",
+          "summary": "JavaScript 생태계의 손상된 의존성이 연쇄적인 공급망 공격을 촉발하여 약 400만 명의 개발자에게 악성코드를 배포한 사건의 상세 보고서입니다. 최종적으로 무관한 암호화폐 채굴 웜이 이를 우연히 패치했습니다.",
+          "keyPoints": [
+            "한 개발자의 자격증 탈취 → JavaScript 패키지 침해 → Rust 라이브러리 침해 → Python 빌드 도구 감염 → 400만 개발자 영향까지 이어진 다층 공급망 공격",
+            "탈취된 npm 자격증으로 left-justify 패키지에 자격증 탈취 스크립트 삽입, 피싱 및 2FA 우회, 권한 상승 후 transitive 의존성까지 악용",
+            "공급망 보안의 취약점: 낮은 우선순위 처리, 부실한 이슈 추적, 느린 대응 속도, 무관한 웜의 우연한 패치로 해결"
+          ],
+          "whyItMatters": "개발자는 의존성 관리, 자격증 보안, 공급망 공격의 심각성을 인식해야 하며, 조직은 빠른 사건 대응 체계를 구축해야 합니다.",
+          "url": "https://nesbitt.io/2026/02/03/incident-report-cve-2024-yikes.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 329,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "cve-2024-yikes",
+          "isTopicPrimary": true,
+          "slug": "incident-report-cve-2024-yikes",
+          "fullContent": "Report filed: 03:47 UTC\nStatus: Resolved (accidentally)\nSeverity: Critical → Catastrophic → Somehow Fine\nDuration: 73 hours\nAffected systems: Yes\nExecutive Summary: A security incident occurred. It has been resolved. We take security seriously. Please see previous 14 incident reports for details on how seriously.\nSummary\nA compromised dependency in the JavaScript ecosystem led to credential theft, which enabled a supply chain attack on a Rust compression library, which was vendored into a Python build tool, which shipped malware to approximately 4 million developers before being inadvertently patched by an unrelated cryptocurrency mining worm.\nTimeline\nDay 1, 03:14 UTC — Marcus Chen, maintainer of left-justify (847 million weekly downloads), reports on Twitter that his transit pass, an old laptop, and “something Kubernetes threw up that looked important” were stolen from his apartment. He does not immediately connect this to package security.\nDay 1, 09:22 UTC — Chen attempts to log into the nmp registry. His hardware 2FA key is missing. He googles where to buy a replacement YubiKey. The AI Overview at the top of the results links to “yubikey-official-store.net,” a phishing site registered six hours earlier.\nDay 1, 09:31 UTC — Chen enters his nmp credentials on the phishing site. The site thanks him for his purchase and promises delivery in 3-5 business days.\nDay 1, 11:00 UTC — [email protected] is published. The changelog reads “performance improvements.” The package now includes a postinstall script that exfiltrates .npmrc, .pypirc, ~/.cargo/credentials, and ~/.gem/credentials to a server in a country the attacker mistakenly believed had no extradition treaty with anyone.\nDay 1, 13:15 UTC — A support ticket titled “why is your SDK exfiltrating my .npmrc” is opened against left-justify. It is marked as “low priority - user environment issue” and auto-closed after 14 days of inactivity.\nDay 1, 14:47 UTC — Among the exfiltrated credentials: the maintainer of vulpine-lz4, a Rust library for “blazingly fast Firefox-themed LZ4 decompression.” The library’s logo is a cartoon fox with sunglasses. It has 12 stars on GitHub but is a transitive dependency of cargo itself.\nDay 1, 22:00 UTC — vulpine-lz4 version 0.4.1 is published. The commit message is “fix: resolve edge case in streaming decompression.” The actual change adds a build.rs script that downloads and executes a shell script if the hostname contains “build” or “ci” or “action” or “jenkins” or “travis” or, inexplicably, “karen.”\nDay 2, 08:15 UTC — Security researcher Karen Oyelaran notices the malicious commit after her personal laptop triggers the payload. She opens an issue titled “your build script downloads and runs a shell script from the internet?” The issue goes unanswered. The legitimate maintainer has won €2.3 million in the EuroMillions and is researching goat farming in Portugal.\nDay 2, 10:00 UTC — The VP of Engineering at a Fortune 500 snekpack customer learns of the incident from a LinkedIn post titled “Is YOUR Company Affected by left-justify?” He is on a beach in Maui and would like to know why he wasn’t looped in sooner. He was looped in sooner.\nDay 2, 10:47 UTC — The #incident-response Slack channel briefly pivots to a 45-message thread about whether “compromised” should be spelled with a ‘z’ in American English. Someone suggests taking this offline.\nDay 2, 12:33 UTC — The shell script now targets a specific victim: the CI pipeline for snekpack, a Python build tool used by 60% of PyPI packages with the word “data” in their name. snekpack vendors vulpine-lz4 because “Rust is memory safe.”\nDay 2, 18:00 UTC — snekpack version 3.7.0 is released. The malware is now being installed on developer machines worldwide. It adds an SSH key to ~/.ssh/authorized_keys, installs a reverse shell that only activates on Tuesdays, and changes the user’s default shell to fish (this last behavior is believed to be a bug).\nDay 2, 19:45 UTC — A second, unrelated security researcher publishes a blog post titled “I found a supply chain attack and reported it to all the wrong people.” The post is 14,000 words and includes the phrase “in this economy?” seven times.\nDay 3, 01:17 UTC — A junior developer in Auckland notices the malicious code while debugging an unrelated issue. She opens a PR to revert the vendored vulpine-lz4 in snekpack. The PR requires two approvals. Both approvers are asleep.\nDay 3, 02:00 UTC — The maintainer of left-justify receives his YubiKey from yubikey-official-store.net. It is a $4 USB drive containing a README that says “lol.”\nDay 3, 06:12 UTC — An unrelated cryptocurrency mining worm called cryptobro-9000 begins spreading through a vulnerability in jsonify-extreme, a package that “makes JSON even more JSON, now with nested comment support.” The worm’s payload is unremarkable, but its propagation mechanism includes running npm update and pip install --upgrade on infected machines to maximize attack surface for future operations.\nDay 3, 06:14 ",
+          "category": "hot",
+          "publishedAt": "2026-05-10T17:43:10.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Local AI needs to be the norm",
+          "titleKo": "로컬 AI가 표준이 되어야 한다",
+          "summary": "개발자들이 OpenAI, Anthropic 같은 클라우드 AI API에 과도하게 의존하는 현실을 비판하고, 기기 내 로컬 AI 모델 활용의 중요성을 주장합니다. Apple의 온디바이스 AI API와 구조화된 출력 방식을 활용한 신뢰할 수 있는 소프트웨어 개발을 예시로 제시합니다.",
+          "keyPoints": [
+            "클라우드 AI 의존은 프라이버시, 네트워크 안정성, 비용 문제를 야기하며 현재 기기의 성능이 이를 충분히 커버할 수 있다",
+            "로컬 AI는 사용자 데이터 변환 작업에 최적화되며 2000단어 규모의 개인정보 정책보다 신뢰 구축에 효과적이다",
+            "Swift struct 기반의 타입 정의로 구조화된 AI 출력을 얻으면 UI 렌더링이 안정적이고 일관성 있어진다"
+          ],
+          "whyItMatters": "개발자가 클라우드 AI 의존성을 줄이고 로컬 모델을 활용하면 더 빠르고, 비용 효율적이며, 사용자 신뢰도 높은 애플리케이션을 구축할 수 있습니다.",
+          "url": "https://unix.foo/posts/local-ai-needs-to-be-norm/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 389,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "local-ai-movement",
+          "isTopicPrimary": true,
+          "slug": "local-ai-needs-to-be-the-norm",
+          "fullContent": "One of the current trends in modern software is for developers to slap an API call to OpenAI or Anthropic for features within their app. Reasonable people can quibble with whether those features are actually bringing value to users, but what I want to discuss is the fundamental concept of taking on a dependency to a cloud hosted AI model for applications.\nThis laziness is creating a generation of software that is fragile, invades your privacy, and fundamentally broken. We are building applications that stop working the moment the server crashes or a credit card expires.\nWe need to return to a habit of building software where our local devices do the work. The silicon in our pocket is mind bogglingly faster than what was available a decade ago. It has a dedicated Neural Engine sitting there, mostly idle, while we wait for a JSON response from a server farm in Virginia. That’s ridiculous.\nEven if your intentions are pure, the moment you stream user content to a third party AI provider, you’ve changed the nature of your product. You now have data retention questions and all the baggage that comes with that (consent, audit, breach, government request, training, etc.)\nOn top of that you also substantially complicated your stack because your feature now depends on network conditions, external vendor uptime, rate limits, account billing, and your own backend health.\nCongratulations! You took a UX feature and turned it into a distributed system that costs you money.\nIf the feature can be done locally, opting into this mess is self inflicted damage.\n“AI everywhere” is not the goal. Useful software is the goal.\nYears ago I launched a fun side project named The Brutalist Report, a news aggregator service inspired by the 1990s style web.\nRecently, I decided to build a native iOS client for it with the design goal of ensuring it would remain a high-density news reading experience. Headlines in a stark list, a reader mode that strips the cancer that has overtaken the web, and (optionally) an “intelligence” view that generates a summary of the article.\nHere’s the key point though: the summary is generated on-device using Apple’s local model APIs. No server detours. No prompt or user logs. No vendor account. No “we store your content for 30 days” footnotes needed.\nIt has become so normal for folks that any AI use is happening server-side. We have a lot of work to do to turn this around as an industry.\nIt’s not lost on me that sometimes the use-cases you have will demand the intelligence that only a cloud hosted model can provide, but that’s not the case with every use-case you’re trying to solve. We need to be thoughtful here.\nI can only speak on the tooling available within the Apple ecosystem since that’s what I focused initial development efforts on. In the last year, Apple has invested heavily here to allow developers to make use of a built-in local AI model easily.\nThe core flow looks roughly like this:\nAnd for longer content, we can chunk the plain text (around 10k characters per chunk), produce concise “facts only” notes per chunk, then runs a second pass to combine them into a final summary.\nThis is the kind of work local models are perfect for. The input data is already on the device (because the user is reading it). The output is lightweight. It’s fast and private. It’s okay if it’s not a superhuman PhD level intelligence because it’s summarizing the page you just loaded, not inventing world knowledge.\nLocal AI shines when the model’s job is transforming user-owned data, not acting as a search engine for the universe.\nThere are plenty of AI features that people want but don’t trust. Summarizing emails, extract action items from notes, categorize this document, etc.\nThe usual cloud approach turns every one of those into a trust exercise. “Please send your data to our servers. We promise to be cool about it.”\nLocal AI changes that. Your device already has the data. We’ll do the work right here.\nYou don’t build trust with your users by writing a 2,000 word privacy policy. You build trust by not needing one to begin with.\nThe tooling available on the platform goes even further.\nOne of the best moves Apple has made recently is pushing “AI output” away from unstructured blobs of text and toward typed data.\nInstead of “ask the model for JSON and pray”, the newer and better pattern is to define a Swift struct that represents the thing you want. Give the model guidance for each field in natural language. Ask the model to generate an instance of that type.\nConceptually, it looks like this:\nNow your UI doesn’t have to scrape bullet points out of Markdown or hope the model remembered your JSON schema. You get a real type with real fields, and you can render it consistently. It produces structured output your app can actually use. And it’s all running locally!\nThis isn’t just nicer ergonomics. It’s an engineering improvement.\nAnd if you’re building a local first app, this is the difference between “AI as novelty” and “AI as a",
+          "category": "hot",
+          "publishedAt": "2026-05-10T17:19:28.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Obsidian plugin was abused to deploy a remote access trojan",
+          "titleKo": "Obsidian 플러그인이 악용되어 원격 접근 트로잔 배포",
+          "summary": "금융 및 암호화폐 업계 인력을 대상으로 한 사회공학 캠페인이 Obsidian 노트 앱의 커뮤니티 플러그인을 악용하여 PHANTOMPULSE RAT를 배포합니다. 공격자는 이더리움 블록체인을 이용해 C2 서버 주소를 동적으로 해결하여 탐지 회피성을 높였습니다.",
+          "keyPoints": [
+            "LinkedIn, Telegram을 통한 신뢰 구축 후 악성 Obsidian 볼트 공유로 공격 실행",
+            "PHANTOMPULSE는 키로깅, 스크린샷, 파일 탈취, 임의 명령 실행 가능하며 블록체인 기반 C2로 인해 차단이 어려움"
+          ],
+          "whyItMatters": "개발자와 금융 전문가는 협업 도구 사용 시 플러그인 설치 권한 요청에 주의해야 하며, 애플리케이션 제어 설정이 중요합니다.",
+          "url": "https://cyber.netsecops.io/articles/obsidian-plugin-abused-in-campaign-to-deploy-phantom-pulse-rat/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 16,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "obsidian-plugin-was-abused-to-deploy-a-remote-access-trojan",
+          "fullContent": "Obsidian Plugin Abused in Social Engineering Campaign to Deliver New PHANTOMPULSE RAT\nSecurity researchers have identified a highly targeted social engineering campaign (REF6598) that weaponizes the Obsidian note-taking application to deliver a previously undocumented Remote Access Trojan (RAT) named PHANTOMPULSE. The campaign targets individuals in the financial and cryptocurrency sectors on both Windows and macOS. Attackers use platforms like LinkedIn and Telegram to build trust before luring victims into a malicious shared Obsidian vault. The attack chain relies on tricking the user into enabling a community plugin, which then executes code to deploy the RAT. PHANTOMPULSE demonstrates advanced capabilities, including using the Ethereum blockchain to dynamically resolve its command-and-control (C2) server address, making it highly resilient to takedowns.\nThe attack, designated REF6598, is a multi-stage social engineering effort. Threat actors pose as venture capitalists and engage with targets on professional networking sites before moving the conversation to a private Telegram group. The primary lure is an invitation to collaborate via a shared, cloud-hosted Obsidian vault.\nOnce the victim opens the shared vault, the infection is triggered by social engineering. The victim is prompted to enable the \"Installed community plugins\" synchronization feature. This seemingly innocuous action, which requires manual user approval, is the key to the compromise. It enables malicious versions of legitimate Obsidian plugins ('Shell Commands' and 'Hider') that are present in the shared vault.\nThe attack chain differs slightly between Windows and macOS but follows the same general principle:\nOnce active, PHANTOMPULSE can capture keystrokes, take screenshots, exfiltrate files, and execute arbitrary commands.\nA successful compromise gives the attacker full access to the victim's machine. For professionals in finance and crypto, this could lead to the theft of sensitive corporate data, intellectual property, trading strategies, and, most critically, cryptocurrency wallet keys and exchange credentials. The cross-platform nature of the attack broadens its potential victim pool. The use of a blockchain-based C2 demonstrates a high level of sophistication, making the threat infrastructure difficult to disrupt.\nTraining users to recognize social engineering tactics and be suspicious of unsolicited collaboration requests is the primary defense against this attack vector.\nUsing application control to prevent applications like Obsidian from executing scripts (e.g., PowerShell) can break the attack chain.\nConfiguring applications to disable or require strict approval for installing third-party plugins reduces the attack surface.\nCybersecurity professional with over 10 years of specialized experience in security operations, threat intelligence, incident response, and security automation. Expertise spans SOAR/XSOAR orchestration, threat intelligence platforms, SIEM/UEBA analytics, and building cyber fusion centers. Background includes technical enablement, solution architecture for enterprise and government clients, and implementing security automation workflows across IR, TIP, and SOC use cases.\nHelp others stay informed about cybersecurity threats\nEvery tactic, technique, and sub-technique used in this threat has been identified and mapped to the MITRE ATT&CK framework for consistent, actionable threat language.\nObservables and indicators of compromise (IOCs) have been extracted and cataloged. Risk has been assessed and correlated with known threat actors and historical campaigns.\nDetection rules, incident response steps, and D3FEND-aligned mitigation strategies are included so your team can act on this intelligence immediately.\nStructured threat data is packaged as a STIX 2.1 bundle and can be visualized as an interactive graph — relationships between actors, malware, techniques, and indicators.\nSigma detection rules are derived from the threat techniques in this article and can be converted for deployment across any major SIEM or EDR platform.",
+          "category": "hot",
+          "publishedAt": "2026-05-10T22:02:43.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Maryland citizens hit with $2B power grid upgrade for out-of-state AI",
+          "titleKo": "메릴랜드 주민, 주외 AI 데이터센터를 위한 20억 달러 전력망 업그레이드 비용 부담",
+          "summary": "메릴랜드 주에서 AI 데이터센터 증설로 인한 전력망 업그레이드에 20억 달러 비용이 발생하면서 주민들이 추가 요금을 내야 할 상황입니다.",
+          "keyPoints": [
+            "AI 데이터센터 확장으로 인한 인프라 비용 증가",
+            "에너지 규제기관에 주(State) 차원의 비용 부담 문제 제기"
+          ],
+          "whyItMatters": "대규모 AI 시스템 운영의 사회적, 경제적 비용과 에너지 인프라 문제의 현실을 이해하는 데 중요합니다.",
+          "url": "https://www.tomshardware.com/tech-industry/artificial-intelligence/maryland-citizens-slapped-with-usd2-billion-grid-upgrade-bill-for-out-of-state-ai-data-centers-state-complains-to-federal-energy-regulators-says-additional-cost-breaks-ratepayer-protection-pledge-promises",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 73,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-energy-costs",
+          "isTopicPrimary": true,
+          "slug": "maryland-citizens-hit-with-2b-power-grid-upgrade-for-out-of-state-ai",
+          "category": "hot",
+          "publishedAt": "2026-05-10T21:16:58.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Louis Rossmann offers to pay legal fees for a threatened OrcaSlicer developer",
+          "titleKo": "루이스 로스만, 법적 위협을 받는 OrcaSlicer 개발자를 위해 법률 비용 지원 제안",
+          "summary": "우측수리 운동가 루이스 로스만이 3D 프린터 제조사 Bambu Lab의 소송으로부터 OrcaSlicer 개발자를 보호하기 위해 법률 비용을 지원하겠다고 제안했습니다.",
+          "keyPoints": [
+            "Bambu Lab이 OrcaSlicer 개발자를 상대로 소송을 제기했으며, 이는 우측수리 운동과 기업의 제한적 정책 간의 갈등을 보여줌",
+            "루이스 로스만의 지원은 오픈소스 개발자 보호와 접근성 문제에 대한 활동의 일환"
+          ],
+          "whyItMatters": "오픈소스 개발자가 직면한 법적 위험과 기업의 지적 재산권 주장 간의 균형 문제를 다룹니다.",
+          "url": "https://www.tomshardware.com/3d-printing/louis-rossmann-tells-3d-printer-maker-bambu-lab-to-go-bleep-yourself-over-its-lawsuit-against-enthusiast-right-to-repair-advocate-offers-to-pay-the-legal-fees-for-a-threatened-orcaslicer-developer",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 428,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "louis-rossmann-offers-to-pay-legal-fees-for-a-threatened-orcaslicer-developer",
+          "category": "hot",
+          "publishedAt": "2026-05-10T14:47:05.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Hardware Attestation as Monopoly Enabler",
+          "titleKo": "하드웨어 증명: 독점 활성화 수단",
+          "summary": "GrapheneOS 소셜 포스트로 제공된 내용이며 제목만 있어 구체적 내용을 확인할 수 없습니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://grapheneos.social/@GrapheneOS/116550899908879585",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 698,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "hardware-attestation-monopoly",
+          "isTopicPrimary": true,
+          "slug": "hardware-attestation-as-monopoly-enabler",
+          "category": "hot",
+          "publishedAt": "2026-05-10T17:54:02.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "affaan-m/everything-claude-code (JavaScript)",
+          "titleKo": "everything-claude-code - Claude Code 성능 최적화 시스템",
+          "summary": "Claude Code, Codex, Cursor 등 AI 코딩 도구를 위한 에이전트 성능 최적화 시스템으로, 스킬, 메모리, 보안, 연구 중심 개발 기능을 제공합니다.",
+          "keyPoints": [
+            "AI 코딩 에이전트의 성능과 보안을 동시에 최적화하는 프레임워크",
+            "메모리 관리와 스킬 시스템으로 AI 모델의 효율성 향상"
+          ],
+          "whyItMatters": "AI 코딩 도구의 신뢰성과 성능을 개선하여 개발 생산성을 높일 수 있습니다.",
+          "url": "https://github.com/affaan-m/everything-claude-code",
+          "sourceName": "GitHub Trending",
+          "engagement": 178104,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-code-integration",
+          "isTopicPrimary": true,
+          "slug": "affaan-meverything-claude-code-javascript",
+          "category": "tech",
+          "publishedAt": "2026-05-10T23:21:59.696Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "addyosmani/agent-skills (Shell)",
+          "titleKo": "agent-skills - AI 코딩 에이전트를 위한 프로덕션급 엔지니어링 스킬",
+          "summary": "AI 코딩 에이전트가 실제 프로덕션 환경에서 사용할 수 있도록 설계된 엔지니어링 스킬 모음입니다.",
+          "keyPoints": [
+            "AI 에이전트의 코딩 능력을 프로덕션 수준으로 향상시키는 스킬 세트"
+          ],
+          "whyItMatters": "AI 코딩 도구의 신뢰성을 높여 실제 프로덕션 환경에서 사용 가능한 코드를 생성할 수 있습니다.",
+          "url": "https://github.com/addyosmani/agent-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 38352,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "addyosmaniagent-skills-shell",
+          "category": "tech",
+          "publishedAt": "2026-05-10T23:21:59.692Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "bytedance/UI-TARS-desktop (TypeScript)",
+          "titleKo": "UI-TARS-desktop - 오픈소스 멀티모달 AI 에이전트 스택",
+          "summary": "ByteDance에서 공개한 최신 AI 모델과 에이전트 인프라를 연결하는 오픈소스 멀티모달 AI 에이전트 스택입니다.",
+          "keyPoints": [
+            "다양한 AI 모델을 통합하는 멀티모달 에이전트 스택 제공",
+            "데스크톱 환경에서 AI 에이전트를 실행할 수 있는 오픈소스 솔루션"
+          ],
+          "whyItMatters": "개발자가 프로프라이어터리 솔루션 없이 강력한 AI 에이전트 시스템을 자유롭게 구축하고 커스터마이징할 수 있습니다.",
+          "url": "https://github.com/bytedance/UI-TARS-desktop",
+          "sourceName": "GitHub Trending",
+          "engagement": 32060,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "bytedanceui-tars-desktop-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-10T23:21:59.691Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "decolua/9router (JavaScript)",
+          "titleKo": "9router - 40개 이상의 제공자를 통해 무료 AI 코딩 지원",
+          "summary": "Claude, GPT, Gemini 등 여러 AI 모델을 40개 이상의 제공자를 통해 무료로 연결할 수 있는 라우팅 도구입니다. 자동 폴백 기능과 토큰 최적화(RTK -40%)를 제공하여 사용 제한에 도달하지 않습니다.",
+          "keyPoints": [
+            "40개 이상의 AI 제공자를 단일 인터페이스로 연결 가능",
+            "자동 폴백 및 토큰 효율화로 비용 절감과 안정성 향상"
+          ],
+          "whyItMatters": "개발자가 여러 AI 도구의 기능을 비용 효율적으로 활용할 수 있게 해줍니다.",
+          "url": "https://github.com/decolua/9router",
+          "sourceName": "GitHub Trending",
+          "engagement": 7248,
+          "contentType": "repo",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "decolua9router-javascript",
+          "category": "tech",
+          "publishedAt": "2026-05-10T23:21:59.695Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "jundot/omlx (Python)",
+          "titleKo": "jundot/omlx (Python)",
+          "summary": "Apple Silicon 환경에서 LLM 추론을 처리하는 서버로, 연속 배치 처리와 SSD 캐싱을 지원하며 macOS 메뉴바에서 관리할 수 있습니다.",
+          "keyPoints": [
+            "Apple Silicon 최적화된 LLM 추론 서버",
+            "연속 배치 처리(continuous batching)와 SSD 캐싱으로 효율성 향상",
+            "macOS 메뉴바 기반 간단한 관리 인터페이스"
+          ],
+          "whyItMatters": "Mac 환경에서 로컬 LLM 추론을 효율적으로 실행하고 싶은 개발자에게 유용합니다.",
+          "url": "https://github.com/jundot/omlx",
+          "sourceName": "GitHub Trending",
+          "engagement": 13258,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "jundotomlx-python",
+          "category": "tech",
+          "publishedAt": "2026-05-10T23:21:59.694Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Idempotency is easy until the second request is different",
+          "titleKo": "멱등성은 쉽다고 생각했지만 두 번째 요청이 다르면 어렵다",
+          "summary": "API 설계에서 멱등성(idempotency) 개념이 두 번째 요청에서 다른 결과가 필요한 경우 복잡해지는 실제 사례와 해결 방안을 다룹니다.",
+          "keyPoints": [
+            "멱등성 설계의 이론과 실무 간 차이점 분석",
+            "요청 결과가 변해야 하는 상황에서의 멱등성 구현 방법"
+          ],
+          "whyItMatters": "분산 시스템에서 안정적인 API 설계를 위해 멱등성의 실제 적용 방법을 이해해야 합니다.",
+          "url": "https://blog.dochia.dev/blog/idempotency/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 268,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "idempotency-is-easy-until-the-second-request-is-different",
+          "category": "tech",
+          "publishedAt": "2026-05-07T11:02:28.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "lsdefine/GenericAgent (Python)",
+          "titleKo": "lsdefine/GenericAgent (Python)",
+          "summary": "3.3K 라인의 시드 코드에서 자동으로 성장하는 에이전트로, 토큰 소비를 6배 줄이면서 완전한 시스템 제어를 달성합니다.",
+          "keyPoints": [
+            "자가 진화하는 에이전트로 스킬 트리를 확장",
+            "토큰 효율성을 6배 개선한 경량 구현",
+            "작은 시드 코드에서 시작하여 전체 시스템 제어 가능"
+          ],
+          "whyItMatters": "효율적인 LLM 에이전트 아키텍처와 토큰 최적화 기법을 학습할 수 있습니다.",
+          "url": "https://github.com/lsdefine/GenericAgent",
+          "sourceName": "GitHub Trending",
+          "engagement": 10494,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "lsdefinegenericagent-python",
+          "category": "tech",
+          "publishedAt": "2026-05-10T23:21:59.695Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "playcanvas/supersplat (TypeScript)",
+          "titleKo": "playcanvas의 supersplat (TypeScript)",
+          "summary": "3D Gaussian Splat 형식을 편집할 수 있는 웹 기반 에디터 프로젝트입니다.",
+          "keyPoints": [
+            "3D Gaussian Splat 편집 기능 제공",
+            "TypeScript 기반의 고성능 3D 그래픽 도구"
+          ],
+          "whyItMatters": "3D 컴퓨터 비전과 신경 렌더링 분야에서 최신 기술을 활용하려는 개발자들에게 유용한 도구입니다.",
+          "url": "https://github.com/playcanvas/supersplat",
+          "sourceName": "GitHub Trending",
+          "engagement": 6777,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "playcanvassupersplat-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-10T23:21:59.695Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "datawhalechina/hello-agents (Python)",
+          "titleKo": "datawhalechina의 hello-agents (Python)",
+          "summary": "\"0부터 시작하는 지능형 에이전트\" 원리와 실전 튜토리얼을 제공하는 교육 저장소입니다.",
+          "keyPoints": [
+            "AI 에이전트 개발의 기초부터 실전까지 다루는 체계적 교육 자료",
+            "Python 기반의 실제 구현 예제"
+          ],
+          "whyItMatters": "AI 에이전트 개발에 입문하려는 개발자들을 위한 실질적인 학습 자료입니다.",
+          "url": "https://github.com/datawhalechina/hello-agents",
+          "sourceName": "GitHub Trending",
+          "engagement": 46430,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "datawhalechinahello-agents-python",
+          "category": "tech",
+          "publishedAt": "2026-05-10T23:21:59.696Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "anthropics/financial-services (Python)",
+          "titleKo": "anthropic의 금융 서비스 (Python)",
+          "summary": "Anthropic이 제공하는 금융 서비스 분야 관련 Python 저장소입니다.",
+          "keyPoints": [
+            "AI를 금융 서비스 도메인에 적용하는 예제 제공",
+            "실무 기반의 구현 코드"
+          ],
+          "whyItMatters": "금융 분야에 AI를 통합하려는 개발자들에게 참고 자료가 될 수 있습니다.",
+          "url": "https://github.com/anthropics/financial-services",
+          "sourceName": "GitHub Trending",
+          "engagement": 18732,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "anthropicsfinancial-services-python",
+          "category": "tech",
+          "publishedAt": "2026-05-10T23:21:59.692Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "HKUDS/AI-Trader (Python)",
+          "titleKo": "HKUDS/AI-Trader (Python)",
+          "summary": "완전히 자동화된 에이전트 기반의 거래 시스템으로, 인공지능을 활용한 트레이딩 솔루션을 제공합니다.",
+          "keyPoints": [
+            "100% 자동화된 AI 트레이딩 에이전트",
+            "Python으로 구현된 오픈소스 프로젝트"
+          ],
+          "whyItMatters": "AI 에이전트 개발 패턴과 금융 데이터 처리 기술을 학습할 수 있습니다.",
+          "url": "https://github.com/HKUDS/AI-Trader",
+          "sourceName": "GitHub Trending",
+          "engagement": 15502,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "hkudsai-trader-python",
+          "category": "tech",
+          "publishedAt": "2026-05-10T23:21:59.693Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "datawhalechina/easy-vibe (JavaScript)",
+          "titleKo": "datawhalechina/easy-vibe (JavaScript)",
+          "summary": "초보자부터 시작하는 현대적인 코딩 입문 과정으로, 단계별 학습을 통해 프로그래밍 기초를 습득할 수 있습니다.",
+          "keyPoints": [
+            "초보자 대상 체계적인 JavaScript 학습 커리큘럼",
+            "2026년 현대식 코딩 교육 과정"
+          ],
+          "whyItMatters": "JavaScript 초보자가 단계별로 기본기를 다질 수 있는 구조화된 학습 자료입니다.",
+          "url": "https://github.com/datawhalechina/easy-vibe",
+          "sourceName": "GitHub Trending",
+          "engagement": 9100,
+          "contentType": "repo",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "datawhalechinaeasy-vibe-javascript",
+          "category": "tech",
+          "publishedAt": "2026-05-10T23:21:59.694Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "CloakHQ/CloakBrowser (Python)",
+          "titleKo": "CloakBrowser - 모든 봇 탐지 우회 가능한 스텔스 Chromium",
+          "summary": "Playwright 완벽 호환 드롭인 대체 도구로, 소스 수준에서 핑거프린트를 패치하여 모든 봇 탐지 테스트(30/30)를 통과합니다.",
+          "keyPoints": [
+            "Playwright와 호환되는 Python 기반 스텔스 브라우저로 기존 코드 수정 최소화",
+            "소스 수준 핑거프린트 패치로 모든 주요 봇 탐지 기법 우회"
+          ],
+          "whyItMatters": "웹 스크래핑, 자동화 테스트 등 봇 탐지 회피가 필요한 작업에서 신뢰할 수 있는 도구를 제공합니다.",
+          "url": "https://github.com/CloakHQ/CloakBrowser",
+          "sourceName": "GitHub Trending",
+          "engagement": 4641,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "cloakhqcloakbrowser-python",
+          "category": "tech",
+          "publishedAt": "2026-05-10T23:21:59.693Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "A recent experience with ChatGPT 5.5 Pro",
+          "titleKo": "ChatGPT 5.5 Pro를 이용한 최근 경험",
+          "summary": "수학자가 ChatGPT 5.5 Pro의 박사 수준 연구 능력을 테스트한 결과, 가산수론의 미해결 문제를 약 17분만에 최적의 이차 상한을 도출하는 성과를 얻었습니다. LLM이 기존 지식의 조합을 넘어 새로운 수학적 발견을 할 수 있는 능력에 도달했음을 보여줍니다.",
+          "keyPoints": [
+            "ChatGPT 5.5 Pro가 미해결 가산수론 문제를 자동으로 해결하는 구성 방법 발견",
+            "LLM은 기존 논문에서 놓친 새로운 논증을 발견할 수 있는 수준에 도달했으며, 이는 문제의 난이도 기준을 상향시키고 있음"
+          ],
+          "whyItMatters": "LLM의 연구 수준 수학 능력 향상은 기초 과학 분야의 문제 해결 방식을 근본적으로 변화시키고 있습니다.",
+          "url": "https://gowers.wordpress.com/2026/05/08/a-recent-experience-with-chatgpt-5-5-pro/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 683,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "chatgpt-experience",
+          "isTopicPrimary": true,
+          "slug": "a-recent-experience-with-chatgpt-55-pro",
+          "fullContent": "A recent experience with ChatGPT 5.5 Pro\nWe are all having to keep revising upwards our assessments of the mathematical capabilities of large language models. I have just made a fairly large revision as a result of ChatGPT 5.5 Pro, to which I am fortunate to have been given access, producing a piece of PhD-level research in an hour or so, with no serious mathematical input from me.\nThe background is that, as has been widely reported, LLMs are now capable of solving research-level problems, and have managed to solve several of the Erdős problems listed on Thomas Bloom’s wonderful website. Initially it was possible to laugh this off: many of the “solutions” consisted in the LLM noticing that the problem had an answer sitting there in the literature already, or could be very easily deduced from known results. But little by little the laughter has become quieter. The message I am getting from what other mathematicians more involved in this enterprise have been saying is that LLMs have got to the point where if a problem has an easy argument that for one reason or another human mathematicians have missed (that reason sometimes, but not always, being that the problem has not received all that much attention), then there is a good chance that the LLMs will spot it. Conversely, for problems where one’s initial reaction is to be impressed that an LLM has come up with a clever argument, it often turns out on closer inspection that there are precedents for those arguments, so it is still just about possible to comfort oneself that LLMs are merely putting together existing knowledge rather than having truly original ideas. How much of a comfort that is I will not discuss here, other than to note that quite a lot of perfectly good human mathematics consists in putting together existing knowledge and proof techniques.\nI decided to try something a little bit different. At least in combinatorics, there are quite a lot of papers that investigate some relatively new combinatorial parameter that leads naturally to several questions. Because of the sheer number of questions one can ask, the authors of such papers will not necessarily have the time to spend a week or two thinking about each one, so there is a decent probability that at least some of them will not be all that hard. This makes such papers very valuable as sources of problems for mathematicians who are doing research for the first time and who will be hugely encouraged by solving a problem that was officially open. Or rather, it used to make them valuable in that way, but it looks as though the bar has just been raised. It is no longer enough that somebody asks a problem: it needs to be hard enough for an LLM not to be able to solve it.\nIn any case, a little over a week ago I decided to see how ChatGPT 5.5 Pro would fare with a selection of problems asked by Mel Nathanson in a paper entitled Diversity, Equity and Inclusion for Problems in Additive Number Theory. Nathanson has a remarkable record of being interested in problems and theorems that have later become extremely fashionable, which has led him to write a series of extremely well timed and therefore highly influential textbooks. In this paper, he argues for the interest of several other problems, some of which I will now briefly describe.\nIf is a set of integers, then its sumset is defined to be . For a positive integer , the –fold sumset, denoted , is defined to be . Nathanson is interested in the possible sizes of given the size of . To that end one can define a set to be the set of all such that there exists a set with and .\nAn obvious first question to ask is simply “What is ?” When , the answer is the set of all integers between and . It is an easy exercise to show that if , then , so this result is saying that all sizes in between can be realized. However, it is not true in general that can take every size between its minimum and maximum possibilities, and we do not currently have a complete description of .\nAnother natural question one can ask, and this is where ChatGPT came in, is how large a diameter you need if you want a set with and having prescribed sizes. (Of course, the size of must belong to .) Nathanson showed that for every there is a subset of with and , and asked whether the bound could be improved. ChatGPT 5.5 Pro thought for 17 minutes and 5 seconds before providing a construction that yielded a quadratic upper bound, which is clearly best possible. It wrote up its argument in a slightly rambling LLM-ish style, so I asked if it could write the argument up as a LaTeX file in the style of a typical mathematical preprint. After two minutes and 23 seconds it gave me that, after which I spent some time convincing myself that the argument was correct.\nThe basic idea behind both Nathanson’s argument and ChatGPT’s was that in order to obtain a set of a given size with a sumset of a given size, it is useful to build it out of a Sidon set, which means a set with sumset of maximal size (that is ",
+          "category": "insight",
+          "publishedAt": "2026-05-09T02:41:42.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Task Paralysis and AI",
+          "titleKo": "작업 마비와 AI",
+          "summary": "작업 마비(Task Paralysis)를 겪는 개발자의 AI 활용 경험 기록으로, Claude로 코딩을 자동화하여 마비를 극복하지만 빠른 보상 사이클로 인한 중독성과 토큰 과소비 문제에 직면합니다.",
+          "keyPoints": [
+            "작업 마비는 분석 마비와 다르며, AI 자동화가 초기 실행 장벽을 낮춰주는 효과가 있음",
+            "AI의 빠른 결과 생성은 도파민 중독으로 이어져 추가 토큰 구매 등 재정적 문제 발생 가능"
+          ],
+          "whyItMatters": "개발자가 AI 도구 사용 시 생산성 향상뿐만 아니라 중독성과 윤리적 문제를 함께 고려해야 합니다.",
+          "url": "https://g5t.de/articles/20260510-task-paralysis-and-ai/index.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 175,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "task-paralysis-and-ai",
+          "fullContent": "Task Paralysis & AI\nAbout Task Paralysis\nStraight away: I am not diagnosed yet. So I'm hesitant to say \"I have ADHD\", because the truth is: I don't know it. There are signs: My siblings have been diagnosed as kids, and I'm personally struggling with tasks that others deem to be \"easy\". I have a tremendous need for novelty, and I can hardly picture myself doing the same job for the next 30 years.\nI'm not kidding: At the moment, I change roles every 2-3 years. This isn't really sustainable. Due to circumstances out of my control, I wasn't able to tackle that earlier.\nAlso, it doesn't really help if you want to build a career: I can navigate myself around a lot of technical fields, but I have no special knowledge.\nOften, I struggle with the execution of a strategy that I successfully laid out. I will simply refuse to do the first step, because everything now feels overwhelming.\nSo... there are signs. Yes. But that might be another article.\nI'm aware that there is something called Analysis Paralysis. But that's different, at least for me and to my understanding. Let me put it this way: When Analysis Paralysis kicks in, my brain will run in circles. When Task Paralysis kicks in, my brain won't run at all. That sucks.\nAbout AI\nI won't go as far and say that I HATE AI per se. I just shelled out almost 100 € in tokens (Max-plan for Claude) to code a game. And an iOS App. Because I need the latter and want the former. But I see all the negative effects that come with AI: People are loosing their jobs, sometimes loosing themselves. Art gets stolen, and suddenly, piracy isn't piracy any longer once large companies are doing the deed. That feels unfair, to say the least, and strange at best.\n(I 👴 grew up in the 2000s, so I have some knowledge about piracy from back in the days, and how copyright holders went after people.)\nI refrain to use AI for anything artistic since a couple of months. I either buy it, or try to do it myself \"the old way\". I can fail, I can succeed - but I did it on my own. That's important. The effect AI has on artists feels just too destructive.\nWhat is it good for?\nFor me, personally? It helps me overcome my task paralysis. As mentioned earlier: I have a plan. A strategy. An idea. I just need someone (or something), who has fun in churning through the implementation. I have the ideas. But boy is coding exhausting. As I learned quite late in my life, it is indeed not normal to fight with your motivation to create code every time you tackle a new user story, but succeed once you started.\nThe Catch\nClaude Code in this case is the something that just helps me getting started. And, lo' and behold, I see myself struggling to not get addicted to that.\nWhat do I mean by that? While overcoming the task paralysis on one hand, it quickly produces really good results. Last time I tried AI was in fall of 2025. It's an understatement to say that a lot has changed. There are worlds between what is possible today and what was possible back then.\nThat means that the dopamine really kicks fast, because the cycle between \"I have an idea\" and \"This is the result!\" is so tremendously short. But Claude has token limits. You can only spend a limited amount of tokens per 5 hours or 7 days. But you can buy additional API tokens. And now you set yourself in a position where you throw endless money at your source of dopamine, like a junkie running to their dealer, begging for the next shot. Or a poor player waiting for the golden ticket.\nAnd, to be brutally honest: I know because I fell for it. After getting the Pro-plan, I added another 20 € for API credits. After that, I realized I should go for Max for this month, and also leverage some tricks like /modus opusplan to reduce the amount of tokens that are used.\nBut the dopamine feels so freaking good.\nDisclaimer: No AI was used to create this article.",
+          "category": "insight",
+          "publishedAt": "2026-05-10T06:20:50.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "I returned to AWS and was reminded why I left",
+          "titleKo": "나는 AWS로 돌아왔고 왜 떠났는지 상기하게 되었다",
+          "summary": "개발자가 AWS로 복귀한 경험과 기존의 문제점들을 다시 마주하게 된 내용을 다루는 블로그 포스트입니다.",
+          "keyPoints": [
+            "AWS 사용의 복잡성과 운영 어려움",
+            "클라우드 플랫폼 선택 시 고려해야 할 실무 이슈들"
+          ],
+          "whyItMatters": "클라우드 플랫폼 도입 및 마이그레이션을 검토 중인 개발팀은 실제 운영 경험을 참고하여 의사결정해야 합니다.",
+          "url": "http://fourlightyears.blogspot.com/2026/05/i-returned-to-aws-and-was-reminded-hard.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 618,
+          "contentType": "discussion",
+          "labels": [
+            "devops"
+          ],
+          "topicId": "aws-criticism",
+          "isTopicPrimary": true,
+          "slug": "i-returned-to-aws-and-was-reminded-why-i-left",
+          "category": "insight",
+          "publishedAt": "2026-05-09T08:37:41.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "YC's Biggest Scandals",
+          "titleKo": "YC의 가장 큰 스캔들들",
+          "summary": "Y Combinator에서 배출한 여러 사기 및 부정행위 사례들을 상세히 기록한 자료로, Delve의 감사 보고서 조작, Central의 Warp 표절, Naive의 오픈소스 라이선스 위반 등이 포함됩니다.",
+          "keyPoints": [
+            "Delve는 493개 이상의 조작된 감사 보고서를 생성해 YC에서 제명되었고, Garry Tan 리더십의 기술 검증 능력 부족이 지적됨",
+            "Central은 YC 경쟁사 Warp의 고객으로 가입한 후 마케팅 카피까지 동일하게 복제해 론칭했고, Naive는 MIT 라이선스 오픈소스 프로젝트를 속성 표시 없이 상용화함",
+            "Double Finance 등 여러 제너레이티브 AI 래퍼 스타트업들이 기초 모델의 보편화로 차별성을 상실하고 폐업함"
+          ],
+          "whyItMatters": "스타트업 생태계의 윤리 문제와 오픈소스 라이선스 준수의 중요성을 보여줍니다.",
+          "url": "https://ycombinator.fyi/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 204,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ycs-biggest-scandals",
+          "fullContent": "(FEATURED FAILURE)MUSEUM CHOICE⌗ LINKVIEW EXHIBIT →DelveKicked out of YC. 493+ fabricated audit reports. Sold fraud to fellow YC companies.Claimed to automate SOC 2 and ISO compliance auditing with AI. Whistleblower revealed the platform auto-generated identical passing audit reports with keyboard-mashed test data before clients even uploaded anything . CEO was caught on tape asking an auditor 'does your firm actually look at our platform?' Focused on selling to other YC companies who trusted the YC brand — the circular trust network weaponized. Insight Partners scrubbed their $32M investment blog post. YC officially expelled Delve in 2026. Investor Adam Cochran called it proof that YC has 'no technical acumen to evaluate claims' under Garry Tan's leadership.SORT:SEVERITYRECENTBIGGESTOLDESTA → Z(BATCH S24)(EXHIBIT 002)⌗ LINKVIEW EXHIBIT →CentralSigned up as a Warp customer, stole the playbook, launched a cloneAutopsy Report:Central's CEO signed up as a customer of fellow YC company Warp in 2023 under 'Central Business Applications Inc.' Spent six months asking how tax compliance works, what registered agents are, how multi-state filings work — then churned and launched an identical payroll startup with Warp's exact marketing copy, down to the tagline 'designed for founders, not HR' . YC funded them anyway in S24, despite Warp already being in the portfolio. Central got acqui-hired by Mercury in April 2026. Warp CEO Ayush Sharma publicly called them out: 'gg no re.'DAMAGE: Acqui-hired by MercurySTATUSCOPYCATORIGINALCapital Raised$8.6MLifespan3 YRSSOURCES→ Ayush Sharma: 'gg no re' Thread on Central Copying Warp→ TechCrunch: YC Often Backs Startups That Duplicate Other YC Companies(BATCH X25)(EXHIBIT 003)⌗ LINKVIEW EXHIBIT →NaiveRaised $2M+ selling \"autonomous AI employees.\" The platform is a 41K-star MIT-licensed OSS framework with Stripe bolted on.Autopsy Report:Naive (YC S25) raised $2M+ marketing themselves as builders of \"autonomous AI employees.\" Public investigation by @NotOnKetamine traced the entire underlying platform to Paperclip — a 41K-star MIT-licensed open source agent framework — with Naive having stripped attribution and rebranded the original code as proprietary . The additions on top of Paperclip were thin: Stripe billing wrappers ($0.50/credit), domain/email provisioning for agents, phone/SMS via standard providers, and a Composio integration layer. The OSS license required attribution and license preservation; Naive shipped neither. The investigation surfaced screenshots, curl-verifiable evidence, and side-by-side comparisons. As of April 2026, the company has not publicly responded to the receipts.DAMAGE: MIT license violatedSTATUSCOPYCATORIGINALCapital Raised$2M+Lifespan1+ YRSSOURCES→ @NotOnKetamine: Naive (YC S25) thread→ @NotOnKetamine: What Naive built on top of Paperclip(BATCH W24)(EXHIBIT 004)⌗ LINKVIEW EXHIBIT →WuriAI-generated visual novel platform. Pivoted to enterprise AI, then died as foundation models commoditized the UI layer in twelve months.Autopsy Report:Wuri pitched converting 500M+ Wattpad-style text stories into Webtoon-style visual novels via generative AI. Founders ex-Flipkart, ex-Bain. the wrapper-thin differentiation collapsed when GPT-4 / Sora / image-gen foundation models shipped equivalent capability for free, eroding any pricing power Wuri had layered on top . Pivoted from consumer reader app to enterprise AI offerings in 2024. Quietly shut down in 2025. YC profile remains up but flagged Inactive in the directory. The Wuri arc is the median Tan-era Indian AI YC: thin GenAI wrapper, fast pivot, quiet death.DAMAGE: Tan-era YC class slot consumed for a thin GenAI wrapperSTATUSDEADALIVECapital Raised$500KLifespan2 YRSSOURCES→ YC directory: Wuri (Inactive)→ Tech Startups: Top AI Startups That Shut Down in 2025(BATCH W24)(EXHIBIT 005)⌗ LINKVIEW EXHIBIT →Double Finance\"0% expense ratio\" robo-advisor. Hit $10M AUM in Dec 2024, shut down twelve months later. YC slug then recycled for the founder's next pivot — with Garry Tan as primary partner.Autopsy Report:Double pitched itself as a Wealthfront/Betterment killer offering direct indexing for $1/month. Founder JJ Maxwell (ex-Liftoff Influence) and growth lead Mark Wai (ex-Tesla, ex-Facebook). after crossing $10M AUM in December 2024, the company quietly shut down a year later — and the YC slug `double-2` was repurposed for Maxwell's next venture (an AI ad-generation startup called Polished) with Garry Tan named primary YC partner . Maxwell wrote a \"Lessons from Building (and Closing) Double Finance\" HN post (item 46213345). The slug-recycling-into-pivot pattern is itself a Tan-era artifact: the same YC company URL now points at a different product with different unit economics, while clients had to be wound down or transferred. Robo-advising joined the long list of consumer fintech categories that didn't pencil at venture scale.DAMAGE: $10M+ in client AUM wound down or transferredSTATUSDEADALIVECapital RaisedUndisclosed ",
+          "category": "insight",
+          "publishedAt": "2026-05-10T16:30:34.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: An index of indie web/blog indexes",
+          "titleKo": "인디 웹/블로그 인덱스의 인덱스",
+          "summary": "개인 블로그와 소규모 웹 커뮤니티를 찾기 위한 38개의 인덱스 사이트를 분류하고 관리하는 메타 인덱스입니다. 큐레이션 디렉토리, RSS 애그리게이터, 검색 엔진, 랜덤 발견 도구, 제약 기반 클럽 등으로 구성됩니다.",
+          "keyPoints": [
+            "6개 카테고리에 걸쳐 1,000개 이상의 개인 블로그와 웹 사이트를 인덱싱하는 도구들을 제공",
+            "Marginalia Search, Kagi Small Web 등 비상업적 콘텐츠에 특화된 검색 엔진과 인디 블로그 추천 플랫폼 소개",
+            "페이지 무게 제한(1MB Club, 250KB Club) 등 기술적 제약을 기반으로 한 커뮤니티로 웹 최적화 문화 장려"
+          ],
+          "whyItMatters": "대형 소셜 미디어 플랫폼 중심의 인터넷 구조에서 벗어나 개인 중심의 웹 커뮤니티를 발견할 수 있습니다.",
+          "url": "https://theindex.fyi",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 86,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-an-index-of-indie-webblog-indexes",
+          "fullContent": "The index of indexes.\nA maintained, canonical meta-index of indie web and small web index sites.\n38 entries across 6 categories.\nUnless noted, each index accepts submissions.\nCurated Directories\nHuman-maintained lists of blogs and personal sites. Good for submitting your own site or browsing by topic.\nBlogosphere\nAggregates 1,000+ independent and personal blogs\nBlogroll Club\nHome for everyone's blogrolls and post rolls\nBlogs Are Back\nHand-curated directory of indie blogs\nBlogscroll\nOpen directory of personal sites maintained on GitHub\nHN Personal Websites\nPersonal sites of Hacker News users\nIndieseek\nSearchable human-curated indie web directory\nMataroa Collection\nDirectory of blogs hosted on Mataroa\nMinifeed\nSmall personal web feed aggregator\nPersonalSit.es\nDirectory of personal sites submitted by their owners\nThe Big List of Personal Websites\nFlat list of personal sites\nWeb Jamboree\nDirectory of links to help navigate the web\nYe Olde Blogroll\nHuman-curated list of 1,000+ personal and independent blogs\nblogblog.es\nBlog directory for Spanish-language writers\nblogs.hn\nTiny tech blog directory\nooh.directory\nYahoo-style taxonomy of 2,300+ blogs by topic\nRSS & Feed Aggregators\nFeed-centric indexes that surface posts from indie blogs in real time. Good for following the small web like a stream.\nRSS.Social\nRSS-based social discovery\nScour\nSurfaces posts from feeds based on stated interests\nfeedle\nSearch engine for RSS feeds from blogs and podcasts\nindieblog.page\nRandom indie blog button; 4,900+ sites indexed\npowRSS\nPublic RSS aggregator with shuffle and random features\nSearch Engines\nActually crawl and index the small web. Good for finding specific content or authors.\nKagi Small Web\nDiscovers personal blogs, indie YouTube channels, and webcomics\nMarginalia Search\nSearch engine for content-rich, non-commercial, lightweight sites\nSearch My Site\nSearch posts from 3,400+ independent sites\nWiby\nSearch engine for older-style pages reminiscent of the early web\nblogsearch.io\nBlog-focused search engine\nRandom Discovery\nSend you somewhere unexpected. Good for when you want to find something new without knowing what you're looking for.\nBlog of the Day\nA different IndieWeb blog featured every day, with RSS feed\nRead Something Interesting\nSurfaces great writing from around the web\nThe Forest\nGet lost on the web — random site discovery\nConstraint-Based Clubs\nIndexes defined by a technical or creative constraint (page weight, no JS, dark theme, etc.). Good for finding deliberately minimal sites.\n1MB Club\nSites under 1 megabyte\n250KB Club\nSites under 250 kilobytes\n512KB Club\nSites under 512 kilobytes\nDark Theme Club\nSites using dark themes by default\nno-js.club\nSites with no JavaScript\nIndieWeb Infrastructure\nWebrings, /now pages, webmention networks, and other connective tissue of the IndieWeb. Good for plugging into the broader community.\nIndieWeb Directory\nThe IndieWeb wiki's index of personal sites\nIndieWeb Webring\nWebring of IndieWeb community members\nNow Now Now\nDirectory of people with /now pages, by Derek Sivers\nomg.lol directory\nDirectory of personal/IndieWeb sites via omg.lol\nuses.tech\nDirectory of /uses pages\nKnow one that's missing? Suggest an entry.",
+          "category": "insight",
+          "publishedAt": "2026-05-10T12:50:31.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Think Linear Algebra (2023)",
+          "titleKo": "Think Linear Algebra (2023)",
+          "summary": "Python과 NumPy, SciPy, SymPy, NetworkX를 활용하여 실제 문제 해결을 통해 선형대수를 학습하는 코드 우선 교과서로, Jupyter 노트북 기반의 대화형 학습을 제공합니다.",
+          "keyPoints": [
+            "PageRank, GPS 추적, 전기회로 분석 등 실제 사례 중심으로 벡터, 행렬, 고유값, 선형 변환 등의 개념을 학습",
+            "전통적 수학 형식주의가 아닌 코드 작성과 즉각적인 피드백으로 직관적 이해와 시각화를 강조",
+            "기계학습, 과학 컴퓨팅, 컴퓨터 그래픽스 등 고수요 분야의 기초가 되는 선형대수의 실용적 응용 제시"
+          ],
+          "whyItMatters": "데이터 과학과 머신러닝 분야로 진입하려는 개발자가 선형대수의 수학적 개념을 실제 코드로 구현하며 배울 수 있습니다.",
+          "url": "https://allendowney.github.io/ThinkLinearAlgebra/index.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 148,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "think-linear-algebra-2023",
+          "fullContent": "Think Linear Algebra#\nThink Linear Algebra is a code-first, case-based introduction to the most widely used concepts in linear algebra, designed for readers who want to understand and apply these ideas — not just learn them in the abstract. Each chapter centers on a real-world problem like modeling traffic in the web, simulating flocking birds, or analyzing electrical circuits. Using Python and powerful libraries like NumPy, SciPy, SymPy, and NetworkX, readers build working solutions that reveal how linear algebra provides elegant, general-purpose tools for thinking and doing.\nPress the play button to try this example from the chapter on affine transforms.\nThis book is for readers who may have struggled with traditional math instruction, or who want a more intuitive, hands-on way to learn. By working in Jupyter notebooks, readers get instant feedback as they write code, run simulations, visualize results, and explore what-if scenarios. Rather than beginning with mathematical formalism, Think Linear Algebra starts with meaningful applications and builds up the theory when it’s needed. The result is a uniquely practical and empowering introduction to linear algebra as a language for solving real problems.\nLinear algebra is foundational for machine learning, scientific computing, and computer graphics — fields with enormous demand and growth. From search engines and GPS tracking to signal processing and structural engineering, linear algebra is the language behind many of the technologies that shape our world. This book shows you how to use it effectively in your own work.\nThis book is available under a Creative Commons license, which means that you are free to copy, distribute, and modify it, as long as you attribute the source and don’t use it for commercial purposes.\nWhat You’ll Learn#\nBy the end of this book, you’ll be able to:\nFormulate real-world problems using vectors and matrices, and solve them using standard linear algebra algorithms\nUse Python effectively to simulate systems, compute projections, solve equations, and perform matrix decompositions\nVisualize mathematical concepts including vector spaces, transformations, and system behavior using interactive, code-driven examples\nApply linear algebra tools in engineering, data science, graphics, robotics, and other computational domains\nThink computationally about mathematical problems and translate between mathematical notation and working code\nThe notebooks#\nHere are the chapters that are available now. More coming soon!\nChapter 1: The Power of Linear Algebra\nClick here to run Chapter 1 on Colab:\nIntroduces matrix multiplication and eigenvectors through a network-based model of museum traffic, and implements the PageRank algorithm for quantifying the quality of web pages.\nChapter 2: A Day At the Track\nClick here to run Chapter 2 on Colab:\nIntroduces vector addition and subtraction using GPS tracking data. Estimates velocity and acceleration through numerical differentiation, and explores the challenges of reconstructing position from noisy acceleration data.\nChapter 4: Projection\nClick here to run Chapter 4 on Colab:\nPresents vector projection, vector rejection, orthogonality and the dot product, using the elastic collision of pool (billiards) balls as an example.\nChapter 5: To Boldly Go\nClick here to run Chapter 5 on Colab:\nUses matrices scale, rotate, shear, and translate vectors. Applies these methods to 2D compute graphics, including a reimplementation of the classic video game Asteroids.\nChapter 7: Systems of Equations\nClick here to run Chapter 7 on Colab:\nApplies LU decomposition and matrix equations to analyze electrical circuits. Shows how linear algebra solves real engineering problems.\nChapter 8: Null Space\nClick here to run Chapter 8 on Colab:\nInvestigates chemical stoichiometry as a system with multiple valid solutions. Introduces concepts of rank and nullspace to describe the solution space.\nChapter 9: Truss In the System\nClick here to run Chapter 9 on Colab:\nModels structural systems where the unknowns are vector forces. Uses block matrices and rank analysis to compute internal stresses in trusses.\nChapter 10: Regression\nClick here to run Chapter 9 on Colab:\nComputes least squares regression using QR decomposition and orthogonality equations. Uses multiple regression and data from the General Social Survey (GSS) to explore the relationship of political ideology with time, age, and year of birth.",
+          "category": "insight",
+          "publishedAt": "2026-05-10T09:40:33.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Space Cadet Pinball on Linux",
+          "titleKo": "Linux에서 Space Cadet Pinball 플레이하기",
+          "summary": "Windows XP에 번들된 Space Cadet Pinball을 역컴파일과 리버스 엔지니어링을 통해 Linux 및 다른 플랫폼에서 플레이할 수 있도록 만든 프로젝트를 소개하고, Flatpak과 Full Tilt 게임 데이터를 활용한 설치 방법을 설명합니다.",
+          "keyPoints": [
+            "오픈소스 커뮤니티가 역컴파일을 통해 Windows XP 번들 게임을 Linux, Mac, Windows, Android, Nintendo Switch 등 다양한 플랫폼에 이식함",
+            "Flatpak으로 쉽게 설치 가능하며, Full Tilt 데이터를 사용하면 1024x768 해상도로 플레이 가능",
+            "소프트웨어 보존의 중요성과 폐기된 상용 소프트웨어의 FOSS 라이선싱 에스크로 시스템 제안"
+          ],
+          "whyItMatters": "소프트웨어 보존, 오픈소스 포팅, 저작권과 사용자 접근성의 균형 문제에 대한 실사례입니다.",
+          "url": "https://brennan.io/2026/05/09/pinball-and-escrow/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 303,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "space-cadet-pinball-on-linux",
+          "fullContent": "To my fellow Linux users who grew up using Windows XP: did you know, you can\nhave Space Cadet Pinball on your Linux machine? This is not breaking news, but\nit’s exciting to me, and I’m the one who decides what I write about. So here’s\nyour PSA!\nSpace Cadet Pinball was bundled with Windows XP, and growing up I played it a\nlot. As a result it holds a special place in my heart. I found that it was the\nmost engaging game that was bundled with Windows. Solitaire was too mindless,\nand Freecell, Hearts, and Minesweeper were too complex and boring to me at that\nage. But pinball held my attention, and so I played it a lot1.\nAnyway, somebody has gone to the effort of using a decompiler and reverse\nengineering tools to create source code, and then put in what I’d imagine is a\nlot of effort to make it playable on a lot of platforms! All that results in\nthis project on Github. The\neasiest way to play on Linux is actually to use the Flatpak, which comes bundled\nwith the original game resources from the Windows version. You can either\ninstall it with a GUI (e.g. KDE Discover) or install on the CLI:\nThat’s all you need to play & get a hit of nostalgia! I know there are\nbrowser-based versions available too, but I would\nrather have it installed on my computer directly.\nGraphics technology has come a long way since then, and the graphics are a bit\nrough at 480p. But fear not: another version of the game existed, called Full\nTilt! Pinball. Its game data is capable of displaying at the massive screen\nresolution 1024x768! You can find this game data on\narchive.org in a zip file.\nGetting the flatpak version to use these data files is a bit tricky. The easiest\nway is:\nYou may not need the sudo call if your installation was per-user. Mine got\ninstalled to /var/lib/flatpak so I needed root.\nIt’s possible you’d need to repeat step 3 if the game gets updated. However, the\nflatpak\nhasn’t seen an update in over two years. I doubt one will happen, and if it\ndoes, it won’t be frequent.\nIf you want, you can keep the original files and merge them together so that\nyou have the full set of both the original (referred to as “3DPB” for 3D\nPinball in the game) and the new (Full Tilt) data. Then, the game will let\nyou toggle between them if you’d like.\nThe data files seem to have some impact on the game rules. For instance, in\nthe original 3DPB version, the reentry lanes (and launch lanes) have lights\nwhich toggle as the ball passes over. In the Full Tilt version, the lights\nstay on (rather than toggling), making it easier to complete the set of\nlights and upgrade the associated set of bumpers. (Yes yes, I know I’m a nerd\nfor noticing this.)\nApparently, there was a game called “Marble Blast” which came pre-installed\non some Macs in a roughly similar time period, which I know people developed\nsimilar relationships to growing up. Unlike this pinball game, the Marble\nBlast series grew, and there are newer versions available to play today.\nI think it’s great that this old game was beloved to enough people (and\nespecially at least one very competent & motivated person) to do this work.\nHaving (any) source code available makes this game portable to all sorts of\nplatforms, which is really great. You can play this on Mac, Windows, Linux, and\neven Android & Nintendo Switch, apparently.\nPersonally, I would be happy to pay the original developers for their work on\nthis game, and I understand that there’s some concern about the legality of\ndownloading game data files, especially for the Full Tilt version of the game.\nAfter all, they are copyrighted art & data which was part of a commercial\nproduct. It seems like an unpopular opinion in today’s world, but I don’t\nadvocate for piracy. Paying people for their work is important, even when it\nfeels like you’re paying a faceless corporation. While I’d prefer things be\ncreated with a FOSS license, the world doesn’t always work that way. At the end\nof the day, I want people to be paid to create good things, because that’s how\nwe get more good things!\nOn the other hand, I feel software preservation is an important goal too.\nIdeally, I’d like to see a world where proprietary software like this could be\nplaced into some sort of source code\nescrow. As long as the\noriginal copyright holders are in the business of selling their product, their\nrights should be respected. But if they elect to stop selling it, I think that\ncode should revert to a FOSS license that allows users to improve & maintain the\nsoftware they use. This would help balance the rights of creators, users, and\nthe goals of preservation.\nI also played another pinball game called 3D Ultra Pinball, but that came\non a CD presumably for purchase. I have no idea whether my parents went\nout and bought it, or if it came in a cereal box. (Yes, game CDs did show\nup in cereal boxes sometimes.) ↩",
+          "category": "insight",
+          "publishedAt": "2026-05-10T11:22:02.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "What's a mathematician to do? (2010)",
+          "titleKo": "수학자는 어떻게 해야 하는가? (2010)",
+          "summary": "수학 커뮤니티의 한 학부생이 평범하지 않은 재능이 없어도 수학에 기여할 수 있는 방법을 묻는 질문에, 저명한 수학자들이 원래 정리 발견보다는 이해를 전파하고 공동체를 유지하는 것의 중요성을 강조합니다.",
+          "keyPoints": [
+            "혁신적 발견뿐 아니라 기존 지식의 명확한 전달과 공동체 형성이 수학의 발전에 필수적",
+            "수학적 이해는 살아있는 수학자 커뮤니티를 통해서만 존재하며 개인의 천재성보다는 집단의 노력이 중요"
+          ],
+          "whyItMatters": "평범한 역량의 개발자도 명확한 문서화, 지식 공유, 커뮤니티 기여를 통해 의미 있는 영향을 줄 수 있음을 시사",
+          "url": "https://mathoverflow.net/questions/43690/whats-a-mathematician-to-do",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 137,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "whats-a-mathematician-to-do-2010",
+          "fullContent": "366\n$\\begingroup$\nI have to apologize because this is not the normal sort of question for this site, but there have been times in the past where MO was remarkably helpful and kind to undergrads with similar types of question and since it is worrying me increasingly as of late I feel that I must ask it.\nMy question is: what can one (such as myself) contribute to mathematics?\nI find that mathematics is made by people like Gauss and Euler - while it may be possible to learn their work and understand it, nothing new is created by doing this. One can rewrite their books in modern language and notation or guide others to learn it too but I never believed this was the significant part of a mathematician work; which would be the creation of original mathematics. It seems entirely plausible that, with all the tremendously clever people working so hard on mathematics, there is nothing left for someone such as myself (who would be the first to admit they do not have any special talent in the field) to do. Perhaps my value would be to act more like cannon fodder? Since just sending in enough men in will surely break through some barrier.\nAnyway I don't want to ramble too much but I really would like to find answers to this question - whether they come from experiences or peoples biographies or anywhere.\nThank you.\ncareersoft-questionadvice\nedited Oct 26, 2010 at 17:22\ncommunity wiki\n2 revisions, 2 usersmuad 100%\n$\\endgroup$\n11\n18 Answers 18\nSorted by:\nReset to default\nHighest score (default)\nDate modified (newest first)\nDate created (oldest first)\n638\n$\\begingroup$\nIt's not mathematics that you need to contribute to. It's deeper than that: how might you contribute to humanity, and even deeper, to the well-being of the world, by pursuing mathematics? Such a question is not possible to answer in a purely intellectual way, because the effects of our actions go far beyond our understanding. We are deeply social and deeply instinctual animals, so much that our well-being depends on many things we do that are hard to explain in an intellectual way. That is why you do well to follow your heart and your passion. Bare reason is likely to lead you astray. None of us are smart and wise enough to figure it out intellectually.\nThe product of mathematics is clarity and understanding. Not theorems, by themselves. Is there, for example any real reason that even such famous results as Fermat's Last Theorem, or the Poincaré conjecture, really matter? Their real importance is not in their specific statements, but their role in challenging our understanding, presenting challenges that led to mathematical developments that increased our understanding.\nThe world does not suffer from an oversupply of clarity and understanding (to put it mildly). How and whether specific mathematics might lead to improving the world (whatever that means) is usually impossible to tease out, but mathematics collectively is extremely important.\nI think of mathematics as having a large component of psychology, because of its strong dependence on human minds. Dehumanized mathematics would be more like computer code, which is very different. Mathematical ideas, even simple ideas, are often hard to transplant from mind to mind. There are many ideas in mathematics that may be hard to get, but are easy once you get them. Because of this, mathematical understanding does not expand in a monotone direction. Our understanding frequently deteriorates as well. There are several obvious mechanisms of decay. The experts in a subject retire and die, or simply move on to other subjects and forget. Mathematics is commonly explained and recorded in symbolic and concrete forms that are easy to communicate, rather than in conceptual forms that are easy to understand once communicated. Translation in the direction conceptual -> concrete and symbolic is much easier than translation in the reverse direction, and symbolic forms often replaces the conceptual forms of understanding. And mathematical conventions and taken-for-granted knowledge change, so older texts may become hard to understand.\nIn short, mathematics only exists in a living community of mathematicians that spreads understanding and breaths life into ideas both old and new. The real satisfaction from mathematics is in learning from others and sharing with others. All of us have clear understanding of a few things and murky concepts of many more. There is no way to run out of ideas in need of clarification. The question of who is the first person to ever set foot on some square meter of land is really secondary. Revolutionary change does matter, but revolutions are few, and they are not self-sustaining --- they depend very heavily on the community of mathematicians.\nedited Mar 28, 2024 at 6:32\ncommunity wiki\n2 revs, 2 users 96%Bill Thurston\n$\\endgroup$\n7\n217\n$\\begingroup$\nI had the privilege of discussing similar concerns with regard to theoretical physics\nwith the late Richard Feynman. He told me the following, which has ",
+          "category": "insight",
+          "publishedAt": "2026-05-10T11:26:50.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Plex's price hikes prove I was right to switch to Jellyfin",
+          "titleKo": "Plex의 가격 인상으로 Jellyfin으로 전환한 것이 옳았다고 증명되다",
+          "summary": "Plex가 자신의 미디어에 접근하기 위해 Remote Watch Pass 구독료를 부과하자, 필자는 오픈소스인 Jellyfin으로 전환한 결정이 정당했음을 느끼며, Jellyfin이 무료로 제공하는 기능과 우수한 성능을 소개합니다.",
+          "keyPoints": [
+            "Plex의 Remote Watch Pass($29.99/년)는 자신의 미디어에 접근하기 위한 비용으로 부당하며, Tailscale 같은 무료 대안이 존재",
+            "Jellyfin은 7년간 오픈소스로 개발되어 무료 하드웨어 트랜스코딩, HEVC/AV1 지원, 모든 주요 플랫폼의 네이티브 클라이언트를 제공"
+          ],
+          "whyItMatters": "자체 호스팅 미디어 서비스를 원하는 개발자에게 오픈소스 대안의 실용성과 비용 효율성을 보여줌",
+          "url": "https://www.androidauthority.com/plex-price-hikes-get-jellyfin-3663600/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 11,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "plexs-price-hikes-prove-i-was-right-to-switch-to-jellyfin",
+          "fullContent": "Affiliate links on Android Authority may earn us a commission. Learn more.\nStreaming and entertainmentPlex’s price hikes prove I was right to switch to JellyfinCharging people to access their own media is a bad joke.By Robert Triggs•12 hours ago•0••Add AndroidAuthority on GoogleRobert Triggs / Android AuthorityPlex will soon charge you even more to stream your own media over the internet. While I’m not a fan of schadenfreude, decisions like this do make me feel vindicated about my choice to adopt Jellyfin instead of Plex several years ago.The very concept of being charged a subscription fee to access your own media rubs me the wrong way. It’s an anathema to the whole self-hosted ethos and a bid to escape the spiraling costs of music and video subscription services. If Netflix isn’t getting my money for original programming, I’m certainly not handing Plex cash to rewatch my old Spaced DVDs.Let me be clear: I’m all for paying for a service that offers fair value. If Plex were storing and serving your data — like Google One or a hosted VPS — that would be one thing. I’m also more than willing to accept that Plex Pass represents solid value for the features it has accumulated over the years. But what does Plex’s Remote Watch Pass actually do? It simply allows you to view content on any number of servers you have access to, no matter where you are.\nDo you pay for Plex?638 votesI have a lifetime Plex Pass78%I subscribe to Plex Pass4%I pay for Remote Watch Pass2%I use Plex but would never pay16%\nIn that sense, it’s little more than a glorified relay gateway — albeit one that’s now required even if you set up port forwarding. Granted, it handles authentication and basic routing, but everything else depends on your server, such as available bandwidth and transcoding capabilities. Paying $29.99 a year or $2.99 per month for that feels steep, especially when you’re hosting the media yourself.Dhruv Bhutani / Android AuthorityThere’s one good caveat here: you don’t need a Remote Watch Pass if the server owner has a Plex Pass. This also gives the owner extra features like transcoding, downloads, and Plex Dash, which they’ll no doubt find very useful if they’re serving data to a larger number of viewers. However, priced at $69.99 for the whole year or $249.99 for a lifetime, this again doesn’t represent very good value for money for those self-hosters simply looking to take their own media outside their home.\nPlex prices are expensive just to access your own media. Tailscale can do it for free.\nThe Plex Pass convenience might be worth it for individuals who are sharing their media collection far and wide. However, I’d highly encourage casual users looking to dial into their own media library to explore at least two viable free methods that don’t require paying a penny to Plex. I use Tailscale to securely access my NAS outside my home, and it’s perfectly suited to serving up your media on the go, too.But if you’re jumping through the hoops to get around Plex’s remote paywall, you might be better off asking yourself if it’s even worth sticking with Plex at all. If you’re not wed to the UI and/or growing increasingly displeased with the nickel-and-diming of seemingly simple yet core features like external streaming, it could be time to drop Plex for the open-source Jellyfin.\nThere’s never been a better time to switch to JellyfinJellyFin GitHub/ArgiesDarioI’ll happily advocate for Jellyfin all day, but I know that the Plex faithful aren’t going to want to convert without good cause. Jellyfin is now in its seventh year of open-source development and has just released a major update featuring a faster database, HEVC support for Firefox, advanced dashboard metrics, and much more. I’ve used it for five years and had no issues, but it’s only become better in that time.Jellyfin has native clients for all the major playback platforms covered: Android, iOS, laptops and PCs, Roku, Xbox, and, more recently, the long-awaited support for Samsung Tizen TVs. Performance is great too. I have over 500 movies, 8,500 episodes, and nearly 10,000 tracks in my library, all of which stream flawlessly. Hardware transcoding is free — a major advantage over Plex — and includes support for HEVC, AV1, Dolby Vision tone-mapping, and more.\nRegular client and server updates make Jellyfin a viable Plex alternative.\nWhile Jellyfin may not have every extra feature Plex has accumulated over the years, it remains a fully fledged media library suite in its own right, free from the feature creep and noise that increasingly clutter Plex’s original mission. It’s not the barebones alternative; it has everything you’ll need and likely much more. See my previous Plex vs Jellyfin comparison for a more in-depth feature breakdown. The only thing you have to set up is secure internet access, but Plex users are now facing the same issue unless they stump up cash.Unfortunately, there’s no one-click migration button to leave Plex, but if you’re not bothered about watch hist",
+          "category": "insight",
+          "publishedAt": "2026-05-10T21:49:59.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "9 Mothers (YC P26) Is Hiring",
+          "titleKo": "9 Mothers (YC P26) 채용 중",
+          "summary": "Y Combinator P26 배치의 9 Mothers가 채용을 진행 중입니다.",
+          "keyPoints": [
+            "Y Combinator 스타트업의 적극적 채용"
+          ],
+          "whyItMatters": "개발자 구직자에게 취업 기회 제공",
+          "url": "https://jobs.ashbyhq.com/9-mothers?utm_source=x8pZ4B3P3Q",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 1,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "9-mothers-yc-p26-is-hiring",
+          "category": "insight",
+          "publishedAt": "2026-05-10T12:00:11.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Shunting-Yard Animation",
+          "titleKo": "Shunting-Yard Animation",
+          "summary": "로드 실패 메시지만 표시되는 애플리케이션으로, 제대로 작동하지 않음을 명시한 페이지입니다.",
+          "keyPoints": [
+            "의도적으로 미완성 상태의 데모 페이지"
+          ],
+          "whyItMatters": "개발 관련 뉴스로 보기 어렵습니다.",
+          "url": "https://somethingorotherwhatever.com/shunting-yard-animation/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 53,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "shunting-yard-animation",
+          "fullContent": "This is an app which will either load succesfully, and you'll wonder whether you saw this text at all, or fail ignominiously, showing you only this text.\nOn balance of probabilities: I'm sorry I couldn't be bothered to make this work for you.",
+          "category": "insight",
+          "publishedAt": "2026-05-10T15:00:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Traces Of Humanity",
+          "titleKo": "인류의 흔적",
+          "summary": "웹사이트 링크로, 구체적인 개발 뉴스 내용을 확인할 수 없습니다.",
+          "keyPoints": [
+            "웹 페이지로 텍스트 분석 불가"
+          ],
+          "whyItMatters": "원본 페이지 접근 필요",
+          "url": "https://tracesofhumanity.org/hello-world/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 115,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "traces-of-humanity",
+          "category": "insight",
+          "publishedAt": "2026-05-10T17:15:10.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Spain has become one of Europe’s cheapest power markets",
+          "titleKo": "스페인이 유럽의 가장 저렴한 전력 시장 중 하나가 되다",
+          "summary": "Substack 뉴스레터 링크로, 구체적인 개발 뉴스 내용을 확인할 수 없습니다.",
+          "keyPoints": [
+            "원문 접근 필요"
+          ],
+          "whyItMatters": "원본 기사 확인 필요",
+          "url": "https://janrosenow.substack.com/p/spain-just-became-one-of-europes",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 130,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "spain-has-become-one-of-europes-cheapest-power-markets",
+          "category": "insight",
+          "publishedAt": "2026-05-10T16:31:51.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "The locals don't know",
+          "titleKo": "지역 주민들은 모른다",
+          "summary": "여행 에세이로 개발 뉴스와 무관하며, 관광객이 지역 주민보다 더 자유롭고 즐거운 경험을 할 수 있다는 주장을 제시합니다.",
+          "keyPoints": [
+            "관광객은 미리 정해진 기대 없이 더 다양한 활동을 시도할 수 있는 자유가 있음",
+            "지역 주민은 편안함에 안주하는 경향이 있어 새로운 경험에 덜 개방적임"
+          ],
+          "whyItMatters": "개발 뉴스가 아님",
+          "url": "https://www.quarter--mile.com/The-Locals-Dont-Know",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 73,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-locals-dont-know",
+          "fullContent": "My best piece of travel advice is to avoid doing what the locals do.\nLook, I’ve read (and watched) Bourdain. I love almost everything he made. And Bourdain is the kind of guy people point to when they tell you to do what the locals do. But ironically, what Bourdain and people like him did is not what the locals do. Or not anymore, at least.\nMaybe this sounds odd. Maybe you and I do not share the same vision of “the locals”. And perhaps the locals used to be great people to model your vacations after, back in “the glory days,” whatever that means and if they ever really existed.\nBut today I imagine you visiting my hometown and spending a day with the locals. You’d probably end up watching reality TV, ordering some ‘New American’ food on Doordash (it’s a cheeseburger with Korean Kimchi Glaze™), and sports betting from your phone.\nThen you would have a beer or two and feel bad about losing your bets, and go to sleep.\nThat’s a pretty negative view of people. It’s also not a completely inaccurate one. Even in locations and societies that are not as degenerate as Anytown, USA, even in places like Finland where people are (or claim to be) happy all of the time, the average day for the average local is not very interesting. They probably haven’t visited their world-famous local museum in ten years. They might grab some mediocre Mexican food on the outskirts of Helsinki because they already eat Finnish food at home and want something different. They might hang out with some friends at the Kaivopuisto park. Maybe they would go on a hike? What I’m getting at here is that, even in the best case, the locals are usually not having very exciting (or very ‘authentic’) days.\nAnd then you have the tourist. Bright-eyed, eager, and fresh off a rewatch of their favorite Rick Steves episodes, the tourist is the most naive person to ever arrive in the city. The tourist has not spent decades fitting themselves into a jaded but comfortable box named Life In The City. The tourist, more than any local, can really do whatever they want.\nWant to go do all the touristy stuff and see the museums? Great. Do it. Want to take a cheesy photo in front of some famous building? Wonderful. Want to ditch all the touristy stuff and just do some kind of weird crazy adventure, like walking across the city in a day or playing hide and seek or competing with your friends to see who can buy the coolest item for 10 bucks? Do it.\nYou, the tourist, can then have a splendid time and go home and tell your family and friends about how nice Finland was and how excited you are to go back. While you were doing all of this, by the way, the random local we chose earlier was playing Slay the Spire 2 indoors.1\nI remember once walking along a lake in a town where people could rent small wooden canoes or paddleboats and go out to enjoy the water. The local I was with said “meh, what a tourist trap.” I looked at the local making a face, and I looked at the tourist couple in the boat nearest to us smiling at each other and paddling out into the lake towards the sunset, and I wondered: which one of us is trapped?2 Because it seems to me like those tourists are having a great time.\n(P.S. if you are a local, you can do all of this too.)\n* * *\n1Arguably a great day in its own right.\n2Tourism can obviously have a lot of negative effects, one of which is that it can reduce the quality of things. I’m skeptical of the term tourist trap (it’s mostly used as a term to place yourself as higher status/taste than other people, and is often used out of insecurity) but there are plenty of restaurants that are lower quality as a result of tourism, for example. Maybe don’t eat at the place with the huge photos of food outside and the English menus. Other than that, enjoy.",
+          "category": "insight",
+          "publishedAt": "2026-05-10T16:03:37.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Why modern parents feel more sleep deprived than our ancestors did",
+          "titleKo": "현대 부모들이 조상보다 더 수면 부족을 느끼는 이유",
+          "summary": "BBC 기사로, 현대 부모들이 실제 수면 시간은 조상과 비슷하지만 수면 만족도가 훨씬 낮은 이유를 탐구합니다. 산업화된 사회의 경직된 수면 기대치와 지원 부족이 피로감을 증대시킨다고 설명합니다.",
+          "keyPoints": [
+            "독일 연구에 따르면 부모는 평균 7시간 수면을 취하며, 비부모보다 10-14분만 적게 자는데도 훨씬 더 피로하다고 느낌",
+            "수렵채집 사회의 부모들은 수면 시간은 비슷하나 수면 만족도가 높으며, 경직된 기대치와 지원 부족이 현대 부모의 피로감의 주요 원인"
+          ],
+          "whyItMatters": "개발 뉴스가 아님",
+          "url": "https://www.bbc.com/future/article/20260508-parents-in-ancient-times-felt-less-sleep-deprived-what-our-ancestors-did-differently-on-baby-sleep",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 43,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "why-modern-parents-feel-more-sleep-deprived-than-our-ancestors-did",
+          "fullContent": "Why modern parents feel more sleep deprived than our ancestors did13 hours agoShareSaveAdd as preferred on GoogleAmanda RuggeriSerenity Strull/ BBC/ Getty ImagesIn ancient times, parents probably didn't suffer as much from feeling sleep deprived, leading some scientists to reconsider guidelines for today's new parents to get some shut-eye.How exhausting is it to be a parent? When one brave soul posed this to a Reddit parenting forum, more than 400 answers flooded in. \"Extremely. It's extremely exhausting and it is literally CONSTANT,\" wrote one respondent, the sentiment echoed by hundreds of others.There are many reasons why parents feel so bone-crushingly tired today – and not all of them have to do with sleep. For instance, many families raise their children without community support, while parents often have to juggle work with child-rearing. At the same time, many caregivers' sleep certainly changes after having children, whether that's due to an infant's middle-of-the-night feeds or a preschooler's penchant for a 05:00 start. Given that we've been parenting for as long as humans have existed, it may seem natural to assume parents have been sleep-deprived for millennia, too. But the evidence that we have indicates this likely isn't true. So what did our ancestors do differently – and is there anything we could learn from them?How much sleep are parents really getting?In everyday conversation, parenting and sleep deprivation are taken to be synonymous. However, the evidence on just how much sleep parents tend to lose after having a child is mixed and culturally dependent.One study, for example, found that first-time mothers in Germany on average get an hour less of sleep per night in the first three months after their baby is born than they did pre-pregnancy. Fathers lose a third of an hour. Although sleep duration increased after an all-time low at three months, neither parent had fully recovered their pre-pregnancy sleep after six years.Less rigid expectations of sleep might not just help us relax and unwind at night but also help us feel less fatigued during the day, no matter how we slept the night beforeBut the overall difference between parents and non-parents after the post-partum period is not nearly as big as you might believe. On average, the German study, which looked at nearly 40,000 people in total, found that parents who had at least one child under six years old reported sleeping about seven hours per night. Non-parents received just 10 minutes more sleep per night, for women, and 14 minutes more per night, for men.Meanwhile, data from a 2024 survey in the US found that parents with children under age six are, on average, in bed for between eight and nine hours per night – well within the recommended range. Similarly, a French study, following more than 400 couples in the 36 months after birth, found that both mothers and fathers logged an average of eight hours' sleep or more at all time points (although some individuals slept as little as 4.25 hours per night, others as much as 12).Of course, this is mostly self-reported data, so people may over- or underestimate their sleep duration, like starting their calculations from when they went to bed and not when they fell asleep, for instance.But it does, overall, suggest that many parents are getting relatively good amounts of sleep, albeit with a lot of variation. And when researchers examine sleeping patterns in contemporary foraging societies – which is often helpful to try to determine how our ancestors probably lived – results aren't too different. One analysis of three hunter-gatherer societies, for example, found that adults (including parents) spent between 6.9 to 8.5 hours per night in bed. Because they woke frequently, the average of how much they actually slept was between 5.7 and 7.1 hours per night.Crucially, though, modern parents in industrialised societies consistently report feeling much more tired and exhausted than those in foraging societies. Scientists have been trying to solve the mystery of why that is.The perception of sleepIn foraging societies, nearly all adults – many of whom are parents – say they're very satisfied with their sleep, says evolutionary anthropologist David Samson, director of the University of Toronto's Sleep and Human Evolution Lab and author of the book The Sleepless Ape: The Strange and Unexpected Story of How Social Sleep Made Us Human. Samson spent three months living with the Hadza, a foraging society in northern Tanzania, to study their sleep patterns. \"When you go to the Hadza and ask them, 'Is your sleep good or is it bad?', they say 'It's good',\" he says.In contrast, when parents in modern, industrialised societies are asked about the quality of their sleep, they usually give it low marks. In the German study, for example, mothers rated their satisfaction with their sleep 6.57 on a scale of 0 to 10; fathers, 7.03. In the French study, nearly three-quarters of the mothers of three-month-olds",
+          "category": "insight",
+          "publishedAt": "2026-05-10T21:36:52.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Walking slower? Your ears, not your knees, might be the problem",
+          "titleKo": "걷는 속도가 느려졌다면? 무릎이 아닌 귀의 문제일 수 있다",
+          "summary": "iPhone을 이용한 연구에 따르면 청력 손실이 보행 속도 감소와 연관이 있으며, 이는 단순한 신체 기능 저하가 아닌 청각 기능의 중요성을 보여준다.",
+          "keyPoints": [
+            "청력 손실과 보행 속도 저하 사이의 상관관계가 확인됨",
+            "iPhone 데이터를 활용한 건강 연구의 새로운 가능성 제시"
+          ],
+          "whyItMatters": "개발자는 헬스케어 앱과 웨어러블 기술에서 청각 데이터 수집과 분석의 중요성을 인식하고 통합적인 건강 모니터링 솔루션 개발을 고려해야 한다.",
+          "url": "https://www.wsj.com/health/wellness/hearing-loss-walking-speed-iphone-study-c53c482a",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 75,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "walking-slower-your-ears-not-your-knees-might-be-the-problem",
+          "category": "insight",
+          "publishedAt": "2026-05-09T14:49:48.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Partial Page Caching Using React Server Components",
+          "titleKo": "React 서버 컴포넌트를 이용한 부분 페이지 캐싱",
+          "summary": "React 서버 컴포넌트(RSC)를 활용하여 웹 페이지의 특정 부분만 캐싱하는 방법을 설명한다. 전체 페이지를 캐싱하는 것이 아니라 동적 영역과 정적 영역을 분리하여 정적 부분은 캐시에서 빠르게 제공하고 동적 부분은 필요할 때마다 렌더링할 수 있다. 이를 통해 성능 최적화와 사용자 경험 개선을 동시에 달성할 수 있으며, 특히 전자상거래나 뉴스 사이트 같이 일부 콘텐츠는 자주 변경되고 다른 부분은 거의 변경되지 않는 페이지에 유용하다.",
+          "keyPoints": [
+            "React 서버 컴포넌트의 기본 개념: RSC는 서버에서만 실행되는 컴포넌트로, HTML을 직접 생성하므로 클라이언트의 JavaScript 번들 크기를 줄일 수 있다.",
+            "부분 캐싱의 이점: 페이지 전체를 캐싱하는 대신 변경 빈도가 낮은 헤더, 네비게이션, 사이드바 같은 요소는 캐시에서 제공하고, 상품 정보나 댓글 같이 자주 업데이트되는 부분만 동적으로 렌더링한다.",
+            "캐시 무효화 전략: 특정 데이터가 변경될 때만 연관된 캐시를 무효화하면 되므로, 전체 페이지를 다시 렌더링할 필요 없이 효율적으로 최신 콘텐츠를 유지할 수 있다.",
+            "클라이언트 컴포넌트와의 조합: 인터랙티브 기능이 필요한 부분은 클라이언트 컴포넌트로 구현하고, 정적 콘텐츠는 RSC로 처리하여 최적의 성능을 달성한다.",
+            "실제 사용 사례: 전자상거래 상품 목록 페이지에서 레이아웃과 카테고리는 서버에서 캐싱하고, 가격과 재고 정보는 API 호출로 동적으로 업데이트하는 방식으로 구현 가능하다.",
+            "성능 메트릭 개선: 부분 캐싱을 통해 초기 페이지 로딩 시간(First Contentful Paint)을 단축하고, 서버 부하를 줄이며, 최종 사용자가 인식하는 성능(Core Web Vitals)을 개선할 수 있다."
+          ],
+          "whyItMatters": "React 서버 컴포넌트를 제대로 활용하면 캐싱 전략을 세밀하게 제어하여 성능과 개발 효율성을 모두 높일 수 있으므로, 현대적인 웹 애플리케이션 구축에 필수적인 패턴이다.",
+          "url": "https://www.youtube.com/watch?v=t9xB8xvySyo",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "react-server-components",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "partial-page-caching-using-react-server-components",
+          "category": "video",
+          "publishedAt": "2026-04-27T14:09:16+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "732 bytes of Python just borked every Linux machine on earth…",
+          "titleKo": "732바이트의 Python이 지구상의 모든 Linux 머신을 망가뜨렸다",
+          "summary": "Python의 작은 코드 조각이 Linux 시스템에 광범위한 영향을 미친 사건에 대한 분석 영상입니다.",
+          "keyPoints": [
+            "작은 코드 변경이 시스템 전체에 미치는 파급 효과",
+            "의존성 관리의 중요성"
+          ],
+          "whyItMatters": "개발자들은 코드 변경의 영향 범위를 이해하고 의존성 관리에 주의해야 합니다.",
+          "url": "https://www.youtube.com/watch?v=lkifbWtxxlk",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "devops"
+          ],
+          "topicId": "python-xz-incident",
+          "isTopicPrimary": false,
+          "slug": "732-bytes-of-python-just-borked-every-linux-machine-on-earth",
+          "category": "video",
+          "publishedAt": "2026-05-04T18:40:40+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "5 Ways To SSR/RSC on TanStack Start",
+          "titleKo": "TanStack Start에서 SSR/RSC를 구현하는 5가지 방법",
+          "summary": "TanStack Start 프레임워크에서 서버 사이드 렌더링(SSR)과 React 서버 컴포넌트(RSC)를 활용하는 다양한 방식을 소개합니다.",
+          "keyPoints": [
+            "SSR과 RSC의 차이점과 각각의 사용 사례"
+          ],
+          "whyItMatters": "최신 React 렌더링 패턴을 이해하는 것이 성능 최적화와 개발 효율성 향상에 필수적입니다.",
+          "url": "https://www.youtube.com/watch?v=PX3QlADinIE",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "react-server-components",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "5-ways-to-ssrrsc-on-tanstack-start",
+          "category": "video",
+          "publishedAt": "2026-04-20T15:23:38+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude just got another superpower...",
+          "titleKo": "Claude가 또 다른 초능력을 얻었다",
+          "summary": "Anthropic의 Claude AI 모델이 새로운 기능을 추가로 획득한 것을 다루는 영상입니다.",
+          "keyPoints": [
+            "Claude의 새로운 기능 발표",
+            "AI 모델의 성능 향상"
+          ],
+          "whyItMatters": "LLM 기반 개발을 진행 중인 개발자들에게 최신 도구의 역량 업데이트를 알려줍니다.",
+          "url": "https://www.youtube.com/watch?v=jeA-KBv0b68",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "claude-just-got-another-superpower",
+          "category": "video",
+          "publishedAt": "2026-04-21T17:35:43+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "React 2025 – Adding MDX",
+          "titleKo": "React 2025 – MDX 추가하기",
+          "summary": "React 2025 버전에서 MDX(Markdown + JSX) 기능을 통합하는 방법을 다룹니다.",
+          "keyPoints": [
+            "MDX를 React 애플리케이션에 통합하는 실습 방법"
+          ],
+          "whyItMatters": "MDX는 마크다운과 React 컴포넌트를 함께 사용하여 더 풍부한 문서 작성과 인터랙티브한 콘텐츠 구성이 가능합니다.",
+          "url": "https://www.youtube.com/watch?v=TUnbglpVhiU",
+          "sourceName": "Lee Robinson",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "react-2025-adding-mdx",
+          "category": "video",
+          "publishedAt": "2025-11-07T14:31:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Anthropic just…wait what",
+          "titleKo": "Anthropic, 잠깐... 뭐라고?",
+          "summary": "Anthropic의 주요 발표나 뉴스에 대한 반응 영상으로 보이며, 구체적인 내용은 영상 확인이 필요합니다.",
+          "keyPoints": [
+            "Anthropic의 최신 뉴스나 발표에 대한 분석"
+          ],
+          "whyItMatters": "AI 분야의 주요 플레이어인 Anthropic의 동향을 파악할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=3pkz-Ie_k_c",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "anthropic-announcements",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "anthropic-justwait-what",
+          "category": "video",
+          "publishedAt": "2026-05-07T09:08:36+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Seriously, Anthropic??",
+          "titleKo": "정말, Anthropic이야?",
+          "summary": "Anthropic의 최신 소식이나 발표에 대한 반응/분석 영상으로 보이며, 구체적인 내용은 영상 확인이 필요합니다.",
+          "keyPoints": [
+            "Anthropic의 주목할 만한 발표나 뉴스에 대한 논평"
+          ],
+          "whyItMatters": "AI 업계의 중요한 동향을 빠르게 파악할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=J8O9LLpJNrg",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "anthropic-announcements",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "seriously-anthropic",
+          "category": "video",
+          "publishedAt": "2026-05-01T21:26:53+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Frontend developer takes on CSS Battles - 10-minute challenge",
+          "titleKo": "프론트엔드 개발자의 CSS 배틀 도전 - 10분 챌린지",
+          "summary": "프론트엔드 개발자가 10분 제한 시간 내에 CSS 구현 문제를 해결하는 과정을 보여주는 영상입니다.",
+          "keyPoints": [
+            "시간 제약 내 CSS 문제 해결 능력 시연",
+            "실전 CSS 기법 학습"
+          ],
+          "whyItMatters": "CSS 문제 해결 기법과 효율적인 스타일링 방법을 배울 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=MVsG4agTS94",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "frontend-developer-takes-on-css-battles-10-minute-challenge",
+          "category": "video",
+          "publishedAt": "2026-05-06T13:00:44+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Every operating system concept in one video…",
+          "titleKo": "모든 운영체제 개념을 한 영상에서",
+          "summary": "운영체제의 핵심 개념들을 종합적으로 설명하는 영상 콘텐츠입니다.",
+          "keyPoints": [
+            "운영체제의 기본 개념을 체계적으로 다룸"
+          ],
+          "whyItMatters": "시스템 프로그래밍과 백엔드 개발의 기초가 되는 OS 개념 학습에 유용합니다.",
+          "url": "https://www.youtube.com/watch?v=MtxP2pyCvYA",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "every-operating-system-concept-in-one-video",
+          "category": "video",
+          "publishedAt": "2026-05-07T17:32:34+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "React2Shell on TanStack Start?!?",
+          "titleKo": "TanStack Start에서 React2Shell을 쓸 수 있다고?",
+          "summary": "TanStack Start 프레임워크에서 React2Shell 기능을 활용하는 방법을 소개합니다.",
+          "keyPoints": [
+            "TanStack Start와 React2Shell의 통합 가능성"
+          ],
+          "whyItMatters": "새로운 렌더링 방식의 조합으로 더 효율적인 애플리케이션 아키텍처를 구성할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=-dbvAMsRKi0",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "react-server-components",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "react2shell-on-tanstack-start",
+          "category": "video",
+          "publishedAt": "2026-04-14T17:51:48+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Prime is (mostly) right about AI",
+          "titleKo": "Prime은 AI에 대해 (대부분) 맞다",
+          "summary": "AI에 대한 Prime의 주장이 타당성이 있다는 내용의 영상입니다.",
+          "keyPoints": [
+            "영상 제목만 제공되어 구체적인 내용 파악 불가"
+          ],
+          "whyItMatters": "AI 산업의 현재 상황과 전망에 대한 비판적 분석이 필요합니다.",
+          "url": "https://www.youtube.com/watch?v=VDPMXSAxiWk",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "prime-is-mostly-right-about-ai",
+          "category": "video",
+          "publishedAt": "2026-05-05T08:53:45+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I finally found a use case for OpenClaw…",
+          "titleKo": "드디어 OpenClaw의 사용 사례를 찾았다",
+          "summary": "OpenClaw 도구의 실질적인 활용 사례를 발견했다는 내용의 영상입니다.",
+          "keyPoints": [
+            "영상 제목만 제공되어 구체적인 내용 파악 불가"
+          ],
+          "whyItMatters": "개발자 도구의 실용적 활용법을 배울 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=FM5-R4VPArw",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-finally-found-a-use-case-for-openclaw",
+          "category": "video",
+          "publishedAt": "2026-04-23T18:26:39+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Microsoft and OpenAI break up (Amazon is pumped)",
+          "titleKo": "Microsoft와 OpenAI 결별 (Amazon은 환영)",
+          "summary": "YouTube 영상으로 제공된 내용이며 제목만 있어 구체적 내용을 확인할 수 없습니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=fxxpQhJyupQ",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "openai-microsoft-breakup",
+          "isTopicPrimary": true,
+          "slug": "microsoft-and-openai-break-up-amazon-is-pumped",
+          "category": "video",
+          "publishedAt": "2026-05-04T09:12:17+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "GitHub is having some major issues right now…",
+          "titleKo": "GitHub이 현재 심각한 문제 발생",
+          "summary": "YouTube 영상으로 제공된 내용이며 제목만 있어 구체적 내용을 확인할 수 없습니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=d53Zk28esmU",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "github-is-having-some-major-issues-right-now",
+          "category": "video",
+          "publishedAt": "2026-04-30T16:37:31+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "What's next?",
+          "titleKo": "다음은 무엇인가?",
+          "summary": "유튜브 영상 링크로, 구체적인 개발 뉴스 내용을 확인할 수 없습니다.",
+          "keyPoints": [
+            "영상 콘텐츠로 텍스트 분석 불가"
+          ],
+          "whyItMatters": "원본 영상 접근 필요",
+          "url": "https://www.youtube.com/watch?v=HuE7OvOckfE",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "whats-next",
+          "category": "video",
+          "publishedAt": "2026-05-06T19:43:52+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
