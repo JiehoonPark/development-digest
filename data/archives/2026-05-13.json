@@ -1,0 +1,1285 @@
+{
+  "date": "2026-05-13",
+  "intro": "안녕하세요! 오늘은 AI 에이전트와 개발자 도구의 급속한 발전, 그리고 이에 따른 보안과 윤리 이슈가 주목받는 날입니다. GitHub에서 Forgejo로의 이전 논의, Meta의 AI 에이전트 강제화, 그리고 정부 데이터베이스 삭제 사건까지 다양한 이야기들이 프론트엔드 생태계에 파장을 미치고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Leaving GitHub for Forgejo",
+          "titleKo": "GitHub에서 Forgejo로 이전하기",
+          "summary": "개발자가 GitHub을 떠나 자체 호스팅 Forgejo로 이전한 이유를 설명합니다. 장애 문제보다는 소유권과 제어력 상실, AI 데이터 수집 기본값 전환, Microsoft CoreAI 부서 통합 등이 핵심 이유입니다. 네덜란드 정부도 같은 이유로 code.overheid.nl에 Forgejo를 선택했습니다.",
+          "keyPoints": [
+            "GitHub의 257건 인시던트(2025년 5월~2026년 4월), 48건 주요 장애 발생 및 CTO의 AI 부하 대응으로 30배 용량 확대 필요 언급",
+            "2025년 8월 GitHub CEO 교체 없이 Microsoft CoreAI 부서에 흡수되면서 독립적 리더십 상실",
+            "2026년 4월 Copilot 사용자 데이터를 AI 학습용으로 기본 동의로 전환하고 리포지토리 레벨 거부 불가"
+          ],
+          "whyItMatters": "대규모 서비스 의존도 높아지면서 데이터 소유권, 규제 리스크(FISA 702, CLOUD Act), 기술 독립성의 중요성을 인식하게 됩니다.",
+          "url": "https://jorijn.com/en/blog/leaving-github-for-forgejo/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 512,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "topicId": "github-alternatives",
+          "isTopicPrimary": true,
+          "slug": "leaving-github-for-forgejo",
+          "fullContent": "Why I'm leaving GitHub for Forgejo\nI moved my code from GitHub to a self-hosted Forgejo. Not because of the outages, but because of who owns what runs on top of them. The Dutch government just made the same call.\nOn April 27, 2026 the Dutch Ministry of the Interior soft-launched code.overheid.nl, a self-hosted Forgejo instance for Dutch government source code. Project manager Boris Van Hoytema said the platform \"was born from the requirement that the ministry has to legally publish [its] source code on a place that [it] owns,\" and that Forgejo was picked over GitLab because it is fully open source and offers all the freedoms needed for digital autonomy.\nThe week before, I quietly moved my own code in the same direction. My canonical Git host is now code.jorijn.com, running Forgejo v15 LTS on a single NUC in a hardened setup. Some of my repositories already live there; the rest are queued. The longer-term plan is to archive my public GitHub repositories once the migration is complete and point each archive at the new home.\nMost pieces about leaving GitHub lead with the outages. Outages are real. They are not why I'm leaving. The outages, the AI-by-default opt-in, and the fact that GitHub no longer has its own CEO are all symptoms of one underlying fact: I do not own this. The Dutch government just published the same conclusion. So this is the long version of that thinking, and what the move actually looks like once you decide to make it.\nTL;DR\nGitHub logged 257 incidents in May 2025 to April 2026, 48 of them major. The CTO publicly apologised and said capacity needs to scale 30x to keep up with AI-driven load.\nIn August 2025 GitHub stopped having its own CEO. It is now a unit of Microsoft's CoreAI division, the same group building Copilot and the broader AI stack.\nOn April 24, 2026 GitHub flipped Copilot Free, Pro, and Pro+ user-interaction data to opt-in for AI training by default. There is no repository-level opt-out.\nUS-jurisdictional risk under FISA Section 702 and the CLOUD Act is unresolved. Microsoft's own attorney told the French Senate under oath he could not guarantee EU data was safe from silent US government access.\nThe Dutch government picked Forgejo for code.overheid.nl in April 2026 for the same set of reasons. I'm doing the same for my work.\ncode.jorijn.com runs Forgejo v15 LTS on a single NUC with a KVM-isolated, weekly-rebuilt Actions runner. Public GitHub repositories will be archived and pointed at the new home as the migration completes.\nWhy outages aren't actually the reason\nThe April 2026 outages were the kind that makes engineers angry. On April 23 the merge queue's squash-merge code path silently reverted previously merged commits across 658 repositories and 2,092 pull requests after a feature flag was rolled out incompletely. Companies including Modal and Zipline did manual data recovery. Four days later, an overloaded Elasticsearch cluster took Pull Requests, Issues, and Packages offline for over six hours.\nBut pick any month and the picture is the same kind of bad. February 2026 alone logged 37 incidents, including a 3-hour 40-minute outage that took Actions, the Copilot Coding Agent, Code Review, CodeQL, Dependabot, and Pages down at once. October 1, 2025 was a ten-hour macOS-runner outage. The IncidentHub aggregation puts the May 2025 to April 2026 total at 257 incidents and 48 major outages, with roughly 112 hours of total downtime.\nThe right way to read this list is not \"GitHub is unreliable.\" Big systems break. The right way to read it is the framing GitHub itself put on it. CTO Vlad Fedorov apologised on April 28 and said capacity has to grow 30x to keep up with the load. He attributed that load directly to \"agentic AI workflow growth\" since December 2025. The reliability story is downstream of the AI story. GitHub is not slowing down on AI features. It is doubling down on them. The outages are what doubling-down looks like in production.\nThe Pragmatic Engineer pointed out that GitLab, Bitbucket, Vercel, Linear, and Sentry didn't have the same year. They serve developers under the same overall demand pressure. Whatever GitHub is wrestling with is specific to GitHub.\nGitHub no longer has its own CEO\nThe bigger fact is older than the apology and got a lot less press. On August 11, 2025 Thomas Dohmke stepped down as GitHub's CEO. Microsoft did not replace him. Instead, GitHub was absorbed into Microsoft's CoreAI division, a group Satya Nadella introduced in January 2025 with the stated mission to build the end-to-end Copilot and AI stack for both first-party and third-party customers.\nGitHub's revenue, engineering, and support now report into Microsoft's developer division under Julia Liuson. GitHub's CPO reports to Microsoft's AI platform VP. The brand still exists. The independent leadership does not.\nThis matters because the older argument for staying on GitHub was that Microsoft kept it at arm's length. From 2018 through 2024 that was substantively true. Dohmke had a real s",
+          "category": "hot",
+          "publishedAt": "2026-05-13T12:54:00.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Twin brothers wipe 96 government databases minutes after being fired",
+          "titleKo": "쌍둥이 형제, 해고 후 96개 정부 데이터베이스를 분 단위로 삭제",
+          "summary": "Muneeb과 Sohaib Akhter 형제는 2025년 2월 18일 해고 직후 5분 이내에 회사가 관리하던 96개의 미국 정부 데이터베이스를 DROP DATABASE 명령으로 삭제했습니다. 사건 이전에 두 형제는 이미 5,400개의 사용자명과 비밀번호를 수집해 Python 스크립트로 항공사, DocuSign 등 다양한 계정에 무단 접근해왔습니다.",
+          "keyPoints": [
+            "4:56pm~5:00pm 사이에 약 96개 데이터베이스 삭제, 1,805개 EEOC 파일 탈취, 450명의 연방 세금 정보 수집",
+            "내부 대화 기록에서 형제가 데이터 복구 가능성, 파일시스템 삭제, 블랙메일 가능성 등을 논의한 것이 적발됨",
+            "조직의 시스템 접근 제어 실패(Sohaib의 계정은 즉시 차단되었으나 Muneeb의 계정은 누락됨)와 전직원 범죄 배경 조사의 중요성을 보여줌"
+          ],
+          "whyItMatters": "내부자 위협 대응, 직원 해고 시 시스템 접근 권한 즉시 제거의 필수성, 그리고 회사 데이터 보안 감시 체계의 중요성을 강조합니다.",
+          "url": "https://arstechnica.com/tech-policy/2026/05/drop-database-what-not-to-do-after-losing-an-it-job/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 249,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "twin-brothers-wipe-96-government-databases-minutes-after-being-fired",
+          "fullContent": "Text\nsettings\nIn the US, fired and laid-off workers often have their digital credentials deactivated before they learn about the loss of their jobs; indeed, the inability to log in to a corporate system may be the first an employee knows of the situation.\nAlthough not a generous or humane approach to staff reduction, it does follow from the simple fact that a fired employee with access to company systems is a security risk.\nJust ask the Akhter twin brothers, accused of wiping out 96 databases hosting US government information in the minutes after both were fired last year from their shared employer.\nDROP DATABASE\nMuneeb and Sohaib Akhter, now both 34, had been in trouble before. Back in 2015, the brothers pled guilty in Virginia to a scheme involving wire fraud and computers. Muneeb was sentenced to three years in prison, while Sohaib got two.\nAfter their stints in jail, the brothers worked their way back into the tech world. In 2023, Muneeb got a job with a Washington, DC, firm that sold software and services to 45 federal clients; Sohaib got a job at the same company a year later.\nAccording to the government, however, the two couldn’t stay out of trouble. For instance:\nOn Feb. 1, 2025, Muneeb Akhter asked Sohaib Akhter for the plaintext password of an individual who submitted a complaint to the Equal Employment Opportunity Commission’s Public Portal, which was maintained by the Akhters’ employer. Sohaib Akhter conducted a database query on the EEOC database and then provided the password to Muneeb Akhter. That password was subsequently used to access that individual’s email account without authorization.\nThis was not a one-off. Muneeb had been assembling usernames and passwords—5,400 of them taken from his own company’s network data. He then built custom Python scripts to try these logins against common websites; for instance, his “marriott_checker.py” application tested the logins against Marriott’s hotel chains. Muneeb managed to log in successfully hundreds of times, including to DocuSign and airline accounts. Sometimes, if victims had airline miles stored, Muneeb would book travel for himself.\nThe brothers’ employer appears to have learned about their criminal past at some point in February. On February 18, 2025, the brothers—who lived together in Virginia—were both called into a Microsoft Teams meeting and summarily fired.\nThe call took place at the end of the day, wrapping up at 4:50 pm. Five minutes later, Sohaib was already trying to access his (now former) employer’s network—but found that his VPN access and Windows account were terminated.\nMuneeb’s account had been overlooked, however, and he immediately embarked on a campaign of destruction.\nAt 4:56 pm, Muneeb accessed a US government database that his company maintained. He “issued commands to prevent other users from connecting or making changes to the database, and then issued a command to delete the database,” the government said.\nAt 4:58 pm, he wiped out a Department of Homeland Security database using the command “DROP DATABASE dhsproddb.”\nAt 4:59 pm, he asked an AI tool, “How do i clear system logs from SQL servers after deleting databases?” He later asked, “How do you clear all event and application logs from Microsoft windows server 2012?”\nIn the space of a single hour, Muneeb deleted around 96 databases with US government information. He downloaded 1,805 files belonging to the EEOC and stashed them on a USB drive, then grabbed federal tax information for at least 450 people.\nSmart ideas\nWhile this was going on, the brothers held a running conversation. (The government is not clear about whether this took place over text, instant message, or in person.)\n“I see you cleaning out their database backups,” Sohaib said as he watched Muneeb’s work. As the database casualty list grew, Sohaib said, “Alright—if you have good plausible deniability.”\nMuneeb didn’t appear to consider his actions a big deal. “Eh, they can recover from yesterday,” he said, referring to daily database backups.\n“Yeah, they could,” Sohaib agreed.\nMuneeb noted that an employee they knew would “have some work to do” when the destruction was revealed.\nSohaib fed Muneeb more suggestions.\n“Delete their filesystem as well?” he said.\n“Smart idea,” said Muneeb.\nSohaib then wondered if they had been too hasty. Perhaps, he said, “You shoulda had a kill script. Like, blackmailing them for some money would have been—”\n“No, you do not do that, that’s proof of guilt, man,” Muneeb said.\n“No, but the thing was, you always have your opinion,” Sohaib complained, and the two then bickered about whether they might try to blackmail their company’s customers instead.\nAs the data destruction went on, Sohaib said, “They’re gonna probably raid this place.”\n“I’ll clean this shit up,” Muneeb said.\nAfter wiping out the databases and event logs, the brothers reinstalled the operating systems on their corporate laptops with the help of an unnamed co-conspirator.\nGod guide my words\nSohaib was right—t",
+          "category": "hot",
+          "publishedAt": "2026-05-12T22:28:07.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Launch HN: Ardent (YC P26) – Postgres sandboxes in seconds with zero migration",
+          "titleKo": "Ardent 출시: 마이그레이션 없이 초 단위로 Postgres 샌드박스 생성",
+          "summary": "YC P26 스타트업 Ardent는 복잡한 마이그레이션 없이 즉시 Postgres 샌드박스 환경을 생성할 수 있는 서비스를 제공합니다.",
+          "keyPoints": [
+            "데이터베이스 마이그레이션 없이 신속하게 Postgres 샌드박스 환경 구성 가능",
+            "개발 및 테스팅 워크플로우 단순화"
+          ],
+          "whyItMatters": "개발자가 데이터베이스 테스팅과 개발 환경 셋업 시간을 획기적으로 단축할 수 있습니다.",
+          "url": "https://www.tryardent.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 59,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "launch-hn-ardent-yc-p26-postgres-sandboxes-in-seconds-with-zero-migration",
+          "category": "hot",
+          "publishedAt": "2026-05-13T16:54:03.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Today Intercom becomes Fin",
+          "titleKo": "Intercom에서 Fin으로 사명 변경",
+          "summary": "Intercom은 고객 서비스 소프트웨어 플랫폼 이름으로 유지하면서 회사 이름을 Fin으로 변경했다. AI 기반 고객 에이전트 플랫폼인 Fin이 회사의 미래 방향을 대표하기 때문이다.",
+          "keyPoints": [
+            "신생 경쟁사들이 기존 평판의 부담이 없어 시장에서 우위를 점하고 있다는 판단 하에 결정",
+            "Intercom 2 완전 재구축과 함께 AI 에이전트 기술에 투자 집중"
+          ],
+          "whyItMatters": "대규모 SaaS 기업의 전략적 리포지셔닝 사례로, AI 중심의 비즈니스 모델로의 전환 트렌드를 보여준다.",
+          "url": "https://www.intercom.com/blog/today-intercom-becomes-fin/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 9,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "today-intercom-becomes-fin",
+          "fullContent": "Sometimes you see a corporate announcement that’s so obvious and so late, it’s almost an admission of failure.\nAnd I’m open to feedback on how I should have pulled the trigger on this change much sooner. But the tech industry is so littered with awkward and arguably unsuccessful name changes that I thought it prudent to procrastinate on this one.\nBut finally, today, we’re changing the name of our company to Fin. The name Intercom will still live on as the name of our customer service software platform that increasingly the best brands are choosing as their primary help desk; we just launched a complete rebuild, Intercom 2, and we’re dramatically increasing our investment in it. But the company behind it will be named after our leading customer agent platform, Fin. All of our 1,400 employees are now employed by Fin. You’re reading a post by the CEO of Fin.\nIn this moment of great change, for our industry, and for all economic players, the winners of yesteryear have largely been left holding on to their former positions that brought them so much glory. Yet, as I’ve written before, the only path to success in the future is through destroying your past. We’ve done this with our culture, our pricing model, our product lineup, and our investment priorities. But the company name stayed the same.\nHowever, when we started the service agent category three years ago, we promoted our new technology with the name Fin, with Intercom very much in the background, and usually not even mentioned at all. The simple reason is that humans are very good at mapping meaning onto the world and then updating that map rarely, with a very strong bias for the things that are new and shiny. We couldn’t possibly wake up every morning questioning what a chair was and how it works. But when a new type of drone or artificially intelligent software product reaches our attention, we do our best to understand it and add it to the repertoire of things we understand about the world.\nThis is true in all aspects of life, including with companies and their brand names and the positions they hold in the market. I believe this so thoroughly that I actually think that the relative success of the newcomers in our category, despite the fact that we have provably superior technology, is a result of the fact that they have no baggage. They don’t need to convince anyone of their new position in the market, because they never had an old one.\nSo, today we say, “baggage be gone.” Fin is clearly our future, and the future of this new customer agent category. It’s driving our renaissance and is about to be the largest part of our business. We thank sincerely everyone who supported Intercom in these past 15 years. And again, the product and its name will very much live on. But our company is now finally, fully reborn and its name is Fin.",
+          "category": "hot",
+          "publishedAt": "2026-05-13T23:10:19.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Meta won't let you block its AI account on Threads",
+          "titleKo": "Meta가 Threads의 AI 계정 차단을 허용하지 않음",
+          "summary": "Meta가 Threads에 AI 에이전트를 추가했지만 사용자가 이를 차단할 수 없게 설정해 논란이 발생했다. Meta는 뮤트나 숨김 옵션으로 대신할 것을 제안했다.",
+          "keyPoints": [
+            "Meta AI 계정을 태그해 질문 답변을 얻을 수 있지만 차단 불가능한 설계",
+            "사용자들이 '#Users cannot block Meta AI' 해시태그로 백만 개 이상의 게시물 작성하며 저항"
+          ],
+          "whyItMatters": "AI 기능 도입 시 사용자 통제 권리와 강제성에 대한 우려가 주요 이슈임을 보여준다.",
+          "url": "https://www.theverge.com/tech/929091/meta-ai-threads-account-block",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 66,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "meta-wont-let-you-block-its-ai-account-on-threads",
+          "fullContent": "TechAINewsMeta won’t let you block its AI account on ThreadsUsers can tag Meta AI to get answers to questions, but a lot of people don’t want to see it.Users can tag Meta AI to get answers to questions, but a lot of people don’t want to see it.by Jay PetersMay 12, 2026, 8:35 PM UTCIllustration: The VergeJay Peters is a senior reporter covering technology, gaming, and more. He joined The Verge in 2019 after nearly two years at Techmeme.Meta announced on Tuesday that it’s testing a Threads feature that lets users tag a Meta AI account to get answers to questions or context about a conversation on the platform. If you’ve spent any time looking at replies on X as of late, this new feature sounds a lot like Meta’s take on people tagging xAI’s Grok. But, as reported by Engadget, Threads users quickly discovered that you can’t block the new Meta AI account, and they aren’t happy about it.Meta has invested heavily in AI as it works to catch up to rivals like OpenAI and Google, spending billions to hire AI talent. It launched a new AI model called Muse Spark in April, which it said it would bring to its apps and services, and now, it’s showing up on Threads with the new Meta AI account. A pinned video shows how the new feature, initially available as a test in Argentina, Malaysia, Mexico, Saudi Arabia, and Singapore, lets you tag Meta AI to get answers to questions like “why is everyone obsessed with matcha” or “how do you actually pronounce ‘Cannes’?”But if you go to the three dots menu on the Meta AI profile, there’s currently no option to block it, like you can find on other accounts.There are many angry replies to posts from Meta AI, the main Threads account, and Threads boss Connor Hayes, and users who saw the option to block the feature reported hitting errors when they tried to do so. Engadget’s Karissa Bell also says that “Users cannot block Meta AI” was a trending topic on Threads with more than one million posts about it, but the trend isn’t showing up for her anymore. I’m also not seeing it.“Users can manage their Meta AI experience during the test,” Meta spokesperson Christine Pai tells The Verge. “We want to give people a way to quickly gather context before jumping into the conversation, but if you want to see fewer Meta AI replies in your Threads feed you can mute or hide Meta AI replies, or use the ‘Not interested’ option on any Meta AI post.”Follow topics and authors from this story to see more like this in your personalized homepage feed and to receive email updates.Jay PetersAIMetaNewsSocial MediaTechThreadsMost PopularMost PopularGoogle announces its Chromebook successor: the GooglebookAndroid Auto is now one (screen) size fits allWhy does the Googlebook exist?Sam Altman was winning on the stand, but it might not be enoughThe 9 biggest new features in Android 17",
+          "category": "hot",
+          "publishedAt": "2026-05-13T20:22:21.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Medicare's new payment model is built for AI. Most of the tech world has no idea",
+          "titleKo": "메디케어의 새로운 지불 모델은 AI를 위해 설계되었다",
+          "summary": "CMS의 ACCESS 프로그램은 AI 기반 의료 서비스를 위해 설계된 새로운 결과 기반 지불 모델을 도입했으며, 150개 참여 기관 중 하나인 Pair Team은 AI 음성 에이전트 Flora를 통해 만성질환 관리를 제공 중이다.",
+          "keyPoints": [
+            "전통적 시간 기반 청구 대신 환자의 건강 결과 달성으로만 전액 지급되는 구조",
+            "Pair Team의 Flora AI는 24시간 환자 대면 인터페이스로 입원 및 응급실 방문 감소에 기여"
+          ],
+          "whyItMatters": "규제 산업에서 AI 혁신을 위한 정부 수준의 지원 체계가 구축되면서 AI 헬스케어 솔루션의 실질적 확산 경로가 형성되었다.",
+          "url": "https://techcrunch.com/2026/05/12/medicares-new-payment-model-is-built-for-ai-and-most-of-the-tech-world-has-no-idea/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 28,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "medicares-new-payment-model-is-built-for-ai-most-of-the-tech-world-has-no-idea",
+          "fullContent": "Neil Batlivala has spent seven years building a healthcare company that most of the tech industry has never heard of and that serves a patient population most of Silicon Valley ignores. But last month, that work put him at the center of something much bigger.\nHis company, Pair Team, announced on April 30 it had been accepted into ACCESS — a Medicare program — as one of 150 participants chosen by the Centers for Medicare & Medicaid Services to test what AI-driven medical care could look like at federal scale. The program goes live July 5.\n“The government is creating swim lanes for AI innovation in traditionally regulated industries,” he told me over a Zoom call a few days later. “The best solution wins, which, in regulated industries like healthcare — that’s not been the case.”\nACCESS — Advancing Chronic Care with Effective, Scalable Solutions — is a 10-year CMS program testing a payment model that rewards health outcomes rather than required activities (like a certain number of check-ins). Participating organizations like Pair Team receive predictable payments for managing qualifying conditions and earn the full amount only when patients meet measurable health goals, like lower blood pressure or reduced pain. It covers diabetes, hypertension, chronic kidney disease, obesity, depression, and anxiety.\nThat payment structure is the real news.\nTraditional Medicare reimburses based on time spent with a clinician. There’s no mechanism to pay for an AI agent that monitors a patient between visits, calls to check in, coordinates a housing referral, or makes sure someone picks up their medication. ACCESS creates that mechanism for the first time.\n“It’s a payment model transformation,” Batlivala said. “You just couldn’t do this before.”\nThe first cohort spans a wide range of participants — AI doctor startups, virtual nutrition therapy providers, connected device companies, and wearable makers like Whoop. Batlivala is skeptical of some of them.\n\"I'm a big fan of wearables, but for a senior who's struggling with food insecurity, I don't know how much Whoop is going to be able to do,\" he said, adding of his own company, \"We've been building toward this for five-plus years now.\"\nPair Team launched in 2019 with a specific kind of patient in mind: people managing chronic conditions who were also dealing with unstable housing, too little food, or lack of transportation. About a third of Americans fall somewhere in that category.\nThe company's premise was that you can't improve health outcomes without addressing the full context of someone's life. It now employs roughly 850 clinical professionals, runs what it describes as the largest community health workforce in California, and, per Batlivala, generates revenue above nine figures. It has raised about $30 million along the way, including from Kleiner Perkins, Kraft Ventures, and Next Ventures.\nThe model has peer-reviewed evidence behind it. A study, co-authored by Pair Team researchers and peer-reviewed by the Journal of General Internal Medicine, evaluated Pair Team's community-integrated model, which blends medical, behavioral, and social care for Medicaid members with high rates of homelessness, serious mental illness, and chronic disease, and it showed strong patient engagement and significant reductions in avoidable emergency and inpatient utilization. Batlivala says one in four hospital visits and one in two ER visits don't happen when a patient is in his company's care.\nBut for years, delivering that level of care required human teams, which limited how fast and cheaply it could scale. Then, about nine months ago, Pair Team deployed a voice AI agent called Flora as its primary patient-facing interface. Flora is available 24 hours a day, handles intake, coordinates referrals, and does the check-ins that keep patients engaged between clinical visits.\nThe first call that shifted his thinking was with a 67-year-old woman living out of her car, managing PTSD and congestive heart failure. She spoke with Flora for over an hour. \"It was both incredible and depressing,\" Batlivala told me. \"Flora was probably the only 'person' she'd talked to in weeks about her situation.\" Now, hourlong conversations with Flora are routine. \"That's the companionship piece,\" he said. \"And it turns out that is truly an intervention.\"\nThe architects of ACCESS are themselves former startup operators. The program was designed by Abe Sutton, director of the CMS Innovation Center, and Jacob Shiff, chief AI and technology officer of the CMS Innovation Center. Sutton was previously a venture capitalist at a healthcare fund called Rubicon Founders. Shiff is a former healthcare founder. Both joined CMS under the Trump administration, and their startup backgrounds are reflected in the program's design: outcome-based payments, direct-to-consumer enrollment, and a deliberate push for competition.\nThere are real risks. Participants are feeding extraordinarily sensitive patient data — intimate conversations a",
+          "category": "hot",
+          "publishedAt": "2026-05-13T21:24:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "yikart/AiToEarn (TypeScript)",
+          "titleKo": "yikart/AiToEarn (TypeScript)",
+          "summary": "AI를 활용하여 수익을 창출하는 플랫폼 또는 도구입니다.",
+          "keyPoints": [
+            "AI 기술을 수익화하는 방식 제시"
+          ],
+          "whyItMatters": "개발자가 AI 스킬을 상업화할 수 있는 실용적인 접근방식을 배울 수 있습니다.",
+          "url": "https://github.com/yikart/AiToEarn",
+          "sourceName": "GitHub Trending",
+          "engagement": 12880,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "typescript"
+          ],
+          "topicId": "ai-monetization",
+          "isTopicPrimary": true,
+          "slug": "yikartaitoearn-typescript",
+          "category": "hot",
+          "publishedAt": "2026-05-13T23:28:21.892Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "obra/superpowers (Shell)",
+          "titleKo": "obra/superpowers - 에이전틱 스킬 프레임워크 및 소프트웨어 개발 방법론",
+          "summary": "실제로 작동하는 에이전틱 스킬 프레임워크와 소프트웨어 개발 방법론을 제공하는 오픈소스 프로젝트이다.",
+          "keyPoints": [
+            "AI 에이전트 개발을 위한 구체적인 프레임워크와 방법론 제공"
+          ],
+          "whyItMatters": "AI 에이전트 기반 애플리케이션 개발 시 검증된 접근 방식을 제시한다.",
+          "url": "https://github.com/obra/superpowers",
+          "sourceName": "GitHub Trending",
+          "engagement": 189459,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "obrasuperpowers-shell",
+          "category": "hot",
+          "publishedAt": "2026-05-13T23:28:21.891Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "mattpocock/skills (Shell)",
+          "titleKo": "mattpocock/skills (Shell)",
+          "summary": "실제 엔지니어를 위한 스킬 모음으로, 작성자의 Claude 디렉토리에서 직접 정리한 내용입니다.",
+          "keyPoints": [
+            "Claude 활용 사례를 바탕으로 한 실무 스킬 공유"
+          ],
+          "whyItMatters": "AI 도구를 활용한 개발 생산성 향상 방법을 배울 수 있습니다.",
+          "url": "https://github.com/mattpocock/skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 78879,
+          "contentType": "repo",
+          "labels": [
+            "general",
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "mattpocockskills-shell",
+          "category": "hot",
+          "publishedAt": "2026-05-13T23:28:21.895Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "millionco/react-doctor (TypeScript)",
+          "titleKo": "React Doctor - React 코드 품질 검사 도구",
+          "summary": "React Doctor는 AI 에이전트가 작성한 React 코드의 안티패턴과 문제를 자동으로 감지하고 지적하는 TypeScript 기반 도구입니다. React의 일반적인 나쁜 코드 패턴을 식별하여 코드 품질을 향상시키고, 특히 AI 코드 생성 모델이 만드는 실수를 포착하는 데 집중합니다.",
+          "keyPoints": [
+            "AI 에이전트가 생성한 React 코드의 품질 문제를 자동 감지하는 검사 도구로, 개발자가 수동으로 검토해야 할 부담을 줄입니다.",
+            "React의 흔한 안티패턴(잘못된 훅 사용, 불필요한 리렌더링, 잘못된 의존성 배열 등)을 식별하여 런타임 버그를 사전에 방지합니다.",
+            "TypeScript로 구현되어 타입 안정성을 제공하며, 코드 분석 파이프라인에 통합하여 CI/CD 워크플로우에 적용할 수 있습니다."
+          ],
+          "whyItMatters": "AI 코드 생성 도구의 활용이 증가하면서 생성된 코드의 품질 검증이 중요해지고 있으며, 이 도구는 React 생태계에서 자동화된 품질 관리를 가능하게 합니다.",
+          "url": "https://github.com/millionco/react-doctor",
+          "sourceName": "GitHub Trending",
+          "engagement": 9256,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "millioncoreact-doctor-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-13T23:28:21.892Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "rohitg00/agentmemory (TypeScript)",
+          "titleKo": "AgentMemory - AI 코딩 에이전트용 지속성 메모리 시스템",
+          "summary": "AgentMemory는 AI 코딩 에이전트를 위한 지속성 메모리 시스템으로, 실제 벤치마크를 기반으로 설계되었습니다. 에이전트가 이전 학습 내용과 경험을 장기간 유지하여 반복 작업을 효율적으로 처리하고, 문맥 이해도를 개선하는 데 중점을 둡니다.",
+          "keyPoints": [
+            "AI 코딩 에이전트의 메모리 한계를 극복하는 지속성 메모리 아키텍처를 구현하여, 에이전트가 장시간 작업 중 맥락을 유지할 수 있습니다.",
+            "실제 세계 벤치마크를 기반으로 최적화되었으므로, 이론적 설계가 아닌 실무 환경에서의 성능 개선을 보장합니다.",
+            "TypeScript로 개발되어 현대적 웹 개발 환경과 호환성이 높으며, 기존 AI 에이전트 프레임워크와 쉽게 통합할 수 있습니다."
+          ],
+          "whyItMatters": "AI 코딩 어시스턴트의 신뢰도와 효율성을 높이는 핵심 기술로, 복잡한 소프트웨어 개발 작업에서 에이전트의 일관성 있는 성능을 보장합니다.",
+          "url": "https://github.com/rohitg00/agentmemory",
+          "sourceName": "GitHub Trending",
+          "engagement": 7559,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "typescript"
+          ],
+          "topicId": "ai-agent-memory",
+          "isTopicPrimary": true,
+          "slug": "rohitg00agentmemory-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-13T23:28:21.891Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Show HN: Needle: We Distilled Gemini Tool Calling into a 26M Model",
+          "titleKo": "Needle: Gemini 도구 호출을 2600만 파라미터 모델로 증류",
+          "summary": "Cactus Compute가 Gemini 3.1의 도구 호출 기능을 26M 파라미터 'Simple Attention Network'로 증류했으며, Mac/PC에서 로컬 파인튜닝이 가능합니다. 프로덕션 환경에서 초당 6000 토큰의 프리필과 1200 디코드 속도로 작동하며, 가중치와 데이터셋이 완전 공개되어 있습니다.",
+          "keyPoints": [
+            "26M 파라미터 경량 모델로 FunctionGemma-270m, Qwen-0.6B 등을 단일 샷 함수 호출에서 능가",
+            "웹 UI와 CLI를 통해 자체 도구로 테스트 및 파인튜닝 가능하며, 스마트폰/시계/안경 같은 소비자 기기용으로 설계"
+          ],
+          "whyItMatters": "개발자가 경량 AI 모델로 개인용 디바이스에서 도구 통합 AI를 구현할 수 있게 되어 엣지 컴퓨팅 활용성이 크게 확대됩니다.",
+          "url": "https://github.com/cactus-compute/needle",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 630,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-needle-we-distilled-gemini-tool-calling-into-a-26m-model",
+          "fullContent": "Needle\nWe distilled Gemini 3.1 into a 26m parameter \"Simple Attention Network\" that you can even finetune locally on your Mac/PC.\nIn production, Needle runs on Cactus at 6000 toks/sec prefill and 1200 decode speed.\nWeights are fully open on Cactus-Compute/needle, as well as the dataset generation.\nd=512, 8H/4KV, BPE=8192\n┌──────────────┐\n│ Tool Call │\n└──────┬───────┘\n┌┴──────────┐\n│ Softmax │\n└─────┬─────┘\n┌─────┴─────┐\n│ Linear (T)│ ← tied\n└─────┬─────┘\n┌─────┴─────┐\n│ ZCRMSNorm │\n└─────┬─────┘\n┌────────┴────────┐\n│ Decoder x 8 │\n│┌───────────────┐│\n││ ZCRMSNorm ││\n││ Masked Self ││\n││ Attn + RoPE ││\n││ Gated Residual││\n│├───────────────┤│\n┌──────────────┐ ││ ZCRMSNorm ││\n│ Encoder x 12 │──────────────────────▶Cross Attn ││\n│ │ ││ Gated Residual││\n│ ┌──────────┐ │ │└───────────────┘│\n│ │ZCRMSNorm │ │ └────────┬────────┘\n│ │Self Attn │ │ ┌─────┴─────┐\n│ │ GQA+RoPE │ │ │ Embedding │ ← shared\n│ │Gated Res │ │ └─────┬─────┘\n│ │ │ │ ┌───────┴───────-┐\n│ │ (no FFN) │ │ │[EOS]<tool_call>│\n│ └──────────┘ │ │ + answer │\n│ │ └───────────────-┘\n└──────┬───────┘\n│\n┌────┴──────┐\n│ Embedding │\n└────┬──────┘\n│\n┌────┴──────┐\n│ Text │\n│ query │\n└───────────┘\nPretrained on 16 TPU v6e for 200B tokens (27hrs).\nPost-trained on 2B tokens of single-shot function call dataset (45mins).\nNeedle is an experimental run for Simple Attention Networks, geared at redefining tiny AI for consumer devies (phones, watches, glasses...).\nSo while it beats FunctionGemma-270m, Qwen-0.6B, Graninte-350m, LFM2.5-350m on single-shot function call for personal AI,\nThose model are have more scope/capacity and excel in conversational settings. Also, small models can be finicky.\nPlease use the UI in the next section to test on your own tools, and finetune accordingly, at the click of a button.\nQuickstart\ngit clone https://github.com/cactus-compute/needle.git\ncd needle && source ./setup\nneedle playground\nOpens a web UI at http://127.0.0.1:7860 where you can test and finetune on your own tools. Weights are auto-downloaded.\nUsage (Python)\nfrom needle import SimpleAttentionNetwork, load_checkpoint, generate, get_tokenizer\nparams, config = load_checkpoint(\"checkpoints/needle.pkl\")\nmodel = SimpleAttentionNetwork(config)\ntokenizer = get_tokenizer()\nresult = generate(\nmodel, params, tokenizer,\nquery=\"What's the weather in San Francisco?\",\ntools='[{\"name\":\"get_weather\",\"parameters\":{\"location\":\"string\"}}]',\nstream=False,\n)\nprint(result)\n# [{\"name\":\"get_weather\",\"arguments\":{\"location\":\"San Francisco\"}}]\nFinetuning\n# Playground (generates data via Gemini, trains, evaluates, bundles result)\nneedle playground\n# CLI (auto-downloads weights if not local)\nneedle finetune data.jsonl\nCLI\nneedle playground Test and finetune via web UI\nneedle finetune <data.jsonl> Finetune on your own data\nneedle run --query \"...\" --tools Single inference\nneedle train Full training run\nneedle pretrain Pretrain on PleIAs/SYNTH\nneedle eval --checkpoint <path> Evaluate a checkpoint\nneedle tokenize Tokenize dataset\nneedle generate-data Synthesize training data via Gemini\nneedle tpu <action> TPU management (see docs/tpu.md)\n@misc{ndubuaku2026needle,\ntitle={Needle},\nauthor={Henry Ndubuaku, Jakub Mroz, Karen Mosoyan, Roman Shemet, Parkirat Sandhu, Satyajit Kumar, Noah Cylich, Justin H. Lee},\nyear={2026},\nurl={https://github.com/cactus-compute/needle}\n}",
+          "category": "tech",
+          "publishedAt": "2026-05-12T18:03:11.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "imthenachoman/How-To-Secure-A-Linux-Server",
+          "titleKo": "Linux 서버 보안 가이드 - 진화하는 보안 수칙",
+          "summary": "Linux 서버 보안을 위한 포괄적이고 지속적으로 업데이트되는 실용 가이드입니다. 시스템 관리자와 DevOps 엔지니어가 서버를 보호하기 위해 따를 수 있는 단계적 보안 설정 및 모범 사례를 제시합니다.",
+          "keyPoints": [
+            "Linux 서버의 기초적인 보안 강화부터 고급 설정까지 포괄하는 진화형 가이드로, 커뮤니티 피드백을 반영하여 지속적으로 개선됩니다.",
+            "SSH 설정, 방화벽 구성, 사용자 권한 관리, 로깅 및 모니터링 등 실무에서 필수적인 보안 조치들을 체계적으로 설명합니다.",
+            "새로운 위협과 취약점이 발견될 때마다 업데이트되므로, 최신 보안 동향을 반영한 신뢰할 수 있는 참고 자료로 활용할 수 있습니다."
+          ],
+          "whyItMatters": "프로덕션 서버의 보안은 전체 시스템의 안정성과 데이터 보호에 직접 영향을 미치므로, 개발자와 운영팀이 필수적으로 참고해야 하는 실용적 자료입니다.",
+          "url": "https://github.com/imthenachoman/How-To-Secure-A-Linux-Server",
+          "sourceName": "GitHub Trending",
+          "engagement": 27067,
+          "contentType": "repo",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "imthenachomanhow-to-secure-a-linux-server",
+          "category": "tech",
+          "publishedAt": "2026-05-13T23:28:21.895Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "danielmiessler/Personal_AI_Infrastructure (TypeScript)",
+          "titleKo": "danielmiessler/Personal_AI_Infrastructure (TypeScript)",
+          "summary": "인간의 능력을 증강하기 위한 에이전틱 AI 인프라를 제공합니다.",
+          "keyPoints": [
+            "개인용 AI 시스템 구축을 위한 인프라 제공"
+          ],
+          "whyItMatters": "개발자가 개인화된 AI 에이전트 시스템을 빠르게 구축할 수 있는 토대가 됩니다.",
+          "url": "https://github.com/danielmiessler/Personal_AI_Infrastructure",
+          "sourceName": "GitHub Trending",
+          "engagement": 13339,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "typescript"
+          ],
+          "topicId": "personal-ai-infrastructure",
+          "isTopicPrimary": true,
+          "slug": "danielmiesslerpersonal-ai-infrastructure-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-13T23:28:21.893Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "K-Dense-AI/scientific-agent-skills (Python)",
+          "titleKo": "K-Dense-AI/scientific-agent-skills (Python)",
+          "summary": "연구, 과학, 공학, 분석, 금융 및 작성 업무를 위한 즉시 사용 가능한 에이전트 스킬 세트를 제공합니다.",
+          "keyPoints": [
+            "다양한 학문 분야에서 사용할 수 있는 사전 구축된 AI 에이전트 스킬 제공"
+          ],
+          "whyItMatters": "개발자가 학술 및 과학 분야의 AI 에이전트를 빠르게 구현할 수 있는 재사용 가능한 컴포넌트를 확보할 수 있습니다.",
+          "url": "https://github.com/K-Dense-AI/scientific-agent-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 21096,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "k-dense-aiscientific-agent-skills-python",
+          "category": "tech",
+          "publishedAt": "2026-05-13T23:28:21.893Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "tinyhumansai/openhuman (Rust)",
+          "titleKo": "tinyhumansai/openhuman (Rust)",
+          "summary": "비공개이면서 간단하고 강력한 개인용 AI 슈퍼 인텔리전스를 제공합니다.",
+          "keyPoints": [
+            "프라이버시를 우선으로 하는 경량 개인용 AI 시스템 구현"
+          ],
+          "whyItMatters": "개발자가 데이터 프라이버시를 보장하면서 로컬에서 강력한 AI를 실행할 수 있는 솔루션을 활용할 수 있습니다.",
+          "url": "https://github.com/tinyhumansai/openhuman",
+          "sourceName": "GitHub Trending",
+          "engagement": 5375,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "tinyhumansaiopenhuman-rust",
+          "category": "tech",
+          "publishedAt": "2026-05-13T23:28:21.890Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "apernet/hysteria (Go)",
+          "titleKo": "apernet/hysteria - 검열 저항성 고속 프록시",
+          "summary": "Hysteria는 Go로 작성된 강력하고 빠른 검열 저항성 프록시 프로젝트입니다.",
+          "keyPoints": [
+            "높은 성능과 검열 우회 기능을 갖춘 프록시 솔루션",
+            "Go 언어로 구현되어 빠른 배포와 실행 가능"
+          ],
+          "whyItMatters": "네트워크 인프라 구축이나 글로벌 접근성 문제를 다루는 개발자에게 실용적인 도구입니다.",
+          "url": "https://github.com/apernet/hysteria",
+          "sourceName": "GitHub Trending",
+          "engagement": 20602,
+          "contentType": "repo",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "apernethysteria-go",
+          "category": "tech",
+          "publishedAt": "2026-05-13T23:28:21.896Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Go"
+          ]
+        },
+        {
+          "title": "influxdata/telegraf (Go)",
+          "titleKo": "influxdata/telegraf - 메트릭 및 로그 수집 에이전트",
+          "summary": "Telegraf는 메트릭, 로그 등 다양한 데이터를 수집, 처리, 집계하고 작성하는 Go 기반 에이전트입니다.",
+          "keyPoints": [
+            "다양한 데이터 소스에서 메트릭과 로그를 통합 수집",
+            "플러그인 기반 아키텍처로 확장성 높음"
+          ],
+          "whyItMatters": "모니터링 및 관찰성(observability) 시스템 구축 시 필수적인 데이터 수집 도구입니다.",
+          "url": "https://github.com/influxdata/telegraf",
+          "sourceName": "GitHub Trending",
+          "engagement": 16988,
+          "contentType": "repo",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "influxdatatelegraf-go",
+          "category": "tech",
+          "publishedAt": "2026-05-13T23:28:21.892Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Go"
+          ]
+        },
+        {
+          "title": "supertone-inc/supertonic (Swift)",
+          "titleKo": "supertone-inc/supertonic - 다국어 온디바이스 TTS",
+          "summary": "Supertonic은 ONNX 런타임을 통해 네이티브로 실행되는 초고속 온디바이스 다국어 텍스트-음성 변환(TTS) Swift 라이브러리입니다.",
+          "keyPoints": [
+            "온디바이스 실행으로 개인정보 보호 및 저지연 처리 가능",
+            "ONNX 기반으로 여러 플랫폼에서 일관된 성능 제공"
+          ],
+          "whyItMatters": "모바일 앱에서 음성 기능이 필요한 경우 클라우드 의존 없이 빠르고 안전하게 구현할 수 있습니다.",
+          "url": "https://github.com/supertone-inc/supertonic",
+          "sourceName": "GitHub Trending",
+          "engagement": 4309,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "supertone-incsupertonic-swift",
+          "category": "tech",
+          "publishedAt": "2026-05-13T23:28:21.893Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Swift"
+          ]
+        },
+        {
+          "title": "CloakHQ/CloakBrowser (Python)",
+          "titleKo": "CloakHQ/CloakBrowser - 봇 탐지를 우회하는 Playwright 대체 도구",
+          "summary": "모든 봇 탐지 테스트를 통과하는 Chromium 기반 도구로, Playwright의 드롭인 대체재 역할을 한다. 소스 레벨 핑거프린트 패치를 통해 30개 테스트 모두 통과했다.",
+          "keyPoints": [
+            "Playwright와 호환되는 API로 기존 코드 마이그레이션 용이",
+            "봇 탐지 시스템 우회를 위한 소스 레벨 지문 위장 기술 적용"
+          ],
+          "whyItMatters": "웹 스크래핑이나 자동화 작업에서 봇 탐지 우회가 필요한 개발자들에게 신뢰할 수 있는 솔루션을 제공한다.",
+          "url": "https://github.com/CloakHQ/CloakBrowser",
+          "sourceName": "GitHub Trending",
+          "engagement": 9454,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "cloakhqcloakbrowser-python",
+          "category": "tech",
+          "publishedAt": "2026-05-13T23:28:21.894Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "ArthurBrussee/brush (Rust)",
+          "titleKo": "ArthurBrussee/brush - 3D 재구성 도구",
+          "summary": "모든 사용자를 위한 3D 재구성 기술을 제공하는 Rust 기반 오픈소스 프로젝트이다.",
+          "keyPoints": [
+            "Rust로 구현된 고성능 3D 재구성 엔진"
+          ],
+          "whyItMatters": "3D 컴퓨터 비전 애플리케이션 개발 시 접근 가능한 재구성 도구를 제공한다.",
+          "url": "https://github.com/ArthurBrussee/brush",
+          "sourceName": "GitHub Trending",
+          "engagement": 4351,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "arthurbrusseebrush-rust",
+          "category": "tech",
+          "publishedAt": "2026-05-13T23:28:21.895Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "Reverting the incremental GC in Python 3.14 and 3.15",
+          "titleKo": "Python 3.14 및 3.15에서 증분 GC 되돌리기",
+          "summary": "Python 커뮤니티 논의 스레드로 정확한 결정 사항과 기술 세부사항을 파악하려면 원본 링크 확인이 필요합니다.",
+          "keyPoints": [
+            "Python 가비지 컬렉션 정책 변경 논의"
+          ],
+          "whyItMatters": "Python 개발자의 애플리케이션 성능과 메모리 관리 방식에 직결된 핵심 변화입니다.",
+          "url": "https://discuss.python.org/t/reverting-the-incremental-gc-in-python-3-14-and-3-15/107014",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 185,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "reverting-the-incremental-gc-in-python-314-and-315",
+          "category": "tech",
+          "publishedAt": "2026-05-09T20:25:55.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Greedeks/GTweak (C#)",
+          "titleKo": "Greedeks/GTweak (C#)",
+          "summary": "Windows를 이상적인 상태로 설정하기 위한 이식 가능한 도구입니다.",
+          "keyPoints": [
+            "Windows 시스템 설정 자동화 및 최적화 도구"
+          ],
+          "whyItMatters": "개발자의 개발 환경 설정 시간을 단축하고 일관된 개발 환경 구축을 돕습니다.",
+          "url": "https://github.com/Greedeks/GTweak",
+          "sourceName": "GitHub Trending",
+          "engagement": 911,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "greedeksgtweak-c",
+          "category": "tech",
+          "publishedAt": "2026-05-13T23:28:21.894Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "C#"
+          ]
+        },
+        {
+          "title": "Xs of Y – roguelike that names itself every run. Written in 4kLoC",
+          "titleKo": "Xs of Y – 매 실행마다 자신의 이름을 정하는 로그라이크 게임. 4000줄의 코드로 작성됨",
+          "summary": "4000줄의 코드로 작성된 로그라이크 게임으로, 매번 게임을 실행할 때마다 자신의 이름을 동적으로 생성하는 특징을 가지고 있습니다.",
+          "keyPoints": [
+            "매우 간결한 4kLoC 규모의 코드베이스로 완전한 로그라이크 게임 구현",
+            "게임 실행마다 고유한 이름을 자동으로 생성하는 독창적인 기능"
+          ],
+          "whyItMatters": "제한된 코드량으로도 완성도 높은 게임을 만들 수 있음을 보여주는 예시입니다.",
+          "url": "https://github.com/nooga/xsofy",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 139,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "xs-of-y-roguelike-that-names-itself-every-run-written-in-4kloc",
+          "category": "tech",
+          "publishedAt": "2026-05-10T03:32:59.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "S-100 Virtual Workbench",
+          "titleKo": "S-100 가상 워크벤치",
+          "summary": "S-100 컴퓨터 아키텍처를 시뮬레이션하는 가상 워크벤치 프로젝트입니다.",
+          "keyPoints": [
+            "레트로 컴퓨팅 아키텍처인 S-100의 가상 환경 구현"
+          ],
+          "whyItMatters": "역사적인 컴퓨터 아키텍처를 이해하고 학습할 수 있는 도구입니다.",
+          "url": "https://grantmestrength.github.io/S100/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 95,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "s-100-virtual-workbench",
+          "category": "tech",
+          "publishedAt": "2026-05-13T15:52:00.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "The US is winning the AI race where it matters most: commercialization",
+          "titleKo": "미국이 가장 중요한 분야에서 AI 경쟁에서 앞서가고 있다: 상용화",
+          "summary": "미국은 칩, 전력, 데이터센터, 클라우드 플랫폼, 개발자 도구, 소비자 플랫폼, 엔터프라이즈 소프트웨어 등 모든 주요 계층을 동시에 구축하면서 AI 상용화 경쟁에서 리드하고 있습니다. DeepSeek R1이 시장을 충격주었지만, OpenAI와 Anthropic 같은 미국 회사들이 더 빠르게 대응했으며, 차이는 모델 성능이 아닌 클라우드 인프라와 데이터 플랫폼 접근성에 있습니다.",
+          "keyPoints": [
+            "미국의 경쟁 우위는 AWS, Azure, Google Cloud 같은 하이퍼스케일 인프라와 YouTube, GitHub 같은 데이터 플랫폼의 독점에서 비롯됨",
+            "전력 비용은 중요하지만 더 결정적인 요소는 클라우드 규모, 플랫폼 도달 범위, 개발자 생태계, 대규모 유용 데이터 접근성임",
+            "유럽은 엔지니어링 인재는 풍부하지만 하이퍼스케일 인프라 구축과 기업 이전에는 최소 10년이 필요하므로 경쟁에서 뒤처지고 있음"
+          ],
+          "whyItMatters": "AI 기술 개발뿐 아니라 인프라와 플랫폼 생태계가 장기적 경쟁력을 결정하므로, 개발자는 주요 클라우드 플랫폼과 데이터 생태계 선택의 전략적 중요성을 이해해야 합니다.",
+          "url": "https://avkcode.github.io/blog/us-winning-ai-race.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 145,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-us-is-winning-the-ai-race-where-it-matters-most-commercialization",
+          "fullContent": "The US is winning the AI race where it matters most: commercialization. Since DeepSeek R1 shocked the\nmarket in January 2025, American companies have moved faster. OpenAI pushed harder into agents and Codex.\nAnthropic turned Claude Code into a business. China has contenders, but the US is clearly ahead in\nrevenue, adoption, tools, and reach.\nTrump fits this moment well. He is a salesman at core, and Larry Ellison is too. That helps explain why AI\ninfrastructure is an easy political product. Selling AI today is easier than selling Oracle databases in\nthe 1980s. This time the oracle talks.\nDeepSeek matters for a different reason. Its strategic value for China is not mainly commercial. It helps\nChina reduce dependence on Nvidia and push inference toward domestic stacks such as Huawei Ascend. That\nsupports supply chain autonomy. It is not the same as profitable AI leadership.\nChristian Klein of SAP has argued that Europe does not need more data centers and that large language\nmodels alone are not enough. He is right that models alone are not enough. Europe also spent about\n$58.8 billion on Indian software services in FY 2023 to 2024 and about $67.1 billion the next year. AI\nonly becomes valuable when it is tied to real data, real workflows, and real products. But his broader\nview misses the main fact. The United States is winning because it is building every major layer at once:\nchips, power, data centers, cloud platforms, developer tools, consumer platforms, and enterprise\nsoftware.\nMany people use the wrong scorecard. Papers and engineer counts do not prove AI leadership. The test is\nwho can finance infrastructure, train and serve models at scale, and apply AI across the economy.\nEnergy is part of that lead. Modern GPU and TPU systems turn electricity into compute. Cheap power lowers\nmodel costs. That is why electricity prices matter.\nRetail electricity prices in USD per kWh\nCountry\nHome\nBusiness\nGermany\n0.436\n0.279\nUnited Kingdom\n0.420\n0.415\nSpain\n0.282\n0.136\nFrance\n0.274\n0.174\nUnited States\n0.201\n0.154\nCanada\n0.125\n0.106\nRussia\n0.087\n0.131\nChina\n0.078\n0.117\nThe US is cheaper than the big Western European economies. Canada is cheaper still. China and Russia are\nlower cost than the US in this comparison. So power matters. But power is not the most important layer.\nThe decisive layer is cloud infrastructure and data. The US owns the global hyperscalers. AWS, Azure, and\nGoogle Cloud give American firms the main channels through which models reach the world. It also owns\nplatforms that generate and organize the data of the AI age. YouTube is a video corpus. Google Drive and\nMicrosoft 365 sit inside daily office work. GitHub sits inside software development. These are\ndistribution systems and data platforms. New models can be pushed into products people already use every\nday.\nThat is why electricity alone does not decide the race. A country can have cheap power and still lose if\nit does not have cloud scale, platform reach, developer ecosystems, and access to large flows of useful\ndata. The US has all of that at once. China has much of it in its large domestic market. Europe does not.\nEurope has long had strong engineering talent. But talent is not enough. US hyperscalers already dominate\nthe market, and catching up is slow. Even if Europe decided today to finance real cloud champions,\nbuilding the infrastructure would only be the first step. Europe would then need to move banks,\nmanufacturers, and public agencies onto those platforms. That process would take most of a decade. By then\nAWS, Azure, and Google Cloud would be even further ahead in scale, software, and data.\nThere is one exception. Arkady Volozh is trying to build Nebius into a European AI infrastructure company.\nBut that confirms the rule. Europe is still at the start.\nSo Klein is right that LLMs alone are not enough. But the lesson is not that data centers matter less. It\nis that data centers matter inside a much larger system. The US is winning because it has power, capital,\ncloud infrastructure, and data platforms all working together. Energy is important. Cloud and data are\neven more important. That is where the American lead is strongest.\nThere is another frontier: weaponized AI. The next phase may be Country X AI versus other countries' AI in\nbot networks, cyber campaigns, and autonomous weapons. A provider does not need magic to do this. It is\ndisturbingly easy to tune systems to dehumanize rivals, justify violence, or target entire populations.\nOnce models are embedded into media, networks, and weapons, bias becomes force. The AI race is also a\nsecurity race.\nModels like Anthropic's Mythos point to another shift. The old Linux instinct was many eyes on open code.\nFrontier cyber models may push states and defense firms toward the opposite logic: security by obscurity,\nwith closed software, closed tooling, closed firmware, and closed chips. If a model cannot train on the\ncode and architecture of a target stack, it will usually have less context",
+          "category": "insight",
+          "publishedAt": "2026-05-13T13:53:53.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "A History of IDEs at Google",
+          "titleKo": "Google에서의 IDE 역사",
+          "summary": "Google의 13년 개발자 도구 경험을 바탕으로 IDE 생태계의 분화에서 Cider라는 클라우드 IDE를 거쳐 VSCode 기반 솔루션으로 진화한 과정을 기술한다. 대규모 모노레포에서 언어 서버 프로토콜 기반의 백엔드 코드 인텔리전스가 핵심이었다.",
+          "keyPoints": [
+            "모노레포 규모에서 전통적 로컬 IDE의 한계 극복을 위해 클라우드 기반 언어 그래프 인덱싱 도입",
+            "Cider의 웹 기반 경량 클라이언트가 기술 문서 작성에서 시작해 코드 완성 기능으로 확대되며 인기 증대"
+          ],
+          "whyItMatters": "대규모 코드베이스 관리 시 개발 도구 아키텍처 설계와 클라우드 기반 솔루션의 중요성을 보여준다.",
+          "url": "https://laurent.le-brun.eu/blog/a-history-of-ides-at-google",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 232,
+          "contentType": "discussion",
+          "labels": [
+            "career",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-history-of-ides-at-google",
+          "fullContent": "I previously discussed how the main codebase at Google enforces strict tooling and conventions to allow the codebase to scale. For many years, there was one glaring exception: the IDE.\nContext: I worked at Google from 2011 to 2024. Some of the information might be approximative, I’ll update it if there are reports. This blog post focuses on the main monorepo at Google (google3).\nA fragmented ecosystem\nLike in many companies, engineers at Google have been able to pick their IDE of choice, and this resulted in a lot of fragmentation. In 2011, some of the most senior engineers were asked a question: “Is there a way to get a good uniform IDE for all Googlers?“ The answer was essentially “No”. Among others, Jeff Dean replied:\n“Trying to get a group of developers to all agree on a common editor is a recipe for unhappiness. Everyone has different opinions about what is important here, and the advantages and disadvantages of different systems are weighed differently by different people. In the end, it doesn’t matter that much.”\nThis was the prevalent opinion for years. After all, it doesn’t matter which IDE your colleagues use, as long as their code is good. But I worked at Google for 12 years on developer tools, and I sometimes wondered about it.\nIf you look at it from a company productivity standpoint: you don’t want each engineer to spend too much time setting up their editor. Although engineers used different IDEs, useful integrations eventually had to be reimplemented everywhere: Bazel support, Starlark tooling, code formatters, code search integration, and so on. Google’s internal culture made this manageable. Engineers would often start tooling projects organically, others would discover them through the shared codebase and contribute. This kind of contribution is generally encouraged (through 20% time and peer bonuses). Critical projects would eventually become officially staffed. As an example, a team dedicated to the IntelliJ integration was formed around 2015.\nSome people might wonder why you’d need a full dedicated team for this. Was the IDE not good enough in the first place? Part of the reason is that Google has a set of unique tools, and it just makes engineers more productive if you can give them a nice IDE integration. But also, some problems were caused by the sheer size of the monorepo. Traditional IDEs assumed that source code, build metadata, indexing and analysis all happened locally. At Google scale, that assumption starts to break down.\nA Cloud IDE\nAround 2013(?), something happened that I hadn’t anticipated. Some people started building a web-based editor, named Cider. The name is a reference to “Cloud IDE”, with a trailing “r” to get a more memorable name.\nIn a company where most tools are web-based, where people spend time in their browser to do code-reviews, navigate the codebase using Code Search… in a company that uses Chromebooks, it actually makes sense to have a quick way to edit files from the browser.\nWhat surprised me though is that Cider eventually became popular across engineers. At first, it was mostly used by technical writers who wanted to edit markdown files without having to deal with version control. The workflow was very efficient for fixing typos. In one click, you would send the pull request, with an option to automatically merge it once approved. Nowadays GitHub has this kind of feature too, but at that time, it felt new to me.\nOver time the team added more and more developer-oriented features. The turning point came when they added support for code completion, through the language-server protocol.\nCider was a light client that opened much faster than traditional IDEs. All the magic happened on a backend that indexes the entire codebase, so that all the data was ready whenever someone opened the webpage.\nCode intelligence requires connecting each identifier with its type and references. This forms a huge language graph that has to be updated at every commit. And well… the codebase receives many commits per second. But the IDE also needs access to historical data. If I’m working on a project and my colleague merges their code, I don’t want to pick up the changes immediately. So my editor needs to use the graph corresponding to my last sync date… augmented with my local changes, obviously.\nWith this kind of feature, the popularity of Cider continued to rise among certain demographics. For example, it was much easier to convince Go developers to switch than Java developers (because they expected a much more advanced editor). But the joy of searching and having cross-references across a billion files is real.\nCider V: Using VSCode as a frontend\nThe investment in the backend could be justified: it was solving Google-specific problems and there was no good alternative to it. But the frontend felt quite limited: it was good for quick fixes, but it couldn’t compete with actual IDEs.\nThe direction changed in 2020, when I joined the team as one of the tech leads. At that time, ",
+          "category": "insight",
+          "publishedAt": "2026-05-09T11:14:18.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "The Emacsification of Software",
+          "titleKo": "소프트웨어의 Emacs화",
+          "summary": "저자가 Claude AI를 활용해 30분 만에 App Store의 어떤 앱보다 나은 Markdown 뷰어(MDV.app)를 만든 경험을 통해, AI가 개발자의 생산성을 크게 향상시킬 수 있음을 보여줍니다. Claude가 우수한 SwiftUI 개발자 역할을 하면서 기존의 Electron 같은 비효율적인 도구들을 대체할 수 있는 가능성을 제시합니다.",
+          "keyPoints": [
+            "Claude AI를 활용한 30분의 대화식 개발로 전문가 수준의 macOS Markdown 뷰어 완성",
+            "Signal의 Electron 기반 구현으로 인한 성능 문제를 예시로, AI 기반 네이티브 앱 개발의 가능성 제시",
+            "Emacs 커뮤니티처럼 AI 생성 도구를 아이디어로 활용해 더 나은 버전을 만드는 문화 형성 제안"
+          ],
+          "whyItMatters": "LLM이 단순한 코딩 어시스턴트를 넘어 실제 제품 개발 속도를 획기적으로 향상시킬 수 있음을 보여줍니다.",
+          "url": "https://sockpuppet.org/blog/2026/05/12/emacsification/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 153,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-emacsification-of-software",
+          "fullContent": "You want a good Markdown viewer more than you think you do.\nWe’re all reading a ton of Markdown. It’s been the lingua franca of software development since long before LLMs. But now agents have led us into a cursed renaissance of TUI tooling, and the reading experience has become intolerable. I’m certain that at least 14% of the agita about AI code is driven by exhaustion over incessantly scrolling terminal Markdown.\nThere are good TUI Markdown viewers. The Charm folks built glow, which I used & enjoyed. My friend Josh built Markless, which is handsome and bristling with features, most notably a table-of-contents nav. These tools are great. But they’re hamstrung by the terminal itself, which is almost always monospaced and thus fatiguing to read.\nThere are good graphical UI Markdown editors. On macOS, where I live, there’s Obsidian, Typora, and Bear, my personal daily driver. Native UI Markdown editors are attractive and legible. Good reading experiences. But they’re editors. My editors live in particular virtual desktops, with windows arranged just-so, and it drives me up a fucking wall when I click a random .md file and it messes with my editing environment.\nSo I took a trip to the App Store, where there are in fact Markdown viewers. They’re fine-ish. None of them were good. All I want is for something sane to happen when I double click a .md file, and the viewers you can grab off the App Store do at first seem sane. It’s only after you live with them for a bit that the problems become apparent. Several of them lack text search. Some have in-app purchases(?!). I settled on one, only to discover a couple days later that it didn’t support copying text into the paste buffer. At that point, I was done.\nSuddenly, I realized: a good Markdown viewer was a dumb thing to waste time looking for. It’s 2026. I can just have one extruded for me.\n❦\nIt took several hours to generate a better Markdown viewer than I could find on the App Store, but only about 30 minutes of that was interactive. The rest of it was spent yelling about zoning reform on Facebook while Claude chugged away. Behold, MDV.app:\nNow, I’m cheating a little bit with that timeline, because I’d done some preparation weeks before. I recruited an old Macbook to run Claude on. I set up Xcode and git. I got Claude configured, and tracked down some Swift and macOS design skills. But the viewer itself, to a viable state, better than what was on the app store: about 30 minutes.\nMDV isn’t the best macOS application ever built. Or even a particularly competent piece of software (although: it might well be the best dedicated macOS Markdown viewer). But it has improved my quality of life immensely.\nIt does all sorts of cool things. Claude and I have cracked the code on selecting and copying text out of documents, and on finding fixed strings inside of them. Also: MDV keeps a SQLite FTS index of all the Markdown files in its (editable) history, along with hot-keyed bookmarks and a table-of-contents nav. It remembers my place, across restarts, in documents as I toggle between them. And it has fussy color themes and decent typography, which is the most important feature a dedicated Markdown viewer can have. All this stuff just works now, any time I click a .md. It’s great.\n❦\nHere’s how I know this is a big deal: because every time someone sends me a Signal message, my screen flickers. It doesn’t stop until I explicitly hide the Signal app, which I always forget to do until I’ve been driven 30% of the way to a migraine by subtle flickering.\nThis is happening because Signal is an Electron app, which means that even though it looks like a native macOS app, it’s not. It’s a whole-ass copy of Chromium rendering a secret web page. It shares this property with virtually every UI app shipped in the last 10 years, each of which carries its own flickering copy of Chromium.\nElectron isn’t good. But it’s always been good enough. Building real native user interfaces has historically been a difficult problem, beginning with finding even replacement-level talent to do the work. Capable macOS native UI developers are rare birds.\nBut Claude isn’t just a replacement-level SwiftUI developer. Claude is actually good.\n❦\nThis isn’t a post about the impending death of Electron (if only). It’s also not about getting you to use my awesome Markdown viewer which is trivially easy to install and better than any viewer on the app store and you should definitely use it.\nActually, no! Stop. Don’t install it. Treat my awesome Markdown viewer, which is awesome, in the same way an Emacs user treats a particularly shiny .emacs. Steal the idea and make a better one.\nFor those unfamiliar, here’s how Emacs culture works: its lifers build whole applications in elisp (one of the world’s great awful languages). These “applications” are always started to scratch a personal itch related to text editing, and invariably expand in ambition and scope past any reasonable boundaries of what text editors should do. I",
+          "category": "insight",
+          "publishedAt": "2026-05-13T07:06:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Linux gaming is faster because Windows APIs are becoming Linux kernel features",
+          "titleKo": "Linux 게이밍이 Windows API가 Linux 커널 기능으로 변환되면서 더 빨라지고 있다",
+          "summary": "Linux는 2026년 3월 Steam 사용자 기반의 5%를 넘어 사상 최고 점유율을 기록했습니다. 과거 Linux 게이밍 개선은 Wine/Proton 같은 소프트웨어에 의존했지만, 최근에는 NTSYNC 같은 Linux 커널 수준의 드라이버가 Windows 게임 호환성과 성능을 크게 향상시키고 있습니다.",
+          "keyPoints": [
+            "NTSYNC는 Windows 게임이 멀티스레드 작업 조율을 위해 의존하는 Windows 특화 도구를 Linux 커널에서 기본 지원하는 드라이버",
+            "Windows 10 지원 종료와 Steam Deck의 대중화가 Linux 게이밍 채택을 가속화함",
+            "Wine 11부터 커널 레벨 개선이 게이밍 성능 향상의 가장 중요한 변화가 되고 있음"
+          ],
+          "whyItMatters": "게임 개발자와 Linux 사용자 모두 커널 레벨의 Windows API 호환성 개선으로 인한 성능 이득을 누릴 수 있으며, 크로스 플랫폼 게임 개발 시 Linux 최적화가 점점 더 가치있어지고 있습니다.",
+          "url": "https://www.xda-developers.com/linux-gaming-is-getting-faster-because-windows-apis-are-becoming-linux-kernel-features/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 420,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "linux-gaming-is-faster-because-windows-apis-are-becoming-linux-kernel-features",
+          "fullContent": "By\nTy Sherback\nPublished May 10, 2026, 12:30 PM EDT\nHis love of PCs and their components was born out of trying to squeeze every ounce of performance out of the family computer. Tinkering with his own build at age 10 turned into building PCs for friends and family, fostering a passion that would ultimately take shape as a career path.\nBesides being the first call for tech support for those close to him, Ty is a computer science student, with his focus being cloud computing and networking. He also competed in semi-pro Counter-Strike for 8 years, making him intimately familiar with everything to do with peripherals.\nIn March 2026, Linux crossed five percent of Steam's user base for the first time, an all-time high for an operating system that spent two decades as a novelty when it came to any kind of gaming. Microsoft's end-of-support deadline for Windows 10 last October pushed many users to look at alternatives, and the Steam Deck has quietly turned millions of people into Linux gamers without them really thinking about it, leading to more widespread adoption on desktop machines. Most of that progress used to happen inside a piece of software called Wine, the translation layer that convinces Windows games they're running on Windows. Valve's tuned version of Wine, called Proton, is what makes Steam Play and the Steam Deck work. For years, every meaningful improvement to Linux gaming came from changes to Wine and Proton themselves. That's still true, but increasingly the most important changes are happening one layer deeper, inside the Linux kernel. The latest example of that is something called NTSYNC, a kernel-level driver that has offered great performance gains over previous versions of Wine, and is loaded by default on every Steam Deck that's up-to-date.\nRelated\nWine 11 rewrites how Linux runs Windows games at the kernel level, and the speed gains are massive\nWine 11 is the biggest jump for Linux gaming in years.\nBy\nAdam Conway\nWhat NTSYNC actually is\nAn additional piece of the performance puzzle\nNTSYNC is a small piece of driver added directly to the Linux kernel that gives it a native implementation of a set of Windows-specific tools that games depend on to coordinate themselves. Modern games juggle dozens of things at once. While you're playing, your CPU manages the rendering pipeline, loading assets, running physics, processing audio, handling AI NPC routines, and tracking inputs, all in parallel across multiple cores. All those jobs constantly have to coordinate so they don't trip over each other.\nQuiz8 Questions · Test Your KnowledgeThe history of LinuxTrivia challengeFrom a Finnish student's side project to powering the world — how well do you know the story of Linux?OriginsKernelDistrosPioneersMilestonesBegin01 / 8OriginsIn what year did Linus Torvalds first announce the Linux kernel to the world?A1989B1991C1993D1995Correct! Linus Torvalds posted his now-famous message to the comp.os.minix newsgroup on August 25, 1991, describing Linux as 'just a hobby' project. Few could have predicted it would one day run the majority of the world's servers and smartphones.Not quite — Torvalds made his announcement in 1991. He was a 21-year-old computer science student at the University of Helsinki at the time, and his modest post described the project as something that 'won't be big and professional' like GNU.02 / 8PioneersWhich university was Linus Torvalds attending when he created the first version of the Linux kernel?AStockholm UniversityBAalto UniversityCUniversity of HelsinkiDMITCorrect! Torvalds was studying at the University of Helsinki in Finland when he began working on Linux as a personal project, initially inspired by MINIX, a small Unix-like system used for educational purposes.Not quite — Torvalds was a student at the University of Helsinki in Finland. He started Linux partly out of frustration with the limitations of MINIX, which his professor Andrew Tanenbaum had designed deliberately to be simple for teaching.03 / 8KernelWhat operating system primarily inspired Linus Torvalds to create the Linux kernel?AMS-DOSBMINIXCBSD UnixDSolarisCorrect! MINIX, created by professor Andrew Tanenbaum, was the direct inspiration for Linux. Torvalds used MINIX on his new Intel 386 PC but found it too restricted for his needs, which pushed him to write his own kernel.Not quite — the answer is MINIX. Torvalds was using MINIX when he started Linux, and even held a famous online debate with its creator Andrew Tanenbaum about kernel design philosophy, specifically monolithic versus microkernel architectures.04 / 8MilestonesWhat was the version number of the first publicly released Linux kernel in 1991?A0.01B0.1C1.0D0.99Correct! Linux version 0.01 was the first kernel Torvalds released publicly in September 1991. It was a rough, early build that could only run on Intel 386 hardware and had very limited functionality, but it marked the true beginning of the Linux project.Not quite — the first public release was version",
+          "category": "insight",
+          "publishedAt": "2026-05-10T20:54:06.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "MacBook Neo Deep Dive: Benchmarks, Wafer Economics, and the 8GB Gamble",
+          "titleKo": "MacBook Neo 심층 분석: 벤치마크, 웨이퍼 경제학, 8GB의 도박",
+          "summary": "Apple은 2026년 3월 A18 Pro 칩을 탑재한 $599 MacBook Neo를 출시했다. 싱글코어 성능은 M3과 M4 사이 수준이며 동급 Intel/Qualcomm 경쟁사보다 38-43% 우수하지만, 8GB 고정 RAM이 가장 큰 제약이다.",
+          "keyPoints": [
+            "A18 Pro는 TSMC 3nm(N3E) 공정 6코어(성능 2개+효율 4개), 5코어 GPU, 16코어 Neural Engine으로 구성되며 Geekbench 6에서 싱글코어 3,569, 멀티코어 8,879 점 기록",
+            "fanless 알루미늄 섀시로 16시간 배터리 수명을 제공하지만 60초 버스트 후 열 스로틀링으로 64% 성능 저하",
+            "Apple의 수직통합(칩 설계, OS 제어, TSMC 직접 협상, 연 2.3억 대 iPhone 생산으로 비용 분산)이 $599 가격점을 가능하게 함"
+          ],
+          "whyItMatters": "개발자는 저가 Mac 에코시스템의 성능 특성과 메모리 제약을 이해하고 애플리케이션 최적화 전략을 수립할 수 있다.",
+          "url": "https://www.jdhodges.com/blog/macbook-neo-benchmarks-analysis/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 128,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "macbook-neo-deep-dive-benchmarks-wafer-economics-and-the-8gb-gamble",
+          "fullContent": "MacBook Neo Deep Dive: Benchmarks, Wafer Economics, and the 8GB Gamble\nSaturday, 2026.03.07\nJ.D. H.\nUpdated: May 8th, 2026 with pricing and availability update\nPreface: I’m not really a Mac guy. But I have deep respect for what Apple has done with their silicon, and I’ve been following their CPU journey since the Motorola 68k days through PowerPC, the Intel transition, and now their in-house Apple Silicon. What they’ve accomplished in the last five years is genuinely remarkable. Apple is one of the few original tech companies that has survived and thrived over the decades while still staying in the consumer tech space.\nAs a kid I used both Apple and Compaq computers in the text based OS days. Over the years I’ve purchased Apple systems periodically over the years and their recent entrants are extremely capable. While in the modern era I’ve never fully made the switch away from Windoze and Linux, I do give Apple props for doing what they do. 💪\nThe following (attempted) analysis hits close to home for me. AnandTech was one of my go-to sites when I built my first PC back in the day: a Tyan motherboard, Pentium II 233 MHz, SCSI hard drive, with Anand’s articles as the guide (I was a sophomore in HS I believe, and Anand was young as well). That was a blast, and Anand’s deep-dive hardware coverage was a huge part of what made the hobby so rewarding. (Anand eventually joined Apple, which tells you something about the caliber of talent they attract.) AnandTech had some of the best Apple silicon analysis ever published, and this article is written in that spirit: real data, real math, no hand-waving. At least as much as can be for a product that hasn’t been released (thankfully the CPU is a pretty known entity and we know how Apple puts these sorts of products together).\nWith all that said, here’s a look at how Apple, and really only Apple, can deliver this kind of vertically and horizontally integrated product at a $599 price point while maintaining a comparatively high-quality build. They designed the chip, they control the OS, they negotiate directly with TSMC, and they amortize silicon costs across 230 million iPhones a year. Nobody else has that supply chain.\nYes, 8GB of RAM is a real limitation. But give it a year and the next version will almost certainly ship with 12GB and a modest CPU bump. Apple will maintain their margins, the world will continue on, and early adopters will have gotten a surprisingly capable machine in the meantime. There’s also a silver lining to the tight memory envelope: Apple has to keep macOS running well within 8GB, which is actually a nice forcing function against bloat and inefficiency. We could all use a little more of that.\nNow, let’s get into the numbers. ⬇️\nAvailability Heads Up\nDue to high demand, Apple has been periodically backordered on MacBook Neos lately, but somehow Amazon has them in stock for ~$589 ($10 less than Apple).\nTechnical Analysis\nWhat processor is in the MacBook Neo?\nThe MacBook Neo runs Apple’s A18 Pro, the same chip used in the iPhone 16 Pro. Six CPU cores (2 performance + 4 efficiency), a 5-core GPU, a 16-core Neural Engine, fabricated on TSMC’s second-generation 3nm process (N3E).\nGeekbench 6 (cold, 3-run average): 3,569 single-core, 8,879 multi-core\nSingle-core vs Apple Silicon: lands between the M3 and M4\nSustained-load behavior: full burst for about 60 seconds, then thermal throttling drops CPU utilization 64% in 15 seconds (fanless chassis)\nPrice floor enabled: $599 base, 8GB RAM, 256GB SSD\nBelow: the full benchmark data across three thermal states, how the A18 Pro compares architecturally to the M-series, and the wafer economics that make $599 possible.\nOn March 4, 2026, Apple unveiled the MacBook Neo, its most affordable Mac laptop ever at $599. The headline spec that has the internet arguing: instead of an M-series chip, the Neo runs the A18 Pro, the same processor from the iPhone 16 Pro.\n“An iPhone chip in a Mac” sounds like a downgrade. The benchmarks tell a very different story.\nThe A18 Pro’s single-core performance lands between the M3 and M4, demolishes Intel and Qualcomm competitors at this price tier by 38-43%, and does it all in a fanless aluminum chassis with 16 hours of claimed battery life. The chip is not the constraint. The 8GB of RAM, with no upgrade path, is.\nThis article covers everything: actual benchmark data, how the A18 Pro compares to M-series chips architecturally, the wafer economics that make $599 possible, and why the global RAM shortage makes Apple’s timing look less like luck and more like strategy.\nWhat You’re Getting for $599\nThe MacBook Neo is a 13-inch aluminum notebook built around the A18 Pro, fabricated on TSMC’s second-generation 3nm process (N3E). Here are the specs that matter:\nComponent\nSpecification\nCPU\n6-core: 2 performance (4.04 GHz) + 4 efficiency (2.42 GHz)\nGPU\n5-core Apple GPU, hardware ray tracing\nNeural Engine\n16-core, 35 TOPS (Apple Intelligence supported)\nMemory\n8GB unified LPDDR5x (soldered, no upg",
+          "category": "insight",
+          "publishedAt": "2026-05-13T18:30:51.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "A sentimental tour of late 1990s and early 2000s hacking tools",
+          "titleKo": "1990년대 후반부터 2000년대 초반 해킹 도구에 대한 향수 어린 투어",
+          "summary": "1998년부터 2000년대 초반까지의 RAT(Remote Administration Tool), 네트워크 스캔 도구, 패스워드 크래킹 도구 등 초기 사이버 보안 도구들의 역사와 그 문화를 회상합니다. Back Orifice, NetBus, Sub7 같은 유명 RAT들과 Nmap, Netcat, John the Ripper 같은 기본 도구들이 어떻게 발전했는지 설명합니다.",
+          "keyPoints": [
+            "Back Orifice(1998), BO2K, NetBus, Sub7 등 초기 RAT의 발전 과정과 특징",
+            "Nmap, Netcat, John the Ripper, Cain & Abel 등 여전히 사용되는 기본 보안 도구들의 기원",
+            "IRC를 중심으로 한 초기 사이버 커뮤니티 문화와 인프라"
+          ],
+          "whyItMatters": "현대 보안 도구의 뿌리를 이해하고, 사이버 보안 분야의 발전 과정을 역사적으로 학습할 수 있습니다.",
+          "url": "https://andreafortuna.org/2026/05/13/amarcord/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 37,
+          "contentType": "discussion",
+          "labels": [
+            "career",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-sentimental-tour-of-late-1990s-and-early-2000s-hacking-tools",
+          "fullContent": "Gather around, children. Put down your Rust-compiled eBPF probes, your Sigma rules, your billion-dollar EDR consoles. Sit on this pile of old floppy disks and let me tell you a story. A story of a time when a 56k modem was a weapon of mass destruction, when your entire operational infrastructure was a Windows 98 machine with a sticky residue on the keyboard, and when the most sophisticated command-and-control channel available to you was a chat room full of teenagers arguing about Linkin Park.\nAi miei tempi, we hacked with character.\nThe golden age of the RAT\nIt all started, more or less, in 1998, when a group called Cult of the Dead Cow released something called Back Orifice at DEF CON. The name was a deliberate pun on Microsoft BackOffice, juvenile, precise, and entirely on brand for a group that understood that naming things well was half the battle. It was a Remote Administration Tool that let you control a Windows 95/98 machine remotely: browse files, capture screens, log keystrokes, redirect ports. It ran silently. It required no particular expertise to deploy. And it weighed less than 100KB.\nThe security establishment predictably lost its mind. Microsoft called it malware. Cult of the Dead Cow called it a demonstration of Windows security failures. Both were right.\nThen came Back Orifice 2000, or BO2K, presented at DEF CON in July 1999, released as open source, extensible through plugins, and capable of encrypted communications. At the time, it was more feature-rich than most legitimate remote administration tools on the market.\nThat same year, NetBus was already circulating. Created in 1998 by a Swedish programmer named Carl-Fredrik Neikter, it shared Back Orifice’s basic premise, silent remote control of Windows machines, but came with a GUI clean enough to feel almost respectable. NetBus became notorious partly because it was used to plant child pornography on a law professor’s computer in Sweden, a case that dragged the tool into actual criminal courts and forced everyone involved to get considerably more serious about what “remote administration” implied. The professor was acquitted. The episode was a preview of legal and ethical discussions that would take another decade to mature into anything resembling policy.\nBut neither Back Orifice nor NetBus was the most widely deployed RAT of that era. That distinction belongs to Sub7, or SubSeven, written in Delphi by a Romanian teenager who went by the name mobman and first released in February 1999. By 2000 it was everywhere. It had a polished GUI. It had an address book to track which victims were currently online. It had a server editor to customise the payload before deployment, borrowing the idea directly from BO2K. It even supported notification via ICQ when a victim came online, which was unusually polished for malware. The exact origin of the name “Sub7” has never been definitively confirmed by mobman, and the various explanations that circulated on forums were mostly folk etymology. What mattered was that it worked, it was free, and it was trivial to configure.\nThe Swiss Army knives of the basement operator\nRATs were the glamorous end of the toolkit. Below them sat a layer of tools that were genuinely useful, sometimes elegant, and in many cases still in active use today—a testament to how slowly the core infrastructure of the internet has evolved.\nNmap, Gordon Lyon’s network scanner, was already present in this era and was quickly becoming the first thing anyone ran against a target. If you had a subnet and five minutes, you knew exactly what was listening. Netcat was the tool that could not die: read from network, write to network, listen on a port, transfer files, create a rudimentary shell. It was called the “TCP/IP Swiss Army knife” so often that the phrase became a cliché, but the cliché was accurate. Both tools are still on every pentester’s machine in 2026.\nJohn the Ripper handled password cracking. Cain & Abel did everything else on Windows: ARP poisoning, password recovery, network sniffing, VoIP interception. dsniff and ettercap covered the sniffing side on Unix. Hping gave you raw TCP/IP packet manipulation. Aircrack, in its early versions, was beginning to make the case that WEP was not so much an encryption protocol as a polite suggestion.\nFor web-facing targets, there were scanners and exploit packs of varying quality. Most of them worked by cycling through a list of known CGI vulnerabilities that should have been patched months earlier but were not, because patch management in 2001 was “someone’s nephew will look at it eventually.” Whisker, Nikto, and other vulnerability scanners circulated through the same channels as everything else.\nThe whole ecosystem ran on the implicit assumption that the target had not updated anything since installation, which, to be fair, was usually correct.\nIRC: the command center, the social club, and the crime scene\nTo understand how everything worked, you need to understand IRC, Internet Relay Ch",
+          "category": "insight",
+          "publishedAt": "2026-05-13T18:25:09.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Preserving Fisher-Price Pixter",
+          "titleKo": "Fisher-Price Pixter 보존하기",
+          "summary": "2000년 출시된 Fisher-Price Pixter 게임 기기의 하드웨어 아키텍처를 역공학으로 분석하고 완전히 문서화한 프로젝트입니다. Pixter Color의 Sharp LH75411 SoC를 분석해 에뮬레이터를 개발하고, 25개 이상의 게임들을 보존하는 과정을 상세히 설명합니다.",
+          "keyPoints": [
+            "Sharp LH75411 ARM7 SoC 기반의 Pixter Color 하드웨어 완전 분석 및 문서화",
+            "LQFP 칩 패키지의 특성을 활용한 효율적인 역공학과 에뮬레이터 개발",
+            "과거 마이크로컨트롤러 기반 기기의 메모리 최적화 및 성능 설계 원리 파악"
+          ],
+          "whyItMatters": "레트로 하드웨어의 역공학 방법론과 저수준 시스템 분석 기법을 배울 수 있으며, 과거 기술의 역사적 보존 중요성을 보여줍니다.",
+          "url": "https://dmitry.gr/?r=05.Projects&proj=37.%20Pixter",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 200,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "preserving-fisher-price-pixter",
+          "fullContent": "In 2000, the famous American toy company Fisher-Price released a simple drawing-oriented handheld gaming console for kids called Pixter. It featured no brain-rotting social media and focused, instead, on drawing, sketching, and educational games. The initial sales figure from the holiday season of the release was half a million units, which is not too shabby at all. Besides letting kids draw using an included stylus on the 80x80 monochrome display while catchy tunes played on repeat from the speaker, the device also allowed plug-in games to expand the possible activities. There exist 25 known games for Pixter (I had to edit wikipedia to correct their record). Soon after, there was a Pixter Plus, which added more memory and expanded the built-in game. Then there was Pixter 2.0, which added wireless comms. Neither of those radically changed the device itself and all the games remained cross-compatible. One cool feature of Pixter devices was that you could draw an image in one game, using its stamps and tools, save it to internal memory, plug in another game, load it, and draw on top of it. So you could, literally, customize a cool car in \"Cool Wheels\", save the image, plug in \"Barbie Fashion Show\" and plop a barbie into your cool car image. What joy this must have been!\nIn 2003, Pixter Color came out, adding color, 4x the screen resolution, and a new game cartridge connector. An adapter came with it to allow it to run old games, and it ran them all (pixel-doubled) perfectly! Obviously, the old monochrome Pixters could not run new color games. The main purpose of the device remained the same - sketching and stickers with ability to save your compositions in memory, just in color now! Games got more advanced and intricate. There was even a camera attachment! There are 32 games known to exist for Pixter Color. In 2005, Pixter Multimedia came out, which added a better screen (quality-wise, the resolution remained the same) and a yet another game cartridge connector (a superset of the Pixter Color connector), allowing for Multimedia-only carts. Nine of these Pixter Multimedia exclusive game are known to exist.\nAs I had written before, my friend Josh pointed me at Pixter Color as potential PalmOS porting target, and after a lot of work, I got PalmOS fully working on that device. This is not that story, however! To get PalmOS working, the device had to be understood, a method to run code on it had to be found, and among all that research, a lot of work was done on documenting Pixter Color. Previously, a few places online mentioned that “THERE ARE CURRENTLY NO EMULATORS FOR THIS DEVICE OR PLATFORM. ANY CLAIMS TO OFFER THEM ARE SCAMS!”. This is no longer true, I am happy to report. I am here to present a complete historical preservation of all information pertaining to how Pixter devices work and almost all the games. However, let us go in order...\nAs there were no official docs on writing Pixter games or code, the first step of the process was to open a Pixter and see what was inside. It would later turn out that starting with Pixter Color was quite lucky -- its main SoC is the LQFP version of Sharp LH75411. Why is this lucky? Unlike other chips and chip package types, this specific one makes probing individual pins trivial, allowing even careful soldering to them. No other Pixter-family device has this property, but I did not yet know this.\nThe main board had the main SoC, 128KB of x16 SRAM, and two black blobs. The blobs are of course Chip-on-Board dies of some sort. These are not labeled nor can they be easily probed. In most cases removing the epoxy is destructive. Black blobs are the worst! Sadly, they are common in cheap devices, and Fisher-Price were always kings of cost-cutting. As I went through this project, I, in fact, gained more respect for their cost cutting abilities than I had had before.\nFirst, it is worth taking a moment to talk about the LH75411 and the surrounding chips on the Pixter Color motherboard, from a performance standpoint. I ranted about it already in my PalmOS-on-Pixter article, but in case you missed it, I'll summarize. This is the most minimal ARM7 instantiation I've ever seen. Everything that was optional was excluded, everything that could be sized was configured in the most minimal configuration. The SoC has 16KB of TCM inside, which is pretty fast - single cycle access in fact. There is also another 16KB of SRAM in the SoC, which is accessed using an internal AHB bus, meaning that reads effectively take 2 cycles. There is some SRAM on the board, as I had mentioned - 128KB on a 16-bit-wide bus. It is configured with one wait state (an extra clock of delay to allow signals to propagate and slow/cheap memories to process). A word read from this memory thus takes two bus operations, each using 3 cycles. This is getting slow, as you see. Luckily, this is where cache comes in handy. Cache automatically stores recently-accesses memory close to the CPU for fast access, covering up for hig",
+          "category": "insight",
+          "publishedAt": "2026-05-11T06:52:48.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Setting up a free *.city.state.us locality domain (2025)",
+          "titleKo": "무료 *.city.state.us 지역 도메인 설정하기 (2025)",
+          "summary": "미국에서는 somename.city.state.us 형식의 지역 도메인을 무료로 등록할 수 있다. Amazon Lightsail에서 네임서버를 획득한 후 위임된 지역 관리자에게 도메인 템플릿을 제출하면 DNS를 웹호스트로 지정할 수 있다.",
+          "keyPoints": [
+            "Amazon Lightsail에서 무료 네임서버를 제공받아야 하며, 이후 Interim .US Domain Template 양식을 작성하여 제출",
+            "미국 시민권자 또는 영주권자, 또는 미국 내 실제 사무소를 둔 단체만 등록 가능",
+            "1992년부터 존재해온 지역 도메인은 각 지역의 위임된 등록자(delegated registrar)를 통해 관리됨"
+          ],
+          "whyItMatters": "개발자가 저렴하게 지역 기반 도메인을 구축하고 관리할 수 있는 방법을 제시한다.",
+          "url": "https://fredchan.org/blog/locality-domains-guide/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 449,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "setting-up-a-free-citystateus-locality-domain-2025",
+          "fullContent": "tl;dr\nIn the US, can get a domain name like somename.city.state.us for free. If your town has its own domain, you can get nameservers from Amazon Lightsail, send the Interim .US Domain Template to the delegated manager for your locality to register one, then point DNS entries at your webhost.\nWhat’s a locality domain?\nA locality domain is a domain name that’s associated with a location in the United States, such as frederick.seattle.wa.us (which currently redirects to fredchan.org). Locality domains were first created in 1992, and the infrastructure has been maintained under government contract ever since.\nTo register one, you must be a US citizen or permanent resident, an organization incorporated in the US, or an organization with a bona fide presence in the US that regularly engages in lawful activities or has an office in the US. (For the full verbiage, see the bottom of this form).\nStep 1: Choose a locality domain\nRegistration of many locality domains have been delegated to various companies who actually handle the domain registration. See the list of delegated subdomains for domains you can register under, which also has the contact e-mail for the corresponding registrar as of 2009.\nSince this list is quite old and some companies may have restructured/renamed, you may need to hunt for an e-mail for the current incarnation of the registrar. For example, the e-mail listed for seattle.wa.us is domainrq@nwnexus.com belonging to NW Nexus, which is now NuOz Corporation, so the e-mail I contacted was support@nuoz.com.\nIf you do not live in one of these localities, you can try registering a domain under gen.your-state.us, like next.gen.oh.us, which is officially for general independent entities. The contact should be in the same list.\nIf the locality domain you’re looking for isn’t on the list (i.e. registration has not been delegated), you’re probably screwed. The manager of all undelegated domains, NeuStar, will only allow local government agencies to register them due to government policy. This is supposed to be temporary, but the policy has remained since 2002.\nStep 2: Acquire nameservers\nWhen you get a normal domain, like fredchan.org, your domain registrar usually provides nameservers for you after you buy. These nameservers are where you put DNS records that point your domain to an IP address, like your web host’s IP address. However, in order to register a locality domain, you need to already have nameservers.\nThe only place I could find that provides free nameservers for non-top level domains (e.g. every locality domain) is Amazon Lightsail. Lightsail is Amazon’s low cost AWS web hosting service. You’re normally supposed to rent a web hosting server from them, but you don’t actually need to do that.\nCreate an AWS account and go to the Lightsail console.\nOn the left navigation panel, click Domains & DNS.\nClick the Create DNS zone button.\nSelect Use a domain from another registrar and type in the domain you intend to register later.\nClick Create DNS zone.\nTake note of the domain names in the Name servers section. You need these when you fill out the domain registration form.\nStep 3: Fill out the domain registration form\nNow that you have name servers, you can fill out the Interim .US Domain Template v2.0. In this section, I’ll walk you through some of the trickier parts of this form, assuming you are registering a domain for yourself.\n2. FULLY-QUALIFIED DOMAIN NAME:\nThis is the domain you want to register, e.g. frederick.seattle.wa.us.\n3. ORGANIZATION INFORMATION\nIf you are a human being and not an organization, you can fill out sections 3a-e with your own address.\n4. DESCRIPTION OF ORGANIZATION/DOMAIN:\nDescribe what you’re doing with this domain. For example, if you expect to host a website on it, you can say that. You can use it for purposes that you don’t write in the form later on as well.\n5. Date Operational......:\nYou can use your birth date here.\n6. ADMINISTRATIVE CONTACT OF ORGANIZATION/DOMAIN and 7. TECHNICAL AND ZONE CONTACT\nBoth of these can be you. 6i, 7i, and 7j can all be your e-mail address, and if you don’t have a fax number, leave 7k blank.\n8. PRIMARY SERVER: HOSTNAME, NETADDRESS and 9. SECONDARY SERVER: HOSTNAME, NETADDRESS\nThis is where you fill in your name server addresses.\nLightsail will have given you at least 2-4 name server addresses, of which you need to know the IP address of each. You can use an online DNS lookup tool to find their IP addresses or the dig command in your terminal.\nAny of the nameservers can be the primary server. Then, for the rest of the servers, you can repeat section 9 as many times as you need until you’ve added all the nameservers.\n10. US NEXUS REQUIREMENTS\nInstructions for section 10 appear at the bottom of the form. For instance, if the domain is for personal use and you are a US Citizen, your application purpose is (iii) personal use, your Nexus Category is (category 11) Natural person who is a United States Citizen, and you leave Nexus Validator bla",
+          "category": "insight",
+          "publishedAt": "2026-05-13T14:45:18.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "\"Not Medically Necessary\": Helping America's Health Insurers Deny Coverage",
+          "titleKo": "\"의학적으로 필요하지 않음\": 미국 건강보험사의 보장 거부 지원",
+          "summary": "ProPublica 조사에 따르면 Cigna 소유의 EviCore는 1억 명 이상을 대상으로 '더 높은 거부율로 더 많은 수익을 얻는' 구조의 사전인가 심사를 수행한다. EviCore는 \"다이얼\"이라 불리는 AI 기반 알고리즘으로 거부 가능성을 조정할 수 있다.",
+          "keyPoints": [
+            "EviCore는 보험사에 '$1당 $3 절감' 이윤(3대1 수익률)을 약속하며, 판매 담당자는 거부 건수 15% 증가를 자랑",
+            "\"다이얼\" 알고리즘은 의사 요청을 자동 승인하거나 인간 심사로 전달하도록 조정 가능하며, 심사 건수가 많을수록 거부율 증가",
+            "아칸소 주 데이터 분석 결과 EviCore의 거부율은 약 20%로 Medicare Advantage 평균 7%보다 훨씬 높음"
+          ],
+          "whyItMatters": "개발자는 헬스케어 AI 시스템의 윤리적 설계와 알고리즘 투명성의 중요성을 이해할 수 있다.",
+          "url": "https://www.propublica.org/article/evicore-health-insurance-denials-cigna-unitedhealthcare-aetna-prior-authorizations",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 146,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "not-medically-necessary-helping-americas-health-insurers-deny-coverage",
+          "fullContent": "Reporting Highlights\nDialing for Dollars: America’s largest insurers hire EviCore to make decisions on whether to pay for care for more than 100 million people.\n“The Dial”: EviCore uses an algorithm that allows it to adjust the chances that company doctors will screen prior authorization requests, increasing the possibility of denials.\nLucrative Deals: Some EviCore contracts are based on how deeply the company can reduce spending on medical procedures. It tells insurers that it can provide a 3-to-1 return on investment.\nThese highlights were written by the reporters and editors who worked on this story.\nEvery day, patients across America crack open envelopes with bad news. Yet another health insurer has decided not to pay for a treatment that their doctor has recommended. Sometimes it’s a no for an MRI for a high school wrestler with a strained back. Sometimes for a cancer procedure that will help a grandmother with a throat tumor. Sometimes for a heart scan for a truck driver feeling short of breath.\nBut the insurance companies don’t always make these decisions. Instead, they often outsource medical reviews to a largely hidden industry that makes money by turning down doctors’ requests for payments, known as prior authorizations. Call it the denials for dollars business.\nThe biggest player is a company called EviCore by Evernorth, which is hired by major American insurance companies and provides coverage to 100 million consumers — about 1 in 3 insured people. It is owned by the insurance giant Cigna.\nA ProPublica and Capitol Forum investigation found that EviCore uses an algorithm backed by artificial intelligence, which some insiders call “the dial,” that it can adjust to lead to higher denials. Some contracts ensure the company makes more money the more it cuts health spending. And it issues medical guidelines that doctors have said delay and deny care for patients.\nEviCore and companies like it approve prior authorizations “based on the decision that is more profitable for them,” said Barbara McAneny, a former president of the American Medical Association and a practicing oncologist. “They love to deny things.”\nEviCore says it scrutinizes requests to make sure that procedures recommended by doctors are safe, necessary and cost-effective. “We are improving the quality of health care, the safety of health care and, by very happy coincidence, we’re also decreasing a significant amount of unnecessary cost,” an EviCore medical officer explains in a video produced by the company.\nBut EviCore’s cost-cutting is far from coincidental, according to the investigation.\nEviCore markets itself to insurance companies by promising a 3-to-1 return on investment — that is, for every $1 spent on EviCore, the insurer would pay out $3 less on medical care and other costs. EviCore salespeople have boasted of a 15% increase in denials, according to the investigation, which is based on internal documents, corporate data and dozens of interviews with former employees, doctors, industry experts, health care regulators and insurance executives. Almost everybody interviewed spoke on condition of anonymity because they continue to work in the industry.\nAn analysis of the company’s own data shows that, since 2021, EviCore turned down prior authorization requests, in full or in part, almost 20% of the time in Arkansas, which requires the publication of denial rates. By comparison, the equivalent figure for federal Medicare Advantage plans was about 7% in 2022.\nThey love to deny things.Barbara McAneny, former president of the American Medical Association\nEviCore has several ways to cut costs for insurers. Chief among them is the dial, the proprietary algorithm that’s the first stop in evaluating a prior authorization. Based on data entered by a doctor’s office, it can automatically approve a request.\nThe algorithm cannot say no, however. If it finds problems, it sends the request for review to a team of in-house nurses and doctors who consult company medical guidelines. Only doctors can issue a final denial.\nThis is where tweaking the dial comes in. EviCore can adjust the algorithm to increase the number of requests sent for review, according to five former employees. The more reviews, the higher the chance of denials.\nHere’s how it works, the former employees said: The algorithm reviews a request and gives it a score. For example, it may judge one request to have a 75% chance of approval, while another to have a 95% chance. If EviCore wants more denials, it can send on for review anything that scores lower than a 95%. If it wants fewer, it can set the threshold for reviews at scores lower than 75%.\n“We could control that,” said one former EviCore executive involved in technology issues. “That’s the game we would play.”\nOver the years, medical groups have repeatedly complained that EviCore’s guidelines were outdated and rigid, resulting in inappropriate denials or delays in care. Frustration with the rules has led some doctors to refe",
+          "category": "insight",
+          "publishedAt": "2026-05-13T19:01:54.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "In-person examinations at Princeton will be proctored starting July 1",
+          "titleKo": "프린스턴 대학, 7월 1일부터 대면 시험에 감독관 배치",
+          "summary": "Princeton 대학 교수진이 2026년 5월 11일 133년 전통의 무감독 시험 제도를 폐지하고 모든 대면 시험에 감독관 배치를 의결했다. AI 사용 증가와 학생들의 상호 고발 기피가 주요 원인이다.",
+          "keyPoints": [
+            "1893년부터 시행된 명예제도(Honor Code)에서 명시적으로 금지했던 감독을 133년 만에 도입하게 됨",
+            "정책안은 AI와 개인 전자기기의 접근성이 부정행위를 '눈에 띄기 어렵게' 만들었고, 또래 신고를 꺼리는 학생들이 '온라인 낙인(doxxing)' 우려로 익명 신고만 하는 현상을 지적",
+            "Princeton 2025 고학년 설문에서 29.9%가 부정행위 경험을 고백했고, 44.6%가 위반 사실을 알고도 미신고한 반면 0.4%만 신고함"
+          ],
+          "whyItMatters": "개발자는 교육 기관의 AI 감시 및 학생 추적 기술 구현 시 신뢰 저하와 윤리적 우려를 고려해야 한다.",
+          "url": "https://www.dailyprincetonian.com/article/2026/05/princeton-news-adpol-proctoring-in-person-examinations-passed-faculty-133-years-precedent",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 193,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "in-person-examinations-at-princeton-will-be-proctored-starting-july-1",
+          "fullContent": "NEWS\nPrinceton faculty mandate proctoring for in-person exams, upending 133 years of precedent\nFaculty gather for a reception celebrating those transferring to emeritus status outside Nassau Hall after passing a policy mandating proctoring on examinations during a faculty meeting, Monday, May 11, 2026.\nLuke Grippo / The Daily Princetonian\nAll in-person examinations at Princeton will be proctored starting July 1, representing the most significant change to the honor system since it was established in 1893. The faculty passed a proposal requiring instructor supervision at Monday’s faculty meeting, with one opposing vote.\nThe historic vote was the culmination of months of deliberation within the administration and student governing bodies about how to address increasing concerns over academic integrity violations, including the proliferation of AI usage. The proposal cleared a full faculty vote as the final of three required rounds of approval, having already been passed unanimously by the Committee on Examinations and Standing and the Faculty Advisory Committee on Policy.\nAccording to the policy proposal, previously sent by Dean of the College Michael Gordin to the Faculty Advisory Committee and included in Monday’s meeting notes, instructors will remain present in exam rooms “as a witness to what happens,” but are instructed not to interfere with students. If a suspected Honor Code violation occurs, proctors will document their observations and submit a report to the student-run Honor Committee, where they may later testify under the same standards used for other witnesses.\nThe proposal notes that additional details, including proctor-to-student ratios and guidelines regarding monitoring practices, will be finalized in consultation with faculty and student representatives before the policy takes effect.\nPrinceton’s honor system dates back to 1893, when the faculty first instituted the Honor Code following a student petition to eliminate proctoring during examinations. Since then, the honor system has relied on individual accountability, with students pledging both to refrain from academic dishonesty and to report those they witness in violation.\nADVERTISEMENT\nFollowing the Honor Code’s original implementation, proctoring was explicitly banned in the Rules and Procedures of the Faculty and the Rights, Rules, Responsibilities of the University, which remained in effect for 133 years up until Monday’s vote.\nThe policy proposal cites AI and personal electronic devices as major catalysts behind the policy shift. “The ease of access of these [AI] tools on a small personal device have also changed the external appearance of misconduct during an examination,” it reads, making cheating “much harder for other students to observe (and hence to report).”\nThe proposal also points to a growing reluctance among students to report peers directly. The proposal claims that anonymous reporting of allegations has increased in recent years, fueled by fears of “doxxing or shaming among their peer groups” online.\nSupport nonprofit student journalism. Donate to the ‘Prince.’ Donate now »\nIn The Daily Princetonian’s 2025 Senior Survey of over 500 seniors, 29.9 percent of respondents reported that they had cheated on an assignment or exam during their time at Princeton. 44.6 percent of senior respondents reported knowledge of Honor Code violations that they chose not to report. Only 0.4 percent of seniors responded saying that they had reported a peer for an Honor Code violation.\nAn Undergraduate Student Government survey of students cited in the proposal reportedly found that “a majority would favor proctoring or are indifferent to any change,” though a “sizeable minority opposes it on the grounds that students should behave honorably, and that faculty and students should trust each other given the 1893 Honor Code compact.”\nSimilarly, students and faculty previously interviewed by the ‘Prince’ expressed divided views on the policy’s implementation. Some cited the inadequacy of the current student reporting model, while others said the introduction of proctors could erode the trust that defines Princeton’s academic culture.\nADVERTISEMENT\nThe historic change comes in the wake of a November policy change mandating proctoring for all individual and small-group exams, including make-up exams, exams taken by student-athletes while traveling, and exams taken with disability accommodations.\nIn a March guest Opinion column in the ‘Prince,’ Honor Committee Chair Emerita Nadia Makuc ’26 wrote that the Honor Committee, which adjudicates suspected violations of the Honor Code during in-person examinations, had long discussed introducing proctors as an additional witness and reporter in exam rooms, and that the time had come to take that step.\n“The Honor Committee has experienced new strains, including an uptick in cases in the last year and challenges such as generative AI, and student sentiment has recognized that its procedures need to better ",
+          "category": "insight",
+          "publishedAt": "2026-05-13T20:12:16.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "An idiot's guide to lead optimisation for proteins",
+          "titleKo": "단백질 선도 최적화 입문자 가이드",
+          "summary": "기사 본문이 제공되지 않아 요약 불가능합니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://magnusross.github.io/posts/protein-lead-optimisation-1/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 134,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "an-idiots-guide-to-lead-optimisation-for-proteins",
+          "category": "insight",
+          "publishedAt": "2026-05-11T11:21:33.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Making the news available at no cost is a victory",
+          "titleKo": "뉴스를 무료로 제공하는 것은 승리이다",
+          "summary": "기사 본문이 제공되지 않아 요약 불가능합니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.sltrib.com/opinion/commentary/2026/05/12/just-days-tribune-reporting/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 96,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "making-the-news-available-at-no-cost-is-a-victory",
+          "fullContent": "(Francisco Kjolseth | The Salt Lake Tribune) The Salt Lake Tribune politics team and other Tribune reporters host a review of the past legislative session and a look into the upcoming election session at the SpyHop Rooftop on Wednesday, March 25, 2026. The panel introduced by Lauren Gustus and Sheila McCann featured Courtney Tanner, Addy Baird, Emily Anderson Stern, Robert Gehrke and editor Jeff Parrott, from left.\nSponsored: Determine your finances before marriage.",
+          "category": "insight",
+          "publishedAt": "2026-05-13T19:14:47.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "New stainless steel can survive conditions for hydrogen production in seawater",
+          "titleKo": "새로운 스테인리스강, 해수 수소 생산 조건 견딜 수 있어",
+          "summary": "홍콩 대학교 연구팀이 해수 전기분해 환경의 극한 부식 조건을 견딜 수 있는 새로운 스테인리스강 SS-H2를 개발했다. '순차 이중 부동태화' 전략으로 망간 기반 보호층이 크롬 기반 층 위에 형성되어 1700mV의 초고전압에서도 보호된다.",
+          "keyPoints": [
+            "SS-H2는 기존 스테인리스강이 ~1000mV에서 불안정한 Cr(VI)로 산화되는 문제를 극복하고 수소 생산에 필요한 ~1600mV 조건을 견딤",
+            "망간은 전통적으로 스테인리스강 내식성을 해친다고 알려졌으나, 이 발견은 ~720mV에서 망간층이 2차 보호막 형성하는 '반직관적' 메커니즘을 밝혀냄",
+            "고가의 티타늄 부품(금/백금 코팅)을 SS-H2로 대체 시 10MW PEM 전기분해 탱크 구조재료 비용을 약 40배 감소 가능"
+          ],
+          "whyItMatters": "개발자는 에너지 인프라 및 해양 환경 응용 분야의 재료 과학 혁신을 이해하고, 녹색 수소 시스템 설계에 활용할 수 있다.",
+          "url": "https://www.sciencedaily.com/releases/2026/05/260510030950.htm",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 284,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "new-stainless-steel-can-survive-conditions-for-hydrogen-production-in-seawater",
+          "fullContent": "“Cannot be explained” – New ultra stainless steel stuns researchers\nDate:\nMay 10, 2026\nSource:\nThe University of Hong Kong\nSummary:\nA team at the University of Hong Kong has developed a new “super steel” that can survive the harsh conditions needed to make green hydrogen from seawater. The material uses an unexpected double-protection mechanism that resists corrosion far better than conventional stainless steel. Even more impressive, it could replace costly titanium parts used in today’s hydrogen systems.\nShare:\nFacebook\nTwitter\nPinterest\nLinkedIN\nEmail\nFULL STORY\nThe novel stainless steel for hydrogen developed by the team. Credit: The University of Hong Kong\nA stainless steel breakthrough from the University of Hong Kong (HKU) could help solve one of the biggest problems facing green hydrogen: how to build electrolyzers that are tough enough for seawater, yet cheap enough for large scale clean energy.\nLed by Professor Mingxin Huang in HKU's Department of Mechanical Engineering, the team developed a special stainless steel for hydrogen production (SS-H2). The material resists corrosion under conditions that normally push stainless steel past its limits, making it a promising candidate for producing hydrogen from seawater and other harsh electrolyzer environments.\nThe discovery, reported in Materials Today in the study \"A sequential dual-passivation strategy for designing stainless steel used above water oxidation,\" builds on Huang's long running \"Super Steel\" Project. The same research program previously produced anti-COVID-19 stainless steel in 2021, along with ultra strong and ultra tough Super Steel in 2017 and 2020.\nA Cheaper Path Toward Green Hydrogen\nGreen hydrogen is made by using electricity, ideally from renewable sources, to split water into hydrogen and oxygen. Seawater is an especially tempting feedstock because it is abundant, but it brings a serious materials problem: salt, chloride ions, side reactions, and corrosion can quickly damage electrolyzer components.\nRecent reviews of direct seawater electrolysis continue to highlight the same core challenge. The technology could provide a more sustainable route to hydrogen, but corrosion, chlorine related side reactions, catalyst degradation, precipitates, and limited long term durability remain major obstacles to commercial use.\nThat is where SS-H2 could matter. In a salt water electrolyzer, the HKU team found that the new steel can perform comparably to the titanium based structural materials used in current industrial practice for hydrogen production from desalted seawater or acid. The difference is cost. Titanium parts coated with precious metals such as gold or platinum are expensive, while stainless steel is far more economical.\nFor a 10 megawatt PEM electrolysis tank system, the total cost at the time of the HKU report was estimated at about HK$17.8 million, with structural components making up as much as 53% of that expense. According to the team's estimate, replacing those costly structural materials with SS-H2 could reduce the cost of structural material by about 40 times.\nWhy Ordinary Stainless Steel Fails\nStainless steel has been used for more than a century in corrosive environments because it protects itself. The key ingredient is chromium. When chromium (Cr) oxidizes, it creates a thin passive film that shields the steel from damage.\nBut that familiar protection system has a built in ceiling. In conventional stainless steel, the chromium based protective layer can break down at high electrical potentials. Stable Cr2O3 can be further oxidized into soluble Cr(VI) species, causing transpassive corrosion at around ~1000 mV (saturated calomel electrode, SCE). That is well below the ~1600 mV needed for water oxidation.\nEven 254SMO super stainless steel, a benchmark chromium based alloy known for strong pitting resistance in seawater, runs into this high voltage limit. It may perform well in ordinary marine settings, but the extreme electrochemical environment of hydrogen production is a different challenge.\nThe Steel That Builds a Second Shield\nThe HKU team's answer was a strategy called \"sequential dual-passivation.\" Instead of relying only on the usual chromium oxide barrier, SS-H2 forms a second protective layer.\nThe first layer is the familiar Cr2O3 based passive film. Then, at around ~720 mV, a manganese based layer forms on top of the chromium based layer. This second shield helps protect the steel in chloride containing environments up to an ultra high potential of 1700 mV.\nThat is what makes the finding so striking. Manganese is usually not viewed as a friend of stainless steel corrosion resistance. In fact, the prevailing view has been that manganese weakens it.\n\"Initially, we did not believe it because the prevailing view is that Mn impairs the corrosion resistance of stainless steel. Mn-based passivation is a counter-intuitive discovery, which cannot be explained by current knowledge in corrosion science. However, when numerous",
+          "category": "insight",
+          "publishedAt": "2026-05-11T01:05:59.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Partial Page Caching Using React Server Components",
+          "titleKo": "React Server Components를 사용한 부분 페이지 캐싱",
+          "summary": "React Server Components를 활용하여 웹 애플리케이션의 페이지 캐싱 최적화 방법을 다룹니다.",
+          "keyPoints": [
+            "React Server Components의 캐싱 메커니즘 활용법 소개"
+          ],
+          "whyItMatters": "React 개발자가 서버 사이드 캐싱을 효과적으로 구현하여 애플리케이션 성능을 개선할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=t9xB8xvySyo",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "partial-page-caching-using-react-server-components",
+          "category": "video",
+          "publishedAt": "2026-04-27T14:09:16+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "5 Ways To SSR/RSC on TanStack Start",
+          "titleKo": "TanStack Start에서 SSR/RSC를 구현하는 5가지 방법",
+          "summary": "TanStack Start 프레임워크에서 Server-Side Rendering(SSR)과 React Server Components(RSC)를 구현하는 여러 방식을 소개합니다.",
+          "keyPoints": [
+            "TanStack Start에서 지원하는 다양한 SSR/RSC 패턴 제시",
+            "서버 렌더링과 클라이언트 렌더링의 최적 조합 방법 설명"
+          ],
+          "whyItMatters": "최신 풀스택 프레임워크에서 성능 최적화와 사용자 경험 개선을 위한 렌더링 전략을 이해할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=PX3QlADinIE",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "5-ways-to-ssrrsc-on-tanstack-start",
+          "category": "video",
+          "publishedAt": "2026-04-20T15:23:38+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Build bulletproof color systems",
+          "titleKo": "견고한 색상 시스템 구축하기",
+          "summary": "디자인 시스템에서 일관성 있고 유지보수하기 쉬운 색상 시스템을 구축하는 방법을 다룹니다.",
+          "keyPoints": [
+            "색상 시스템의 구조화 및 관리 전략 설명"
+          ],
+          "whyItMatters": "개발자와 디자이너가 확장 가능하고 일관된 색상 관리 체계를 구현할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=JEJbSGtZxOw",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "build-bulletproof-color-systems",
+          "category": "video",
+          "publishedAt": "2026-05-13T13:00:38+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Anthropic's &quot;dedicated monthly credit&quot; is actually a huge cut",
+          "titleKo": "Anthropic의 '월정액 크레딧'은 사실 대폭 인하다",
+          "summary": "Anthropic의 새로운 월정액 크레딧 정책이 실제로는 사용자에게 불리한 가격 인상이라는 분석 영상입니다.",
+          "keyPoints": [
+            "명시적 크레딧 정책 변경이 실질적 비용 증가로 작용",
+            "API 사용 모델의 숨은 비용 구조 분석"
+          ],
+          "whyItMatters": "Claude API 사용자는 정가 정책을 명확히 이해하고 실제 비용을 계산해야 합니다.",
+          "url": "https://www.youtube.com/watch?v=lNOQaakmyDU",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "anthropic-news",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "anthropics-quotdedicated-monthly-creditquot-is-actually-a-huge-cut",
+          "category": "video",
+          "publishedAt": "2026-05-13T20:12:51+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "New Skills! /handoff, /prototype, /review and /writing-* | Skills Changelog",
+          "titleKo": "새로운 스킬 추가! /handoff, /prototype, /review, /writing-* | 스킬 변경로그",
+          "summary": "/handoff, /prototype, /review, /writing-* 등 새로운 명령어 스킬이 추가되었습니다.",
+          "keyPoints": [
+            "업무 인수인계(/handoff), 프로토타입 생성(/prototype), 코드 리뷰(/review), 작성 보조(/writing-*) 기능 추가",
+            "AI 어시스턴트의 개발자 워크플로우 지원 범위 확대"
+          ],
+          "whyItMatters": "개발 프로세스의 여러 단계에서 AI 도움을 받을 수 있어 생산성이 향상됩니다.",
+          "url": "https://www.youtube.com/watch?v=DNqsMXH6Eog",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "new-skills-handoff-prototype-review-and-writing-skills-changelog",
+          "category": "video",
+          "publishedAt": "2026-05-12T09:56:10+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Anthropic finally responds...",
+          "titleKo": "Anthropic 드디어 응답하다",
+          "summary": "Anthropic의 중요한 발표나 대응 내용을 다룬 영상입니다.",
+          "keyPoints": [
+            "Anthropic의 주요 성명 또는 기술 발표 포함"
+          ],
+          "whyItMatters": "AI 모델 개발사의 공식 입장을 통해 최신 AI 트렌드를 파악할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=3vJ7vDkQLQo",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "anthropic-news",
+          "isTopicPrimary": true,
+          "relatedCount": 2,
+          "slug": "anthropic-finally-responds",
+          "category": "video",
+          "publishedAt": "2026-05-13T21:35:47+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Stop letting your agents write Markdown.",
+          "titleKo": "에이전트가 Markdown을 작성하도록 하지 마세요",
+          "summary": "영상 콘텐츠로 제목만 제공되어 상세 내용을 분석할 수 없다.",
+          "keyPoints": [
+            "제목으로 보아 AI 에이전트가 Markdown 형식으로 출력하도록 하는 것의 문제점에 대한 콘텐츠로 추정"
+          ],
+          "whyItMatters": "AI 에이전트의 출력 형식 설계에 관한 실용적 조언을 제공할 것으로 예상된다.",
+          "url": "https://www.youtube.com/watch?v=S9EGx6ik-18",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "stop-letting-your-agents-write-markdown",
+          "category": "video",
+          "publishedAt": "2026-05-13T06:46:31+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Anthropic just…wait what",
+          "titleKo": "Anthropic의 최신 발표",
+          "summary": "동영상 링크로만 제공되어 정확한 내용 파악이 어렵습니다.",
+          "keyPoints": [
+            "구체적인 내용 정보 부족"
+          ],
+          "whyItMatters": "제목만으로는 개발자에게 미치는 영향을 판단할 수 없습니다.",
+          "url": "https://www.youtube.com/watch?v=3pkz-Ie_k_c",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "anthropic-news",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "anthropic-justwait-what",
+          "category": "video",
+          "publishedAt": "2026-05-07T09:08:36+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Every operating system concept in one video…",
+          "titleKo": "한 개의 동영상으로 모든 운영체제 개념 설명",
+          "summary": "동영상 링크로만 제공되어 정확한 내용 파악이 어렵습니다.",
+          "keyPoints": [
+            "구체적인 내용 정보 부족"
+          ],
+          "whyItMatters": "제목만으로는 개발자에게 미치는 영향을 판단할 수 없습니다.",
+          "url": "https://www.youtube.com/watch?v=MtxP2pyCvYA",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "every-operating-system-concept-in-one-video",
+          "category": "video",
+          "publishedAt": "2026-05-07T17:32:34+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I wish this was clickbait",
+          "titleKo": "이게 클릭베이트였으면 좋겠다",
+          "summary": "YouTube 비디오 콘텐츠입니다.",
+          "keyPoints": [
+            "제목만으로는 구체적 내용 파악 어려움"
+          ],
+          "url": "https://www.youtube.com/watch?v=gILMoijqeGA",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-wish-this-was-clickbait",
+          "category": "video",
+          "publishedAt": "2026-05-12T10:52:14+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "We all fell for it…",
+          "titleKo": "우리 모두 속아 넘어갔다…",
+          "summary": "YouTube 비디오 콘텐츠입니다.",
+          "keyPoints": [
+            "제목만으로는 구체적 내용 파악 어려움"
+          ],
+          "url": "https://www.youtube.com/watch?v=lNVa33qUzZ8",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "we-all-fell-for-it",
+          "category": "video",
+          "publishedAt": "2026-05-11T06:45:20+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
