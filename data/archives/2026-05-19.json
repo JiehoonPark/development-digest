@@ -1,0 +1,908 @@
+{
+  "date": "2026-05-19",
+  "intro": "안녕하세요! 오늘은 Google의 Gemini 3.5 Flash 출시와 AI 에이전트 기술의 급속한 발전이 주목받는 날입니다. OpenAI와 Apple도 AI 기능을 대폭 강화하면서 전 업계가 생성형 AI 통합에 집중하고 있으며, 동시에 AI 콘텐츠 검증 기술(SynthID)이 표준으로 자리 잡고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Gemini 3.5 Flash",
+          "titleKo": "Gemini 3.5: 행동 기능을 갖춘 최첨단 인공지능",
+          "summary": "Google이 Gemini 3.5 모델 시리즈를 발표했으며, 먼저 Gemini 3.5 Flash를 공개했다. 3.5 Flash는 에이전트 작업과 코딩에 최적화되어 있으며, Terminal-Bench 2.1에서 76.2%, GDPval-AA에서 1656 Elo, MCP Atlas에서 83.6%의 성능을 기록하며 Gemini 3.1 Pro를 능가한다. 출력 토큰/초 기준으로 다른 최첨단 모델보다 4배 빠르면서도 최고 성능을 유지하며, 개발자와 엔터프라이즈 고객을 위해 이미 출시되었고, 3.5 Pro는 내달 출시될 예정이다. Google Antigravity 플랫폼을 통해 다중 에이전트 워크플로우를 지원하여 복잡한 장기 작업을 기존 대비 절반 이하의 비용으로 완료할 수 있다.",
+          "keyPoints": [
+            "성능 벤치마크: Terminal-Bench 2.1 76.2%, GDPval-AA 1656 Elo, MCP Atlas 83.6%로 기존 Gemini 3.1 Pro를 능가하며, CharXiv Reasoning에서 84.2%의 멀티모달 이해도를 달성했다.",
+            "속도 최적화: 다른 최첨단 모델 대비 출력 토큰/초 기준 4배 빠른 속도로, Artificial Analysis 지수의 우상향 사분면에 위치하여 성능과 지연 시간의 최적 균형을 제공한다.",
+            "에이전트 능력: Antigravity 플랫폼과 함께 사용하면 다중 단계 워크플로우를 안정적으로 실행하고 복수의 서브에이전트를 병렬로 배포하여 장시간 작업을 감독 하에 수행할 수 있다.",
+            "실제 사용 사례: Shopify는 전역 규모의 판매자 성장 예측에 병렬 서브에이전트를 사용하고, Macquarie Bank는 100페이지 이상의 복잡한 문서 분석으로 고객 온보딩을 가속화하며, Salesforce는 Agentforce에 통합하여 복잡한 엔터프라이즈 작업을 자동화한다.",
+            "비용 효율성: 개발자가 며칠 걸리거나 감사자가 수주 소요하던 작업을 단편의 시간에 완료할 수 있으며, 다른 최첨단 모델의 절반 이하 비용으로 운영 가능하다.",
+            "멀티모달 및 UI 생성: Gemini 3 기반의 강력한 멀티모달 능력을 바탕으로 더 풍부하고 인터랙티브한 웹 UI와 그래픽을 생성하며, AI Studio에서 60초 내에 여러 UX 접근 방식을 생성할 수 있다.",
+            "배포 가능성: Gemini 앱, Google Search의 AI Mode, Gemini API, Google Android Studio, 엔터프라이즈 플랫폼 등 다양한 채널을 통해 수십억 명의 사용자에게 제공되고 있다."
+          ],
+          "whyItMatters": "3.5 Flash는 기존 대비 4배 빠른 속도로 최첨단 성능을 유지하면서 에이전트 기반 워크플로우를 프로덕션 규모로 실행할 수 있게 해주므로, 개발자와 엔터프라이즈가 복잡한 자동화 작업을 비용 효율적으로 구현할 수 있는 실용적인 선택지가 된다.",
+          "url": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-3-5/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 463,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "gemini-releases",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "gemini-35-flash",
+          "fullContent": "Gemini 3.5: frontier intelligence with action\nMay 19, 2026\n·\nGemini 3.5 is built to help you execute complex, agentic workflows.\nKoray Kavukcuoglu\nCTO, Google DeepMind and Chief AI Architect, Google\nJeff Dean\nChief Scientist, Google DeepMind and Google Research\nOriol Vinyals\nVice President, Google DeepMind\nNoam Shazeer\nVice President, Google DeepMind\nToday, we’re introducing Gemini 3.5, our latest family of models combining frontier intelligence with action. This represents a major leap forward in building more capable, intelligent agents. We’re kicking off the series by releasing 3.5 Flash. It delivers frontier performance for agents and coding, excelling at complex long-horizon tasks that deliver real-world utility.3.5 Flash is available today to billions of people globally:For everyone via the Gemini app and AI Mode in Google SearchFor developers in our agent-first development platform Google Antigravity and Gemini API in Google AI Studio and Android StudioFor enterprises in Gemini Enterprise Agent Platform and Gemini Enterprise.We’re also hard at work on 3.5 Pro. It's already being used internally, and we look forward to rolling it out next month.\n3.5 Flash: frontier performance for agents and codingGemini 3.5 Flash delivers intelligence that rivals large flagship models on multiple dimensions, at the speeds you have come to expect from the Flash series. It’s our strongest agentic and coding model yet, outperforming Gemini 3.1 Pro on challenging coding and agentic benchmarks like Terminal-Bench 2.1 (76.2%), GDPval-AA (1656 Elo) and MCP Atlas (83.6%), and leading in multimodal understanding (84.2% on CharXiv Reasoning). When looking at output tokens per second, it is 4 times faster than other frontier models.\nLanding in the top-right quadrant of the Artificial Analysis index, 3.5 Flash delivers frontier-level intelligence at exceptional speed — proving you no longer have to trade quality for latency.\n3.5 Flash: agentic tasks at scaleThis balance of speed and performance makes 3.5 Flash ideal for tackling long-horizon agentic tasks. What used to take a developer days or an auditor weeks, 3.5 Flash can now help complete in a fraction of the time, often at less than half the cost of other frontier models. It rapidly plans, builds and iterates to solve real-world problems, whether it’s developing new applications, maintaining codebases or helping to prepare financial documents.When coupled with the updated Antigravity harness, 3.5 Flash becomes a powerful engine for deploying collaborative subagents to tackle problems at scale for the most demanding use cases. Under supervision, it can reliably execute multi-step workflows and coding tasks while sustaining frontier performance.\nPowered by Antigravity, 3.5 Flash executes multi-step workflows to automatically rename and categorize unstructured assets based on dynamic criteria.\nLeveraging Antigravity, 3.5 Flash uses two agents to synthesize the AlphaZero paper and code a fully playable game in six hours.\n3.5 Flash uses the Antigravity harness to transform a messy legacy codebase to Next.js.\n3.5 Flash uses subagents to create new city landscapes in Antigravity.\n3.5 Flash uses two agents: a builder and a player, working in a rapid self-improvement loop to develop a game in Antigravity.\nBuilding on the strong multimodal foundation of Gemini 3, 3.5 Flash generates richer, more interactive web UIs and graphics.\n3.5 Flash creates interactive animations for a research paper on AI Studio.\n3.5 Flash turns a plain text description into interactive hardware on AI Studio.\n3.5 Flash executes multiple concepts in parallel to build a full branding concept for a school fundraiser on AI Studio.\n3.5 Flash generates different UX approaches for a checkout flow in just 60 seconds on AI Studio.\n3.5 Flash: real-world impact3.5 Flash’s real-world agentic capabilities are already driving meaningful progress for our developers and enterprises alike. In developing the 3.5 model series, we worked closely with industry partners to understand where toil and complexity arose in their workflows. Partners are seeing meaningful impact — from banks and fintechs automating multi-week workflows to data science teams unearthing insights amidst complex data environments.\nShopify is running subagents in parallel to analyze complex data over a long horizon for more accurate merchant growth forecasts at a global scale.\nMacquarie Bank is piloting how 3.5 Flash can accelerate customer onboarding by reasoning over complex 100+ page documents, retrieving relevant information and making reliable recommendations with low latency.\nSalesforce is integrating 3.5 Flash into Agentforce to reliably automate complicated enterprise tasks by deploying multiple subagents that retain context and execute complex, multi-turn tool calling.\n3.5 Flash is helping Ramp enable smarter, more reliable OCR through multimodal understanding of complex invoices combined with reasoning over historical patterns.\nXero is deploying agen",
+          "category": "hot",
+          "publishedAt": "2026-05-19T17:43:45.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Gemini Omni",
+          "titleKo": "Gemini Omni",
+          "summary": "Gemini Omni는 Google의 멀티모달 AI 모델로, 안전성 및 성능 평가를 위한 자동화 및 인적 빨강팀(Red teaming) 프로세스를 거친다. Gemini 앱, Google Flow, YouTube에서 생성되거나 편집된 콘텐츠에는 SynthID 디지털 워터마크와 C2PA 콘텐츠 자격증이 자동으로 포함되어 콘텐츠 출처 검증이 가능하다.",
+          "keyPoints": [
+            "안전성 평가: 모델 개발팀 외부의 전문 인적 빨강팀이 정책과 안전 요구사항을 의도적으로 위반하려 시도하고, 자동화된 빨강팀이 대규모로 안전성 및 보안을 동적으로 평가한다.",
+            "콘텐츠 투명성: Gemini 앱, Google Flow, YouTube에서 생성되거나 편집된 모든 콘텐츠에 SynthID 디지털 워터마크와 C2PA 콘텐츠 자격증이 포함되어, 사용자가 Gemini 앱을 통해 쉽게 검증할 수 있다.",
+            "다양한 인터페이스: Gemini 크리에이티브 스튜디오, Google Flow, YouTube Shorts 등 다양한 플랫폼에서 창의성과 생산성을 증강하는 기능을 제공한다."
+          ],
+          "whyItMatters": "AI 생성 콘텐츠의 신뢰성이 중요해지는 상황에서 디지털 워터마크와 검증 시스템을 통해 콘텐츠 출처의 투명성을 보장하고 안전성을 강화할 수 있다.",
+          "url": "https://deepmind.google/models/gemini-omni/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 224,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "gemini-releases",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "gemini-omni",
+          "fullContent": "Creating your promptsUse our prompt guide to create realistic, coherent, and creative output. Learn how to prompt Training/development evaluations including automated and human evaluations carried out continuously throughout and after the model’s training, to monitor its progress and performanceHuman red teaming conducted by specialist teams who sit outside of the model development team, across the policies and desiderata, deliberately trying to spot weaknesses and ensure the model adheres to safety policies and desired outcomesAutomated red teaming to dynamically evaluate Gemini Omni Flash for safety and security considerations at scale, complementing human red teaming and static evaluationsEthics and safety reviews conducted ahead of the model’s releaseContent created or edited with Omni in the Gemini app, Google Flow or YouTube includes our imperceptible SynthID digital watermark and C2PA Content Credentials. You can easily verify content through the Gemini app and coming soon to Chrome and Search. You can find out more about how we're expanding our content transparency and verification tools to help you understand how content was created and edited across the web in our blog post. GeminiSupercharge your creativity and productivity Try in Gemini Google FlowAn AI creative studio built with and for creatives Try in Google Flow YouTube ShortsA shorter way to discover, watch, and create on YouTube Try in YouTube Shorts",
+          "category": "hot",
+          "publishedAt": "2026-05-19T17:46:19.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "OpenAI Adopts Google's SynthID Watermark for AI Images with Verification Tool",
+          "titleKo": "OpenAI, Google의 SynthID 워터마크를 AI 이미지에 적용하고 검증 도구 출시",
+          "summary": "OpenAI가 Google의 SynthID 기술을 도입하여 AI 생성 이미지에 워터마크를 적용하고 검증 도구를 제공한다.",
+          "keyPoints": [
+            "AI 생성 콘텐츠의 출처 증명 및 위변조 방지를 위한 기술 표준화",
+            "Google과 OpenAI의 협력을 통한 AI 콘텐츠 신뢰성 강화"
+          ],
+          "whyItMatters": "AI 이미지 생성 도구 개발 시 콘텐츠 진위성 검증 기능이 필수 요소가 될 것으로 예상된다.",
+          "url": "https://openai.com/index/advancing-content-provenance/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 136,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "topicId": "ai-watermarking",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "openai-adopts-googles-synthid-watermark-for-ai-images-with-verification-tool",
+          "category": "hot",
+          "publishedAt": "2026-05-19T19:34:30.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Google changes its search box",
+          "titleKo": "Google, 검색 상자 변경",
+          "summary": "Google은 25년 만에 검색 상자를 AI 기반으로 완전히 재설계했습니다. Gemini 3.5 Flash를 기본 모델로 하여 AI Mode 사용자가 10억 명을 초과했으며, 정보 에이전트, 예약 기능, 코딩 능력 등 새로운 AI 기반 기능을 추가했습니다.",
+          "keyPoints": [
+            "AI Mode 사용자가 1년 내 10억 명 돌파, 분기별 검색량 2배 이상 증가로 AI 검색 수요 확대 입증",
+            "새로운 지능형 검색 상자는 동적 확장, AI 기반 제안, 멀티모달 입력(텍스트, 이미지, 파일, 영상)을 지원하고 후속 질문 연속성 제공",
+            "정보 에이전트(여름 출시), 예약 기능 확대(미국 여름), 코딩 에이전트로 사용자가 자동화된 정보 모니터링 및 맞춤형 UI 생성 가능"
+          ],
+          "whyItMatters": "개발자는 검색의 AI 중심 미래와 에이전트 기반 상호작용 패턴을 이해하고 이에 맞춘 애플리케이션 설계가 필요합니다.",
+          "url": "https://blog.google/products-and-platforms/products/search/search-io-2026/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 298,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "google-changes-its-search-box",
+          "fullContent": "A new era for AI Search\nMay 19, 2026\n·\nWe’re bringing our advanced model capabilities to Search with new AI features, enabling you to use agents just by asking a question. We’re also introducing a new, intelligent AI-powered Search box, marking its biggest upgrade in over 25 years.\nElizabeth Reid\nVP, Search\nThe goal of Search has always been simple: to help you ask anything on your mind — from quick facts to the deep, complex or hyper-specific questions that can be hard to articulate.To make this possible, we’ve continued to reimagine what Search can do with AI. The momentum has been incredible: Just one year after its debut, AI Mode has surpassed one billion monthly users, with queries more than doubling every quarter since launch. As people have realized just how much more Search can do for them, they’re searching more than ever before — so much so that last quarter, we saw queries reach an all-time high.Today at I/O, we shared the next step in our journey to bring together the best of a search engine with the best of AI. Here's a look at what we announced.\nPowerful AI, right in SearchStarting today, we’re upgrading Search with Gemini 3.5 Flash — our newest Flash model delivering sustained frontier performance for agents and coding — as the new default model in AI Mode for everyone globally.Because your curiosity doesn’t always fit into keywords, we’re also introducing the biggest upgrade to our Search box in over 25 years — now completely reimagined with AI. This intelligent Search box puts our most powerful AI tools right at your fingertips, making it easier to ask your questions.\nIt’s more intuitive than ever, dynamically expanding to give you space to describe exactly what you need. Designed to anticipate your intent, it also helps you formulate your question with AI-powered suggestions that go beyond autocomplete. And you can search across modalities, using text, images, files, videos or Chrome tabs as inputs. You’ll continue to get a range of results from Search, just like you do today. The new intelligent Search box is starting to roll out today, in all countries and languages where AI Mode is available.We’re also making it even simpler to continue the conversation with Search. You can easily ask a follow-up question right from an AI Overview, and flow into a conversational back and forth with AI Mode. Your context stays with you, and as you explore more deeply, the links and supporting articles get even more relevant. This seamless experience is live today across desktop and mobile, worldwide.\nSearch agentsWe’re entering the era of Search agents, where you can easily create, customize and manage multiple AI agents for your many tasks, right in Search. We’re starting with information agents. Operating in the background, 24/7, these agents intelligently reason across information to find exactly what you need at exactly the right moment.With information agents, you can stay updated on whatever matters most to you. Your agent will intelligently look across everything on the web, like blogs, news sites and social posts, plus our freshest data, such as real-time info on finance, shopping and sports, to monitor for changes related to your specific question.It will send you an intelligent, synthesized update, with the ability to take action. So if you’re apartment hunting, you can brain dump all of the exact requirements you’re looking for, and your agent will continuously scan for you, notifying you when listings meet your needs. Or if you want to know the instant any of your favorite pro athletes announce a sneaker collab, your agent will let you know when a new drop lands so you don’t miss out. Information agents will launch first for Google AI Pro & Ultra subscribers this summer.\nWe’re also expanding agentic booking capabilities in Search to a wide range of new tasks, including local experiences and services. Just share your specific criteria — like finding a private karaoke room for six on a Friday night that serves food late — and Search brings together the latest pricing and availability with direct links to finish booking through the provider of your choice. And for select categories like home repair, beauty or pet care, you can ask Google to call businesses on your behalf. These capabilities will roll out to everyone in the U.S. this summer.\nWe're also introducing new agentic capabilities to help you shop in Search. Read more in our Shopping blog post.\nAgentic coding in SearchWe’re bringing the power of Google Antigravity and the agentic coding capabilities of Gemini 3.5 Flash right into Search. Search can build the ideal response, in the right format for your question — completely on the fly. So you can get custom generative UI, including visual tools and simulations, tailored precisely to your needs.Whether you want to wrap your mind around astrophysics or visualize how your watch works, Search can design custom layouts, assembling components (like interactive visuals, tables, graphs or simulat",
+          "category": "hot",
+          "publishedAt": "2026-05-19T18:34:27.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Apple unveils new accessibility features",
+          "titleKo": "Apple, Apple Intelligence 기반 새로운 접근성 기능 공개",
+          "summary": "Apple이 Apple Intelligence를 활용해 VoiceOver, Magnifier, Voice Control 등의 접근성 기능을 강화하고 자동 자막 생성, Apple Vision Pro의 휠체어 제어 기능을 추가한다고 발표했다. 모든 업데이트는 개인정보 보호를 중심으로 설계되었다.",
+          "keyPoints": [
+            "VoiceOver의 Image Explorer가 Apple Intelligence로 사진, 청구서, 개인 기록 등의 상세한 설명을 제공하고, Live Recognition으로 실시간 질문이 가능해진다.",
+            "Voice Control이 자연어를 지원하여 '최고의 음식점 가이드 탭' 같은 직관적인 명령으로 앱을 제어할 수 있게 된다.",
+            "Accessibility Reader가 복잡한 다단 구조의 과학 논문을 처리하고, 내장 번역으로 사용자의 모국어 읽기를 지원한다."
+          ],
+          "whyItMatters": "접근성 기능이 AI로 더욱 강화되므로 개발자는 접근성 표준 준수와 라벨 지정의 중요성을 더욱 인식하고 대비해야 한다.",
+          "url": "https://www.apple.com/newsroom/2026/05/apple-unveils-new-accessibility-features-and-updates-with-apple-intelligence/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 561,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "apple-unveils-new-accessibility-features",
+          "fullContent": "PRESS RELEASE\nMay 19, 2026\nApple unveils new accessibility features, and updates powered by Apple Intelligence\nWith Apple Intelligence, detailed descriptions and natural language navigation are coming to features such as VoiceOver, Magnifier, Voice Control, and Accessibility ReaderApple also announced new features for controlling power wheelchairs with Apple Vision Pro and generating subtitles across the Apple ecosystem, all coming later this year\nNow with Apple Intelligence, VoiceOver is more powerful than ever in helping users who are blind or have low vision explore their surroundings and onscreen images.\nCUPERTINO, CALIFORNIA Apple today previewed a suite of accessibility updates that use Apple Intelligence to bring new capabilities to features users rely on every day, including VoiceOver, Magnifier, Voice Control, and Accessibility Reader.1 Apple also announced on-device generated subtitles for uncaptioned video content coming to the Apple ecosystem, as well as a new feature for Apple Vision Pro users to control compatible wheelchairs with their eyes. These new features, as well as updates using Apple Intelligence, are coming later this year. And starting today, the Hikawa Grip & Stand for iPhone — an adaptive MagSafe accessory designed with accessibility at the core — is available in three vibrant new colors on the Apple Store online.\n“Apple’s approach to accessibility is unlike any other,” said Tim Cook, Apple’s CEO. “Now, with Apple Intelligence, we are bringing powerful new capabilities into our accessibility features while maintaining our foundational commitment to privacy by design.”\n“The accessibility features our users rely on every day become even more powerful with Apple Intelligence,” said Sarah Herrlinger, Apple’s senior director of Global Accessibility Policy and Initiatives. “With these updates, we’re bringing new, intuitive options for input, exploration, and personalization — designed to protect users’ privacy at every step.”\nVoiceOver and Magnifier Can Explore More\nFor users who are blind or have low vision, VoiceOver and Magnifier can describe onscreen information or a user’s surroundings.2 With Apple Intelligence, these essential tools become even more powerful. The Image Explorer in VoiceOver uses Apple Intelligence to give more detailed descriptions of images systemwide, including what’s in photographs, scanned bills, personal records, and other visual content. With updates to Live Recognition, VoiceOver users can press the Action button on iPhone to quickly ask a question about what’s in the camera viewfinder and get a detailed response. Users can also ask follow-up questions in their own words to get more visual information.\nMagnifier uses Apple Intelligence to bring the same assistive exploration and visual description to a high-contrast interface designed for users who have low vision. Magnifier also works with the Action button so users can quickly ask questions and get answers. And users can control the app itself with spoken requests, such as “zoom in” or “turn on flashlight.”\nApple Intelligence-powered updates to Magnifier bring the same assistive exploration and visual description to a high-contrast interface designed for users who have low vision.\nVoice Control Gets Natural Language\nWith Apple Intelligence, Voice Control becomes more intuitive than ever, using natural language to help users with a range of physical disabilities navigate iPhone and iPad entirely by voice. With a new flexible input, users can describe onscreen buttons and controls with natural language instead of memorizing exact labels or numbers. The option to “say what you see” is great for navigating any app, including those with visual layouts such as Apple Maps or Files, using intuitive language like “tap the guide about best restaurants” or “tap the purple folder.” This can also help users overcome barriers when elements aren’t properly labeled for accessibility.3\nWith Apple Intelligence, Voice Control becomes more intuitive than ever, using natural language to help users navigate apps and experiences.\nAccessibility Reader Adapts Even More\nAccessibility Reader is a customized reading experience for users with a wide range of disabilities, from dyslexia to low vision, and with Apple Intelligence, the reading experience is more accessible than ever. Accessibility Reader works on more complex source material like scientific articles, handling text with multiple columns, images, and tables. On-demand summaries provide readers the option to get an overview of the article before diving into the details. And with new built-in translation, users can read text in their native language while retaining custom formatting, font, and colors.\nGenerated Subtitles for Video\nWhile captioning solutions are increasingly common for users who are deaf or hard of hearing, subtitles for spoken dialogue are rarely available for personal videos, content shared by friends and family, and other media. With new generated subtitl",
+          "category": "hot",
+          "publishedAt": "2026-05-19T12:04:18.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Mistral AI Acquires Emmi AI to Create the Leading AI Stack",
+          "titleKo": "Mistral AI, 산업용 엔지니어링 AI 스택 구축을 위해 Emmi AI 인수",
+          "summary": "유럽 AI 리더 Mistral AI가 오스트리아의 Emmi AI를 인수하여 산업 엔지니어링 분야의 통합 AI 스택을 구축한다. Emmi AI는 에너지, 자동차, 반도체, 항공우주 등 산업 분야의 물리 시뮬레이션을 획기적으로 가속화하는 물리 AI 모델을 개발해왔다. 인수 완료 시점인 2026년 5월, Emmi의 30명 이상 연구원과 엔지니어 팀이 Mistral의 과학 및 응용 AI 팀에 합류하며, 린츠는 Mistral의 공식 사무소가 된다.",
+          "keyPoints": [
+            "물리 AI 모델 통합: Emmi AI의 CFD(전산유체역학), 입사 성형 시뮬레이션, 자동차 안전 테스트 등 물리 기반 모델을 Mistral 플랫폼에 통합하여 산업 R&D 혁신. AB-UPT 아키텍처로 1억 개 이상의 메시 셀 규모로 확장 가능하고, NeuralDEM을 오픈소스로 공개하여 입자 흐름 시뮬레이션 실시간 처리.",
+            "유럽 산업 AI 전략: Mistral AI가 파리, 런던, 암스테르담, 뮌헨, 샌프란시스코, 싱가포르에 이어 린츠를 공식 사무소로 확대하며 유럽 산업 AI 인재와 연구에 투자. 이는 유럽의 산업 AI 야망을 강화하는 전략적 인수.",
+            "디지털 트윈과 실시간 시뮬레이션: 물리 AI를 통해 항공기, 차량, 반도체 설계 및 제조 과정의 수십 년간 진전이 더딘 기술 장벽을 돌파. 복잡한 엔지니어링 문제 해결과 고부가 가치 혁신 가속화.",
+            "인수 규모와 펀딩: Emmi AI는 2025년 4월 3VC, Speedinvest, Serena, PUSH로부터 1,500만 유로를 조달하여 오스트리아 스타트업 최대 시드 라운드 기록. 이후 인수로 완전 자동화된 산업 시뮬레이션 플랫폼 구축.",
+            "기술 성과: Emmi AI의 논문과 오픈소스 공개(AB-UPT, NeuralDEM)로 신경 대리(neural surrogate) 기술 발전을 선도하며, 산업용 CFD-DEM 멀티피직스 시뮬레이션의 딥러닝 대체 방안 제시."
+          ],
+          "whyItMatters": "산업 엔지니어링의 복잡한 물리 시뮬레이션을 AI로 가속화함으로써 항공우주, 자동차, 반도체 등 전략 산업의 개발 주기 단축과 혁신 가속화 가능하며, 유럽이 생성 AI 이후 다음 세대 AI 경쟁력 확보를 위한 중요한 움직임이다.",
+          "url": "https://www.emmi.ai/news/mistral-ai-acquires-emmi-ai",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 137,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "mistral-ai-acquires-emmi-ai-to-create-the-leading-ai-stack",
+          "fullContent": "May 19, 2026Mistral AI Acquires Emmi AI to Create the Leading AI Stack for Industrial EngineeringEuropean AI leader Mistral AI is acquiring Emmi AI in one of Europe’s most important and strategic AI acquisitions to date.Founded in Linz, Emmi AI has quickly emerged as one of Europe’s leading Engineering AI companies, developing Physics AI models for industrial engineering that dramatically accelerate industrial simulation and engineering workflows across sectors like energy, automotive, semiconductors, and aerospace.The acquisition marks a major step in Europe’s industrial AI ambitions. By combining Mistral’s AI platform with Emmi’s deep expertise in engineering and manufacturing, Mistral AI will create the leading AI stack for Industrial Engineering and strengthen its position as the leading AI transformation partner for industrial enterprises.Emmi’s co-founders and its team of more than 30 researchers and engineers, among the leading experts in Engineering AI globally, will join Mistral AI's Science and Applied AI teams in May 2026.With this acquisition, Mistral AI accelerates its investment in Europe, in particular in Austria, Germany and Lithuania where the Emmi team is based. It will further hire locally among the best experts in the field. Importantly for Austria, Linz will become an official Mistral AI office alongside Paris, London, Amsterdam, Munich, San Francisco, and Singapore, deepening investment in European industrial AI talent and research.“This strategic acquisition cements Mistral AI’s leadership in industrial AI and positions us as the partner of choice for manufacturers in high-stakes sectors like aerospace, automotive, or semiconductors. It empowers our customers with a fully integrated platform to solve complex challenges, transform core R&D processes, and accelerate high-value innovation”, said Arthur Mensch, co-founder and CEO, Mistral AI.“This acquisition marks a turning point for industrial innovation. By engineering the first comprehensive AI stack fueled by Physics AI, we are set to deliver real-time simulations and sophisticated digital twins. We aim to break through long-standing technical barriers that have slowed progress for decades, enabling our partners to solve the world’s most daunting engineering challenges”, added Guillaume Lample, co-founder and Chief Science Officer, Mistral AI.Johannes Brandstetter, Emmi AI’s co-founder and Chief Science Officer: “This is a pivotal moment for the future of industrial engineering and the broader AI4Science movement. At Emmi AI, we have dedicated ourselves to solving high-stakes physical challenges, ranging from the real-time stabilization of power grids to the intricate simulation of injection molding and automotive safety testing. By integrating our expertise into Mistral’s world-class AI ecosystem, we are positioned to revolutionize core R&D. Together, we are providing the foundational intelligence required to design and build the next generation of aircraft, vehicles, and semiconductors”.‍‍‍‍Latest updatesView AllView all updatesMay 14, 2025Getting Started with AI Models for Physical SimulationExplore how AI-powered models are transforming physics simulations—from thermodynamics to fluid dynamics—and learn how to get started building or integrating your own models.Read articleMay 14, 2025Getting Started with AI Models for Physical SimulationExplore how AI-powered models are transforming physics simulations—from thermodynamics to fluid dynamics—and learn how to get started building or integrating your own models.Read articleMay 14, 2025Getting Started with AI Models for Physical SimulationExplore how AI-powered models are transforming physics simulations—from thermodynamics to fluid dynamics—and learn how to get started building or integrating your own models.Read articleApril 25, 2025Emmi AI raises EUR 15M to bring AI to the heart of industrial engineeringFunding from 3VC, Speedinvest, Serena, and PUSH marks the largest seed round ever raised by an Austrian startup and accelerates Emmi AI’s vision for AI-enabled engineering.Read articleJune 23, 2025Emmi AI releases AB-UPT: Scaling Neural Surrogates to 100M+ Mesh CellsEmmi AI presents AB-UPT, a novel architecture that scales neural surrogates for computational fluid dynamics (CFD) to industrial-scale problems with over 100 million mesh cells - achieving state of the art accuracy, mesh free inference, and physics consistent predictions. Read articleSeptember 3, 2025NeuralDEM, Now Open Source: Real-Time Deep Learning for Industrial Particulate FlowsNeuralDEM introduced in November 2024 as the first end to end deep learning alternative to CFD–DEM multiphysics simulations, is now open source. The dataset and model enable real-time, physically consistent simulation of industrial particulate flows at production scale.Read articleEmmi AIFrameworkAbout UsResearchContactResourcesNewsCareersPress KitLegalImprintData Protection NoticeSecurity & CompliancePrivacy Policy© 2025 Emmi AI GmbH",
+          "category": "hot",
+          "publishedAt": "2026-05-19T19:14:12.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "I’ve joined Anthropic",
+          "titleKo": "Anthropic 입사 발표",
+          "summary": "유명 AI 연구자 Andrej Karpathy가 Anthropic에 입사했음을 발표한 트윗이다.",
+          "keyPoints": [
+            "주요 AI 인재 이동: 전 Tesla AI 책임자인 Andrej Karpathy가 Anthropic으로 입사하며 업계 주요 인물의 조직 이동."
+          ],
+          "whyItMatters": "Anthropic의 인재 영입으로 회사의 AI 개발 역량 강화를 의미하며, AI 업계의 인재 흐름을 반영한다.",
+          "url": "https://twitter.com/karpathy/status/2056753169888334312",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 1091,
+          "contentType": "discussion",
+          "labels": [
+            "career",
+            "ai"
+          ],
+          "topicId": "karpathy-anthropic",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "ive-joined-anthropic",
+          "category": "hot",
+          "publishedAt": "2026-05-19T15:07:45.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "CISA Admin Leaked AWS GovCloud Keys on GitHub",
+          "titleKo": "CISA 관리자가 GitHub에 AWS GovCloud 키 유출",
+          "summary": "미국 정부 기관 CISA 소속 계약업체 직원이 GitHub 공개 저장소에 AWS GovCloud 관리자 자격증명, 평문 비밀번호, 내부 시스템 정보 등을 노출시켰다. 이는 최근 정부 데이터 유출 사건 중 가장 심각한 사례로, 깃허브 보안 기능을 비활성화한 상태에서 발생했다.",
+          "keyPoints": [
+            "GitHub 시크릿 검출 기능을 명시적으로 비활성화하고 평문 비밀번호와 CSV에 AWS 토큰을 저장하는 등 기본적인 보안 관행 미준수",
+            "노출된 자격증명으로 3개의 AWS GovCloud 계정과 CISA 내부 아티팩토리(소프트웨어 패키지 저장소) 접근 가능하며, 공급망 공격에 악용될 수 있는 심각한 위험"
+          ],
+          "whyItMatters": "개발자와 기관 차원에서 시크릿 관리, CI/CD 보안, 저장소 접근 제어의 중요성을 강조하는 사례로, 보안 감사와 자동화된 시크릿 탐지 도구의 필수성을 입증한다.",
+          "url": "https://krebsonsecurity.com/2026/05/cisa-admin-leaked-aws-govcloud-keys-on-github/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 367,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "cisa-admin-leaked-aws-govcloud-keys-on-github",
+          "fullContent": "Until this past weekend, a contractor for the Cybersecurity & Infrastructure Security Agency (CISA) maintained a public GitHub repository that exposed credentials to several highly privileged AWS GovCloud accounts and a large number of internal CISA systems. Security experts said the public archive included files detailing how CISA builds, tests and deploys software internally, and that it represents one of the most egregious government data leaks in recent history.\nOn May 15, KrebsOnSecurity heard from Guillaume Valadon, a researcher with the security firm GitGuardian. Valadon’s company constantly scans public code repositories at GitHub and elsewhere for exposed secrets, automatically alerting the offending accounts of any apparent sensitive data exposures. Valadon said he reached out because the owner in this case wasn’t responding and the information exposed was highly sensitive.\nA redacted screenshot of the now-defunct “Private CISA” repository maintained by a CISA contractor.\nThe GitHub repository that Valadon flagged was named “Private-CISA,” and it harbored a vast number of internal CISA/DHS credentials and files, including cloud keys, tokens, plaintext passwords, logs and other sensitive CISA assets.\nValadon said the exposed CISA credentials represent a textbook example of poor security hygiene, noting that the commit logs in the offending GitHub account show that the CISA administrator disabled the default setting in GitHub that blocks users from publishing SSH keys or other secrets in public code repositories.\n“Passwords stored in plain text in a csv, backups in git, explicit commands to disable GitHub secrets detection feature,” Valadon wrote in an email. “I honestly believed that it was all fake before analyzing the content deeper. This is indeed the worst leak that I’ve witnessed in my career. It is obviously an individual’s mistake, but I believe that it might reveal internal practices.”\nOne of the exposed files, titled “importantAWStokens,” included the administrative credentials to three Amazon AWS GovCloud servers. Another file exposed in their public GitHub repository — “AWS-Workspace-Firefox-Passwords.csv” — listed plaintext usernames and passwords for dozens of internal CISA systems. According to Caturegli, those systems included one called “LZ-DSO,” which appears short for “Landing Zone DevSecOps,” the agency’s secure code development environment.\nPhilippe Caturegli, founder of the security consultancy Seralys, said he tested the AWS keys only to see whether they were still valid and to determine which internal systems the exposed accounts could access. Caturegli said the GitHub account that exposed the CISA secrets exhibits a pattern consistent with an individual operator using the repository as a working scratchpad or synchronization mechanism rather than a curated project repository.\n“The use of both a CISA-associated email address and a personal email address suggests the repository may have been used across differently configured environments,” Caturegli observed. “The available Git metadata alone does not prove which endpoint or device was used.”\nThe Private CISA GitHub repo exposed dozens of plaintext credentials for important CISA GovCloud resources.\nCaturegli said he validated that the exposed credentials could authenticate to three AWS GovCloud accounts at a high privilege level. He said the archive also includes plain text credentials to CISA’s internal “artifactory” — essentially a repository of all the code packages they are using to build software — and that this would represent a juicy target for malicious attackers looking for ways to maintain a persistent foothold in CISA systems.\n“That would be a prime place to move laterally,” he said. “Backdoor in some software packages, and every time they build something new they deploy your backdoor left and right.”\nIn response to questions, a spokesperson for CISA said the agency is aware of the reported exposure and is continuing to investigate the situation.\n“Currently, there is no indication that any sensitive data was compromised as a result of this incident,” the CISA spokesperson wrote. “While we hold our team members to the highest standards of integrity and operational awareness, we are working to ensure additional safeguards are implemented to prevent future occurrences.”\nA review of the GitHub account and its exposed passwords show the “Private CISA” repository was maintained by an employee of Nightwing, a government contractor based in Dulles, Va. Nightwing declined to comment, directing inquiries to CISA.\nCISA has not responded to questions about the potential duration of the data exposure, but Caturegli said the Private CISA repository was created on November 13, 2025. The contractor’s GitHub account was created back in September 2018.\nThe GitHub account that included the Private CISA repo was taken offline shortly after both KrebsOnSecurity and Seralys notified CISA about the exposure. But Caturegli said the expose",
+          "category": "hot",
+          "publishedAt": "2026-05-19T07:45:53.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Show HN: Forge – Guardrails take an 8B model from 53% to 99% on agentic tasks",
+          "titleKo": "Forge 소개 - 가드레일로 8B 모델의 에이전트 작업 성능을 53%에서 99%로 향상",
+          "summary": "Forge는 자체 호스팅 LLM 도구 호출을 위한 신뢰성 계층으로, 가드레일(구조 파싱 복구, 재시도 유도, 단계 강제)과 맥락 관리(VRAM 인식 예산, 계층화 압축)를 통해 8B 로컬 모델을 다단계 에이전트 워크플로우에서 최상위 클래스로 끌어올린다. 현재 최고 성능 자체 호스팅 구성(Ministral-3 8B Instruct Q8 on llama-server)은 26개 시나리오 평가 스위트에서 86.5%, 가장 어려운 계층에서 76%를 달성한다. WorkflowRunner, 가드레일 미들웨어, OpenAI 호환 프록시 서버 3가지 사용 방식을 제공하며, Ollama, llama-server, Llamafile, Anthropic 백엔드를 지원한다.",
+          "keyPoints": [
+            "성능 향상: 가드레일 적용으로 8B 모델이 53%에서 99% 수준으로 성능 개선되며, Ministral-3 8B Instruct Q8에서 26개 시나리오 평가에서 86.5% 달성. 이는 자체 호스팅 모델로도 프로덕션 수준의 신뢰성을 달성 가능함을 의미한다.",
+            "세 가지 사용 패턴: WorkflowRunner로 도구 정의 후 완전한 에이전트 루프 관리, 자체 오케스트레이션 루프 내에서 가드레일 미들웨어 통합, OpenAI 호환 프록시로 기존 클라이언트(Continue, aider 등)에 투명하게 적용 가능.",
+            "가드레일 메커니즘 3가지: 구조화된 응답 파싱 실패 시 복구(rescue parsing), 모델이 정확한 도구 선택을 못할 때 재시도 유도(retry nudges), 필수 단계 강제 실행(step enforcement). 특히 8B 모델은 텍스트와 도구 호출 중 올바르게 선택하지 못하므로 합성 respond 도구로 유도.",
+            "맥락 관리: VRAM 인식 예산 설정과 계층화 압축 전략으로 긴 세션에서도 메모리 효율성 유지. 다중 턴 대화와 장기 실행 애플리케이션에 최적화.",
+            "다양한 백엔드 지원: Ollama(가장 쉬운 설정), llama-server(최고 성능, 권장), Llamafile(단일 바이너리), Anthropic API(로컬 GPU 불필요). 각 백엔드의 장단점을 고려하여 선택 가능.",
+            "구현 예시: Python 3.12+에서 Pydantic 기반 도구 정의 후 WorkflowRunner를 통해 비동기 워크플로우 실행. 도구 호출, 시스템 프롬프트, 맥락 압축을 자동 관리.",
+            "프록시 서버 모드: 기존 OpenAI 호환 클라이언트를 변경 없이 사용하면서 로컬 모델 서버 앞에 프록시를 배치하여 가드레일 자동 적용. 클라이언트는 더 똑똑한 모델을 사용하는 것처럼 인식."
+          ],
+          "whyItMatters": "작은 로컬 LLM(8B)을 프로덕션 환경에서 신뢰성 있게 사용할 수 있게 하는 실용적인 솔루션으로, API 비용 없이 구조화된 도구 호출이 필요한 에이전트 애플리케이션을 자체 호스팅으로 구축할 수 있다.",
+          "url": "https://github.com/antoinezambelli/forge",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 189,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "ai-agents-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 8,
+          "slug": "show-hn-forge-guardrails-take-an-8b-model-from-53-to-99-on-agentic-tasks",
+          "fullContent": "forge\nA reliability layer for self-hosted LLM tool-calling. Forge lifts an 8B local model to the top of its class on multi-step agentic workflows through guardrails (rescue parsing, retry nudges, step enforcement) and context management (VRAM-aware budgets, tiered compaction). The current top self-hosted config (Ministral-3 8B Instruct Q8 on llama-server) scores 86.5% across forge's 26-scenario eval suite — and 76% on the hardest tier.\nThree ways to use it:\nWorkflowRunner — Define tools, pick a backend, run structured agent loops. Forge manages the full lifecycle: system prompts, tool execution, context compaction, and guardrails. SlotWorker adds priority-queued access to a shared inference slot with auto-preemption — for multi-agent architectures where specialist workflows share a GPU slot. Best when you're building on forge directly.\nGuardrails middleware — Use forge's reliability stack (composable middleware) inside your own orchestration loop. You control the loop; forge validates responses, rescues malformed tool calls, and enforces required steps.\nProxy server — Drop-in OpenAI-compatible proxy (python -m forge.proxy) that sits between any client (opencode, Continue, aider, etc.) and a local model server. Applies guardrails transparently — the client thinks it's talking to a smarter model.\nSupports Ollama, llama-server (llama.cpp), Llamafile, and Anthropic as backends.\nRequirements\nPython 3.12+\nA running LLM backend (see below)\nInstall\npip install forge-guardrails # core only\npip install \"forge-guardrails[anthropic]\" # + Anthropic client\nFor development:\ngit clone https://github.com/antoinezambelli/forge.git\ncd forge\npip install -e \".[dev]\"\nBackend setup (pick one)\nllama-server (recommended — top 10 eval configs all run on llama-server):\n# Install from https://github.com/ggml-org/llama.cpp/releases\nllama-server -m path/to/Ministral-3-8B-Instruct-2512-Q8_0.gguf --jinja -ngl 999 --port 8080\nOllama (alternative — easier setup, slightly weaker on harder workloads):\n# Install from https://ollama.com/download\nollama pull ministral-3:8b-instruct-2512-q4_K_M\nAnthropic (API, no local GPU needed):\npip install -e \".[anthropic]\"\nexport ANTHROPIC_API_KEY=sk-...\nSee Backend Setup for full instructions and Model Guide for which model fits your hardware.\nQuick Start\nimport asyncio\nfrom pydantic import BaseModel, Field\nfrom forge import (\nWorkflow, ToolDef, ToolSpec,\nWorkflowRunner, OllamaClient,\nContextManager, TieredCompact,\n)\ndef get_weather(city: str) -> str:\nreturn f\"72°F and sunny in {city}\"\nclass GetWeatherParams(BaseModel):\ncity: str = Field(description=\"City name\")\nworkflow = Workflow(\nname=\"weather\",\ndescription=\"Look up weather for a city.\",\ntools={\n\"get_weather\": ToolDef(\nspec=ToolSpec(\nname=\"get_weather\",\ndescription=\"Get current weather\",\nparameters=GetWeatherParams,\n),\ncallable=get_weather,\n),\n},\nrequired_steps=[],\nterminal_tool=\"get_weather\",\nsystem_prompt_template=\"You are a helpful assistant. Use the available tools to answer the user.\",\n)\nasync def main():\nclient = OllamaClient(model=\"ministral-3:8b-instruct-2512-q4_K_M\", recommended_sampling=True)\nctx = ContextManager(strategy=TieredCompact(keep_recent=2), budget_tokens=8192)\nrunner = WorkflowRunner(client=client, context_manager=ctx)\nawait runner.run(workflow, \"What's the weather in Paris?\")\nasyncio.run(main())\nFor multi-step workflows, multi-turn conversations, and backend auto-management, see the User Guide. If you're building a long-running session (CLI, chat server, voice assistant), see the long-running session advisory for important guidance on filtering transient messages.\nProxy Server\nDrop-in replacement for a local model server. Point any OpenAI-compatible client at the proxy and get forge's guardrails for free.\n# External mode — you manage llama-server, forge proxies it\npython -m forge.proxy --backend-url http://localhost:8080 --port 8081\n# Managed mode — forge starts llama-server and the proxy together\npython -m forge.proxy --backend llamaserver --gguf path/to/model.gguf --port 8081\nThen configure your client to use http://localhost:8081/v1 as the API base URL.\nNote: The proxy automatically injects a synthetic respond tool when tools are present in the request. The model calls respond(message=\"...\") instead of producing bare text, keeping it in tool-calling mode where forge's full guardrail stack applies. The respond call is stripped from the outbound response — the client sees a normal text response (finish_reason: \"stop\") and never knows the tool exists. This is essential for small local models (~8B), which cannot be trusted to choose correctly between text and tool calls — guiding them to a tool is a must. See ADR-013 for the full analysis.\nBackends\nBackend\nBest for\nNative FC?\nOllama\nEasiest setup, model management built-in\nYes\nllama-server\nBest performance, full control\nYes (with --jinja)\nLlamafile\nSingle binary, zero dependencies\nNo (prompt-injected)\nAnthropic\nFrontier baseline, hybrid workflows\nYes\nSee Backend Setup for installatio",
+          "category": "tech",
+          "publishedAt": "2026-05-19T12:23:07.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "humanlayer/12-factor-agents (TypeScript)",
+          "titleKo": "humanlayer/12-factor-agents (TypeScript)",
+          "summary": "프로덕션 고객을 위한 우수한 LLM 기반 소프트웨어를 개발하는 원칙을 정의하는 프로젝트로, 12-factor 방법론을 AI 에이전트에 적용한다.",
+          "keyPoints": [
+            "프로덕션 준비 원칙: 12-factor 방법론을 LLM 기반 에이전트에 적용하여 프로덕션 환경에서 안정적으로 운영할 수 있는 아키텍처를 제시한다."
+          ],
+          "whyItMatters": "AI 에이전트를 실제 고객 환경에 배포할 때 따라야 할 설계 원칙과 모범 사례를 체계화하는 데 도움이 된다.",
+          "url": "https://github.com/humanlayer/12-factor-agents",
+          "sourceName": "GitHub Trending",
+          "engagement": 21157,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai",
+            "backend"
+          ],
+          "topicId": "ai-agents-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 8,
+          "slug": "humanlayer12-factor-agents-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-19T23:29:03.316Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "rohitg00/agentmemory (TypeScript)",
+          "titleKo": "rohitg00/agentmemory (TypeScript)",
+          "summary": "실제 벤치마크를 기반으로 한 AI 코딩 에이전트용 영구 메모리 솔루션으로, 에이전트가 이전 작업 내용을 기억하고 활용할 수 있게 한다.",
+          "keyPoints": [
+            "영구 메모리: AI 코딩 에이전트가 이전 상호작용 및 작업 결과를 장기간 기억하여 반복 작업을 최소화하고 학습 효과를 극대화할 수 있다.",
+            "실측 벤치마크: 실제 사용 패턴에 기반한 벤치마크를 통해 메모리 성능을 검증하여, 프로덕션 환경에서의 신뢰성을 보장한다."
+          ],
+          "whyItMatters": "AI 에이전트의 장기 메모리 관리를 개선하여 에이전트의 적응성과 효율성을 크게 향상시킨다.",
+          "url": "https://github.com/rohitg00/agentmemory",
+          "sourceName": "GitHub Trending",
+          "engagement": 14109,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai",
+            "backend"
+          ],
+          "topicId": "ai-agents-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 8,
+          "slug": "rohitg00agentmemory-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-19T23:29:03.314Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "anthropics/claude-plugins-official (Python)",
+          "titleKo": "anthropics/claude-plugins-official (Python)",
+          "summary": "Anthropic이 관리하는 Claude 코드 플러그인의 공식 저장소로, 고품질의 Claude 플러그인 모음을 제공한다.",
+          "keyPoints": [
+            "공식 플러그인 라이브러리: Anthropic에서 직접 관리하는 Claude용 고품질 플러그인 모음으로, 개발자가 검증된 플러그인을 쉽게 발견하고 통합할 수 있다."
+          ],
+          "whyItMatters": "Claude의 기능을 확장하는 신뢰할 수 있는 플러그인 생태계를 제공하여 개발 생산성을 향상시킨다.",
+          "url": "https://github.com/anthropics/claude-plugins-official",
+          "sourceName": "GitHub Trending",
+          "engagement": 20154,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "ai-agents-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 8,
+          "slug": "anthropicsclaude-plugins-official-python",
+          "category": "tech",
+          "publishedAt": "2026-05-19T23:29:03.314Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "msitarzewski/agency-agents (Shell)",
+          "titleKo": "msitarzewski/agency-agents (Shell)",
+          "summary": "여러 전문화된 AI 에이전트로 구성된 완전한 AI 에이전시로, 프론트엔드 개발, Reddit 커뮤니티 관리, 창의성 증강, 현실성 검증 등 다양한 역할을 수행하는 에이전트를 포함한다.",
+          "keyPoints": [
+            "다중 전문 에이전트: 각 에이전트가 고유한 역할, 프로세스, 검증된 결과물을 보유한 전문가로 설계되어 있으며, 프론트엔드 마법사부터 Reddit 커뮤니티 전문가, 창의성 주입자, 현실성 검증자 등을 포함한다."
+          ],
+          "whyItMatters": "다양한 AI 에이전트를 조합하여 복잡한 작업을 자동화하고 효율성을 높일 수 있는 통합 플랫폼을 제공한다.",
+          "url": "https://github.com/msitarzewski/agency-agents",
+          "sourceName": "GitHub Trending",
+          "engagement": 101537,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "ai-agents-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 8,
+          "slug": "msitarzewskiagency-agents-shell",
+          "category": "tech",
+          "publishedAt": "2026-05-19T23:29:03.315Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "colbymchenry/codegraph (TypeScript)",
+          "titleKo": "codegraph - Claude Code용 사전 인덱싱된 코드 지식 그래프",
+          "summary": "Claude Code, Codex, Cursor, OpenCode를 위한 사전 인덱싱된 코드 지식 그래프로, 토큰 사용량과 도구 호출을 줄이면서 로컬에서 완전히 실행된다.",
+          "keyPoints": [
+            "토큰 효율성 향상과 도구 호출 최소화를 통해 AI 코드 어시스턴트의 성능 개선",
+            "로컬 실행 지원으로 클라우드 의존성 제거 및 데이터 프라이버시 보장"
+          ],
+          "whyItMatters": "AI 코드 어시스턴트 사용 시 비용을 절감하면서도 응답 속도를 높일 수 있는 방법을 제공한다.",
+          "url": "https://github.com/colbymchenry/codegraph",
+          "sourceName": "GitHub Trending",
+          "engagement": 6529,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "colbymchenrycodegraph-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-19T23:29:03.315Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "rtk-ai/rtk (Rust)",
+          "titleKo": "rtk-ai/rtk (Rust)",
+          "summary": "일반적인 개발 명령어에서 LLM 토큰 소비를 60-90% 감소시키는 CLI 프록시로, 단일 Rust 바이너리로 의존성 없이 동작한다.",
+          "keyPoints": [
+            "토큰 효율성: 일반적인 개발 명령어 실행 시 LLM 토큰 소비를 60-90% 감소시켜 AI 모델 이용 비용을 대폭 절감할 수 있다.",
+            "경량 구현: 단일 Rust 바이너리로 구현되어 의존성이 없으므로 배포와 설치가 간편하다."
+          ],
+          "whyItMatters": "LLM 기반 개발 도구의 운영 비용을 크게 감소시켜 AI 개발 도구의 경제성을 개선한다.",
+          "url": "https://github.com/rtk-ai/rtk",
+          "sourceName": "GitHub Trending",
+          "engagement": 50839,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "ai-agents-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 8,
+          "slug": "rtk-airtk-rust",
+          "category": "tech",
+          "publishedAt": "2026-05-19T23:29:03.315Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "multica-ai/andrej-karpathy-skills",
+          "titleKo": "Andrej Karpathy 스킬 - Claude 코딩 동작 개선",
+          "summary": "Andrej Karpathy의 LLM 코딩 함정 관찰을 바탕으로 Claude의 코드 생성 행동을 개선하는 단일 CLAUDE.md 파일이다.",
+          "keyPoints": [
+            "LLM 코딩 개선: Karpathy의 경험에서 도출한 패턴과 안티패턴을 정리하여 Claude의 코드 생성 품질 향상.",
+            "프롬프트 엔지니어링: 단순 설정 파일로 LLM 기반 코드 어시스턴트의 동작 개선 가능."
+          ],
+          "whyItMatters": "LLM을 개발 도구로 사용할 때 생성 코드의 신뢰성과 품질을 높이는 실용적 가이드라인 제공한다.",
+          "url": "https://github.com/multica-ai/andrej-karpathy-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 137916,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "career"
+          ],
+          "topicId": "karpathy-anthropic",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "multica-aiandrej-karpathy-skills",
+          "category": "tech",
+          "publishedAt": "2026-05-19T23:29:03.316Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "HKUDS/CLI-Anything (Python)",
+          "titleKo": "CLI-Anything - 모든 소프트웨어를 에이전트 네이티브로 만들기",
+          "summary": "CLI-Anything은 명령행 인터페이스를 에이전트 친화적으로 변환하는 도구로, 모든 소프트웨어를 AI 에이전트가 자동으로 제어할 수 있도록 한다.",
+          "keyPoints": [
+            "CLI 통합: 기존 CLI 도구들을 AI 에이전트가 인식하고 활용할 수 있는 형식으로 변환.",
+            "에이전트 네이티브 설계: 소프트웨어를 처음부터 에이전트 제어 가능하도록 설계하는 철학 제시."
+          ],
+          "whyItMatters": "CLI-Hub 플랫폼을 통해 에이전트가 다양한 도구와 소프트웨어를 자동으로 조율할 수 있게 하는 기반 인프라 제공한다.",
+          "url": "https://github.com/HKUDS/CLI-Anything",
+          "sourceName": "GitHub Trending",
+          "engagement": 37671,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "topicId": "ai-agents-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 8,
+          "slug": "hkudscli-anything-python",
+          "category": "tech",
+          "publishedAt": "2026-05-19T23:29:03.313Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "tinyhumansai/openhuman (Rust)",
+          "titleKo": "tinyhumansai/openhuman (Rust)",
+          "summary": "개인용 AI 초지능 솔루션으로, 사용자 프라이버시를 보호하면서도 강력한 기능을 제공하는 개인화된 AI 시스템이다.",
+          "keyPoints": [
+            "프라이버시 중심: 개인 데이터를 외부에 공개하지 않으면서 강력한 AI 기능을 제공하는 로컬 AI 솔루션으로 설계되었다.",
+            "사용 편의성: 단순한 인터페이스로 강력한 AI 기능에 접근할 수 있어 일반 사용자도 쉽게 사용할 수 있다."
+          ],
+          "whyItMatters": "개인 정보 보호와 AI 능력 사이의 균형을 추구하는 사용자들에게 현실적인 로컬 AI 솔루션을 제공한다.",
+          "url": "https://github.com/tinyhumansai/openhuman",
+          "sourceName": "GitHub Trending",
+          "engagement": 21086,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "ai-agents-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 8,
+          "slug": "tinyhumansaiopenhuman-rust",
+          "category": "tech",
+          "publishedAt": "2026-05-19T23:29:03.312Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "Show HN: Superlog (YC P26) – Observability that installs itself and fixes bugs",
+          "titleKo": "Superlog (YC P26) - 자가 설치형 옵저버빌리티로 버그 자동 수정",
+          "summary": "Y Combinator 포함 스타트업 Superlog는 자동으로 설치되고 버그를 자동 수정하는 옵저버빌리티 솔루션을 제공한다.",
+          "keyPoints": [
+            "설치 과정 자동화와 버그 자동 수정 기능으로 개발팀의 운영 부담 감소",
+            "애플리케이션 모니터링과 오류 대응을 동시에 처리하는 통합 솔루션"
+          ],
+          "whyItMatters": "애플리케이션 배포 후 모니터링과 버그 대응 비용을 획기적으로 줄일 수 있다.",
+          "url": "https://superlog.sh/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 43,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-superlog-yc-p26-observability-that-installs-itself-and-fixes-bugs",
+          "category": "tech",
+          "publishedAt": "2026-05-19T15:54:06.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Intro to TLA+ for the LLM Era: Prompt Your Way to Victory",
+          "titleKo": "LLM 시대의 TLA+ 입문: 프롬프트로 성공으로",
+          "summary": "TLA+(Temporal Logic of Actions)를 LLM과 함께 사용하는 방법을 소개하는 글입니다.",
+          "keyPoints": [
+            "LLM을 활용한 TLA+ 활용법 제시"
+          ],
+          "whyItMatters": "분산 시스템 검증과 AI를 결합하는 새로운 접근법을 이해할 수 있습니다.",
+          "url": "https://emptysqua.re/blog/intro-to-tla-plus-for-the-llm-era/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 101,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "intro-to-tla-for-the-llm-era-prompt-your-way-to-victory",
+          "category": "tech",
+          "publishedAt": "2026-05-17T15:52:21.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "CloakHQ/CloakBrowser (Python)",
+          "titleKo": "CloakHQ/CloakBrowser",
+          "summary": "모든 봇 탐지 테스트를 통과하는 스텔스 Chromium 브라우저로, Playwright 대체 솔루션입니다. 소스 수준의 핑거프린트 패칭으로 30/30 테스트를 통과했습니다.",
+          "keyPoints": [
+            "봇 탐지 우회 기술을 기반으로 한 완전한 호환성(Playwright 대체)",
+            "소스 수준 핑거프린트 조작으로 모든 테스트 통과"
+          ],
+          "whyItMatters": "자동화 테스트와 웹 스크래핑에서 탐지 회피 기술의 현재 상황을 보여주며, 보안 및 윤리적 사용 가능성에 대한 고려가 필요합니다.",
+          "url": "https://github.com/CloakHQ/CloakBrowser",
+          "sourceName": "GitHub Trending",
+          "engagement": 16538,
+          "contentType": "repo",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "cloakhqcloakbrowser-python",
+          "category": "tech",
+          "publishedAt": "2026-05-19T23:29:03.314Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Alishahryar1/free-claude-code (Python)",
+          "titleKo": "Alishahryar1/free-claude-code - 무료 Claude Code 터미널/VSCode 확장",
+          "summary": "Claude Code를 터미널, VSCode 확장, Discord에서 무료로 사용할 수 있게 하는 Python 기반 도구로, 음성 지원도 제공한다.",
+          "keyPoints": [
+            "OpenClaw와 유사한 멀티플랫폼 지원으로 Claude 모델에 쉽게 접근 가능",
+            "음성 입력 지원으로 핸즈프리 코딩 경험 제공"
+          ],
+          "whyItMatters": "유료 Claude API 없이도 고급 코드 생성 기능을 다양한 환경에서 활용할 수 있다.",
+          "url": "https://github.com/Alishahryar1/free-claude-code",
+          "sourceName": "GitHub Trending",
+          "engagement": 26342,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "ai-agents-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 8,
+          "slug": "alishahryar1free-claude-code-python",
+          "category": "tech",
+          "publishedAt": "2026-05-19T23:29:03.316Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "Era: From Nature publication to catalyzing Computational Discovery",
+          "titleKo": "Era: Nature 논문 발표에서 계산 발견으로의 전환",
+          "summary": "Google이 개발한 AI 도구 ERA(Empirical Research Assistance)는 Gemini를 활용하여 과학 논문과 코드 작성을 최적화하는 연구 보조 도구입니다. Nature에 발표되었으며 게놈학, 공중보건, 위성영상 분석 등 다양한 분야에서 전문가 수준의 성능을 보여줍니다.",
+          "keyPoints": [
+            "ERA는 과학 문제 해결을 위해 문헌 검색, 코드 작성, 솔루션 탐색을 자동으로 수행하는 트리 서치 접근 방식 사용",
+            "질병 예측, 수자원 관리, 탄소 농도 모니터링 등 실제 과학 문제 해결에 적용되어 의미 있는 결과 도출",
+            "Computational Discovery 프로토타입으로 과학자들에게 공개되어 전문가 수준의 계산 모델링을 민주화하려는 목표"
+          ],
+          "whyItMatters": "개발자가 과학 연구에 AI를 통합하는 새로운 방식을 이해하고, 대규모 데이터 분석 및 최적화 문제 해결에 활용할 수 있는 사례를 제시합니다.",
+          "url": "https://research.google/blog/empirical-research-assistance-era-from-nature-publication-to-catalyzing-computational-discovery/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 22,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "era-from-nature-publication-to-catalyzing-computational-discovery",
+          "fullContent": "Empirical Research Assistance (ERA): From Nature publication to catalyzing Computational Discovery\nMay 19, 2026Lizzie Dorfman, Product Manager, and Michael Brenner, Research Scientist, Google Research\nPublished today in Nature, Empirical Research Assistance (ERA) is an AI tool for expert-level scientific coding that helped build the Computational Discovery prototype, now available through a trusted tester program in Google Labs.\nQuick links\nNature paper\nERA code and experiments\nERA introductory blog post\nERA applications blog post\nOne of AI’s greatest potential benefits to humanity is increasing the speed and scope of scientific discovery. Empirical Research Assistance (ERA), a Google-developed research tool that uses Gemini to write and optimize scientific code, addresses one of the most time-consuming parts of scientific research: iteratively testing and refining computational experiments. It is described in \"AI system designed to help scientists write expert-level empirical software”, published today in the journal Nature.As part of our wider science announcements at I/O today, we are also making this technology accessible as a tool that can begin to help scientists around the world. ERA is one of the systems used to build Computational Discovery, a new experimental tool that is starting to roll out more broadly today through Gemini for Science.\nIntroducing ERA as a versatile tool for scientific coding\nWe first shared the design and performance of ERA in the fall, when the preprint was released. Given a scientific problem and a measure of success, ERA can search scientific literature, write code, explore solutions, combine techniques and evaluate the results. ERA considers thousands of options, using a tree search approach to optimize its output code against its given goal.Our Nature publication describes testing ERA on benchmark problems spanning a variety of disciplines: genomics, public health, satellite imagery analysis, neuroscience prediction, a general time-series forecasting benchmark, and mathematics. Results show ERA achieves expert-level performance across all of these benchmarks, potentially democratizing future access to expert-level computational modeling and expanding the capabilities of current experts.\nApplying ERA to open scientific questions\nOver the past six months, Google Research scientists and our collaborators have been actively experimenting with ERA. In late April, we shared examples of four projects we’d worked on that use ERA to investigate current open problems in science.We now have a total of eight manuscripts that apply ERA to specific scientific problems, including the five newly released papers described below. Collectively, these results show how ERA can help drive progress in several domains with immediate scientific impact and public benefit.Google scientists and collaborators published an analysis of their work using ERA for epidemiological forecasting, predicting U.S. hospital admissions at a state level up to four weeks in advance for flu, COVID-19 and RSV. ERA forecasts consistently rank at or near the top of public Centers for Disease Control (CDC) leaderboards for all three respiratory viruses, and employ techniques that can easily be replicated for other countries and diseases.\nLeft: Google’s forecasted weekly hospital admissions across California for flu, COVID-19, and RSV, starting when each forecast began through the end of May. The black line shows observed hospital admissions. Right: The ranking of different models shows that Google’s forecasts (blue) performed the best for season-averaged accuracy in all three respiratory viruses. CDC’s ensemble forecasts (striped bars) are given a relative Weighted Interval Score of 1. Other research groups’ forecasts are solid red bars (only the best-performing models are shown).\nWe used ERA to create a forecasting model of seasonal runoff across California's snow‑fed river basins — a vital resource for the state's population and agricultural sector. The resulting model produces significantly more accurate early predictions of spring runoff than Bulletin 120 (B120), the state's official seasonal water supply outlook, potentially improving management of this scarce resource.We shared new results that use ERA to map atmospheric carbon dioxide (CO2) concentration with unprecedented spatial and temporal resolution using data from a geostationary weather satellite. The ERA-developed model captures changes in CO2 concentration resulting from human activity, including distinct urban enhancements. The model-derived estimates also show how crops and other plants absorb CO2 as they grow, causing CO2 concentration to dip during the day, and how other natural and human cycles play out in the atmosphere. These AI estimates will help to model, monitor and understand how CO2, a critical greenhouse gas, varies over space and time.\nAtmospheric CO2 concentration over southern California on Oct. 18, 2024. The Orbiting Carbon Observatory-2",
+          "category": "insight",
+          "publishedAt": "2026-05-19T19:34:38.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Dumb Ways for an Open Source Project to Die",
+          "titleKo": "오픈소스 프로젝트가 죽는 어리석은 방법들",
+          "summary": "오픈소스 프로젝트가 중단되는 다양한 원인들을 분석한 글입니다. 유지보수자의 떠남, 기업 정책, 자금 부족, 후속자 문제 등 구체적인 사례들을 통해 프로젝트 사망의 실제 패턴을 설명합니다.",
+          "keyPoints": [
+            "유지보수자 부재(Ghost maintainer, Corporate orphan, Thesis orphan 등): 마지막 커밋 이후 수년간 방치되거나 자금 종료 후 관리되지 않는 경우",
+            "유지보수자 존재하지만 실질적 진전 부족(Burnout plateau, Benevolent zombie): 타이포 수정 정도만 이루어지거나 봇 의존도로 인간의 의사결정이 중단된 상태",
+            "후속자 문제(Succession deadlock, Custody battle): 권한 이전 불가능 또는 공동 유지보수자 간 갈등으로 프로젝트가 동결된 상태"
+          ],
+          "whyItMatters": "프로젝트에 의존하는 개발자들에게 위험한 패턴을 인식하고 프로젝트 선택 시 건강성을 평가하는 기준을 제공합니다.",
+          "url": "https://nesbitt.io/2026/05/19/dumb-ways-for-an-open-source-project-to-die.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 108,
+          "contentType": "discussion",
+          "labels": [
+            "general",
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "dumb-ways-for-an-open-source-project-to-die",
+          "fullContent": "Weekend at Bernie’s showed that a good chunk of the most-depended-on open source packages are dead, and there are a lot of different ways for a project to end up that way.\nThe maintainer left\nGhost maintainer. The simplest and most common case: last human commit some years back, issues accumulating unanswered, the repo not archived so it doesn’t show up in any filter that would flag it. Usually the maintainer just moved on to other things and the project wasn’t important enough to them to formally hand over or shut down, though the same silence covers everything up to and including the maintainer having died, which neither the registry nor the repo has any way to represent. From outside it’s indistinguishable from a long holiday until enough unanswered issues have piled up to make the silence unambiguous, and the npm utilities at the top of the Bernie’s dead list are mostly this.\nCorporate orphan. A company built and open-sourced it with a team to run it, then a pivot or a layoff round took the team out and nobody updated the README. The GitHub org persists with the company logo and the last people who had admin rights have left, so often nobody still at the company knows the project is theirs. Google’s various graveyards are the famous case but every company past a certain size has a few of these, and the ones that were infrastructure rather than products tend not to even get a deprecation notice.\nThesis orphan. Built by a grad student for a master’s project or a PhD chapter, and they’ve since graduated and moved on. The lab that hosted it nominally owns the repo, but nobody there has the context to continue it and academia gives them no reason to try: maintaining someone else’s software earns no citations and counts for nothing at review next to publishing something new. Research software is full of these, often with a paper still being cited years after the code it describes stopped building.\nFunding cliff. The project ran on a grant or a fixed-term sponsorship, often from a foundation or one of the public software funds, and the money ended on schedule. The maintainers went back to whatever pays the rent, and a project that had grown to fit full-time capacity is now getting evenings and weekends, which for that scope rounds to nothing. The funder’s logo usually stays in the README long after the funding stopped, which makes this one easy to mistake for a healthy sponsored project.\nHired away. The maintainer was hired by a company and either the employment contract or just the new workload means the project stops. Occasionally that’s a competitor removing a problem, but the more common case isn’t malicious at all: Apple is the classic example of an employer that simply doesn’t let most staff do outside open source, so a maintainer joining means their projects go quiet by default. Handing over before you start is the obvious fix and almost nobody does it in time.\nSuccession deadlock. The original maintainer is unreachable and there are people willing to take over, but the publish rights on the registry are tied to an account nobody else can access and the GitHub repo has no other admins, while the registry’s abandoned-package process needs either the original maintainer’s consent or a months-long dispute that nobody has obvious standing to start. The PEP 541 process and npm’s dispute policy both exist for exactly this case and both routinely take longer than forking and renaming would.\nThe maintainer is still there\nBurnout plateau. Still active by any metric you’d run. Typo fixes and dependency bumps get merged with the occasional “thanks, will look at this” on an issue, but anything that needs an actual design decision or a debugging session sits open indefinitely because those take energy the maintainer hasn’t had for the project in a long time. There’s often just enough response that anyone who suggests forking gets pointed at the recent activity but never enough to actually ship, and it can hold that shape for years without being quite dead enough for anyone to feel justified taking over.\nBenevolent zombie. The contribution graph is solid green and every commit is a bot. Dependabot bumps, an auto-merge rule, possibly automated releases triggered by the bumps, and now scheduled coding agents that can keep the lights on indefinitely without a human reading anything. Every recency-based health score rates this as fine, which is more or less the whole problem with recency-based health scores.\nCustody battle. Two or more co-maintainers have fallen out, each with enough access to block the other and not enough to proceed alone, and the project is frozen between them. It might resolve into a fork or end with one party walking away, but plenty just sit there with the issue tracker filling up with users asking what’s going on and getting two contradictory answers.\nTribal knowledge gone. The code works and the tests pass, but the person who understood why has left, and nobody remaining is confident enough to to",
+          "category": "insight",
+          "publishedAt": "2026-05-19T19:22:56.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "The TTY Demystified (2008)",
+          "titleKo": "TTY 시스템 이해하기 (2008)",
+          "summary": "Linux와 UNIX의 중심인 TTY 서브시스템의 역사와 구조를 설명하는 기사다. 1869년 주식 시세 전송기에서 시작한 텔레타입이 어떻게 현대 터미널 에뮬레이션으로 진화했으며, 커널이 어떻게 호환성 계층으로 작동하는지를 다룬다.",
+          "keyPoints": [
+            "TTY는 물리적 텔레타입의 유산을 그대로 가지고 있으며, 현재는 모두 소프트웨어로 에뮬레이션되고 있다.",
+            "커널의 line discipline은 줄 편집, 문자 에코, 세션 관리 같은 기본 기능을 제공해 응용 프로그램의 복잡성을 줄인다.",
+            "TTY 드라이버는 여러 프로그램의 동시 실행을 관리하고 foreground/background 프로세스를 제어한다."
+          ],
+          "whyItMatters": "개발자가 터미널, 셸, 대화형 애플리케이션을 제대로 이해하고 구현하려면 TTY 시스템의 기본 원리를 알아야 한다.",
+          "url": "https://www.linusakesson.net/programming/tty/index.php",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 23,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-tty-demystified-2008",
+          "fullContent": "The TTY subsystem is central to the design of Linux, and UNIX in general.\nUnfortunately, its importance is often overlooked, and it is difficult to find\ngood introductory articles about it. I believe that a basic understanding of\nTTYs in Linux is essential for the developer and the advanced user.\nBeware, though: What you are about to see is not particularly elegant. In\nfact, the TTY subsystem — while quite functional from a user's point of\nview — is a twisty little mess of special cases. To understand how this\ncame to be, we have to go back in time.\nIn 1869, the stock ticker was invented. It was an electro-mechanical\nmachine consisting of a typewriter, a long pair of wires and a ticker tape\nprinter, and its purpose was to distribute stock prices over long distances in\nrealtime. This concept gradually evolved into the faster, ASCII-based\nteletype. Teletypes were once connected across the world in a large\nnetwork, called Telex, which was used for transferring commercial\ntelegrams, but the teletypes weren't connected to any computers yet.\nMeanwhile, however, the computers — still quite large and\nprimitive, but able to multitask — were becoming powerful enough to be\nable to interact with users in realtime. When the command line eventually\nreplaced the old batch processing model, teletypes were used as input and\noutput devices, because they were readily available on the market.\nThere was a plethora of teletype models around, all slightly different, so\nsome kind of software compatibility layer was called for. In the UNIX world,\nthe approach was to let the operating system kernel handle all the low-level\ndetails, such as word length, baud rate, flow control, parity, control codes\nfor rudimentary line editing and so on. Fancy cursor movements, colour output\nand other advanced features made possible in the late 1970s by solid state\nvideo terminals such as the VT-100, were left to the applications.\nIn present time, we find ourselves in a world where physical teletypes and\nvideo terminals are practically extinct. Unless you visit a museum or a\nhardware enthusiast, all the TTYs you're likely to see will be emulated video\nterminals — software simulations of the real thing. But as we shall\nsee, the legacy from the old cast-iron beasts is still lurking beneath the\nsurface.\nA user types at a terminal (a physical teletype). This terminal is connected\nthrough a pair of wires to a UART (Universal Asynchronous Receiver and\nTransmitter) on the computer. The operating system contains a UART driver which\nmanages the physical transmission of bytes, including parity checks and flow\ncontrol. In a naïve system, the UART driver would then deliver the incoming\nbytes directly to some application process. But such an approach would lack the\nfollowing essential features:\nLine editing. Most users make mistakes while typing, so a backspace\nkey is often useful. This could of course be implemented by the applications\nthemselves, but in accordance with the UNIX design philosophy, applications\nshould be kept as simple as possible. So as a convenience, the operating system\nprovides an editing buffer and some rudimentary editing commands (backspace,\nerase word, clear line, reprint), which are enabled by default inside the\nline discipline. Advanced applications may disable these features by\nputting the line discipline in raw mode instead of the default\ncooked (or canonical) mode. Most interactive applications\n(editors, mail user agents, shells, all programs relying on curses or\nreadline) run in raw mode, and handle all the line editing commands\nthemselves. The line discipline also contains options for character echoing and\nautomatic conversion between carriage returns and linefeeds. Think of it as a\nprimitive kernel-level sed(1), if you like.\nIncidentally, the kernel provides several different line disciplines. Only\none of them is attached to a given serial device at a time. The default\ndiscipline, which provides line editing, is called N_TTY\n(drivers/char/n_tty.c, if you're feeling adventurous). Other\ndisciplines are used for other purposes, such as managing packet switched data\n(ppp, IrDA, serial mice), but that is outside the scope of this article.\nSession management. The user probably wants to run several programs\nsimultaneously, and interact with them one at a time. If a program goes into an\nendless loop, the user may want to kill it or suspend it. Programs that are\nstarted in the background should be able to execute until they try to write to\nthe terminal, at which point they should be suspended. Likewise, user input\nshould be directed to the foreground program only. The operating system\nimplements these features in the TTY driver\n(drivers/char/tty_io.c).\nAn operating system process is \"alive\" (has an execution context),\nwhich means that it can perform actions. The TTY driver is not alive; in object oriented\nterminology, the TTY driver is a passive object. It has some data fields and some\nmethods, but the only way it can actually do somethin",
+          "category": "insight",
+          "publishedAt": "2026-05-19T18:40:19.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "I’ve built a virtual museum with nearly every operating system you can think of",
+          "titleKo": "거의 모든 운영체제를 담은 가상 박물관 구축",
+          "summary": "virtualosmuseum.org는 역사적 운영체제를 수집하고 에뮬레이션한 가상 박물관을 제공한다. 사용자가 웹에서 직접 과거 운영체제를 실행하고 체험할 수 있다.",
+          "keyPoints": [
+            "다양한 역사적 운영체제를 온라인에서 접근 가능하게 제공한다.",
+            "에뮬레이션을 통해 손쉽게 과거 시스템의 동작 방식을 이해할 수 있다."
+          ],
+          "whyItMatters": "운영체제의 진화 과정을 직접 체험하면서 현대 시스템의 설계 원칙을 이해하는 데 도움이 된다.",
+          "url": "https://virtualosmuseum.org/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 520,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ive-built-a-virtual-museum-with-nearly-every-operating-system-you-can-think-of",
+          "category": "insight",
+          "publishedAt": "2026-05-19T15:53:38.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Imbad0202/academic-research-skills (Python)",
+          "titleKo": "학술 연구 기술 (Python)",
+          "summary": "Claude Code를 활용한 학술 연구 스킬 프레임워크로, 연구 → 작성 → 검토 → 수정 → 최종화 과정을 체계적으로 진행할 수 있도록 설계되었다.",
+          "keyPoints": [
+            "Claude의 AI 능력을 학술 연구 워크플로우에 통합한다.",
+            "연구부터 최종 작성까지 전체 프로세스를 자동화하는 에이전트 기반 접근법을 제공한다."
+          ],
+          "whyItMatters": "AI 도구를 활용해 학술 연구의 생산성을 높이고 논문 작성 과정을 효율화할 수 있다.",
+          "url": "https://github.com/Imbad0202/academic-research-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 14069,
+          "contentType": "repo",
+          "labels": [
+            "career",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "imbad0202academic-research-skills-python",
+          "category": "insight",
+          "publishedAt": "2026-05-19T23:29:03.313Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "AI Memory: Stop Building Stateless Agents",
+          "titleKo": "AI 메모리: 상태 비저장 에이전트 구축을 멈추자",
+          "summary": "에이전트 기반 AI 시스템이 효과적으로 작동하려면 상태 비저장 설계에서 벗어나 메모리와 맥락 유지 메커니즘을 갖춰야 한다는 주제의 영상이다.",
+          "keyPoints": [
+            "상태 비저장 에이전트의 한계: 매 요청마다 이전 상호작용 정보를 잃어버려 일관된 의사결정과 학습이 불가능하며, 복잡한 다단계 작업에서 성능 저하 발생.",
+            "메모리 시스템의 필요성: 에이전트가 과거 상호작용, 사용자 선호도, 작업 진행 상황을 기억하고 활용해야 더 효과적인 응답과 의사결정이 가능.",
+            "상태 저장 아키텍처: 메모리 레이어를 에이전트 시스템에 통합하면 일관성 있는 동작과 개인화된 경험 제공 가능."
+          ],
+          "whyItMatters": "실제 프로덕션 AI 에이전트는 메모리와 상태 관리가 필수적이며, 단순 상태 비저장 구조로는 복잡한 실무 워크플로우를 처리할 수 없다.",
+          "url": "https://www.youtube.com/watch?v=whyz0m302ZI",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ai-memory-stop-building-stateless-agents",
+          "category": "video",
+          "publishedAt": "2026-05-18T14:25:59+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Partial Page Caching Using React Server Components",
+          "titleKo": "React Server Component를 사용한 부분 페이지 캐싱",
+          "summary": "React Server Component를 활용하여 페이지의 일부만 선택적으로 캐싱하는 기법을 다루는 영상이다.",
+          "keyPoints": [
+            "부분 캐싱 구현: React Server Component의 캐싱 기능으로 페이지 전체가 아닌 특정 섹션만 독립적으로 캐싱하여 성능 최적화.",
+            "성능 개선: 동적 데이터가 있는 섹션은 캐싱하지 않고, 정적 콘텐츠는 캐시하여 서버 부하 감소와 응답 속도 향상."
+          ],
+          "whyItMatters": "React Server Component의 캐싱 전략을 이해하면 대규모 애플리케이션에서 효율적인 성능 최적화 가능하다.",
+          "url": "https://www.youtube.com/watch?v=t9xB8xvySyo",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "partial-page-caching-using-react-server-components",
+          "category": "video",
+          "publishedAt": "2026-04-27T14:09:16+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Stop letting your agents write Markdown.",
+          "titleKo": "에이전트가 마크다운을 작성하게 놔두지 마세요",
+          "summary": "AI 에이전트가 마크다운 형식으로 응답하는 것의 문제점을 다룬 영상 콘텐츠로 보인다.",
+          "keyPoints": [
+            "AI 에이전트의 마크다운 출력이 개발 워크플로우에 미치는 영향 분석"
+          ],
+          "whyItMatters": "에이전트 기반 개발 도구의 효율성을 높이기 위한 실질적인 조언을 제공할 수 있다.",
+          "url": "https://www.youtube.com/watch?v=S9EGx6ik-18",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "stop-letting-your-agents-write-markdown",
+          "category": "video",
+          "publishedAt": "2026-05-13T06:46:31+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Spending $40,000 in Copilot for $40",
+          "titleKo": "GitHub Copilot에 $40,000을 썼지만 $40만 지출",
+          "summary": "GitHub Copilot 사용 비용 최적화 방법을 다룬 영상으로 보인다.",
+          "keyPoints": [
+            "AI 코딩 도구의 효율적인 활용으로 비용 최소화 가능"
+          ],
+          "whyItMatters": "Copilot 같은 유료 AI 도구 사용 시 비용 절감 전략을 배울 수 있다.",
+          "url": "https://www.youtube.com/watch?v=3A4y_Iw_gpU",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "spending-40000-in-copilot-for-40",
+          "category": "video",
+          "publishedAt": "2026-05-19T02:25:55+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Connect four with CSS-only",
+          "titleKo": "CSS만으로 Four Connect 게임 만들기",
+          "summary": "CSS만을 사용하여 Four Connect 게임을 구현하는 방법을 보여주는 영상입니다.",
+          "keyPoints": [
+            "CSS만으로 인터랙티브 게임을 구현할 수 있음을 시연"
+          ],
+          "whyItMatters": "CSS의 가능성과 한계를 이해하는 데 도움이 됩니다.",
+          "url": "https://www.youtube.com/watch?v=hPuXilV9rLw",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "connect-four-with-css-only",
+          "category": "video",
+          "publishedAt": "2026-05-19T13:00:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
