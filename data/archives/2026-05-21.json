@@ -1,0 +1,1179 @@
+{
+  "date": "2026-05-21",
+  "intro": "안녕하세요! 오늘은 AI 에이전트의 실무 활용이 가속화되고 있는 한편, Google의 강제 업그레이드로 인한 개발자 불만, 그리고 AI 생성 텍스트의 부작용에 대한 논의가 뜨겁습니다. 프론트엔드 개발자라면 새로운 도구 생태계와 성능 최적화 트렌드를 놓칠 수 없는 시점입니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Google's Antigravity bait and switch",
+          "titleKo": "Google Antigravity의 기만적 전환",
+          "summary": "Google이 I/O 2026에서 Antigravity를 새로운 대화형 인터페이스로 강제 업그레이드한 결과, 기존 IDE 사용자의 워크플로우가 완전히 파괴되었으며 두 버전을 동시에 설치하는 것이 불가능해졌습니다.",
+          "keyPoints": [
+            "자동 업데이트가 기존 IDE를 대화형 챗봇으로 완전히 대체하며 기본 경로를 강제 재작성",
+            "구 버전 설치도 새로운 인터페이스에 의해 탈취되어 두 버전 공존 불가능",
+            "강제 업데이트로 인해 채팅 이력과 설정이 삭제되고 전체 재설치 필요"
+          ],
+          "whyItMatters": "개발 도구의 자동 업데이트 정책이 사용자의 생산성을 얼마나 크게 훼손할 수 있는지 보여주며, 도구 선택 시 버전 관리와 사용자 통제의 중요성을 강조합니다.",
+          "url": "https://www.0xsid.com/blog/antigravity-bait-n-switch",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 489,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "google-antigravity",
+          "isTopicPrimary": true,
+          "slug": "googles-antigravity-bait-and-switch",
+          "fullContent": "The day was to begin like any other, with Antigravity open (yes, there are tens of us!), expecting to get some work done before my attention fragments. But Google had other plans. They had rolled out a new version of Antigravity the day before, at I/O 2026, presenting it as a shiny, standalone Codex-style experience.\nBefore I launched it, Antigravity had automatically \"updated\" my existing installation to the new one and, in the process, nuked the IDE, the actual Antigravity I had been using for months. When I clicked my usual shortcut, my entire IDE was just gone, and in its place stood a single conversational prompt box.\nThis unexpected shift completely broke my preferred workflow. Antigravity, as part of the Google AI Ultra plan, is my daily driver, my workhorse. I don't mind agentic workflows for quick demos or MVPs, but production software, in my opinion, requires predictable output. For that, nothing beats the plan-review-implement loop that made me a huge fan of Cursor and earlier versions of Antigravity.\nTwo Versions, Zero Compatibility\nFrustrated, I jumped online and found that Google actually hosted a separate download package specifically for the legacy Antigravity IDE. How to interpret that it was at the bottom of the page, I'm leaving as an exercise to you. I figured I could just download this installer and run it alongside the new tool to get my day going. I downloaded and ran the package but the exact same 2.0 chatbot interface loaded right back up, much to my annoyance.\nThe 2.0 update, it turns out, aggressively rewrites the default application paths to the point where it's impossible, at the time of writing, to have both versions of Antigravity installed and functioning at the same time. Even reinstalling the IDE, hoping it might rewrite the rules correctly, doesn't work as the chatbot still hijacks the launch every single time.\nIf In Doubt, Purge\nAfter messing around reinstalling both pieces of software only to get the exact same result, I headed over to the Antigravity subreddit. Sure enough, plenty of other people were posting about the same exact scenario. The only way forward was a total purge of everything Antigravity related on the machine before trying again.\nWith my system entirely cleared of the 2.0 binaries, I ran the standalone IDE installer one more time. Without the chatbot there to interfere and hijack the execution paths, the clean installation finally worked.\nBack to Business (Almost)\nUnfortunately, getting the interface back didn't mean everything was normal. The forced update and subsequent purge wiped out my chat history and settings. While I could, thankfully, copy over most of my setup from my old Cursor config, the prompt history from the old Antigravity installation is gone(-ish). The upgrade fiasco did leave a folder called antigravity-backup, which I hope contains all my old history and profile info.\nRight now, I just don't have the time or the tokens to fiddle with it and get my history back. It's going to stay right there in stasis until I have some actual time to spare.\nUpdates Shouldn't Hijack Your Software\nForcing this kind of transition on users via a background update is in incredibly poor taste. Background updates are meant for performance patches and version upgrades, not for secretly shipping an entirely different piece of software. Hijacking a development tool to replace it with another crosses the line, from an inconvenience into a major hassle.\nI'm now going to look for ways to stop auto-updates altogether, if it's even possible in the first place. We should be able to trust that our tools will remain the tools we actually signed up to use. I'm fully plugged into the Google ecosystem, but sheesh!",
+          "category": "hot",
+          "publishedAt": "2026-05-21T13:50:59.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "We're testing new ad formats in Search and expanding our Direct Offers pilot",
+          "titleKo": "검색 광고의 새로운 형식 테스트 및 Direct Offers 파일럿 확대",
+          "summary": "Google은 Gemini를 활용하여 Search 광고에 대화형 AI 기능을 통합하고 있으며, Conversational Discovery ads, AI-powered Shopping ads 등 새로운 광고 형식을 테스트하고 있다. 이를 통해 브랜드가 소비자와 더 개인화되고 투명한 방식으로 연결할 수 있도록 지원한다.",
+          "keyPoints": [
+            "Gemini 기반의 새로운 광고 형식은 독립적인 AI 설명자를 포함하여 제품 정보의 투명성과 신뢰도를 높인다.",
+            "Conversational Discovery ads와 AI-powered Shopping ads는 사용자의 구체적인 검색 의도에 맞춘 실시간 개인화 조언을 제공한다.",
+            "Direct Offers 파일럿이 네이티브 체크아웃과 여행 거래로 확대되어 쇼핑 경험이 단순화되고 있다."
+          ],
+          "whyItMatters": "AI 기반 광고 시스템의 구현 방식과 검색 UX 최적화 트렌드를 이해하면 광고 플랫폼 개발 및 Performance Max, AI Max 도구 활용에 중요한 참고가 된다.",
+          "url": "https://blog.google/products/ads-commerce/google-marketing-live-search-ads/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 548,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "were-testing-new-ad-formats-in-search-and-expanding-our-direct-offers-pilot",
+          "fullContent": "Google Ads\nA new generation of ads for the AI era of Search\nMay 20, 2026\n·\nBuilt with Gemini, we're testing new ad formats in Search and expanding our Direct Offers pilot to help brands connect with consumers.\nRead AI-generated summary\nGeneral summary\nGoogle is integrating Gemini into Search to provide conversational, AI-driven ad experiences that offer product guidance and transparent explanations. You can now use new formats like Conversational Discovery ads, Highlighted Answers, and AI-powered Shopping ads to connect with customers through real-time, personalized advice. To prepare, ensure your campaigns are set up with Performance Max and AI Max tools to take full advantage of these upcoming features.\nSummaries were generated by Google AI. Generative AI is experimental.\nBullet points\nGoogle’s \"A new generation of ads for the AI era of Search\" introduces smarter ads.\nNew AI-powered ads use Gemini to provide helpful, relevant product details for your searches.\nConversational ads and highlighted answers give you direct, personalized advice while you research products.\nNew shopping features and chat agents help you make confident buying decisions much faster.\nExpanded direct offers now include native checkout and travel deals to simplify your shopping.\nSummaries were generated by Google AI. Generative AI is experimental.\nBasic explainer\nGoogle is updating its ads to work better with AI. These new ads use Gemini to answer your specific questions and explain why a product might be right for you. You’ll see these helpful suggestions while you search or shop online. They’re designed to make finding what you need faster and easier.\nSummaries were generated by Google AI. Generative AI is experimental.\nExplore other styles:\nGeneral summary\nBullet points\nBasic explainer\nYour browser does not support the audio element.\nListen to article\nThis content is generated by Google AI. Generative AI is experimental\n[[duration]] minutes\nVoice\nSpeed\nVoice\nSpeed\n0.75X\n1X\n1.5X\n2X\nPeople come to Google to research complex topics and discover products and services that fit their needs. As the Search experience becomes smarter and more conversational, we’re using Gemini models to experiment with new ad experiences designed to provide engaging, helpful answers that connect people with businesses.\nWe’re introducing more helpful ads in AI ModeWhen researching a topic, consumers want to know exactly how a product suits their unique situation. In fact, 75% of people report making faster, more confident decisions using AI Mode in Search.\n1\nThat’s why we’re testing two new types of ads, built with Gemini, that offer relevant product details along with helpful guidance.To help people evaluate their choices, both of these new formats will feature an independent AI explainer as part of the ad. Our Gemini model evaluates and synthesizes information about a product or service, and displays that context alongside the advertiser’s creative. This coherent, independent response ensures transparency and builds trust. These formats will also continue to be clearly labeled as “Sponsored.”Conversational Discovery ads: With Conversational Discovery ads, your ad answers a person’s specific question. Suppose someone searches, \"I am trying to make my house smell like those fancy spas or a rainy forest. What are some low-maintenance ways to make my home smell amazing?\" We use the Gemini model to build creative tailored to that search, highlighting specific relevant features.Highlighted Answers: When people are researching, they want helpful suggestions. Now, when AI Mode provides a list of recommendations — like the best language apps for an upcoming trip — highly relevant, high-quality ads are eligible to appear on that list as a Highlighted Answer.\nConversational Discovery Ads\nHighlighted Answers\nWe’re bringing next-gen AI ads to SearchHelpful, smart ads aren’t just for AI Mode. In the coming months, we’re bringing two new ways to give people real-time product advice on Search, exactly when it’s needed most.AI-powered Shopping adsBuying something big — like a new fridge or a TV — can be overwhelming. People want to see exactly what they’re looking for and why it’s the best option. To make choosing easier, we’re launching AI-powered Shopping ads. Now, if someone searches for an espresso machine, Gemini will pull up your most relevant products and instantly write a custom explainer highlighting why your product may be the right choice for them.\nAI-powered Shopping ads\nBusiness Agent for LeadsWhen weighing important options, people want to feel confident before they commit. Business Agent for Leads, built with Gemini, puts a smart brand agent right inside your ad. Instead of filling out a static form, a student researching universities can click “Chat” to get instant answers based on your website, turning a practical interaction into a valuable lead.\nBusiness Agent for Leads\nWe’re expanding the Direct Offers pilotSince launching the Direct Offers pilot in Ja",
+          "category": "hot",
+          "publishedAt": "2026-05-21T09:49:46.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Throwing AI-generated walls of text into conversations",
+          "titleKo": "대화에 AI 생성 텍스트 벽을 던지지 말자",
+          "summary": "대화나 이메일에 긴 AI 생성 응답을 붙여넣는 관행을 비판하며, 간단한 질문에는 간결한 인간의 답변이 필요하다고 주장합니다. AI는 사고를 명확히 하는 데 쓰되 인간의 판단을 대체하면 안 된다고 강조합니다.",
+          "keyPoints": [
+            "긴 AI 텍스트는 수신자의 시간을 낭비하고 대화를 막음",
+            "간단한 질문에 장문의 답변은 의사소통의 본질을 해침",
+            "AI는 결과물을 더 명확하게 다듬는 도구로만 사용할 것"
+          ],
+          "whyItMatters": "개발 팀의 협업과 커뮤니케이션 효율을 지키기 위해 AI 도구의 올바른 사용 방식을 이해하는 것이 중요합니다.",
+          "url": "https://noslopgrenade.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 458,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "throwing-ai-generated-walls-of-text-into-conversations",
+          "fullContent": "Stop throwing AI-generated walls of text into conversations.\nPasting a massive AI-generated response into a chat or email where a human would write one sentence. It destroys the medium itself. Nobody writes essays in Slack. It's only possible because of AI copy-paste.\nIt's like calling someone and asking \"What time is the meeting?\" and they read you a 10-page analysis of calendar management best practices. You asked a simple question. They lobbed a document.\nIf they wanted an AI essay, they would have asked ChatGPT themselves. They asked you because they wanted your human judgment.\nIt steals the recipient's time and destroys the conversation. They spend 20 minutes extracting one sentence you should've given upfront. Even when your answer is technically correct, the format is hostile to how humans communicate.\nWorse: it's a conversation killer. There's nothing to respond to. Your wall of text suppresses dialogue. They can't reply, can't push back, can't clarify. It's a weapon disguised as helpfulness.\nUse AI to make things clearer, not longer. Let it sharpen your thinking, not replace it.\nOr as Jean Baudrillard has said:\n\"We live in a world where there is more and more information, and less and less meaning.\"",
+          "category": "hot",
+          "publishedAt": "2026-05-21T09:31:15.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Waymo pauses Atlanta service as its robotaxis keep driving into floods",
+          "titleKo": "Waymo, 로봇택시가 침수된 도로로 진입하면서 애틀랜타 서비스 일시 중단",
+          "summary": "Waymo가 애틀랜타에서 로봇택시가 침수된 도로에 진입해 고장 나면서 해당 도시의 서비스를 일시 중단했다. 지난주 소프트웨어 리콜을 발령했지만 최종 해결책을 완성하지 못했으며, 기상 경보 시스템에만 의존하는 현재 방식이 극한 강우 상황에서 충분하지 않음을 드러냈다.",
+          "keyPoints": [
+            "Waymo는 샌안토니오에 이어 애틀랜타에서도 서비스를 일시 중단했으며, 침수 도로 회피를 위한 '최종 해결책'이 아직 개발 중",
+            "NHTSA와 NTSB는 불법 스쿨버스 추월과 산타모니카 아동 충돌 사건 등 두 건의 독립적인 조사를 진행 중"
+          ],
+          "whyItMatters": "자율주행차의 실제 환경 대응 능력과 안전성 검증 시스템의 한계를 보여주며, 규제 기관의 감시 강화가 자율주행 산업 상용화에 미치는 영향을 시사한다.",
+          "url": "https://techcrunch.com/2026/05/21/waymo-pauses-atlanta-service-as-its-robotaxis-keep-driving-into-floods/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 221,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "waymo-pauses-atlanta-service-as-its-robotaxis-keep-driving-into-floods",
+          "fullContent": "Waymo has now paused service in two cities because its robotaxis are struggling to deal with heavy rain and flooded roads, a problem that already prompted the company to issue a recall last week.\nOne of Waymo’s robotaxis was spotted driving through a flooded street in Atlanta, Georgia, on Wednesday before it ultimately got stuck for about an hour, according to local news reports. The vehicle was recovered and removed from the scene, Waymo told TechCrunch. Waymo says it paused service in the city, just like it has in San Antonio, Texas, while it figures out a solution.\n“Safety is Waymo’s top priority, both for our riders and everyone we share the road with. During a period of intense rain yesterday in Atlanta, an unoccupied Waymo vehicle encountered a flooded road and stopped,” the company said in a statement.\nWaymo admitted that it hadn’t finished developing a “final remedy” for avoiding flooded areas when it issued its software recall last week. Instead, the company said that it shipped an update to its fleet that placed “restrictions at times and in locations where there is an elevated risk of encountering a flooded, higher-speed roadway,” according to documents released by the National Highway Traffic Safety Administration (NHTSA).\nBut even those precautions apparently were not enough to stop the Waymo robotaxi from entering the flooded intersection in Atlanta. Waymo told TechCrunch on Thursday that the storm in Atlanta produced so much rainfall that flooding was happening before the National Weather Service had issued a flash flood warning, watch, or advisory. The company said those alerts are part of a larger set of signals it relies on to prepare the vehicles for poor weather.\nThis is not the first time Waymo has struggled to quickly stamp out problematic behavior with its robotaxis. When people started to notice Waymo robotaxis illegally passing stopped school buses last year, the company shipped a fix that was supposed to address the issue — only for its fleet to continue making illegal maneuvers around school buses.\nWaymo’s behavior around school buses is at the center of one of two sets of active investigations into the company.\nBoth the NHTSA and the National Transportation Safety Board (NTSB) are looking into this problem. Waymo has already produced a batch of documents for the NHTSA, all of which were redacted to the public. On May 15, the NHTSA sent a second document request to Waymo because the company’s initial response “necessitates that [NHTSA] receive further data and information.”\nThe other set of investigations from the NHTSA and NTSB involve a January 23 incident where a Waymo robotaxi crashed into a child in Santa Monica, California. Waymo has said that its robotaxi braked to around six miles per hour before it struck that child and that she suffered minor injuries.\nThis story has been updated with more information about how Waymo uses National Weather Service alerts.",
+          "category": "hot",
+          "publishedAt": "2026-05-21T16:30:47.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Flipper One – we need your help",
+          "titleKo": "Flipper One – 우리는 당신의 도움이 필요합니다",
+          "summary": "Flipper One 프로젝트가 커뮤니티 지원과 도움을 요청하는 공지입니다.",
+          "keyPoints": [
+            "Flipper One 프로젝트의 진행 상황과 필요한 지원 사항 공지"
+          ],
+          "whyItMatters": "오픈소스 하드웨어/소프트웨어 프로젝트에 참여하거나 기여하고자 하는 개발자들에게 중요한 정보입니다.",
+          "url": "https://blog.flipper.net/flipper-one-we-need-your-help/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 1012,
+          "contentType": "discussion",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "flipper-one-we-need-your-help",
+          "category": "hot",
+          "publishedAt": "2026-05-21T11:03:38.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Seattle Shield, an intelligence-sharing network operated by the Seattle police",
+          "summary": "",
+          "keyPoints": [],
+          "url": "https://prismreports.org/2026/05/20/seattle-shield-private-companies-surveillance/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 386,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "seattle-shield-an-intelligence-sharing-network-operated-by-the-seattle-police",
+          "category": "hot",
+          "publishedAt": "2026-05-21T17:55:58.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Launch HN: Runtime (YC P26) – Sandboxed coding agents for everyone on a team",
+          "titleKo": "Runtime 출시: 팀의 모든 구성원을 위한 샌드박스 코딩 에이전트",
+          "summary": "Runtime은 회사의 컨텍스트, 통합 도구, 보안 정책이 적용된 샌드박스 환경에서 여러 AI 에이전트를 관리하는 플랫폼이다. Claude Code, Cursor, Copilot 등 다양한 에이전트를 지원하며, 엔지니어링부터 마케팅, 재무, HR까지 모든 팀이 각자의 용도에 맞는 에이전트를 사용할 수 있다. Slack, GitHub, Linear 등과 통합되며, 실시간 협업, 비용 추적, 승인 게이트, 파일 규칙 같은 거버넌스 기능이 내장되어 있다.",
+          "keyPoints": [
+            "다중 에이전트 지원: Claude Code, Cursor, Codex, Copilot, Gemini CLI, Devin, OpenCode 등 여러 AI 에이전트를 하나의 플랫폼에서 관리할 수 있으며, 에이전트 간 전환이 가능하다.",
+            "팀별 커스터마이징 환경: 각 팀이 monorepo부터 마이크로서비스까지 회사의 실제 환경을 재현한 샌드박스에서 작업하며, mise, npm, brew 등으로 필요한 CLI와 도구를 설치하고 MCP 서버도 연결할 수 있다.",
+            "실시간 협업: 에이전트 작업 진행 상황을 실시간으로 볼 수 있고, Slack/Linear/GitHub 등에서 태깅으로 에이전트를 호출하면 PR 작성, 메시지 발신, 티켓 업데이트 등 결과를 다양한 방식으로 전달한다.",
+            "풀스택 거버넌스: Mission Control 대시보드에서 모든 에이전트 세션의 도구 호출, 사고 과정, 파일 변경, 비용을 투명하게 추적하며, 지출 한도 설정, 파일 접근 규칙, 승인 게이트를 통해 보안과 비용을 관리한다.",
+            "배경 작업 및 자동 스케줄링: 에이전트가 백그라운드에서 자동으로 작업을 수행하고 완료되면 자동 일시 중지되며, 큐, 재시도, 오케스트레이션 기능으로 신뢰성을 보장한다.",
+            "팀별 특화 에이전트: 엔지니어링팀은 백로그 처리, 제품팀은 PRD를 프로토타입으로 변환, 마케팅팀은 Slack에서 즉석 Growth Engineer로 활용, 지원팀은 데이터 질문을 즉시 답변, 재무팀은 대시보드와 조정을 자동화할 수 있다.",
+            "자체 호스팅 지원: MIT, Apache 2.0, AGPL v3 등 다양한 라이선스로 제공되며, 자신의 인프라에 배포하고 커스텀 스킬과 통합을 추가할 수 있다.",
+            "개별 세션 스냅샷: 환경을 한 번 설정하면 모든 세션이 몇 초 내에 부팅되어 설정 오버헤드를 최소화한다."
+          ],
+          "whyItMatters": "기술 팀뿐 아니라 마케팅, 지원, 재무 등 모든 팀이 에이전트의 도움을 받으며, 플랫폼에서 보안, 비용, 협업을 한곳에서 관리할 수 있어 에이전트 도입의 진입장벽을 크게 낮추고 조직 전체의 자동화 효율을 높일 수 있다.",
+          "url": "https://www.runtm.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 51,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "coding-agents-ai",
+          "isTopicPrimary": true,
+          "slug": "launch-hn-runtime-yc-p26-sandboxed-coding-agents-for-everyone-on-a-team",
+          "fullContent": "The runtimefor all your team's agents.Sandboxed coding agents with your company's context, integrations, and guardrails.Start Building FreeTalk to the team#alerts-eng· 47 membersChannelAlertscdn_origin_503_spikeRuntime resolvedWorks with your favorite coding agentsClaude CodeCursorCodexCopilotGemini CLIDevinOpenCodeEnvironments with every tool your team uses.Connect all of your company's environments, from monorepos to microservices. Install any CLI, API, service, or MCP server, layer in custom instructions and skills, then set guardrails and secrets. Snapshot once so every session boots in seconds.Install from mise, npm, brew, or githubDatadogSalesforceStripeNetSuite+ anything elseEnvironment SetupBuildingSetting up sandboxAgent-assisted build for claude-codeSpecialized agents your team can tag wherever they work.Build an alert inspector for #incidents, a sales prospector for #revenue, or a support triager for your inbox. Each one runs investigations, ships PRs, drafts replies, and posts findings without anyone asking. Tag them from Slack, Linear, GitHub, or anywhere your team already works.SlackLinearGitHubJira+ many more#engineeringAgent runs in the background and auto-pauses on completion.Mission ControlFix login timeout#engineeringUpdate API docsENG-89Add rate limitingruntm.comagent-1 writing lib/auth.ts...Let anyone on your team work alongside agents.Anyone can prompt an agent and watch it work, from engineering to support to sales. Hand off mid-session, collaborate in real time, and ship the result however your team needs: a PR, a deploy, a message, a ticket, or a report.github-org/monorepoSCJMAL3 onlineSCUpdate the hero copy to focus on enterprise featuresJMAdd a testimonial section below the fold tooI'll update the hero and add a testimonials section. Working on it now...Live preview updating for all collaboratorsSee and govern every agent in your company.Live visibility into every session: tool calls, chain of thought, file changes. Track cost per agent, per user, per team. Spend limits, allowlists, and approval gates baked in.Activity DashboardLast 30 daysSessions1,247Total Cost$2,184Team35PromptCostStatusSKFix login timeout bugClaude Code$0.12DoneJMUpdate hero copyClaude Code$0.08DoneALAdd testimonials sectionCodex$0.21ActiveRMSet up rate limitingClaude Code$0.04ActiveUse it your wayBrowser, terminal, or API.Mission ControlCLIAPIAgent Mission ControlMonitor, manage, and deploy coding agents from a single dashboard. Invite teammates to collaborate in real-time. Use your own AI keys.Start Building Freeapp.runtm.com/sessionsClaude CodeautopilotBuild an internal audit dashboardSetting up auth and API routes...4/6 actionsPreviewCodeReadyLive previewEvery layer your team's agents need.Built in. Customizable. Ready to ship.Sandboxes, orchestration, guardrails, observability, integrations — Runtime handles the agent infrastructure your team would otherwise spend months building from scratch.Integrations & SkillsSlack, Linear, GitHub, your secrets.Observability & CostSessions, traces, audit logs, spend.Guardrails & PolicySpend limits, file rules, approvals.Multi-Agent RuntimeClaude, Codex, Gemini — swappable.Agent OrchestrationBackground runs, queues, retries.Sandboxed ComputePre-warmed environments per session.Build all of this yourself, or skip ~9 months of infrastructure work.Try It FreeA coding agent for every team.Each team gets a sandboxed agent with the data, integrations, and guardrails they need.EngineeringMultiply your team. Clear the backlog. Stay in control.Learn moreProductTurn PRDs into prototypes. Pass clean PRs to engineering.Learn moreDesignIterate on real pages. Ship without filing a ticket.Learn moreMarketingYour Growth Engineer in Slack, on demand.Learn moreSupportAsk data questions in plain English. Get answers in seconds.Learn moreFinancePrivate finance agent. Dashboards and reconciliations without engineering.Learn morePeopleConnect HRIS and payroll. Answer questions in seconds.Learn moreForward-DeployedCustomer customizations at scale, without losing your team.Learn moreSelf-HostableExtend it. Self-host it. Make it yours.Deploy Runtime on your own infrastructure with your own cloud, models, and secrets. Extend it with custom skills and integrations.View on GitHubContributeMITTemplatesApache 2.0CLI & Shared libsAGPL v3API & WorkerSelf-hostFull controlFAQWho is Runtime for?Runtime is for any company that wants every function to ship work with a coding agent, not just engineering. Platform teams use it to roll out agents safely, while product, design, marketing, support, finance, and people teams use the same sandbox to automate work they already own.How do agents work inside Slack? Do we always have to tag them?You can tag them, or let them work proactively. Each team gets its own sandboxed agent in Slack with a name you choose, like @runtime-finance, @runtime-support, or @ada, that you @mention with a question or a task. You can also point it at a channel so it picks up new message",
+          "category": "tech",
+          "publishedAt": "2026-05-21T16:07:13.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Python 3.15: features that didn't make the headlines",
+          "titleKo": "Python 3.15: 헤드라인을 장식하지 못한 기능들",
+          "summary": "Python 3.15에서 출시될 예정인 주요 기능들 중 lazy imports, tachyon profiler 같은 대형 기능보다는 덜 주목받지만 실용적인 기능들을 소개한다. AsyncIO TaskGroup 취소, 컨텍스트 매니저 개선, 스레드 안전 반복자 등의 기능이 포함되어 있으며, 이들은 실제 개발에서 코드 복잡성을 줄이고 안정성을 높인다.",
+          "keyPoints": [
+            "TaskGroup.cancel() 메서드: 기존에는 TaskGroup을 취소하기 위해 custom exception을 raise하고 contextlib.suppress로 필터링해야 했으나, 3.15부터는 tg.cancel() 한 줄로 예외 없이 깔끔하게 취소할 수 있다.",
+            "ContextDecorator 개선: Python 3.15에서 ContextDecorator가 async 함수, generator, async generator 타입을 감지하여 적절히 처리할 수 있게 되었다. 이제 context manager를 직접 decorator로 사용할 때 async 함수나 generator에서도 전체 lifecycle을 올바르게 관리한다.",
+            "threading.serialize_iterator: 멀티스레딩 환경에서 반복자의 스레드 안전성을 보장하는 새로운 함수로, 기존에는 iterator를 스레드 간에 공유할 때 값이 건너뛰어지거나 내부 상태가 손상될 수 있었던 문제를 해결한다.",
+            "threading.synchronized_iterator 데코레이터: generator 함수 결과에 threading.serialize_iterator를 자동으로 적용해주는 편의 기능이다.",
+            "threading.concurrent_tee: 반복자의 값을 여러 반복자에 중복해서 분배하는 함수로, 여러 스레드가 동일한 데이터를 독립적으로 소비할 수 있게 한다."
+          ],
+          "whyItMatters": "AsyncIO, 데코레이터 패턴, 멀티스레딩을 자주 사용하는 개발자들에게 코드 복잡성을 크게 줄이고 버그를 방지할 수 있는 실용적인 개선사항들이다.",
+          "url": "https://blog.changs.co.uk/python-315-features-that-didnt-make-the-headlines.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 318,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "topicId": "python-315-release",
+          "isTopicPrimary": true,
+          "slug": "python-315-features-that-didnt-make-the-headlines",
+          "fullContent": "It's that time of the year again, a new version of Python is just around the corner. With the Python 3.15.0b1 feature freeze, we know what's coming to Python later this year. There are so many big features coming including lazy imports and the tachyon profiler which I previously covered.\nLast year, I really enjoyed investigating the smaller features of Python 3.14. I found that many of those features were just as interesting as the big PEPs and deserve a lot more attention. This year the situation is no different.\nAsyncio Taskgroup Cancellation\nThere are not many Asyncio changes in this releases. The main feature to come out here is the ability to cancel a TaskGroup gracefully.\nTaskGroup is a form of structured concurrency, it enables developers to create multiple concurrent tasks in a clean way.\nasync with asyncio.TaskGroup() as tg:\ntg.create_task(run())\ntg.create_task(run())\n# Waits for all the tasks to complete\nSuppose we want to wait in the background for a signal of sorts to interrupt the taskgroup's execution, it's seems like something simple to do in asyncio, but in reality it's somewhat awkward to do this.\nclass Interrupt(Exception):\n...\nwith suppress(Interrupt):\nasync with asyncio.TaskGroup() as tg:\ntg.create_task(run())\ntg.create_task(run())\nif await wait_for_signal():\nraise Interrupt()\nThis works because exceptions raised within a task group cause other tasks to cancel. The custom Interrupt exception is raised as part of a ExceptionGroup which then gets filtered by contextlib.suppress, resulting in a graceful exit.\nThe way suppress works with ExceptionGroup is yet another overlooked feature from 3.12. This is a change I learnt by accident when researching this article.\nThe new TaskGroup.cancel makes this process a lot easier:\nasync with asyncio.TaskGroup() as tg:\ntg.create_task(run())\ntg.create_task(run())\nif await wait_for_signal():\ntg.cancel()\nUnlike before it's so simple there's hardly any point in explaining. It simply cancels the group without raising any exceptions.\nContext Manager Improvements\nDecorators are surprisingly hard to write, so much so that it's become a go-to interview question. But did you know that context managers can also double up as a decorator?\n@contextmanager\ndef duration(message: str) -> Iterator[None]:\nstart = time.perf_counter()\ntry:\nyield\nfinally:\nprint(f\"{message} elapsed {time.perf_counter() - start:.2f} seconds\")\nHere I have a very commonly used context manager to print out the duration spent in the block. Ever since Python 3.3 we could directly use it as a decorator too:\n@duration('workload')\ndef workload():\n...\n# Or simple as a wrapper\nduration('stuff')(other_workload)(...)\nBut whilst it's convenient, there are cases where it doesn't work at all:\n@duration('async workload')\nasync def async_workload():\n...\n@duration('generator workload')\ndef workload():\nwhile True:\nyield ...\nIterators, async functions and async iterators don't work well here because they have different semantics to standard functions. When you call them they return immediately with a generator object, coroutine function and async generator object respectively. So the decorator completes immediately as opposed to the entire lifecycle what it's wrapping.\nThis is an unfortunate problem I've encountered many times, and it's often a problem for normal decorators too. But this has changed in 3.15, now the ContextDecorator will check the type of the function it's wrapping and ensure that the decorator covers the entire lifespan.\nIn my opinion, this now makes context managers the best way to create decorators! It avoids some of the common footguns and provides cleaner syntax. I recommend more people start using it this way.\nThread Safe Iterators\nIterators are one of the foundations of modern Python. The iterator type allows us to separate data sources from data consumers as below, resulting in cleaner abstractions:\nlazy from typing import Iterator\ndef stream_events(...) -> Iterator[str]:\nwhile True:\nyield blocking_get_event(...)\nevents = stream_events(...)\nfor event in events:\nconsume(event)\nBut this abstraction breaks when using threading or free-threading. An iterator by default is not threadsafe, therefore we may see skipped values or just broken internal iterator state.\nThis is solved in 3.15 with threading.serialize_iterator, we simply wrap our original iterator with this and voila:\nimport threading\nevents = threading.serialize_iterator(stream_events(...))\nwith ThreadPoolExecutor() as executor:\nfut1 = executor.submit(consume, events)\nfut2 = executor.submit(consume, events)\nThere is also the threading.synchronized_iterator decorator which just applies threading.serialize_iterator to the result of an generator function.\nFinally we also have threading.concurrent_tee that instead of splitting the values will duplicate the values across multiple iterators:\nsource1, source2 = threading.concurrent_tee(squares(10), n=2)\nwith ThreadPoolExecutor() as executor:\nfut1 = executor.submit(consume, source1)\nfut2 = ",
+          "category": "tech",
+          "publishedAt": "2026-05-21T11:10:11.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "anthropics/claude-plugins-official (Python)",
+          "titleKo": "Anthropic 공식 Claude 코드 플러그인 디렉토리",
+          "summary": "Anthropic에서 관리하는 공식 Claude 코드 플러그인 저장소로, 고품질의 플러그인 컬렉션을 제공한다.",
+          "keyPoints": [
+            "Anthropic이 직접 관리하고 검증한 공식 Claude 플러그인 디렉토리로, 개발자가 신뢰할 수 있는 고품질 플러그인을 찾을 수 있다."
+          ],
+          "whyItMatters": "Claude 기반 개발 시 신뢰할 수 있는 공식 플러그인을 활용할 수 있어 개발 생산성과 안정성을 높일 수 있다.",
+          "url": "https://github.com/anthropics/claude-plugins-official",
+          "sourceName": "GitHub Trending",
+          "engagement": 22317,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "claude-plugins-ai",
+          "isTopicPrimary": true,
+          "slug": "anthropicsclaude-plugins-official-python",
+          "category": "tech",
+          "publishedAt": "2026-05-21T23:26:54.003Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "multica-ai/multica (Go)",
+          "titleKo": "multica-ai/multica (Go) - 오픈소스 관리형 에이전트 플랫폼",
+          "summary": "코딩 에이전트를 실제 팀원으로 전환하는 오픈소스 관리형 에이전트 플랫폼입니다. 작업 할당, 진행 상황 추적, 스킬 복합 등의 기능을 제공합니다.",
+          "keyPoints": [
+            "코딩 에이전트를 팀 협업 도구로 활용 가능",
+            "작업 관리, 진행 추적, 스킬 통합 기능 제공"
+          ],
+          "whyItMatters": "AI 에이전트를 개발 워크플로우에 실질적으로 통합할 수 있는 인프라를 제공합니다.",
+          "url": "https://github.com/multica-ai/multica",
+          "sourceName": "GitHub Trending",
+          "engagement": 30696,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "ai-skills-training",
+          "isTopicPrimary": false,
+          "relatedCount": 4,
+          "slug": "multica-aimultica-go",
+          "category": "tech",
+          "publishedAt": "2026-05-21T23:26:54.007Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Go"
+          ]
+        },
+        {
+          "title": "multica-ai/andrej-karpathy-skills",
+          "titleKo": "Andrej Karpathy의 기술을 활용한 Claude 코드 개선",
+          "summary": "Andrej Karpathy의 LLM 코딩 함정 관찰을 바탕으로 만들어진 CLAUDE.md 파일로 Claude Code의 동작을 개선하는 프로젝트입니다.",
+          "keyPoints": [
+            "LLM 코딩의 일반적인 실수를 문서화하여 AI 모델의 코드 생성 품질 향상",
+            "Claude 코드 어시스턴트를 위한 구체적인 지침과 규칙 제공"
+          ],
+          "whyItMatters": "AI 코딩 보조 도구를 효과적으로 활용하기 위한 실전적인 가이드 제공합니다.",
+          "url": "https://github.com/multica-ai/andrej-karpathy-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 143080,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-skills-training",
+          "isTopicPrimary": true,
+          "relatedCount": 4,
+          "slug": "multica-aiandrej-karpathy-skills",
+          "category": "tech",
+          "publishedAt": "2026-05-21T23:26:54.004Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "can1357/oh-my-pi (TypeScript)",
+          "titleKo": "oh-my-pi: 터미널용 AI 코딩 에이전트",
+          "summary": "TypeScript 기반 터미널 AI 코딩 에이전트로, 해시 앵커 편집, 최적화된 도구 인터페이스, LSP, Python, 브라우저 통합, 서브 에이전트 등을 제공한다.",
+          "keyPoints": [
+            "터미널에서 직접 실행되는 AI 코딩 에이전트로 해시 기반 편집으로 추적 가능한 코드 변경 지원"
+          ],
+          "url": "https://github.com/can1357/oh-my-pi",
+          "sourceName": "GitHub Trending",
+          "engagement": 5826,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "devops"
+          ],
+          "topicId": "oh-my-pi-typescript",
+          "isTopicPrimary": true,
+          "slug": "can1357oh-my-pi-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-21T23:26:54.007Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "colbymchenry/codegraph (TypeScript)",
+          "titleKo": "CodeGraph: Claude Code/Cursor용 사전 인덱싱 코드 지식 그래프",
+          "summary": "Claude Code, Codex, Cursor, OpenCode를 위한 사전 인덱싱된 코드 지식 그래프로 토큰 사용과 도구 호출을 최소화합니다.",
+          "keyPoints": [
+            "코드베이스를 사전에 인덱싱하여 AI 모델의 토큰 사용량 감소",
+            "100% 로컬에서 동작하며 도구 호출 횟수를 획기적으로 줄임"
+          ],
+          "whyItMatters": "AI 코딩 어시스턴트의 효율성을 높이면서 비용을 절감할 수 있습니다.",
+          "url": "https://github.com/colbymchenry/codegraph",
+          "sourceName": "GitHub Trending",
+          "engagement": 13305,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "general"
+          ],
+          "topicId": "codegraph-typescript",
+          "isTopicPrimary": true,
+          "slug": "colbymchenrycodegraph-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-21T23:26:54.004Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Show HN: Open-source .docx editor library for building document apps",
+          "titleKo": "오픈소스 .docx 에디터 라이브러리로 문서 앱 구축하기",
+          "summary": "React, Vue, Nuxt를 지원하는 오픈소스 WYSIWYG .docx 에디터 라이브러리로, 표준 OOXML, 변경 추적, 실시간 협업 기능을 제공한다. AI 에이전트 통합이 가능하며 여러 프레임워크를 위한 어댑터와 플러그인 시스템을 갖추고 있다.",
+          "keyPoints": [
+            "React, Vue, Nuxt 3&4를 모두 지원하는 통합 라이브러리로 OOXML 파서, 레이아웃 엔진, ProseMirror 스키마 기반",
+            "변경 추적, 실시간 협업, 에이전트SDK 포함으로 현대적 문서 편집 기능 지원",
+            "다국어 지원(영어, 독일어, 폴란드어, 중국어 등)과 플러그인 아키텍처로 확장 가능"
+          ],
+          "whyItMatters": "개발자는 별도 구축 없이 프로덕션급 문서 편집 기능을 빠르게 통합할 수 있고, AI 에이전트와 함께 사용하는 새로운 문서 앱 개발이 가능하다.",
+          "url": "https://github.com/eigenpal/docx-editor",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 14,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "document-editors",
+          "isTopicPrimary": true,
+          "slug": "show-hn-open-source-docx-editor-library-for-building-document-apps",
+          "fullContent": "Open-source WYSIWYG .docx editor for React and Vue with canonical OOXML, tracked changes, and real-time collaboration. Agent-ready. Live demo | Documentation\nQuick Start\nnpm install @eigenpal/docx-editor-react\nSee the React quick start below.\nnpm install @eigenpal/docx-editor-vue\nSee the Vue quick start below.\nnpm install @eigenpal/nuxt-docx-editor\nSee the Nuxt quick start below.\nPackages\nPackage\nDescription\nDocs\n@eigenpal/docx-editor-react\nReact adapter. Toolbar, paged editor, plugins.\nDocs\n@eigenpal/docx-editor-vue\nVue 3 adapter. Toolbar, paged editor, plugins.\nDocs\n@eigenpal/nuxt-docx-editor\nNuxt 3 & 4 module wrapping the Vue adapter.\nDocs\n@eigenpal/docx-editor-core\nFramework-agnostic core: OOXML parser, serializer, layout engine, ProseMirror schema. Depend on this if you fork the React or Vue adapter.\nDocs\n@eigenpal/docx-editor-i18n\nShared locale strings and types consumed by both adapters.\nDocs\n@eigenpal/docx-editor-agents\nAgent SDK and chat UI: framework-agnostic bridge, MCP server, AI SDK adapters, plus UI components.\nDocs\nForking the adapter? Keep your fork thin. Depend on @eigenpal/docx-editor-core directly so parser, serializer, and rendering fixes land in your build automatically, without backporting each upstream change by hand.\nReact\nimport { useState } from 'react';\nimport { DocxEditor } from '@eigenpal/docx-editor-react';\nimport '@eigenpal/docx-editor-react/styles.css';\nexport function App() {\nconst [buffer, setBuffer] = useState<ArrayBuffer | null>(null);\nreturn (\n<>\n<input\ntype=\"file\"\naccept=\".docx\"\nonChange={async (e) => setBuffer((await e.target.files?.[0]?.arrayBuffer()) ?? null)}\n/>\n{buffer && <DocxEditor documentBuffer={buffer} mode=\"editing\" />}\n</>\n);\n}\nNext.js / SSR: Use dynamic import. The editor requires the DOM.\nFull docs: packages/react · API reference.\nVue\n<script setup lang=\"ts\">\nimport { ref } from 'vue';\nimport { DocxEditor } from '@eigenpal/docx-editor-vue';\nimport '@eigenpal/docx-editor-vue/styles.css';\nconst buffer = ref<ArrayBuffer | null>(null);\nasync function loadFile(e: Event) {\nconst file = (e.target as HTMLInputElement).files?.[0];\nbuffer.value = file ? await file.arrayBuffer() : null;\n}\n</script>\n<template>\n<input type=\"file\" accept=\".docx\" @change=\"loadFile\" />\n<DocxEditor v-if=\"buffer\" :document-buffer=\"buffer\" mode=\"editing\" />\n</template>\nFull docs: packages/vue · API reference.\nNuxt\n// nuxt.config.ts\nexport default defineNuxtConfig({\nmodules: ['@eigenpal/nuxt-docx-editor'],\n});\n@eigenpal/nuxt-docx-editor wraps the Vue adapter as a Nuxt 3 & 4 module: it auto-imports an SSR-safe <DocxEditor> component (no manual import, no <ClientOnly> wrapper) and the Vue composables.\nFull docs: packages/nuxt.\nPlugins\nimport { DocxEditor } from '@eigenpal/docx-editor-react';\nimport { PluginHost, templatePlugin } from '@eigenpal/docx-editor-react/plugin-api';\n<PluginHost plugins={[templatePlugin]}>\n<DocxEditor documentBuffer={buffer} />\n</PluginHost>;\nSee the plugin documentation for the full plugin API.\nDevelopment\nbun install\nbun run dev # localhost:5173\nbun run build\nbun run typecheck\nA live preview of main is auto-deployed at latest.docx-editor.dev — useful for trying out changes before they ship to npm.\nExamples: Vite | Next.js | Remix | Astro | Vue | Nuxt\nDocumentation | Props & Ref Methods | Plugins | Architecture\nContributing\nContributions welcome. See CONTRIBUTING.md for setup, tests, and the one-time CLA signature.\nTranslations\nLocale\nLanguage\nen\nEnglish\nde\nGerman\npl\nPolish\npt-BR\nPortuguese (Brazil)\ntr\nTurkish\nhe\nHebrew\nzh-CN\nChinese (Simplified)\nHelp translate the editor into your language! See the full i18n contribution guide.\nbun run i18n:new de # scaffold German locale\nbun run i18n:status # check translation coverage\nCommercial Support\nTipQuestions or custom features? Email docx-editor@eigenpal.com.",
+          "category": "tech",
+          "publishedAt": "2026-05-21T20:23:37.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "ChromeDevTools/chrome-devtools-mcp (TypeScript)",
+          "titleKo": "Chrome DevTools를 위한 Model Context Protocol 서버",
+          "summary": "Chrome DevTools 기능을 코딩 에이전트에서 사용할 수 있도록 MCP 인터페이스로 제공하는 TypeScript 프로젝트다.",
+          "keyPoints": [
+            "AI 코딩 에이전트가 Chrome DevTools의 디버깅, 성능 분석 등의 기능을 활용할 수 있도록 표준화된 MCP 프로토콜로 통합한다."
+          ],
+          "whyItMatters": "AI 에이전트 기반 개발 환경에서 브라우저 디버깅 도구에 접근할 수 있어 자동화된 웹 애플리케이션 개발과 테스트 효율성을 높인다.",
+          "url": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+          "sourceName": "GitHub Trending",
+          "engagement": 40465,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "frontend",
+            "devops"
+          ],
+          "topicId": "chrome-devtools-mcp-typescript",
+          "isTopicPrimary": true,
+          "slug": "chromedevtoolschrome-devtools-mcp-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-21T23:26:54.006Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Multi-Stream LLMs: new paper on parallelizing/separating prompts, thinking, I/O",
+          "titleKo": "멀티 스트림 LLM: 프롬프트, 사고, I/O 병렬화 논문",
+          "summary": "LLM에서 여러 작업(프롬프트, 사고, I/O)을 병렬로 처리하는 새로운 방식에 대한 연구 논문입니다.",
+          "keyPoints": [
+            "LLM의 처리 효율을 높이기 위해 스트림을 분리하여 병렬 처리",
+            "프롬프트 작성, 추론, 입출력 작업을 동시에 진행 가능"
+          ],
+          "whyItMatters": "LLM 기반 애플리케이션의 응답 시간과 처리량을 크게 개선할 수 있는 기술입니다.",
+          "url": "https://arxiv.org/abs/2605.12460",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 35,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "llm-optimization",
+          "isTopicPrimary": true,
+          "slug": "multi-stream-llms-new-paper-on-parallelizingseparating-prompts-thinking-io",
+          "category": "tech",
+          "publishedAt": "2026-05-21T19:37:26.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "dotnet/skills (C#)",
+          "titleKo": ".NET/C# AI 코딩 에이전트 기술 저장소",
+          "summary": ".NET과 C# 개발 시 AI 코딩 에이전트를 지원하는 기술 모음을 제공하는 공식 저장소입니다.",
+          "keyPoints": [
+            ".NET 개발자를 위한 AI 에이전트 통합 기술 제공",
+            "C# 및 .NET 생태계에 맞춘 에이전트 기술 라이브러리"
+          ],
+          "whyItMatters": ".NET 개발 시 최신 AI 보조 도구와 기술을 공식적으로 지원받을 수 있습니다.",
+          "url": "https://github.com/dotnet/skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 2177,
+          "contentType": "repo",
+          "labels": [
+            "backend"
+          ],
+          "topicId": "ai-skills-training",
+          "isTopicPrimary": false,
+          "relatedCount": 4,
+          "slug": "dotnetskills-c",
+          "category": "tech",
+          "publishedAt": "2026-05-21T23:26:54.004Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "C#"
+          ]
+        },
+        {
+          "title": "Vivaldi 8.0",
+          "titleKo": "Vivaldi 8.0 - 새로운 통합 UI와 6가지 레이아웃 프리셋",
+          "summary": "Vivaldi 8.0은 'Unified' 디자인으로 재편된 새로운 브라우저로, 탭, 툴바, 패널, 콘텐츠의 경계를 제거한 통합 인터페이스를 제공합니다. 6가지 레이아웃 프리셋(Simple, Classic, Vertical Right/Left, Auto Hide, Bottom)으로 사용자 맞춤 경험을 지원합니다.",
+          "keyPoints": [
+            "새로운 'Unified' 디자인으로 브라우저 전체 UI를 하나의 시각 평면으로 통합",
+            "사용자 선호도에 따른 6가지 프리셋 레이아웃 제공 및 7,000개 이상의 테마 지원",
+            "테마가 전체 브라우저에 일관되게 적용되며 배경 및 투명도 효과 개선"
+          ],
+          "whyItMatters": "개발자에게 높은 커스터마이징 능력과 생산성 지향의 브라우저 환경을 제공합니다.",
+          "url": "https://vivaldi.com/blog/vivaldi-on-desktop-8-0/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 333,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "topicId": "browser-releases",
+          "isTopicPrimary": true,
+          "slug": "vivaldi-80",
+          "fullContent": "More than thirteen years in, and I am still as excited about building this browser as I was on day one. Maybe more.\nThat excitement comes from a genuine belief that the people who use Vivaldi deserve a browser that takes them seriously.  We respect your  time, your privacy, your preferences, your  intelligence. Every release we ship is another expression of that belief.\nVivaldi 8.0 is the biggest expression of that idea we have shipped in years. A new design direction that makes the browser feel more alive and more unified than any version before it.In other words: there is more control, more capability, more choice. And a brand new look.\nA new look for a new era\nWith 8.0, Vivaldi has a new look. We call it “Unified”.\nWe have approached the Vivaldi interface less as a collection of components, and more as a layered system. Previously, those layers (tabs, toolbars, panels and content) have had subtle separations. This was useful, but also a bit fragmented. With Unified, those boundaries are removed.\nVivaldi Theme\nSoria Moria Theme\nSunset Forest Theme\nZen Theme\nAll toolbars now live on a single, continuous surface: a Unified frame that wraps the entire browser. Instead of stacked regions, everything is composed within the same visual plane. That shift makes the interface feel more cohesive and easier to read. Alignment becomes more precise, spacing more intentional, and interaction more direct, because elements no longer sit in isolated layers.\nWhen you pick a theme, it flows through everything. A dark theme is dark, all the way through. A warm theme carries that warmth into every corner. All elements of the browser belong together in a way that immediately feels… well … Unified.It also changes how themes work.\nWith a single surface, your theme can flow across the entire window. Backgrounds are no longer confined; they can extend from the tab bar through panels and edges without interruption. Wallpapers feel less like decoration and more like part of the environment, especially when combined with translucency and blur. From a system perspective, this reduces complexity. Fewer layers, fewer exceptions and a more consistent foundation to build on.\nThis isn’t about making the browser look simpler. It’s about making the structure behind it more coherent. This makes everything you see feel like part of the same system.\nYou can see the new UI’s possibilities with our new default themes, such as Zen, Soria Moria, Sunset Forest and Kawaii Clouds, and our updated light and dark themes.  If you can’t find something that hits the right spot for default, there are more than 7000 to choose from at themes.vivaldi.net. And if you have built a custom theme you love, you’re free to decide if you want the new look, or keep your own (Settings →Themes → Editor → Coloring mode). Of course; this is Vivaldi.\nStart exactly where you need to be\nOne of the things that makes Vivaldi special is also one of the things that can feel like a lot on day one: the sheer range of settings you can configure. If you have been using Vivaldi for years, you have your setup exactly as you want it and you would not trade it for anything. If you are brand new, figuring out where to start can be a real question.\nVivaldi 8.0 answers it with six preset layouts, available right from onboarding (and from Settings → Appearance → Layout whenever you feel like a change). Each one is a thoughtfully curated starting point.\nSimple gives you a clean, focused experience: tabs on top, nothing in the way, everything ready to go. It is Vivaldi in its purest form and it is already more capable than anything the mainstream browsers will offer.\nClassic is the Vivaldi you know and love. Toolbar, panels, all the controls in their natural places, now wearing the new Unified look. This is home for a lot of you, and it is as good as it has ever been.\nVertical Right is similar to our classic look, but for people who prefer to have their tabs on the right. You’ll find the URL field on top, and panels on the left, as usual.\nVertical Left puts your tabs and address bar on the left side of the screen. Once you try this on a wide monitor, it tends to become permanent. It uses your horizontal screen space in ways that a top tab bar simply cannot. With Panels available on hover from the right side of your screen, it changes how browsing feels.\nAuto Hide is built for users who want the web to fill their entire screen. Your toolbar, tab bar, panel, and address bar step aside while you read, watch, or work, and reappear the moment your cursor reaches for any edge of the screen. It is edge to edge content with full Vivaldi capability sitting right behind it, and it is a way of experiencing the web that the other browsers have not figured out.\nBottom moves your tab bar and address bar to the bottom of the screen. Your eye travels down naturally as you read, and your navigation is already there waiting. More people work this way than you might expect, and Vivaldi has always been happy to a",
+          "category": "tech",
+          "publishedAt": "2026-05-21T07:21:55.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "teng-lin/notebooklm-py (Python)",
+          "titleKo": "teng-lin/notebooklm-py (Python) - Google NotebookLM 비공식 Python API",
+          "summary": "Google NotebookLM의 비공식 Python API로, 웹 UI에서 노출되지 않은 기능을 포함한 전체 프로그래매틱 접근을 제공합니다. Python, CLI, Claude Code 등 AI 에이전트에서 직접 사용 가능합니다.",
+          "keyPoints": [
+            "NotebookLM의 숨겨진 기능까지 프로그래매틱하게 접근 가능",
+            "Python, CLI, 다양한 AI 에이전트 플랫폼 지원"
+          ],
+          "whyItMatters": "Google의 AI 도구를 개발 워크플로우와 자동화 파이프라인에 직접 통합할 수 있습니다.",
+          "url": "https://github.com/teng-lin/notebooklm-py",
+          "sourceName": "GitHub Trending",
+          "engagement": 14361,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "notebooklm-integration",
+          "isTopicPrimary": true,
+          "slug": "teng-linnotebooklm-py-python",
+          "category": "tech",
+          "publishedAt": "2026-05-21T23:26:54.007Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "rmyndharis/OpenWA (TypeScript)",
+          "titleKo": "rmyndharis/OpenWA (TypeScript) - 자체 호스팅 WhatsApp API 게이트웨이",
+          "summary": "무료 오픈소스 자체 호스팅 WhatsApp API 게이트웨이로, WhatsApp 통합이 필요한 애플리케이션에서 비용 없이 사용 가능합니다.",
+          "keyPoints": [
+            "WhatsApp 공식 API 대신 오픈소스 대안 제공",
+            "자체 서버에서 호스팅 가능한 완전 제어 가능한 솔루션"
+          ],
+          "whyItMatters": "WhatsApp 연동이 필요한 프로젝트에서 외부 의존성과 비용을 줄일 수 있습니다.",
+          "url": "https://github.com/rmyndharis/OpenWA",
+          "sourceName": "GitHub Trending",
+          "engagement": 5384,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "backend"
+          ],
+          "topicId": "openwa-typescript",
+          "isTopicPrimary": true,
+          "slug": "rmyndharisopenwa-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-21T23:26:54.005Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "antoinezambelli/forge (Python)",
+          "titleKo": "forge: 자체 호스팅 LLM 도구 호출을 위한 Python 프레임워크",
+          "summary": "Python으로 개발된 자체 호스팅 LLM 도구 호출 및 멀티 스텝 에이전트 워크플로우를 위한 프레임워크이다.",
+          "keyPoints": [
+            "자체 호스팅 방식으로 LLM 도구 호출과 에이전트 워크플로우 구현 가능"
+          ],
+          "url": "https://github.com/antoinezambelli/forge",
+          "sourceName": "GitHub Trending",
+          "engagement": 1474,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "ai-framework-tools",
+          "isTopicPrimary": true,
+          "slug": "antoinezambelliforge-python",
+          "category": "tech",
+          "publishedAt": "2026-05-21T23:26:54.007Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "obra/superpowers (Shell)",
+          "titleKo": "Obra Superpowers: 에이전트형 기술 프레임워크",
+          "summary": "실제로 작동하는 에이전트형 기술 프레임워크와 소프트웨어 개발 방법론을 제공하는 Shell 프로젝트입니다.",
+          "keyPoints": [
+            "AI 에이전트를 위한 검증된 기술 프레임워크 및 개발 방법론 제공",
+            "실전 소프트웨어 개발에서 적용 가능한 구체적인 구현 예제"
+          ],
+          "whyItMatters": "AI 에이전트 기반 개발 프로젝트를 구축할 때 신뢰할 수 있는 기초 제공합니다.",
+          "url": "https://github.com/obra/superpowers",
+          "sourceName": "GitHub Trending",
+          "engagement": 201461,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-skills-training",
+          "isTopicPrimary": false,
+          "relatedCount": 4,
+          "slug": "obrasuperpowers-shell",
+          "category": "tech",
+          "publishedAt": "2026-05-21T23:26:54.005Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "HKUDS/CLI-Anything (Python)",
+          "titleKo": "HKUDS/CLI-Anything (Python) - 모든 소프트웨어를 에이전트 네이티브로",
+          "summary": "CLI-Anything은 모든 소프트웨어를 에이전트 네이티브하게 만드는 프로젝트입니다. CLI 기반 인터페이스를 통해 다양한 도구들을 AI 에이전트가 직접 활용할 수 있도록 합니다.",
+          "keyPoints": [
+            "기존 CLI 도구들을 AI 에이전트가 사용 가능하도록 통합",
+            "CLI-Hub를 통한 중앙화된 도구 관리"
+          ],
+          "whyItMatters": "AI 에이전트가 기존 개발 도구와 자연스럽게 상호작용할 수 있는 표준화된 방식을 제공합니다.",
+          "url": "https://github.com/HKUDS/CLI-Anything",
+          "sourceName": "GitHub Trending",
+          "engagement": 39092,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "topicId": "ai-cli-tools",
+          "isTopicPrimary": true,
+          "slug": "hkudscli-anything-python",
+          "category": "tech",
+          "publishedAt": "2026-05-21T23:26:54.005Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Show HN: Freenet, a peer-to-peer platform for decentralized apps",
+          "titleKo": "Freenet: 분산 애플리케이션을 위한 피어투피어 플랫폼",
+          "summary": "Freenet은 중앙 서버 없이 피어투피어 네트워크 위에서 통신, 협업, 상거래 애플리케이션을 구축할 수 있는 분산 플랫폼이다. Rust, TypeScript로 개발한 앱을 전역 네트워크에 배포하면 중단 불가능하고 추적되지 않는 오픈 프로토콜 기반 앱이 실행된다.",
+          "keyPoints": [
+            "링 구조의 작은 세계 네트워크로 몇 홉 내에 메시지 전달 가능하며 수백만 피어까지 효율적 확장",
+            "개발자는 친숙한 언어(Rust, TypeScript)로 서버 관리/클라우드 비용/약관 없이 분산 앱 개발 가능",
+            "25년 이상 검증된 FreeBSD Jails 기반 구조로 안정성과 보안 제공"
+          ],
+          "whyItMatters": "개발자는 중앙화된 플랫폼 의존 없이 검열 저항적이고 사용자 추적이 없는 오픈 프로토콜 기반 애플리케이션을 구축할 수 있다.",
+          "url": "https://freenet.org/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 158,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "topicId": "decentralized-platforms",
+          "isTopicPrimary": true,
+          "slug": "show-hn-freenet-a-peer-to-peer-platform-for-decentralized-apps",
+          "fullContent": "Decentralize EverythingFreenet is a peer-to-peer platform for decentralized applications: communication, collaboration, and\ncommerce without reliance on big tech. Your computer becomes part of a global network where apps\nare unstoppable, interoperable, and built on open protocols.Try FreenetHow Freenet WorksPeers form a small-world network organized by location on a ring. Messages find their destination\nin just a few hops, scaling efficiently to millions of peers – no servers required.Live network dashboard →NewsLoading news...More news…Watch\nFreenet Lives! Real-Time Decentralized Apps at Scale\n30-min talk at FUTOFor UsersFreenet apps run in your browser and look like normal websites, but they can’t be taken down,\ndon’t track you, and run peer-to-peer, not on the cloud.Try it now →For DevelopersBuild apps with familiar tools (Rust, TypeScript) that deploy to a global network. No servers to\nmaintain, no cloud bills, no terms of service.Read the Tutorial →For SupportersFreenet is built by a small team, funded through grants and donations. Your support helps build\ndecentralized internet infrastructure that matters.Support Freenet →Video Talks ·\nPodcast ·\nMatrix Chat ·\nGitHub ·\nFAQ",
+          "category": "tech",
+          "publishedAt": "2026-05-21T14:34:57.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "Was my $48K GPU server worth it?",
+          "titleKo": "$48K GPU 서버 구축은 가치가 있었나?",
+          "summary": "FAANG에서 나와 독립 연구자가 된 개발자가 6개 RTX 6000 Ada GPU 서버(\"grumbl\")에 $48K를 투자했고, 실제 사용률 데이터를 통해 클라우드 GPU 렌탈과의 경제성을 비교 분석합니다. 2024년 데이터 기준 약 1년간 85% 이상 사용하면 클라우드 렌탈 비용과 맞춰지는 것으로 나타났습니다.",
+          "keyPoints": [
+            "자체 GPU 서버 구축 비용($48K)은 소득 손실을 2개월 이상 단축하면 경제적 이득",
+            "실제 76% 평균 사용률 기록, 2025년 1월 이후 85% 사용률 달성",
+            "아파트 전력 제약으로 2개 파워 서플라이 사용 필요, 이후 부모 지하실로 이전"
+          ],
+          "whyItMatters": "대규모 GPU 연구 프로젝트에서 자체 구축 vs 클라우드 렌탈 의사결정 시 실제 사용률 데이터에 기반한 경제성 분석이 중요합니다.",
+          "url": "https://rosmine.ai/2026/05/13/was-my-48k-gpu-worth-it/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 221,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "devops"
+          ],
+          "topicId": "gpu-investment",
+          "isTopicPrimary": true,
+          "slug": "was-my-48k-gpu-server-worth-it",
+          "fullContent": "In 2024 I quit my FAANG job to become an independent researcher. To do this I needed GPUs, so I built “grumbl”, a 6x 6000 Ada GPU server.\nThis blog describes the build, some of the issues I faced, and answers the question “was it worth it to build the server myself, or should I have rented cloud GPUs?”\n(It’s called “grumbl” because apparently I cannot spell “GPUs”)\nGPUs as an investment\nThis rig cost me $48K. That sounds expensive, but it’s way less expensive than quitting my job. Because of the loss of income, if more powerful GPUs could help me make my work be successful just 2 months earlier than I would have with a smaller machine, then buying a more powerful server would be worth it. So I decided to buy the most powerful server that I could run in my apartment.\nChoosing the GPUs\nI found Tim Dettmers’ guide to choosing a GPU helpful. From that I narrowed it down to A100’s, H100’s or RTX 6000 Ada. A100’s don’t support FP8 and have slower inference performance than the newer GPUs, and I’m going to be doing a lot of inference (RL), so narrowed it down to 6000 Ada vs H100. Looking at the price/throughput ratios of 6000 Ada vs H100 vs A100, I went with the 6000 Ada GPUs.\nPower Constraints\nI live in an apartment and don’t have the option to upgrade my electrical circuits to support standard datacenter servers. 6 GPUs requires too much power for a single apartment circuit to handle, so I had to get 2 power supplies, and plug the power supplies into 2 outlets in separate circuits.\nIf you google “plugging a PC into multiple outlets”, you get lots of warnings that if you even consider such a setup you will instantly burst into flames. So I hired a professional PC builder make sure it was safe. This is more expensive than doing everything myself, but it’s less expensive than doing something wrong and burning down my apartment.\nIronically, after designing the entire build around apartment power constraints, I ended up moving grumbl to my parents’ basement, where I could upgrade the circuits anyway.\nBuilding my own GPU server vs. using a Cloud Provider\nIs it better to buy my own GPUs or should I have rented from a cloud provider? I decided to measure this by calculating how much I used the GPUs, and comparing that to how much it would’ve cost to rent equivalent compute in the cloud.\nIn 2024 I calculated at the then current GPU rental rates, it would take me about a year of close to 85%+ utilization to match cloud rental rates. That should be easy to do, but for a full analysis, I need to also account for electricity and the fact that as more powerful GPUs become available, the cost to rent equivalent compute will decrease.\nTo be thorough, I wrote a script that would log the usage of each gpu every minute. I also logged the power usage in watts so I could calculate how much I spent on electricity.\nIn this analysis, I only compared against on-demand pricing. There are also payment plans where you reserve the instance for 6-12 months, but those seemed not worth it to me, since they were only a little cheaper than buying the server itself, and this way I got to keep the gpus.\nUsing grumbl without a monitor is wasting its potential, since it has ports for up to 24 monitors. I could make my own mini vegas sphere\nGPU usage over time graph\nTo measure GPU usage, for each GPU I counted the number of hours each day where I used that GPU at least once. This seemed a fair comparison against rental since I wouldn’t stop and restart a cloud server if it was only going to be idle for less than an hour.\nThis comparison is generous to cloud renting, because it assumes I could stop and start each GPU independently. Much of the idle time I had was when I was running multiple experiments in parallel, and one finished/failed but the others kept going, and I wouldn’t have stopped the server if I was renting\nNote: This is meant to be a measure of how much I use the gpus, not training efficiency, so a GPU with 10% utilization would still count as active for the hour. (My code would be equally inefficient running in the cloud)\nHere is the graph of use over time:\nYou can see 3 separate times the server was down for maintenance. This is quite stressful because you don’t know if the server isn’t booting because a single PCIe riser failed, or because something went catastrophically wrong and fried all the GPUs.\nIn June 2025 you can see a clear increase in usage, before that I was doing smaller experiments where dev time was comparable to experiment time, so there was more down time between experiments when implementing. After June 2025, I had a project that required more compute, so I always had most GPUs continuously running experiments, and only 1-2 GPUs for dev.\nFrom the graph, the total average use was 76%. If you calculate since 1/1/25, utilization is 85%. I have to admit, I’m a little disappointed in that. I’m running experiments 24/7, and always have a queue of more experiments to run once they finish. I thought it would easily be 95+%\nFi",
+          "category": "insight",
+          "publishedAt": "2026-05-18T19:33:03.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Blog ran on Ubuntu 16.04 for 10 years. I migrated it to FreeBSD",
+          "titleKo": "Ubuntu 16.04에서 10년 운영한 블로그를 FreeBSD로 마이그레이션하다",
+          "summary": "10년간 Ubuntu 16.04에서 운영 중인 블로그를 Hetzner VPS의 FreeBSD로 마이그레이션한 경험을 공유하며, FreeBSD Jails와 ZFS 파일시스템의 장점을 소개한다. 비용 절감(월 $13에서 €6 미만), 보안 개선, 더 나은 성능을 달성했다.",
+          "keyPoints": [
+            "FreeBSD Jails를 활용한 컨테이너화로 Docker보다 경량이면서도 안정적인 애플리케이션 격리 환경 구성",
+            "ZFS 파일시스템으로 서버 운영의 데이터 관리 및 안정성 개선",
+            "낡은 LTS 지원 종료 시스템(Ubuntu 16.04)에서 최신 인프라로의 이전으로 보안과 성능 동시 개선"
+          ],
+          "whyItMatters": "DevOps 엔지니어에게 장기 운영 서버의 현대화 전략과 FreeBSD/Jails의 실무적 활용 사례를 제시한다.",
+          "url": "https://crocidb.com/post/this-blog-ran-on-ubuntu-16-04-for-10-years-i-migrated-it-to-freebsd/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 124,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "topicId": "os-migration",
+          "isTopicPrimary": true,
+          "slug": "blog-ran-on-ubuntu-1604-for-10-years-i-migrated-it-to-freebsd",
+          "fullContent": "This blog has been running on a Digital Ocean VPS for over ten years. A machine hosted in New York City, running Ubuntu 16.04 LTS. An LTS that hasn’t been in support for at least 5 years. It was about time to change it. After some considerations, I migrated to a Hetzner virtual machine that is way better than my old Ubuntu one, less than half the price of what I used to pay, and just across the country from me. Not only that, but I took the challenge to move my stack to FreeBSD. It’s a long text, but stay for a cool introduction of FreeBSD Jails with Bastille and some interesting site load benchmarks.\nMotivation\nIf you know how releases on Ubuntu work (I’m not very familiar myself), once the release is out of support, the apt package repository is out, so you can’t get any updates from it anymore. There are several implications of running such an outdated system, and the most obvious is that your server is just not as secure anymore. There might be several bots out there just trying to find nodes with vulnerabilities to introduce malicious stuff onto them. Luckily (I think), nothing ever happened. Not that there was anything important to be stolen in there either way. But I remember a long time ago, one WordPress blog that I had, which was also running on an old VPS, randomly got a lot of very suspicious links to casino and gambling spread across the text in the posts.\nI was already using a Hetzner VPS as a remote development machine, where I SSH into from anywhere, and it’s been a reliable good VPS for the price. So I decided to start by comparing the specs. This was the droplet running my blog and my other websites:\nMy old Digital Ocean server\nThat has 2GB of RAM, one vCPU, 50GB disk, 2TB of monthly traffic and runs Ubuntu 16.04 x64. It’s located in their datacenter in New York City. That’s probably why it’s so expensive, I was paying $13 monthly for that.\nHetzner is an established European IT company and has big data-centers in Germany, where I live. The cheapest Hetzner server I could get, at only 3.56 euros is already way better than my old one:\nA cup of coffee per month\nDouble the memory and CPU, slightly less storage space, but ten times more traffic. But I decided to go with a beefier setup, for less than €6 a month:\nA fancier cup of coffee per month\nIt might even be a bit overkill for my sites, but why not?\nThe old setup\nMy old setup was serving a few more sites than just this blog. Nothing too popular; this blog, the most popular of all sites in there, wouldn’t get more than a couple thousand page views a month. Except when a couple of posts went viral on Hacker News, there wasn’t a lot of traffic. In the end, the machine was basically serving static sites, no fancy CGI or custom code running. The stack was simple. Everything was served with nginx/1.10.3, statically. So I’d just basically have several config files in /etc/nginx/sites-available for each one of the sites. Extra necessary programs like static site generators and a LaTeX suite (e.g.: this blog is generated by Hugo) were installed either via apt or snap. In fact, my process to update my blog was:\nwrite the text locally\ncommit and push to the repository\nssh into the server\npull the repo updates\nrun hugo\nDuring the first years of this VPS, I also used it to run some tests and do some programming. So it was bloated with a lot of outdated software that I didn’t use anymore. But it worked. And worked quite well.\nYep, it was running Linux 4.4!\nSo well, in fact, that its uptime was 1491 days when I shut it off! That’s roughly 4 years without interruption!\nWhy FreeBSD\nNot gonna lie, one of my main motivations was to get my hands on something different. I’ve been reading and watching a lot of stuff about BSDs in general, and I had a short previous experience with FreeBSD, so I thought it would be a good way to put it to a real-world test. FreeBSD is usually praised for its stability, due to its integrated design, security, and Jails. We’ll get to that in a bit.\nI don’t wanna sound like I knew exactly what I was doing, but when I read about Jails, I knew exactly what I wanted to do. Jails is a form of virtualization/containerization that’s been part of FreeBSD for over 25 years, way before Docker was even a thing. At first glance, it does exactly what you’d expect from a Docker container: it sandboxes a “minisystem” within it so you can run stuff that doesn’t have access to your host system. The main difference, I think, is that Docker and other container solutions are more suited for “packaging programs”. It’s ephemeral and immutable. It will operate on data that comes from outside the container, but within it, everything will always be the same. Whereas Jails are really subsystems, almost like mini-VMs, but that are in reality sharing the same kernel.\nOn top of that, its filesystem, ZFS, is actually really good and useful for servers. If you come from a Linux world, you probably have heard about Btrfs, which is the newer filesystem that’s been",
+          "category": "insight",
+          "publishedAt": "2026-05-21T18:54:55.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Indexing a year of video locally on a 2021 MacBook with Gemma4-31B (50GB swap)",
+          "titleKo": "2021년 MacBook에서 Gemma4-31B로 1년치 비디오를 로컬에 인덱싱하기",
+          "summary": "마사이 마라에서 촬영한 대량의 영상을 DaVinci Resolve MCP, Claude Code, ElevenLabs를 조합하여 로컬 환경에서 의미 기반 검색이 가능한 비디오 인덱스를 구축했다. 클라우드 기반 SaaS 스택($140/월) 대신 로컬 오픈소스 솔루션($22/월)으로 전환하여 비용과 프라이버시를 개선했다.",
+          "keyPoints": [
+            "로컬 LLM(Gemma4-31B)과 오픈소스 도구를 활용한 대규모 미디어 아카이브 인덱싱으로 클라우드 비용 86% 절감",
+            "Claude Code로 자동화된 에이전트 워크플로우가 비디오 편집 및 처리 병목 해결",
+            "영상의 실제 내용을 인식하는 스마트 인덱싱이 AI 비디오 편집 도구의 효용성을 결정하는 핵심 요소"
+          ],
+          "whyItMatters": "개발자는 대규모 미디어 처리를 클라우드 의존 없이 로컬 LLM과 오픈소스 도구로 구현하는 실전 아키텍처를 배울 수 있다.",
+          "url": "https://blog.simbastack.com/indexed-a-year-of-video-locally/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 259,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "devops"
+          ],
+          "topicId": "local-llm-indexing",
+          "isTopicPrimary": true,
+          "slug": "indexing-a-year-of-video-locally-on-a-2021-macbook-with-gemma4-31b-50gb-swap",
+          "fullContent": "I'm in the Maasai Mara about half the year, in three-month stretches. Animals out the front of the lodge, motorcycles, friends in the Maasai villages, kids who think a drone is the funniest thing they have ever seen. That's one half of my year. The other half is sixteen-hour days in front of a terminal, Silicon Valley hacker brain on Africa time. Both real, both consuming attention.\nThe first half is a constant flood of footage from the iPhone, the DJI Pocket, the drone, the Nikon Z8, and lately the Ray-Ban Metas too. There's always something being recorded. Every photographer or videographer I know is sitting on the same problem: an archive that grows faster than they can edit it. The second half is why mine never gets touched.\nAirport security somewhere between Nairobi and Spain. Two trays of cameras, headphones, drone bits, batteries, SSDs, more cables than anyone needs. Most of it records something. Almost none of what they record gets touched again any time soon.\nThree months ago the lodge's social channels went dark. Not for lack of content; the lodge has years of raw footage across multiple SSDs. The bottleneck was editing time, and my time disappeared. Claude Code with Opus 4.5 (and then 4.6) hit the point in February where you could leave agents running for hours and come back to merged PRs. KaribuKit was going live with its first paying property in the same window. I stopped sleeping properly, started running three or four agents in parallel in the background, and the months when I would have cut reels turned into months when I shipped software instead.\nSo one weekend I sat down to fix it. The first thing I tried was wrong.\nThe wrong layer\nThe initial pitch (to myself, after about an hour of research) was a SaaS stack: Eddie AI for iterative editing, Higgsfield MCP for generative B-roll, Submagic for captions, Buffer for cross-posting. About $140 a month, slick on paper.\nTwo problems showed up before I ran any of it.\nFirst, generative AI video has no place on a real travel brand. Guests pay $300 a night and up to see the actual place, and mislabeled AI shots equals TripAdvisor crucifixion. Higgsfield out.\nSecond, 3-5 posts a week was aggressive for me, and the realistic floor was more like 2-3. The pitch was optimistic in a way that would have me failing by week two.\nThen I remembered I already own DaVinci Resolve Studio, and Resolve 21 ships IntelliSearch (semantic clip search), Smart Bins (auto-organizing folders), and Voice to Subtitle that produces 90-95% accurate captions on the timeline. That's roughly 70% of what Eddie sells, so Eddie was out too.\nWhat I was left with was Claude Code driving Resolve via the open-source DaVinci Resolve MCP, with ElevenLabs handling voiceover on informational clips where it earned its place, and the cost had dropped from $140 a month to $22.\nBut the deeper thing only landed once I tried to actually use any of this. Every AI video editor on the market assumes your footage is already labeled. Mine is IMG_*.mov and DJI_*.mp4 across folders with names like Mara june 2024 backup final FINAL. Eddie can search by transcript, but none of these tools can find \"the elephant on the hill at golden hour\" against an unlabeled archive.\nThe AI editor is solving the wrong problem. Or more precisely, it's solving the second problem; the first problem is the index.\nThe question\nI asked it out loud: how does the agent know what's in each clip?\nThere's no answer for an unlabeled archive. You can throw transcripts at it, GPS coordinates, filenames, parent folders. None of that gives you \"the wide shot at sunrise with the giraffe in the frame\" unless something has actually looked at the pixels.\nThe leverage is upstream. Build the index first, make the archive queryable in English, and the editor on top becomes a thin layer doing what it was designed to do.\nSo I built the index, locally.\nThe build\nThis is the kind of AI-native build I do for clients at SimbaStack, except I was both the client and the engineer this time, which made the decision tree a lot shorter.\nFour constraints set the shape:\nIt had to be local-first. The Mara Hilltop archive lives on physical SSDs and most of the personal stuff is on my laptop, and uploading thousands of multi-gigabyte clips to the cloud made no sense on cost, never mind as a way to hand the entire visual record of my life to a third party.\nI wanted sidecars rather than a central database: a .description.md per clip, living right next to it, plain text and grep-able. It survives if my indexer breaks tomorrow, and it travels with the data when files move between drives.\nOne vision call had to capture everything, because the vision pass over the extracted frames is the expensive operation. Anything I might want to know about a clip later has to come out of that one call, so the schema is exhaustive on day one: rating, technical quality, lighting, time of day, color palette, audio quality, people count, keywords, faces, location, transcript, prose d",
+          "category": "insight",
+          "publishedAt": "2026-05-21T14:01:37.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Uv is fantastic, but its package management UX is a mess",
+          "titleKo": "Uv는 훌륭하지만, 패키지 관리 UX는 엉망이다",
+          "summary": "Uv의 패키지 관리 도구는 성능은 좋지만 사용자 경험(UX) 측면에서 개선이 필요합니다. 기사는 실제 사용 경험에서 만난 UX 문제점들을 지적합니다.",
+          "keyPoints": [
+            "Uv의 높은 성능에도 불구하고 인터페이스와 사용성에 문제 존재",
+            "개발자 관점에서의 사용 편의성 개선 필요"
+          ],
+          "whyItMatters": "Python 패키지 관리자 선택 시 성능뿐 아니라 사용성도 중요한 평가 요소임을 보여줍니다.",
+          "url": "https://www.loopwerk.io/articles/2026/uv-ux-mess/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 22,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "topicId": "uv-package-manager",
+          "isTopicPrimary": true,
+          "slug": "uv-is-fantastic-but-its-package-management-ux-is-a-mess",
+          "category": "insight",
+          "publishedAt": "2026-05-21T20:56:36.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "rohitg00/ai-engineering-from-scratch (Python)",
+          "titleKo": "AI 엔지니어링 바닥부터 배우기: 배우고, 만들고, 남들을 위해 배포하기",
+          "summary": "AI 엔지니어링의 기초부터 실제 배포까지 전 과정을 배우고 직접 구축해볼 수 있는 교육 자료 모음이다.",
+          "keyPoints": [
+            "AI 엔지니어링의 전체 라이프사이클을 학습하고 실습할 수 있는 구조화된 커리큘럼을 제공한다."
+          ],
+          "whyItMatters": "AI 엔지니어링 분야로 입문하려는 개발자들이 이론과 실무를 균형있게 학습하고 실제 프로젝트를 배포하는 경험을 쌓을 수 있다.",
+          "url": "https://github.com/rohitg00/ai-engineering-from-scratch",
+          "sourceName": "GitHub Trending",
+          "engagement": 10682,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-engineering-education",
+          "isTopicPrimary": true,
+          "slug": "rohitg00ai-engineering-from-scratch-python",
+          "category": "insight",
+          "publishedAt": "2026-05-21T23:26:54.006Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Imbad0202/academic-research-skills (Python)",
+          "titleKo": "Imbad0202/academic-research-skills (Python) - Claude Code 학술 연구 스킬",
+          "summary": "Claude Code를 위한 학술 연구 스킬로, 연구 → 작성 → 검토 → 수정 → 최종화의 전체 연구 파이프라인을 자동화합니다.",
+          "keyPoints": [
+            "학술 논문 작성의 전체 워크플로우를 AI가 자동 처리",
+            "Claude Code 에이전트와 통합된 연구 지원 도구"
+          ],
+          "whyItMatters": "AI 에이전트를 활용해 학술 연구 작성 과정의 반복적 작업을 자동화할 수 있습니다.",
+          "url": "https://github.com/Imbad0202/academic-research-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 18133,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-skills-training",
+          "isTopicPrimary": false,
+          "relatedCount": 4,
+          "slug": "imbad0202academic-research-skills-python",
+          "category": "insight",
+          "publishedAt": "2026-05-21T23:26:54.007Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "News outlets are limiting the Internet Archive’s access to their journalism",
+          "titleKo": "뉴스 매체들이 인터넷 아카이브의 저널리즘 콘텐츠 접근 제한",
+          "summary": "340개 이상의 미국 지역 뉴스 사이트가 AI 기업의 데이터 스크래핑 우려로 인터넷 아카이브(Wayback Machine)의 접근을 제한하고 있다. 이는 연구자, 역사가, 기자들이 과거 기사에 접근하고 보존하는 것을 어렵게 만들고 있다.",
+          "keyPoints": [
+            "1월부터 5개월간 Internet Archive 접근을 차단한 뉴스 사이트가 241개에서 382개로 증가했으며, 이 중 342개는 지역 뉴스 사이트이다.",
+            "AI 기업의 실제 스크래핑 사례는 아직 확인되지 않았으나, 뉴스 출판사들은 지적 재산권 보호를 위해 선제적으로 차단하고 있다.",
+            "기자, 연구자들은 robots.txt 파일을 통한 접근 차단이 장기적으로 역사 자료 보존이라는 중요한 문화유산을 훼손할 수 있다고 우려하고 있다."
+          ],
+          "whyItMatters": "웹 크롤링, robots.txt 정책, AI 데이터 수집에 대한 법적·윤리적 문제를 개발자들이 이해해야 하는 사항이며, 공공 정보 접근과 기술 활용 간의 균형을 고려한 시스템 설계가 필요하다.",
+          "url": "https://www.niemanlab.org/2026/05/more-than-340-local-news-outlets-are-limiting-the-internet-archives-access-to-their-journalism/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 195,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "news-outlets-are-limiting-the-internet-archives-access-to-their-journalism",
+          "fullContent": "In January, Nieman Lab broke the story that major news publishers — including The New York Times, The Guardian, and USA Today Co. — had started blocking the Internet Archive due to concerns that AI companies might scrape the nonprofit’s repositories for training data.\nNo news publisher has confirmed to Nieman Lab that an AI company has already scraped their content from the Wayback Machine. Still, in the five months since we published our story the number of news sites blocking the Internet Archive has continued to rise.\nOur new analysis shows that more than 340 local news sites across the United States are now limiting the Internet Archive’s ability to access and preserve their stories. Many sites in our sample are owned by five of the seven largest local news publishers in the country: USA Today Co., McClatchy, Advance Local, MediaNews Group, and Tribune Publishing. The latter two are both subsidiaries of the “vulture hedge fund” Alden Global Capital.\nResearchers, historians, and citizens around the world rely on the web archives of local news sites to do their work.\n“Blocking the Internet Archive’s web crawlers threatens one of the most effective ways that we capture and store news content for the long term,” Edward McCain, a journalism librarian at the University of Missouri, said. “In the present we may have some workarounds, but in the long run, it weakens a vital link in primary source materials that we need to understand where we’ve been and where we want to go.”\nWorking journalists are among the most frequent users of the Wayback Machine’s local news archives. Over the last month, online petitions have called for news media companies to allow the Internet Archive to preserve their journalism.\n“I cover news within a larger news desert in New York’s Rockland, Sullivan, and Rockland counties. This means I need to heavily rely on archival data of old news articles from now deceased, or zombie-fied, media outlets,” wrote B.J. Mendelson, the editor of The Monroe Gazette newsletter, in one recent petition signed by over 200 journalists. “Without the Internet Archive, my [work] would be incredibly difficult to do.”\nMeredith Broussard, a data journalist and professor at New York University, said that as profit margins for news thin, it’s only become more important to news publishers to protect their intellectual property.\n“This is the same fight that everybody has been having with the Internet Archive since its inception,” Broussard said. “Internet Archive is a very old-school, ‘information-should-be-free’ organization. But the people who are invested differently have different priorities. There are lots of different historical and legal and economic issues that are colliding in this situation. AI companies [are] the catalyst for the latest skirmish in a very old battle.”\nIn January, Nieman Lab used journalist Ben Welsh‘s database of 1,167 news websites‘ robots.txt files to determine which sites were disallowing the Internet Archive. At the time, the Internet Archive did not respond to requests to confirm which crawling bots it was using, so we identified four bots that the AI user agent watchdog service Dark Visitors had associated with them. (You can find our full methodology here.)\nWe found that 241 news websites disallowed at least one Internet Archive-affiliated crawling bot. About 80% of these sites belonged to USA Today Co., the company formerly known as Gannett.\nBy May, we found that an additional 141 news websites disallowed at least one Internet Archive-affiliated bot, increasing the total number of sites in our sample to 382. Some of these additions appeared in Welsh’s database. We found others by checking robots.txt files ourselves. Our final sample includes sites in 10 countries, though the vast majority (93%) are based in the United States.\nOf the 382 news sites in our updated sample, 342 are local. Of course, our data doesn’t include all the local news outlets in the United States, but it shows that many of the country’s largest local news publishers are at least attempting to limit Internet Archive access.\nThe scraping bots we tracked in our new analysis are Heritrix, My-heritrix-crawler, heritrix/3.3.0, Archive-It, archive.org_bot, ia_archiver-web.archive.org, and Special_archiver. (We included Archive-It, archive.org_bot, ia_archiver-web.archive.org, and Special_archiver in our January analysis. After confirming that the bot Heritrix and its variations belong to the Internet Archive, we added them.)\nGraham told Nieman Lab that the Wayback Machine doesn’t use the bots “ia_archiver,” “ia_archiverbot” or “ia_archiver-web.archive.org.”\nThird-party websites and internet forums have regularly documented “ia_archiver-web.archive.org” as an alleged user agent of the Wayback Machine. We continue to include “ia_archiver-web.archive.org” in our dataset because news publishers are disallowing the bot under the assumption that it is used by the Internet Archive.\nOur full dataset can be viewed in the ta",
+          "category": "insight",
+          "publishedAt": "2026-05-21T16:59:27.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "trimstray/the-book-of-secret-knowledge",
+          "titleKo": "trimstray/the-book-of-secret-knowledge",
+          "summary": "개발자, 시스템 관리자, 보안 전문가를 위한 실용적인 자료 모음 저장소입니다. 치트시트, CLI 도구, 해킹 기법, 원라이너 등 다양한 형태의 지식을 수집했습니다.",
+          "keyPoints": [
+            "개발, 보안, 시스템 운영 관련 실용적 자료의 중앙 집결지",
+            "검색 가능하고 분류된 형태로 빠른 참조 가능"
+          ],
+          "whyItMatters": "다양한 개발 상황에서 필요한 정보와 기법을 신속하게 찾을 수 있는 종합 리소스입니다.",
+          "url": "https://github.com/trimstray/the-book-of-secret-knowledge",
+          "sourceName": "GitHub Trending",
+          "engagement": 222400,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "trimstraythe-book-of-secret-knowledge",
+          "category": "insight",
+          "publishedAt": "2026-05-21T23:26:54.007Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "Using Kagi Search with Low Vision",
+          "titleKo": "저시력 사용자를 위한 Kagi 검색 활용",
+          "summary": "저시력 사용자가 Kagi 유료 검색 엔진으로 전환하여 광고와 시각적 혼란이 없는 검색 경험을 얻었으며, 개인 맞춤 필터와 접근성 기능을 통해 검색 효율을 크게 향상시켰습니다.",
+          "keyPoints": [
+            "Kagi는 구독 기반의 광고 없는 검색으로 깔끔한 결과 페이지 제공 (월 $5~$25)",
+            "Lenses(저장된 필터), 도메인 커스터마이징, Bangs(사이트 직접 검색) 등 개인화 기능 풍부",
+            "자동 재생 콘텐츠와 SEO 스팸이 없어 저시력 사용자의 시각 피로 감소"
+          ],
+          "whyItMatters": "접근성이 필요한 개발자들이 더 효율적으로 정보를 검색하고 생산성을 높일 수 있습니다.",
+          "url": "https://veroniiiica.com/using-kagi-search-with-low-vision/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 85,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "topicId": "accessibility",
+          "isTopicPrimary": true,
+          "slug": "using-kagi-search-with-low-vision",
+          "fullContent": "When I was using a search engine to find resources for a class, I noticed that I was taking a lot more vision breaks and struggling with visual fatigue more often than before. A major reason for this was the visually cluttered search results page, which was filled with AI summaries, low-quality content, ads, auto-play content that ignored my device settings, and a condensed visual layout that made it more challenging to read individual results. I was using so much of my energy to look at useless content that it made it challenging to focus on the things that I actually needed. Strategies like text-to-speech help with reading, but I was still encountering issues with browsing search results.\nI noticed a huge improvement when I switched to using Kagi, a paid search engine that offers ad-free search and a wide variety of customizations and accessibility features as part of their user-focused search experience. I hadn’t realized how much the visual clutter from search engine pages was weighing on me until it was eliminated, and I have been mentioning Kagi to almost everyone I know since then. Here is an overview of my experience using Kagi Search with low vision, including tips for using Kagi search tools and information about Kagi accessibility for low vision.\nDisclaimer: This post is not sponsored by Kagi and I have no affiliation with the company; Kagi does not have referral links or affiliate links. I personally pay for my own Kagi subscription and discovered while writing this post that someone else had included Veroniiiica in Kagi’s Small Web list of curated links, which was a lovely surprise!\nOverview of Kagi and pricing\nKagi is a paid, ad-free search engine funded entirely by user subscriptions rather than advertisers, which means results are ranked on quality instead of spamming SEO keywords or paid link placements. Because there are no ads and no tracking-based monetization, the results page is dramatically less cluttered compared to free search engines, making it easier to find relevant information and providing users with control over their browsing experience. Kagi is often shared as a Google search alternative or Bing search alternative.\nKagi offers a free trial and several paid plan tiers, including:\nTrial (free): 100 total searches and standard AI access.\nStarter ($5/month): 300 searches per month and Kagi Assistant with Quick mode.\nProfessional ($10/month): Unlimited searches and a larger monthly Kagi Assistant allowance with Quick mode.\nUltimate ($25/month): Everything in Professional, plus Kagi Assistant with Research mode and access to flagship AI models.\nFamily and Team plans are also available for households and organizations respectively.\nIn addition to offering discounted annual plans, Kagi has a “Fair Pricing” policy. If a user doesn’t use Kagi searches or AI tools during a given month, the cost of the plan will be credited back to their account so that they are not charged for a service that was not used. Users can also downgrade plans (such as going from Professional to Starter) and have their account credited with the pricing difference.\nRelated links\nKagi Search\nKagi Search Pricing and Plans – Kagi Search\nKagi Search tools and customizing search results\nThe Kagi search bar functions in a similar way to other search engines, but the results page itself is much easier to navigate. There are no display ads, no auto playing media, no sponsored results, and no misleading AI summaries pushed to the top;  just ranked links with clean spacing. Kagi does have an optional Quick Answer feature for generating summaries of results, but this is hidden by default. Users can customize Kagi Search results to match their own preferences and access needs.\nSome of my favorite tools for customizing search results include:\nLenses are saved filters that narrow results to certain types of sources. Built-in lenses include Forums (results from online communities and Reddit), Academic (results from academic institutions), Programming (coding sites and forums), and more. Custom lenses can also be created with specific included websites, regions, and other parameters; I created lenses for various topics related to low vision and assistive technology. Lenses can be created in Settings > Search > Lenses.\nBlock, lower, raise, and pin domains. Each result has a shield icon that opens controls to block a site entirely, lower its ranking, raise it, or pin it to the top of future searches. These personalization choices exist inside the Kagi account, are not shared across the web, and can be configured in Settings > Search > Personalized Results.\nKagi offers several options for searching websites with Bangs; typing !w redirects the search to Wikipedia. Custom bangs can also be created as shortcuts to favorite sites, and I use bangs to quickly search information on Veroniiiica, on my university’s website, and on other websites I visit frequently. Bangs are configured in Settings > Search, and custom Bangs can be created",
+          "category": "insight",
+          "publishedAt": "2026-05-21T19:32:16.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Project Hail Mary – Stellar Navigation Chart",
+          "summary": "",
+          "keyPoints": [],
+          "url": "https://valhovey.github.io/gaia-mary/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 458,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "project-hail-mary-stellar-navigation-chart",
+          "category": "insight",
+          "publishedAt": "2026-05-21T16:23:11.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Lost Images from the 1945 Trinity Nuclear Test Restored",
+          "titleKo": "1945년 트리니티 핵실험의 잃어버린 사진 복원",
+          "summary": "20년간의 복원 작업을 통해 1945년 트리니티 핵실험의 생생한 사진들이 공개되었다. 52개 중 11개 카메라만 만족스러운 영상을 남겼지만, 다양한 거리와 각도에서 촬영한 10만 장 이상의 프레임을 통해 핵폭발의 초기 단계를 상세히 기록할 수 있었다.",
+          "keyPoints": [
+            "베를린 브릭스너 촬영 담당자가 미첼 영화카메라로 폭발 초기의 가장 명확한 영상을 기록했으며, 이는 핵폭발 효과 측정의 기초 자료로 사용됨",
+            "100,000개 이상의 프레임에도 불구하고 당시 관찰자들은 빛의 강도와 시간-공간 규모를 완전히 포착하지 못했으며, 실제 폭발력이 예측보다 몇 배 강력했음"
+          ],
+          "whyItMatters": "역사적 과학 기록의 복원 사례로서 고급 이미징 기술과 다각도 관찰 방식의 가치를 보여준다.",
+          "url": "https://spectrum.ieee.org/trinity-nuclear-test",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 267,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "lost-images-from-the-1945-trinity-nuclear-test-restored",
+          "fullContent": "Striking New Views of the First Atomic Bomb Test\nForgotten photos of the Trinity detonation show the immensity of the project 5 min readAt 0.016 seconds after the atomic detonation, the fireball was already hundreds of meters wide. The tiny squares to the left and right in this image are billboards 200 meters from the center of the explosion.\nLos Alamos National Laboratory\nEditor’s note: If you’d like to pinpoint the instant when the world entered the nuclear age, 5:29:45 a.m. Mountain War Time on 16 July 1945, is an excellent choice. That was the moment when human beings first unleashed the power of the nucleus in an immense, blinding ball of fire above a gloomy stretch of desert in the Jornada del Muerto basin in New Mexico. Emily Seyl’s Trinity: An Illustrated History of the World’s First Atomic Test (The University of Chicago Press) offers hundreds of startlingly vivid photographs of the Manhattan Project that emerged from a 20-year restoration effort. This excerpt and the accompanying photos record the massive effort to capture the awesome detonation of “the Gadget.” aspect_ratioReprinted with permission from Trinity: An Illustrated History of the World’s First Atomic Test by Emily Seyl with contributions by Alan B. Carr, published by The University of Chicago Press. © 2026 by The University of Chicago. All rights reserved.In the North 10,000 photography bunker, Berlyn Brixner was listening to the countdown on a loudspeaker, his head inside a turret loaded with cameras and film. He was one of the only people instructed to look toward the blast—through his welder’s glasses—ready to follow the path of the fireball as it launched into the sky. The two Mitchell movie cameras at his station would deliver the best footage to come of the Trinity test, used by Los Alamos scientists to make some of the first measurements of the effects of a nuclear explosion.When the detonators fired, the cameras captured what Brixner could not have seen—the very first light of a violent, silent sea of energy unfurling into the basin. As 32 blocks of high explosives erupted all together, their incredible force surged inward toward the sleeping plutonium core, compressing the dense sphere of metal instantaneously from all sides and bringing its atoms impossibly close together. A carefully timed burst of neutrons sowed momentary, uncontrolled chaos, and then, as quickly as it began, the fission chain reaction ended. Footage from a high-speed Fastax camera in Brixner’s bunker, shot through a thick glass porthole, shows a translucent orb bursting through the darkness less than a hundredth of a second after detonation, as a rush of heat, light, and matter blew apart the Gadget.When the brightness faded enough for witnesses to make out ground zero, they saw a wall of dust rise up around a brilliant, shape-shifting, multicolored ball of flames—forming a fiery cloud that shot into the sky atop a twisting stream of debris. The camera footage tells a story no less dramatic but hundreds of times more intricate, preserving the moment for scientists to return to again and again to measure and describe the behavior of the fireball and other visible effects with exacting detail. On balance, the photography effort was a huge success, despite only 11 of the 52 cameras producing satisfactory images. By arranging those cameras at intentionally staggered distances, complementary angles, and with a broad spectrum of frame rates and focal lengths, the Spectrographic and Photographic Measurements Group was able to piece together a remarkably complete picture of their subject. On 12 July 1945, Herbert Lehr, a U.S. Army sergeant and electrical engineer assigned to Los Alamos, delivered the plutonium core to the McDonald ranch house, where the bomb was assembled. Los Alamos National LaboratoryAccording to the group’s leader, Julian Mack, the more than 100,000 frames that were captured still “give no idea of the brightness, or of time and space scales.” Mack attributed fortune, as much as foresight, to the photographic record that was made, especially during the earliest phase of the blast. Indeed, the explosion was several times more powerful than predicted, and the intensity of its effects overwhelmed many of the cameras and diagnostic instruments. The human observers were similarly overcome. “The shot was truly awe-inspiring,” said Norris Bradbury, the physicist who would succeed Robert Oppenheimer as director of Los Alamos. “Most experiences in life can be comprehended by prior experiences, but the atom bomb did not fit into any preconception possessed by anybody. The most startling feature was the intense light.” Norris Bradbury, the physicist responsible for the final assembly of the Gadget, stands next to the partially assembled bomb at the top of the shot tower. The cables on the outside of the bomb would transmit the signals to trigger the synchronized detonations of conventional explosives, which would then create the inward-directed shock wave",
+          "category": "insight",
+          "publishedAt": "2026-05-21T11:02:26.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Spotify will start reserving concert tickets for fans",
+          "titleKo": "Spotify, 팬들을 위한 콘서트 티켓 예약 시작",
+          "summary": "Spotify가 프리미엄 구독자를 위해 콘서트 티켓을 미리 예약해 주는 'Reserved' 기능을 출시한다고 발표했다. Live Nation과의 제휴를 통해 올여름 미국부터 시행되며, 스트림 활동을 기반으로 헌신적인 팬을 식별하여 최대 2장의 티켓을 보유할 수 있도록 한다.",
+          "keyPoints": [
+            "Reserved는 스트림, 공유 등의 활동으로 팬을 식별하며 선정된 팬에게는 24시간 구매 기간 제공",
+            "Spotify는 투자자 데이에서 Studio by Spotify Labs(개인화된 팟캐스트와 플레이리스트 생성 도구)와 UMG와의 AI 커버/리믹스 라이선싱 계약도 발표"
+          ],
+          "whyItMatters": "스트리밍 플랫폼이 팬 커뮤니티 활성화와 라이브 이벤트 수익화를 통합하는 전략을 시사한다.",
+          "url": "https://www.hollywoodreporter.com/music/music-industry-news/spotify-will-start-reserving-concert-tickets-for-superfans-1236603106/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 81,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "spotify-will-start-reserving-concert-tickets-for-fans",
+          "fullContent": "Photo by Phillip Faraone/Getty Images for Spotify\nSpotify is hoping it can lend a hand in getting concert tickets to an artist’s biggest fans, as the streaming service revealed “Reserved” on Thursday during its investor day, a new feature that as it sounds, sets aside tickets for premium subscribers so they have a better shot at buying them.\n“Getting concert tickets today can feel like a race you’re set up to lose,” Spotify wrote in a post on Thursday. “You show up at the right time, refresh endlessly, and still miss out. Too often, the experience is stressful, unpredictable, and disconnected from what should matter most: whether real fans actually get tickets. We think there’s a better way.”\nSpotify said that starting in the U.S. this summer, select artists will be able to use Reserved to set aside tickets for fans on the platform. The platform has partnered with Live Nation on the program as part of a multiyear agreement. The platform will use streams, shares and other types of activity to “identify an artist’s most dedicated fans and hold two tour tickets for them.”\nFans selected through Reserved will get up to two tickets, and they’ll have a day-long window to make a ticket purchase if selected. Spotify didn’t give any details on what artists will work with the streaming service for the new feature, or how many tickets artists would set aside with Reserved, though the service acknowledged “there will be significantly more superfans than there are seats available on a tour, so not every fan will receive an offer.”\nHow much Spotify’s new feature will get tickets in the hands of fans remains to be seen, though it’ll likely at least be met with excitement from fans, who as Spotify said, have grown increasingly frustrated with the ticket-buying process as they spend hours in online queues for the most in-demand acts as they attempt to snag seats for a show.\n“Reserved” is perhaps the most notable of a suite of new features Spotify revealed during its investor day, mostly tailored toward superfans.\nSpotify also said it would release a new standalone desktop app called Studio by Spotify Labs, which allows users to create personalized podcasts, playlists and more, curated based on personal tastes.\nEarlier Thursday, Spotify and UMG revealed a new licensing agreement that will allow subscribers to make AI covers and remixes of select participating artists from UMG’s roster.",
+          "category": "insight",
+          "publishedAt": "2026-05-21T16:26:58.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Partial Page Caching Using React Server Components",
+          "titleKo": "React Server Components를 이용한 부분 페이지 캐싱",
+          "summary": "React Server Components를 활용하여 페이지의 일부만 캐시하는 최적화 기법에 대한 튜토리얼입니다.",
+          "keyPoints": [
+            "React Server Components로 필요한 부분만 선택적으로 캐시 처리",
+            "전체 페이지 재구성 없이 변경된 부분만 업데이트하여 성능 개선"
+          ],
+          "whyItMatters": "React 애플리케이션의 성능과 로딩 속도를 효과적으로 최적화할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=t9xB8xvySyo",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "react-optimization",
+          "isTopicPrimary": true,
+          "slug": "partial-page-caching-using-react-server-components",
+          "category": "video",
+          "publishedAt": "2026-04-27T14:09:16+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "5 underrated CSS properties every developer should know",
+          "titleKo": "모든 개발자가 알아야 할 5가지 저평가된 CSS 속성",
+          "summary": "자주 사용되지 않지만 강력한 CSS 속성들을 소개하는 콘텐츠입니다.",
+          "keyPoints": [
+            "잘 알려지지 않았지만 유용한 CSS 속성 5가지 해설",
+            "이러한 속성들을 활용하면 더 간결하고 효율적인 스타일 작성 가능"
+          ],
+          "whyItMatters": "CSS 기술을 깊이 있게 이해하여 스타일 작성의 효율성과 코드 품질을 향상시킵니다.",
+          "url": "https://www.youtube.com/watch?v=1qduzphMJHs",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "css-optimization",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "5-underrated-css-properties-every-developer-should-know",
+          "category": "video",
+          "publishedAt": "2026-05-20T13:00:02+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "You're writing twice as much CSS as you need to",
+          "titleKo": "필요한 것보다 2배 많이 CSS를 작성하고 있습니다",
+          "summary": "CSS 작성 시 불필요한 중복과 비효율을 줄이는 방법에 대한 콘텐츠입니다.",
+          "keyPoints": [
+            "CSS 코드의 중복을 식별하고 최적화하는 기법 설명",
+            "더 간결한 CSS 작성으로 유지보수성과 성능 개선"
+          ],
+          "whyItMatters": "스타일시트의 크기와 복잡도를 줄여 로딩 성능과 코드 유지보수성을 향상시킵니다.",
+          "url": "https://www.youtube.com/watch?v=NNjbOBGG_6g",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "css-optimization",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "youre-writing-twice-as-much-css-as-you-need-to",
+          "category": "video",
+          "publishedAt": "2026-05-21T13:00:26+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Use This One Trick To Make AI 10x Faster",
+          "titleKo": "AI를 10배 빠르게 만드는 트릭",
+          "summary": "YouTube 영상 콘텐츠로, AI 성능 최적화 기법을 소개한다.",
+          "keyPoints": [
+            "AI 속도 최적화에 대한 실용적 기법을 다룸"
+          ],
+          "url": "https://www.youtube.com/watch?v=Tk7CuEmfTDc",
+          "sourceName": "Web Dev Simplified",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-optimization",
+          "isTopicPrimary": true,
+          "slug": "use-this-one-trick-to-make-ai-10x-faster",
+          "category": "video",
+          "publishedAt": "2026-05-21T16:00:41+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "/handoff is my new favourite skill",
+          "titleKo": "/handoff는 내 새로운 즐겨찾기 스킬",
+          "summary": "YouTube 영상 콘텐츠로, /handoff 스킬에 대해 소개한다.",
+          "keyPoints": [
+            "AI 에이전트나 개발 도구에서 작업 인수 기능의 활용법을 다룸"
+          ],
+          "url": "https://www.youtube.com/watch?v=dtAJ2dOd3ko",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "typescript"
+          ],
+          "topicId": "typescript-tips",
+          "isTopicPrimary": true,
+          "slug": "handoff-is-my-new-favourite-skill",
+          "category": "video",
+          "publishedAt": "2026-05-21T10:32:40+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Spending $40,000 in Copilot for $40",
+          "titleKo": "Copilot에 $40,000을 썼는데 $40만 청구됨",
+          "summary": "GitHub Copilot 사용 중 비용 청구에 관한 이슈를 다룬 영상입니다.",
+          "keyPoints": [
+            "Copilot 사용량과 청구액 사이의 불일치 문제"
+          ],
+          "whyItMatters": "AI 개발 도구의 비용 투명성과 청구 체계를 이해하는 데 필요합니다.",
+          "url": "https://www.youtube.com/watch?v=3A4y_Iw_gpU",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "copilot-optimization",
+          "isTopicPrimary": true,
+          "slug": "spending-40000-in-copilot-for-40",
+          "category": "video",
+          "publishedAt": "2026-05-19T02:25:55+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "AI Is Hacking Everything Now...",
+          "titleKo": "AI가 지금 모든 것을 해킹하고 있다",
+          "summary": "AI의 보안 위협과 해킹 가능성에 대한 영상입니다.",
+          "keyPoints": [
+            "AI 기술의 보안 취약점과 악용 사례"
+          ],
+          "whyItMatters": "개발자가 AI 시대의 보안 위협을 이해하고 대비하는 것이 필수적입니다.",
+          "url": "https://www.youtube.com/watch?v=M_HxHr7du5M",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-security",
+          "isTopicPrimary": true,
+          "slug": "ai-is-hacking-everything-now",
+          "category": "video",
+          "publishedAt": "2026-05-15T20:09:07+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
