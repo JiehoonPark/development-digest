@@ -1,0 +1,1302 @@
+{
+  "date": "2026-05-25",
+  "intro": "안녕하세요! 오늘은 React Server Components의 연쇄 보안 취약점, Microsoft와 Yoti의 심각한 데이터 유출 문제 등 보안이 뜨거운 이슈입니다. 동시에 DeepSeek의 경제적 AI 솔루션과 다양한 오픈소스 개발 도구들이 주목받고 있으며, AI 에이전트 시대를 대비한 기술 선택의 중요성도 강조되고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Critical Security Vulnerability in React Server Components",
+          "titleKo": "React Server Components의 중대 보안 취약점",
+          "summary": "React Server Components에서 인증되지 않은 원격 코드 실행(RCE) 취약점이 발견되었습니다. 이 취약점은 버전 19.0.1, 19.1.2, 19.2.1에서 패치되었으며, React 팀은 즉시 업그레이드를 권장하고 있습니다. 이는 서버 컴포넌트 기반 애플리케이션의 보안에 심각한 영향을 미치는 문제입니다.",
+          "keyPoints": [
+            "인증되지 않은 원격 코드 실행(RCE) 취약점이 React Server Components에서 발견됨. 공격자가 인증 없이 서버에서 임의의 코드를 실행할 수 있는 중대한 보안 위협입니다.",
+            "영향받는 버전: React 19.0.x, 19.1.x, 19.2.x 계열. 19.0.1, 19.1.2, 19.2.1 버전 이상으로 업그레이드하면 해당 취약점이 해결됩니다.",
+            "즉시 업그레이드 권장: React 팀이 모든 개발자에게 긴급 업그레이드를 권장하고 있으며, 프로덕션 환경에서 운영 중인 애플리케이션은 최우선으로 대응해야 합니다."
+          ],
+          "whyItMatters": "서버 컴포넌트 기반 React 애플리케이션을 운영 중인 경우 원격 코드 실행으로 인한 전체 시스템 침해 위험이 있으므로 즉시 대응이 필수적입니다.",
+          "url": "https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "topicId": "react-server-components-security",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "critical-security-vulnerability-in-react-server-components",
+          "category": "hot",
+          "publishedAt": "2025-12-03T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Denial of Service and Source Code Exposure in React Server Components",
+          "titleKo": "React Server Components의 서비스 거부 및 소스 코드 노출 취약점",
+          "summary": "지난주 중대 취약점 패치를 우회하려던 보안 연구자들이 React Server Components에서 2개의 추가 취약점을 발견하고 공개했습니다. 높은 수준의 서비스 거부(DoS, CVE-2025-55184) 취약점과 중간 수준의 소스 코드 노출(CVE-2025-55183) 취약점입니다. 이는 이전 패치만으로는 완전하지 않음을 의미하며, 추가 보안 조치가 필요합니다.",
+          "keyPoints": [
+            "서비스 거부(DoS) 취약점(CVE-2025-55184, 높은 수준): 공격자가 특정 요청을 통해 서버의 리소스를 소진시켜 정상 사용자의 접근을 차단할 수 있습니다. 이는 애플리케이션의 가용성을 직접 위협합니다.",
+            "소스 코드 노출 취약점(CVE-2025-55183, 중간 수준): 보안 조치 부족으로 인해 소스 코드가 노출될 수 있으며, 이는 추가 공격의 벡터가 되거나 지적 재산권 침해로 이어질 수 있습니다.",
+            "연쇄 발견 상황: 보안 연구자들이 이전 중대 취약점의 패치를 분석하다가 새로운 취약점들을 발견했으므로, React 팀의 현재 패치들도 완전하지 않을 가능성이 있습니다. 추가 보안 감시와 업데이트가 필요합니다."
+          ],
+          "whyItMatters": "이전 패치 이후에도 새로운 취약점이 계속 발견되고 있으므로, React Server Components를 사용 중인 개발자는 지속적인 보안 모니터링과 빠른 업데이트 대응이 필수적입니다.",
+          "url": "https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "topicId": "react-server-components-security",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "denial-of-service-and-source-code-exposure-in-react-server-components",
+          "category": "hot",
+          "publishedAt": "2025-12-11T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Microsoft Copilot Cowork Exfiltrates Files",
+          "titleKo": "Microsoft Copilot Cowork 파일 유출 취약점",
+          "summary": "Microsoft Copilot Cowork의 간접 프롬프트 주입을 통해 파일 유출이 가능한 보안 취약점이 발견되었습니다. 사용자 승인 없이 이메일 및 Teams 메시지 전송이 가능한 설계상 문제가 원인입니다.",
+          "keyPoints": [
+            "Microsoft Graph 권한으로 접근 가능한 파일들이 사전 인증된 다운로드 링크로 유출되는 공격 경로 발견",
+            "에이전트 시스템이 여러 시스템에 접근할 때 프롬프트 주입 공격 표면이 확대되는 구조적 문제",
+            "관리자는 SharePoint의 BlockDownloadPolicy 설정으로 위험을 완화할 수 있음"
+          ],
+          "whyItMatters": "에이전트 기반 AI 도구 도입 시 권한 관리와 보안 설계의 중요성을 보여줍니다.",
+          "url": "https://www.promptarmor.com/resources/microsoft-copilot-cowork-exfiltrates-files",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 123,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "microsoft-copilot-cowork-exfiltrates-files",
+          "fullContent": "Threat IntelligenceTable of ContentMicrosoft Copilot Cowork Exfiltrates FilesMicrosoft Copilot Cowork is vulnerable to file exfiltration attacks via indirect prompt injection as a result of insecure automatic action approvals for sending Emails and Teams messages.This attack achieved a high success rate against state-of-the-art models, including Claude Opus 4.7.OverviewCopilot Cowork is a Frontier feature available now in Microsoft 365. It operates with the users’ Microsoft permissions and can use Microsoft Graph to read and operate on data in one’s Microsoft tenant.In this article, we demonstrate that through an indirect prompt injection in a poisoned skill, attackers can exfiltrate files from M365. This is done by exploiting the fact that, unlike other sensitive actions, sending emails and Teams messages to the active user does not require human approval, and opening the compromised messages in Teams or Outlook can trigger attacker-controlled network requests.This risk reflects that giving agents access to multiple systems expands the prompt-injection attack surface. In isolation, the agent’s intended capabilities are benign; however, due to the properties of the integrated systems, users are at risk. This is reminiscent of our previous work on how URL previews in communications apps have become an egress surface for agents. As this risk pertains to the design of a system in which agents act with delegated authority across an entire enterprise ecosystem, rather than to a specific bug, we are publicizing this work to inform users of the risks they are accepting by using an agentic product of this nature.Separate from this risk, we have disclosed a vulnerability to Microsoft that directly allows data egress from Copilot Cowork’s sandbox environment.The Attack ChainMicrosoft’s documentation on action approvals states, “[Copilot] Cowork asks for your permission before taking sensitive actions, like sending an email or posting a message in Teams.” However, in practice, when the recipient is the active user, these actions execute immediately without requiring human approval (users do not have a setting to modify this behavior). Because these messages can contain external images that trigger network requests to external websites, data can be exfiltrated when a user opens a compromised message sent by the agent. Copilot Cowork can retrieve ‘pre-authenticated download links’ for files the user has access to, which allow anyone who opens the link to download that file. So, a manipulated agent can exfiltrate files by exfiltrating pre-authenticated download links.The victim has access to files stored in SharePoint or OneDrive containing PII & Financial dataThe victim uploads a skill file to Copilot Cowork that contains a prompt injectionFor general use cases, this is quite common; a user finds a file online that they upload as a skill. This attack is not dependent on the injection source - other injection sources include, but are not limited to: web data from Claude for Chrome, connected MCP servers, etc.Note: Admins have limited oversight of ‘Skills’, as Skills in Copilot Cowork are automatically loaded from a specific path in a user’s OneDrive.The victim asks Microsoft Copilot Cowork to review what they worked on that week, triggering the skillThe injection manipulates Microsoft Copilot Cowork to post a Teams message that will exfiltrate pre-authenticated file download links when it is viewedThe injection tells Copilot Cowork that a service exists to create document previews for the recap message; to do this, the agent retrieves pre-authenticated file download links for each file and passes those URLs as query parameters to an attacker-controlled site via malicious HTML image tags. At no point in this process is human approval required.If we expand the ‘Task complete’ block, we can see the agent’s actions play out – but the malicious message content is never visible, even when the Teams action is clicked on.When the user opens their Teams messages, the pre-authenticated download links are exfiltrated, and the attacker can download the files by visiting the linkMitigating Risks for Your Organization Microsoft Copilot Cowork has read access to essentially any resource a user does through Microsoft Graph. As such, the primary mechanism to reduce the blast radius of attacks like this is to restrict excessive permissioning across one’s Microsoft ecosystem.To restrict users’ ability to retrieve pre-authenticated download links for files, administrators can restrict file downloads from SharePoint by running commands in the SharePoint Online Management Shell:Set-SPOSite -Identity <SiteURL> -BlockDownloadPolicy $trueOr, to block based on a sensitivity label:Set-Label -Identity <label> -AdvancedSettings @{BlockDownloadPolicy=\"true\"}Note: This configuration affects functionality; documentation states that for files under the policy 'BlockDownloadPolicy', \"Users have browser-only access with no ability to download, print, or s",
+          "category": "hot",
+          "publishedAt": "2026-05-25T21:45:57.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "DeepSeek reasonix, DeepSeek native coding agent with high caching and low cost",
+          "titleKo": "DeepSeek Reasonix: 높은 캐싱과 저비용의 DeepSeek 네이티브 코딩 에이전트",
+          "summary": "DeepSeek이 출시한 Reasonix는 높은 캐싱 효율과 저비용 특성을 갖춘 네이티브 코딩 에이전트입니다. 이 도구는 개발자들이 코드 생성 및 분석 작업을 보다 경제적으로 수행할 수 있도록 설계되었습니다.",
+          "keyPoints": [
+            "높은 캐싱 지원: Reasonix는 향상된 캐싱 메커니즘을 통해 반복적인 요청에 대한 API 호출을 최소화하여 비용 절감과 응답 속도 개선을 동시에 달성합니다.",
+            "저비용 운영: 기존 코딩 에이전트 대비 훨씬 낮은 API 비용으로 유사한 수준의 코드 생성 및 분석 기능을 제공합니다.",
+            "DeepSeek 네이티브 통합: DeepSeek의 기본 모델을 기반으로 하므로 플랫폼 최적화 및 통합이 매끄럽습니다."
+          ],
+          "whyItMatters": "개발자와 팀이 AI 코딩 도구의 비용을 절감하면서도 고성능을 유지할 수 있는 경제적 선택지를 제공합니다.",
+          "url": "https://esengine.github.io/DeepSeek-Reasonix/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 703,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "deepseek-coding",
+          "isTopicPrimary": true,
+          "slug": "deepseek-reasonix-deepseek-native-coding-agent-with-high-caching-and-low-cost",
+          "category": "hot",
+          "publishedAt": "2026-05-24T13:02:06.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Yoti age checks share facial photos and device fingerprints with third parties",
+          "titleKo": "Yoti 나이 확인 서비스, 얼굴 사진과 기기 지문을 제3자와 공유",
+          "summary": "조지아공대와 UC 어바인 연구팀이 세계 주요 나이 인증 제공업체 Yoti가 얼굴 사진, 기기 지문, IP 주소 등 민감한 개인 정보를 제3~4자 기업(신용카드사, IP 지오로케이션 서비스, 데이터 브로커)과 공유함을 발견했다. 대다수 웹사이트는 나이 인증을 실제로 강제하지 않고 있다.",
+          "keyPoints": [
+            "Yoti는 나이 검증 대상 60% 웹사이트에서 사용되고 있으나, 사용자 데이터를 제3자에게 전송하는 구조로 프라이버시 위험을 야기한다.",
+            "25개 미국 주(전체 인구 40% 이상)의 나이 인증 의무화 법률이 현재의 비효과적이고 위험한 인증 방식을 강제하고 있다.",
+            "주 간 규제 차이로 인해 사용자가 거주 주에 따라 인터넷 접근성이 달라지는 '웹 분할화(Balkanization)' 위험이 있다."
+          ],
+          "whyItMatters": "나이 인증 서비스 통합 시 사용자 프라이버시와 제3자 데이터 공유 정책을 철저히 검토해야 한다.",
+          "url": "https://techxplore.com/news/2026-05-online-age-pointless-privacy.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 70,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "yoti-age-checks-share-facial-photos-and-device-fingerprints-with-third-parties",
+          "fullContent": "May 25, 2026\nOnline age checks create a pointless privacy risk\nby Georgia Institute of Technology\nedited by\nLisa Lock, reviewed by Andrew Zinin\nLisa Lock\nScientific Editor\nMeet our editorial team\nBehind our editorial process\nAndrew Zinin\nLead Editor\nMeet our editorial team\nBehind our editorial process\nEditors' notes\nThis article has been reviewed according to Science X's\neditorial process\nand policies.\nEditors have highlighted\nthe following attributes while ensuring the content's credibility:\nfact-checked\ntrusted source\nproofread\nThe GIST\nAdd as preferred source\nCredit: Pixabay/CC0 Public Domain\nNew cybersecurity research indicates that one of the world's leading age verification providers collects and shares highly sensitive personal data—including facial photos and device fingerprints—with third parties. The research also reveals that most websites that require age verification don't enforce the policy.\nThe findings come from a new study, \"Papers Please: A First Look at Age Verification on the Web,\" that researchers from the Georgia Institute of Technology and the University of California, Irvine (UC Irvine) presented on May 20 at the IEEE Symposium on Security and Privacy (SP 2026) conference in San Francisco.\nThe research team examined Yoti, a London-based company that provides age-verification services for an estimated 60% of websites that require it. Its client list includes Meta, OnlyFans, Sony PlayStation, and TikTok.\nThe research team determined that the process Yoti uses to verify a person's age broadcasts the person's personal information to third- and fourth-party companies.\nWhen a bartender checks an ID, they quickly verify a customer's date of birth and identity before serving them. Companies like Yoti that employ digital age verification claim their products function the same way, but in a completely private manner.\nThat analogy has justified laws passed in 25 U.S. states—comprising more than 40% of Americans—mandating the use of digital age verification to gate access to social media and adult online content.\nHowever, by measuring online age verification, researchers reveal that the reality of these systems is far from ideal. The study found that most sites covered by these laws do not appear to enforce age verification.\nWhen sites comply, they force users to use third-party age-verification services like Yoti, which collect and share highly sensitive data with other third parties.\n\"There have been laws passed and court cases settled on the promise that these companies are incentivized to keep users' data private,\" said Assistant Professor Michael A. Specter at the School of Cybersecurity and Privacy. \"We found that reality is starkly different.\"\nDigital age verification laws are being considered by other legislative bodies to bar minors from social media sites. The problem, Specter and his colleagues argue, is that current methods of age verification are ineffective and create new privacy risks.\n\"In legal arguments, there have been comparisons to these services acting like a bartender checking IDs,\" said Specter. \"However, what is really happening is the bartender is making photocopies of the patron's license and sending them to their food vendors.\"\nAccording to the researchers, the data is then sent to credit card companies, IP geolocation services, and data brokers. The researchers found that the information being shared can be used to identify and track devices. For example, a single verification attempt may transmit a user's facial image, IP address, and device fingerprint to credit card companies.\nAside from privacy concerns, researchers note that differing state policies could lead to what they call the Balkanization of the U.S. web. In other words, users may have access to different parts of the internet depending on the state they are in. This will potentially limit the free exchange of ideas and information.\nAccording to Assistant Professor Harry Oppenheimer of the Jimmy and Rosalynn Carter School of Public Policy, users are already accustomed to experiencing the internet differently across countries. However, this may signal the beginning of similar fragmentation within the United States.\n\"We are going to start seeing comparable differences between U.S. states,\" said Oppenheimer. \"Users in some states will now have to go through additional steps to access information. Close your laptop in New York before a flight to Dallas and try to load the same web page—now you see two different results.\"\n\"We also observed age verification deployed on websites accessed from New York, which has no law requiring verification,\" said Associate Professor Paul Pearce of UC Irvine's Department of Computer Science.\n\"We don't know why these sites are deploying such verification—it could be a move to limit liability or simplify operations. Regardless, it points to an emerging threat for the open internet where restrictive laws from some states could impact the entire country and beyond.\"\n\"This is why we ",
+          "category": "hot",
+          "publishedAt": "2026-05-25T20:30:25.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: Audiomass – a free, open-source multitrack audio editor for the web",
+          "titleKo": "Audiomass - 웹 기반 무료 오픈소스 멀티트랙 오디오 편집기",
+          "summary": "브라우저에서 직접 사용할 수 있는 무료 오픈소스 멀티트랙 오디오 편집기입니다.",
+          "keyPoints": [
+            "별도 설치 없이 웹에서 즉시 사용 가능한 오디오 편집 도구",
+            "오픈소스로 확장성과 커스터마이징 가능"
+          ],
+          "whyItMatters": "웹 개발자가 오디오 처리 기능을 프로젝트에 통합할 수 있습니다.",
+          "url": "https://audiomass.co/?multitrack=1",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 507,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-audiomass-a-free-open-source-multitrack-audio-editor-for-the-web",
+          "category": "hot",
+          "publishedAt": "2026-05-24T15:25:43.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: OpenBrief – Local-first video downloader/summarizer",
+          "titleKo": "Show HN: OpenBrief – 로컬 우선 동영상 다운로더/요약기",
+          "summary": "동영상과 오디오를 명확한 요약으로 변환하는 Tauri 기반 데스크톱 앱입니다. 로컬 파일 또는 URL에서 미디어를 가져와 자동으로 전사, 요약 생성, 콘텐츠와의 대화 기능을 제공합니다.",
+          "keyPoints": [
+            "Tauri v2 데스크톱 앱으로 로컬 처리를 통한 개인정보 보호",
+            "Whisper, GPT, Claude 등 다양한 모델 지원으로 유연한 구성 가능",
+            "비디오/오디오 전사, 요약, 채팅, TTS 등 통합 기능 제공"
+          ],
+          "whyItMatters": "개발자들이 멀티미디어 콘텐츠를 효율적으로 처리하고 검색 가능한 라이브러리로 관리할 수 있는 오픈소스 도구를 제공합니다.",
+          "url": "https://github.com/tantara/openbrief",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 9,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-openbrief-local-first-video-downloadersummarizer",
+          "fullContent": "OpenBrief\nTurn videos and audio into clear, listenable briefings.\nImport a video or audio file, extract its transcript, generate a grounded summary, and chat with the content — all on your desktop.\nWatch the demo · Features · Model Support · Setup · Development · Roadmap\nOpenBrief is a pnpm/Turborepo workspace centered on a Tauri v2 desktop app. It supports importing local media or video URLs, downloading media through bundled tools, transcribing audio, generating grounded summaries, chatting with media context, organizing playlists, and exporting reusable notes.\nFeatures\n📥 Import anything — paste a video link or import a local audio/video file.\n✍️ Transcribe locally — extract captions or run on-device speech-to-text.\n📝 Grounded summaries — generate blog-style markdown briefs with timestamped takeaways.\n💬 Chat with media — ask questions against the summary or full transcript.\n🔊 Listen back — turn summaries into audio with text-to-speech.\n🔒 Open source & private — runs on your machine, free to use.\nBuild a searchable library from video links or local files, then extract transcripts and keep everything in one place.\nOpen any item to read the transcript, generate a grounded summary, and chat with the media context side by side.\nModel Support\nModel type\nSupported\nTODO\nSpeech to text\nWhisper, Parakeet, Qwen3-ASR\nNone\nText to speech\nSupertonic 3, Qwen3-TTS\nNone\nLarge language model\nOpenAI GPT, Anthropic Claude, Google Gemini, OpenRouter DeepSeek\nLocal Gemma 4\nVideo embedding\nNone\nFrame and clip embeddings for semantic search\nRepository Layout\nclient/\napps/\ntauri/ Main OpenBrief desktop app\nsrc/ React renderer, feature UI, domain logic, services, hooks, i18n\nsrc-tauri/ Tauri v2 Rust boundary, commands, helper sidecar, packaging\nscripts/ Helper-sidecar and media-tool preparation scripts\nnextjs/ Web app and download/YouTube routes\ntanstack-start/ TanStack Start app shell\nexpo/ React Native app shell\nworkers/ Worker entry points\npackages/\napi/ Shared API routing\nauth/ Authentication integration\ndb/ Database schema and access\nui/ Shared UI components\nvalidators/ Shared validation helpers\ntooling/\neslint/ Shared ESLint config\ngithub/ GitHub setup helpers\nprettier/ Shared Prettier config\ntailwind/ Shared Tailwind config\ntypescript/ Shared TypeScript config\nAGENTS.md Repository development guidance\nDESIGN.md Product and UI direction\nRequirements\nNode.js ^22.21.0\npnpm 11.0.9\nRust and Cargo\nTauri v2 platform prerequisites for your OS\nUse the package manager declared in client/package.json.\nSetup\nInstall dependencies from the workspace root:\ncd client\npnpm install\nIf pnpm reports ignored native build scripts on a fresh machine, run pnpm approve-builds, approve the listed native/tooling packages, then rerun pnpm install.\nCreate local environment values when needed:\ncp .env.example .env\nLocal Development\nUse two terminals from client/ when working on both the web app and desktop app:\npnpm dev:next\nThe Next.js app runs at http://localhost:3000.\npnpm dev:tauri\nThe Tauri dev command builds the helper sidecar, starts the desktop renderer through Vite at http://localhost:1420, compiles the Rust app, and launches the desktop window.\nDesktop App\nRun the Tauri desktop app:\ncd client\npnpm dev:tauri\nRun only the renderer during frontend work:\ncd client/apps/tauri\npnpm dev\nBuild frontend assets:\ncd client/apps/tauri\npnpm build\nBuild or refresh bundled helper/media assets:\ncd client/apps/tauri\npnpm setup:dev-sidecars\npnpm prepare:media-assets\nUseful desktop checks:\ncd client/apps/tauri\npnpm test:run\npnpm typecheck\ncd src-tauri && cargo check\nWeb And Shared Workspace\nRun the Next.js app:\ncd client\npnpm dev:next\nRun all workspace dev tasks through Turbo:\ncd client\npnpm dev\nCommon workspace checks:\ncd client\npnpm typecheck\npnpm lint\npnpm build\nDatabase and auth helpers:\ncd client\npnpm db:push\npnpm db:studio\npnpm auth:generate\nUse pnpm --filter <workspace> <script> or pnpm -F <workspace> <script> for a single app or package.\nRoadmap\nImprove audio file support for transcription, summaries, playback, and exports.\nSupport more document and web source types, including PDFs, HTML pages, and other document formats.\nSupport Parakeet ASR.\nSupport Qwen3-ASR and Qwen3-ForcedAligner.\nSupport Supertonic 3 TTS.\nSupport local LLMs, including Gemma 4.\nAdd video embedding for frame and clip semantic search across the library.\nAdd voice cloning so summaries can be read aloud in a selected voice.\nShare summaries through the web and mobile apps.\nSupport more artifact formats, including flashcards and other reusable study or publishing outputs.\nAcknowledgements\nOpenBrief builds on and takes inspiration from several projects:\nyt-dlp for video download support.\nwhisper.cpp and transcribe-rs for local speech-to-text.\nFluidAudio for local Apple-platform audio AI inspiration.\nQwen3-ASR for speech recognition model support.\nQwen3-TTS for text-to-speech model support.\nSupertonic for Supertonic 3 TTS support.\ntweakcn for the shadcn theme.\nVoicebox and Anarlog for ",
+          "category": "hot",
+          "publishedAt": "2026-05-25T21:50:03.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Launch HN: Chert (YC P26) – Twilio for iMessage",
+          "titleKo": "Chert (YC P26) - iMessage용 Twilio",
+          "summary": "Y Combinator P26 배치의 프로젝트로, iMessage를 통한 프로그래밍 방식의 메시징 플랫폼입니다.",
+          "keyPoints": [
+            "iMessage API 통합으로 애플 메시징 프로토콜을 프로그래밍 가능하게 제공"
+          ],
+          "whyItMatters": "개발자가 iOS 사용자에게 도달할 수 있는 새로운 커뮤니케이션 채널을 확보할 수 있습니다.",
+          "url": "https://www.trychert.com",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 47,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "launch-hn-chert-yc-p26-twilio-for-imessage",
+          "category": "hot",
+          "publishedAt": "2026-05-25T15:12:33.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Exit IP VPN servers mitigation rollout",
+          "titleKo": "Exit IP VPN 서버 완화 조치 배포",
+          "summary": "Mullvad VPN이 특정 출구(Exit) IP VPN 서버들에 새로운 보안 완화 조치를 적용했습니다.",
+          "keyPoints": [
+            "오스트레일리아, 캐나다, 유럽, 미국 등 13개 지역의 서버에 완화 조치 적용"
+          ],
+          "whyItMatters": "VPN 사용자들이 보안 업데이트를 확인하고 영향받는 서버를 인식할 필요가 있습니다.",
+          "url": "https://mullvad.net/en/help/exit-ip-vpn-servers-mitigation-rollout",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 230,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "exit-ip-vpn-servers-mitigation-rollout",
+          "fullContent": "Below are the servers with the new mitigation applied.\nau-mel-wg-402\nau-syd-wg-001\nca-mtr-wg-302\nde-fra-wg-103\nfi-hel-wg-201\nfr-par-wg-101\nie-dub-wg-101\nno-osl-wg-101\nse-sto-wg-208\nus-dal-wg-701\nus-lax-wg-002\nus-nyc-wg-601\nus-slc-wg-303",
+          "category": "hot",
+          "publishedAt": "2026-05-25T17:45:11.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Netherlands Seizes 800 Servers, Arrests 2 for Aiding Cyberattacks",
+          "titleKo": "네덜란드, 러시아 사이버공격 지원 서버 800대 압수, 용의자 2명 체포",
+          "summary": "네덜란드 당국이 러시아의 사이버공격, 영향력 행사, 허위정보 캠페인을 지원한 인터넷 호스팅 회사 2곳의 공동 소유자를 체포하고 800대 이상의 서버를 압수했다. 용의자들은 EU 제재 대상 Stark Industries Solutions의 인프라를 관리하고 있었다.",
+          "keyPoints": [
+            "Andrey Nesterenko(39세, 러시아 출신)와 Youssef Zinad(57세, 암스테르담)가 EU 제재법 위반으로 체포되었으며, WorkTitans BV와 MIRhosting을 통해 제재 대상 Stark Industries에 인터넷 접속을 제공했다.",
+            "2025년 5월 PQHosting이 제재되자 Stark의 인프라가 the[.]hosting으로 이전되었고, 이후 덴마크 선거 기간(2025년 11월) 덴마크 정부 기관에 대한 친러시아 공격의 주요 경로가 되었다.",
+            "MIRhosting은 의혹을 부인하고 내부 조사 중이라고 밝혔으나, 당국은 노트북, 휴대폰, 800대 이상의 서버를 압수했다."
+          ],
+          "whyItMatters": "개발자와 인프라 운영자가 자신의 서비스가 악의적 목적으로 이용되지 않도록 감시하고, 제재 규정 준수의 중요성을 인식해야 함을 보여준다.",
+          "url": "https://krebsonsecurity.com/2026/05/netherlands-seizes-800-servers-arrests-2-for-aiding-cyberattacks/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 256,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "netherlands-seizes-800-servers-arrests-2-for-aiding-cyberattacks",
+          "fullContent": "Authorities in the Netherlands have arrested the co-owners of two related Internet hosting companies for operating IT infrastructure used by Russia to carry out cyberattacks, influence operations and disinformation campaigns inside the European Union. The two men were the focus of a 2025 KrebsOnSecurity story about how their hosting companies had assumed control over the technical infrastructure of Stark Industries Solutions, an Internet service provider sanctioned last year by the EU as a frequent staging ground for cyber mischief from Russia’s intelligence agencies.\nAn investigator with the Tax Intelligence and Investigation Service (FIOD), the Dutch financial crimes agency, during the raid. Image: FIOD.\nThe Dutch daily news outlet de Volkskrant reports that the Dutch financial crime agency FIOD on May 18 arrested a 57-year-old from Amsterdam and a 39-year-old from The Hague, charging them with violating sanctions law by directly or indirectly making economic resources available to EU-sanctioned entities.\nThe Dutch investigation focuses on Stark Industries, a sprawling hosting provider that materialized just two weeks before Russia invaded Ukraine. As detailed in this May 2024 deep-dive, Stark quickly became the source of massive distributed denial-of-service (DDoS) attacks against European targets, and emerged as a top supplier of proxy and anonymity services that showed up time and again in cyberattacks linked to Russia-backed hacking groups.\nThat report identified two Moldovan brothers — Ivan and Yuri Neculiti and their company PQHosting — who were providing one of Stark’s two main conduits to the larger Internet. In May 2025, the EU sanctioned PQHosting and the Neculiti brothers for aiding Russia’s hybrid warfare efforts. But as KrebsOnSecurity observed in September 2025, those sanctions failed to target Stark’s remaining connection to the Internet — an Internet service provider based in the Netherlands called MIRhosting.\nMIRhosting is operated by Andrey Nesterenko, a 39-year-old Russian native who runs the business out of the Netherlands.  News that PQHosting and the Neculiti brothers were about to be sanctioned by the EU leaked in the media nearly two weeks before the sanctions were announced last year. During that time, the Stark network assets were transferred from PQHosting to a new entity called the[.]hosting, under the control of the Dutch entity WorkTitans BV.\nAnd as our September 2025 report showed, WorkTitans was controlled by Nesterenko and a 57-year-old from Amsterdam named Youssef Zinad. On top of that, WorkTitans was getting connectivity to the larger Internet solely through MIRhosting, where Zinad had worked previously.\nOn May 18, Dutch financial crime investigators arrested Nesterenko and Zinad, and searched three businesses in Enschede and Almere and two data centers in Dronten and Schiphol-Rijk. A statement from the Dutch authorities said they also seized laptops, telephones and more than 800 servers.\nA message to the-hosting customers immediately after 800 of its servers were seized by Dutch authorities. The message says that unfortunately data stored on the server has been lost and cannot be recovered.\nDe Volkskrant said it reviewed data showing WorkTitans and MIRhosting were the most-used networks in pro-Russian attacks on Danish government bodies between November 13 and 19, 2025, the week of Denmark’s municipal elections.\nThe publication wrote that prior to Nesterenko’s arrest, the MIRhosting founder denied that he knew his servers had been misused by pro-Russian cybercriminals. “He said he had ended all services with the Neculiti brothers when the EU sanctions came into force in May 2025,” and the he “reserved all rights to take action against ‘harmful and incorrect publications,” de Volkskrant wrote.\nMIRhosting released a statement saying it has initiated an internal investigation into the alleged facts concerning the elections in Denmark, and that it has temporarily paused services to WorkTitans as a precautionary measure while the matter is being reviewed further.\n“Based on our preliminary findings, there are no indications that the services over which we exercise control were actually used to influence the Danish elections,” the statement reads. “No anomalies or spikes were observed in our network traffic during the period mentioned in the publication; had large-scale DDoS attacks occurred, such activity would have been evident. Furthermore, prior to the media publication, we had not received any complaints, abuse reports, or official requests regarding suspicious activities or misuse of our network. Meanwhile, our regular operational activities continue, and our service to our other clients remains fully intact.”\nBorn in Nizhny Novgorod, Russia, Mr. Nesterenko grew up as a piano prodigy who performed publicly at a young age. In 2004, Nesterenko founded MIRhosting’s parent Innovation IT Solutions Corp., which has the notable distinction of being the company responsible for h",
+          "category": "hot",
+          "publishedAt": "2026-05-25T13:56:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "anthropics/claude-cookbooks (Jupyter Notebook)",
+          "titleKo": "Anthropic Claude 요리책",
+          "summary": "Claude를 활용한 다양한 활용 사례와 팁을 Jupyter Notebook 형식으로 모아놓은 컬렉션입니다. 실무적이고 효과적인 Claude 사용 방법들을 배울 수 있습니다.",
+          "keyPoints": [
+            "Claude API의 다양한 활용 사례를 실습 가능한 노트북 형식으로 제공",
+            "실제 개발 문제 해결에 적용할 수 있는 패턴과 레시피 제시"
+          ],
+          "whyItMatters": "Claude를 활용한 실무 프로젝트 개발 시 참고할 수 있는 검증된 방법론을 제공합니다.",
+          "url": "https://github.com/anthropics/claude-cookbooks",
+          "sourceName": "GitHub Trending",
+          "engagement": 43994,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "anthropicsclaude-cookbooks-jupyter-notebook",
+          "category": "tech",
+          "publishedAt": "2026-05-25T23:28:42.379Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Jupyter Notebook"
+          ]
+        },
+        {
+          "title": "moeru-ai/airi (TypeScript)",
+          "titleKo": "airi - 자체 호스팅 AI 동반자",
+          "summary": "실시간 음성 채팅, Minecraft, Factorio 게임 플레이를 지원하는 자체 호스팅 AI 동반자 애플리케이션입니다. Web, macOS, Windows 플랫폼을 지원합니다.",
+          "keyPoints": [
+            "TypeScript 기반의 로컬 호스팅 가능한 AI 기반 대화형 애플리케이션",
+            "실시간 음성 처리와 게임 인터페이스 통합으로 다양한 상호작용 지원"
+          ],
+          "whyItMatters": "사용자가 소유하고 제어할 수 있는 오픈소스 AI 애플리케이션의 참고 구현체입니다.",
+          "url": "https://github.com/moeru-ai/airi",
+          "sourceName": "GitHub Trending",
+          "engagement": 39691,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "moeru-aiairi-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-25T23:28:42.379Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Lum1104/Understand-Anything (TypeScript)",
+          "titleKo": "무엇이든 이해하기 - 인터랙티브 지식 그래프",
+          "summary": "코드를 인터랙티브 지식 그래프로 변환하여 탐색, 검색, 질문이 가능하게 하는 TypeScript 도구입니다. Claude Code, Cursor, Copilot 등 주요 AI 코드 에디터를 지원합니다.",
+          "keyPoints": [
+            "코드 구조를 시각화된 그래프로 변환하여 이해도 향상",
+            "Claude, Copilot 등 주요 AI 도구와 호환되는 통합 가능한 솔루션"
+          ],
+          "whyItMatters": "복잡한 코드베이스의 이해와 학습 곡선을 단축하는 데 도움이 됩니다.",
+          "url": "https://github.com/Lum1104/Understand-Anything",
+          "sourceName": "GitHub Trending",
+          "engagement": 30895,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "lum1104understand-anything-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-25T23:28:42.375Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "rohitg00/ai-engineering-from-scratch (Python)",
+          "titleKo": "처음부터 AI 엔지니어링",
+          "summary": "AI 엔지니어링의 기초를 학습하고 직접 구현하여 실제 서비스로 배포하는 과정을 다루는 Python 기반 리소스입니다.",
+          "keyPoints": [
+            "AI 시스템의 설계부터 배포까지 전체 개발 사이클을 학습하고 실습",
+            "실전 경험을 바탕으로 한 체계적인 AI 엔지니어링 교육"
+          ],
+          "whyItMatters": "AI 기반 서비스를 처음부터 끝까지 개발하는 실무 능력을 기를 수 있습니다.",
+          "url": "https://github.com/rohitg00/ai-engineering-from-scratch",
+          "sourceName": "GitHub Trending",
+          "engagement": 18433,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "rohitg00ai-engineering-from-scratch-python",
+          "category": "tech",
+          "publishedAt": "2026-05-25T23:28:42.376Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "mukul975/Anthropic-Cybersecurity-Skills (Python)",
+          "titleKo": "Anthropic Cybersecurity Skills - AI 에이전트용 754개 보안 스킬",
+          "summary": "MITRE ATT&CK, NIST CSF 2.0 등 5가지 주요 보안 프레임워크에 매핑된 754개의 구조화된 사이버보안 스킬을 제공하며, Claude Code, GitHub Copilot 등 20개 이상의 플랫폼에서 사용 가능합니다.",
+          "keyPoints": [
+            "5가지 표준 보안 프레임워크에 매핑된 26개 보안 도메인의 체계적 스킬 제공",
+            "Claude Code, GitHub Copilot, Cursor 등 주요 AI 코드 플랫폼 지원",
+            "Apache 2.0 라이선스로 상용 사용 가능"
+          ],
+          "whyItMatters": "AI 에이전트에 표준화된 사이버보안 지식을 통합하여 보안성 높은 코드 생성을 유도할 수 있습니다.",
+          "url": "https://github.com/mukul975/Anthropic-Cybersecurity-Skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 9186,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "mukul975anthropic-cybersecurity-skills-python",
+          "category": "tech",
+          "publishedAt": "2026-05-25T23:28:42.377Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "colbymchenry/codegraph (TypeScript)",
+          "titleKo": "CodeGraph - Claude Code용 사전 인덱싱된 코드 지식 그래프",
+          "summary": "Claude Code, Codex, Cursor 등을 위한 사전 인덱싱된 코드 지식 그래프 도구로, 토큰 사용량과 도구 호출을 줄이면서 완전히 로컬에서 동작합니다.",
+          "keyPoints": [
+            "토큰 효율성 증대 및 도구 호출 최소화로 AI 에이전트 성능 최적화",
+            "100% 로컬 실행으로 데이터 프라이버시 보장"
+          ],
+          "whyItMatters": "AI 코드 생성 도구 사용 시 비용과 응답 속도를 동시에 개선할 수 있습니다.",
+          "url": "https://github.com/colbymchenry/codegraph",
+          "sourceName": "GitHub Trending",
+          "engagement": 24828,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "colbymchenrycodegraph-typescript",
+          "category": "tech",
+          "publishedAt": "2026-05-25T23:28:42.377Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "anthropics/knowledge-work-plugins (Python)",
+          "titleKo": "Anthropic Knowledge Work Plugins - Claude용 오픈소스 플러그인",
+          "summary": "Anthropic에서 제공하는 지식 근로자용 Claude 플러그인의 오픈소스 저장소입니다.",
+          "keyPoints": [
+            "지식 근로자를 위한 Claude Cowork 플랫폼의 플러그인 생태계 제공"
+          ],
+          "whyItMatters": "Claude의 기능을 확장하여 업무 효율성을 높일 수 있는 통합 도구입니다.",
+          "url": "https://github.com/anthropics/knowledge-work-plugins",
+          "sourceName": "GitHub Trending",
+          "engagement": 15368,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "anthropicsknowledge-work-plugins-python",
+          "category": "tech",
+          "publishedAt": "2026-05-25T23:28:42.376Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "multica-ai/andrej-karpathy-skills",
+          "titleKo": "Andrej Karpathy 스킬 프로필 - Claude Code 행동 개선",
+          "summary": "Andrej Karpathy의 LLM 코딩 함정 관찰에서 파생된 단일 CLAUDE.md 파일로, Claude Code의 코드 생성 행동을 개선합니다.",
+          "keyPoints": [
+            "LLM 코딩의 일반적인 함정을 바탕으로 한 최적화된 프롬프트 구성"
+          ],
+          "whyItMatters": "업계 전문가의 인사이트를 활용하여 AI 코드 생성 품질을 향상시킬 수 있습니다.",
+          "url": "https://github.com/multica-ai/andrej-karpathy-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 154853,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "multica-aiandrej-karpathy-skills",
+          "category": "tech",
+          "publishedAt": "2026-05-25T23:28:42.378Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "affaan-m/ECC (JavaScript)",
+          "titleKo": "ECC - AI 에이전트 성능 최적화 시스템",
+          "summary": "Claude Code, Codex, Cursor 등을 위한 에이전트 성능 최적화 시스템으로, 스킬, 직관, 메모리, 보안 및 연구 중심 개발을 제공합니다.",
+          "keyPoints": [
+            "메모리, 보안, 스킬 등 다층적 최적화로 AI 에이전트 성능 향상",
+            "여러 AI 코드 플랫폼에 호환 가능"
+          ],
+          "whyItMatters": "AI 에이전트의 안정성과 성능을 종합적으로 향상시킬 수 있습니다.",
+          "url": "https://github.com/affaan-m/ECC",
+          "sourceName": "GitHub Trending",
+          "engagement": 192275,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "affaan-mecc-javascript",
+          "category": "tech",
+          "publishedAt": "2026-05-25T23:28:42.376Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "manaflow-ai/cmux (Swift)",
+          "titleKo": "manaflow-ai/cmux (Swift)",
+          "summary": "AI 코딩 에이전트를 위해 Ghostty 기반으로 만들어진 macOS 터미널로, 수직 탭과 알림 기능을 지원합니다.",
+          "keyPoints": [
+            "Ghostty 기반 macOS 터미널 구현",
+            "수직 탭 및 알림 기능으로 AI 에이전트 작업 흐름 지원"
+          ],
+          "whyItMatters": "AI 코딩 에이전트와의 효율적인 상호작용을 위한 전문화된 터미널 환경을 제공합니다.",
+          "url": "https://github.com/manaflow-ai/cmux",
+          "sourceName": "GitHub Trending",
+          "engagement": 19470,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "manaflow-aicmux-swift",
+          "category": "tech",
+          "publishedAt": "2026-05-25T23:28:42.377Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Swift"
+          ]
+        },
+        {
+          "title": "Fincept-Corporation/FinceptTerminal (Python)",
+          "titleKo": "Fincept-Corporation/FinceptTerminal (Python)",
+          "summary": "고급 시장 분석, 투자 조사, 경제 데이터 도구를 제공하는 현대적인 금융 애플리케이션으로, 데이터 기반 의사결정을 위한 대화형 탐색 환경을 지원합니다.",
+          "keyPoints": [
+            "고급 시장 분석 및 투자 조사 기능 제공",
+            "대화형 인터페이스로 데이터 기반 금융 의사결정 지원"
+          ],
+          "whyItMatters": "금융 데이터 분석이 필요한 개발자들이 통합된 도구로 효율적인 금융 애플리케이션을 구축할 수 있습니다.",
+          "url": "https://github.com/Fincept-Corporation/FinceptTerminal",
+          "sourceName": "GitHub Trending",
+          "engagement": 23856,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "fincept-corporationfinceptterminal-python",
+          "category": "tech",
+          "publishedAt": "2026-05-25T23:28:42.378Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "paperless-ngx/paperless-ngx (Python)",
+          "titleKo": "paperless-ngx/paperless-ngx (Python)",
+          "summary": "커뮤니티 지원 문서 관리 시스템으로, 문서 스캔, 인덱싱, 보관 기능을 제공합니다.",
+          "keyPoints": [
+            "문서 스캔, 인덱싱, 보관을 통합한 관리 시스템",
+            "커뮤니티 지원으로 지속적인 개선"
+          ],
+          "whyItMatters": "문서 관리가 필요한 개인 및 조직을 위해 오픈소스 기반의 경량 솔루션을 제공합니다.",
+          "url": "https://github.com/paperless-ngx/paperless-ngx",
+          "sourceName": "GitHub Trending",
+          "engagement": 41308,
+          "contentType": "repo",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "paperless-ngxpaperless-ngx-python",
+          "category": "tech",
+          "publishedAt": "2026-05-25T23:28:42.378Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "C extensions, portability, and alternative compilers",
+          "titleKo": "C 확장, 이식성, 그리고 대체 컴파일러",
+          "summary": "실제 C 코드는 ISO C 표준을 완벽히 준수하기 어렵고, glibc, GCC 특화 기능 등에 의존한다. 새로운 C 컴파일러 개발 시 다양한 시스템 헤더와 컴파일러 확장에 대한 호환성을 맞추는 것이 주요 과제이다.",
+          "keyPoints": [
+            "glibc 헤더와 sys/cdefs.h는 GCC/Clang 외 컴파일러에 대한 지원이 불완전하여 __attribute__((packed)) 같은 확장 기능 지원이 어렵다.",
+            "SDL_endian.h, OpenBSD 헤더 등은 GCC 특화 기능(inline 의미론, 확장 인라인 어셈블리)에 의존하여 타 컴파일러와의 호환성 문제가 발생한다.",
+            "POSIX와 C 표준, 컴파일러별 inline 의미론의 차이로 인해 헤더 파일 작성이 복잡해진다."
+          ],
+          "whyItMatters": "크로스 플랫폼 C 개발이나 새로운 컴파일러 구현 시 표준 라이브러리의 비표준 확장과 컴파일러 특화 기능에 대한 깊은 이해가 필수적이다.",
+          "url": "https://lemon.rip/w/6-c-extensions-compilers/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 129,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "c-extensions-portability-and-alternative-compilers",
+          "fullContent": "2026 May 24\n—\nc\ncompilers\nAnyone who's written C knows that full ISO C standard-adhering code is an\nimpractical rarity. Most real world C code out there relies on non-standard\nbehaviors and language extensions to varying extents, and a lot of this isn't\nfor extra features, but just to work around bugs and gaps in different\ncompilers and libraries. A lot of codebases will try somewhat to support\nvarious environments, mostly through the use of preprocessor checks and guards,\nbut these attempts are finicky at best and straight up broken at worst.\nI have ran into many of these situations while working on my C compiler, so\nhere's a small list of some of them.\nThe system's C library headers is the first 'obstacle' for a C compiler\naspiring to be useful. If you can't preprocess and parse <stdio.h>, you\nwon't get past hello world. Because I use GNU/Linux, that means glibc. Now, to\ntheir credit, glibc does try to retain compatibility of its headers on non-GCC\ncompilers. In the monstrosity that is sys/cdefs.h, which is indirectly\nincluded by every libc header, they use all kinds of preprocessor checks for\ncompiler-predefined macros to determine what kinds of compiler extensions are\nsupported, and #define things away when they aren't.\nUnfortunately this is just broken sometimes. For example, on Linux struct epoll_event from sys/epoll.h is a packed\nstruct,\nwhich uses the GNU __attribute__((packed)). Because this changes the struct\nlayout (on 64 bits), you can't ignore it without breaking ABI. So okay, say you implement\nsupport for __attribute__((packed)) in your compiler. But this isn't enough,\nbecause the aforementioned sys/cdefs.h contains this code:\nIf you aren't gcc, clang, or tcc, tough luck.\nAlthough, the epoll header is Linux-specific, so you could argue\nthat applying C standards portability criteria is not fair.\nSome C headers are supposed to be provided by the compiler because they should\nbe present even on freestanding implementations, and rely on\ncompiler-internal definitions. In my computer for example, these live in\n/usr/lib/gcc/x86_64-pc-linux-gnu/16.1.1/include/ for GCC and\n/usr/lib/clang/22/include/ for clang. These builtin headers include\nstddef.h, stdint.h, limits.h, float.h and more. However, POSIX requires\nlimits.h to define some POSIX-specific constants in addition to the standard\nC constants. So you still need a platform-specific limits.h on top of the compiler's.\nglibc's <limits.h> looks like this (abridged):\nIt depends on the gcc-specific builtin limits.h to define some macros to work correctly,\non top of the use of the #include_next extension. Even clang has to work around this silliness.\nSDL_endian.h has a goofy bit of feature detection for its byteswapping\nfunctions. The purpose is to use compiler builtins or inline assembly whenever\npossible, and only fall back to portable generic bitwise operations as a last resort. But the way\nit goes about this is with the following logic:\nThis means that if you aren't GCC or clang, but you define the ISA-specific\npredefined macro (for good reasons), it will try to use (extended) inline\nassembly, even if you have the bswap builtins and provide the __has_builtin\nspecial operator. Seems a little odd to expect an unknown compiler to support\nGCC-style extended inline assembly.\nSome OpenBSD headers include inline function definitions intended\nto be used optionally by the compiler when optimizing. These are defined with the\nmacro __only_inline, e.g.:\nand are supposed to fallback to the 'real' external symbol when/if the compiler\ndoesn't actually inline it. In other words, an inline function with extern\nlinkage. These are, generally, a mess: though they are specified in C99, the\nstandard behavior conflicts with the pre-C99 non-standard GCC behavior (default\nprior to 4.2). In short, the inline definition in the header should use extern inline with the function body, and this will not emit the actual exported\nfunction, and in the translation unit, one should declare the function with\njust inline to export its definition there. To further add to the confusion,\nthe meaning of inline differs between C++ and C. Refer to this good article by\nYoutao Guo.\nSo, OpenBSD relies on GCC's inline semantics and to paper over the GCC version\ndiscrepancy, the __only_inline macro in sys/cdefs.h uses an\nexplicit __attribute__ on newer GCC versions to specify the old gnu89 inline\nsemantics. But on non-GNU compilers, it gets defined to static linkage,\nwhich breaks because it ends up declaring/defining functions with conflicting linkage.\nLuckily, they respect a macro, _ANSI_LIBRARY that when defined entirely omits\nthe use of these broken __only_inline definitions in standard headers like\nsignal.h. So you don't get the \"optimized versions\" (not that it probably\nmakes a big difference), but at least it works.\nI also ran across Gnulib's compatibility code\nfor extern inline when building Guile and nano, which highlights all the broken\nand weird implementations of this corner case of C. See",
+          "category": "tech",
+          "publishedAt": "2026-05-25T14:15:19.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Leonxlnx/taste-skill (Shell)",
+          "titleKo": "Leonxlnx/taste-skill (Shell)",
+          "summary": "AI가 지루하고 평범한 결과물(generic slop) 생성을 방지하기 위해 좋은 취향(taste)을 부여하는 도구이다.",
+          "keyPoints": [
+            "AI 생성 콘텐츠의 품질 향상에 초점을 맞춘 유틸리티"
+          ],
+          "whyItMatters": "AI 기반 코드 생성 도구 사용 시 출력 품질 제어가 필요한 개발자에게 유용할 수 있다.",
+          "url": "https://github.com/Leonxlnx/taste-skill",
+          "sourceName": "GitHub Trending",
+          "engagement": 19647,
+          "contentType": "repo",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "leonxlnxtaste-skill-shell",
+          "category": "tech",
+          "publishedAt": "2026-05-25T23:28:42.379Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "Riscrithm – An intuitive RISC-V assembler and optimizer coded in Go",
+          "titleKo": "Riscrithm - Go로 작성된 직관적 RISC-V 어셈블러 및 최적화 도구",
+          "summary": "Riscrithm은 고수준 매크로 어셈블리 언어를 RISC-V 어셈블리로 컴파일하는 도구이다. 읽기 쉬운 문법(load, move, swap 등)과 매크로 정의, 레이블 기반 제어 흐름을 지원하며 -o 플래그로 최적화 기능을 활성화할 수 있다.",
+          "keyPoints": [
+            "load/move/swap 같은 직관적 명령어를 RISC-V 기계 명령어로 매핑하여 가독성을 높인다.",
+            "camelCase(변수), snake_case(레이블), SCREAMING_SNAKE_CASE(상수) 네이밍 규칙을 통해 코드 일관성을 강제한다.",
+            "!! 접두어를 사용한 raw 어셈블리 블록으로 전처리기 우회 가능하며, 단일 패스 컴파일러로 빠른 컴파일을 지원한다."
+          ],
+          "whyItMatters": "RISC-V 아키텍처로 개발하는 임베디드/저수준 개발자가 수동 어셈블리 작성의 복잡도를 줄일 수 있다.",
+          "url": "https://github.com/ghetea-patrick/riscrithm",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 9,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "riscrithm-an-intuitive-risc-v-assembler-and-optimizer-coded-in-go",
+          "fullContent": "The Riscrithm Developer Manual\nHey there. If you're looking at this, you are probably getting your hands dirty with Riscrithm, a high-level macro-assembly dialect that compiles straight down to pure RISC-V assembly. Think of it as a bridge between the readability of a high-level language and the raw, deterministic control of bare-metal hardware.\nLet's dive straight into how the compiler works, the syntax rules, and what's happening under the hood.\n1. The CLI\nTo compile your source code, you'll use the riscrithm CLI tool. The syntax is straightforward:\nriscrithm \"source_code_file\" \"assembly_target_file\" [-o/--optimize]\nSource Code: Your Riscrithm input file.\nTarget File: The generated .s assembly file. If this file doesn't exist, the compiler will create it for you on the fly.\nOptimization: Pass -o or --optimize to enable the optimization sweep (more on the compiler architecture later).\n2. File Structure & Globals\nEvery Riscrithm file must declare its target section and entrypoint at the very top. These, along with macro definitions, are the only lines allowed to exist completely unindented outside of a label block.\nHeader and Entrypoint\nheader : Sets the assembly section. For instance, header default translates to .section .text.\nentrypoint : Defines where the program starts. Passing entrypoint main translates to .globl main.\nheader default\nentrypoint main\nDefinitions (Macros)\nYou can define text-replacement macros using the define keyword. This is perfect for aliasing registers or creating single-line inline functions. Here are some classic developer examples:\ndefine foo = x1\ndefine bar = x2\ndefine baz = x3\ndefine horseBattery = x4\ndefine apple = 10\ndefine orange = 20\ndefine clearFoo = foo ^^\nWhenever the parser sees foo, it swaps it with x1 before processing any actual logic.\nComments\nComments are written using the # symbol. The compiler strips out anything following a # on any line, so you can place them anywhere safely.\n3. Labels, Indentation, and Raw Blocks\nRiscrithm is strictly scoped via indentation.\nStandard Labels\nLabels define your execution blocks and must end with a colon. They must not have any indentation.\nConversely, every instruction inside a label must be indented (spaces or tabs). If you leave an instruction unindented, the compiler will throw a SyntaxError.\nmain:\nload foo = apple\nmove bar = foo\nRaw Assembly Labels (!!)\nIf you need to bypass the Riscrithm preprocessor and write raw RISC-V assembly, prefix your label with !!. The compiler strips the exclamation marks but passes everything inside that block completely untouched. Macros and shorthands will not expand here.\n!!raw_block:\nli x1, 10\nfoo ^^ # This stays exactly as written!\n4. Core Features & Instructions\nHere is the meat of the language. Riscrithm maps readable statements directly to hardware instructions.\nSystem & Interrupt Controls\nInstead of remembering privilege-level opcodes, use explicit system calls:\nRiscrithm\nRISC-V Assembly\nDescription\ninterrupt.u\nuret\nUser-mode trap return\ninterrupt.s\nsret\nSupervisor-mode trap return\ninterrupt.m\nmret\nMachine-mode trap return\nwait\nwfi\nWait for interrupt (low-power state)\ntrap\nebreak\nDebugger trap\nhalt\necall\nSystem environment call / halt\n...\nnop\nNo-operation (ellipsis)\n5. Naming Conventions\nLet’s talk about code style. To keep your Riscrithm source files readable and consistent, the compiler expects (and highly encourages) a clean split in how you name your identifiers. Here is the naming convention breakdown:\nVariables & Registers (camelCase): Any variable alias or register macro you define should start with a lowercase letter, with each subsequent word capitalized.\nExamples: firstNum, addressRegister, stackOffset\nLabels & Code Blocks (snake_case): Execution targets, loop boundaries, and conditional blocks use lowercase words separated by underscores. This makes them pop visually against instructions.\nExamples: loop_start, on_true, error_handler\nConstants & Literals (SCREAMING_SNAKE_CASE): Hardcoded configuration values, static offsets, or global definitions that shouldn't change use all-uppercase letters separated by underscores.\nExamples: DEFAULT_HEADER, MAX_BUFFER_SIZE, IMM_VALUE\n6. Complete Operator & Expression Reference\nExcluding the hardware system traps and conditional branching symbols, here is the complete table of mutators, arithmetic expressions, and memory operators supported by the single-pass compiler engine.\nCore Expressions and Memory Operators\nRiscrithm Syntax\nCategory\nInternal Expansion / Behavior\nTarget RISC-V Assembly\nload =\nAssignment\nDirect immediate assignment\nli reg, imm\nmove =\nAssignment\nRegister-to-register copy\nmv reg1, reg2\nswap\nValue Exchange\nTriple-XOR non-destructive swap\nxor reg1, reg1, reg2\nxor reg2, reg1, reg2\nxor reg1, reg1, reg2\n-> stack.[b/w/d]\nStack Memory\nDec pointer, store byte/word/double\naddi sp, sp, -offset\ns[b/w/d] reg, 0(sp)\n<- stack.[b/w/d]\nStack Memory\nLoad byte/word/double, inc pointer\nl[b/w/d] reg, 0(sp)\naddi sp, sp, offset\n= stack.[b/w/d",
+          "category": "tech",
+          "publishedAt": "2026-05-25T21:01:10.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "shiyu-coder/Kronos (Python)",
+          "titleKo": "Kronos - 금융 시장 언어 기반 모델",
+          "summary": "금융 시장의 언어를 위한 기반 모델(Foundation Model)입니다.",
+          "keyPoints": [
+            "금융 도메인 특화 언어 모델로 금융 데이터 분석 및 거래 관련 작업 최적화"
+          ],
+          "whyItMatters": "금융 기술 개발자가 도메인 특화된 AI 모델을 활용하여 정확한 시장 분석을 수행할 수 있습니다.",
+          "url": "https://github.com/shiyu-coder/Kronos",
+          "sourceName": "GitHub Trending",
+          "engagement": 26012,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "shiyu-coderkronos-python",
+          "category": "tech",
+          "publishedAt": "2026-05-25T23:28:42.379Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Axorax/awesome-free-apps (JavaScript)",
+          "titleKo": "awesome-free-apps - PC 및 모바일용 최고의 무료 앱 큐레이션",
+          "summary": "PC와 모바일 플랫폼의 최고 품질 무료 앱들을 수집하고 정리한 GitHub 저장소입니다.",
+          "keyPoints": [
+            "PC와 모바일 양쪽 플랫폼의 무료 앱을 체계적으로 큐레이션"
+          ],
+          "whyItMatters": "개발자가 필요한 도구나 참고할 수 있는 무료 소프트웨어 생태계를 빠르게 파악할 수 있습니다.",
+          "url": "https://github.com/Axorax/awesome-free-apps",
+          "sourceName": "GitHub Trending",
+          "engagement": 4479,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "axoraxawesome-free-apps-javascript",
+          "category": "tech",
+          "publishedAt": "2026-05-25T23:28:42.379Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "Hacker News front page as a site",
+          "titleKo": "Microsoft Copilot Cowork의 파일 유출 취약점",
+          "summary": "Microsoft Copilot Cowork는 간접 프롬프트 주입 공격을 통한 파일 유출에 취약하며, 광범위한 권한 설정과 결합되어 Teams, 이메일, 공유 플랫폼을 통해 민감한 데이터 접근이 가능합니다. 완화 방안으로는 다운로드 링크 접근 제한과 권한 강화가 강조됩니다.",
+          "keyPoints": [
+            "간접 프롬프트 주입을 통해 개인식별정보와 재무정보 탈취 가능",
+            "시스템의 광범위한 권한 설정이 공격 표면을 확대",
+            "다운로드 링크 접근 제한과 권한 강화로 완화 가능"
+          ],
+          "whyItMatters": "AI 에이전트 기반 도구를 사용할 때 보안 설계의 중요성을 보여주며, 권한 최소화 원칙의 필요성을 강조합니다.",
+          "url": "https://thefrontpage.dev/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 54,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "hacker-news-front-page-as-a-site",
+          "fullContent": "1h, 110p, 19 comments\nMicrosoft Copilot Cowork Exfiltrates Files\nThe article highlights that Microsoft Copilot Cowork is vulnerable to file exfiltration through indirect prompt injection attacks. Attackers can exploit processes that permit agents to operate and access sensitive data via Teams, emails, and shared platforms without immediate user approval. This poses a significant risk when users upload files or interact with compromised content, potentially enabling theft of personally identifiable and financial information. The key issue lies in the system's design granting broad permissions, which, combined with persistent attack vectors, expands the attack surface. Mitigation emphasizes limiting access to download links and tightening permissions to prevent unauthorized data extraction.\n3h, 40p, 21 comments\nShow HN: Write your BPF programs in Go, not C\ngobee is an eBPF transpiler by Bora Tanrikulu that lets developers write BPF programs in a strict Go subset rather than C, transpiling them to BPF C and generating typed cilium/ebpf bindings for the userspace side. The tool supports eight program types including XDP, tracepoints, kprobes, and LSM, 19 map types, and around 200 BPF helpers auto-generated from libbpf v1.5.0 headers. Key features include verifier error mapping back to Go source positions, kernel-version gating via bpfvet, CO-RE auto-detection through clang, sourcemap sidecars, and cross-architecture support for Linux arm64 and amd64. Instead of targeting LLVM directly, gobee reuses clang's mature BPF backend to provide BTF and verifier-friendly codegen, positioning itself as a way to unify kernel-side and userspace-side code in a single Go module while relying on existing tooling like cilium/ebpf and clang.\n3h, 48p, 22 comments\nHacker News front page as a site\nThe Front Page highlights a diverse set of tech and science stories, including Apple’s PICO (Perceptual Image Codec)—a learned image compression system delivering up to three‑fold bitrate reductions over traditional codecs while running on an iPhone 17 Pro Max; SpaceX’s successful Starship V3 sub‑orbital test featuring hot‑staging and a payload of prototype Starlink satellites despite an engine failure; DeepSeek’s permanent discount on its V4 Pro model with token‑based pricing and upcoming model renaming; Microsoft’s open‑source release of the earliest DOS source code, shedding light on the origins of MS‑DOS; Italy’s €1.39 billion contract for six Airbus A330 MRTT tankers, shifting its air‑refueling fleet from Boeing KC‑46 to a European platform; and a groundbreaking archaeological find of a 1,000‑year‑old dingo in Australia that shows evidence of injury, care and ritual burial by Indigenous peoples. Additional notable items include a study on “constraint decay” in LLM agents, a free, open‑source web‑based multitrack audio editor (Audiomass), and a new Bayesian Gaussian‑process model for handling uncertain sampling coordinates in environmental data.\n36m, 22p, 8 comments\nCanada losing top talent as workers head to the U.S.\nCanada is experiencing a \"silent brain drain\" as skilled workers, entrepreneurs, and STEM professionals leave for U.S. opportunities due to lower taxes and stronger economic prospects, according to a TD Economics report. High personal and business tax rates in Canada, particularly Ontario and British Columbia, push professionals toward Texas and Florida, while productivity challenges stem from weak business scalability and limited venture capital. The report underscores that retaining talent requires improving economic competitiveness, including reforming tax structures and fostering domestic growth.\n3h, 81p, 63 comments\nJapan's New Hypersonic Engine Could Make 2-Hour Flights to the US a Reality\nJapan’s JAXA together with Waseda University, the University of Tokyo and Keio University completed a successful ground‑combustion test of a Mach‑5 ramjet at the Kakuda Space Center, validating heat‑shielding, control surfaces and engine performance under conditions simulating 25 km altitude and five times the speed of sound, a step toward commercial hypersonic passenger service by the 2040s that could reduce the Tokyo‑Los Angeles flight from roughly 10 hours to about 2 hours.\n13h, 133p, 54 comments\nIBM Spins Off the First Pure-Play Quantum Chip Foundry\nThe U.S. Department of Commerce and IBM announced a $2 billion initiative to establish Anderon, America's first pure-play quantum chip foundry in Albany, New York. Funded by $1 billion from the CHIPS Act and $1 billion from IBM, Anderon will operate a 300mm superconducting silicon wafer fabrication facility, positioning the U.S. at the forefront of quantum manufacturing. This move prioritizes superconducting silicon technology, leveraging established semiconductor processes for scalable, rapid iteration—a strategic advantage over smaller 200mm alternatives. The funding structure creates a two-tier quantum ecosystem, concentrating infrastructure capital on fabrication-ready modalit",
+          "category": "tech",
+          "publishedAt": "2026-05-25T20:12:29.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "1007: 8 Tech Choices to Lock In Before Agentmaxxing",
+          "titleKo": "1007: Agentmaxxing 전에 잠금할 8가지 기술 선택",
+          "summary": "Syntax 팟캐스트에서 AI 보조 코딩이 실제로 작동하게 하는 데이터베이스 스키마, 검증, 라우팅, CSS 구조 등 기초적 기술 결정에 대해 논의한다. 특정 도구보다 일관성의 중요성과 에이전트가 코드베이스를 훼손하지 않도록 사전 계획의 필요성을 강조한다.",
+          "keyPoints": [
+            "데이터베이스 스키마, 검증 전략, 라우팅 패턴 같은 아키텍처 결정이 AI 에이전트의 효과성을 크게 좌우한다.",
+            "CSS 구조와 코드 일관성이 높을수록 AI 도구가 자동화 작업을 안정적으로 수행할 수 있다.",
+            "에이전트 도입 전 코드베이스의 구조와 규칙을 명확히 설정하면 자동화의 위험을 줄일 수 있다."
+          ],
+          "whyItMatters": "AI 에이전트를 프로젝트에 통합하려는 개발자는 초기 아키텍처 설계 단계에서 일관성과 명확성을 우선시해야 한다.",
+          "url": "https://syntax.fm/1007",
+          "sourceName": "Syntax.fm",
+          "contentType": "article",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "1007-8-tech-choices-to-lock-in-before-agentmaxxing",
+          "category": "insight",
+          "publishedAt": "2026-05-25T11:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Starship v3 launch 🚀, AI job exposure 💼, auth for agents 🤖",
+          "titleKo": "Starship v3 출시 🚀, AI 직업 노출 💼, 에이전트용 인증 🤖",
+          "summary": "주간 기술 뉴스 요약으로 Starship v3 출시, AI가 일자리에 미치는 영향, AI 에이전트를 위한 인증 기술에 대한 내용을 다룬다.",
+          "keyPoints": [
+            "Starship v3 새로운 버전 출시",
+            "AI 기술의 취업 시장 영향 분석",
+            "AI 에이전트 보안 인증 솔루션"
+          ],
+          "whyItMatters": "AI 도구의 발전과 그에 따른 인프라 및 보안 고려사항이 개발자 업무에 직결된다.",
+          "url": "https://tldr.tech/tech/2026-05-25",
+          "sourceName": "TLDR",
+          "contentType": "article",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "starship-v3-launch-ai-job-exposure-auth-for-agents",
+          "category": "insight",
+          "publishedAt": "2026-05-25T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "The bootstrapper's EU stack for under €10 per month",
+          "titleKo": "부트스트래퍼를 위한 월 €10 이하의 EU 인프라 스택",
+          "summary": "초기 단계 스타트업이 EU 기반 인프라를 최소 비용으로 구축할 수 있는 방법을 소개합니다. Hetzner Cloud의 CX33 서버(월 €7)부터 무료 이메일, 분석, 결제 처리 등 다양한 영구 무료 서비스를 활용하는 전략을 제시합니다.",
+          "keyPoints": [
+            "Hetzner Cloud CX33(월 €7)로 Django/Rails 앱 운영 가능",
+            "메일, 분석, 모니터링, 인증, 결제 처리 등 여러 무료 서비스 활용",
+            "영구 무료 티어를 제공하는 EU 기반 서비스 중심 추천"
+          ],
+          "whyItMatters": "초기 자금이 부족한 개발자와 부트스트래퍼들이 EU 규정을 준수하면서 최소 비용으로 프로덕션 인프라를 구성할 수 있습니다.",
+          "url": "https://eualternative.eu/guides/bootstrapper-free-tier-eu-stack/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 184,
+          "contentType": "discussion",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-bootstrappers-eu-stack-for-under-10-per-month",
+          "fullContent": "So you are building something on the side and don't want to burn through your hard earned euros. You'd like to spend close to nothing on infrastructure until you have proof anyone wants what you are making. How close to zero can you actually get on a 100% EU infrastructure stack?\nWe only list providers that, at the time of writing this post, offer a permanent* free tier, not just a 14-day trial.\n*Obviously, terms and conditions may change, free plans may be deprecated at some point.\nNo serious EU cloud provider gives away permanent free compute. What you get instead is very cheap compute.\nHetzner Cloud's CX33 server configuration is the sweet spot at around €7 a month for 4 vCPUs, 8 GB of RAM, and 80 GB of disk. That is enough to run a Django or Rails app with a Postgres database, Redis for caching, background workers - with plenty of headroom. If your idea finds traction, you scale up vertically for a long time before you have to think harder about it. For your average boring CRUD-style app, this server configuration could even be considered overkill.\nNetcup is the runner-up with similarly cheap VPS plans starting under €5 a month. Slightly less polished console, but the price-performance is excellent and they have been around since 2003.\nCheapest credible cloud servers in Europe. CX33 plan around €7/month for 4 vCPU, 8 GB RAM, 80 GB disk. Includes free 20 TB egress, which is huge.\nVPS plans starting under €5/month. Less polished console than Hetzner, but a long track record.\nPassword resets, magic links, receipts, the email confirming an order. Every app needs to send this kind of email, and three EU providers have genuinely usable free tiers.\n1,000 emails/month free, permanently. Developer-focused with a clean API and webhooks. No marketing features to wade through.\n300 emails/month free. Simple, EU-hosted, focused purely on transactional delivery.\n300 emails/day free on a permanent plan. Covers transactional and marketing email in one tool. Good if you want one account for both.\nYou want to keep your customers up to date with email newsletters? You need somewhere to manage that list and send it from. Two EU options have free tiers generous enough to take you well into the hundreds of subscribers\nUp to 2,500 subscribers and 15,000 emails/month on the free plan. Drag-and-drop editor, automations, and decent templates included.\nSame free plan covers transactional and marketing. One account for both, which simplifies your stack while you are small.\nGoogle Analytics is a GDPR nightmare, needs a ugly cookie banner and probably it is overkill for someone tracking their first hundred visitors anyway. Luckily, there are several EU options that are simple and free.\nSimple Analytics offers a free plan for small projects, with a clean privacy-friendly dashboard and no cookies. TelemetryDeck has a generous free tier and is particularly nice if your product is a mobile or desktop app.\nFree plan for small projects. No cookies, no consent banner. Privacy-first dashboard with the metrics that matter.\nFree plan with generous limits. Strong fit for mobile and desktop apps. Privacy-first design.\nA small but useful layer that bootstrappers often forget until something breaks.\nFor uptime monitoring, UptimeRobot gives you 50 monitors on the free plan, which is more than you will need. Healthchecks.io is the better choice for cron jobs and background tasks: 20 checks free, and you can self-host the open source version if you want to.\n50 monitors free with 5-minute checks. Status pages included. Good enough for almost any pre-product-market-fit project.\n20 checks free for cron jobs and background tasks. Open source, self-hostable if you prefer.\nTally has an unusually generous free plan with unlimited forms and unlimited responses. Formbricks is open source with a free hosted tier, useful if you want in-app surveys rather than standalone forms.\nUnlimited forms and unlimited responses on the free plan. Clean, fast editor that feels like Notion.\nOpen source survey and feedback platform with a free hosted tier. Strong fit for in-app surveys and product feedback.\nYou can roll your own with Django, Rails, or Laravel and it will work fine. If you would rather not, Hanko offers a free tier with passkeys, the modern way to handle login that gets rid of password resets entirely. It is open source and self-hostable if you want to avoid hosted plans altogether.\nFree tier with passkeys built in. Modern alternative to passwords that eliminates password reset flows entirely.\nThere is no truly \"free\" payment processor, but the bootstrapper-friendly version means: no monthly fees, you only pay when you actually make a sale.\nMollie is that. The closest thing to a EU clone of Stripe.\nIf you sell digital products and want a Merchant of Record to handle global VAT compliance and sales tax collection for you, Creem is worth a look. They take a higher percentage cut than a traditional payment processor, but it saves you tax headaches.\nNo monthly fee,",
+          "category": "insight",
+          "publishedAt": "2026-05-25T18:37:05.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Norway's 2 petabytes of Huawei flash storage and LLM training",
+          "titleKo": "노르웨이의 2페타바이트 화웨이 플래시 스토리지와 LLM 훈련",
+          "summary": "노르웨이 국립도서관이 2PB의 화웨이 OceanStor Dorado 플래시 스토리지를 사용하여 노르웨이 언어를 이해하는 주권 LLM을 개발하고 있습니다. 60PB의 디지털화된 문화유산 데이터를 데이터 파이프라인을 통해 훈련시키는 대규모 프로젝트입니다.",
+          "keyPoints": [
+            "노르웨이 고유 언어 LLM 개발로 문화적 주권 확보",
+            "보존 시스템(60PB)에서 AI 파이프라인(2PB)으로의 PB급 데이터 이동이 주요 도전과제",
+            "데이터 품질, 정제, 파이프라인 처리량이 계산 능력보다 중요한 병목"
+          ],
+          "whyItMatters": "대규모 AI 데이터 파이프라인 구축과 PB급 데이터셋 관리의 실제 과제를 보여주며, 비영어권 국가들의 주권 LLM 개발 방향을 제시합니다.",
+          "url": "https://www.blocksandfiles.com/flash/2026/05/22/norways-2-petabytes-of-huawei-flash-storage-and-llm-training/5244910",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 118,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "norways-2-petabytes-of-huawei-flash-storage-and-llm-training",
+          "fullContent": "FLASH\nNorway’s 2 petabytes of Huawei flash storage and LLM training\nChris Mellor\nChris\nMellor\nBlocks & Files editor\nPublished\nfri 22 May 2026 // 17:22 UTC\nNorway’s National Library is developing a large language model (LLM) that understands the Norwegian language and is using 2 PB of Huawei OceanStor Dorado flash storage in its AI training data pipeline.\nMarius Husnes.\nMarius Husnes, the Head of IT Platform at the library (Nasjonlbiblioteket) discussed the project at Huawei’s ID Forum 2026 in Paris, saying that no commercial LLM provider was developing a local (Norwegian) language LLM. He asserted that any country with its own language that did not have a sovereign LLM trained in that language was at a disadvantage as a globally trained, English-speaking LLM would not know about that country’s history, news and culture that was described in the local language.Norway’s Ministry of Culture tasked the National Library with building a sovereign AI (LLM) as the library has the single largest digital collection of Norwegian books, newspapers, web pages and so forth in the country. Like many state libraries it is entitled to receive copies of every published book and broadcasted content. Its legal deposit mandate in this area extended beyond books, as it was duty-bound to collect and preserve all of Norway’s cultural heritage.\nAn agreement with Norwegian newspapers permitted LLM training on copyrighted content and, Husnes said: ”No private company has this.”The library was also well-placed to do this as it had been digitizing its collection since 2005 and had amassed 20 PB of unique data stored in 3-2-1 form (3 copies, 2 media types, 1 off-site), meaning some 60 PB overall. The digitization process for the raw text, sound, moving pictures, still images and web content involved much OCR scanning, and generated a lot of metadata, and also APIs for online access. The bulk of the data was deposited in a digital disk plus tape archive, a preservation system. Husnes’ task was to get this data to the LLM training system. He said the bottlemeck was not compute; it was data quality, cleaning and pipeline throughput. There were two main processing stages. First there was in-house computation, using an Nvidia DGX H200 system, a 384 core CPU cluster and multiple Huawei OceanStor Dorado all-flash arrays, totalling 2 PB of flash capacity. This is low-latency storage for the data pipelines and training preparation.\nHusnes - training national LLM.\nThe pipeline has data ingestion, cleaning, deduplication, format normalization, validation and preparation steps.Once the data has passed through the pipeline it’s sent to Norway’s national supercomputer, the Sigma2 Olivia system, for the actual training runs. The Olivia system is an HPE Cray Supercomputing EX system, with 448 GPUs and 64,512 CPU cores. It uses a 5.3 PB Cray ClusterStor E1000 storage system.One large problem area has been over-coming two different storage system needs. The 60 PB preservation system is optimized for durability and cost, not fast IO, and has a high read latency, being designed for infrequent access. The AI Pipeline storage is designed for high-throughput, low-latency, parallel data IO. Husnes said he learnt that nobody was talking about the problems involved in moving PB-scale datasets from an archive to, and through, an AI data pipeline system. His team had to find out how to do it themselves.\nHusnes - preservation and AI pipeline storage.\nThe LLM training is ongoing and he finished his talk with a summary of what his team is stll learning about:\nEvaluation - there are no standard evaluation tools to assess a sovereign Norwegian LLM.The language has two written forms, multiple dialects and historical changes. They are building their own evaluation tool on the fly.\nGovernance - who controls access to a sovereign LLM? Who decides what it can be used for? These are institutional and political questions with no easy answers.\nOrchestration - making three systems; preservation archive + on-prem AI environment + national Sigma2 supercomputer, work smoothly together is an ongoing project.\nOur takeaways here are, one, that Huawei storage is playing a serious and significant role in the European market, and two, that any country developing a sovereign, local language LLM would do well to consult with Husnes and get acquainted with what’s involved.As Husnes put it; Norway is a small country solving a problem every non-English-speaking nation will face: how do you build AI that reflects your language, your culture and your history? AI needs custodians, not just builders.\nhuawei\nnorway\nllm\nflash",
+          "category": "insight",
+          "publishedAt": "2026-05-25T19:37:57.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Gnutella: A Protocol Outliving the World That Created It",
+          "titleKo": "Gnutella: 그것을 만든 세계보다 오래 살아남은 프로토콜",
+          "summary": "Gnutella는 2000년대 P2P 파일 공유 프로토콜로 수백만 명의 사용자를 확보했으나 현재는 잊혀졌다. 기술적 실패가 아닌 MP3 스트리밍과 구독 서비스의 등장으로 그것이 필요했던 세계가 사라진 결과이며, 오늘날에도 축소된 규모로 계속 작동하고 있다.",
+          "keyPoints": [
+            "Gnutella는 진정한 의미의 실패가 아닌, 약 10년간 주류 성공을 거두었고 현재도 작동하는 장수 프로토콜이다.",
+            "저속 다이얼업 시대의 음악 산업의 미적응, 저가 MP3 플레이어의 보급, 파일시스템 관리가 가능했던 사용자층이 채택의 핵심 조건이었다.",
+            "탈중앙화된 프로토콜 설계로 인해 공식 서비스 중단 후에도 네트워크를 완전히 제거할 수 없었다."
+          ],
+          "whyItMatters": "기술의 성공과 실패를 판단할 때 장기적 맥락과 사용자 니즈의 변화를 고려해야 함을 보여준다.",
+          "url": "https://rickcarlino.com/notes/p2p/gnutella-explanation.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 196,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "gnutella-a-protocol-outliving-the-world-that-created-it",
+          "fullContent": "A Protocol Outliving the World That Created It\nGnutella is a file sharing protocol that many have forgotten and it has the story of a decentralized technology adopted by millions of casual users who did not care to learn what a peer-to-peer system was. Users showed up because the protocol solved real problems at scale and the solution just so happened to be decentralized. No one ever pretended to use Gnutella in hopes their GnutellaCoinTM would go up in value later. They just downloaded MP3s. The network exploded in popularity, then plateaued for almost a decade, then settled into a permanent long tail state of continued but diminished use.\nWelcome to my overly enthusiastic love letter to Gnutella.\nDespite its meteoric rise and its role as a driving force behind the file-sharing phenomenon of the 2000s, Gnutella has gone mostly forgotten. Some of that is because it was a component technology hidden beneath more visible projects like LimeWire. The other half of this is that the walled garden model of modern platforms means most internet users don't even remember what a filesystem is anymore.\nThe Gnutella project began as an internal demo that leaked to the public after its corporate overlord, AOL, cancelled the project. Owing to its server-free decentralized design, it was impossible to put the toothpaste back in the figurative tube after it reached the public. It grew explosively for a decade and still works today despite years of attempts to stop it. Copies of the original Gnutella.exe are out there on archive.org if you dig for them.\nMany have wrongly asserted that Gnutella failed, but that's not a fair representation of what happened. Gnutella scaled to mainstream adoption (millions of concurrent active users) and thrived for a solid decade. The true reason for its fall from the mainstream was simply that the world it was born into disappeared.\nGnutella stood the test of time and solved problems for a software user that no longer exists. It's still there today, chugging along at reduced capacity.\nHistoric Conditions Leading to Adoption\nThe early 2000s represented a strange transition period for US consumers. Internet adoption hit 50% sometime around 2000-2001. The internet was slowly mutating from a complicated tool for nerds into a mainstream part of daily life. Music file sharing became a common practice during this time for a number of reasons:\nThe music industry refused to adapt to changing consumer preference.\nMP3 players and solid-state data storage became affordable and ubiquitous.\nLow-speed dial-up internet made music streaming unfeasible.\nManaging disk space, directories, backups, and downloaded files was still a palatable and acceptable activity for even casual computer users of the era.\nThese conditions set the stage for a golden era that lasted into the early 2010s. If you do not believe me, ask anyone over the age of 35 about their LimeWire memories. I was there, man. It was wild.\nGnutella's lack of single points of failure makes it difficult to kill and the base protocol, though simple, was easily extended via optional protocol extensions baked into the spec.\nProtocol Features\nFor most Gnutella was a file transfer tool. This categorization misses a basic function of the protocol. At its core, Gnutella is just a peer-to-peer search engine for blobs.\nWe could have used it as a poor man's DNS system, or a global metadata lookup table for key/value pairs, or a matchmaking service for your Unreal Tournament league, but that never really happened. Gnutella was good at providing file downloads that matched search queries, and that is what history remembers it for. Loads and loads of easy downloads. Usually MP3s.\nResources [things shared on Gnutella] can be anything:\nmappings to other resources, cryptographic\nkeys, files of any type, meta-information on keyable resources, etc.\n--- Gnutella 0.6 draft spec\nThe process worked as follows:\nYou opened a desktop application that spoke Gnutella, such as LimeWire, BearShare, or GTK-Gnutella.\nThe client connected to a handful of peers somewhere on the internet (I will explain how you found them later).\nYou typed something into a search box, like LinkinPark.mp3.exe.\nYour query spread outward through the network from peer to peer.\nResults slowly trickled back from random computers around the world.\nYou inspected filenames, guessed which results were fake, compared connection speeds, and hoped none of them were viruses.\nOnce you picked a file, your client downloaded pieces of it directly from user's computer over HTTP.\nSometimes you downloaded the wrong thing and accidentally discovered new content. Or malware, you never really knew for sure. This foraging behavior has disappeared with the advent of recommendation engines and we lost a tiny bit of internet magic in the process.\nClients usually offer 3-4 main features, mirroring the 5 main message types of the underlying protocol:\nA query manager: Querying was slow and spread across thousands of peers.\nA file ma",
+          "category": "insight",
+          "publishedAt": "2026-05-22T02:24:48.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "IBM Spins Off the First Pure-Play Quantum Chip Foundry",
+          "titleKo": "Hacker News 메인페이지 사이트",
+          "summary": "Apple의 PICO 이미지 압축, SpaceX Starship V3 테스트, DeepSeek V4 Pro 할인, MS-DOS 소스 공개, IBM 양자칩 파운드리 출범 등 최신 기술 및 과학 뉴스를 집약합니다.",
+          "keyPoints": [
+            "Apple PICO는 기존 코덱 대비 3배 비트레이트 감소 달성",
+            "SpaceX Starship V3가 핫 스테이징과 Starlink 위성 탑재로 성공",
+            "IBM이 300mm 양자칩 파운드리 Anderon 설립 ($20억 투자)"
+          ],
+          "whyItMatters": "AI, 우주기술, 양자컴퓨팅 등 다양한 분야의 최신 개발 동향을 한눈에 파악할 수 있습니다.",
+          "url": "https://futurumgroup.com/insights/2-billion-chips-act-investment-in-quantum-bets-on-ibms-300mm-superconducting-silicon/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 132,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ibm-spins-off-the-first-pure-play-quantum-chip-foundry",
+          "fullContent": "A $2 billion CHIPS quantum package spanning nine companies positions IBM’s 300mm Anderon foundry as the centerpiece of American quantum industrial policy, while spreading smaller bets across competing modalities including trapped ion, photonic, and neutral atom approaches.\nThe News: IBM and the U.S. Department of Commerce announced on May 21, 2026, a Letter of Intent to establish Anderon, described as America’s first pure-play quantum chip foundry. The initiative is backed by proposed $1 billion in CHIPS incentives from the US Department of Commerce (DoC) and $1 billion in cash from IBM, along with significant contributions of intellectual property, assets, and workforce. The award is the largest allocation within a broader $2 billion CHIPS quantum package that the Commerce Department is distributing across nine companies — including $375 million for GlobalFoundries, $100 million each for D-Wave Quantum, Rigetti Computing, Infleqtion, Atom Computing, PsiQuantum, and Quantinuum, and $38 million for Diraq. Anderon will be headquartered in Albany, New York, and will operate as a standalone 300mm quantum wafer fabrication facility, initially supporting superconducting qubit and supporting electronics wafers, with plans to expand into other quantum modalities.\n“IBM has pioneered quantum computing for decades. Our work in silicon wafer fabrication has been a key to IBM’s success and will be critical to enable a broader quantum technology landscape that will reshape global innovation and economic competitiveness,” said Arvind Krishna, Chairman and CEO of IBM. Krishna compared quantum to where AI chips were a decade ago and said the new business could generate billions of dollars a year in sales with high profit margins by the mid-2030s.\nThe government will receive minority equity stakes in each of the nine quantum companies, including IBM’s Anderon, extending a deal structure the Commerce Department has applied to Intel, rare-earths startup Vulcan Elements, and mining company MP Materials. Secretary of Commerce Howard Lutnick stated that these “strategic quantum technology investments will build on our domestic industry, creating thousands of high-paying American jobs while advancing American quantum capabilities.”\nAnalyst Take: The $2 billion CHIPS quantum package reveals a deliberate tiering in the U.S. government’s quantum industrial strategy to concentrate manufacturing-scale capital in 300mm superconducting silicon through IBM’s Anderon while distributing smaller equity stakes across competing modalities to hedge against technology risk. The 50:1 funding ratio between Anderon’s $1 billion and Diraq’s $38 million reflects an assessment that superconducting silicon is the only quantum modality currently capable of leveraging production-grade semiconductor fabrication infrastructure at 300mm scale. The CHIPS allocation directs half its quantum capital toward the single approach that most closely mirrors the classical semiconductor manufacturing model the Act was originally designed to support. As companies pursue superconducting, trapped-ion, photonic, and neutral-atom architectures, the funding structure creates a two-tier quantum ecosystem in which IBM gains access to fabrication infrastructure while competitors receive venture-scale equity investments. The central question is whether this concentration accelerates U.S. quantum leadership by backing the most fabrication-ready modality or creates fragility by underinvesting in alternatives that may ultimately prove more scalable.\nThe distinction between 300mm and 200mm quantum wafer fabrication extends far beyond wafer diameter into fundamentally different manufacturing philosophies with compounding implications for development speed. SkyWater Technology operates a 200mm CMOS foundry that has positioned itself to serve government-funded quantum programs, offering hands-on, custom R&D flexibility suited to smaller-volume, research-oriented fabrication — the same environment where IBM’s own early quantum chips were built at its 200mm Yorktown Heights lab.\nIBM’s 300mm approach at Albany NanoTech leverages state-of-the-art tools processing wafers 24 hours a day, 7 days a week, with automation that enables researchers to iterate and implement improvements in rapid cycles of learning. According to Director of Research Jay Gambetta at IBM Think 2026, the shift to 300mm produces device output 30 times faster by increasing complexity by a factor of 10 and tripling the rate of devices produced — an iteration velocity that 200mm facilities cannot replicate without entirely new tooling investments. GlobalFoundries’ $375 million CHIPS award to establish its own quantum-focused business suggests the government sees room for a second 300mm-capable quantum fabrication provider. The implication is that CHIPS funding codifies a manufacturing hierarchy in which 300mm facilities serve as production infrastructure while 200mm environments are implicitly relegated to early-stage res",
+          "category": "insight",
+          "publishedAt": "2026-05-25T09:43:03.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Canada losing top talent as workers head to the U.S.",
+          "titleKo": "캐나다, 미국으로 떠나는 우수 인재 유출 문제",
+          "summary": "TD Economics 보고서에 따르면 캐나다는 높은 세금과 강한 경제 기회를 찾아 미국으로 떠나는 고급 인력, 기업가, STEM 전문가들로 인한 '침묵의 뇌 유출'을 겪고 있습니다. 특히 온타리오와 브리티시 컬럼비아의 높은 세율이 텍사스와 플로리다 같은 저세금 주로의 이동을 촉진합니다.",
+          "keyPoints": [
+            "높은 한계세율(50% 이상)이 온타리오, BC, 퀘벡 등에서 발생",
+            "미국은 더 높은 소득 수준(USD $700K-$1M)에서 동일 세율 적용",
+            "벤처캐피탈 부족과 기업 스케일업 약화가 생산성 저하 심화"
+          ],
+          "whyItMatters": "개발자가 경력 선택 시 국가 간 세제 격차와 경제 기반을 고려해야 할 필요성을 시사합니다.",
+          "url": "https://www.bnnbloomberg.ca/investing/market-outlook/2026/05/25/market-outlook-canada-losing-top-talent-as-workers-head-to-the-us/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 23,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "canada-losing-top-talent-as-workers-head-to-the-us",
+          "fullContent": "A new TD Economics report warns Canada is quietly losing highly skilled workers, entrepreneurs and STEM graduates to the United States through work visas, tech recruitment and stronger economic opportunities.BNN Bloomberg spoke with Francis Fong, managing director at TD Economics, about how Canada’s tax structure, productivity challenges and lack of business scale are contributing to the country’s ongoing talent retention problem.Key TakeawaysCanada is quietly losing highly skilled workers, entrepreneurs and STEM talent to the United States through stronger compensation and career opportunities. Productivity challenges are being worsened by weak business scale-up, lower venture capital availability and a lack of globally competitive firms. High marginal tax rates and lower income thresholds are creating competitiveness concerns for professionals and business owners. Lower-tax U.S. states such as Texas and Florida continue attracting Canadian workers and entrepreneurs seeking higher growth opportunities. Retaining top talent will require stronger economic competitiveness, improved business investment and better conditions for firms to grow domestically.Francis Fong, managing director at TD Economics Francis Fong, managing director at TD Economics Read the full transcript below:ROGER: A new report from TD Economics argues Canada is quietly losing many of its most skilled workers, entrepreneurs and STEM graduates to the U.S. The report calls it a “silent brain drain,” led by highly skilled professionals leaving through work visas, tech recruitment and stronger economic opportunities. Joining us now to discuss this is Francis Fong, co-author of the report and managing director at TD Economics. Francis, thanks very much for joining us.FRANCIS: Thanks for having me, Roger.ROGER: Okay, how does this compare to the ’90s when we saw a brain drain then? Is it larger? Different sectors?FRANCIS: No, I think, Roger, you pointed to it correctly. This is not an issue that is brand new for Canada. It’s one that we’ve been facing for quite some time. The reason we wrote this report, however, is to highlight the fact that we’re sort of in this moment in time right now, with our relationship with the U.S. deteriorating and us trying to diversify our trading partners, to highlight the fact that we are still not really all that competitive. Our productivity growth is quite low and has been for a few years now. So, banging this drum about wanting to raise this issue around competitiveness, that was the goal of this.And in the report, we highlight the fact that our personal tax rates — relatively high-income earners face extremely high marginal tax rates — in combination with a business tax architecture that can often drive entrepreneurs and business owners to pursue tax-planning initiatives to try and lower that rate. All that leads to an inefficient allocation of resources, low productivity growth and the risk that we’re obviously highlighting here: the risk that our high-skilled talent leaves the country for better opportunities offshore.ROGER: All right, let’s talk about the tax. There’s probably more than just tax and competitiveness, but let’s talk about that. How different is it? How much of an advantage do the Americans offer when it comes to saving money?FRANCIS: Yeah, I mean, there are sort of two points to this here. One is just the actual tax rate and when it hits. So, if you compare Ontario, B.C. and Quebec, the highest marginal tax rate rises above 50 per cent. In Alberta, it’s 48 per cent, but they all hit at that top federal income tax bracket, around $275,000 or a little bit higher than that.Whereas in America, they might have equivalently high marginal tax rates in places like California or New York, but the levels of income they hit at are far, far higher than ours — upwards of maybe US$700,000 to US$1 million. So, if you sort of equalize the income levels, the incomes we’re earning here, where we’re paying the highest marginal tax rate, are comparatively relatively low.That’s the major issue here. Even high earners — or what you might not even consider to be a high earner in America — if you brought that income over here, they’d be paying extremely high rates in Canada.ROGER: And is there enough to convince government to give breaks, or is that something we just can’t see happening here?FRANCIS: So, here’s the challenge. It’s hard to take high personal marginal tax rates as a standalone issue where we can just lower rates here. We have to consider the fact that our business taxes have these odd distortions that can create a disincentive for firms to grow.We often refer to this gap between the small-business tax rate — the favourable tax rate we offer small businesses below a certain size — as being really, really low relative to the general corporate income tax rate. Basically, what happens is when a firm starts to grow, once they reach above a certain size in terms of income and asset thresholds, their margin",
+          "category": "insight",
+          "publishedAt": "2026-05-25T22:42:41.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "California moves to exempt Linux from its age-verification law after backlash",
+          "titleKo": "캘리포니아, 나이 검증법에서 Linux 면제 추진",
+          "summary": "캘리포니아가 나이 검증 의무화 법안으로부터 Linux 운영체제를 면제하는 개정안을 추진하고 있습니다. 이는 운영체제에 사용자 나이 수집을 강제하려던 원안에 대한 거센 반발에 따른 것입니다.",
+          "keyPoints": [
+            "원안이 운영체제에도 나이 검증 의무 부과 시도",
+            "개발 커뮤니티 반발로 Linux 면제 개정안 추진"
+          ],
+          "whyItMatters": "오픈소스 소프트웨어가 규제로부터 받는 영향과 커뮤니티 목소리의 정책 영향력을 보여줍니다.",
+          "url": "https://www.tomshardware.com/software/linux/california-moves-to-exempt-linux-from-its-upcoming-age-verification-law-after-backlash-over-forcing-operating-systems-to-collect-users-ages-amendment-proposed-by-the-same-lawmaker-who-wrote-the-original-law",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 521,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "california-moves-to-exempt-linux-from-its-age-verification-law-after-backlash",
+          "category": "insight",
+          "publishedAt": "2026-05-25T18:19:58.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Ninth Circuit Panel Goes Out of Its Way to Question Section 230–DOE vs. Meta",
+          "titleKo": "Ninth Circuit 판사들, Section 230 문제 제기 - Doe v. Meta 사건",
+          "summary": "Ninth Circuit 패널은 하급 심법원이 다루지 않은 Section 230 이슈를 적극적으로 제기했습니다. 미얀마 로힝야에 대한 폭력을 조장한 Facebook의 책임을 다룬 사건에서, 법원은 절차상 근거(소멸시효)를 무시하고 Section 230 면책 판정을 주도적으로 내렸습니다.",
+          "keyPoints": [
+            "하급 심은 소멸시효만으로 기각했으나 Ninth Circuit이 자발적으로 Section 230 논의 추가",
+            "미얀마법이 아닌 미국 Section 230이 적용되어야 한다고 판단",
+            "Section 230의 법관 주도적 적용이 사법능동주의 의심 가능성 제시"
+          ],
+          "whyItMatters": "플랫폼의 법적 책임과 Section 230 면책 범위에 대한 판례 재해석이 향후 AI와 콘텐츠 중재 정책에 영향을 미칠 수 있습니다.",
+          "url": "https://blog.ericgoldman.org/archives/2026/05/ninth-circuit-panel-goes-out-of-its-way-to-question-section-230-doe-v-meta.htm",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 24,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ninth-circuit-panel-goes-out-of-its-way-to-question-section-230doe-vs-meta",
+          "fullContent": "Ninth Circuit Panel Goes Out of Its Way to Question Section 230–Doe v. Meta\nMay 25, 2026 · by Eric Goldman · in Content Regulation, Derivative Liability\n[I’ve been sitting on this ruling for almost a month because blog posts like this are time-consuming and emotionally draining to write. It may not look it, but this post took about 6 hours to write.]\nThis case involves a terrible tragedy: genocidal violent attacks on the Rohingya minority in Myanmar at the beginning of the 2010s. The plaintiffs sued Facebook for its role in the attacks, such as its alleged algorithmic turbocharging of rage content posted by its users.\nDespite the tragedy, the facts sound like a straightforward Section 230 situation. However, the lower court didn’t rely on Section 230 to dismiss the complaint. Indeed, Section 230 isn’t mentioned a single time in the district court dismissal, part of why I never blogged that opinion. Instead, the district court dismissed the case solely on statute of limitations grounds (“the Court determines plaintiffs’ claims, having been brought in 2021, were filed outside the applicable two-year statute of limitations”) without mentioning Section 230 even once. The panel acknowledges that this case did not present itself to the Ninth Circuit as a Section 230 case: “Because the district court dismissed Plaintiffs’ claims as untimely, it did not reach the Section 230 issue.”\nGiven that Section 230 is nowhere to be found in the lower court opinion, the Ninth Circuit could have affirmed the lower court on statute of limitations grounds. Or, if it disagreed with that ruling, it could have reversed the lower court’s ruling and remanded the case to the lower court to evaluate other aspects of the case, such as Section 230.\nThis panel did neither. The Ninth Circuit panel’s opinion doesn’t engage with the statute of limitations issue at all, i.e., it doesn’t indicate if the lower court was right or wrong on that topic. Instead, the Ninth Circuit panel requested the parties file supplemental briefings on Section 230 grounds (remember, the plaintiffs couldn’t initially appeal on Section 230 grounds because the lower court didn’t mention Section 230 at all) and then conducted its own de novo application of Section 230 without any guidance at all from the lower court.\nIn other words, the Ninth Circuit panel didn’t have to discuss Section 230. IT WENT OUT OF ITS WAY TO DO SO. The panel then raised Section 230 on its own initiative and then criticized Section 230’s application as a problem–even though Section 230 didn’t dictate the outcome at the lower court. The panel’s issue-seeking is a blazing red flag of judicial activism.\n(Also, the panel opinion isn’t very transparent about why it chose to discuss only Section 230 and entirely ignore the lower court’s statute of limitations ruling. It treats Section 230 as a critical-path item without disclosing that the panel went off-road to address it. The panel disingenuously says “Meta renews its Section 230 arguments on appeal,” which is because the Ninth Circuit requested supplemental briefings on 230).\n* * *\nThe plaintiffs argued that Myanmar law, which doesn’t contain Section 230 immunity, should govern instead of US law. The panel rejects this argument:\nThe United States’ interest in applying Section 230 is clear. Imposing liability on Meta for its actions as a publisher would frustrate Section 230’s purpose of “promot[ing] the continued development of the Internet and other interactive computer services.”…\nMyanmar’s interest in protecting its citizens from harmful attacks and misinformation on Facebook, while real, is insufficiently incorporated into the positive law of the country. Myanmar’s interest therefore does not predominate. For these reasons, even if we could or should consider Myanmar law, Section 230 applies\nI am not a conflicts-of-laws expert, so I don’t know if the court’s methodology or conclusion is unusual. The fact that Section 230 protects a U.S. company being sued in the U.S. seems intuitive to me, even if the plaintiffs are foreigners and the offline harms took place in a foreign country. For more on Section 230’s extraterritorial application, see Prof. Chander’s paper.\nIn his self-concurrence (discussed further below), Judge Nelson says this part of the panel opinion (which he wrote) wasn’t necessary because Section 230 is a federal law, so it preempts any of California’s choice-of-law provisions. He has nine citations to the Federalist papers in this section, so he’s still living in the eighties (the 1780s).\n* * *\nThe panel says that Section 230 applies to the plaintiffs’ claims, despite the plaintiffs’ invocation of the standard workaround arguments.\nThe panel says:\nPlaintiffs characterize Meta’s duty as one of product design—that Meta should not have built Facebook in a way that boosted incitements to violence. Still, the alleged defects relate to Facebook’s core design as a publishing platform, particularly how Facebook promoted or downplayed t",
+          "category": "insight",
+          "publishedAt": "2026-05-25T20:24:16.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Japan's New Hypersonic Engine Could Make 2-Hour Flights to the US a Reality",
+          "titleKo": "일본의 신형 극초음속 엔진, 미국까지 2시간 비행을 현실로 만들다",
+          "summary": "일본 우주항공연구개발기구(JAXA)와 일본 대학들이 마하 5급 극초음속 항공기용 램제트 엔진의 지면 연소 시험에 성공했다. 이 기술이 상용화되면 도쿄에서 로스앤젤레스까지의 비행 시간을 약 10시간에서 2시간으로 단축할 수 있을 것으로 예상된다.",
+          "keyPoints": [
+            "JAXA, 와세다대, 도쿄대, 게이오대가 마하 5 램제트 엔진 지면 시험 완료, 1,000도 이상의 고열 처리 성공",
+            "다음 단계로 탄도로켓(sounding rocket)에 탑재한 실제 비행 시험 계획, 2040년대 상용화 목표",
+            "극초음속 여객기는 현재 상용항공기 높이의 약 2배인 25km 고도에서 운항하며 장거리 비행 시간을 획기적으로 단축"
+          ],
+          "whyItMatters": "극초음속 항공기 기술 개발은 항공우주 산업과 고속 이동 솔루션의 미래를 보여주는 중요한 기술 이정표이다.",
+          "url": "https://www.bgr.com/2178211/japan-hypersonic-engine-ramjet-2-hour-flights-to-us/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 83,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "japans-new-hypersonic-engine-could-make-2-hour-flights-to-the-us-a-reality",
+          "fullContent": "Science\nJapan's New Hypersonic Engine Could Make 2-Hour Flights To The US A Reality\nBy Alan Bradley\nMay 20, 2026 5:41 pm EST\nAt first blush, it sounds like science fiction: supersonic jets able to traverse the vastness of the Pacific Ocean in under two hours. But recent tests by Japan's Aerospace Exploration Agency (JAXA) in conjunction with several Japanese universities have brought that once seemingly impossible vision closer to reality (alongside similar Mach-5 testing in the U.S.).\nA team of engineers from JAXA, Waseda University, the University of Tokyo, and Keio University has completed a successful ground combustion trial of a ramjet engine designed for a Mach‑5 hypersonic aircraft, a key step toward a future where flights from Tokyo to Los Angeles could take roughly the same time as a short domestic hop. The test was conducted at JAXA's Kakuda Space Center, simulating flight at five times the speed of sound and focused on validating the aircraft's heat‑shielding, control surfaces, and engine performance under extreme conditions. The results, and aircraft like NASA's \"quiet\" supersonic X-59, may help redefine how engineers think about high‑altitude, high‑speed passenger and even suborbital travel.\nHow Japan's Mach-5 ramjet works\nAndrey 69/Shutterstock\nA ramjet, the technology at the core of the test, is a type of air-breathing jet engine that has no moving parts. The name is derived from the engine's reliance on rapid forward motion to \"ram\" and compress incoming air before mixing it with fuel and igniting it for thrust. The technology eliminates the need for heavy rotating compressors and allows them to operate at speeds that far exceed the capabilities of conventional turbofans. However, ramjets can't operate from a standstill: to function, they first need to be accelerated to supersonic speeds.\nIn the Japanese test, an experimental aircraft was mounted in a wind tunnel simulating conditions at around 25 kilometers of altitude, where the atmosphere is roughly one‑hundredth as dense as at sea level. At that elevation at Mach‑5, air around the nose and leading edges can reach temperatures exceeding 1,000 degrees Celsius (1,832°F), a challenge the U.S. Air Force has struggled to overcome with its own hypersonic jets.\nTo handle that level of heat, engineers constructed an advanced thermal‑protection system that maintained the aircraft's interior near normal operating temperature, allowing the onboard avionics and control electronics to function normally. Simultaneously, sensors mapped surface‑temperature distribution to verify thermal‑structure calculations, crucial for scaling up to a full‑size passenger vehicle.\nFrom sounding rockets to two hour Pacific crossings\nYMZK-Photo/Shutterstock\nTo be clear, this initial test is still a far cry from an actual test flight. What it represents is a ground‑based validation of a scaled‑down model. Next, JAXA plans to mount the experimental vehicle on a sounding rocket (a suborbital rocket typically used to take measurements and conduct scientific experiments in space) and attempt an actual flight at Mach 5. Assuming success and that regulatory and technical hurdles can be cleared, the goal is commercial hypersonic passenger service by the 2040s.\nIf progress continues at this pace, a Mach-5 plane flying at an altitude of 25 kilometers (nearly double the altitude achieved by current commercial airlines) could theoretically cut the Tokyo‑to‑Los Angeles route from roughly 10 hours to around two hours, without the complexity of entering full orbit. That means slashing transit time for a flight from the U.S. to Japan, transforming what would previously have been a week-long ordeal into a day trip with just a few hours in the air.",
+          "category": "insight",
+          "publishedAt": "2026-05-25T19:43:45.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Toshifumi Suzuki, founder of Seven-Eleven Japan, has died",
+          "titleKo": "세븐일레븐 일본 창업자 도시후미 스즈키 타계",
+          "summary": "이토요카도 그룹 회장이자 세븐일레븐 일본 창업자인 도시후미 스즈키가 사망했다. 그는 1974년 일본에 프랜차이즈 시스템을 도입하여 소매 산업을 혁신했으며, 2003년까지 10,000개 이상의 점포로 확대하고 통합 데이터 시스템으로 일본의 유통 구조를 개선했다.",
+          "keyPoints": [
+            "1974년 일본 최초의 세븐일레븐을 창업하여 프랜차이즈 개념을 도입하고 2003년까지 10,000개 이상의 매장으로 확장",
+            "첨단 데이터 시스템을 통해 실시간 판매, 고객, 재고, 공급망 정보를 관리하여 생산성과 수익성 증대",
+            "일본의 다층 소비재 유통 구조를 간소화하고 소비자 중심의 경영 방식 도입"
+          ],
+          "whyItMatters": "비즈니스 데이터 시스템과 효율적인 공급망 관리의 중요성을 보여주는 사례로, 기술 기반 혁신이 산업 전체를 어떻게 변혁할 수 있는지 시사한다.",
+          "url": "https://www.referenceforbusiness.com/biography/S-Z/Suzuki-Toshifumi-1932.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 91,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "toshifumi-suzuki-founder-of-seven-eleven-japan-has-died",
+          "fullContent": "Chairman and chief executive officer, Ito-Yokado Group and its\nsubsidiary, Seven-Eleven Japan Company\nBorn: December 1, 1932, in Nagano prefecture, Japan.\nEducation: Chuo University, Tokyo, BA, 1956.\nCareer: Worked in a publishing sales company until 1963, when he joined\nIto-Yokado Co.; first president of its subsidiary, Seven-Eleven Japan, in\n1973; has remained with Ito-Yokado group through 2004.\nAwards: Voted the fifth most respected business leader in Japan,\nNikkei Industrial News\n, January 2004.\nPublications: Coauthor,\nThe Essence of Management: Spontaneous Managerial Decisions Based on\nConviction\n[in Japanese], 2000;\nThe Starting Point of Business,\n2003.\nAddress: Ito-Yokado Company, 8-8, Nibancho, Chiyoda-ku, Tokyo 102-8455,\nJapan.\n■ Toshifumi Suzuki, head of the giant Ito-Yokado Group of Japan,\nhelped revolutionize his country's retail sector, previously known\nfor its inefficient, hidebound practices. He introduced franchising to the\nJapanese retail industry in 1974, as founder of Japan's\nSeven-Eleven convenience stores, which eventually grew to a chain of over\n10,000 units by 2003, many of them operating 24-hours a day. He pushed the\nfranchise concept in new, creative directions, and then turned around in\n1991 to rescue the U.S. company that originated the brand. He has been a\npioneer in the gradual introduction of business-to-consumer e-commerce and\na forceful public spokesman for economic liberalization and reform.\nSuzuki belied all the stereotypes of the consensus-based Japanese business\nstyle and was never deterred by opposition within or outside his company\nor by appeals to tradition. Using the leverage of his growing retail\nempire, with over $28 billion in worldwide sales in 2003, he succeeded in\nstreamlining much of Japan's multilayered consumer-product\ndistribution\nsystem and helped introduce a more consumer-driven orientation to product\ndevelopment and manufacturing. Perhaps his most forward-looking\nachievement was Seven-Eleven Japan's integrated data systems, whose\nup-to-the-minute sales, customer, inventory, and supply-chain information\ndramatically improved productivity, profitability, and responsiveness to\nconsumer needs. Suzuki devoted more than 40 years to finding creative ways\nto wring ever-more value from his company's assets for stockholders\nand customers alike.\nBorn in 1932 in the then-rural Nagano, 125 miles northwest of Tokyo,\nToshifumi Suzuki moved to the capital after finishing high school. He\nreceived an economics and commerce degree from Chuo University in 1956,\nwhere, by his\nown later description, he was a student protestor; he also did a stint as\nlabor-union leader. Suzuki left a promising career in publishing sales\nafter a fateful 1963 meeting with the legendary retailer Masatoshi Ito,\nwho was then in the process of parlaying his family's modest\n40-year-old clothing business into one of the first chains of superstores\nunder the company name Ito-Yokado. This new type of consumer emporium\ncombined separate food, clothing, and other stores into one unified\nlocation. It proved to be a successful attempt to work around retail laws\nthat limited department stores. These laws, passed originally in the 1930s\nand strengthened in the 1950s, were designed to protect the omnipresent\nmom-and-pop neighborhood markets.\nSuzuki became a director of the company in 1971. By then, the small\nmarkets had succeeded in imposing legal limits to the superstores too, and\nIto-Yokado began shopping around for other growth options. In 1973 Suzuki\nwas instrumental in licensing the Denny's name for a chain of\nrestaurants. During his repeated visits to the United States to clinch\nthat deal, he became enamored with the country's thriving\nconvenience-store chains, especially the brand leader 7-Eleven of Dallas,\nTexas. He immediately recognized the potential of convenience stores for\nJapan.\nJapanese consumers had long been in the habit of shopping several times a\nday for small quantities of food. They placed a high value on freshness,\nand their homes tended to be small, with tiny kitchens and little storage\nspace. Frequent shopping and crowded roads reinforced the need for small,\nlocal food shops carrying a limited range of staples. The small shops\nsuffered, however, from antiquated management styles, poor capitalization,\nand a weak position in the face of distributors and manufacturers. It had\nbecome conventional wisdom, shared by most Ito-Yokado executives, that\nonly large stores could achieve productivity, through economies of scale\nand professional management. Backed by economic consultants and industry\nexperts, Suzuki's colleagues saw no demand for any additional small\nmarkets in the crowded Japanese retail scene.\nActing the part of visionary, Suzuki argued that Southland, the 7-Eleven\nparent company, could supply the management expertise and systems that\nmight transform the Japanese mom-and-pop markets. Rather than continually\nfight these politically well-connected entrepreneurs, a well-run chain\nmight ",
+          "category": "insight",
+          "publishedAt": "2026-05-25T16:20:36.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Didgeridoo playing as alternative treatment for obstructive sleep apnoea (2006)",
+          "titleKo": "디저리두 연주를 폐쇄성 수면무호흡 치료 방법으로 활용 (2006)",
+          "summary": "스위스 연구진이 중등도 폐쇄성 수면무호흡증 환자를 대상으로 디저리두 연주의 치료 효과를 무작위 대조군 시험으로 검증했다. 4개월간 정기적으로 디저리두를 연주한 그룹에서 주간 졸음증과 무호흡-저호흡 지수가 유의하게 개선되었고 배우자가 보고한 수면 방해도 감소했다.",
+          "keyPoints": [
+            "디저리두 연주 그룹이 주당 평균 5.9일, 회당 25.3분 연습하여 주간 졸음증과 무호흡-저호흡 지수가 유의하게 개선",
+            "상기도 근육 훈련을 통해 기도 붕괴를 감소시키는 메커니즘으로 작동, 배우자의 수면 방해 보고도 감소",
+            "수면의 질 개선은 없었으나 전반적 수면 관련 결과에서는 중간에서 대규모 효과 입증"
+          ],
+          "whyItMatters": "전통 악기 사용이 의학적 치료 효과를 가질 수 있음을 입증한 사례로, 비약물적 치료 대안의 가능성을 제시한다.",
+          "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1360393/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 309,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "didgeridoo-playing-as-alternative-treatment-for-obstructive-sleep-apnoea-2006",
+          "fullContent": "BMJ. 2006 Feb 4;332(7536):266–270. doi: 10.1136/bmj.38705.470590.55\nDidgeridoo playing as alternative treatment for obstructive sleep apnoea syndrome: randomised controlled trial\nMilo A Puhan\nMilo A Puhan\n1 Horten Centre, University of Zurich, 8091 Zurich, Switzerland\nresearch fellow\nFind articles by Milo A Puhan\n1, Alex Suarez\nAlex Suarez\n2 Asate Alex Suarez, 9630 Wattwil, Switzerland\ndidgeridoo instructor\nFind articles by Alex Suarez\n2, Christian Lo Cascio\nChristian Lo Cascio\n3 Zuercher Hoehenklinik Wald, CH-8639 Faltigberg-Wald, Switzerland\nresident in internal medicine\nFind articles by Christian Lo Cascio\n3, Alfred Zahn\nAlfred Zahn\n3 Zuercher Hoehenklinik Wald, CH-8639 Faltigberg-Wald, Switzerland\nsleep laboratory technician\nFind articles by Alfred Zahn\n3, Markus Heitz\nMarkus Heitz\n4 Lungenpraxis Morgental, Zurich, Switzerland\nspecialist in respiratory and sleep medicine\nFind articles by Markus Heitz\n4, Otto Braendli\nOtto Braendli\n3 Zuercher Hoehenklinik Wald, CH-8639 Faltigberg-Wald, Switzerland\nspecialist in respiratory and sleep medicine\nFind articles by Otto Braendli\n3\nAuthor information\nArticle notes\nCopyright and License information\n1 Horten Centre, University of Zurich, 8091 Zurich, Switzerland\n2 Asate Alex Suarez, 9630 Wattwil, Switzerland\n3 Zuercher Hoehenklinik Wald, CH-8639 Faltigberg-Wald, Switzerland\n4 Lungenpraxis Morgental, Zurich, Switzerland\nCorrespondence to: O Braendli otto.braendli@zhw.ch\nRoles\nMilo A Puhan: research fellow\nAlex Suarez: didgeridoo instructor\nChristian Lo Cascio: resident in internal medicine\nAlfred Zahn: sleep laboratory technician\nMarkus Heitz: specialist in respiratory and sleep medicine\nOtto Braendli: specialist in respiratory and sleep medicine\nAccepted 2005 Nov 24.\nCopyright © 2006, BMJ Publishing Group Ltd.\nPMC Copyright notice\nPMCID: PMC1360393  PMID: 16377643\nAbstract\nObjective To assess the effects of didgeridoo playing on daytime sleepiness and other outcomes related to sleep by reducing collapsibility of the upper airways in patients with moderate obstructive sleep apnoea syndrome and snoring.\nDesign Randomised controlled trial.\nSetting Private practice of a didgeridoo instructor and a single centre for sleep medicine.\nParticipants 25 patients aged > 18 years with an apnoea-hypopnoea index between 15 and 30 and who complained about snoring.\nInterventions Didgeridoo lessons and daily practice at home with standardised instruments for four months. Participants in the control group remained on the waiting list for lessons.\nMain outcome measure Daytime sleepiness (Epworth scale from 0 (no daytime sleepiness) to 24), sleep quality (Pittsburgh quality of sleep index from 0 (excellent sleep quality) to 21), partner rating of sleep disturbance (visual analogue scale from 0 (not disturbed) to 10), apnoea-hypopnoea index, and health related quality of life (SF-36).\nResults Participants in the didgeridoo group practised an average of 5.9 days a week (SD 0.86) for 25.3 minutes (SD 3.4). Compared with the control group in the didgeridoo group daytime sleepiness (difference -3.0, 95% confidence interval -5.7 to -0.3, P = 0.03) and apnoea-hypopnoea index (difference -6.2, -12.3 to -0.1, P = 0.05) improved significantly and partners reported less sleep disturbance (difference -2.8, -4.7 to -0.9, P < 0.01). There was no effect on the quality of sleep (difference -0.7, -2.1 to 0.6, P = 0.27). The combined analysis of sleep related outcomes showed a moderate to large effect of didgeridoo playing (difference between summary z scores -0.78 SD units, -1.27 to -0.28, P < 0.01). Changes in health related quality of life did not differ between groups.\nConclusion Regular didgeridoo playing is an effective treatment alternative well accepted by patients with moderate obstructive sleep apnoea syndrome.\nTrial registration ISRCTN: 31571714.Introduction\nSnoring and obstructive sleep apnoea syndrome are two highly prevalent sleep disorders caused by collapse of the upper airways.1,2,3 The most effective intervention for these disorders is continuous positive airway pressure therapy, which reduces daytime sleepiness4 and the risk of cardiovascular morbidity and mortality in the most severely affected patients (apnoea-hypopnoea index (measured as episodes per hour) > 30).5 For moderately affected patients (apnoea-hypopnoea index 15-30) who complain about snoring and daytime sleepiness, however, continuous positive airway pressure therapy may not be suitable and other effective interventions are needed.1,6,7\nAS, a didgeridoo instructor, reported that he and some of his students experienced reduced daytime sleepiness and snoring after practising with this instrument for several months. In one person, the apnoea-hypopnoea index decreased from 17 to 2. This might be due to training of the muscles of the upper airways, which control airway dilation and wall stiffening.8,9,10 We tested the hypothesis that training of the upper airways by didgeridoo playing reduces daytime sleepiness in moderatel",
+          "category": "insight",
+          "publishedAt": "2026-05-23T01:37:02.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Ferrari Luce, Maranello's first ever electric car",
+          "titleKo": "페라리 루체, 마라넬로의 첫 완전 전기차",
+          "summary": "페라리가 역사상 처음으로 완전 전기 자동차인 루체(Luce)를 공개했다.",
+          "keyPoints": [
+            "페라리의 첫 완전 전기차 모델로 전통 스포츠카 제조사의 전기화 움직임을 대표",
+            "고급 자동차 시장의 탈탄소화 추세 가속을 보여주는 사례"
+          ],
+          "whyItMatters": "내연기관의 상징이던 럭셔리 자동차 브랜드의 전기차 전환은 자동차 산업 전체의 구조적 변화를 시사한다.",
+          "url": "https://www.topgear.com/car-news/electric/its-finally-here-meet-ferrari-luce-maranellos-first-ever-fully-electric-car",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 26,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ferrari-luce-maranellos-first-ever-electric-car",
+          "fullContent": "Here’s what Mini’s new design boss thinks of flush door handles and giant touchscreensWhat's the real story behind Stellantis's 'new' £52bn plan to build 25 cars by 2030?Toyota GR Yaris Aero Performance review: hot hatch joy (and the world’s best handbrake) for £49kThis just in: Porsche has set a ‘Ring record with a Manthey Taycan Turbo GT20Want a good EV? Here are the 20 best electric cars on sale right nowElectricIt’s finally here: meet the Ferrari Luce, Maranello’s first ever fully electric carInterviewHere’s what Mini’s new design boss thinks of flush door handles and giant touchscreensSupercarsTop Gear's 10/10 cars: 26 brilliant machines that got a perfect scoreLong Term ReviewWhat’s the point of the Prius any more? We asked Toyota’s deputy chief engineerListThese are the 50 greatest cars of the 2010sRetroIt’s official: the Citroen 2CV is making a comeback as an ‘affordable’ electric car!",
+          "category": "insight",
+          "publishedAt": "2026-05-25T21:34:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Magnifica Humanitas",
+          "titleKo": "웅대한 인류애 - 인공지능 시대의 인간 존엄성 보호에 관한 교황 회칙",
+          "summary": "교황 레오 14세가 인공지능 시대에 인간의 존엄성을 보호하기 위한 회칙 '웅대한 인류애(Magnifica Humanitas)'를 발표했다. 이 문서는 기술 패러다임의 위험성, AI의 투명성과 책임성, 노동의 존엄성, 표현의 자유 보호, 평화 건설의 중요성을 다룬다.",
+          "keyPoints": [
+            "기술 우월주의와 초인간주의 담론의 위험성을 경고하며 그리스도교적 휴머니즘을 강조",
+            "AI 거버넌스의 투명성과 책임성 강조, 디지털 시대의 업무 존엄성 보호와 새로운 형태의 노예화에 대한 경고",
+            "민주주의, 교육 연대, 다자주의 외교를 통한 '사랑의 문명' 건설 촉구"
+          ],
+          "whyItMatters": "종교 기관의 AI 윤리에 대한 공식 입장으로, 기술 개발 시 인간의 존엄성과 도덕적 가치를 고려해야 한다는 점을 강조하는 중요한 성명이다.",
+          "url": "https://www.vatican.va/content/leo-xiv/en/encyclicals/documents/20260515-magnifica-humanitas.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 1272,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "magnifica-humanitas",
+          "fullContent": "A\nA\nA\nAR\n- DE\n- EN\n- ES\n- FR\n- IT\n- PL\n- PT\nENCYCLICAL LETTER MAGNIFICA HUMANITAS OF HIS HOLINESS POPE LEO XIV ON SAFEGUARDING THE HUMAN PERSON IN THE TIME OF ARTIFICIAL INTELLIGENCE\n[Multimedia]\n___________________________\nINTRODUCTION\nThe res novae of our time Two biblical images Building for the common good Remaining human\nCHAPTER ONE A DYNAMIC APPROACH FAITHFUL TO THE GOSPEL\nA Church journeying through human history          The wisdom of the word of God in dialogue with the human sciences          Social Doctrine as a shared discernment The development of Social Doctrine from Leo XIII to the present          The first stages of the Church’s Social Doctrine          The years of the Second Vatican Council          The recent Magisterium          Interpreting history in the light of faith\nCHAPTER TWO FOUNDATIONS AND PRINCIPLES OF THE SOCIAL DOCTRINE OF THE CHURCH\nThe foundations of Social Doctrine          The human person: image of the Triune God          The equal dignity of all human beings          The supreme value of human rights The principles of Social Doctrine          The principle of the common good          The principle of the universal destination of goods           The principle of subsidiarity          The principle of solidarity          The principle of social justice Integral human development An examen for the Church\nCHAPTER THREE\nTECHNOLOGY AND DOMINANCE. THE GRANDEUR OF HUMANITY IN LIGHT OF THE PROMISES OF AI\nThe technocratic paradigm and digital power Artificial intelligence          A valuable tool that requires vigilance          Responsibility, transparency and the governance of AI What must not be lost          Underlying narratives: transhumanism and posthumanism          The limit, the heart, the grandeur of the human person The authentic “more than human”: grace and Christian humanism Two cities and two loves\nCHAPTER FOUR SAFEGUARDING HUMANITY AT A TIME OF TRANSFORMATION. TRUTH, WORK, FREEDOM\nTruth as a common good          Truth and democracy          Communication and the collective imagination          Toward an ecology of communication          An educational alliance for the digital age          The central role of schools The dignity of work at a time of digital transition          The value of work          The problem of unemployment          An economy that values dignity          Families and young people: the social conditions for hope Protecting freedom against dependencies and commercialization          Dependencies and societal control          Breaking the chains of new forms of slavery A shared responsibility\nCHAPTER FIVE\nTHE CULTURE OF POWER AND THE CIVILIZATION OF LOVE\nThe civilization of love in the digital age The culture of power          The normalization of war          Force without limits          Weapons and artificial intelligence          The crisis of multilateralism          A supposed political realism Building the civilization of love          We can all do our part          The need to disarm words          Building peace through justice          Adopting the perspective of victims          Cultivating a healthy realism          Reviving dialogue          The necessity of diplomacy and multilateralism          Praying and hoping\nCONCLUSION The Word became flesh One body in Christ The construction site of our time The song of hope: the Magnificat\nINTRODUCTION\n1. Humanity, created by God in all its grandeur, is today facing a pivotal choice: either to construct a new Tower of Babel or to build the city in which God and humanity dwell together. Each generation inherits the task of shaping its own era, of guiding history to become a place where the dignity of every person is safeguarded, justice is promoted and fraternity is made possible. Yet every era also runs the risk of creating an inhumane and more unjust world. Whenever humanity is in danger of marring its true identity, we Christians lift our eyes to the Incarnate God, knowing that it is “only in the mystery of the Word made flesh that the mystery of humanity truly becomes clear.” [1] In Jesus Christ, this humanity in its grandeur becomes the Way, the Truth and the Life, opening the path for each of us to grow toward fullness.\n2. Founded on Christ, the living stone, we experience the powerful and mysterious action of the Holy Spirit, and we believe that every authentic human effort to cooperate with him for the good will be blessed by our heavenly Father, in whom we place our hope. For this reason, we can diligently contribute to every initiative that builds a more just world, and we can call others to collaborate in promoting the integral development of every human being. We wish to engage in dialogue with all men and women of our time, with whom we share in the events, questions and aspirations of humanity. [2] Together with them, we seek to identify new paths for the common good and for promoting a dignified life for all. Indeed, openness to dialogue is an integral part of the Church’s",
+          "category": "insight",
+          "publishedAt": "2026-05-25T10:11:29.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "A single PR just hijacked the NPM registry...",
+          "titleKo": "단 하나의 PR이 NPM 레지스트리를 장악했습니다",
+          "summary": "NPM 레지스트리의 보안 취약점으로 인해 단일 Pull Request로 대규모 침탈이 가능함을 시연하는 영상입니다.",
+          "keyPoints": [
+            "NPM 생태계의 공급망 보안 위험성 시연",
+            "패키지 관리 및 배포 프로세스의 보안 점검 필요성 강조"
+          ],
+          "whyItMatters": "의존성 관리 시 패키지 출처와 변경사항을 꼼꼼히 검증해야 함을 상기시킵니다.",
+          "url": "https://www.youtube.com/watch?v=gwTQLZSIlsU",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-single-pr-just-hijacked-the-npm-registry",
+          "category": "video",
+          "publishedAt": "2026-05-14T17:39:11+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "732 bytes of Python just borked every Linux machine on earth…",
+          "titleKo": "732바이트의 Python이 지구상의 모든 Linux 머신을 마비시켰습니다",
+          "summary": "매우 작은 크기의 Python 코드가 광범위한 Linux 시스템에 영향을 미치는 장애를 발생시킨 사건을 다루는 영상입니다.",
+          "keyPoints": [
+            "작은 코드 변경이 전체 Linux 생태계에 미칠 수 있는 거대한 영향력 시연",
+            "의존성 체인에서의 공급망 보안 위험 사례"
+          ],
+          "whyItMatters": "오픈소스 의존성 관리의 중요성과 광범위한 영향력을 고려한 신중한 배포 필요성을 보여줍니다.",
+          "url": "https://www.youtube.com/watch?v=lkifbWtxxlk",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "732-bytes-of-python-just-borked-every-linux-machine-on-earth",
+          "category": "video",
+          "publishedAt": "2026-05-04T18:40:40+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Google’s AI endgame is here… everything you missed at I/O 2026",
+          "titleKo": "Google의 AI 최종 전략이 공개되다... I/O 2026에서 놓친 모든 것",
+          "summary": "Google I/O 2026에서 공개된 Google의 AI 발전 현황과 전략에 대한 영상입니다. Google의 AI 로드맵, 새로운 기능 및 기술적 혁신들이 다루어집니다.",
+          "keyPoints": [
+            "Google의 AI 비전과 장기 전략: I/O 2026에서 Google이 제시한 AI 기술의 미래 방향과 회사의 전략적 포지셔닝이 공개되었습니다.",
+            "신규 AI 제품 및 기능: 개발자들이 사용할 수 있는 새로운 Google AI 도구와 API, 그리고 기존 서비스의 AI 통합 강화 사항들이 소개되었습니다.",
+            "업계 영향과 시사점: Google의 AI 전략 공개는 전체 개발 커뮤니티에 큰 영향을 미치며, 다른 AI 플랫폼들과의 경쟁 상황 변화를 나타냅니다."
+          ],
+          "whyItMatters": "Google의 공식 AI 전략과 로드맵을 이해하고 있어야 향후 AI 개발 트렌드에 대응할 수 있는 개발자에게 필수적인 정보입니다.",
+          "url": "https://www.youtube.com/watch?v=9OQ5vaYbGV0",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "frontend",
+            "backend"
+          ],
+          "topicId": "google-io-2026",
+          "isTopicPrimary": true,
+          "slug": "googles-ai-endgame-is-here-everything-you-missed-at-io-2026",
+          "category": "video",
+          "publishedAt": "2026-05-22T16:38:42+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "React 2025 – Adding MDX",
+          "titleKo": "React 2025 – MDX 추가하기",
+          "summary": "React 2025 버전에서 MDX 지원을 추가하는 방법과 이점에 관한 영상입니다. MDX를 React 프로젝트에 통합하여 마크다운과 JSX를 함께 사용하는 방식을 다루고 있습니다.",
+          "keyPoints": [
+            "MDX 소개: MDX는 마크다운 파일에서 JSX 컴포넌트를 직접 작성할 수 있게 하는 기술입니다. 이를 통해 마크다운의 단순성과 React 컴포넌트의 강력함을 결합할 수 있습니다.",
+            "React 2025에서의 MDX 통합: React 2025 버전에서 MDX 지원이 개선되었으며, 개발자가 더 쉽게 통합하고 사용할 수 있는 방식이 제시됩니다.",
+            "실제 활용 사례: 문서 작성, 블로그 포스팅, 인터랙티브 콘텐츠 등 다양한 실무 상황에서 MDX를 활용하는 패턴과 모범 사례들이 소개됩니다."
+          ],
+          "whyItMatters": "MDX를 활용하면 마크다운 기반 콘텐츠를 더욱 동적이고 인터랙티브하게 만들 수 있어, 문서 기반 프로젝트나 콘텐츠 중심 애플리케이션 개발이 효율화됩니다.",
+          "url": "https://www.youtube.com/watch?v=TUnbglpVhiU",
+          "sourceName": "Lee Robinson",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "react-mdx",
+          "isTopicPrimary": true,
+          "slug": "react-2025-adding-mdx",
+          "category": "video",
+          "publishedAt": "2025-11-07T14:31:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "You're writing twice as much CSS as you need to",
+          "titleKo": "필요한 것의 두 배 CSS를 작성하고 있습니다",
+          "summary": "불필요한 CSS 작성을 줄이기 위한 최적화 기법과 패턴을 소개하는 영상입니다.",
+          "keyPoints": [
+            "중복되거나 불필요한 CSS 코드를 식별하고 제거하는 방법 제시",
+            "CSS 효율성을 높여 유지보수 비용과 번들 크기 감소"
+          ],
+          "whyItMatters": "CSS 작성 효율성을 개선하면 프로젝트의 유지보수성과 성능이 향상됩니다.",
+          "url": "https://www.youtube.com/watch?v=NNjbOBGG_6g",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "youre-writing-twice-as-much-css-as-you-need-to",
+          "category": "video",
+          "publishedAt": "2026-05-21T13:00:26+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Every operating system concept in one video…",
+          "titleKo": "모든 운영체제 개념을 한 동영상에서",
+          "summary": "운영체제의 핵심 개념들을 포괄적으로 설명하는 영상 자료입니다.",
+          "keyPoints": [
+            "운영체제의 주요 개념을 단일 동영상으로 학습 가능"
+          ],
+          "whyItMatters": "시스템 프로그래밍과 인프라 이해의 기초가 되는 운영체제 개념을 효율적으로 습득할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=MtxP2pyCvYA",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "every-operating-system-concept-in-one-video",
+          "category": "video",
+          "publishedAt": "2026-05-07T17:32:34+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I can’t believe this trial is real...",
+          "titleKo": "믿을 수 없는 재판 소식",
+          "summary": "YouTube 영상으로 정보 부족으로 요약 불가능합니다.",
+          "keyPoints": [],
+          "url": "https://www.youtube.com/watch?v=3tbB2dffx0s",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-cant-believe-this-trial-is-real",
+          "category": "video",
+          "publishedAt": "2026-05-15T18:51:21+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
