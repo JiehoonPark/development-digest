@@ -1,0 +1,1269 @@
+{
+  "date": "2026-06-02",
+  "intro": "안녕하세요! 오늘은 AI 코딩 모델의 혁신과 프라이버시 이슈가 뜨거운 이슈입니다. Microsoft의 MAI-Code-1-Flash 출시로 AI 코딩 어시스턴트의 성능이 한 단계 도약했으며, 동시에 대형 기술 기업들의 광고 추적 시스템과 나이 인증 확대로 인한 사용자 프라이버시 침해 우려도 커지고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "MAI-Code-1-Flash",
+          "titleKo": "MAI-Code-1-Flash 소개: Microsoft의 새로운 코딩 모델",
+          "summary": "Microsoft는 개발자의 일상적인 워크플로우를 위해 설계된 새로운 코딩 모델 MAI-Code-1-Flash를 출시했다. 이 모델은 GitHub Copilot에 최적화되어 있으며, Claude Haiku 4.5를 모든 코딩 벤치마크에서 능가한다. 적응형 솔루션 길이 제어를 통해 간단한 요청에는 간결하게, 복잡한 작업에는 더 깊은 분석을 제공하며, SWE-Bench Pro에서 60% 적은 토큰으로 더 어려운 문제를 해결한다. Visual Studio Code의 GitHub Copilot 사용자에게 현재 롤아웃되고 있다.",
+          "keyPoints": [
+            "개발 환경 중심 설계: MAI-Code-1-Flash는 벤치마크만 최적화하지 않고 실제 GitHub Copilot 프로덕션 워크플로우를 중심으로 훈련되었으며, 저장소 질문 답변, 리팩토링, 원격 측정 기반 작업 등 핵심 소프트웨어 엔지니어링 작업에서 평가되어 실제 개발 환경과의 정렬을 보장한다.",
+            "적응형 토큰 효율성: 모델이 작업 난이도에 따라 응답 깊이를 자동으로 조정하여 간단한 요청은 빠르게 처리하고 복잡한 문제는 더 많은 추론 자원을 할당하며, SWE-Bench Verified에서 최대 60% 적은 토큰으로 더 어려운 문제를 해결하므로 지연 시간 단축과 비용 절감이 가능하다.",
+            "벤치마크 성능 우위: SWE-Bench Verified, Pro, Multilingual, Terminal Bench 2 등 4개 주요 코딩 벤치마크에서 Claude Haiku 4.5를 모두 능가했으며, 특히 SWE-Bench Pro(51.2% vs 35.2%)에서 16포인트 앞선다. 단순한 성능 향상이 아니라 더 적은 토큰으로 더 높은 정확성을 달성했다.",
+            "지시어 따르기 및 에이전트 코딩: IF Bench에서 정확한 지시어 따르기 능력에서 28.9포인트, 루브릭 기반 고급 지시어 따르기에서 14.5포인트 차이로 Claude Haiku 4.5를 능가하며, 이러한 강력한 지시어 따르기 능력이 도구 사용 에이전트 작업으로도 이어진다.",
+            "추론 능력 검증: 표준 벤치마크가 단순 암기를 보상할 수 있다는 점을 인식하여, 역순 고전 문제, 불가능한 작업, 미결정 시나리오 등 적대적 함정이 포함된 186개 질문, 34개 카테고리의 커스텀 벤치마크를 개발했고, MAI-Code-1-Flash는 85.8% 조정 정확도로 Claude Haiku 4.5를 능가했다.",
+            "즉시 사용 가능: Visual Studio Code의 GitHub Copilot 개별 사용자에게 현재 롤아웃 중이며, 추가 설정 없이 사용 가능하고, 자동 선택기를 통해 자동 라우팅되거나 모델 선택기에서 직접 선택할 수 있다."
+          ],
+          "whyItMatters": "개발자들이 매일 사용하는 실제 환경에 맞춰 설계되고 토큰 효율성과 추론 성능을 동시에 달성한 코딩 모델의 출시는 GitHub Copilot 사용자의 개발 생산성을 크게 향상시키고 비용 효율성을 개선할 것으로 예상된다.",
+          "url": "https://microsoft.ai/news/introducingmai-code-1-flash/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 337,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "mai-code-flash",
+          "isTopicPrimary": true,
+          "slug": "mai-code-1-flash",
+          "fullContent": "Models\nIntroducing MAI-Code-1-Flash\nSuperintelligence team\nJune 2, 2026\nModels\nSuperintelligence team\nToday we’re introducing MAI-Code-1-Flash, a new Microsoft coding model built for fast, efficient assistance in everyday developer workflows. It is built end-to-end by Microsoft using clean and appropriately licensed data. The model is rolling out to GitHub Copilot individual users in Visual Studio Code in the model picker and under the default auto picker.\nFeatures and capabilities\nAgentic coding in real developer environments, trained and designed for GitHub Copilot harness, to work better together.\nAdaptive thinking, stays concise for simple requests and spends more reasoning budget on complex tasks.\nStrong instruction-following across single-turn and multi-turn scenarios.\nMAI-Code-1-Flash is designed around the simple goal of delivering high-quality coding help with better efficiency. It outperforms Claude Haiku 4.5 with better price to performance across coding benchmarks.\nBuild for developers, not benchmarks\nCoding models are most useful when they perform well in the same environment developers use every day. That is why we built MAI-Code-1-Flash with production workflows at the center, rather than optimizing only for benchmarks. The model was trained directly with GitHub Copilot harnesses used in production. This allows it to learn how to interact with surrounding tools and systems in agentic coding tasks, making it uniquely well suited to real-world Copilot workflows compared to other available models.\nDuring training, we evaluated checkpoints across core software engineering tasks, repository question answering, refactoring, and telemetry-grounded tasks adapted from real GitHub Copilot usage. This alignment between training, evaluation, and production helps offline improvements translate into real-world developer quality.\nDesigned to maximize value per token\nMAI-Code-1-Flash was trained with adaptive solution length control, which helps the model adjust the depth of its response to the task. It can stay concise for simpler requests and spend more reasoning budget when a problem requires deeper analysis or broader code changes. In practice, this means developers start seeing useful output sooner. We see MAI-Code-1-Flash solving harder problems with up to 60% fewer tokens. This helps reduce latency, lower cost, improve return on token, and make interactive workflows feel smoother.\nBenchmark results in the production harness\nTo understand both quality and efficiency, we evaluated MAI-Code-1-Flash against Claude Haiku 4.5 on SWE-Bench Verified, SWE-Bench Pro, SWE-Bench Multilingual, and Terminal Bench 2 using the same production harness that developers use for their everyday coding tasks. We measured task success and the average number of solution tokens required to complete each task.\nMAI-Code-1-Flash outperforms Claude Haiku 4.5 across all core coding benchmarks tested, with higher pass rates on all 4 evaluations, including a +16-point lead on the diverse, real-world tasks of SWE-Bench Pro (51.2% vs. 35.2%). It’s not just smarter; it’s leaner, solving harder problems with up to 60% fewer tokens on SWE-Bench Verified, proving that higher accuracy and greater efficiency are no longer a trade-off.\nMath, Science, Instruction Following, and Agentic coding tasks\nMAI-Code-1-Flash comes out ahead on every benchmark in the table, with the widest margin on IF Bench precise instruction following (+28.9) and the narrowest on rubric-based Advanced IF (+14.5). The strong instruction-following carries over to agentic tool use.\nFurthermore, MAI-Code-1-Flash also outperforms Claude Haiku-4.5 on core reasoning capabilities in math, science, and visual generation coding.\nStandard benchmarks reward memorization as much as reasoning, for example a model that has seen the Monty Hall problem will answer it correctly, but invert the prizes and it fails. We built a 186-question, 34-category benchmark around adversarial traps like inverted classics, impossible tasks, and underdetermined scenarios to see whether models were actually reasoning or just pattern-matching. MAI-Code-1-Flash surpasses Claude Haiku 4.5 overall and reached 85.8% adjusted accuracy, with especially strong performance in reasoning, instruction-following, and recognizing impossible problems. We also see room for the model to grow, since core adversarial categories like Einstellung traps remained below 50% accuracy.\nTry it out\nMAI-Code-1-Flash is now rolling out to VS Code GitHub Copilot individual users. No additional setup is required. As the rollout progresses, you may see GitHub Copilot route tasks to MAI-Code-1-Flash through the Auto picker, or see the model available directly in the model picker.\nHere are a few fun sample apps we built with MAI-Code-1-Flash in VS Code:\nWe would love to hear from you! Please join the GitHub Community to share your feedback.\nBuild the Future With Us\nWe’re a lean, fast-moving lab made up of some of the world’s most talent",
+          "category": "hot",
+          "publishedAt": "2026-06-02T18:47:07.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Expanding Project Glasswing",
+          "titleKo": "Project Glasswing 확대",
+          "summary": "Anthropic의 Project Glasswing은 Claude Mythos Preview를 활용해 세계 주요 소프트웨어의 보안 취약점을 발견하는 프로그램으로, 초기 50개 파트너에서 약 150개 신규 조직으로 확대되었습니다. 지금까지 10,000개 이상의 높은 수준의 보안 결함을 발견했으며, 앞으로 취약점 발견에서 수정 및 배포까지 지원 범위를 확대할 계획입니다.",
+          "keyPoints": [
+            "15개 국가 150개 신규 파트너 참여, 전력·수도·의료·통신·하드웨어 등 중요 인프라 산업 포함",
+            "Claude Mythos Preview로 10,000개 이상의 높은/극심한 수준 보안 결함 발견 성과",
+            "6-12개월 내 다른 AI 기업도 유사 수준 모델 출시 예상 - 업계 적응 필요"
+          ],
+          "whyItMatters": "개발자와 보안팀은 강력한 AI 도구를 활용해 코드베이스 보안을 대규모로 강화할 수 있으며, 업계 전체의 사이버 방어 역량 강화가 시급합니다.",
+          "url": "https://www.anthropic.com/news/expanding-project-glasswing",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 149,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "anthropic-initiatives",
+          "isTopicPrimary": true,
+          "relatedCount": 2,
+          "slug": "expanding-project-glasswing",
+          "fullContent": "AnnouncementsExpanding Project GlasswingJun 2, 2026Project Glasswing is our collaborative effort to secure the world’s most important software. In early April, we announced that roughly 50 initial partners had access to Claude Mythos Preview, and since then, they’ve been deploying the model to scan their codebases for vulnerabilities. We recently described how these partners have so far found more than 10,000 high- or critical-severity security flaws.We’re now expanding Project Glasswing. Following several weeks of close collaboration with our Project Glasswing partners, the security industry, open-source software maintainers, and the US government, we’re extending the partnership to approximately 150 new organizations. Each one will need to meet our security requirements before they gain access.The organizations in this new group are based in more than 15 countries, and most provide critical infrastructure to many more. (In the future, we intend to expand our geographical reach much further.) The group covers several industries that weren’t well represented in our initial cohort, such as power, water, healthcare, communications, and hardware. And many of the new partners are vendors—companies or nonprofits that maintain codebases that are relied upon by lots of other organizations around the world, including governments.What each partner has in common is that a successful attack on their codebase could be catastrophic. For most partners, we estimate that a major attack could affect more than 100 million people, with important ramifications for both global and national security.This expansion is the next step toward our long-term goals: for AI to make all software more secure, and for us to help the industry adjust to how AI could change many of the core assumptions of cybersecurity.The role of Project GlasswingProject Glasswing and the capabilities of Claude Mythos Preview have sparked broad conversations—both within the software industry and with governments—about how AI is changing cybersecurity. These conversations have informed how we’ve expanded the program. They’ve also shaped our thinking about the very purpose of Project Glasswing.Cheap, fast AI models with powerful cyber capabilities are around the corner. We want Project Glasswing to spur institutions toward operating norms that reflect this reality.Mythos Preview continues a long-term trend that we’ve been warning about for some time: within 6 to 12 months, we expect that many other AI companies will have Mythos-class models, and they could release them without safeguards that prevent misuse. In that world, cyberattacks could occur much more often, and in much more unpredictable forms. It’s imperative that cyberdefenders adapt to maintain pace.We see our role as twofold. First, to help the software industry adapt by safely providing wide access to better models, tools, and common infrastructure. Second, to steadily shift the support we provide, from finding vulnerabilities to disclosing, fixing, and deploying patched software. We’ll now discuss each of these in turn.Supporting cyberdefendersSo far, companies, nonprofits, maintainers, and researchers have acted quickly. Within the first weeks of Project Glasswing, each member began using Mythos Preview at large scale, sharing information and best practices with other partners, and working with third parties to triage the model’s findings. These organizations’ methods for adapting to new tools can, and should, be replicated widely across the millions of organizations and developers who are vulnerable to cyberattacks.To support this, we recently released Claude Security, a product that uses our latest public frontier models, like Claude Opus 4.8, to scan codebases and suggest patches. We're also releasing—on request, to trusted security teams—the tools we developed to help Project Glasswing’s partners find vulnerabilities more quickly.We intend to go much further: our longer-term aim is to support the industry in creating new initiatives, standards, and infrastructure for the era of powerful cyber models.Accelerating patching and the rest of securityAs we’ve previously discussed, the bottleneck in cybersecurity is now verifying, disclosing, and patching the large numbers of vulnerabilities that Mythos-class models can surface.Mythos Preview itself can help. Many of Project Glasswing’s partners now use the model to write patches, as well as for pre-release checks that prevent vulnerabilities from appearing in the first place. Models like Mythos Preview can also be used for penetration testing (simulating a cyberattack to identify how vulnerabilities might be exploited), automating threat detection and response, and rebuilding legacy codebases in memory-safe languages, among many other defensive tasks.We’re in discussions with third parties about how we might substantially scale up the reviewing and patching of vulnerabilities in open-source software. We’re also working on sharing ideas and best prac",
+          "category": "hot",
+          "publishedAt": "2026-06-02T13:15:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "The advertising cartel coming to your web browser",
+          "titleKo": "웹 브라우저에 다가올 광고 카르텔",
+          "summary": "Meta, Google, Apple이 주도하는 Attribution Level 1이라는 브라우저 기본 광고 측정 시스템이 사용자 프라이버시를 침해하고 대기업에 유리한 구조를 만들고 있습니다. 이 시스템은 사용자 동의나 거부 옵션 없이 설계되었으며, 검색 및 소셜 광고에 과도한 신용을 부여하고 더욱 침투적인 추적을 장려합니다.",
+          "keyPoints": [
+            "사용자 동의 절차 없이 브라우저에 광고 추적 기능 내장 - 규제 회피 목적",
+            "검색·소셜·앱스토어 광고의 효과를 과대평가하여 대형 기술 기업에 유리한 시장 구조 형성",
+            "광고 귀속을 추적하기 위해 더욱 침투적인 데이터 수집 및 머신러닝 기반 타겟팅 인센티브 제공"
+          ],
+          "whyItMatters": "웹 개발자와 독립 콘텐츠 제공자들의 수익성이 저하되고, 사용자 프라이버시 침해 위험이 증가하며, 광고 기술의 투명성 문제가 심화됩니다.",
+          "url": "https://blog.zgp.org/the-advertising-cartel-coming-to-your-web-browser/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 108,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-advertising-cartel-coming-to-your-web-browser",
+          "fullContent": "01 Jun 2026\nThe advertising cartel coming to your web browser\nWhen Meta, Google and Apple agree on a “privacy”\nfeature, watch out.\nThe three companies (along with Mozilla, which is on one of their “ad\nfeatures in the browser” kicks again) are drawing up a built-in\nadvertising measurement system, called Attribution Level 1, as a\nstandard feature of web browsers. The system is intended to measure the\neffectiveness of advertising by enabling advertisers to correlate\n“impressions,” the occasions on which someone saw an ad, with\n“conversions,” when people bought something.\nDon’t look for a section on permissions or consent in that document,\nby the way. There isn’t one. And nothing about nerd lawyer stuff like\n“opt out of sale” or “objections to processing” in there, either. The\nBig Tech companies want a two-track system, where other\ncompanies’ ad features are required to do all the privacy regulation\nhassles, but the browser’s own built-in tracking feature is\nsomething that people have to find\nthe right setting for and turn off.\nUnfortunately, this is not just a chapter in Big Tech’s ongoing\nantitrust saga. The attribution cartel is on track to perpetrate real\nharms to users, including:\nBuilt-in advantage for search, social, and app store\nadvertising: More money for Big Tech, less for legit sites and\nother ad-supported resources.\nAdded incentives for riskier tracking:\nObfuscating the source of a sale makes it easier to get a payoff from\ntracking practices that would be seen as problematic on their\nown.\nThose consequences are unavoidable because of the proposal’s narrow,\nmathematical privacy goals, which are a mismatch for the kinds of\nprivacy harms that people experience in the real world. In the “Privacy\nConsiderations” section, the proposal says,\nThe main privacy goal of this API is to ensure that providing sites\nwith the ability to perform attribution does not improve their ability\nto perform cross-site recognition.\nThe system is supposed to produce aggregated measurements while\nmaking it prohibitively difficult for an advertiser to discover whether\nany one person who bought something is the same person who saw an ad.\nTechnically, the way it works is that a script running on a site with\nads asks the browser to record an ad impression. Then the browser keeps\na record of ads seen from all the sites you visit. Later, when you buy\nsomething, the retail site can ask the browser to generate a “conversion\nreport” that can be passed to a centralized aggregation service. The\naggregation service can then give the site some aggregated results, in a\nway that does not reveal whether any individual who bought something\never saw a particular ad or visited a particular site.\nSo why are the same companies that are notorious for tracking people\nso fired up about it? The problem is that the attribution tracking won’t\nbe functioning in isolation. It has to interact with other technologies\nand business models. Even if the browser developers can pull off their\nambitious goal of preventing “cross-site recognition,” the proposal\nwould make life worse on the real Internet.\nProblem one: Over-rating search, social, and app store ads\nMarketing data expert Rick Bruner explained\nthis best.\nLower-funnel media naturally appear more effective because they\nintercept demand after it has already been created elsewhere. Search is\nthe classic example. Brand advertising may create the demand, but the\nsearch click gets the attribution credit because it occurs closest to\nthe sale.\nAnd the shift isn’t just a matter of a Big\nTech squeeze on smaller companies, or an oligopoly tax on everything\nyou buy. The attribution cartel threatens us as citizens, too. Many\nadvertising-supported media have positive externalities—they benefit\neven people who don’t use them. Corruption\nthrives where newspapers shut down. Meanwhile, the negative\nexternalities of Big Tech are too numerous or too content-warning-worthy\nto list here. The average person in the USA has about $1200/year spent\non advertising intended to reach them. Where do you want “your” $1200\nspent?\nProblem two: Incentives for extra tracking\nThe attribution cartel makes it impossible to tell an ad that\nactually sold something apart from an ad that got placed in front of\nsomeone right when they were about to buy.\nAnd actually selling something is hard, so it’s much easier to “win”\nattribution by identifying likely buyers and targeting ads to them. The\nBig Tech companies can do this with machine learning, at a scale that\nmakes the real effects hard to sort out. A company with access to, say,\nan always-on mic on a “smart TV,” would have trouble selling keywords\nfrom people’s conversations directly. But the attribution cartel makes\nit easy to launder that data by feeding it to a machine learning system\nfor placing ads.\nAnd it’s likely that the bias to search, social and app stores and\nthe bias toward more intrusive data collection will work together. The\nmore that the attribution cartel succeeds, the more adve",
+          "category": "hot",
+          "publishedAt": "2026-06-02T19:39:25.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "microsoft/markitdown (Python)",
+          "titleKo": "Microsoft MarkItDown - 파일 및 Office 문서를 Markdown으로 변환하는 Python 도구",
+          "summary": "Microsoft에서 개발한 Python 도구로 다양한 파일 형식과 Office 문서를 Markdown으로 변환할 수 있습니다. 기술 문서 작성이나 콘텐츠 변환 작업을 자동화하는 데 활용됩니다.",
+          "keyPoints": [
+            "다양한 파일 형식(Office, PDF 등)을 Markdown으로 일괄 변환 지원",
+            "Python 기반 도구로 개발 워크플로우에 쉽게 통합 가능"
+          ],
+          "whyItMatters": "기술 문서화나 LLM 학습 데이터 준비 시 파일 형식 변환을 자동화할 수 있어 개발 생산성을 향상시킵니다.",
+          "url": "https://github.com/microsoft/markitdown",
+          "sourceName": "GitHub Trending",
+          "engagement": 141051,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "topicId": "markdown-conversion-tools",
+          "isTopicPrimary": true,
+          "slug": "microsoftmarkitdown-python",
+          "category": "hot",
+          "publishedAt": "2026-06-02T23:38:00.088Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Trump signs downsized AI order after weeks of reversals",
+          "titleKo": "트럼프, 수주간의 정책 수정 후 축소된 AI 행정명령에 서명",
+          "summary": "트럼프 행정부가 몇 주간의 정책 변경을 거쳐 규모가 축소된 AI 관련 행정명령에 서명했습니다.",
+          "keyPoints": [
+            "초기 AI 정책안이 여러 차례 수정되어 최종 확정됨",
+            "정부 정책 변화가 개발자와 기업의 AI 규제 환경에 영향을 미칠 수 있음"
+          ],
+          "whyItMatters": "AI 개발자들은 규제 환경 변화를 주시해야 하며 정부 정책이 AI 프로젝트의 방향성과 규정 준수 요구사항에 영향을 미칠 수 있습니다.",
+          "url": "https://www.politico.com/news/2026/06/02/trump-signs-downsized-ai-order-00946389",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 156,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "trump-signs-downsized-ai-order-after-weeks-of-reversals",
+          "category": "hot",
+          "publishedAt": "2026-06-02T16:40:16.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "California’s university system went all in on AI, now it's tearing itself apart",
+          "titleKo": "캘리포니아 대학 시스템이 AI에 올인했고, 이제 자체적으로 분열되고 있다",
+          "summary": "뉴욕타임스의 2026년 기사로, 캘리포니아 대학 시스템의 AI 도입이 예상과 달리 내부 갈등과 문제를 야기하고 있다.",
+          "keyPoints": [
+            "AI 기술의 과도한 도입이 대학 운영에 부정적 영향을 미치고 있음"
+          ],
+          "whyItMatters": "기술 도입 시 조직 내 영향과 부작용을 고려해야 함을 시사한다.",
+          "url": "https://www.nytimes.com/2026/06/01/magazine/ai-university-college-california.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 37,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "californias-university-system-went-all-in-on-ai-now-its-tearing-itself-apart",
+          "category": "hot",
+          "publishedAt": "2026-06-02T07:46:20.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Adafruit receives demand letter from Fenwick legal counsel on behalf of Flux.ai",
+          "titleKo": "Adafruit가 Flux.ai 대리인인 Fenwick 법률 회사로부터 수요 편지를 받음",
+          "summary": "Adafruit가 Flux.ai 측의 법률 대리인으로부터 법적 수요 편지를 받았다.",
+          "keyPoints": [
+            "두 회사 간의 법적 분쟁 발생"
+          ],
+          "whyItMatters": "오픈소스 하드웨어 커뮤니티에 영향을 미칠 수 있는 법적 사안이다.",
+          "url": "https://blog.adafruit.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 594,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "adafruit-receives-demand-letter-from-fenwick-legal-counsel-on-behalf-of-fluxai",
+          "category": "hot",
+          "publishedAt": "2026-06-02T10:00:56.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "jamwithai/production-agentic-rag-course (Python)",
+          "titleKo": "Production Agentic RAG 코스",
+          "summary": "프로덕션 환경에서 사용 가능한 Agentic RAG(검색 증강 생성) 시스템을 구축하는 방법을 다루는 교육 자료입니다. 실전 기반의 AI 에이전트 구현 패턴을 학습할 수 있습니다.",
+          "keyPoints": [
+            "프로덕션급 Agentic RAG 시스템의 설계 및 구현 방법 제공",
+            "실제 사용 사례와 Best Practice를 기반한 코스 운영"
+          ],
+          "whyItMatters": "AI 에이전트를 실제 서비스에 배포하려는 개발자들에게 필요한 실용적인 지식을 제공합니다.",
+          "url": "https://github.com/jamwithai/production-agentic-rag-course",
+          "sourceName": "GitHub Trending",
+          "engagement": 6361,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "jamwithaiproduction-agentic-rag-course-python",
+          "category": "tech",
+          "publishedAt": "2026-06-02T23:38:00.091Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "How we index images for RAG",
+          "titleKo": "RAG를 위한 이미지 인덱싱 방법론",
+          "summary": "Kapa에서 기술 문서의 스크린샷, 다이어그램, 표를 RAG 파이프라인에 효과적으로 포함시키기 위해 인덱싱 시점에 저렴한 비전 모델로 이미지를 텍스트 설명으로 변환하고 저장하는 방식을 제시합니다. 쿼리 시점에는 이미지 대신 텍스트 설명을 사용하여 비용을 최소화하면서도 답변 품질을 향상시킵니다.",
+          "keyPoints": [
+            "쿼리 시점이 아닌 인덱싱 시점에 이미지를 텍스트로 변환하여 매 쿼리마다의 비전 모델 비용 제거",
+            "이미지를 설명(일러스트레이션)과 전사(로드베어링)로 구분하여 처리, 통계적으로 유의미하게 답변 품질 향상",
+            "멀티모달 검색보다 텍스트 기반 검색이 기술 문서 도메인에서 더 효과적"
+          ],
+          "whyItMatters": "기술 문서 기반 AI 어시스턴트를 구축할 때 이미지 처리로 인한 비용 폭증을 방지하면서도 사용자가 체감할 수 있는 답변 품질 개선을 동시에 달성할 수 있습니다.",
+          "url": "https://www.kapa.ai/blog/how-we-index-images-for-rag",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 75,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "how-we-index-images-for-rag",
+          "fullContent": "Reading the screenshots, diagrams and tables in technical documentation for LLMs\nKapa builds AI assistants that answer questions from technical documentation. The knowledge bases we process hold millions of images: screenshots, architecture diagrams, circuit schematics, annotated UI walkthroughs. We spent several months working out how to make them useful in our RAG pipeline.\nThe short version: we don't send images to the model at query time. We describe each image once, at indexing time, with a cheap vision model, store the descriptions as text, and retrieve them alongside ordinary text chunks. Indexing is a one-time cost; after that, per-query overhead is 1% to 6% over text-only, and answers are measurably, statistically significantly better. This post explains how we got there.\nBoth answers are correct. The one that shows the screenshot is the one a user can act on without hunting for the setting.\nWe went through thousands of real customer questions across hardware, semiconductor, and developer-tooling accounts to see how images earn their place in an answer. They split into two kinds.\nMost are illustrative. They show what the text already says, only more clearly: a guide says \"click the settings icon,\" and the screenshot beside it shows which icon, where, and what it looks like. The words carry the fact; the picture makes it easy to act on.\nSome are load-bearing. A wiring diagram, a spec table, a certification or color-availability matrix can hold a value that lives in the figure and essentially nowhere else. There the picture is not a convenience, it is the source of the answer.\nWe confirmed the lift either way: with image context available, an LLM judge preferred the answers across three customer projects and two models, by a statistically significant margin (McNemar's test, p < 0.05).\nThe improvement is the kind a user feels. Instead of \"look for the configuration section that controls the setting,\" you get the specific path plus a screenshot showing exactly where to click. Same facts, far easier to act on. For a support assistant, that is the difference between a user who self-serves and one who opens a ticket.\nEither way, images make answers materially better. The engineering question is the one the rest of this post is about: how to use them without paying a vision bill on every query.\nThe approach most people reach for first: retrieve the relevant chunks, collect the images they reference, and pass everything to a vision-capable model.\nWe tested it with GPT 5.1 and Claude 4.6 Sonnet across hundreds of production questions. The problems are structural, not engineering details to tune away.\nThe economics do not work. Raw images added 27% to per-query cost on GPT and 51% on Claude (Claude tokenizes an image at roughly 975 tokens to GPT's 716). We serve millions of queries; paying that much more on all of them, when most answers do not need a fresh look at the pixels, is not a trade we can make.\nThe images do not physically fit. A typical question retrieves 10-30 chunks referencing 20-30 images on average, with a long tail past 130. Claude's payload limit is 30 MB and OpenAI's 50 MB; around 25 images already approaches Claude's ceiling. You would have to cap images aggressively, which defeats the point.\nMultimodal retrieval does not suit this domain. CLIP-style embeddings wash out exactly the fine detail that matters in charts, tables, and annotated screenshots, and short technical queries (\"how do I configure X\") give too little signal to match against image vectors.\nThese are properties of today's ecosystem, not bugs to fix. They pointed us away from query-time vision entirely.\nThe approach that works inverts the economics. Instead of paying to process images on every query, you pay once, at indexing time, to turn each image into a text description. After that, retrieval and generation run entirely in text.\nAt indexing time, a vision language model writes a caption for each image. The captions are stored and retrieved alongside ordinary text chunks. At query time, if a caption is relevant, the retriever pulls it in; the model sees the caption, never the raw image, and cites the image by its original URL.\nThis works because the heavy lifting, actually looking at the image, happens once, at ingestion, instead of on every query. For an illustrative screenshot the caption is a description; for a load-bearing figure it is a transcription of what the figure holds, the values in the table, the labels on the diagram. Either way the content becomes text, and the rest of the pipeline never has to see a pixel. Microsoft's research team also reached the same conclusion: describe at ingestion, store as separate chunks.\nThis is what makes the load-bearing case work, and it is where a lot of assistants quietly fail. A color-availability matrix is a wall of check marks; a fire-resistance table is a grid of ratings. Flatten one into plain text with a generic extractor and the structure dissolves, which is how an as",
+          "category": "tech",
+          "publishedAt": "2026-06-02T16:13:41.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "supermemoryai/supermemory (TypeScript)",
+          "titleKo": "Supermemory - AI 시대를 위한 초고속 확장 가능한 메모리 엔진",
+          "summary": "TypeScript 기반의 메모리 엔진으로 매우 빠르고 확장 가능한 성능을 제공합니다. AI 애플리케이션을 위한 Memory API를 구현하여 효율적인 데이터 저장 및 검색이 가능합니다.",
+          "keyPoints": [
+            "AI 애플리케이션을 위해 최적화된 고성능 메모리 관리 시스템",
+            "확장성을 고려한 설계로 대규모 데이터 처리 가능"
+          ],
+          "whyItMatters": "AI 애플리케이션의 성능을 대폭 개선할 수 있는 메모리 레이어를 제공하여 응답 속도와 처리량을 높입니다.",
+          "url": "https://github.com/supermemoryai/supermemory",
+          "sourceName": "GitHub Trending",
+          "engagement": 24603,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "supermemoryaisupermemory-typescript",
+          "category": "tech",
+          "publishedAt": "2026-06-02T23:38:00.091Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "OpenBMB/VoxCPM (Python)",
+          "titleKo": "VoxCPM - 토크나이저 불필요한 다국어 음성 생성 TTS",
+          "summary": "OpenBMB에서 개발한 VoxCPM2는 토크나이저 없이 작동하는 텍스트-음성(TTS) 모델로, 다국어 음성 생성과 음성 복제 기능을 제공합니다. 창의적인 음성 디자인을 지원합니다.",
+          "keyPoints": [
+            "토크나이저가 필요 없는 end-to-end 음성 생성 구조로 간소화",
+            "다국어 지원 및 자연스러운 음성 복제 기능 제공"
+          ],
+          "whyItMatters": "TTS 파이프라인을 단순화하면서도 고품질의 다국어 음성 생성이 가능해 음성 기반 AI 애플리케이션 개발이 용이합니다.",
+          "url": "https://github.com/OpenBMB/VoxCPM",
+          "sourceName": "GitHub Trending",
+          "engagement": 25085,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "openbmbvoxcpm-python",
+          "category": "tech",
+          "publishedAt": "2026-06-02T23:38:00.090Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "affaan-m/ECC (JavaScript)",
+          "titleKo": "ECC - Claude Code, Codex, OpenCode, Cursor를 위한 에이전트 성능 최적화 시스템",
+          "summary": "JavaScript 기반 에이전트 프레임워크로 Claude Code, Codex, OpenCode, Cursor 등의 AI 코딩 에이전트 성능을 최적화합니다. 스킬, 인스턴스, 메모리, 보안, 연구 기반 개발을 통합적으로 지원합니다.",
+          "keyPoints": [
+            "다양한 AI 코딩 에이전트의 성능을 한 번에 최적화할 수 있는 통합 프레임워크",
+            "스킬 구성, 메모리 관리, 보안을 포함한 종합적 성능 최적화 기능 제공"
+          ],
+          "whyItMatters": "여러 AI 코딩 도구를 사용하는 개발자들이 일관된 성능 최적화와 관리를 통해 생산성을 극대화할 수 있습니다.",
+          "url": "https://github.com/affaan-m/ECC",
+          "sourceName": "GitHub Trending",
+          "engagement": 203869,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "affaan-mecc-javascript",
+          "category": "tech",
+          "publishedAt": "2026-06-02T23:38:00.089Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "Paseo – Beautiful open-source coding agent interface (desktop, mobile, CLI)",
+          "titleKo": "Paseo - Claude Code, Copilot 등 AI 에이전트용 통합 인터페이스",
+          "summary": "Claude Code, Copilot, Codex, OpenCode, Pi 등 여러 AI 에이전트를 하나의 인터페이스로 관리할 수 있는 오픈소스 플랫폼입니다. 데스크톱, 모바일, CLI에서 병렬로 에이전트를 실행하고 프라이버시를 우선시합니다.",
+          "keyPoints": [
+            "다양한 AI 에이전트를 통일된 인터페이스에서 제어 가능하며, 로컬 데몬으로 자체 호스팅 지원",
+            "음성 제어, 크로스 디바이스 지원(iOS/Android/웹/CLI), 에이전트 간 핸드오프 등 고급 기능 제공"
+          ],
+          "whyItMatters": "AI 에이전트 기반 개발 워크플로우를 통합 관리할 수 있어 다중 에이전트 협업 개발 환경을 구축하려는 개발자에게 필수적입니다.",
+          "url": "https://github.com/getpaseo/paseo",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 8,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "paseo-beautiful-open-source-coding-agent-interface-desktop-mobile-cli",
+          "fullContent": "Paseo\nOne interface for Claude Code, Codex, Copilot, OpenCode, and Pi agents.\nRun agents in parallel on your own machines. Ship from your phone or your desk.\nSelf-hosted: Agents run on your machine with your full dev environment. Use your tools, your configs, and your skills.\nMulti-provider: Claude Code, Codex, Copilot, OpenCode, and Pi through the same interface. Pick the right model for each job.\nVoice control: Dictate tasks or talk through problems in voice mode. Hands-free when you need it.\nCross-device: iOS, Android, desktop, web, and CLI. Start work at your desk, check in from your phone, script it from the terminal.\nPrivacy-first: Paseo doesn't have any telemetry, tracking, or forced log-ins.\nGetting Started\nPaseo runs a local server called the daemon that manages your coding agents. Clients like the desktop app, mobile app, web app, and CLI connect to it.\nPrerequisites\nYou need at least one agent CLI installed and configured with your credentials:\nClaude Code\nCodex\nGitHub Copilot\nOpenCode\nPi\nDesktop app (recommended)\nDownload it from paseo.sh/download or the GitHub releases page. Open the app and the daemon starts automatically. Nothing else to install.\nTo connect from your phone, scan the QR code shown in Settings.\nCLI / headless\nInstall the CLI and start Paseo:\nnpm install -g @getpaseo/cli\npaseo\nThis shows a QR code in the terminal. Connect from any client. This path is useful for servers and remote machines.\nFor full setup and configuration, see:\nDocs\nConfiguration reference\nCLI\nEverything you can do in the app, you can do from the terminal.\npaseo run --provider claude/opus-4.6 \"implement user authentication\"\npaseo run --provider codex/gpt-5.4 --worktree feature-x \"implement feature X\"\npaseo ls # list running agents\npaseo attach abc123 # stream live output\npaseo send abc123 \"also add tests\" # follow-up task\n# run on a remote daemon\npaseo --host workstation.local:6767 run \"run the full test suite\"\nSee the full CLI reference for more.\nSkills\nSkills teach your agent to use Paseo to orchestrate other agents.\nnpx skills add getpaseo/paseo\nThen use them in any agent conversation:\n/paseo-handoff — hand off work between agents. I use this to plan with Claude and then handoff to Codex to implement.\n/paseo-loop — loop an agent against clear acceptance criteria (aka Ralph loops), optionally with a verifier.\n/paseo-advisor — spin up a single agent as an advisor for a second opinion, without delegating the work itself.\n/paseo-committee — form a committee of two contrasting agents to step back, do root cause analysis, and produce a plan.\nDevelopment\nQuick monorepo package map:\npackages/server: Paseo daemon (agent process orchestration, WebSocket API, MCP server)\npackages/app: Expo client (iOS, Android, web)\npackages/cli: paseo CLI for daemon and agent workflows\npackages/desktop: Electron desktop app\npackages/relay: Relay package for remote connectivity\npackages/website: Marketing site and documentation (paseo.sh)\nCommon commands:\n# run all local dev services\nnpm run dev\n# run individual surfaces\nnpm run dev:server\nnpm run dev:app\nnpm run dev:desktop\nnpm run dev:website\n# build the server stack\nnpm run build:server\n# repo-wide checks\nnpm run typecheck\nCommunity\npaseo-relay — self-hosted relay in Go\nSelf-hosted relay TLS\nSelf-hosted relays use ws:// unless TLS is opted in. For a relay behind nginx on 443, start the daemon with:\nPASEO_RELAY_ENDPOINT=127.0.0.1:8080 \\\nPASEO_RELAY_PUBLIC_ENDPOINT=relay.example.com:443 \\\nPASEO_RELAY_USE_TLS=true \\\npaseo daemon start\nEquivalent config:\n{\n\"daemon\": {\n\"relay\": {\n\"enabled\": true,\n\"endpoint\": \"127.0.0.1:8080\",\n\"publicEndpoint\": \"relay.example.com:443\",\n\"useTls\": true\n}\n}\n}\nMinimal nginx WebSocket proxy:\nserver {\nlisten 443 ssl;\nserver_name relay.example.com;\nssl_certificate /etc/letsencrypt/live/relay.example.com/fullchain.pem;\nssl_certificate_key /etc/letsencrypt/live/relay.example.com/privkey.pem;\nlocation /ws {\nproxy_pass http://127.0.0.1:8080;\nproxy_http_version 1.1;\nproxy_set_header Upgrade $http_upgrade;\nproxy_set_header Connection \"upgrade\";\nproxy_set_header Host $host;\n}\n}\nLicense\nAGPL-3.0",
+          "category": "tech",
+          "publishedAt": "2026-06-02T22:34:42.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "chopratejas/headroom (Python)",
+          "titleKo": "chopratejas/headroom (Python)",
+          "summary": "LLM에 도달하기 전에 컴파일러 출력, 로그, 파일, RAG 청크를 압축하여 토큰 사용량을 60-95% 줄이면서 동일한 답변을 유지하는 도구이다.",
+          "keyPoints": [
+            "라이브러리, 프록시, MCP 서버로 제공되며 다양한 환경에서 사용 가능",
+            "LLM 비용 절감과 처리 속도 향상으로 실용적 가치 제공"
+          ],
+          "whyItMatters": "LLM 기반 애플리케이션 개발 시 토큰 비용을 크게 절감할 수 있는 실용적 솔루션이다.",
+          "url": "https://github.com/chopratejas/headroom",
+          "sourceName": "GitHub Trending",
+          "engagement": 6290,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "chopratejasheadroom-python",
+          "category": "tech",
+          "publishedAt": "2026-06-02T23:38:00.087Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "QBE – Compiler Backend – 1.3",
+          "titleKo": "QBE – 컴파일러 백엔드 – 1.3",
+          "summary": "QBE 1.3은 새로운 IL 매칭 알고리즘, 성능 최적화, Windows ABI 지원, 위치 독립 코드 생성 등을 포함한 1.0 이후 가장 중요한 릴리스이다. CoreMark 벤치마크에서 gcc -O2의 63% 성능을 달성했으며, Hare 테스트 스위트에서는 33% 성능 향상을 이루었다.",
+          "keyPoints": [
+            "OCaml 기반 mgen 도구를 사용한 명령어 선택 최적화로 IL 패턴 매칭을 메타프로그래밍화",
+            "GVN/GCM, 루프 최적화, if-제거 등 다양한 최적화 기법 도입으로 성능 개선",
+            "Windows ABI 지원 추가 및 동적 상수(DYNCONST) 플래그를 통한 위치 독립 코드와 공유 객체 생성 지원"
+          ],
+          "whyItMatters": "저수준 언어 개발자에게 더 효율적인 컴파일 백엔드 선택지를 제공하고, 경량 컴파일러 구현의 성능 최적화 기법을 시연한다.",
+          "url": "https://c9x.me/compile/release/qbe-1.3.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 68,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "qbe-compiler-backend-13",
+          "fullContent": "QBE 1.3 took a while to cook, but it is the most significant release\nsince 1.0 with around 7k new lines of code and 1.5k deleted ones.\nIn addition to the usual bug fixes, QBE gained a new and original IL\nmatching algorithm, new optimizations from Roland Paterson-Jones,\nScott Graham added support for the Windows ABI, and I implemented a plan\nsuggested by Michael Forney to have QBE produce position-independent code\n(as in shared objects). QBE is teamwork, and I am happy to thank all the\ncontributors to this release. In the rest of the notes we will take a\ncloser look at some of the meat of the release.\nEvery once in a while, the QBE fly stings an outstanding programmer.\nThis time, Roland was the victim! Roland suggested we look at the\ncoremark benchmark\nto give us a concrete but simple playground to optimize. Initial\nmeasurements with qbe-1.2 revealed that we were far behind\nour “70% of gcc -O2” goal, closer to 40%.\nWe decided to address this for the 1.3 release.\nAn early inspection of profiling data revealed that the performance\ngap boiled down in large part to how two functions are treated:\nee_isdigit and\ncrcu8.\nInterestingly, these functions are not really idiomatic C; for instance,\nee_isdigit is typically inlined textually, uses\n&& instead of & and skips the\nsuperfluous ternary operator; as for CRC, it is best implemented\nusing a pre-computed table. This observation was a bit disappointing\nbecause, aside from QBE's lack of inlining, it did not point us to a\ngeneral source of overhead that would apply to other compilation\nloads. On the other hand, it is expected that CPU-bound\ncode spends a majority of time in compact code sections.\nNonetheless, we implemented numerous optimizations (GVN/GCM, loop\noptimization, if-elimination, CFG simplification, …) that\nwe could try on both coremark and more realistic usages like the\nHare test suite. In the end, we\ndecided to keep only a subset of vetted passes and now score more\nthan 63% of the performance of commercial compilers on vanilla\ncoremark. Notably, we excluded inlining from the optimizations set\nto postpone solving its incompatibility with the streaming per-function\ncompilation model of QBE. Modifying the coremark benchmark to inline\nthe ee_isdigit function and use a simpler branch-free\nimplementation of crcu8\nmakes QBE reach its 70% goal. The new optimizations should also\nbenefit Hare users: I measured a 33% improvement on the Hare\ntest suite against qbe-1.2 (1.7s vs 2.6s).\nSince its early days, QBE used a bottom-up tree-numbering algorithm\ninspired by Ken Thompson's Plan9\nC compiler (see 5.5. Addressability). The algorithm is fairly\ngeneric but has some subtleties in dealing elegantly with associativity\nand commutativity of arithmetic operators. It has been a long-standing\ngoal of mine to implement a metaprogramming solution to this problem.\nQBE 1.3 sees the realization of this goal.\nA new OCaml tool called mgen is used to compile lispy\nIL patterns into idiomatic C code that matches them. The mgen\ntool will look for special comment blocks containing IL patterns and\ninline the matching C code right below these blocks. The generated\nC code is designed to look idiomatic in qbe and works similarly to\nthe hand-written logic pre 1.3. See the\nisel.c\nfile for the current use of mgen.\nIn more detail, instruction DAGs are matched by following a numbering\napproach like in Ken Thompson's compiler. Then, mgen\nassociates each number with a bitset indicating which of the toplevel\nuser patterns are matched by the current IL node (temporary); the most\nsuitable pattern can then be selected by handwritten logic. Patterns\ncan include variables which can be collected by running a matcher\nprogram. These programs are also generated by mgen in a\nsimple bytecode language which the\nrunmatch()\nfunction can interpret.\nI expect that in the future mgen is used to simplify\ninstruction selection in more backends and maybe even to recognize\nIL patterns such as bit rotations in optimization passes.\nFor the 1.3 release, QBE also stung Scott Graham.\nScott generously upstreamed his implementation of the Windows ABI,\noriginally found in a fun derivative\nwork. The assembly generated by QBE remains AT&T syntax and is best\ncompiled by the mingw assembler, although I have not tried it myself on Windows.\nCompiling for Windows is now as simple as passing -t amd64_win\nto QBE.\nLast but not least, QBE improved its support for position-independent\ncode and is now able to link smoothly with and even produce shared objects on\nmost targets. The main blocker to date has been the lack of support for\nindirect access to globals (e.g., global offset table on ELF). This is now\npossible at the level of IL through the support of a new extern\n“dynamic constant” flag (DYNCONST in the IL spec).\nFor example, to access a variable dlvar from a dynamically-linked\nlibrary, one would use\nAnd, in case you wonder, we use the oxymoron “dynamic constant”\nto speak about address symbols (constant through execution) that can\nonly b",
+          "category": "tech",
+          "publishedAt": "2026-06-02T17:37:32.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Bringing Up DeepSeek-V4-Flash on AMD MI300X",
+          "titleKo": "AMD MI300X에서 DeepSeek-V4-Flash 실행",
+          "summary": "Doubleword 팀이 AMD MI300X 가속기에서 DeepSeek-V4-Flash 모델을 실행하려다 FP8 데이터 타입 비호환성, AITER 최적화 경로 부족, ROCm 성숙도 문제 등 여러 소프트웨어 장애물을 만났습니다. vLLM 및 관련 도구 개선을 통해 이를 해결했습니다.",
+          "keyPoints": [
+            "MI300X는 하드웨어 사양(192GB HBM3, FP8 컴퓨트)은 우수하지만 소프트웨어 지원 부족",
+            "fnuz FP8 방언과 OCP FP8 방언의 비호환성으로 vLLM의 기존 코드 미작동",
+            "AITER 튜닝된 커널의 불완전한 지원으로 제네릭 Triton 폴백 시 성능 저하"
+          ],
+          "whyItMatters": "AMD 가속기의 비용 대비 성능이 우수하지만, 프로덕션 배포 시 소프트웨어 호환성과 성능 최적화에 상당한 엔지니어링 노력이 필요합니다.",
+          "url": "https://fergusfinn.com/blog/deepseek-v4-flash-mi300x/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 71,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "bringing-up-deepseek-v4-flash-on-amd-mi300x",
+          "fullContent": "Bringing up DeepSeek-V4-Flash on AMD MI300X 1 Jun 2026 9 min read At Doubleword we are building an inference\ncloud designed for volume. To do that we have to reckon with the\nenveloping compute shortage.\nAMD’s MI300X launched in December 2023At AMD’s “Advancing AI” event, 6 December 2023. as AMD’s response to NVIDIA’s\nH100, arriving alongside H200 in the same generation. It is an odd duck\nin the world of high-end AI accelerators. While H100 prices are climbing\n(up 40% in five months on one-year rentals, with on-demand capacity sold\nout across every major NVIDIA partSemiAnalysis, The Great GPU Shortage: Rental Capacity, April 2026.), MI300X is perhaps still\nunderappreciated. 192GB of HBM3 per card against the H100’s 80GB,\ncomparable FP8 compute, list price roughly half. Yet you can rent one\non-demand today (from Hotaisle, for instance)\nfor noticeably less than the equivalent NVIDIA capacity.\nThe reason is software. The problems with running AI workloads on AMD have\nbeen written about\nelsewhere\nexhaustively, and there are signs the gap is closing on AMD’s newer chipsSemiAnalysis’s InferenceX dashboard tracks the latest AMD parts (MI350X, MI355X) against current NVIDIA generations..\nThat new focus on software hasn’t extended back to old parts. As of early May\n2026, running vLLM with DeepSeek-V4-Flash on MI300X just doesn’t work.\nOn paper MI300X is an excellent accelerator. We want it to work. This post is a\nworklog of all the sharp edges and winding paths we found when we tried to get\nit working.\nFP8 dialect§\nThe MI300X was part of the accelerator generation that kicked off the\nmarch toward lower bitwidths. LLM weights, and to a lesser extent\nactivations and KV caches, are less sensitive to numerical imprecision\nthan typical HPC workloads, so the Hopper generation of NVIDIA chips and\nthe first Instinct chips added hardware support for sub-16-bit precision\nfor the first time. The result is twice as many FLOPs applied to\nworkloads that correspondingly transfer half as much data.\nThe problem is that there was disagreement on the best way to build an\nFP8 datatype. Graphcore and AMD proposed one standard\nin a 2022 preprint, backed by\nQualcomm. Arm, Intel, and NVIDIA proposed another\nthrough the Open Compute Project. In a rehash of some of the forks in\nthe road that led to IEEE 754This interview with William Kahan\nis great read for how an arithmetic standard actually gets\nmade, including which arguments win and which are forgotten., different providers built in\ndifferent and incompatible behaviours.\nPerhaps unsurprisingly given the list of backers on each side, the\nAMD / Graphcore standard didn’t make it. AMD’s newer MI325, MI350, and\nMI355X chips all moved over to OCP-standard FP8. But MI300X still only\nworks in the fnuz dialectfnuz means “finite, nans, unsigned zero”, i.e. no -0 and no\ninf. These seem like sensible things to cut out for AI workloads at\nsmall floating-point range, where every bit matters, but the dialect\nnever quite took off, and later AMD generations went back to the more\nnormal-looking FP8., so the initial vLLM work that went into\nbringing up DeepSeek on AMD didn’t actually work for bringing DeepSeek\nup on MI300X.\nLots of vLLM’s FP8 paths are aware of e4m3 versus e5m2 but not of\nfnuz versus OCP. The two share their bit layout but differ in exponent\nbias by one, so the same byte read as the wrong dialect comes back off\nby exactly a factor of two. MI300X is the only major accelerator where\nthat distinction matters in practiceThroughout, we’ll note the relevant commits from the demo PRs in a public vLLM repo we put up for this post. 236de4e64 makes the\nDeepSeek v4 compressor and fused compress / quant / cache writes use the\nplatform FP8 dtype so scales and cache bytes agree, and\nbd06e5d87 routes the\nsliding-window K-cache through a fnuz-aware fused quantise-and-insert helper..\nMissing attention fast paths§\nDeepSeek v4’s attention is sparse. Each query attends to a top-k subset of the\nKV cache picked by a learned indexer, with sliding-window context\nhandled separately.\nIt’s got a lot of moving pieces: KV compression, the indexer, the\nsliding-window path, FP8 caches feeding each. In a production deployment for maximum\nperformance, each piece needs special attention (no pun intended) in the form of a\ntuned kernel.\nThe source of fast tuned kernels on AMD is AITER.\nAITER is AMD’s tuned-kernel library, roughly the analog of what NVIDIA\nusers get from cuBLAS, cuDNN, FlashAttention, and Transformer Engine\ncombined. vLLM falls back to generic Triton when AITER doesn’t have a\npath for a given shape, and generic Triton attention is several times\nslower than a tuned kernel. AITER’s coverage for DSV4 is uneven, and\nwhat coverage exists tends to target later AMD parts (CDNA4) rather\nthan the CDNA3 (gfx942) cores in MI300X.\nThe fallout from this has two different shapes. Some pieces are missing AITER paths\nentirely on gfx942: paged MQA logits, sparse MLA prefill, sparse MLA\ndecode. For each we need to put in a ROCm",
+          "category": "tech",
+          "publishedAt": "2026-06-02T17:52:48.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "reconurge/flowsint (TypeScript)",
+          "titleKo": "reconurge/flowsint - 사이버보안 조사를 위한 그래프 기반 시각화 플랫폼",
+          "summary": "사이버보안 분석가와 조사자를 위한 시각적이고 유연한 그래프 기반 조사 플랫폼입니다. TypeScript로 개발되었으며 확장 가능한 아키텍처를 제공합니다.",
+          "keyPoints": [
+            "시각적 그래프 인터페이스를 통해 복잡한 보안 조사 데이터를 직관적으로 표현",
+            "모듈식 구조로 기능 확장이 용이한 현대적 플랫폼"
+          ],
+          "whyItMatters": "보안 조사 워크플로우를 효율화하고 복잡한 데이터 관계를 시각적으로 파악할 수 있어 분석 생산성 향상에 도움이 됩니다.",
+          "url": "https://github.com/reconurge/flowsint",
+          "sourceName": "GitHub Trending",
+          "engagement": 4486,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "reconurgeflowsint-typescript",
+          "category": "tech",
+          "publishedAt": "2026-06-02T23:38:00.090Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "nesquena/hermes-webui (Python)",
+          "titleKo": "Hermes WebUI: 웹 및 모바일에서 Hermes Agent를 사용하는 최고의 방법",
+          "summary": "Hermes Agent를 웹 브라우저 및 모바일 환경에서 사용할 수 있게 해주는 WebUI 프로젝트입니다.",
+          "keyPoints": [
+            "웹과 모바일에서 Hermes Agent 접근 가능",
+            "사용자 친화적인 인터페이스 제공"
+          ],
+          "whyItMatters": "AI 에이전트를 더 접근성 높은 환경에서 활용할 수 있게 합니다.",
+          "url": "https://github.com/nesquena/hermes-webui",
+          "sourceName": "GitHub Trending",
+          "engagement": 12512,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "nesquenahermes-webui-python",
+          "category": "tech",
+          "publishedAt": "2026-06-02T23:38:00.089Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "stefan-jansen/machine-learning-for-trading (Jupyter Notebook)",
+          "titleKo": "Machine Learning for Trading (2판 코드)",
+          "summary": "알고리즘 트레이딩을 위한 머신러닝 기법을 다룬 2판 책의 실습 코드를 제공합니다.",
+          "keyPoints": [
+            "알고리즘 트레이딩 구현 예제 포함",
+            "머신러닝 금융 응용 학습 자료"
+          ],
+          "whyItMatters": "금융 기술 분야 개발자가 머신러닝 기반 거래 시스템 구축을 학습할 수 있습니다.",
+          "url": "https://github.com/stefan-jansen/machine-learning-for-trading",
+          "sourceName": "GitHub Trending",
+          "engagement": 18437,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "stefan-jansenmachine-learning-for-trading-jupyter-notebook",
+          "category": "tech",
+          "publishedAt": "2026-06-02T23:38:00.091Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Jupyter Notebook"
+          ]
+        },
+        {
+          "title": "D4Vinci/Scrapling (Python)",
+          "titleKo": "D4Vinci/Scrapling - 적응형 웹 스크래핑 프레임워크",
+          "summary": "단일 요청부터 대규모 크롤링까지 다양한 규모의 웹 스크래핑을 처리하는 Python 기반 적응형 프레임워크입니다.",
+          "keyPoints": [
+            "단순한 요청부터 복잡한 대규모 크롤링까지 확장 가능한 구조",
+            "적응형 메커니즘으로 다양한 웹 환경에 대응"
+          ],
+          "whyItMatters": "웹 데이터 수집이 필요한 프로젝트에서 유연하게 사용할 수 있는 도구이며, 복잡한 스크래핑 작업을 단순화할 수 있습니다.",
+          "url": "https://github.com/D4Vinci/Scrapling",
+          "sourceName": "GitHub Trending",
+          "engagement": 59120,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "d4vinciscrapling-python",
+          "category": "tech",
+          "publishedAt": "2026-06-02T23:38:00.089Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Open-LLM-VTuber/Open-LLM-VTuber (Python)",
+          "titleKo": "Open-LLM-VTuber - 로컬 LLM 기반 음성 대화형 가상 아바타",
+          "summary": "LLM과 음성 상호작용으로 대화하고 Live2D 아바타를 로컬에서 구동하는 크로스플랫폼 프로젝트입니다. 음성 중단(interruption) 기능을 지원합니다.",
+          "keyPoints": [
+            "음성 입력/출력으로 완전한 핸즈프리 상호작용 가능",
+            "Live2D 아바타와 로컬 LLM을 결합한 통합 경험 제공"
+          ],
+          "whyItMatters": "LLM 기반 음성 인터페이스 개발 시 참고할 수 있는 오픈소스 구현 예제이며 프라이버시가 중요한 애플리케이션 개발에 유용합니다.",
+          "url": "https://github.com/Open-LLM-VTuber/Open-LLM-VTuber",
+          "sourceName": "GitHub Trending",
+          "engagement": 8324,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "open-llm-vtuberopen-llm-vtuber-python",
+          "category": "tech",
+          "publishedAt": "2026-06-02T23:38:00.092Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Gleam v1.17.0",
+          "titleKo": "Gleam v1.17.0",
+          "summary": "Gleam v1.17.0은 BEAM escripts 지원, 하이라이트 레퍼런스, 상수 todo 표현식, 레코드 업데이트 호버링, 미알려진 값 임포트 제안 등의 기능을 추가했다.",
+          "keyPoints": [
+            "gleam export escript 명령으로 Erlang VM의 단일 파일 배포 지원 추가로 CLI 프로그램 배포 단순화",
+            "IDE 기능 강화: 변수 레퍼런스 하이라이팅, 레코드 업데이트 필드 정보 표시, 임포트 제안",
+            "상수 표현식에서 todo 사용 가능으로 타입 체크 정확성 향상"
+          ],
+          "whyItMatters": "Erlang/Elixir 개발자에게 더 나은 개발 경험과 배포 편의성을 제공한다.",
+          "url": "https://gleam.run/news/single-file-gleam-beam-programs-with-escript/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 57,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "gleam-v1170",
+          "fullContent": "Gleam is a type safe and scalable language for the Erlang virtual machine and\nJavaScript runtimes. Today Gleam v1.17.0 has been published.\nGleam Gathering\nBut first: the first videos from the first ever all-Gleam conference have been\nreleased! You can view them on the Gleam Gathering YouTube account.\nThe event was a roaring success and loads of fun. Stay tuned for news of the\nnext one in 2027!\nRight, back to the release coverage.\nBEAM escripts\nWhen running on the Erlang virtual machine Gleam code is compiled to a series\nof .beam files, each of which contains the bytecode for a single Gleam module.\nThis works fine for programs distributed or installed using package managers,\ncontainers, or other such systems, but having many files to share is a little\ninconvenient for sharing small command-line programs.\nIn the JavaScript world this problem is solved using a \"bundler\", a program\nthat takes many JavaScript modules and combines them into a single file. This\nsingle file can be copied to and run on any computer that has a JavaScript\nruntime installed (such as NodeJS, Deno, or Bun). Erlang has a similar\nsolution: escripts. Much like a JavaScript bundle, an escript is a single file\nthat contains all the modules of a program in the form of pre-compiled\nbytecode, and it can be run on any computer that has Erlang installed.\nThe Erlang build tool has a convenient command for creating an escript, but for\nGleam programmers the escript creation process has not been as straightforward.\nThis release brings the gleam export escript command, which will compile the\nproject, verify it has a valid main function, and build the escript file\nfrom the compiled bytecode.\nlouis ~/src/my_project $ gleam export escript\nCompiling gleam_stdlib\nCompiling my_project\nCompiled in 0.48s\nYour escript has been generated to /home/louis/src/my_project/my_project.\nlouis ~/src/my_project $ ./my_project\nHello from my_project!\nHighlight references\nGleam's language server provides IDE functionality for all editors that\nimplement the language server protocol. This release adds support for the\ntextDocument/documentHighlight feature, highlighting all references to a\nselected variable.\nFor example, in this code triggering it with the cursor over any instance of\nvec will result in these highlights:\nfn to_cartesian(vec) {\nlet x = vec.rho * cos(vec.theta)\nlet y = vec.rho * sin(vec.theta)\n#(x, y)\n}\nThank you Gavin Morrow for this addition!\nConstant todo expressions\nGleam's todo keyword is a placeholder expression that programmers can use\nwhen they have not-yet-finished code they wish to type-check or run. At compile\ntime it outputs a warning to say that the code is incomplete, and if the code\npath with the todo expression is run then it will panic, exiting the program.\ntodo can now also be used in constant expressions. Since constant expressions\nare evaluated at compile time, when todo is used in a constant the program\ncan no longer be run, but it can still be type checked and analysed.\nThis has also enabled us to upgrade the \"Fill labels\" code action so that it\nworks with constants too. When run it fills in the missing labelled arguments\nfrom a record constructor. For example:\npub type Pokemon {\nPokemon(number: Int, name: String, hp: Int)\n}\npub const cleffa = Pokemon(number: 173)\nIn this code snippet we haven't specified the name and hp fields, that's\nan error! Triggering the \"Fill labels\" code action will result in the\nfollowing:\npub const cleffa = Pokemon(number: 173, name: todo, hp: todo)\nThank you Giacomo Cavalieri!\nRecord update hovering\nHovering in your editor is a great way to gleam more information, with the\nlanguage server showing the types, documentation, and other details of whatever is being\nhovered over.\nGleam's record update syntax is used to create a new record from an existing\none, but with some fields updated with new values. When hovering over one of\nthese the language server will now also show the remaining fields that have not\nbeen given new values, saving you from navigating to the definition to see what\nothers you could set new values for.\npub type Person {\nPerson(name: String, age: Int)\n}\npub fn happy_birthday_mom() {\nlet mom = Person(name: \"Antonella\", age: 60)\nPerson(..mom, age: 61)\n}\nThank you Giacomo Cavalieri!\nUnknown value import suggestions\nIn Gleam functions from other modules are almost always used in a qualified\nfashion, written as dict.fold rather than just fold. This is done so it is\nclearer to the reader where the function is defined and what it does, and to\nprevent redundant suffixes being added to function names to indicate what type\nthey work with.\nSometimes the programmer may forget to write the module qualifier, resulting in\na compile error due to there being no value with that name in scope. When this\nhappens the compiler will now search in the imported modules for an appropriate\nvalue with that name, and suggest it as a position correction.\nFor example, for this invalid program:\nimport gleam/io\npub fn main() -> Nil ",
+          "category": "tech",
+          "publishedAt": "2026-06-02T22:16:20.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Why Janet? (2023)",
+          "titleKo": "Janet를 선택한 이유",
+          "summary": "Janet는 간단하고 배우기 쉬운 Lisp 방언으로, 네이티브 바이너리로 배포 가능하며 텍스트 파싱과 임베딩에 우수한 특성을 갖추고 있다. 저자는 사이드 프로젝트용 주요 언어로 Janet을 사용해왔으며, Janet의 장점을 설득하기 위해 무료 책을 작성했다.",
+          "keyPoints": [
+            "Janet은 8가지 핵심 명령어만으로 구성되어 있어 오후 만에 배울 수 있으며, 마크로를 통해 고수준의 제어 흐름을 제공한다.",
+            "Janet 프로그램은 런타임을 C 파일에 임베딩하여 1MB 미만의 네이티브 바이너리로 컴파일되므로 의존성 없이 배포 가능하다.",
+            "파싱 표현 문법(PEG)을 기반으로 정규식보다 강력하고 예측 가능한 텍스트 처리가 가능하며, 서드파티 sh 라이브러리로 우수한 서브프로세스 DSL을 제공한다."
+          ],
+          "whyItMatters": "Janet은 CLI 애플리케이션, 임베딩 언어, 스크립팅용 경량 대안으로 고려할 가치가 있는 실용적인 선택지를 제공한다.",
+          "url": "https://ianthehenry.com/posts/why-janet/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 420,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "why-janet-2023",
+          "fullContent": "April 12, 2023\nWhy Janet?\nI never thought it could happen to me. I mean, parentheses? In this day and age? But for the past couple years, my go-to programming language for fun side projects has been a little Lisp dialect called Janet.\n(print \"hey janet\")\nI like Janet so much that I wrote an entire book about it, and put it on The Internet for free, in the hopes of attracting more Janetors to the language.\nI think you should read it, but I know that you don’t believe me, so I’m going to try to convince you. Here’s my attempt at a sales pitch: here is why you – you of all people – should give Janet a chance.\nJanet is simple\nJanet is an imperative language with first-class functions, a single namespace for identifiers, and lexical block scoping. The core of the language is very small, consisting of only eight instructions: do, def, var, set, if, while, break, fn. But thanks to macros, there are lots of high-level wrappers that give you more powerful or convenient control flow.\nYou can “learn” Janet in an afternoon, because the runtime semantics are extremely familiar: think JavaScript, plus value types, minus all the wats. And the rest of the language is small: the entire standard library fits on one page. It was this ease of getting started that got me hooked in the first place.\nJanet is distributable\nIt’s easy to compile Janet programs into native executables that statically link the Janet runtime. And you can share those programs with other people, without asking them to install Janet first – or your project’s dependencies, or anything else for that matter. You don’t even have to tell them it’s written in Janet!\nThe way that Janet pulls this off is very elegant: Janet compiles itself to bytecode, and then writes that bytecode into a .c file that also starts up the Janet runtime. Then it compiles that C file with your system’s C compiler. Since Janet is designed to be easy to embed, this makes perfect sense: it is, essentially, embedding itself into a trivial C executable.\nA simple Janet “hello world” compiled to a native binary weighs under a megabyte (784K for Janet 1.27.0 on aarch64 macOS, but your mileage may vary). This includes the full Janet runtime, garbage collector, and even the bytecode compiler – so you can write programs that evaluate Janet code at runtime, if you want to.\nThis makes Janet an excellent choice for writing little command-line apps. Which is especially true when you consider that…\nJanet is unrealistically good at parsing text\nInstead of regular expressions, Janet’s text wrangling is based around parsing expression grammars. Parsing expression grammars are simpler, more powerful, and more predictable than regular expressions. They aren’t line-oriented, so they can parse multi-line text without a problem. They can also parse HTML, or JSON, or any other non-regular language. They can also parse binary file formats – they have no problems with arbitrary null bytes.\nThey really are parsers: structured, composable, first-class parsers. And they’re pretty easy to learn!\nJanet has the best subprocess DSL of any high-level language\nThere is a third-party library called sh that provides a shell scripting DSL that allows you to express pipes and redirects directly in Janet. Like this:\n($ find . -name *.janet | say)\nIt’s pretty incredible. It’s such a nice DSL that I dedicated a whole chapter of Janet for Mortals to it – and the things that you can do with it. It elevates Janet from a reasonable alternative to Perl to a reasonable alternative to Bash for a surprisingly large range of programs.\nJanet is embeddable\nLua has become the de facto “embedded language,” which is a shame, because… well, this isn’t a post about Lua. You might not care about this very much, but there’s a chance that it’s just because you haven’t tried it yet: being able to write progams that expose scripting interfaces is a pretty fun superpower.\nEmbedding Janet is very easy: the Janet runtime is a small C library, and all you have to do is link it in and then call regular C functions to manipulate Janet values. You can even embed it into websites, and write static sites with custom programmable DSLs!\nJanet has mutable and immutable collections\nJanet’s collection types come in mutable and immutable flavors. Immutable collections have value semantics: the immutable vector [1 2] is indistinguishable from (take 2 [1 2 3]), despite the fact that they have different memory addresses. Mutable collections, on the other hand, have reference semantics: the hash table @{:x 1 :y 2} is only equal to itself. Another hash table with the same keys and values is a distinct object.\nNot every language has immutable composite values built right into the standard library!\nMacros, macros, macros\nI think this is the real reason you should learn Janet, but I didn’t want to lead with it because I didn’t want to scare you off.\nYou can write Janet just fine without ever learning how to write macros. But you should learn how, because writing macros",
+          "category": "tech",
+          "publishedAt": "2026-06-02T09:34:31.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Use your Nvidia GPU's VRAM as swap space on Linux",
+          "titleKo": "Linux에서 Nvidia GPU의 VRAM을 스왑 공간으로 사용하기",
+          "summary": "nbd-vram은 Nvidia GPU의 VRAM을 Linux 스왑 공간으로 활용하는 도구로, 네트워크 블록 디바이스(NBD) 프로토콜을 통해 GPU 메모리를 시스템 메모리로 노출시킨다. RTX 3070 노트북에서 테스트 결과 7GB VRAM을 할당했을 때 약 1.3GB/s의 순차 처리량을 달성했다.",
+          "keyPoints": [
+            "CUDA 드라이버 API로 VRAM을 할당하고 NBD 프로토콜로 블록 디바이스로 제공하므로, 커널 모듈 작성이나 NVIDIA 드라이버 업데이트 후 재빌드가 필요 없다.",
+            "NVIDIA P2P API 대신 NBD 방식을 사용하여 consumer GPU의 EINVAL 제한을 우회하고, cuMemcpyHtoD/DtoH로 모든 CUDA GPU에서 동작한다.",
+            "RAM → VRAM(PCIe) → zram(압축) → SSD 순서로 메모리를 사용하여 노트북의 메모리 제약을 실질적으로 3배 이상 확장할 수 있다."
+          ],
+          "whyItMatters": "메모리 업그레이드가 불가능한 노트북 사용자는 유휴 GPU VRAM을 활용하여 성능 저하 없이 시스템 메모리를 크게 확장할 수 있다.",
+          "url": "https://github.com/c0dejedi/nbd-vram",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 26,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "use-your-nvidia-gpus-vram-as-swap-space-on-linux",
+          "fullContent": "nbd-vram\nUse your NVIDIA GPU's VRAM as swap space on Linux.\nBuilt for laptops with soldered memory and no upgrade path. If you have an RTX card sitting there with 8GB of VRAM and you're getting swapped to SSD, this puts that VRAM to work.\nTested on: RTX 3070 Laptop (GA104M, 16 GB physical, 8 GB VRAM), driver 580.159.03, kernel 6.17, Pop!_OS. Allocated 7 GB for swap. End result including zram and SSD swap ~46 GB, tripled the addressable memory. Overflow order is: RAM fills, then VRAM absorbs spill (fast, PCIe), then zram compresses the rest (CPU), then SSD only if everything else is exhausted.\nHow it works\nA small daemon allocates VRAM via the CUDA driver API, then serves it as a block device using the NBD (Network Block Device) protocol over a Unix socket. The kernel's built-in nbd driver connects to it and exposes /dev/nbdX. From there it's a normal swap device.\nData path: kernel swap subsystem - /dev/nbdX - nbd kernel driver - Unix socket - nbd-vram daemon - cuMemcpyHtoD/DtoH - GPU VRAM.\nNo kernel module to write or maintain. No NVIDIA kernel symbols. Survives kernel and driver updates without rebuilding anything.\nWhy not the NVIDIA P2P API?\nThe \"obvious\" approach is nvidia_p2p_get_pages_persistent, which pins VRAM pages in BAR1 so the CPU can access them directly via ioremap_wc. Every existing project that tried this route hits the same wall: the NVIDIA driver returns EINVAL on consumer GeForce GPUs. Both the persistent and non-persistent variants, both flag values. It's gated at the RM level for Quadro/datacenter SKUs only, regardless of driver version.\nThe other approach - directly ioremap_wc the BAR1 physical address without going through the P2P API - also doesn't work. The GPU's internal page tables only have ~16 MiB of BAR1 mapped (just the display framebuffer). Reads from the rest return zeros. mkswap appears to succeed, then swapon fails because the swap header isn't actually there.\nThe NBD approach sidesteps all of this. cuMemcpyHtoD and cuMemcpyDtoH work on any CUDA GPU without any special permissions.\nRequirements\nNVIDIA GPU with CUDA support (any consumer RTX/GTX card)\nNVIDIA driver with libcuda.so.1 (no CUDA toolkit needed)\nLinux kernel 3.0+ (nbd module, built into most distros)\nnbd-client package\ngcc, make\nInstall\ngit clone https://github.com/c0dejedi/nbd-vram\ncd nbd-vram\nsudo ./install.sh\nsudo systemctl start vram-swap-nbd\nVerify:\nswapon --show\n# NAME TYPE SIZE USED PRIO\n# /dev/nbd0 partition 7G 0B 1500\nThe service is enabled on install, so it comes up automatically on every boot.\nConfiguration\nEdit /etc/systemd/system/vram-swap-nbd.service:\nEnvironment=VRAM_SETUP_SIZE_MB=7168 # how much VRAM to use\nEnvironment=VRAM_SWAP_PRIORITY=1500 # swap priority (higher = used first)\nThe daemon tries the requested size first and backs off in 512 MiB steps if the GPU is short on memory - so it will grab as much as it can even if the display compositor is already loaded. VRAM_SETUP_SIZE_MB is the ceiling, not a hard requirement.\nAfter changing, run sudo systemctl daemon-reload && sudo systemctl restart vram-swap-nbd.\nPower management\nThe installer asks whether to enable power-aware management on first install. If enabled, the service automatically stops when you unplug from AC (or when battery drops below a threshold), and restarts when power is restored. Manual systemctl stop is always respected and won't be overridden.\nTo change settings after install, edit /etc/nbd-vram.conf. Changes take effect on the next poll (within 60 seconds) or immediately on the next AC plug/unplug event.\nSmoke test (without installing)\nsudo bash test-nbd.sh\nAllocates VRAM, connects the NBD device, does a 1 MiB write/readback check, activates swap, then prints teardown instructions. install.sh handles teardown automatically if a test instance is running.\nTo stress the full partition after the smoke test passes:\nsudo bash test-fill.sh\nWrites the entire VRAM partition with zeros, verifies a sample read back, then auto-restores swap on exit.\nPerformance\nMeasured on RTX 3070 Laptop via test-fill.sh (7 GiB sequential write, 4M blocks):\nSequential throughput: ~1.3 GB/s\nLatency is lower than NVMe since the path goes through PCIe to GPU rather than storage\nFor laptops already using zram, set VRAM swap at a higher priority so it absorbs overflow before hitting SSD.\nUninstall\nsudo bash uninstall.sh\nLicense\nMIT - Sean Lobjoit (c0dejedi)",
+          "category": "tech",
+          "publishedAt": "2026-06-02T22:55:33.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: Live breath detection and biofeedback from a phone microphone",
+          "titleKo": "휴대폰 마이크로폰으로 호흡 감지 및 생체피드백 라이브 구현",
+          "summary": "shiihaa는 휴대폰 마이크로폰만으로 호흡 위상(흡입, 호출, 전환, 보유)을 실시간으로 감지하고 생체피드백을 제공하는 웰니스 도구이다. 신호 처리, 호흡 상태 머신, 데이터 품질 검증 계층으로 구성되어 있으며, 원본 오디오는 기기에서만 처리된다.",
+          "keyPoints": [
+            "세 가지 계층(신호 처리 → 상태 머신 → 품질 검증)으로 구성되어 실제 호흡 위상 전환을 순간적 노이즈와 구별하고, 불확실한 윈도우는 추측하지 않고 거절한다.",
+            "규칙 기반 파이프라인이 실시간 경험을 구동하고 머신러닝은 블랙박스가 아닌 품질 검증 예제로 피드백과 모델을 개선하는 데만 사용된다.",
+            "의료 기기가 아닌 웰니스/자기 인식 도구이며, 마이크 기반 호흡 감지는 웨어러블 기반보다 정확도가 낮으므로 임상 검증 연구를 진행 중이다."
+          ],
+          "whyItMatters": "스마트폰만으로 착용식 기기 없이 호흡 피드백을 통해 자기 인식을 높일 수 있으며, 향후 개인 공명 범위 적응형 호흡 유도로 확장 가능한 접근 방식을 제시한다.",
+          "url": "https://github.com/shiihaa-app/shiihaa-breath-detection",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 19,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-live-breath-detection-and-biofeedback-from-a-phone-microphone",
+          "fullContent": "shii·haa breath detection\nLive breath detection and biofeedback using a phone microphone.\nCan an app use breathing feedback to increase self-awareness instead of becoming another distraction?\nThat question is the reason this project exists. Most \"mindfulness\" software ends up competing for attention rather than handing it back. We wanted to know whether the phone could do the opposite: stay quiet, listen to how you breathe, and reflect it back closely enough that you notice your own pattern, without a wearable, without a coach, without turning it into a game.\nThe hard part is the listening. A phone microphone in a real room is a messy signal: room tone, traffic, a fan, the phone resting on fabric, the person shifting position. Out of that, we try to recover where one breath ends and the next begins, and which phase you are in right now.\nWhat it does\nReads audio from the phone microphone and processes it on-device.\nEstimates the current breathing phase (inhale, exhale, and the transitions and holds between them) and tracks completed breath cycles.\nDrives biofeedback: the interface responds to the breath in close to real time, so the signal you see or feel is your own.\nWhat it does not do\nNo speech analysis. The pipeline works on the envelope and spectral shape of breathing, not on words. It is not built to recognise or transcribe anything you say.\nNo raw audio upload. Audio is analysed locally. The raw microphone stream does not leave the device.\nHow it works, roughly\nThree layers sit on top of the raw microphone signal:\nSignal processing. The audio stream is cut into short overlapping windows. For each window we derive an amplitude/energy measure and basic spectral features (where the energy sits in frequency, where the peaks are). Inhale tends to be more turbulent and higher in the spectrum; exhale tends to be lower and smoother. None of this is reliable on a single window; it only becomes useful across a sequence.\nA breathing state machine. Phase isn't decided per window in isolation. A small state machine tracks the current phase and the plausible transitions out of it (inhale → exhale, exhale → hold, and so on), using adaptive thresholds that recalibrate as ambient conditions drift. This is what lets the system distinguish a genuine phase change from a momentary dip or spike.\nA data-quality layer. Before a window is allowed to influence the output, it has to pass quality checks. Windows that are too noisy, too quiet, or acoustically ambiguous are rejected rather than guessed. The point is to fail honestly: a brief \"not sure\" is better than a confident wrong phase that the user can feel is wrong.\nMachine learning is part of the picture, but in a deliberately bounded way: it is used to sharpen feedback and to improve the model over time from quality-checked examples, not as a black box that the whole detection depends on. The rule-based pipeline is what runs the live experience; ML refines it.\nA lot of the work is in the unglamorous part: handling real-world mobile audio quirks. Different phones, different microphone placements, the device flat on a table versus held in a hand, sudden transient sounds, automatic gain control fighting you. Most of the engineering effort went here rather than into the \"interesting\" signal-processing core.\nStatus and honesty about limits\nThis is a working approach that runs in a shipped app, not a finished science result. Microphone-only breath detection in uncontrolled conditions is genuinely hard, and published smartphone-only systems sit well below wearable-based ones. We are running a validation study against clinical ground truth to find out how good this actually is, and where it breaks. The method note and the research pitch in docs/ describe that in more detail, including the things we explicitly do not claim.\nIt is a wellness and self-awareness tool, not a medical device.\nWhere this connects to guided breathing\nBreath detection isn't the end in itself; it's the feedback channel. During a session, the detected phase and how steady your breathing is can be reflected back to you in the moment, and that same signal can inform classical breathing designs: a preset can hint at when your pace has settled or drifted, instead of just counting seconds at you.\nThe longer-term loop we're working toward is a personal resonance range: roughly, the slow breathing pace at which your own physiology settles most, often somewhere near six breaths a minute but individual. Detected breath stability, optionally combined with heart rate or HRV when a sensor is available, gives the raw material to estimate that range over time and feed it back into the guided patterns, so the pacing adapts to you rather than to a fixed number.\nThis is a direction, not a finished feature, and not a clinical claim. We don't diagnose anything, and we don't promise an optimised state, only that the same detection layer can make guided breathing a little less generic.\nDocs\ndocs/method.md — how the detection pip",
+          "category": "tech",
+          "publishedAt": "2026-06-02T16:02:47.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "Now AI agents need what RSS does",
+          "titleKo": "AI 에이전트가 RSS가 필요한 이유",
+          "summary": "RSS는 2013년 Google Reader 종료 후 죽은 것으로 보였지만, AI 에이전트의 등장으로 RSS의 가치가 재평가되고 있습니다. 팟캐스트 산업이 여전히 RSS를 사용하고 있으며, AI 에이전트도 동일한 특성(결정론적 콘텐츠 목록, 구조화된 형식, 속도 제한 없음, 인증 없음)을 필요로 합니다.",
+          "keyPoints": [
+            "팟캐스트 산업의 $25B 규모가 2002년의 RSS 프로토콜 위에서 운영되고 있으며, 인간 중심 알고리즘 방식의 소셜 플랫폼이 이를 대체하지 못함",
+            "AI 에이전트는 변수적 보상 일정이 아닌 결정론적이고 구조화된 콘텐츠 피드를 요구하므로, RSS가 소셜 API보다 에이전트 친화적"
+          ],
+          "whyItMatters": "AI 에이전트 기반 애플리케이션을 개발할 때 신뢰성 있는 콘텐츠 수집을 위해 RSS 피드 구현의 중요성이 높아지고 있습니다.",
+          "url": "https://julienreszka.com/blog/rss-is-back-ai-agents-are-reading-it/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 39,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "now-ai-agents-need-what-rss-does",
+          "fullContent": "Google Reader died in 2013 and everyone called it. But RSS never stopped powering podcasting, and now AI agents need exactly what RSS does.\n100% Share of podcast episodes distributed via RSS, a protocol from 2002 that the $25B podcast industry never replaced Apple Podcasts Connect; Podcast Standards Project\nRSS was declared dead in 2013 when Google shut down Reader. The eulogies were premature and wrong about the cause. RSS never stopped working. It stopped being the primary way humans discovered content, because social algorithms offered something RSS could not: the addictive randomness of a variable reward schedule. Humans find that irresistible. Agents do not.\nAn AI agent that monitors competitor releases, tracks regulatory changes, or summarises research does not want to be surprised. It wants:\na deterministic list of what is new\na structured format it can parse without guessing\nno rate limits tied to an advertising relationship\nno authentication wall protecting public content\nRSS provides all four. Social platform APIs provide none of them. When they do, they revoke access on a quarterly basis and charge for it. An RSS feed is pull-based, open, and consistent in a way that no algorithm is designed to be, because an algorithm's job is to be inconsistent.\nThe clearest evidence that RSS was never really dead is podcasting. Every podcast app (Spotify, Apple, Overcast, Pocket Casts) pulls episode files and metadata from RSS feeds. The $25 billion podcast industry runs on a protocol published in 2002. Nobody disrupted it because there was nothing to disrupt: open, free, no middleman, nothing to negotiate access to. The episode is at the URL in the feed, always has been.\nThe same logic will now extend to any written content that agents need to reliably consume. A language model retrieving context for a user query, a monitoring agent checking for new filings, a summarisation tool ingesting newsletters: all of them benefit from a predictable, structured, chronological list of new content. That is all RSS is. The question is whether your content is reachable that way, or whether it lives inside a system that was designed for human attention and actively degrades programmatic access.\nMyth: RSS is dead and content discovery happens on social platforms nowPodcast Standards Project; RSS Advisory Board\nPublish an RSS feed for your content if you don't have one. Agents that monitor sources in your niche will find structured feeds before they find algorithm-dependent pages.\nSubscribe to get new posts by email →",
+          "category": "insight",
+          "publishedAt": "2026-06-02T20:19:11.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Age verification for social media, the beginning of the end for a free internet?",
+          "titleKo": "소셜 미디어 나이 인증, 자유로운 인터넷의 끝의 시작인가?",
+          "summary": "나이 인증은 아동 보호라는 명목으로 시행되지만, 실제로는 신원 확인을 통해 정부가 인터넷을 통제하는 기반을 마련하는 것이다. 호주, 인도네시아, 브라질에서 이미 시행 중이며, 유럽연합과 미국을 포함한 전 세계적으로 확산되고 있다.",
+          "keyPoints": [
+            "나이 인증의 실제 형태는 신원 확인이며, 대부분의 시스템에서 사용자는 서비스나 제3자에게 신원을 증명해야 하고, 이 정보는 상업적 합의나 정부와 공유될 수 있다.",
+            "신원 확인 의무화로 인해 규제 웹사이트 익명 방문, 소셜 미디어 익명 게시가 불가능해지므로, 정부 비판이 위험한 국가에서 활동가는 중요한 도구를 잃게 된다.",
+            "표현의 자유는 직접적 억압뿐만 아니라, 개인 결과를 초래할 수 있다는 인식으로 인한 자기검열(chilling effect) 효과로도 위협받는다."
+          ],
+          "whyItMatters": "나이 인증 제도는 아동 보호보다 정부 감시 체계 구축을 목표로 하며, 개발자와 활동가는 익명성 침해와 표현의 자유 제약을 이해해야 한다.",
+          "url": "https://mullvad.net/en/blog/age-verification-for-social-media-the-beginning-of-the-end-for-a-free-internet",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 450,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "age-verification-for-social-media-the-beginning-of-the-end-for-a-free-internet",
+          "fullContent": "Age verification for social media – the beginning of the end for a free internet? June 1, 2026 Privacy  So-called age verification for social media is spreading across the world, framed as an effort to create a safer internet for children. In reality, age verification lays the foundation for a fully government controlled internet.\nCountries around the world are moving to introduce online age verification. Part of this involves age verification for harmful content (most often pornography, sometimes video games), but above all it focuses on banning social media for children.\nThe big tech social media companies are bad. Their business model is bad; it is based on mass surveillance and manipulation, and they cooperate with governments in mapping entire populations. But age verification is fundamentally the wrong approach to preventing children from using big tech social media platforms. Introducing age verification is based on the state being able to force social media companies to verify their users’ identities. But the big tech social media platforms already know which of their users are children. Their business model depends on knowing this. They know how old users are, who their friends are and what ice cream they like. As age verification is based on coercion of the social media platforms, politicians could instead force them to stop doing the things politicians consider harmful to children, or force them to block children (again, they know who they are) from using their services. But instead, politicians seek to massively invade everyone’s privacy and undermine democratic rights on a global scale. In other words, the latter is the real objective – they do not want to protect children; they want to impose control.\nAnd impose it they do. Australia has already introduced a social media age restriction for users under 16. The same applies to Indonesia and Brazil. Age restrictions have been approved but not yet implemented in Denmark, Portugal, and Malaysia. In France, an agreement has been reached, though details are still being discussed. Proposals are on the table in Spain and Turkey. In Germany, the major parties agree on introducing age restrictions, and in Sweden the issue is under investigation. The topic is also being discussed in countries such as the Czech Republic, Greece, Austria, Poland, Canada, Slovenia, and the Netherlands. In April 2026, the European Commission launched an EU age verification app, and one month later Ursula von der Leyen presented plans for EU-wide age restrictions. In the United States, half of all states either have pending legislation or have already introduced laws imposing age restrictions for inappropriate content and/or social media. The number of countries preparing age verification measures is growing rapidly. Updates can be followed on Techpolicy.press.\nMost age verification is identity verification\nAs age verification is currently being rolled out, it is up to individual websites and services to implement it as they see fit. As a result, the quality of age verification measures varies greatly. This became clear in the autumn of 2025, when Discord was hacked, exposing the ID documents of 70,000 users. However, there is one common factor in most age verification systems (Zero-Knowledge Proof being an exception, more on that below): if age verification is introduced, everyone will have to identify themselves either to the service/website they want to use or to a third party capable of linking them to their activity on that service/website. The correct term for age verification as it is implemented today is therefore identity verification. Given today’s internet infrastructure, it is unreasonable to assume that this information will not be shared through commercial agreements or with governments.\nThe consequence of introducing identity verification is therefore that freedom of information is restricted (you can no longer visit regulated websites anonymously) and that you can no longer post anonymously on social media. You cannot be certain that your criticism of the government will not be followed up by the authorities. You can no longer start a digital initiative on a social media platform aimed at gathering people to criticize an authority without facing a significant risk of consequences. Depending on the country you live in, this could even endanger your life. In its current form, social media identity verification removes important tools for activists in countries where criticizing those in power is dangerous.\nFreedom of expression is threatened not only in a direct sense (you post something and then the police knock on your door), identity verification also creates a chilling effect. It becomes a cornerstone of censorship machinery in the sense that people begin to self-censor if they know that expressing opinions may have personal consequences. This is also something that changes over time. What is considered acceptable to post online is determined by whoever curr",
+          "category": "insight",
+          "publishedAt": "2026-06-01T23:22:28.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Love systemd timers",
+          "titleKo": "systemd 타이머를 사랑해야 하는 이유",
+          "summary": "systemd 타이머가 전통적인 cron을 대체하는 현대적 작업 스케줄링 솔루션이며, 더 나은 로깅, 명확한 구문, 환경 예측 가능성 등의 장점을 제공합니다.",
+          "keyPoints": [
+            "cron의 문제점(모호한 PATH, 불명확한 출력 처리, 어려운 스케줄 문법)을 systemd 타이머가 해결",
+            "systemd 타이머는 실행 이력 추적, 조건부 실행(ExecCondition), 실패 시 반응(OnFailure) 등 더 강력한 기능 제공"
+          ],
+          "whyItMatters": "Linux 시스템에서 반복 작업을 구성할 때 cron보다 더 안정적이고 유지보수하기 쉬운 접근 방식을 제공합니다.",
+          "url": "https://blog.tjll.net/you-dont-love-systemd-timers-enough/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 332,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "love-systemd-timers",
+          "fullContent": "Figure 1: Plato's Cave by Jan Pietersz Saenredam; 24 hour clock licensed under CC3 from Wikimedia; systemd logo by the systemd project licensed under CC-BY-SA 4.0\nMy favorite metonymic technology term is \"cron job\": even though cron may not literally be the daemon that executes actions on a schedule, we apply the term to anything that walks like a cron and quacks like a cron.\nAs Patrick McKenzie likes to point out, cron jobs are one of the most eminently useful computing primitives.\nThey offer utility that's almost immediately obvious for plenty of use cases that almost everybody has: do this every day; do that once a month.\nAnd yet.\nYou probably shouldn't use literal cron (or its more modern cousins) for scheduled tasks!\nIn 2026 there are more modern options available, and my favorite is the humble systemd timer.\nI love systemd timers.\nIf you don't love them yet, maybe I can show you the reasons why you should love them, too.\nMy cron? Cooked?\nA systemd timer is a type of unit that schedules other units (usually a service) on a particular schedule.\n(How a systemd service unit works is another article, but you can logically consider the .service target of a systemd timer to be a script.)\nTimers are effectively a functional replacement for a traditional cron daemon (though you could conceivably run both), and timer calendar settings offer some similarities to help bridge the gap from traditional cron-like expressions.\nAt this point the systemd haters peer out of the woodwork in anticipation of torpedoing timers because they are part of the systemd project and because they replace mature (if clunky) technology.\nI'd rather not spend our time arguing about cron, so briefly consider why newer solutions like systemd timers that benefit from years of hindsight are better:\nAmbiguous $PATH settings make cron script execution difficult to predict.\nstdout and stderr output often ends up in a black hole (and, often, sent to the host's mail system, which is usually not what you want to happen.)\nExecution history is difficult to follow and interrogate.\nYou might feel cool knowing the scheduling grammar by heart, but 01,31 04,05 1-15 1,6 * isn't easy or intuitive for humans to read.\nIncidentally, timers solve all these problems (and more.)\nPrime Time for a Timer Primer\nWe can cover the basics without a lot of ceremony.\nFirst you need a target for a timer to execute.\nOn a Linux host with systemd operational, placing the following unit contents at /etc/systemd/system/roulette.service installs a service with a 1 in 10 chance to be free (i.e., shut down your computer):\nSystemdFont used to highlight strings.\nFont used to highlight keywords.\nFont used to highlight type and class names.\n[Unit]\nDescription=1 in 10 chance to break your chains\n[Service]\nExecStart=/usr/bin/env bash -c '[[ $(($RANDOM % 10)) == 0 ]] && systemctl poweroff || echo LIVE ANOTHER DAY'\nUpdate: [2026-05-05 Tue]\nTwitter mutual HSVSphere points out that the service option ExecCondition= offers a native way to handle conditional execution.\nThis is a more tightly-integrated way to express \"should I continue to execute?\" and I agree that it offers a clearer way to express intent at the unit level (I'm using absolute paths here for a NixOS system):\nSystemdFont used to highlight strings.\nFont used to highlight keywords.\nFont used to highlight type and class names.\n[Unit]\nDescription=1 in 10 chance to break your chains\n[Service]\nExecCondition=/run/current-system/sw/bin/bash -c '[[ $(($RANDOM % 10)) == 0 ]]'\nExecStart=/run/current-system/sw/bin/systemctl poweroff\nThis has the same effect as the prior bash conditional, and you end up with different wording in the journal that (in my opinion) expresses the situation more clearly for you when the condition is met:\nMay 05 11:05:32 diesel systemd[3117]: Condition check resulted in 1 in 10 chance to break your chains being skipped.\nIn general, leaning into the options that systemd presents is a better experience than scripting your own. (Another example would be to use OnFailure= to react when your service scripts fail or Restart= to attempt recovery in the case of ephemeral failures.)\nAssociate that service with a timer by placing a file with the same file stem (roulette) at /etc/systemd/system/roulette.timer:\nSystemdFont used to highlight keywords.\nFont used to highlight type and class names.\n[Unit]\nDescription=impending destruction\n[Timer]\nOnCalendar=10:00\n[Install]\nWantedBy=timers.target\nWhat I mean by associate is that, by default, a timer's Unit= setting will choose a service unit with a matching stem suffixed by .service.\nIn this case, roulette.service.\nYou can always change this if you want to execute a service with a different unit name.\nI want to call out a few things right away:\nPer normal service unit semantics, the ExecStart= target does not run as a shell command by default. You should treat the absolute path target like a script or, in our case, an interpreter that expects a script as a string argument. For e",
+          "category": "insight",
+          "publishedAt": "2026-06-02T09:34:11.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Preparing for KDE Plasma's Last X11-Supported Release",
+          "titleKo": "KDE Plasma의 마지막 X11 지원 릴리스 준비",
+          "summary": "KDE는 Plasma 6.8에서 X11 세션을 완전히 제거하고 Wayland로 통합하기로 결정했다. 현재 Plasma 6.6 사용자의 95%가 이미 Wayland를 사용 중이며, 약 5개월 후 릴리스될 6.8부터 X11 코드 경로를 모두 제거할 예정이다.",
+          "keyPoints": [
+            "Plasma 6.8부터 로그인 화면에 X11 세션이 없고, Plasma Shell, System Settings, 기기 구성의 X11 코드가 제거된다.",
+            "XWayland 지원은 유지되어 X11 애플리케이션은 계속 사용 가능하며, KDE 애플리케이션은 다른 데스크톱 환경에서도 X11로 동작한다.",
+            "단일 코드 경로로 통합하면 성능 개선, 메모리 최적화, 새로운 기능 추가가 가능해지지만, 기존 워크플로우 변경이 필요할 수 있다."
+          ],
+          "whyItMatters": "Plasma 사용자는 Plasma 6.7이 X11을 지원하는 마지막 릴리스이므로, 문제가 있다면 6.8 출시 전에 피드백을 제공해야 한다.",
+          "url": "https://blog.davidedmundson.co.uk/blog/596/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 132,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "preparing-for-kde-plasmas-last-x11-supported-release",
+          "fullContent": "When we first announced the transition to Plasma Wayland, one of Martin's slides from stated, \"It's done when it's done!\"\nThat talk was 15 years ago!\nNothing in software is never truly \"done\", but as announced previously we are finally at a point where we're ready to retire the X11 and put all our focus on the future.\nAs of today, the Plasma X11 session you can log into has been officially removed, and we will start a mass cleanup of X11-specific code soon.\nWhen does it take effect?\nThis change will be included in Plasma 6.8, which will be released in around five months.\nWhat's Changed?\nIn Plasma 6.8, there will be no X11 session in the login screen. There will only be a Wayland session available to log into.\nIn 6.8, all X11-specific code paths in Plasma for Plasma Shell, System Settings, and device configuration will be gone.\nWhat's stayed the same?\nXWayland support remains present. You can keep using your X11 applications, and our XWayland application support is second-to-none.\nIf you use KDE applications on another desktop environment, this change will have no effect. KDE applications will continue to work in X11 for the foreseeable future.\nPlasma Login Manager will continue to be able to log you into X11 sessions of other desktop environments.\nWhat's Next?\nThe possibilities this opens up are very exciting. Until now, on the desktop side, we've had to target the lowest common denominator or be stuck trying to maintain two conflicting code paths. It was absolutely the right choice to do a gradual transition and approach things this way, but that approach has its limits.\nMoving forward with a single code path going through Wayland is going to allow us to bring new performance improvements, memory optimisations, and brand new exciting features throughout Plasma.\nHow Ready Are We?\nOur internal metrics within KDE show that over 95% of users of Plasma 6.6 are on Wayland, with a gradual increase every release. The metrics also show that basically no one is testing or developing Plasma on X11 anymore. The platform was already, for all intents and purposes, abandoned by KDE contributors.\nWe have every reason to trust this metric data, as it is exactly in-line with what Sentry (our automatic crash reporting tool) reports for newly-encountered crashes shows.\nFor transparency, the one caveat in all of the above is that I've deliberately always focused on people using the latest Plasma release. We do still have a sizable chunk of users on X11 still using Plasma 5.27. Including them, the total Wayland adoption rate is about 76%. But back then, Wayland wasn't the default session type, so it's hardly a surprise those users are still on X11. Things have come a massively long way in the three years since Plasma 5.27 was released.\nAnyone still using Plasma 5.27 — or any release older than Plasma 6.8 — won't be affected by what we do in Plasma 6.8, and nothing will be applied retroactively.\nStill Have Issues with Wayland on 6.7?\nWhilst we have had full confidence since Plasma 6.0 that our Wayland session provides the better overall experience, we are aware that things don't behave exactly the same. Not everything works the same especially in specialised areas.\nWe are not expecting a completely seamless transition for everyone. Custom scripts, tools used and even workflows might have to change. But we are aiming to offer a transition where there is still a way to accomplish all your day-to-day tasks.\nPlasma 6.7 is the last release that will include an X11 session, and it's coming out in just a few days. If you still have issues that force you back to X11 we would love to hear from you.\nWe can't promise to get everything fixed in time for 6.8, but we can promise to listen and be aware. People's remaining pain point are and will be on our radar, so please take this time to communicate them.",
+          "category": "insight",
+          "publishedAt": "2026-06-02T14:16:30.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "My thoughts after using Clojure for about a month",
+          "titleKo": "약 한 달간 Clojure 사용 후 생각",
+          "summary": "저자는 정적 사이트 생성기를 구축하며 Clojure를 배웠으며, Common Lisp보다 일관성 있고 Scheme보다 실용적이면서도 복잡한 문법을 가진 언어로 평가했다. seq 추상화, 일관된 등호 연산자, 우수한 표준 라이브러리와 생태계가 장점이지만, 괄호와 기호의 문법이 많다는 점이 단점이다.",
+          "keyPoints": [
+            "Clojure는 Common Lisp의 위원회식 설계를 벗어나 더 응집력 있고, Scheme보다 풍부한 표준 라이브러리(에러 처리, 파일 처리, 해시맵 등)를 제공한다.",
+            "list, vector, hash-map, set의 네 가지 데이터 구조를 동등하게 취급하여 ergonomic하게 설계되었으며, seq 추상화로 컬렉션 타입에 상관없이 일관된 연산을 적용할 수 있다.",
+            "(), [], {}, #{}과 같은 다양한 괄호 문법, 기호의 특수 의미(. /), unquote 문법(~) 등 Lisp 표준보다 많은 문법을 포함하고 있다."
+          ],
+          "whyItMatters": "Clojure는 Lisp의 우아함과 실용적인 표준 라이브러리를 균형있게 제공하므로, 함수형 프로그래밍을 배우고자 하는 개발자에게 좋은 선택지가 될 수 있다.",
+          "url": "https://www.acdw.net/clojure/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 73,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "my-thoughts-after-using-clojure-for-about-a-month",
+          "fullContent": "I am now generating this website with Clojure (yes, right after rewriting it in GNU Make and shell; I have a problem, ok?).\nIn a personal tradition, I used writing a static site generator as the project to play with and learn Clojure as a new language.\nWhile I’ve long scoffed at Clojure for its copious syntax (three types of brackets!?), it turns out to be pretty ergonomic and powerful.\nHere are my impressions after playing around with Clojure for about a month.\nThings I like\nMore cohesive than Common Lisp\nCommon Lisp is so called because it’s a compromise among roughly all the extant lisps when it was written in the early 80s.\nAs such, it’s a weird mashup of programming paradigms and name schemes.\nInstead of map-ing a function over a list, for example, you mapcar it.\nInstead of filter, you write remove-if-not, with all the confusion of a double-negative.\nOverall, Common Lisp has a strong feeling of being designed by committee, whch makes sense, because it was.\nBecause Clojure is newer and the brainchild of one person, it’s more cohesive as a language.\nThe seq abstraction, for example, means I usually don’t have to worry about what kind of sequence I’m dealing with.\nInstead of having to remember aref for arrays and nth for lists, I just use nth for everything.\nIt also makes mapping easier: instead of having to remember\n;; This is real syntax!\n(loop for k being the hash-keys\nusing (hash-value v) of hash-table\n...)\n;; OK, you could also use\n(maphash (lambda (k v) ...) hash-table)\nI can simply call (map (fn [[k v] ...]) hash-table) and be done with it.\nAnd remember, map works with any collection.\nIt’s the same with equality: instead of having to remember the fine distinctions between eq, eql, equal, equalp, and more that are type-specific, I can just call = (or == if comparing numerical values, or identical? to see if values are identical). To be fair, there are caveats, but I haven’t run into them in a month.\nI had to learn the different equality forms immediately to get going with Lisp.\nMore “batteries included” than Scheme\nScheme was also built by committee, but you could argue it’s even more cohesive than Clojure.\nHowever, it’s “cohesive” in the way that a bicycle is cohesive: it includes very little in the way of ergonomics, paring down the language to its barest bones.\nIndeed, the introduction to every revision of the Scheme Report begins:\nProgramming languages should be designed not by piling feature on top of feature, but by removing the weaknesses and restrictions that make additional features appear necessary.\nSchemers often boast that the R5RS spec fits within 50 pages, which is impressive, but basic functionality like error handling, file handling, and even hash-maps are missing from the core language.\nWhile R6RS added plenty of functionality, it also caused a huge rift in the community that R7RS is trying to heal, but it’s slow going.\nScheme is like this beautiful jewel, an implementation of a pure programming ideal.\nClojure, on the other hand, is pragmatic: it has a large standard library and is hosted on the JVM, so there’s probably a library for whatever domain you’re working in.\nEspecially as a hobbyist programmer, I appreciate the ecosystem.\nErgonomic data structures\nOne of the things that first drew me to Lisp is that it’s an “everything-is-a” language.\nYou know, like\nLua: everything is a table\nTcl: everything is a string\nLisp: everything is a list\nI just love languages where there’s one Big Idea and it’s taken all the way to the bank.\nHowever, in “real life,” everything is not a list.\nThere are, for example, vectors (random-access lists), or dictionaries (association lists).\nNon-Clojure lisps have these, but Clojure makes them first-class and ergonomic.\nThis is the thing about Clojure that took me the longest to like, because I really like the “everything-is-a-list”-ness of Lisp.\nBut the four basic data types of Clojure—the list (yay!), the vector, the hash-map, and the set—are well-chosen and are treated equally by the core language, which is key to their ergonomics.\nThings I’ve stumbled on\nNo programming language is perfect, of course, and there are some pain points I’ve found with Clojure so far.\nToo much syntax\nI promise I’m not joking with this one.\nOne thing I really like about Lisp is its uniformity of syntax: it’s all parens and spaces.\nThe only language with less syntax is Forth, as far as I know.\nEven though it’s a Lisp (don’t @ me), Clojure has a lot more syntax than say, Scheme.\nThere’s (), [], {}, and #{} for sequences;\n. and / in symbol names have special meaning;\nand honestly, a huge turn-off for me for a while was the unquote syntax ~.\nI really like the symmetry of ` and ,!\nHowever, I admit that I’ve gotten used to the syntax over time, and even appreciate it now (see above).\nI do wish there were an easier way to move in the ]}]})))}-ness of block ends though.\nI don’t know any Java\nClojure makes a big point of being a hosted language, that is, a language that runs on a prema",
+          "category": "insight",
+          "publishedAt": "2026-06-02T19:56:46.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Gmail thinks I'm stupid, so I left",
+          "titleKo": "Gmail이 날 우습게 본다고 생각해서 떠났다",
+          "summary": "저자는 Gmail의 과도한 AI 기능(자동 요약, 자동 회신, 강제 개선 제안)이 사용자를 존중하지 않는다고 느껴 16년간 사용한 Gmail을 떠나고 Fastmail로 이전했습니다. 일부 기능을 비활성화할 수 없거나 하면 다른 유용한 기능도 함께 꺼져서 의도적인 강제라고 의심합니다.",
+          "keyPoints": [
+            "Gmail의 AI 기능이 자동 요약, 자동 회신, 반복적인 작성 개선 제안으로 사용자의 자율성을 침해",
+            "일부 기능을 끌 수 없거나 끄면 유용한 기능까지 함께 비활성화되어 사용자 선택권 제한",
+            "사용 메트릭 부풀리기 위한 의도적인 설계로 보여 Fastmail로 완전히 전환"
+          ],
+          "whyItMatters": "사용자 존중과 소프트웨어 설계 철학의 중요성, AI 기능의 강제 도입이 사용자 경험을 악화시킬 수 있음을 보여줍니다.",
+          "url": "https://moddedbear.com/gmail-thinks-im-stupid-so-i-left",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 521,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "gmail-thinks-im-stupid-so-i-left",
+          "fullContent": "Gmail Thinks I'm Stupid, So I Left\nJun 1, 2026\nLet me tell you a story\nI go to check my email in Gmail’s web UI. I see a few new messages regarding feedback on a project I’m working on. I click through to read one of them and the first thing I’m greeted with is a message summary I didn’t ask for generated by a language model.\nI focus the message box to draft a reply, but there’s already one there. It was also generated by the language model. I delete it, replacing it with my own.\nAfterward, I go to compose a new message. A colorful animation steals my focus for a second highlighting a new “help me write” button. I ignore it and move on to filling in the recipients and subject line.\nI focus the message body area and underneath my cursor appears the message “Press / for Help me write”. Again, I ignore it and begin writing.\nA few moments later, I start a new paragraph and pause. There’s a new message under my cursor now: “Tab to improve”. What I’ve written so far isn’t up to Gmail’s standards, it seems.\nWhat message are you trying to send?\nLook, I’m pretty pragmatic when it comes to generative AI features in software. I see very little wrong with including an optional AI writing assistant for those who want it.\nBut when you nag and nag, when you summarize my messages and write my replies without my asking, when you repeatedly interrupt me to beg and plead that I rewrite my drafts, you’re sending the wrong message.\nThe message you’re sending is that you think I’m not capable of reading and writing my own emails. That the people I’m exchanging messages with don’t deserve my time and energy. That I’m doing something wrong by not outsourcing my communication skills to a token prediction machine.\nI’ve looked into it. Some of these features can be turned off. Others can’t. Or if they can, it means also turning off useful long-standing features like automatic thread categorization. I have very little doubt that this is intentional, that the unsolicited summaries and auto replies are a means of artificially inflating the usage metrics for the language model features.\nI think we’re all used to user-hostile software these days, but this is the first time I’ve experienced software that feels like it’s actively trying to be disrespectful. Sure, I could switch to a different mail client and never see any of these language model features, but my experience these past months has left such a bad taste that all I’m looking for now is a clean break.\nA 16 year breakup\nI’ve had my Gmail account for 16 years. It’s by far my oldest internet account that I still use. Or used to use. I’ve already started the long process of moving away.\nThis time I’m doing things the right way by connecting my own domain to a mail host. I’m currently with Fastmail since they were by far the most popular option when I asked for suggestions on the fediverse. I’m still early on in the trial period, but so far first impressions are great. It seems really flexible, and after connecting multiple domains and setting up a few aliases I’m starting to wish I had tried it sooner.\nI haven’t settled on whether or not I should import my Gmail data. I’ll almost surely import my contacts, but there’s something nice about starting fresh as far as everything else goes. I’m interested in what other people in a similar position have done.\nCongrats to Google, really. They’ve done a decent job at keeping Gmail stable over the many years I’ve used it. Which is why even I am impressed by how quickly they were able to get me to pack up and leave.\n— JP\n#tech\n↪ Reply\n↪ Comment via Fediverse",
+          "category": "insight",
+          "publishedAt": "2026-06-02T19:27:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "A walking tour of surveillance infrastructure in Seattle (2020)",
+          "titleKo": "시애틀 감시 인프라 도보 투어 (2020)",
+          "summary": "Tech Equity Coalition과 ACLU 워싱턴이 함께 제작한 이 가이드는 시애틀 도심의 감시 기술들(CCTV, Amazon Go, 자동 번호판 인식기 등)을 식별하고 분석하는 방법을 제시합니다. 각 기술의 작동 원리, 데이터 수집 방식, 사회적 영향을 설명해 '스마트 도시'의 숨겨진 감시층을 인식하도록 합니다.",
+          "keyPoints": [
+            "CCTV는 영상 저장, 원격 제어, 패턴 분석을 통해 행동 '정상성'을 정의하고 강제하는 사회적 역할 수행",
+            "Amazon Go 같은 매장은 오버헤드 카메라로 고객 이동 추적 후 구매 패턴을 분석해 타겟팅하는데, 이는 고정관념 강화 및 차별 가능성",
+            "자동 번호판 인식기(ALPR)는 고정식·이동식으로 운영되며 경찰에 제공돼 광범위한 이동 추적 가능"
+          ],
+          "whyItMatters": "도시의 감시 인프라가 개인 프라이버시와 자유를 제약하는 방식을 이해하고, 기술 도입 시 사회적 영향을 비판적으로 검토하는 능력이 필요합니다.",
+          "url": "https://coveillance.org/a-walking-tour-of-surveillance-infrastructure-in-seattle/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 363,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-walking-tour-of-surveillance-infrastructure-in-seattle-2020",
+          "fullContent": "A walking tour of surveillance infrastructure in Seattle\nNote: this guide is a work in progress and may change at any time! We’ve done our best to cite our sources, but this page has not been professionally fact-checked.\nThis workshop was first run as part of two pilot workshops with the Tech Equity Coalition, in partnership with the ACLU of Washington, in October 2019. A zine based on this work was included at the CtrlZ.AI zine fair and the HOT MESS digital exhibition in 2020.\nIntroduction\nIn this tour of downtown Seattle, we’ll practice spotting some of the layers of the “smart” city that are hidden in plain sight, collecting and storing data about our lives, as well as the kinds of thinking that justify their existence. Each surveillance technology in our field guide includes the following categories to help you “spot” surveillance technology in the wild: Address, Appearance, What it does, How the tech works, Social importance, Discussion and finally, References.\nTour route\nThis is the route we will be taking on the walking tour. Click on each stop to pop up its location, and feel free to explore it on Google Maps, e.g. with Street View. The route spans 1.3 miles. Below, we outline each of the surveillance tools/sites listed above.\nSurveillance cameras\nAddress: Practically everywhere, but the above example is at 523 Union St.\nSurveillance camera hotspots (red = more likely)\nAppearance: Poles, ledges, overhangs, rooftops. They are often spotted watching parking lots, doors, banks, intersections, and government buildings. Indoors, they are typically spotted on roofs and near cash registers.\nDifferent types of surveillance cameras.\nWhat it does: The camera has a memory. It can record video or other data and add it to a store of records over all time. The camera can be controlled remotely: it can swivel, zoom, or change height.\nHow the tech works: Camera recordings can be analyzed for patterns and shared with other entities, both private (your neighbors) and public (the local police).\nIt might be connected to a network (via Internet or radio frequency), which lets it send video to anywhere, receive instructions from anywhere, and lets other people, who might be anywhere, watch the video stream.\nSocial importance:  The camera can have different ways of seeing encoded in it, including kinds of gazes that enforce social agreements about what kinds of behavior and people are considered “normal” and these gazes can be propagated all at once to the whole network of enforcement that the camera hooks into.\nDiscussion\nWhat are other ways to question the need to have cameras, or surveillance, at all? What sort of society would we build around this way of life?\nWhat are your individual or communal experiences of “light shining more brightly on some than others”?\nWhat if each camera were replaced by a person? How would that change how you feel?\nReferences\nStreet-level surveillance overview (EFF)\nVideo surveillance system overview (ACLU)\nWhat’s wrong with public video surveillance? (ACLU)\nAmazon Go\nAddress: 2131 7th Ave\nAppearance: Looks like it could be any other convenience store… but it’s not! Inside, you must scan an app to enter, and there are no cashiers.\nNotice the gates where you must scan a QR code from your Amazon account to enter.\nWhat it does: Amazon Go tracks your movement using overhead cameras to determine your browsing habits.\nOverhead cameras in the ceiling of the store, tracking consumers’ movements in the store.\nHow the tech works: Amazon can use your purchases to know more about you using patterns. For example, if you buy Hanukkah decorations, they might know you’re Jewish. Or certain foods might be correlated with certain health issues. They can combine your in-store purchases with your online Amazon purchases for even more predicting power.\nSocial importance: Patterns can be harmful! They can reinforce stereotypes. For example, Google Photos labeled photos of Black people as “gorilla.”\nWhat is Amazon doing with their knowledge about you? There’s no oversight or transparency. Your data could be sold to third parties without your consent.\nDiscussion\nWhat are the societal effects of targeting ads based on [race, gender]?\nWhen you go into Amazon Go, what do you imagine you are consenting to? How does this differ from the reality? How could this be changed?\nReferences\nFacial recognition used at a convenience store in Seattle (another story)\nHow much is your data worth? “No cash needed at this cafe. Students pay the tab with their personal data.”\nAutomated license plate reader\nAddress: 699 Spring Street\nFig. 1. One automated license plate reader (we believe) perched over a highway onramp in downtown Seattle, here, the traffic entering the ramp onto the I-5 Express highway that cuts vertically through downtown Seattle.\nAppearance: An automated license plate reader (ALPR) is a little camera that is either mounted to a pole (stationary) in high-traffic locations or the top of a police car (mobile) (Fig. 2.).",
+          "category": "insight",
+          "publishedAt": "2026-06-02T13:24:32.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Open Repair Data Standard – Open Repair Alliance",
+          "titleKo": "개방형 수리 데이터 표준 – Open Repair Alliance",
+          "summary": "Open Repair Data Standard(ORDS)는 소형 전자제품의 수리 데이터를 수집하고 공유하는 공통 표준으로, 여러 지역의 커뮤니티 수리 이벤트 데이터를 통합해 글로벌 수리 트렌드를 파악합니다. 현재 v0.3이 최신 버전이며 지속적으로 진화 중입니다.",
+          "keyPoints": [
+            "ORDS는 제품 정보, 수리 정보, 세션 정보 3가지 모듈로 수리 데이터를 표준화",
+            "여러 조직의 데이터를 공통 형식으로 통합해 국가·지역·글로벌 수준에서 수리 패턴과 트렌드 분석 가능",
+            "Creative Commons 오픈 라이선스로 데이터 공개하며 6개월마다 통합 데이터셋 발행"
+          ],
+          "whyItMatters": "전자제품 수리의 현황을 데이터 기반으로 파악하고, 제조사의 설계 결함을 식별해 제품 개선을 추진하는 데 필요합니다.",
+          "url": "https://openrepair.org/open-data/open-standard/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 78,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "open-repair-data-standard-open-repair-alliance",
+          "fullContent": "Open Repair Data Standard\nThe Open Repair Data Standard (ORDS) defines a shared approach towards collecting and sharing repair data about small electricals and electronics. The goal of this standard is to make it easy to combine open data on electronics repair that has been collected by many different groups.\nFollowing a common standard helps us to identify trends and patterns globally, and also within countries and regions, by combining data from local community repair events.  For example, when we combine our data, we could identify the most recurrent failures and fixes of blenders brought to community repair events in the UK, across Europe and even globally.\nThe definition of the standard is an ongoing process, with version 0.3 the latest released version as of December 2021. If you would like to contribute to future discussions of ORDS, please get in touch with us.\nOur data available for download is combined using ORDS.\nORDS v0.3\nRead the full ORDS v0.3 document.\nIn version 0.1 we concentrated on standardising elements already captured by most members, prioritising areas where there was already convergence, while leaving out other areas where more work was needed.\nVersion 0.2 updated the standard based on insights learned from the first data aggregations.  The main changes were\nRecommended options for repair_status\nRecommended options for product_category values\nAddition of partner_product_category field\nAddition of repair_barrier field\nAddition of country field\nRemoval of model field due to problems with data collection and quality\nSummary\nThe standard focuses on repairs of small electrical and electronic products.\nIt focuses on collecting information about 3 main areas: Product Related; Repair Related; and Session Related.\nFor each primary module, it explains what they are and identifies the data we collect for them.\nFor each field, the standard explains how to collect data in ways that make it easy to aggregate and compare.\nData collected is shared with an open Creative Commons license.\nThe modules of collected information are as follows:\nProduct related: Information about the product/device that someone has attempted to fix. Fields: Product category; Brand; Year of Manufacture.\nRepair related: Information about the attempted fix and its outcome. Fields: Problem; Repair Status; Repair Barrier.\nSession related: Information about when the repair took place and through which community repair group. Fields: Id; Group Identifier; Event Date.\nWe collect repair data from organisations and community groups and compile this in to the common ORDS format.  We publish these combined datasets every six months.\nThe Open Repair Alliance keeps a record of all datasets complying with the standard, published on the Open Repair Alliance’s website, allowing interested parties to access them.\nORDS vNext\nThe ORDS is always evolving. Some points for discussion for future versions:\ndefinition of fault types to categorise the problem field for key categories\ninvestigation of UNU-keys for product categorisation\nIf you would like would like to get involved in these discussions, please get in touch with us.",
+          "category": "insight",
+          "publishedAt": "2026-06-02T19:37:10.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "HP re-releases classic computer science calculator: The HP-16C",
+          "titleKo": "HP가 클래식 컴퓨터공학 계산기 HP-16C를 재출시했다",
+          "summary": "HP가 과거의 유명한 HP-16C 계산기를 컬렉터 에디션으로 재출시했습니다.",
+          "keyPoints": [
+            "HP-16C 컬렉터 에디션 재출시"
+          ],
+          "whyItMatters": "본문 정보 필요",
+          "url": "https://hpcalcs.com/product/hp-16c-collectors-edition/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 102,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "hp-re-releases-classic-computer-science-calculator-the-hp-16c",
+          "category": "insight",
+          "publishedAt": "2026-06-02T19:02:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "CT scans of BYD car parts",
+          "titleKo": "BYD 자동차 부품의 CT 스캔",
+          "summary": "Luma Field에서 CT 스캔으로 촬영한 BYD 전기차의 배터리 셀, 윈도우 스위치 패널, 충전기 내부 구조를 상세히 분석했습니다. BYD의 자체 설계·제조 철학과 수직 통합, 그리고 LiFP 배터리 기술의 안정성과 비용 효율성을 보여줍니다.",
+          "keyPoints": [
+            "BYD의 Lithium Iron Phosphate(LFP) 프리즘 셀은 니켈·망간·코발트 대신 철을 사용해 안정성, 비용, 공급망 이점 제공",
+            "BYD는 배터리부터 완성 팩까지 자체 설계·제조하며 자동차 부품도 대부분 수직 통합으로 설계",
+            "윈도우 스위치 같은 모듈은 여러 기능을 하나로 통합해 부품 개수를 줄였으나 한 커넥터 고장이 여러 기능 장애 초래 가능"
+          ],
+          "whyItMatters": "전기차 배터리 기술과 자동차 전자 부품 설계의 현황을 이해하고, 수직 통합 전략의 장단점을 파악할 수 있습니다.",
+          "url": "https://www.lumafield.com/scan-of-the-month/byd",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 154,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ct-scans-of-byd-car-parts",
+          "fullContent": "BatteryLithium Iron Phosphate (LiFP) Prismatic CellThe cell that made BYD famous is the Blade: a long, thin Lithium Iron Phosphate (LFP) prismatic designed to lay flat across a vehicle floor, with the cells themselves forming part of the car's structure rather than sitting inside a separate enclosure. This prismatic cell is NOT a Blade, but it does share the same chemistry. LFP trades some energy density against the lithium-ion chemistries that dominate Western EV packs, but it runs cooler, tolerates more charge cycles, and replaces the nickel, manganese, and cobalt used in other chemistries with iron. That substitution is what gives LFP its stability, as well as cost and supply chain advantages. While Tesla sources cells from Panasonic and LG and most Western automakers buy from dedicated battery suppliers, BYD designs and manufactures its own, from chemistry to finished pack.The two threaded terminals are the densest structures in the cell (negative on the left, positive on the right). Between them sits the explosion-proof valve: a pressure relief feature that vents the cell if internal gas pressure exceeds safe limits. It’s a last-resort safety mechanism. The LFP chemistry in this cell is stable enough that the valve rarely needs to function, which is precisely why BYD uses it.Lowering the opacity of the aluminum housing, the cell resolves into two distinct electrode stacks. Each stack connects to the terminals above. Splitting the cell's capacity across two parallel jellyrolls rather than one improves current distribution and makes better use of the prismatic casing geometry. The Blade cell takes a different approach: its extreme length and thinness suits flat-stacked electrodes, sheets of anode, separator, and cathode layered directly rather than wound.The cross-section reveals the cell's interior in full: tightly packed electrode layers of anodes and cathodes, separated by thin lines of separator material. We see four groupings, separated by slightly wider gaps where the jellyroll folds or stack boundaries fall. The current collector tabs fan out at the top before joining the terminal above. The electrode edges are mostly well-aligned, with consistent overhang between anode and cathode layers, an indicator of good process control. Hundreds of thin layers each store a fraction of the total 50 amp-hours charge.Viewed from below, the two jellyrolls show their winding pattern in full. The electrode layers should curve in smooth, uniform concentric arcs around the base of each roll. Here they ripple, a sign of uneven tension during winding. Where tension varies, the gap between anode and cathode layers varies with it, creating inconsistencies in ion transfer and localized stress points that can accelerate degradation over the cell's lifetime.Window Switch PanelBYD TangThe Tang is BYD's large seven-seat SUV, roughly competing with the Ford Explorer and Toyota Highlander in size and price. Its driver door panel consolidates mirror adjustment, mirror fold, door locks, all four window controls, and child locks into a single networked module. That consolidation exemplifies BYD's vertical integration favoring fewer subassemblies, each designed in-house and dropped into place, with firmware determining how any of it behaves.The cross-section shows the panel's basic logic: button caps above, PCB below, a continuous band of electronics running the full width between them. The window rockers are the tallest elements in the stack, their travel depth visible in this slice. Everything mechanical in this panel exists to close a circuit on that board.Viewed from the back, the PCB resolves into a grid of circular tact switch mechanisms, one per button function. We see six mounting screws (in red) with their heads visible on the panel's exterior underside. The layout maps directly to the button grid above: each switch position corresponds to a node on the LIN network connecting this module to the vehicle's body controller.Here’s where tactile inputs become digital commands. A prominent IC in the upper part is likely the LIN transceiver or body domain microcontroller managing input polling and bus communication. There’s not much else to see here. Mirrors, windows, locks, and child safety all run on a board this sparse because the processing happens upstream in software.Fourteen pins in two parallel rows carry every signal this panel produces to the rest of the vehicle. Automotive connectors are among the most common failure points in modern cars: corrosion, fretting, and thermal cycling work on these joints over years of use. One connector failure on a module this integrated takes out mirrors, windows, locks, and child safety all at once.ChargerBYD Type 2 IC-CPD Portable AC ChargerEvery BYD sold in Europe and the UK ships with one of these. The IC-CPD, or In-Cable Control and Protection Device, is a portable Mode 2 charger: It plugs into the car on one end, into a standard household socket on the other, with a control box s",
+          "category": "insight",
+          "publishedAt": "2026-06-02T20:30:08.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Fidonet: Technology, Use, Tools, and History (1993)",
+          "titleKo": "Fidonet: 기술, 사용, 도구, 역사 (1993)",
+          "summary": "1993년 작성된 Fidonet에 대한 기술 문서로, 텍스트 파일 형식입니다.",
+          "keyPoints": [
+            "1993년의 오래된 문서"
+          ],
+          "whyItMatters": "본문 정보 필요",
+          "url": "https://www.fidonet.org/inet92_Randy_Bush.txt",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 140,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "fidonet-technology-use-tools-and-history-1993",
+          "category": "insight",
+          "publishedAt": "2026-06-02T13:53:52.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "AI code benchmarks lied to us",
+          "titleKo": "AI 코드 벤치마크의 거짓",
+          "summary": "AI 코드 생성 모델의 벤치마크 결과가 실제 프로덕션 환경에서의 성능을 정확히 반영하지 못하고 있음을 분석합니다. 벤치마크와 실제 성능 간의 괴리를 지적합니다.",
+          "keyPoints": [
+            "표준 벤치마크의 제한점과 한계 노출",
+            "실제 개발 환경에서의 AI 모델 성능 평가의 중요성 강조"
+          ],
+          "whyItMatters": "AI 코드 생성 도구 선택 시 벤치마크 결과만으로 판단하면 프로덕션에서 실패할 수 있으므로 신중한 검증이 필요합니다.",
+          "url": "https://www.youtube.com/watch?v=JpSHyEIZ_bo",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ai-code-benchmarks-lied-to-us",
+          "category": "video",
+          "publishedAt": "2026-05-31T08:31:09+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Google’s AI endgame is here… everything you missed at I/O 2026",
+          "titleKo": "Google의 AI 최종 목표가 공개되다… Google I/O 2026에서 놓친 모든 것",
+          "summary": "Google I/O 2026에서 발표된 Google의 AI 관련 핵심 전략과 제품들을 정리한 영상입니다. Google의 향후 AI 로드맵과 비전을 이해할 수 있습니다.",
+          "keyPoints": [
+            "Google I/O 2026에서 발표된 최신 AI 기술 및 제품 업데이트",
+            "Google의 AI 전략 방향과 산업 영향력 분석"
+          ],
+          "whyItMatters": "대형 테크 기업의 AI 전략 변화를 파악하는 것은 개발자들이 기술 트렌드를 예측하고 의사결정을 하는 데 중요합니다.",
+          "url": "https://www.youtube.com/watch?v=9OQ5vaYbGV0",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "googles-ai-endgame-is-here-everything-you-missed-at-io-2026",
+          "category": "video",
+          "publishedAt": "2026-05-22T16:38:42+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Anthropic fights back",
+          "titleKo": "Anthropic의 대응",
+          "summary": "Anthropic이 AI 시장의 경쟁 상황에 대응하는 전략에 관한 영상입니다.",
+          "keyPoints": [
+            "AI 업계 주요 플레이어들의 경쟁 동향에 대한 분석"
+          ],
+          "whyItMatters": "AI 모델 개발사들의 전략 변화를 이해하면 개발 커뮤니티의 방향성과 지원되는 도구들이 어떻게 진화할지 예측할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=_goOUJkkxUk",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "anthropic-initiatives",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "anthropic-fights-back",
+          "category": "video",
+          "publishedAt": "2026-05-29T08:57:15+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Holy sh*t I think Anthropic is profitable now",
+          "titleKo": "어머나, Anthropic이 지금 수익성이 있는 것 같다",
+          "summary": "Anthropic의 수익성 달성 가능성에 대한 분석 영상이다.",
+          "keyPoints": [
+            "Anthropic의 비즈니스 모델 개선으로 수익성 달성 임박"
+          ],
+          "whyItMatters": "AI 스타트업의 경제성 변화는 업계 전망과 개발자 채용 시장에 영향을 미친다.",
+          "url": "https://www.youtube.com/watch?v=q88yYhLSPC0",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "anthropic-initiatives",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "holy-sht-i-think-anthropic-is-profitable-now",
+          "category": "video",
+          "publishedAt": "2026-05-28T11:21:33+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I Won’t Use AI Without This Tool",
+          "titleKo": "이 도구 없이는 AI를 사용하지 않겠습니다",
+          "summary": "영상 콘텐츠로 구체적인 내용 파악 불가",
+          "keyPoints": [
+            "제목만으로는 특정 AI 개발 도구나 워크플로우 관련 것으로 추정"
+          ],
+          "whyItMatters": "원본 영상 확인 필요",
+          "url": "https://www.youtube.com/watch?v=t3my5ByUhFU",
+          "sourceName": "Web Dev Simplified",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-wont-use-ai-without-this-tool",
+          "category": "video",
+          "publishedAt": "2026-06-02T16:00:33+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "How I code with AI changed a lot",
+          "titleKo": "AI로 코딩하는 방식이 크게 변했습니다",
+          "summary": "영상 콘텐츠로 구체적인 내용 파악 불가",
+          "keyPoints": [
+            "AI 기반 코딩 도구 사용 방식의 변화를 다룬 것으로 추정"
+          ],
+          "whyItMatters": "원본 영상 확인 필요",
+          "url": "https://www.youtube.com/watch?v=xJaMTo2YgO8",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "how-i-code-with-ai-changed-a-lot",
+          "category": "video",
+          "publishedAt": "2026-05-27T10:36:21+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "A single PR just hijacked the NPM registry...",
+          "titleKo": "하나의 PR이 NPM 레지스트리를 탈취했습니다",
+          "summary": "영상 콘텐츠로 구체적인 내용 파악 불가",
+          "keyPoints": [
+            "NPM 보안 취약점 관련 사건을 다룬 것으로 추정"
+          ],
+          "whyItMatters": "원본 영상 확인 필요",
+          "url": "https://www.youtube.com/watch?v=gwTQLZSIlsU",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-single-pr-just-hijacked-the-npm-registry",
+          "category": "video",
+          "publishedAt": "2026-05-14T17:39:11+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "All 17 TanStack Projects In ONE App!",
+          "titleKo": "모든 17개 TanStack 프로젝트를 하나의 앱에서!",
+          "summary": "TanStack의 17개 프로젝트를 통합한 애플리케이션에 대한 소개 영상이다.",
+          "keyPoints": [
+            "TanStack 생태계의 여러 프로젝트를 단일 앱에서 활용 가능"
+          ],
+          "whyItMatters": "React 생태계에서 데이터 페칭, 상태 관리, 폼 처리 등의 통합 솔루션을 한 번에 이해할 수 있다.",
+          "url": "https://www.youtube.com/watch?v=J4kzovOTNKw",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "all-17-tanstack-projects-in-one-app",
+          "category": "video",
+          "publishedAt": "2026-06-01T14:30:24+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "10 weird OSS projects you need right now...",
+          "titleKo": "지금 필요한 10개의 이상한 오픈소스 프로젝트들...",
+          "summary": "흥미로운 오픈소스 프로젝트 10개를 소개하는 영상이다.",
+          "keyPoints": [
+            "다양한 분야의 유니크한 오픈소스 프로젝트 소개"
+          ],
+          "whyItMatters": "개발자에게 새로운 도구와 아이디어를 발견할 수 있는 기회를 제공한다.",
+          "url": "https://www.youtube.com/watch?v=qPuzWFvRajk",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "10-weird-oss-projects-you-need-right-now",
+          "category": "video",
+          "publishedAt": "2026-05-26T17:53:11+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "The forgotten developer who saved JavaScript...",
+          "titleKo": "JavaScript를 구한 잊혀진 개발자",
+          "summary": "유튜브 영상이므로 본문 정보 없음",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=JfPWbttemYE",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-forgotten-developer-who-saved-javascript",
+          "category": "video",
+          "publishedAt": "2026-05-29T17:06:48+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I hate that this is true",
+          "titleKo": "이것이 사실이라는 게 싫다",
+          "summary": "YouTube 영상으로, 제목만으로는 구체적인 내용을 파악하기 어렵습니다.",
+          "keyPoints": [
+            "구체적인 본문 정보가 없어 분석 불가"
+          ],
+          "whyItMatters": "본문 정보 필요",
+          "url": "https://www.youtube.com/watch?v=rTMRlqT8Q8c",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-hate-that-this-is-true",
+          "category": "video",
+          "publishedAt": "2026-06-01T08:38:00+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I can’t believe this trial is real...",
+          "titleKo": "이 재판이 실제라니 믿을 수가 없다",
+          "summary": "YouTube 영상으로, 제목만으로는 구체적인 내용을 파악하기 어렵습니다.",
+          "keyPoints": [
+            "구체적인 본문 정보가 없어 분석 불가"
+          ],
+          "whyItMatters": "본문 정보 필요",
+          "url": "https://www.youtube.com/watch?v=3tbB2dffx0s",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-cant-believe-this-trial-is-real",
+          "category": "video",
+          "publishedAt": "2026-05-15T18:51:21+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
