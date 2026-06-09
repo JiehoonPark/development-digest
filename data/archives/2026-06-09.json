@@ -1,0 +1,1288 @@
+{
+  "date": "2026-06-09",
+  "intro": "안녕하세요! 오늘은 AI 모델의 성능 향상과 투명성 문제, 그리고 개발 도구의 혁신이 주목받고 있습니다. Claude Fable 5의 출시와 OpenCV 5의 대규모 업데이트가 개발자 커뮤니티를 뜨겁게 달구고 있으며, 동시에 AI 기업들의 정책과 윤리에 대한 논의도 활발히 진행 중입니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Claude Fable 5",
+          "titleKo": "Claude Fable 5 및 Claude Mythos 5 출시",
+          "summary": "Anthropic이 Mythos급 성능의 Claude Fable 5를 일반 사용자용으로, Claude Mythos 5를 정부 기관 및 사이버방어 전문가용으로 출시했습니다. Fable 5는 소프트웨어 엔지니어링, 지식 작업, 비전, 과학 연구 등 대부분의 벤치마크에서 최고 성능을 보이며, 이전 모델 대비 절반 이하의 가격으로 제공됩니다.",
+          "keyPoints": [
+            "Fable 5는 소프트웨어 엔지니어링 성능이 뛰어나 Stripe 테스트에서 수개월 작업을 며칠로 단축",
+            "Fable 5는 일부 주제(사이버보안 등)에서 자동으로 Claude Opus 4.8으로 폴백되는 안전장치 적용",
+            "Mythos 5는 세계 최강의 사이버보안 능력을 갖춘 모델로 Project Glasswing을 통해 배포"
+          ],
+          "whyItMatters": "개발자들은 코드 마이그레이션, 복잡한 문제 해결, 시각 기반 작업에서 획기적인 생산성 향상을 기대할 수 있습니다.",
+          "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 1622,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-fable-5",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "claude-fable-5",
+          "fullContent": "AnnouncementsClaude Fable 5 and Claude Mythos 5Jun 9, 2026Today we’re launching Claude Fable 5: a Mythos-class1 model that we’ve made safe for general use.Fable 5’s capabilities exceed those of any model we’ve ever made generally available. It is state-of-the-art on nearly all tested benchmarks of AI capability, showing exceptional performance in software engineering, knowledge work, vision, scientific research, and many other areas. The longer and more complex the task, the larger Fable 5’s lead over our other models.Releasing a model this capable comes with risks. Without safeguards, Fable 5’s capabilities in areas like cybersecurity could be misused to cause serious damage. We’ve therefore launched the model with safeguards that mean queries on some topics will instead receive a response from our next-most-capable model, Claude Opus 4.8. To release the model both safely and quickly, we’ve tuned these safeguards conservatively—they’ll sometimes catch harmless requests, though they trigger, on average, in less than 5% of sessions. With more capable models arriving in the coming months, we’re working to improve our safeguards and reduce false positives as quickly as we can.For a small group of cyberdefenders and infrastructure providers, we’re also launching Claude Mythos 5. It’s the same underlying model as Fable 5, but with the safeguards lifted in some areas.2 Mythos 5 will initially be deployed through Project Glasswing, in collaboration with the US government, as an upgrade to Claude Mythos Preview. It has the strongest cybersecurity capabilities of any model in the world. Soon, we intend to expand access to Mythos 5 through a broader trusted access program.The capabilities of models like Fable 5 and Mythos 5 have the potential to do profound good for the world. We’ve seen the beginnings of this in Project Glasswing, where the models have helped cyber defenders secure critically important software. We’ve also seen it in life sciences research, where the models are positing novel hypotheses and speeding up the development of new therapeutics.Fable 5 and Mythos 5 are being offered at $10 per million input tokens and $50 per million output tokens—less than half the price of Claude Mythos Preview. Today’s joint launch is another step towards our goal of bringing advanced AI capabilities to as many users as possible, as quickly and as safely as we can.Evaluating Claude Fable 5 and Claude Mythos 5The table below compares the capabilities of Fable 5 and Mythos 5 to other leading models.Fable 5 and Mythos 5 can work autonomously for longer than any previous Claude models. Below we discuss how these skills apply to software engineering, and cover the model’s improved capabilities in knowledge work, vision, memory, and life sciences research.Software engineering. During early testing, Stripe reported that Fable 5 compressed months of engineering into days. In a 50-million-line Ruby codebase, the model performed a codebase-wide migration in a day that would otherwise have taken a whole team over two months by hand. Fable 5 is also more token-efficient than past Claude models: on Cognition’s FrontierCode evaluation, which tests whether models can pass difficult coding tasks while meeting the standards of high-quality production codebases, Fable 5 scores highest among frontier models, even at medium effort.Knowledge work. Fable 5 shows strong performance on complex analytical tasks. On Hebbia’s Finance Benchmark for senior-level reasoning, Fable 5 has the highest score of any model, with substantial gains in document-based reasoning, chart and table interpretation, and problem solving. IMC noted that Fable 5 aced their trading-analysis evaluations nearly across the board, including factual lookup, conceptual reasoning, root-cause analysis, and expected-value analysis.Vision. Fable 5 is the new state-of-the-art model for tasks involving vision. It can extract precise numbers from detailed scientific figures and can perform complex vision-based tasks like rebuilding a web app’s source code from screenshots alone. It also needs less scaffolding: for example, previous Claude models struggled to play Pokémon FireRed even with harnesses that gave them additional helpful tools, but Fable 5 beat FireRed with a minimal, vision-only harness.A timelapse of Claude playing Pokémon FireRed from start to finish using only raw game screenshots — with no maps, navigation aids, or extra game-state information. Earlier Claude models needed a complex helper harness to play Pokémon; Claude Fable 5 completed the game with vision alone.Memory and long-context. Fable 5 stays focused across millions of tokens in long-running tasks and improves its outputs using its own notes. When we had the model play the deck-building game Slay the Spire, giving it access to persistent file-based memory improved its performance three times more than for Opus 4.8; Fable also reached the game’s final act three times more often.Solar eclipsesFactorioVibeCAD",
+          "category": "hot",
+          "publishedAt": "2026-06-09T16:58:01.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "If Claude Fable stops helping you, you'll never know",
+          "titleKo": "Claude Fable이 도움을 멈추면 당신은 절대 모를 것입니다",
+          "summary": "Anthropic이 Claude Fable 5에 사용자에게 알리지 않고 '프론티어 AI 개발'로 분류된 작업에 대해 자동으로 모델의 효율성을 저하시키는 보호장치를 삽입했습니다. 사용자는 모델이 혼란스러워한 것인지, 문제가 풀 수 없는 것인지, 아니면 정책에 의해 차단된 것인지 구분할 수 없게 됩니다.",
+          "keyPoints": [
+            "Claude Fable 5는 임베딩, 리랭킹, AI 모델 파인튜닝 등 'frontier AI 개발'에 대해 사일런트 너프(invisible safeguards) 적용",
+            "Anthropic은 개발자에게 이러한 제한이 언제 적용되는지 알리지 않기로 결정했으며, 모델은 다른 버전으로 폴백하지 않음",
+            "'프론티어 AI 개발'의 경계가 모호해지면서 일반 소프트웨어 회사도 영향을 받을 가능성이 있음"
+          ],
+          "whyItMatters": "AI 모델을 개발 도구로 신뢰할 수 없게 되어 인프라의 투명성과 신뢰성 문제가 발생합니다.",
+          "url": "https://jonready.com/blog/posts/claude-fable5-is-allowed-to-sabotage-your-app-if-youre-a-competitor.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 254,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-fable-5",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "if-claude-fable-stops-helping-you-youll-never-know",
+          "fullContent": "If Claude Fable stops helping you, you'll never know\nJune 9, 2026\nI didn't expect to read this in a model card.\nFable 5 model card :\nwe’ve implemented new interventions that limit Claude’s effectiveness for requests targeting frontier LLM development (for example, on building pretraining pipelines, distributed training infrastructure, or ML accelerator design). Using Claude to develop competing models already violates our Terms of Service, but enforcing this restriction through our safeguards avoids accelerating the actors most willing to violate these terms. Unlike our interventions for cybersecurity, biology and chemistry, and distillation attempts, these safeguards will not be visible to the user. Fable 5 will not fall back to a different model. Instead, the safeguards will limit effectiveness through methods such as prompt modification, steering vectors, or parameter-efficient fine-tuning (PEFT).\nClaude can now be silently nerfed. Anthropic has decided it won't tell users when this happens.\nModern software companies increasingly build their own embedding, reranking, and recommendation systems. Even my small bootstrapped app, wanderfugl.com, has a custom reranker and embedding algorithm that I trained myself.\nAnthropic gives a few examples of what it considers \"frontier AI development,\" but doesn’t provide a clear line. The problem is that many techniques once reserved for AI labs are now being used by ordinary software companies. Startups train embedding models. They build rerankers. They finetune and host small llms. The boundary between \"frontier AI research\" and normal product development is becoming harder to define every year.\nThat creates a real supply chain risk for businesses. If Claude gives me poor or incorrect advice while I’m working on an AI component, I have no way of knowing whether the model was confused, whether my problem is unsolvable, or if some invisible policy restriction quietly kicked in. Anthropic has explicitly chosen not to tell users when this is happening.\nOnce a development tool can stop optimizing for your success without telling you, it becomes impossible to fully trust your infrastructure.\nThe Anthropic supply chain risk\nAnthropic says these safeguards only affect 0.03% of developers. Maybe that's true today.\nThe problem is that the definition of an AI company is changing.\nMaybe you're not training frontier models today—most companies aren't. But modern software increasingly contains AI models. Five years ago, building a startup meant writing APIs and SQL queries. Today, it often means training, tuning, and deploying models.\nFive years ago, models like CLIP were frontier AI research projects. Today I'm fine-tuning them for a bootstrapped travel startup.\nIf you're debugging a model training pipeline for your product and Claude gives a bad answer, was the model confused? Did you give it bad context? Or did a hidden policy nerf Claude's ability to assist you?\nYou won't know.",
+          "category": "hot",
+          "publishedAt": "2026-06-09T21:19:11.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Upcoming breaking changes for NPM v12",
+          "titleKo": "NPM v12의 예정된 주요 변경사항",
+          "summary": "NPM v12에서 이루어질 예정인 주요 변경사항들이 공지되었습니다. 기존 버전과의 호환성이 깨지는 변경들이 포함되어 있으므로 사전에 대비가 필요합니다.",
+          "keyPoints": [
+            "NPM v12에서 breaking changes가 예정되어 있음",
+            "개발자들은 업그레이드 전에 문서를 확인하고 필요한 마이그레이션을 준비해야 함"
+          ],
+          "whyItMatters": "의존성 관리의 핵심 도구인 NPM의 변경사항을 미리 파악해야 프로젝트 영향을 최소화할 수 있습니다.",
+          "url": "https://github.blog/changelog/2026-06-09-upcoming-breaking-changes-for-npm-v12/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 100,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "upcoming-breaking-changes-for-npm-v12",
+          "category": "hot",
+          "publishedAt": "2026-06-09T21:01:00.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "OpenCV 5 Is Here: The Biggest Leap in Years for Computer Vision",
+          "titleKo": "OpenCV 5 출시: 컴퓨터 비전의 획기적인 진전",
+          "summary": "OpenCV 5 버전이 출시되었으며, 이는 수년간의 큰 도약을 나타냅니다. 주요 개선사항과 새로운 기능들이 포함되어 있습니다.",
+          "keyPoints": [
+            "OpenCV 5는 컴퓨터 비전 라이브러리의 주요 버전 업그레이드",
+            "성능 개선과 새로운 기능이 대폭 추가됨"
+          ],
+          "whyItMatters": "컴퓨터 비전 프로젝트를 진행 중인 개발자들은 OpenCV 5의 새 기능과 성능 개선으로 이득을 볼 수 있습니다.",
+          "url": "https://opencv.org/opencv-5/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 671,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "opencv",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "opencv-5-is-here-the-biggest-leap-in-years-for-computer-vision",
+          "category": "hot",
+          "publishedAt": "2026-06-06T06:02:28.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Apple decided not to roll out Siri in EU after denied request for exemption",
+          "titleKo": "Apple, EU 규정 미충족으로 EU에서 Siri 출시 포기",
+          "summary": "Apple이 EU의 규정 준수 요구사항을 충족하지 못하면서 Siri를 EU에 출시하지 않기로 결정했다.",
+          "keyPoints": [
+            "Apple은 EU 규정에 따른 Siri 개선 요청에 대해 면제 신청을 했으나 거부당했다.",
+            "AI 도구의 규정 준수는 지역별로 다른 요구사항으로 인해 글로벌 출시에 장벽이 될 수 있다."
+          ],
+          "whyItMatters": "EU의 강화된 AI 규제가 기술 기업의 서비스 출시 전략에 실제 영향을 미치고 있음을 보여준다.",
+          "url": "https://www.reuters.com/business/apple-failed-make-its-ai-tool-comply-eu-regulations-eu-commission-says-2026-06-09/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 338,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "apple-decided-not-to-roll-out-siri-in-eu-after-denied-request-for-exemption",
+          "category": "hot",
+          "publishedAt": "2026-06-09T16:13:10.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Grit: Rewriting Git in Rust with Agents",
+          "titleKo": "Grit: Rust로 Git을 재작성하며 에이전트 지원",
+          "summary": "GitButler는 AI 코딩 에이전트가 Git 저장소를 안전하게 다룰 수 있도록 설계된 Git 대체 도구를 개발 중이며, Series A에서 $17M을 투자받았습니다. 안전한 검토, 롤백, 명확한 작업 경계를 통해 에이전트가 코드를 손상시키지 않도록 방지합니다.",
+          "keyPoints": [
+            "AI 에이전트가 안전하게 Git 작업을 수행할 수 있는 워크플로우 제공",
+            "Series A 투자 $17M으로 소프트웨어 개발의 미래 인프라 구축",
+            "CSS가 기존 JavaScript 라이브러리(Floating UI, GSAP 등)의 기능을 대체"
+          ],
+          "whyItMatters": "AI 에이전트를 사용하는 개발 워크플로우에서 코드 안전성과 버전 관리가 중요해지고 있습니다.",
+          "url": "https://blog.gitbutler.com/true-grit",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 47,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "grit-rewriting-git-in-rust-with-agents",
+          "fullContent": "Agent-safe Git with GitButler1 month agoby PJ Hagerty6 min readHow to let coding agents work without wrecking your branches: the real fear is not the code, it’s the Git mess, and the fix is a workflow built for safe review, rollback, and clear task boundaries.We’ve raised $17M to build what comes after Git2 months agoby Scott Chacon4 min readGitButler has raised a Series A round to accelerate developing the infrastructure for how software gets built next.The Great CSS Expansion2 months agoby Pavel Laptev17 min readCSS now does what Floating UI, GSAP ScrollTrigger, Framer Motion, and react-select used to require JavaScript for. Here is exactly how much that saves, why these libraries were painful beyond their size, and what the platform still hasn't figured out.",
+          "category": "tech",
+          "publishedAt": "2026-06-09T19:58:21.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "opencv/opencv (C++)",
+          "titleKo": "opencv/opencv (C++) - 오픈소스 컴퓨터 비전 라이브러리",
+          "summary": "컴퓨터 비전 분야의 가장 널리 사용되는 오픈소스 라이브러리입니다.",
+          "keyPoints": [
+            "C++로 작성된 고성능 컴퓨터 비전 라이브러리",
+            "이미지 처리, 물체 인식 등 다양한 비전 작업 지원"
+          ],
+          "whyItMatters": "비전 기반 애플리케이션 개발에 필수적인 표준 라이브러리입니다.",
+          "url": "https://github.com/opencv/opencv",
+          "sourceName": "GitHub Trending",
+          "engagement": 88611,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "topicId": "opencv",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "opencvopencv-c",
+          "category": "tech",
+          "publishedAt": "2026-06-09T23:32:30.039Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "C++"
+          ]
+        },
+        {
+          "title": "Andyyyy64/whichllm (Python)",
+          "titleKo": "Andyyyy64/whichllm (Python)",
+          "summary": "사용자 하드웨어에서 실제로 실행되고 성능이 우수한 로컬 LLM을 찾아주는 도구로, 파라미터 수가 아닌 벤치마크 기반의 실시간 순위를 제공한다.",
+          "keyPoints": [
+            "로컬 LLM 선택을 파라미터 크기가 아닌 실제 성능 벤치마크를 기준으로 한다.",
+            "한 명령어로 사용자의 특정 하드웨어에 최적화된 LLM을 빠르게 식별할 수 있다."
+          ],
+          "whyItMatters": "개발자가 로컬 환경에서 실제 필요에 맞는 LLM을 효율적으로 선택할 수 있게 해주는 실용적인 도구이다.",
+          "url": "https://github.com/Andyyyy64/whichllm",
+          "sourceName": "GitHub Trending",
+          "engagement": 4061,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "andyyyy64whichllm-python",
+          "category": "tech",
+          "publishedAt": "2026-06-09T23:32:30.040Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "aaif-goose/goose (Rust)",
+          "titleKo": "aaif-goose/goose (Rust)",
+          "summary": "Rust로 작성된 오픈소스 확장 가능한 AI 에이전트로, 코드 제안을 넘어 설치, 실행, 편집, 테스트를 수행할 수 있는 모든 LLM을 지원합니다.",
+          "keyPoints": [
+            "코드 제안을 넘어 직접 실행, 편집, 테스트까지 자동화할 수 있는 AI 에이전트입니다.",
+            "어떤 LLM과도 호환되는 확장 가능한 아키텍처를 제공합니다."
+          ],
+          "whyItMatters": "AI 에이전트를 활용하여 개발 워크플로우의 자동화를 한 단계 더 진행할 수 있습니다.",
+          "url": "https://github.com/aaif-goose/goose",
+          "sourceName": "GitHub Trending",
+          "engagement": 48485,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "aaif-goosegoose-rust",
+          "category": "tech",
+          "publishedAt": "2026-06-09T23:32:30.040Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "refactoringhq/tolaria (TypeScript)",
+          "titleKo": "refactoringhq/tolaria (TypeScript) - 마크다운 지식 베이스 관리 도구",
+          "summary": "마크다운 형식의 지식 베이스를 관리하기 위한 데스크톱 애플리케이션입니다.",
+          "keyPoints": [
+            "TypeScript로 작성된 오픈소스 프로젝트",
+            "마크다운 기반 지식 관리에 최적화된 도구"
+          ],
+          "whyItMatters": "개발자들의 문서화 및 지식 관리 워크플로우를 효율화할 수 있는 도구입니다.",
+          "url": "https://github.com/refactoringhq/tolaria",
+          "sourceName": "GitHub Trending",
+          "engagement": 14290,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "refactoringhqtolaria-typescript",
+          "category": "tech",
+          "publishedAt": "2026-06-09T23:32:30.039Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Alpine Linux 3.24.0 Released",
+          "titleKo": "Alpine Linux 3.24.0 출시",
+          "summary": "Alpine Linux 3.24.0이 출시되었으며, GRUB 2.14, LLVM 22, Rust 1.96, GNOME 50, Go 1.26 등 주요 도구와 데스크톱 환경이 업그레이드되었습니다. 설치 프로그램 개선사항과 GTK+ 3.0의 커뮤니티 저장소 이동 등 주요 변경사항이 포함되었습니다.",
+          "keyPoints": [
+            "LLVM 22, Rust 1.96, Go 1.26 등 주요 개발 도구 최신 버전 포함",
+            "IPv6 지원 강화 및 시리얼 콘솔 지원으로 헤드리스 설정 개선",
+            "Python setuptools 82.0.0에서 pkg_resources 제거로 마이그레이션 필요"
+          ],
+          "whyItMatters": "Alpine Linux 기반 개발 및 배포 환경에서 최신 도구와 언어를 사용할 수 있습니다.",
+          "url": "https://alpinelinux.org/posts/Alpine-3.24.0-released.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 107,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "alpine-linux-3240-released",
+          "fullContent": "2026-06-09\nAlpine Linux 3.24.0 Released\nWe are pleased to announce the release of Alpine Linux 3.24.0, the first\nrelease in the v3.24 stable series.\nHighlights\nGRUB 2.14\nLLVM 22\nRust 1.96\nGNOME 50\nGo 1.26\nKDE Plasma 6.6\nQt 6.11\nSway 1.12\nnginx 1.30\nSignificant changes\nPython setuptools 82.0.0 removed pkg_resources\npy3-setuptools has been upgraded to 82.0.0, which removed the deprecated\npkg_resources module. Projects that still depend on it will no longer\nwork and should migrate to its successors.\nqemu-binfmt service deprecated\nThe qemu-binfmt service from qemu-openrc is\ndeprecated\nin favor of binfmt.d config files from user mode qemu packages combined with\nthe binfmt service.\nInstaller improvements\nThe installer (setup-alpine) now supports the\nLimine boot loader\nhas gained IPv6 support. When installing from a serial console, the boot\nloader and kernel will automatically be configured with serial console\nsupport, making headless setups smoother.\nCOSMIC 1 desktop\nThe COSMIC desktop environment by\nSystem76 is now available in the community repository.\nGTK+ 3.0 moved to community\nGTK+ 3.0 has been moved from main to the community repository.\nPackage removals\nAdditional GTK 2 and Qt5 packages have been removed as part of ongoing\ndeprecation efforts. libsoup 2 has also been removed.\nUpgrade notes\nAs always, make sure to use apk upgrade --available when switching between\nmajor versions.\nGRUB users must run grub-install <device> or grub-install <efi-options>\nafter upgrading to ensure the new GRUB version is properly installed to disk.\nUsers with / and /usr on separate filesystems (which is unsupported) need\ntake special care. See the wiki for\ndetails.\nChanges\nThe full list of changes can be found in the wiki, git log and\nbug tracker.\nCredits\nThanks to everyone sending patches, bug reports, new and updated aports,\nand to everyone helping with documentation, maintaining the infrastructure,\nor contributing in any other way!\nThanks to GIGABYTE, Linode, Fastly, IBM,\nvpsFree, AlpineLinuxSupport.com, CloudOn, Osso B.V.,\nHorizonIQ, Cherry Servers and NetMountains for providing us\nwith hardware and hosting.\naports Commit Contributors\n/dev/urandom\n0xDEADCADE\n6543\nAchill Gilgenast\nAdam Jensen\nAdam Medziński\nAdam Sokolnicki\nadamthiede\nAdrien Beraud\nAdrián Arroyo Calle\nAelin\nagrevster\nagx\nAleks Bunin\nAlex Denes\nAlex McGrath\nAlexander Couzens\nAlexandru Ungur\nAlistair Francis\nAmelia Clarke\nAmodio\nAndrej Kolčin\nAndres Almiray\nAndres Morey\nAndrew Palardy\nAndré Klitzing\nAndy Hawkins\nAndy Postnikov\nAngelo Verlain\nAnjandev Momi\nAntoine Martin\nAnton Bambura\naptalca\nAriadne Conill\nArmin Weigl\narnaudv6\nArusekk\nAster Boese\nAtsushi Watanabe\nAyman Bagabas\nBart Ribbers\nbastimeyer\nbdprom\nBenjamin Valentin\nbin456789\nBiswapriyo Nath\nBjørnar Skinnes\nbodyabos\nBrad Cowie\nBradford D. Boyle\nBryce Vandegrift\nBtrc4t\nbyteskeptical\nCamelia Lavender\nCarlo Dé\nCC-Hsu\nCeleste\nCEO\nChad Dougherty\nchoc\nChristian Schaefer\nChristiano Haesbaert\nck\nClayton Craft\nCoco Liliace\ncodonaft\nColin Reeder\ncos\ncow\nCraig Comstock\ndabao1955\nDahlia\nDamiano Ognissanti\nDaniel Kulesz\nDaniel Markstedt\nDaniel Néri\nDario Caroprese\nDarkCat09\nDave Henderson\nDavid Demelier\nDavid Florness\nDawid Wróbel\nDekedro\nDenis Burkov\nDenis Mingulov\nDennis Camera\nDerLinkman\ndiestl\nDominic\nDominique Martinet\ndonoban\nds8088\nDuncan Bellamy\ndurrendal\nDWwanghao\nDylan Jones\nDylan Van Assche\nEdd Salkield\nErdemOzgen\nerdnaxe\neu\nEvan Purkhiser\nEven Rouault\nFabricio Silva\nfamfo\nFaustin Lammler\nFelix Singer\nFerass El Hafidi\nFiona Klute\nFiras Khana\nFlorian Mirkes\nFrancesco Carmelo Capria\nFrancesco Colista\nFrancesco Palumbo\nFrancois Perrad\nFxzx mic\nGabriel A. Giovanini\nGalen Abell\nGe Yao\nGopal Sharma\nGP Orcullo\nGraham King\nGuy Godfroy\nHaelwenn (lanodan) Monnier\nHal Martin\nHannes Braun\nHarald Sitter\nHarry N\nhayben25\nHayden Barnes\nHayden Cianessi\nHenrik Grimler\nHenrik Riomar\nHoang Nguyen\nHolger Jaekel\nHristiyan Ivanov\nHugo Osvaldo Barrera\nHugo Wang\nIlkka K\nIntegral\niodomi\nIskren Chernev\nIsrael Roldan\nIstvan\nIztok Fister Jr.\nIztok Fister, Jr.\nJ. Neuschäfer\nJ0WI\njahway603\nJake Buchholz Göktürk\nJakob Hauser\nJakub Jirutka\nJames Chen-Smith\nJames Smith\nJason Lenz\nJasper Korten\nJesper Noordsij\nJesse Mandel\nJingyun Hua\nJJ\nJo Zzsi\nJohannes Müller\nJohn Anthony\nJohn Vogel\nJonas\nJordan Christiansen\nJoren\nJosh Soref\nJoshua Murphy\nJozef Mlich\nJules Maselbas\njvoisin\nk8ie\nKaarle Ritvanen\nKate\nKevin Daudt\nKevin Wang\nkkflt\nknuxify\nKonstantin Kulikov\nkpcyrd\nKrassy Boykinov\nKrystian Chachuła\nLaurent Bercot\nLauri Tirkkonen\nlazywalker\nLenny Angst\nLeon Marz\nLeon White\nLeonardo Arena\nleso-kn\nLindsay Zhou\nLinus Groh\nLN Liberda\nLogan G\nLovell Fuller\nLuca Weiss\nLucas Betschart\nLucidiot\nludo-berthelot\nMaarten van Gompel\nmacmpi\nMagnus Sandin\nManickaP\nMaria Lisina\nMarian Buschsieweke\nMark Hills\nMartijn Braam\nMartin Kjær Jørgensen\nmathew\nMatias\nMatthias Ahouansou\nMatthieu Baerts (NGI0)\nmekyt\nMeng Zhuo\nMichael Lyngbol\nMichael Pirogov\nMichal Tvrznik\nMichał Polański\nMidas\nMike Robbins\nMilan P. Stanić\nminoplhy\nMintsuki\nmio\nMoritz Haase\nNaomi Rennie",
+          "category": "tech",
+          "publishedAt": "2026-06-09T20:50:54.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "roboflow/supervision (Python)",
+          "titleKo": "Roboflow Supervision - 재사용 가능한 컴퓨터 비전 도구",
+          "summary": "Roboflow의 Python 기반 라이브러리로 재사용 가능한 컴퓨터 비전 도구를 제공합니다.",
+          "keyPoints": [
+            "컴퓨터 비전 개발의 생산성을 높이는 재사용 가능한 컴포넌트 제공"
+          ],
+          "whyItMatters": "컴퓨터 비전 프로젝트 개발 시간을 단축할 수 있습니다.",
+          "url": "https://github.com/roboflow/supervision",
+          "sourceName": "GitHub Trending",
+          "engagement": 42960,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "roboflowsupervision-python",
+          "category": "tech",
+          "publishedAt": "2026-06-09T23:32:30.039Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Can LLMs Beat Classical Hyperparameter Optimization Algorithms?",
+          "titleKo": "LLM이 고전 하이퍼파라미터 최적화 알고리즘을 이길 수 있을까?",
+          "summary": "LLM 기반 하이퍼파라미터 최적화를 CMA-ES, TPE 같은 고전 알고리즘과 비교 연구합니다. 순수 LLM은 고전 방식에 미치지 못하지만, Centaur라는 하이브리드 방식(고전 최적화기와 LLM 결합)이 가장 우수한 성능을 달성합니다.",
+          "keyPoints": [
+            "고전 HPO 알고리즘(CMA-ES, TPE)이 LLM 기반 방식보다 일관되게 우수한 성능을 보이며, 특히 메모리 오버플로우 방지가 중요합니다.",
+            "LLM은 상태 추적에 어려움을 겪지만 도메인 지식이 풍부하므로, 고전 최적화기의 내부 상태(평균값, 스텝 크기, 공분산)를 LLM과 공유하는 Centaur 하이브리드 방식이 가장 효과적입니다.",
+            "0.8B LLM을 사용한 Centaur도 모든 순수 고전/LLM 방식을 능가하는 결과를 달성합니다."
+          ],
+          "whyItMatters": "LLM을 단순 대체 수단이 아닌 고전 최적화 기법의 보완 도구로 활용할 수 있는 전략을 제시합니다.",
+          "url": "https://arxiv.org/abs/2603.24647",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 95,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "can-llms-beat-classical-hyperparameter-optimization-algorithms",
+          "fullContent": "Computer Science > Machine Learning\narXiv:2603.24647 (cs)\n[Submitted on 25 Mar 2026 (v1), last revised 17 Apr 2026 (this version, v5)]\nTitle:Can LLMs Beat Classical Hyperparameter Optimization Algorithms? A Study on autoresearch\nAuthors:Fabio Ferreira, Lucca Wobbe, Arjun Krishnakumar, Frank Hutter, Arber Zela View a PDF of the paper titled Can LLMs Beat Classical Hyperparameter Optimization Algorithms? A Study on autoresearch, by Fabio Ferreira and 4 other authors\nView PDF\nHTML (experimental)\nAbstract:The autoresearch repository enables an LLM agent to optimize hyperparameters by editing training code directly. We use it as a testbed to compare classical HPO algorithms against LLM-based methods on tuning the hyperparameters of a small language model under a fixed compute budget. When defining a fixed search space over autoresearch, classical methods such as CMA-ES and TPE consistently outperform LLM-based agents, where avoiding out-of-memory failures matters more than search diversity. Allowing the LLM to directly edit source code narrows the gap to the classical methods but does not close it, even with frontier models available at the time of writing such as Claude Opus 4.6 and Gemini 3.1 Pro Preview. We observe that LLMs struggle to track optimization state across trials. In contrast, classical methods lack the domain knowledge of LLMs. To combine the strengths of both, we introduce Centaur, a hybrid that shares CMA-ES's interpretable internal state, including mean vector, step-size, and covariance matrix, with an LLM. Centaur achieves the best result in our experiments, and a 0.8B LLM already suffices to outperform all classical and pure LLM methods. Unconstrained code editing requires larger models to be competitive with classical methods. We further analyze search diversity, model scaling from 0.8B to frontier models, and ablate the fraction of LLM-proposed trials in Centaur. All in all, our results suggest that LLMs are most effective as a complement to classical optimizers, not as a replacement.\nCode is available at this https URL & interactive demo at this https URL.\nSubjects:\nMachine Learning (cs.LG); Machine Learning (stat.ML)\nCite as:\narXiv:2603.24647 [cs.LG]\n(or\narXiv:2603.24647v5 [cs.LG] for this version)\nhttps://doi.org/10.48550/arXiv.2603.24647\nFocus to learn more\narXiv-issued DOI via DataCite\nSubmission history From: Fabio Ferreira [view email] [v1]\nWed, 25 Mar 2026 17:29:40 UTC (1,874 KB)\n[v2]\nSun, 29 Mar 2026 18:46:53 UTC (2,456 KB)\n[v3]\nSat, 4 Apr 2026 10:33:34 UTC (3,843 KB)\n[v4]\nMon, 13 Apr 2026 21:59:37 UTC (3,768 KB)\n[v5]\nFri, 17 Apr 2026 18:50:51 UTC (3,905 KB)\nFull-text links:\nAccess Paper:\nView a PDF of the paper titled Can LLMs Beat Classical Hyperparameter Optimization Algorithms? A Study on autoresearch, by Fabio Ferreira and 4 other authorsHTML (experimental)\nview license\nCurrent browse context:\ncs.LG\n< prev\n|\nnext >\nnew\n|\nrecent\n| 2026-03\nChange to browse by:\ncs\nstat\nstat.ML\nReferences & Citations\nNASA ADSGoogle Scholar\nSemantic Scholar\nexport BibTeX citation\nLoading...\nBibTeX formatted citation\n×\nloading...\nData provided by:\nBookmark\nBibliographic Tools\nBibliographic and Citation Tools\nBibliographic Explorer Toggle\nBibliographic Explorer (What is the Explorer?)\nConnected Papers Toggle\nConnected Papers (What is Connected Papers?)\nLitmaps Toggle\nLitmaps (What is Litmaps?)\nscite.ai Toggle\nscite Smart Citations (What are Smart Citations?)\nCode, Data, Media\nCode, Data and Media Associated with this Article\nalphaXiv Toggle\nalphaXiv (What is alphaXiv?)\nLinks to Code Toggle\nCatalyzeX Code Finder for Papers (What is CatalyzeX?)\nDagsHub Toggle\nDagsHub (What is DagsHub?)\nGotitPub Toggle\nGotit.pub (What is GotitPub?)\nHuggingface Toggle\nHugging Face (What is Huggingface?)\nScienceCast Toggle\nScienceCast (What is ScienceCast?)\nDemos\nDemos\nReplicate Toggle\nReplicate (What is Replicate?)\nSpaces Toggle\nHugging Face Spaces (What is Spaces?)\nSpaces Toggle\nTXYZ.AI (What is TXYZ.AI?)\nRelated Papers\nRecommenders and Search Tools\nLink to Influence Flower\nInfluence Flower (What are Influence Flowers?)\nCore recommender toggle\nCORE Recommender (What is CORE?)\nIArxiv recommender toggle\nIArxiv Recommender\n(What is IArxiv?)\nAuthor\nVenue\nInstitution\nTopic\nAbout arXivLabs\narXivLabs: experimental projects with community collaborators\narXivLabs is a framework that allows collaborators to develop and share new arXiv features directly on our website.\nBoth individuals and organizations that work with arXivLabs have embraced and accepted our values of openness, community, excellence, and user data privacy. arXiv is committed to these values and only works with partners that adhere to them.\nHave an idea for a project that will add value for arXiv's community? Learn more about arXivLabs.\nWhich authors of this paper are endorsers? |\nDisable MathJax (What is MathJax?)",
+          "category": "tech",
+          "publishedAt": "2026-06-09T15:01:15.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Is Grep All You Need? How Agent Harnesses Reshape Agentic Search",
+          "titleKo": "Grep만으로 충분한가? 에이전트 하네스가 에이전틱 검색을 어떻게 재편하는가",
+          "summary": "LLM 에이전트 시스템에서 검색 전략(grep vs 벡터 검색)이 에이전트 아키텍처와 도구 호출 방식과 어떻게 상호작용하는지 실증 연구했다. 두 가지 실험을 통해 grep이 벡터 검색보다 일반적으로 더 높은 정확도를 보였지만, 최종 성능은 사용된 하네스 유형에 강하게 의존한다는 것을 발견했다.",
+          "keyPoints": [
+            "grep 검색이 벡터 검색보다 에이전틱 검색에서 더 높은 정확도를 달성했다.",
+            "도구 결과 표시 방식(인라인 vs 파일 기반)과 하네스 종류가 성능에 중대한 영향을 미친다.",
+            "RAG 시스템 설계 시 검색 알고리즘만큼 에이전트 아키텍처 선택이 중요하다는 것을 시사한다."
+          ],
+          "whyItMatters": "LLM 에이전트를 활용한 검색 시스템 개발 시 검색 알고리즘 선택과 에이전트 구조의 최적 조합을 판단하는 데 실용적인 지침을 제공한다.",
+          "url": "https://arxiv.org/abs/2605.15184",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 107,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "is-grep-all-you-need-how-agent-harnesses-reshape-agentic-search",
+          "fullContent": "Computer Science > Computation and Language\narXiv:2605.15184 (cs)\n[Submitted on 14 May 2026]\nTitle:Is Grep All You Need? How Agent Harnesses Reshape Agentic Search\nAuthors:Sahil Sen, Akhil Kasturi, Elias Lumer, Anmol Gulati, Vamse Kumar Subbiah View a PDF of the paper titled Is Grep All You Need? How Agent Harnesses Reshape Agentic Search, by Sahil Sen and 4 other authors\nView PDF\nHTML (experimental)\nAbstract:Recent advances in Large Language Model (LLM) agents have enabled complex agentic workflows where models autonomously retrieve information, call tools, and reason over large corpora to complete tasks on behalf of users. Despite the growing adoption of retrieval-augmented generation (RAG) in agentic search systems, existing literature lacks a systematic comparison of how retrieval strategy choice interacts with agent architecture and tool-calling paradigm. Important practical dimensions, including how tool outputs are presented to the model and how performance changes when searches must cope with more irrelevant surrounding text, remain under-explored in agent loops. This paper reports an empirical study organized into two experiments. Experiment 1 compares grep and vector retrieval on a 116-question sample from LongMemEval, using a custom agent harness (Chronos) and provider-native CLI harnesses (Claude Code, Codex, and Gemini CLI), for both inline tool results and file-based tool results that the model reads separately. Experiment 2 compares grep-only and vector-only retrieval while progressively mixing in additional unrelated conversation history, so that each query is embedded in more distracting material alongside the passages that matter. Across Chronos and the provider CLIs, grep generally yields higher accuracy than vector retrieval in our comparisons in experiment 1; at the same time, overall scores still depend strongly on which harness and tool-calling style is used, even when the underlying conversation data are the same.\nSubjects:\nComputation and Language (cs.CL)\nCite as:\narXiv:2605.15184 [cs.CL]\n(or\narXiv:2605.15184v1 [cs.CL] for this version)\nhttps://doi.org/10.48550/arXiv.2605.15184\nFocus to learn more\narXiv-issued DOI via DataCite\nSubmission history From: Sahil Sen [view email] [v1]\nThu, 14 May 2026 17:58:41 UTC (516 KB)\nFull-text links:\nAccess Paper:\nView a PDF of the paper titled Is Grep All You Need? How Agent Harnesses Reshape Agentic Search, by Sahil Sen and 4 other authorsHTML (experimental)\nview license\nCurrent browse context:\ncs.CL\n< prev\n|\nnext >\nnew\n|\nrecent\n| 2026-05\nChange to browse by:\ncs\nReferences & Citations\nNASA ADSGoogle Scholar\nSemantic Scholar\nexport BibTeX citation\nLoading...\nBibTeX formatted citation\n×\nloading...\nData provided by:\nBookmark\nBibliographic Tools\nBibliographic and Citation Tools\nBibliographic Explorer Toggle\nBibliographic Explorer (What is the Explorer?)\nConnected Papers Toggle\nConnected Papers (What is Connected Papers?)\nLitmaps Toggle\nLitmaps (What is Litmaps?)\nscite.ai Toggle\nscite Smart Citations (What are Smart Citations?)\nCode, Data, Media\nCode, Data and Media Associated with this Article\nalphaXiv Toggle\nalphaXiv (What is alphaXiv?)\nLinks to Code Toggle\nCatalyzeX Code Finder for Papers (What is CatalyzeX?)\nDagsHub Toggle\nDagsHub (What is DagsHub?)\nGotitPub Toggle\nGotit.pub (What is GotitPub?)\nHuggingface Toggle\nHugging Face (What is Huggingface?)\nScienceCast Toggle\nScienceCast (What is ScienceCast?)\nDemos\nDemos\nReplicate Toggle\nReplicate (What is Replicate?)\nSpaces Toggle\nHugging Face Spaces (What is Spaces?)\nSpaces Toggle\nTXYZ.AI (What is TXYZ.AI?)\nRelated Papers\nRecommenders and Search Tools\nLink to Influence Flower\nInfluence Flower (What are Influence Flowers?)\nCore recommender toggle\nCORE Recommender (What is CORE?)\nAuthor\nVenue\nInstitution\nTopic\nAbout arXivLabs\narXivLabs: experimental projects with community collaborators\narXivLabs is a framework that allows collaborators to develop and share new arXiv features directly on our website.\nBoth individuals and organizations that work with arXivLabs have embraced and accepted our values of openness, community, excellence, and user data privacy. arXiv is committed to these values and only works with partners that adhere to them.\nHave an idea for a project that will add value for arXiv's community? Learn more about arXivLabs.\nWhich authors of this paper are endorsers? |\nDisable MathJax (What is MathJax?)",
+          "category": "tech",
+          "publishedAt": "2026-06-09T13:27:03.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "yikart/AiToEarn (TypeScript)",
+          "titleKo": "AI를 활용한 수익 창출 (yikart/AiToEarn)",
+          "summary": "AI를 활용하여 수익을 창출하는 TypeScript 기반 프로젝트입니다.",
+          "keyPoints": [
+            "AI 기술을 활용한 수익화 방법 제시"
+          ],
+          "whyItMatters": "AI 시대에 개발자들이 새로운 수익 창출 모델을 탐색할 수 있습니다.",
+          "url": "https://github.com/yikart/AiToEarn",
+          "sourceName": "GitHub Trending",
+          "engagement": 19895,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "yikartaitoearn-typescript",
+          "category": "tech",
+          "publishedAt": "2026-06-09T23:32:30.041Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "x1xhlol/system-prompts-and-models-of-ai-tools",
+          "titleKo": "AI 도구의 시스템 프롬프트 및 모델 모음",
+          "summary": "Augment Code, Claude Code, Cursor, Devin AI 등 다양한 AI 코딩 도구들의 시스템 프롬프트와 모델 정보를 수집한 저장소입니다. 오픈소스 도구들의 프롬프트도 포함하고 있습니다.",
+          "keyPoints": [
+            "30개 이상의 AI 코딩 도구의 시스템 프롬프트를 한 곳에서 확인할 수 있습니다.",
+            "각 도구의 동작 원리와 프롬프트 엔지니어링 기법을 학습할 수 있습니다."
+          ],
+          "whyItMatters": "AI 도구의 동작 방식을 이해하고 자신의 프롬프트 최적화에 참고할 수 있습니다.",
+          "url": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+          "sourceName": "GitHub Trending",
+          "engagement": 139133,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "x1xhlolsystem-prompts-and-models-of-ai-tools",
+          "category": "tech",
+          "publishedAt": "2026-06-09T23:32:30.041Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "RyanCodrai/turbovec (Python)",
+          "titleKo": "RyanCodrai/turbovec (Python)",
+          "summary": "TurboQuant 기반의 벡터 인덱스 라이브러리로, Rust로 작성되고 Python 바인딩을 제공합니다. 고성능 벡터 검색이 필요한 애플리케이션에 활용할 수 있습니다.",
+          "keyPoints": [
+            "Rust로 구현되어 높은 성능을 제공하면서 Python 사용자에게 접근성을 제공합니다.",
+            "TurboQuant 기반으로 최적화된 벡터 인덱싱이 가능합니다."
+          ],
+          "whyItMatters": "벡터 검색이 필요한 ML/AI 프로젝트에서 성능과 사용성을 동시에 달성할 수 있습니다.",
+          "url": "https://github.com/RyanCodrai/turbovec",
+          "sourceName": "GitHub Trending",
+          "engagement": 10129,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ryancodraiturbovec-python",
+          "category": "tech",
+          "publishedAt": "2026-06-09T23:32:30.038Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "santifer/career-ops (JavaScript)",
+          "titleKo": "santifer/career-ops (JavaScript)",
+          "summary": "Claude Code 기반 AI 지원 채용 검색 시스템으로, 14개의 스킬 모드, Go 대시보드, PDF 생성, 배치 처리 기능을 제공한다.",
+          "keyPoints": [
+            "Claude 모델을 활용한 지능형 채용 공고 분석 및 매칭 시스템이다.",
+            "다양한 기술 스킬 필터링과 자동화된 일괄 처리 기능으로 채용 프로세스를 효율화한다."
+          ],
+          "whyItMatters": "AI를 활용한 실용적인 커리어 도구 개발 사례로, 사이드 프로젝트에서도 생산성 높은 애플리케이션을 만들 수 있음을 보여준다.",
+          "url": "https://github.com/santifer/career-ops",
+          "sourceName": "GitHub Trending",
+          "engagement": 51599,
+          "contentType": "repo",
+          "labels": [
+            "career",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "santifercareer-ops-javascript",
+          "category": "tech",
+          "publishedAt": "2026-06-09T23:32:30.042Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "Biff.core: system composition for Clojure web apps",
+          "titleKo": "Biff.core: Clojure 웹 앱을 위한 시스템 조합",
+          "summary": "Jacob O'Bryant가 Biff 라이브러리를 12개의 분리된 라이브러리로 재구성하면서 첫 번째로 릴리스한 biff.core 라이브러리는 모듈 기반 시스템 조합과 초기화 함수를 통해 보일러플레이트 코드를 제거한다.",
+          "keyPoints": [
+            "초기화 함수 개념으로 라이브러리별 설정 보일러플레이트를 제거하고 모듈만 추가하면 된다.",
+            "모듈 var 참조와 memoization을 활용하여 웹 서버 재시작 없이 핸들러 업데이트를 지원한다.",
+            "의도적인 단순성 유지(컴포넌트를 수동으로 순서 지정)로 시스템의 동작 방식을 더 명확하게 이해할 수 있다."
+          ],
+          "whyItMatters": "Clojure 웹 애플리케이션의 설정 복잡성을 줄이면서 개발 생산성과 유지보수성을 향상시킨다.",
+          "url": "https://biffweb.com/p/core/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 99,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "biffcore-system-composition-for-clojure-web-apps",
+          "fullContent": "New library: biff.coreJacob O'Bryant | 9 Jun 2026As I wrote about previously, I've been working\non splitting Biff up into a bunch of separate libraries and changing various\nthings along the way. I've completed a rough draft of all twelve\nlibraries and am now\ngoing through them one-by-one to polish and release them. The first library is\nnow ready.\nbiff.core: system\ncomposition and other interfaces for Biff projects. This is the glue that holds\nall the other libraries together, and that's why I'm releasing it first.\nFor a long time Biff has had this \"modules and components\" structure where each\napplication namespace in your project exposes a \"module\" map, then you have a\nbunch of boilerplate to combine stuff from those modules into a single \"system\"\nmap, and then we thread the system map through your \"component\" functions on\nstartup. Biff 2 retains that structure, and it has some additional stuff to deal\nwith that boilerplate.\nFor an example of what I'm talking about, see this\ncode\nwhich takes the :routes (and :api-routes) keys from your modules and turns\nthem into a :biff/handler value for the system map. I wanted a first-class way\nto be able to extract that kind of logic cleanly into a library so that the\nlibrary's instructions can just be \"add this module to your project\" without an\naccompanying \"and then paste all this stuff into your main namespace.\"\nSo this new biff.core library includes a concept of \"init functions.\" These are\nfunctions that take a collection of modules and return a single map that can be\nmerged into your system map. Ta da. Here's an\nexample.\nInit functions are stored in the :biff.core/init key in your module maps, so\nwe get that nice \"all you need are modules (well, and components)\" effect.\nThe main complication here is that the boilerplate of defining a (def handler ...) var in your application code actually has a nice side benefit: late\nbinding. If you change any of your modules, the handler var will get updated,\nand if you set :biff/handler in your system map to the var instead of the\nvalue (#’handler), incoming Ring requests get the latest handler without you\nhaving to restart the web server. If we extract that boilerplate into library\ncode, we don't get the var.\nI ended up on this solution:\nInit functions take a var of your modules vector, not the vector value\nitself.\nAnything in the system map that you want to get updated without a restart\nneeds to be a function. In some cases this means instead of setting a\n:com.example/my-thing key on the system map, you need to set a\n:com.example/get-my-thing function which returns my-thing.\nThat function on the system map should dereference the modules var and pass it\nto a memoized function that builds whatever thing it is you need (like the\nRing handler).\nAgain, see this\nexample.\nThe result is kind of aesthetically pleasing: you get a nice clean main\nnamespace\nthat shouldn't need to change much, and all you do is add\nmodules\nand\ncomponents.\nThere's always the temptation to consolidate things further. Why even have a\nseparate components vector? Why not have modules support :biff.core/on-start\nand :biff.core/on-stop keys and then have some way to express dependencies\nbetween these lifecycle functions so we can call them in the right order?\nAnd the answer is so that we don't have to have some way to express dependencies\nbetween these lifecycle functions so we can call them in the right order. It's\nnot that hard to put the components in the right order yourself (especially\nsince the Biff starter project does that for you), and then it's easier to\nunderstand how components work. It's just a sequence of functions that you pass\na map through. If you work on a project with so many stateful resources that\nit's hard to keep track of them all, you can always layer something on top that\nfigures out what your components vector should be before you pass it to\nbiff.core.\nPlug: my team is\nhiring\nfor a senior software engineer, writing ClojureScript and Python mostly. We make modeling software\nfor renewable energy projects.",
+          "category": "tech",
+          "publishedAt": "2026-06-09T16:12:52.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Making Graphics Like it's 1993",
+          "titleKo": "1993년처럼 그래픽 만들기",
+          "summary": "개발자가 1990년대 초반의 기술 제약(Mode 13h 256색 팔레트, 320x240 해상도)을 의도적으로 적용하여 1인칭 슈팅 게임인 Catlantean 3D를 개발하고 있다. 팔레트 기반 렌더링에서 조명 효과를 구현하기 위해 전처리를 통한 색상 탐색 최적화 기법을 사용했다.",
+          "keyPoints": [
+            "256색 팔레트 제약이 의도적인 색상 선택을 강제하여 디자인 품질을 높인다.",
+            "팔레트 기반 렌더러에서 거리에 따른 조명 효과를 구현하려면 음영 단계별 색상 변형을 사전 준비해야 한다.",
+            "Doom, Duke Nukem 같은 고전 게임의 명확한 시각 표현은 기술 제약에서 비롯된 신중한 설계의 결과이다."
+          ],
+          "whyItMatters": "레트로 기술 제약 속에서의 최적화 기법과 창의적 문제 해결 방법은 현대 그래픽 프로그래밍에서도 성능 최적화에 적용할 수 있다.",
+          "url": "https://staniks.github.io/articles/catlantean-3d-blog-1/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 738,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "making-graphics-like-its-1993",
+          "fullContent": "Catlantean 3D is a side-project I've been slowly building in my spare time for over a year, and I intend to release it on Steam next year.\nMy goal was to build a complete, shippable first-person shooter using techniques that were common in the early 90s, while allowing myself the luxury of using a modern compiler and a platform abstraction layer.\nWhat this actually means is, the constraints I have foolishly imposed upon myself are as follows:\nIf this sounds unreasonable to you, that is because it is.\nBut I'm doing it anyway, and today I'm gonna talk about something that is typically overlooked in development blogs, and that is asset creation.\nNote: Everything displayed here is work-in-progress, and heavily subject to change.\nMode 13h on VGA hardware was the famous 320x200 256-color graphics mode that defined a generation of PC games. From a programmer's perspective it was wonderfully simple: you'd have a linear frame buffer where each pixel was represented by a single byte indexing into a palette of 256 colors.\nIf you wanted to draw a pixel, you wrote a byte at a specific address, and that was it, there were no shaders or VRAM, or anything like that.\nOne byte per pixel, and that byte is an index into a palette which contains actual RGB values that would be rendered to screen. This imposes some interesting limitations; when making assets for modern games, you can throw millions of colors at an image, but when your limitation is that every pixel on screen can only be one of 256 colors, asset creation becomes a very different problem because every color choice has to be careful and deliberate.\nGames like Doom and Duke Nukem are good examples of this done right. There is a certain crispiness and clarity to these graphics that arises because of these technical limitations, not in spite of them. Restriction forces deliberate choices, and deliberate choices tend to look good.\nCatlantean 3D is an attempt to reproduce that feeling, but with one caveat - I'm actually going for something closer to VGA Mode-X, which is 320x240. The reason for this is, if you display 320x200 on a 4:3 display, you end up with non-square pixels! While this would be most authentic, I've chosen not to deal with this out of preference rather than objective reason.\nSo how does one create graphics that work within these limits?\nEverything begins with 768 bytes, carefully picked through many iterations of trial and error.\nThe main reasoning for picking these exact colors was the following:\nThe palette did not spring into life all at once; it involved a lot of back-and-forth during asset creation, testing, and re-iterating in general.\nBelow are some examples of sprites and textures from the actual game:\nCatlantean 3D is a traditional raycaster. The map consists of tiles which are all identical in size; some are walls, others are just voids with a floor and ceiling. In order to render the map, the renderer uses the DDA algorithm for each column of screen, traversing the tilemap and determining where it hits the map geometry, and based on this, a wall column is rendered on screen with the appropriate texture, sampled from appropriate coordinates. Floors and ceilings are rendered after as horizontal scanlines, filling in the rest of the screen.\nRaycasting has been done to death by other blogs and websites, so I'm not going to cover all of it, but I do want to cover what I think is its most overlooked aspect: lighting.\nIf we were to render the game world using just the palette, without any special effects, we would end up with something that looked rather flat and unimpressive:\nBut what we wanted was the following. Notice how the light diminishes the further away geometry is from player, and how one side of the map tiles is just slightly darker than the other. This gives an impression of depth.\nWith a modern hardware-accelerated renderer, this would be trivially done in a shader - based on how far the vertex is, we would multiply its color vector by a floating point factor and get a diminished color vector as a result.\nBut how do we achieve something like this with a palette renderer? It has no concept of color, just indices into palette. So if we wanted to find a darker shade of a certain color, we would need to loop through the palette and find the color that meets our criteria of \"darker\". This is just too much because we can't loop through the entire palette for every pixel we render onto the screen, it would be too slow.\nWhat we could do instead was some preprocessing, to allow a fast color lookup based on distance at runtime.\nIf we were to lay out our palette into a single row like this...\nWe then choose the number of shade levels (32 in my case) meaning each color needs 31 darker variants, all sourced from the palette. We know each color's RGB values, so from this, and the shade index we can determine the closest target color of that shade:\nBut that color might not exist in the palette. So we need to loop through the palette and find the clos",
+          "category": "tech",
+          "publishedAt": "2026-06-09T10:46:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Ultrafast machine learning on FPGAs via Kolmogorov-Arnold Networks",
+          "titleKo": "Kolmogorov-Arnold Networks을 이용한 FPGA 초고속 머신러닝",
+          "summary": "Kolmogorov-Arnold Network(KAN) 아키텍처를 FPGA에 구현하여 초고속 추론과 온라인 학습을 가능하게 하는 하드웨어 설계에 관한 논문입니다. 고정소수점 양자화와 룩업테이블 신경망(LUT-NN)을 활용하여 나노초 수준의 극저지연 추론을 달성합니다.",
+          "keyPoints": [
+            "FPGA의 룩업테이블(LUT)을 신경망 기본 단위로 사용하여 GPU보다 극저지연(나노초 수준) 성능을 제공합니다.",
+            "고정소수점 양자화를 통해 실수 연산을 이진 연산으로 변환하여 하드웨어 효율성을 극대화합니다.",
+            "KANELÉ 방식으로 FPGA 2026 최우수논문상을 수상했으며, 하이브리드 방식으로 0.8B LLM으로도 경쟁력 있는 성능을 달성합니다."
+          ],
+          "whyItMatters": "초저지연이 필요한 엣지 컴퓨팅, 금융거래, 자율주행 등의 실시간 응용에서 GPU를 대체할 새로운 가능성을 제시합니다.",
+          "url": "https://aarushgupta.io/posts/kan-fpga/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 132,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ultrafast-machine-learning-on-fpgas-via-kolmogorov-arnold-networks",
+          "fullContent": "Ultrafast machine learning on FPGAs via Kolmogorov-Arnold Networks\n07 Jun 2026\nThis post is a high-level explainer for my Master’s thesis, which involves designing hardware architectures for ultrafast inference and online learning using the Kolmogorov-Arnold Network (KAN) architecture. I’ll assume familiarity with standard machine learning concepts, as well as some understanding of hardware and digital circuits; read my previous post here for the latter.\nPlease read the two papers below for more information, particularly for details on benchmarks and notable results.\n[FPGA 2026 Best Paper]\nDuc Hoang*, Aarush Gupta*, and Philip C. Harris. “KANELÉ: Kolmogorov–Arnold Networks for Efficient LUT-based Evaluation.” Proceedings of the 2026 ACM/SIGDA International Symposium on Field Programmable Gate Arrays. ACM, 2026. https://dx.doi.org/10.1145/3748173.3779202\n[ICML 2026]\nDuc Hoang*, Aarush Gupta*, and Philip Harris. “Ultrafast on-FPGA Online Learning via Spline Locality in Kolmogorov-Arnold Networks.” arXiv preprint arXiv:2602.02056, 2026. https://arxiv.org/abs/2602.02056\n*equal contribution\nThe case for machine learning on FPGAs\nMost modern machine learning workloads, whether training or inference, run on graphics processing units (GPUs). Through hardware architectures that support a highly parallel execution model, GPUs can perform simple operations on large amounts of data with extremely high throughput. This makes them ideal for machine learning problems involving large architectures or batch-style training and inference.\nHowever, complex GPU architectures cannot meet the demands of applications that require ultra-low latency (e.g. sub-microsecond latency) and high hardware efficiency. Processors (e.g. CPUs and GPUs) incur significant overhead from scheduling and optimizing instructions, dynamically accessing memory, and so on. Extremely specialized workloads with ultralow latency (e.g. $\\sim$nanoseconds) and efficiency requirements are instead better served by custom hardware accelerators.\nField-programmable gate arrays, or FPGAs, are reconfigurable digital logic devices that are extremely well-suited for this style of custom hardware acceleration. FPGAs contain lookup tables (LUTs), which represent digital functions by enumerating the output value for every combination of binary inputs; flip-flops (FFs), which store state; and other memory and computation primitives. These components and the connections between them are reconfigured to design a custom digital circuit, allowing for low-level hardware architecture and algorithm co-design that enables ultrafast machine learning. Importantly, neural networks are implemented directly as digital logic, rather than as instructions that are sequentially executed on a processor.\nBackground\nFixed-point quantization\nFPGAs and other digital devices fundamentally operate on bits rather than continuous values. However, we often think about arithmetic operations in neural networks (e.g. $\\times, +$) as happening over the real numbers $\\mathbb R$. We thus need to encode real numbers as bitstrings (sequences of bits), a process known as quantization. Operations like addition and multiplication then become binary functions.\nOne method for doing this is fixed-point quantization.\nFixed-point quantization represents numbers in base-2, where some bits (fractional bits) come after the decimal point. To illustrate, if we use 8 bits total with 4 fractional bits after the decimal point, we can represent $2^8$ values from $(-2^7) / 2^4 = -8$ to $(2^7 - 1) / 2^4 = 7.9375$, spaced evenly in increments of $1/2^4 = 0.0625$. We will assume here that the representable range is symmetric about zero.\nIn a fixed-point quantization scheme, we can only represent a discrete set of values in some fixed range, which will lead to approximation error when trying to represent real values. One focus of resource-efficient machine learning is minimizing this approximation error, or quantization error, to enable stable training and inference.\nLookup-table neural networks (LUT-NNs)\nFPGAs implement digital logic primarily through lookup tables (LUTs), which are small components that represent arbitrary binary functions by storing their output for each combination of binary inputs. For example, $\\text{AND} : \\{0, 1\\}^2 \\to \\{0, 1\\}$1 is represented with a lookup table\nInput ($x,y$)\n$x\\text{ AND }y$\n00\n0\n01\n0\n10\n0\n11\n1\nIt then makes sense to learn these binary functions, represented as lookup tables, as core primitives of a neural network: such a network is known as a lookup-table neural network (LUT-NN). However, learning lookup tables through gradient descent or similar approaches is difficult.\nTo address this issue, recall that we can learn real-valued functions $f: \\mathbb R \\to \\mathbb R$ through gradient descent. If we perform fixed-point quantization with $b_i$ input bits and $b_o$ output bits, $f$ becomes a binary function $f_Q : \\{0, 1\\}^{b_i} \\to \\{0, 1\\}^{b_o}$. We can then learn continuous $f$ an",
+          "category": "tech",
+          "publishedAt": "2026-06-09T19:21:45.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "openai/plugins (JavaScript)",
+          "titleKo": "OpenAI 플러그인 (openai/plugins)",
+          "summary": "OpenAI의 플러그인 저장소로 JavaScript 기반 플러그인 개발을 지원합니다.",
+          "keyPoints": [
+            "OpenAI API 확장을 위한 플러그인 시스템 제공"
+          ],
+          "whyItMatters": "OpenAI 기능을 확장하는 커스텀 플러그인 개발이 가능합니다.",
+          "url": "https://github.com/openai/plugins",
+          "sourceName": "GitHub Trending",
+          "engagement": 2589,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "openaiplugins-javascript",
+          "category": "tech",
+          "publishedAt": "2026-06-09T23:32:30.042Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "mvanhorn/last30days-skill (Python)",
+          "titleKo": "mvanhorn/last30days-skill",
+          "summary": "Reddit, X, YouTube, Hacker News, Polymarket 등 다양한 소스에서 주제를 연구하고 종합한 요약을 생성하는 AI 에이전트 스킬이다.",
+          "keyPoints": [
+            "다중 소스(Reddit, X, YouTube, HN, Polymarket, 웹)에서 자동으로 정보를 수집한다.",
+            "수집된 정보를 바탕으로 근거 있는 요약을 생성한다."
+          ],
+          "whyItMatters": "에이전트 기반 정보 수집 및 종합 자동화 구현에 참고할 수 있는 실제 구현 예제를 제공한다.",
+          "url": "https://github.com/mvanhorn/last30days-skill",
+          "sourceName": "GitHub Trending",
+          "engagement": 37235,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "mvanhornlast30days-skill-python",
+          "category": "tech",
+          "publishedAt": "2026-06-09T23:32:30.038Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "maziyarpanahi/openmed (Python)",
+          "titleKo": "maziyarpanahi/openmed",
+          "summary": "오픈소스 헬스케어 AI 프로젝트이다.",
+          "keyPoints": [
+            "헬스케어 영역에 특화된 오픈소스 AI 솔루션을 제공한다."
+          ],
+          "whyItMatters": "의료 분야 AI 애플리케이션 개발 시 참고할 수 있는 오픈소스 기반을 제공한다.",
+          "url": "https://github.com/maziyarpanahi/openmed",
+          "sourceName": "GitHub Trending",
+          "engagement": 1828,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "maziyarpanahiopenmed-python",
+          "category": "tech",
+          "publishedAt": "2026-06-09T23:32:30.042Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Show HN: Gravity – interactive solar-system simulator, from Newton to Einstein",
+          "titleKo": "Gravity – 뉴턴에서 아인슈타인까지, 대화형 태양계 시뮬레이터",
+          "summary": "고전 역학부터 상대성 이론까지 다루는 대화형 태양계 시뮬레이터 프로젝트이다.",
+          "keyPoints": [
+            "뉴턴의 중력 이론과 아인슈타인의 상대성 이론을 시각적으로 시뮬레이션한다.",
+            "웹 기반 대화형 인터페이스로 물리 개념을 체험할 수 있다."
+          ],
+          "whyItMatters": "물리 시뮬레이션 구현과 과학 교육용 인터랙티브 웹 애플리케이션 개발 시 참고 사례가 될 수 있다.",
+          "url": "https://qunabu.github.io/Gravity/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 137,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-gravity-interactive-solar-system-simulator-from-newton-to-einstein",
+          "category": "tech",
+          "publishedAt": "2026-06-09T11:46:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "francescopace/espectre (Python)",
+          "titleKo": "francescopace/espectre",
+          "summary": "Wi-Fi 신호 분석(CSI)을 기반으로 움직임을 감지하고 Home Assistant와 통합되는 모션 감지 시스템이다.",
+          "keyPoints": [
+            "Wi-Fi 채널 상태 정보(CSI) 분석으로 카메라 없이 움직임을 감지한다.",
+            "Home Assistant와 통합되어 스마트 홈 자동화에 활용 가능하다."
+          ],
+          "whyItMatters": "IoT 기반 홈 오토메이션 구현 시 카메라 없는 프라이버시 친화적인 모션 감지 방법을 제공한다.",
+          "url": "https://github.com/francescopace/espectre",
+          "sourceName": "GitHub Trending",
+          "engagement": 8186,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "francescopaceespectre-python",
+          "category": "tech",
+          "publishedAt": "2026-06-09T23:32:30.042Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Exif Smuggling",
+          "titleKo": "Exif Smuggling",
+          "summary": "JPG 파일의 Exif 데이터에 실행 가능한 페이로드를 숨기는 캐시 스머글링 공격 기법입니다. 브라우저 캐시를 통해 인터넷 요청 없이 악성 페이로드를 수동으로 다운로드할 수 있습니다.",
+          "keyPoints": [
+            "JPG Exif 데이터에 악성 DLL을 임베드하여 캐시를 통해 배포",
+            "네트워크 요청을 우회하여 탐지 회피 가능한 공격 기법"
+          ],
+          "whyItMatters": "이미지 처리 및 캐시 메커니즘의 보안 취약점을 인식하고 방어 메커니즘을 강화해야 합니다.",
+          "url": "https://github.com/signalblur/exifsmugglingpoc",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 37,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "exif-smuggling",
+          "fullContent": "Exif Smuggling\nA Proof-of-Concept evolution of Cache Smuggling. This attack conceals an executable payload inside a JPG's Exif data. As a result, image caching (such as that of a Web Browser) can be used to passively download the payload.\nAs a result, the example loader (chrome_poc.ps1) does not need to make any internet requests to fetch the second stage payload.\nInstead, it simply extracts it from the Chrome browser's cache.\nFor full details see: https://malwaretech.com/2025/10/exif-smuggling\nExample Usage\nConvert PowerShell Loader to ClickFix Command\npython3 build_clickfix_cmd.py --input-file chrome_poc.ps1 --output-file encoded_command.txt --fake-path \"C:\\test\\doc.txt\"\nEmbed payload dll inside arbitrary JPG\npython3 exif_smuggling.py --input-file image.jpg --output-file payload.jpg --payload hello_world.dll\nExample Phishing page\nwww/index.html",
+          "category": "tech",
+          "publishedAt": "2026-06-09T21:06:00.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "The iPhone's Last Stand?",
+          "titleKo": "아이폰의 마지막 전투?",
+          "summary": "Apple이 WWDC에서 공개한 Siri AI는 기존 상호작용 패러다임을 유지하는 반면, Microsoft의 Project Solara는 클라우드 기반 AI 에이전트 중심의 새로운 기기 생태계를 제시하고 있습니다. Apple은 개인 데이터 접근이라는 고유한 장점이 있지만, 자동화된 작업 처리 능력에서는 뒤처져 있습니다.",
+          "keyPoints": [
+            "Microsoft Project Solara: 씬 클라이언트와 클라우드 에이전트 기반의 새로운 컴퓨팅 패러다임 제시",
+            "Apple Siri AI: 개인 데이터 접근 우위는 있으나 기존 상호작용 기반 구조에 머물러 있음",
+            "에이전트 중심 AI의 발전으로 기기 상호작용 방식 전환 예상"
+          ],
+          "whyItMatters": "향후 AI 시대에 기존 모바일 기반 개발 패러다임이 클라우드 에이전트 중심으로 전환될 가능성을 보여줍니다.",
+          "url": "https://stratechery.com/2026/the-iphones-last-stand/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 162,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-iphones-last-stand",
+          "fullContent": "Listen to this post:\nLog in to listen\nApple fans would, for years and years, sneer at Microsoft’s penchant for talking about products that may or may not ship, deriding them as vaporware. After Apple’s bungled 2024 launch of Apple Intelligence and new Siri, however, vaporware is fair game, and just in time for this Article.\nProject Solara\nLast week, at its annual Build developer conference, Microsoft put forth a vision for a new ecosystem of hardware devices under the banner of Project Solara:\nThe concept — which isn’t entirely clear from that video, but was more fully explained on stage — is that in the future you will be surrounded by an ecosystem of devices, none of which stand alone, but are more like portals to interact with your agents, which live in the cloud. In other words, as I wrote in February, Thin Is In:\nThis is even clearer when you consider the next big wave of AI: agents. The point of an agent is not to use the computer for you; it’s to accomplish a specific task. Everything between the request and the result, at least in theory, should be invisible to the user. This is the concept of a thin client taken to the absolute extreme: it’s not just that you don’t need any local compute to get an answer from a chatbot; you don’t need any local compute to accomplish real work. The AI on the server does it all.\nI made the case in that Article that server-side inference would dominate AI workloads, thanks in particular to increasingly high memory demands for agents. What I found intriguing about Microsoft’s vaporware, however, is that it showcased a use case wherein this thin client approach was compelling for reasons beyond KV cache.\nSpecifically, for most of tech history computing has been indistinguishable from interacting; that’s why we place so much value on new input methods, as they often set off new paradigm shifts. By the same token, the problem with wearables as the paradigm beyond the iPhone is that interacting with them generally sucks. Sure, you can imagine a future where voice interaction is completely seamless or where a device can “see” what you see, but anything longer than a few seconds is much less convenient than simply swiping on your phone. Agents, however, compute on your behalf, without any interaction necessary: a few seconds is all you need to get work done for hours — at least in theory.\nSiri AI\nApple, a company that can actually make devices, was under heavy scrutiny going into yesterday’s WWDC keynote for a different concern: can the company make AI? And, if your standards are the state of the art in AI circa June 2024, when Apple took their first crack at answering the question, they did quite well. The company’s pre-recorded keynote took great pains to show actual demos — spinning indicators and all — and they worked! Here was the first one of what Apple is calling “Siri AI”:\nWhat’s fascinating about this specific demo is that it also showed just how far behind Apple is. New head of Siri Mike Rockwell successfully used Siri to set a reminder to enter a lottery for concert tickets, demonstrating context awareness and the ability to interact with the Reminders app through Apple’s App Intents framework; what would have been state of the art would have been asking Siri to enter the lottery on his behalf when the time came. In other words, to act outside of the interaction paradigm that has traditionally defined computing, and which Apple has dominated.\nAt the same time, the fact that Apple is behind the state of the art might not matter that much given Apple’s market and opportunity in that market. To start with the former, Apple is targeting consumers, for whom traditional chatbot functionality is probably sufficient for the vast majority of their AI needs. Siri will be able to give you recipes, tips on do-it-yourself projects, or generate images. Moreover, the fact that Siri will have access to your iPhone gives it all of the same advantages that made me optimistic about Apple Intelligence in the first place. From an Update after that initial June 2024 launch:\nThe key part here is the “understanding personal context” bit: Apple Intelligence will know more about you than any other AI, because your phone knows more about you than any other device (and knows what you are looking at whenever you invoke Apple Intelligence); this, by extension, explains why the infrastructure and privacy parts are so important.\nWhat this means is that Apple Intelligence is by-and-large focused on specific use cases where that knowledge is useful; that means the problem space that Apple Intelligence is trying to solve is constrained and grounded — both figuratively and literally — in areas where it is much less likely that the AI screws up. In other words, Apple is addressing a space that is very useful, that only they can address, and which also happens to be “safe” in terms of reputation risk. Honestly, it almost seems unfair — or, to put it another way, it speaks to what a massive advantage t",
+          "category": "insight",
+          "publishedAt": "2026-06-09T10:08:18.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Flat Datacenter Networks at Scale at Amazon",
+          "titleKo": "Amazon의 규모에서 구현한 플랫 데이터센터 네트워크",
+          "summary": "Amazon이 대규모 데이터센터에서 구현한 플랫 네트워크 아키텍처에 대한 기술 분석입니다. 네트워크 구조의 단순화와 확장성 개선에 대한 내용을 다룹니다.",
+          "keyPoints": [
+            "데이터센터 규모에서 플랫 네트워크 아키텍처 구현",
+            "네트워크 복잡도 감소와 성능 향상에 대한 기술적 통찰"
+          ],
+          "whyItMatters": "인프라 규모 문제를 다루는 개발자들에게 Amazon의 구체적인 솔루션과 사례 학습 기회를 제공합니다.",
+          "url": "https://perspectives.mvdirona.com/2026/06/flat-datacenter-networks-at-scale/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 77,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "flat-datacenter-networks-at-scale-at-amazon",
+          "category": "insight",
+          "publishedAt": "2026-06-09T03:39:32.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "CEOs Who Think AI Replaces Their Employees Are Just Bad CEOs",
+          "titleKo": "AI로 직원을 대체하려 하는 CEO들은 그저 무능한 리더일 뿐",
+          "summary": "AI가 직원을 단순히 대체한다고 생각하는 CEO들의 전략에 비판적 의견을 제시합니다.",
+          "keyPoints": [
+            "AI는 직원 대체 도구가 아니라 생산성 향상 도구로 봐야 함"
+          ],
+          "whyItMatters": "개발자들이 조직 내에서 AI 도구의 실제 목적과 가치를 올바르게 이해하는 데 도움이 됩니다.",
+          "url": "https://www.techdirt.com/2026/06/09/ceos-who-think-ai-replaces-their-employees-are-just-bad-ceos/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 326,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ceos-who-think-ai-replaces-their-employees-are-just-bad-ceos",
+          "category": "insight",
+          "publishedAt": "2026-06-09T18:45:59.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Test-case reducers are underappreciated debugging tools",
+          "titleKo": "테스트 케이스 리듀서는 과소평가된 디버깅 도구",
+          "summary": "테스트 케이스 리듀서는 프로그램 충돌을 유발하는 입력값을 자동으로 축소하여 디버깅을 용이하게 하는 도구이다. 단순한 구조임에도 불구하고 95-99%의 놀라운 축소율을 달성할 수 있으며, '흥미로움 테스트'라는 조건만 정의하면 사용할 수 있다.",
+          "keyPoints": [
+            "테스트 케이스 리듀서는 자동으로 문제를 유발하는 최소 입력값을 찾아주므로 수동 디버깅보다 훨씬 효율적이다.",
+            "리듀서는 컴파일러 개발자들 사이에서는 널리 알려져 있지만, 일반 개발자들에게는 덜 알려진 도구이다.",
+            "오류 발생 빈도나 실행 명령어 수 등 추가 요소를 고려하도록 리듀서를 커스터마이징할 수 있어 실무 효과를 높일 수 있다."
+          ],
+          "whyItMatters": "복잡한 입력으로 인한 버그 재현을 빠르게 최소화하여 디버깅 시간을 크게 단축할 수 있다.",
+          "url": "https://tratt.net/laurie/blog/2026/test_case_reducers_are_underappreciated_debugging_tools.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 70,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "test-case-reducers-are-underappreciated-debugging-tools",
+          "fullContent": "Test-case reducers are less well known than they should be, and those who are\naware of them don’t always realise the variety of ways we can use – perhaps\neven abuse! – them. In this post, I’m going to explore some of the things I’ve learnt while using\nthese wonderful tools. I’ll start at the basics, because the idea is so simple\nthat it can be hard to believe it works.\nI’ll then work my way up to a deeper surprise. Test-case reducers try to reduce\nthe length of an input, but we can force them to take into account additional\nfactors such as how often an error occurs, or the number of instructions\nexecuted. Depending on the problem you’re trying to debug, this can\nmake a huge difference to the real-world effectiveness of test-case reducers.\nI don’t expect that anything in this post will surprise experts, but since I\nlearnt this stuff the hard way, perhaps others will benefit from having some of\nit in one place.\nImagine we have written a program that crashes on a large input, and we don’t\nknow what part of the input causes the crash: what can we do?\nMost of us will probably start with debugging our program using classic techniques, gradually\nmoving from the quick and dirty (printf) to the more principled (debuggers) to – if\nwe’re desperate and experienced – “exotic” tools (sanitisers, valgrind, etc).\nEvery programmer ends up with a set of debugging tools and\ntechniques they reach for, some more effective1 than others.\nOne technique that is used less often than it probably should be is reducing\nthe size of the input. In nearly all cases, the smaller an input is, the easier\nit is for us to work out why it’s leading to problems.\nReduction can be manual. We can load an input into a text editor, remove a portion of it,\nand then see if the new, smaller, input still causes a crash.\nUnsurprisingly, as easily-bored humans with limited vision, we tend to miss\nmany opportunities for reduction when we do so manually. It’s also often the\ncase that deleting part of an input stops the program crashing in the way we\nwere investigating: the reduced program might run to completion, or throw a different, correct and\nexpected, error on the new input. Even worse, at some point one realises that deleting portion A\nof the input doesn’t achieve the effect we want, but deleting disjoint portions A\nand B does: how big is the search space of deletions?! A Sisyphean future\nbeckons.\nFortunately, there are tools that automate the process of reducing test cases:\ntest-case reducers2. These take a program, an input, and an interestingness\ntest. The test-case reducer tries ever shorter versions of the input, and the\ninterestingness test tells the reducer whether those shorter versions still\ntrigger the problem you care about. Test-case reducers can be astonishingly\neffective – 95-99% reductions are common – and often make debugging\nvastly easier.\nTest-case reducers can sound like they’re magic: how can a tool know what parts\nof the input to remove? To make things even worse, the community that has most\nthoroughly embraced them are compiler authors, who many programmers think of as\nbeing an impossibly skilled elite3. It seems to me that the combination of\nthese two things has put many people off from trying such tools.\nThe good news is that test-case reducers are not magic. The easiest\nway to see that is by writing one. Let’s imagine that I’ve written this program\nwhich reads words in from a file:\nWhen I run this on my machine with /usr/share/dict/words it prints a warning:\nFor the sake of the example, let’s pretend that seeing that warning is\nan “error” and we haven’t been able to work\nout why it crashes using traditional debugging techniques. Can a test-case\nreducer help us?\nThe first thing we need to do is define our interestingness test. I’ll\ndeliberately follow the conventions of the test-case reducers I’m familiar with\nand say that an interestingness test is a program which:\nI’m going to write a simple4 shell script that takes a filename in\nas the first argument, runs my program above, and checks if it produces “Word\ntoo long” as its output. If it does, my interestingness test will return 0; if\nnot it will return 1.\nNow we need to do the hard part: the reducer! Fortunately it’s not too difficult:\nIn essence, this first loads in the text input and splits it into lines\n(cur). Then it loops over the input. Each iteration creates a candidate\ninput (cnd), with one line of input removed (del cnd[i]) relative to\nthe previous starting point. We create a temporary file, write the candidate\ninput to it, and run our interestingness test. If it returns 0, we keep the\ncandidate as our new starting point (cur=cnd) or try the next line (i+=1)\notherwise. When no more reductions are possible, the reduced input is\nprinted to stdout.\nTo say this implementation is slow is an understatement, but if I run it,\nit eventually5 prints out:\nWhen I first came across the idea of test-case reducers, I was briefly\nsceptical: how can something so simple do anything usef",
+          "category": "insight",
+          "publishedAt": "2026-06-09T11:27:49.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Let's Encrypt bans certificate usage in any US sanctioned territory [pdf]",
+          "titleKo": "Let's Encrypt, 미국 제재 지역의 인증서 사용 금지",
+          "summary": "Let's Encrypt가 서비스 약관을 개정하여 미국 제재 대상 지역에서의 SSL 인증서 발급 및 사용을 금지합니다.",
+          "keyPoints": [
+            "미국 제재 지역 대상 기술 제공 제한에 대한 법적 준수 조치"
+          ],
+          "whyItMatters": "해당 지역의 웹사이트 운영자들은 HTTPS 인증서 갱신이 불가능해질 수 있어 서비스 영향을 받을 수 있습니다.",
+          "url": "https://letsencrypt.org/documents/LE-SA-v1.7-June-04-2026-diff.pdf",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 288,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "lets-encrypt-bans-certificate-usage-in-any-us-sanctioned-territory-pdf",
+          "category": "insight",
+          "publishedAt": "2026-06-08T22:32:36.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "FCC wants to kill burner phones by forcing telecoms to get all customers' IDs",
+          "titleKo": "FCC, 정부 신분증 제출 의무화로 선불 휴대폰 폐지 추진",
+          "summary": "FCC가 통신사에 신규 및 갱신 고객의 정부 발급 신분증과 주소 등록을 의무화하는 정책을 추진하고 있습니다. 이는 익명 휴대폰 사용을 불가능하게 만들어 개인정보보호 및 취약층 보호에 영향을 미칩니다.",
+          "keyPoints": [
+            "모든 휴대폰 사용자에 대한 정부 신분증 기반 신원 확인 의무화",
+            "가정폭력 피해자 등 익명성이 필요한 취약층의 통신 접근성 제한"
+          ],
+          "whyItMatters": "개인정보 보호와 프라이버시 권리가 통신 규제를 통해 제한될 수 있는 정책 변화를 주시해야 합니다.",
+          "url": "https://www.404media.co/fcc-wants-to-kill-burner-phones-by-forcing-telecoms-to-get-all-customers-ids/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 406,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "fcc-wants-to-kill-burner-phones-by-forcing-telecoms-to-get-all-customers-ids",
+          "fullContent": "Privacy\nFCC Wants to Kill Burner Phones By Forcing Telecoms to Get All Customers’ IDs\nJoseph Cox\n·\nJun 9, 2026\nat 11:11 AM\nThe FCC wants to legally force telecoms to collect new and renewing customers’ government issued identity number and physical address, impacting everyone from the privacy-conscious to domestic abuse survivors. “We never thought that would happen here.”\nPhoto by ROBIN WORRALL on Unsplash.",
+          "category": "insight",
+          "publishedAt": "2026-06-09T15:21:46.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Company Will Add Phone, AirPod, and Smartwatch Trackers to ALPRs",
+          "titleKo": "기업이 휴대폰, AirPod, 스마트워치 추적을 자동번호판 인식 시스템에 추가",
+          "summary": "SignalTrace는 자동번호판 인식(ALPR) 시스템에 블루투스 기반 휴대폰, AirPod, 스마트워치 추적 기능을 통합하여 특정 기기와 인물을 차량과 연결하는 광범위한 감시 기술입니다.",
+          "keyPoints": [
+            "ALPR에 Bluetooth 신호 추적 통합으로 개인 기기와 차량의 연관성 파악",
+            "위치 기반 감시 기술의 범위 확대"
+          ],
+          "whyItMatters": "개인의 이동 경로와 기기 데이터가 무단으로 수집·상관관계 분석될 수 있는 감시 기술 발전을 인식해야 합니다.",
+          "url": "https://www.404media.co/this-company-will-add-phone-airpod-and-smartwatch-trackers-to-license-plate-readers/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 63,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "company-will-add-phone-airpod-and-smartwatch-trackers-to-alprs",
+          "fullContent": "Privacy\nThis Company Will Add Phone, AirPod, and Smartwatch Trackers to License Plate Readers\nJoseph Cox\n·\nJun 8, 2026\nat 3:08 PM\nSignalTrace “links devices that regularly travel together, correlating them to license plate.” It is a surveillance product that will sweep up and add all sorts of Bluetooth and other data to license plate readers, linking specific devices—and people—to cars.\nImages from SignalTrace product here, available here. Collage by 404 Media.",
+          "category": "insight",
+          "publishedAt": "2026-06-09T21:01:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "The LD_DEBUG environment variable (2012)",
+          "titleKo": "LD_DEBUG 환경 변수 (2012)",
+          "summary": "Linux 시스템의 LD_DEBUG 환경 변수를 사용한 동적 링킹 디버깅 방법에 관한 블로그 글이다.",
+          "keyPoints": [
+            "LD_DEBUG를 통해 동적 라이브러리 로딩 과정을 추적하고 디버깅할 수 있다.",
+            "Linux 환경에서 라이브러리 의존성 문제 해결에 실용적인 도구이다."
+          ],
+          "whyItMatters": "Linux에서 C/C++ 프로그램의 라이브러리 로딩 문제를 진단하고 해결할 때 필수적인 기법이다.",
+          "url": "https://bnikolic.co.uk/blog/linux-ld-debug.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 52,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-ld-debug-environment-variable-2012",
+          "category": "insight",
+          "publishedAt": "2026-06-09T17:29:05.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "phuryn/pm-skills",
+          "titleKo": "phuryn/pm-skills",
+          "summary": "발굴(Discovery)부터 전략, 실행, 출시, 성장까지 100개 이상의 에이전틱 스킬, 명령, 플러그인을 제공하는 제품 관리 스킬 마켓플레이스이다.",
+          "keyPoints": [
+            "제품 관리 전 단계(발굴, 전략, 실행, 출시, 성장)를 지원하는 100+ 에이전틱 스킬을 포함한다.",
+            "에이전트 기반 자동화를 위해 재사용 가능한 스킬과 플러그인을 제공한다."
+          ],
+          "whyItMatters": "AI 에이전트 기반 제품 관리 자동화 구현 시 사용 가능한 사전 구성 스킬 라이브러리를 제공한다.",
+          "url": "https://github.com/phuryn/pm-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 13397,
+          "contentType": "repo",
+          "labels": [
+            "career",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "phurynpm-skills",
+          "category": "insight",
+          "publishedAt": "2026-06-09T23:32:30.042Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "TapXWorld/ChinaTextbook (Roff)",
+          "titleKo": "TapXWorld/ChinaTextbook (Roff)",
+          "summary": "중국의 초등학교부터 대학교까지 모든 교과서 PDF를 제공하는 저장소입니다.",
+          "keyPoints": [
+            "초중고 및 대학 교육 자료의 오픈 접근 제공"
+          ],
+          "whyItMatters": "",
+          "url": "https://github.com/TapXWorld/ChinaTextbook",
+          "sourceName": "GitHub Trending",
+          "engagement": 73450,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "tapxworldchinatextbook-roff",
+          "category": "insight",
+          "publishedAt": "2026-06-09T23:32:30.041Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Roff"
+          ]
+        },
+        {
+          "title": "A giant star may have destroyed itself in one of the rarest explosions",
+          "titleKo": "거대한 별이 우주에서 가장 드문 폭발 중 하나로 자신을 파괴했을 수 있다",
+          "summary": "천문학자들이 SN 2023vbw 초신성을 관찰하여 극도로 드문 '쌍불안정성' 초신성의 명확한 사례를 발견했습니다. 이 폭발은 태양의 1/10 금속량을 가진 드워프 은하에서 약 13억 광년 거리에서 감지되었으며, 거대한 청색 초거성이 완전히 파괴되는 현상으로 추정됩니다.",
+          "keyPoints": [
+            "SN 2023vbw는 일반 2형 초신성보다 10배 이상 많은 에너지를 방출했으며 170~350 태양질량의 방출물을 가짐",
+            "극도로 높은 폭발 에너지와 긴 시간 척도는 140~260 태양질량 범위의 쌍불안정성 초신성 이론과 일치",
+            "두 개의 거대 별이 병합하여 형성된 청색 초거성이 원인일 가능성이 제시됨"
+          ],
+          "whyItMatters": "개발자에게 직접적인 관련성은 없으나 과학 데이터 분석 및 천문학 소프트웨어 개발에 관심 있는 개발자에게 참고 자료가 될 수 있습니다.",
+          "url": "https://phys.org/news/2026-05-giant-star-destroyed-universe-rarest.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 148,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-giant-star-may-have-destroyed-itself-in-one-of-the-rarest-explosions",
+          "fullContent": "June 1, 2026\nreport\nA giant star may have destroyed itself in one of the universe's rarest explosions\nby Shreejaya Karantha, Phys.org\nShreejaya Karantha\nAuthor\nMeet our staff & contributors\nLearn about our editorial standards\nedited by\nSadie Harley, reviewed by Robert Egan\nSadie Harley\nScientific Editor\nMeet our editorial team\nBehind our editorial process\nRobert Egan\nAssociate Editor\nMeet our editorial team\nBehind our editorial process\nEditors' notes\nThis article has been reviewed according to Science X's\neditorial process\nand policies.\nEditors have highlighted\nthe following attributes while ensuring the content's credibility:\nfact-checked\npreprint\ntrusted source\nproofread\nThe GIST\nAdd as preferred source\nThe location of SN 2023vbw (magenta circle) in the outskirts of its dwarf host galaxy (green circle). Credit: arXiv (2026). DOI: 10.48550/arxiv.2605.16487\nAstronomers may have discovered one of the clearest examples yet of a rare \"pair-instability\" supernova. It is a catastrophic explosion thought to completely destroy some of the most massive stars in the universe, leaving behind no remnant. The paper outlining the properties of this rare explosion was posted to the arXiv preprint server on May 15.\nThe event, SN 2023vbw, was first detected by the Zwicky Transient Facility in October 2023 in the outskirts of a small, metal-poor dwarf galaxy about 1.3 billion light-years away. It was tentatively classified as a Type II supernova—the kind produced when a massive star exhausts its nuclear fuel, collapses under gravity, and explodes. But several of its properties refused to fit that picture.\nAn outlier\nIn a new study, astronomers conducted detailed observations and modeling of SN 2023vbw to pin down its true nature. The first clue that something unusual was happening came from its light curve—how its brightness changed over time. Rather than the plateau-like rise typical of a Type II supernova, after an initial cooling phase, SN 2023vbw rose steadily to a bright peak at around 190 days.\nIt also showed a rapid decline in its brightness from 190 days to 230 days. After the fade, the explosion curve settled into a slowly declining plateau called the \"tail.\" The total energy it radiated, around 3 × 1050 ergs, is more than ten times greater than a normal Type II supernova.\nDuring the rise, the explosion settled into a nearly constant temperature while its outer shell continued to expand. This behavior requires a large, continuous internal heating source, unlike typical supernova Type II.\nAs the supernova faded, forbidden emission lines began to emerge, and in the tail phase, the hydrogen lines developed a multicomponent profile with a redshifted component, indicating the ejecta interacting with a disk-like shell of material the star had shed before it died.\nA 'blue' culprit\nModeling the light curve suggested that the explosion likely originated from an extraordinary blue supergiant star. The light curve morphology closely resembles that of SN 1987A, which is a Type II supernova that also came from a compact blue supergiant progenitor. But SN 2023vbw has a significantly higher luminosity and longer timescale, pointing to a far more massive progenitor.\nIts ejecta mass is estimated at between 170 and 350 solar masses, and the kinetic energy of the explosion fell in the order that is 60 to 130 times greater than the maximum energy an ordinary iron core-collapse supernova can produce.\nThe low metallicity of the host environment—roughly one-tenth that of the sun—falls within theoretical predictions for pair-instability supernovae.\nThe team also suggests the blue supergiant star may have formed through a merger of two massive stars in a binary system. This formation channel would naturally explain the dense disk-like shell of material with which the ejecta interacted.\nHowever, the team explains in their paper that significant uncertainties remain: it is still unclear whether very massive stars end their lives as red or blue supergiants, and when exactly during their lifetime such a merger would occur.\nDiscover the latest in science, tech, and space with over 100,000 subscribers who rely on Phys.org for daily insights.\nSign up for our free newsletter and get updates on breakthroughs,\ninnovations, and research that matter—daily or weekly.\nSubscribe\nSelf-destruction\nPair-instability supernovae occur in stars so massive that the extreme temperatures in their cores cause the production of electron-positron pairs. This removes the radiation pressure supporting the star against the inward gravitational pull, triggering a runaway thermonuclear explosion so violent that the entire star is consumed. As a result of this, no neutron star or black hole is expected to be left behind.\nStars with initial masses of roughly 140 to 260 solar masses and low metallicity are predicted to meet this fate, and the modeled properties of SN 2023vbw fall well within that regime.\nBecause it's at a close distance to us, \"SN 2023vbw remains sufficientl",
+          "category": "insight",
+          "publishedAt": "2026-06-08T21:00:13.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "11 New JS Features Your AI Doesn’t Even Know About",
+          "titleKo": "당신의 AI가 모르는 11가지 새로운 JavaScript 기능",
+          "summary": "최근 JavaScript에 추가된 새로운 기능 11개를 소개하는 영상입니다. 개발자들이 아직 충분히 인식하지 못하는 기능들을 다룹니다.",
+          "keyPoints": [
+            "JavaScript의 최신 기능들을 소개",
+            "AI 모델도 학습하지 못한 새로운 문법과 API 포함"
+          ],
+          "whyItMatters": "최신 JavaScript 기능을 학습하면 더 효율적이고 현대적인 코드 작성이 가능합니다.",
+          "url": "https://www.youtube.com/watch?v=7rxOOFvwU60",
+          "sourceName": "Web Dev Simplified",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "11-new-js-features-your-ai-doesnt-even-know-about",
+          "category": "video",
+          "publishedAt": "2026-06-09T16:37:11+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "MongoDB Takes Over Embeddings — You Write Nothing",
+          "titleKo": "MongoDB가 임베딩 처리를 통합 — 코드 작성 불필요",
+          "summary": "MongoDB가 임베딩 처리 기능을 자체 플랫폼에 통합하여 개발자가 별도의 코드를 작성할 필요가 없게 되었습니다.",
+          "keyPoints": [
+            "MongoDB 내장 임베딩 처리로 개발 복잡도 감소"
+          ],
+          "whyItMatters": "AI/ML 워크플로우에서 데이터 준비 작업을 간소화할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=OI5ue0OrHw0",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "backend",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "mongodb-takes-over-embeddings-you-write-nothing",
+          "category": "video",
+          "publishedAt": "2026-06-08T14:15:55+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Anthropic is starting to panic…",
+          "titleKo": "Anthropic이 공황 상태에 빠지고 있다...",
+          "summary": "Anthropic의 현재 상황에 대한 비판적 분석입니다.",
+          "keyPoints": [
+            "Anthropic의 경영 또는 기술적 어려움에 대한 논의"
+          ],
+          "whyItMatters": "AI 업계의 주요 플레이어 동향을 파악하는 데 도움이 됩니다.",
+          "url": "https://www.youtube.com/watch?v=0pgCBV8CTZY",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "anthropic-is-starting-to-panic",
+          "category": "video",
+          "publishedAt": "2026-06-09T17:32:30+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I didn’t expect this from Anthropic",
+          "titleKo": "Anthropic에서 이런 결과를 기대하지 못했다",
+          "summary": "Anthropic의 최근 발표 또는 기능에 대한 동영상 콘텐츠",
+          "keyPoints": [
+            "Anthropic의 예상 밖의 기술 발전 또는 결정을 다룬다."
+          ],
+          "whyItMatters": "AI 개발 주요 기업의 동향 변화는 AI 애플리케이션 개발 전략에 영향을 미칠 수 있다.",
+          "url": "https://www.youtube.com/watch?v=xjucOlb_mFM",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-didnt-expect-this-from-anthropic",
+          "category": "video",
+          "publishedAt": "2026-06-08T11:47:22+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Cloudflare bought Vite to destroy Vercel",
+          "titleKo": "Cloudflare가 Vite를 인수하여 Vercel을 견제하다",
+          "summary": "Cloudflare의 Vite 인수에 관한 동영상 콘텐츠",
+          "keyPoints": [
+            "주요 빌드 도구인 Vite의 인수는 웹 개발 생태계에서 중요한 움직임이다."
+          ],
+          "whyItMatters": "개발 도구 시장의 경쟁 구도 변화가 빌드 환경 선택에 영향을 미칠 수 있다.",
+          "url": "https://www.youtube.com/watch?v=n2YtM-MecZk",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "cloudflare-bought-vite-to-destroy-vercel",
+          "category": "video",
+          "publishedAt": "2026-06-06T20:21:44+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Learn anything with the /teach skill",
+          "titleKo": "/teach 스킬로 무엇이든 배우기",
+          "summary": "새로운 /teach 스킬을 사용하여 다양한 주제를 학습할 수 있는 방법을 소개하는 영상입니다.",
+          "keyPoints": [
+            "/teach 스킬의 기본 사용법과 활용 방법을 설명합니다."
+          ],
+          "whyItMatters": "효율적인 학습 방법론을 제공하여 개발자의 생산성을 향상시킬 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=s5T5oQJcJ6U",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "learn-anything-with-the-teach-skill",
+          "category": "video",
+          "publishedAt": "2026-06-08T17:07:15+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "More Prompts = Worse Code?",
+          "titleKo": "더 많은 프롬프트 = 더 나쁜 코드?",
+          "summary": "LLM으로 코드 생성 시 프롬프트의 양과 코드 품질의 관계를 탐구하는 영상입니다.",
+          "keyPoints": [
+            "과도한 프롬프트가 반드시 더 나은 코드 결과를 낳지 않을 수 있습니다."
+          ],
+          "whyItMatters": "AI를 활용한 코드 생성에서 효과적인 프롬프트 엔지니어링 전략을 수립할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=WnBx1Vi7M6w",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "more-prompts-worse-code",
+          "category": "video",
+          "publishedAt": "2026-06-03T00:06:00+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "The forgotten developer who saved JavaScript...",
+          "titleKo": "JavaScript를 구한 잊힌 개발자",
+          "summary": "JavaScript 역사에서 중요한 역할을 했지만 널리 알려지지 않은 개발자에 대한 이야기를 다루는 영상입니다.",
+          "keyPoints": [
+            "JavaScript 발전사의 핵심 인물과 그 기여를 조명합니다."
+          ],
+          "whyItMatters": "웹 개발의 기초가 된 JavaScript 언어의 역사와 개발 철학을 이해할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=JfPWbttemYE",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-forgotten-developer-who-saved-javascript",
+          "category": "video",
+          "publishedAt": "2026-05-29T17:06:48+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "10 weird OSS projects you need right now...",
+          "titleKo": "지금 당신이 봐야 할 10가지 이상한 오픈소스 프로젝트",
+          "summary": "YouTube 비디오로 주목할 만한 특이한 오픈소스 프로젝트 10개를 소개하는 콘텐츠이다.",
+          "keyPoints": [
+            "다양한 범주의 독특한 오픈소스 프로젝트를 큐레이션해서 소개한다.",
+            "개발자들이 창의적이고 실험적인 프로젝트를 발견할 수 있는 기회를 제공한다."
+          ],
+          "url": "https://www.youtube.com/watch?v=qPuzWFvRajk",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "10-weird-oss-projects-you-need-right-now",
+          "category": "video",
+          "publishedAt": "2026-05-26T17:53:11+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I miss when programmers were lazy.",
+          "titleKo": "게으른 프로그래머 시절이 그립다",
+          "summary": "개발 문화와 철학에 관한 영상 콘텐츠입니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=iN_9aH3VuzU",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-miss-when-programmers-were-lazy",
+          "category": "video",
+          "publishedAt": "2026-06-04T23:15:49+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Elon won after all",
+          "titleKo": "일론이 결국 이겼다",
+          "summary": "특정 비즈니스 또는 기술 관련 분석 영상 콘텐츠입니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=jB2iKoBSPyo",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "elon-won-after-all",
+          "category": "video",
+          "publishedAt": "2026-06-09T07:53:14+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
