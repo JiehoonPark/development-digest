@@ -1,0 +1,1314 @@
+{
+  "date": "2026-06-10",
+  "intro": "안녕하세요! 오늘은 프론트엔드와 AI, 그리고 개발 생태계의 중요한 변화들이 한눈에 들어오는 날입니다. HTML 중심 아키텍처로 사용자 경험을 획기적으로 개선한 사례부터 Claude Desktop의 리소스 문제, 그리고 AI 정책의 새로운 방향까지 다양한 주제들이 개발자 커뮤니티를 뜨겁게 달우고 있습니다. AI 도구의 과도한 보안 제한과 실무성 사이의 갈등도 주목할 만한 이슈입니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use",
+          "titleKo": "Claude Desktop가 채팅 전용 사용에도 1.8GB Hyper-V VM을 매번 생성",
+          "summary": "Claude Desktop이 채팅만 수행할 때도 1.8GB 크기의 Hyper-V 가상머신을 매 실행마다 생성하는 문제가 보고되었다.",
+          "keyPoints": [
+            "간단한 채팅 기능 사용 시에도 불필요하게 큰 리소스를 할당하는 비효율 발생",
+            "매 실행마다 VM을 생성하여 성능과 시스템 리소스 낭비 초래"
+          ],
+          "whyItMatters": "개발자의 시스템 리소스 사용 효율성이 저하되므로, 이 문제의 개선은 Claude Desktop의 사용성 향상에 중요하다.",
+          "url": "https://github.com/anthropics/claude-code/issues/29045",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 317,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "devops"
+          ],
+          "topicId": "anthropic-issues",
+          "isTopicPrimary": true,
+          "relatedCount": 3,
+          "slug": "claude-desktop-spawns-18-gb-hyper-v-vm-on-every-launch-even-for-chat-only-use",
+          "fullContent": "anthropics\n/\nclaude-code\nPublic\n[BUG] Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use #29045OpenOpen[BUG] Claude Desktop spawns 1.8 GB Hyper-V VM on every launch, even for chat-only use#29045LabelsinvalidIssue doesn't seem to be related to Claude CodeIssue doesn't seem to be related to Claude CodeDescriptionMetadataMetadata",
+          "category": "hot",
+          "publishedAt": "2026-06-10T17:11:56.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Cybersecurity researchers aren't happy about the guardrails on Anthropic's Fable",
+          "titleKo": "사이버보안 연구자들, Anthropic의 Fable 보안 제한에 불만",
+          "summary": "Anthropic이 사이버보안 모델 Mythos의 공개 버전인 Fable을 출시했으나, 과도한 보안 제한으로 인해 사이버보안 전문가들로부터 비판을 받고 있다. 키워드 기반의 가드레일이 보안 코드 작성 같은 정상적인 작업까지 거부하면서 실무성이 떨어진다는 지적이다.",
+          "keyPoints": [
+            "Fable의 가드레일이 사이버보안 관련 키워드를 포괄적으로 차단해 보안 코드 리뷰나 블로그 읽기 같은 무해한 작업까지 거부하고 있다.",
+            "Anthropic은 악성코드 개발 위험을 제한하기 위해 의도적으로 제한을 설정했으나, 전문가들은 시간이 지나면서 점진적으로 완화될 것으로 예상하고 있다.",
+            "사이버보안 전문가들은 Cyber Verification Program 승인을 통해 더 많은 제한을 완화받을 수 있다."
+          ],
+          "whyItMatters": "AI 모델의 보안과 실용성 사이의 균형이 개발자 경험과 모델의 실제 활용도에 직결되는 중요한 이슈다.",
+          "url": "https://techcrunch.com/2026/06/10/cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 61,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "anthropic-issues",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "cybersecurity-researchers-arent-happy-about-the-guardrails-on-anthropics-fable",
+          "fullContent": "Anthropic released its latest model Fable on Tuesday, billing it as a public and limited version of its powerful and much-hyped cybersecurity model Mythos.\nBut not everyone is happy with the restrictions, and a number of cybersecurity researchers and professionals have aired complaints online.\n“[Fable] rejects any request that could be tangentially cyber related. Even innocuous tasks like reading a blog post,” said Valentina “Chompie” Palmiotti, a well-known security researcher who works at IBM X-Force.\nWhen a prompt triggers its guardrails, Fable pauses the chat and says that its “safety measures flagged this message for cybersecurity or biology topics.”\nThe guardrails were put in place to limit the risk that Fable could be used to develop malware or compromise software — a long-standing concern within Anthropic. The restrictions on biology come from a similar concern around developing biological weapons.\nWhen the AI giant released Mythos in April, it restricted the model to a limited number of companies and organizations in what it called Project Glasswing, an effort to deploy the model to secure critical software and infrastructure. Last week, Anthropic expanded access to Mythos to hundreds of organizations in 15 countries.\nBut despite the good intentions, many cybersecurity experts are still put off by the haphazard nature of the restrictions. Matt Suiche, a cybersecurity veteran, told TechCrunch that “if you ask it to write secure code, it assumes it is cybersecurity related work instead of software engineering best practices, and you get downgraded.” Fable is programmed to fall back to Claude Opus 4.8 if it hits a guardrail. “It seems to be keyword based, so anything in the lexical field of ‘cybersecurity’ triggers the guardrails.”\nContact Us\nDo you have more information about how hackers are using AI? Or how cybersecuity companies are using AI? We’d love to hear from you. From a non-work device and network, you can contact Lorenzo Franceschi-Bicchierai securely on Signal at +1 917 257 1382, or via Telegram and Keybase @lorenzofb, or email.\n“But it is understandable as we are still in the early days and they are still adapting their guardrails. I am sure they are going to evolve over time as Anthropic and other frontier model companies will collaborate more with the current new generation of cybersecurity companies,” said Suiche, who is a member of the technical staff at Tolmo, an AI cybersecurity startup. “It’s better to catch more people than not enough when you do such a release and to relax the guardrails over time.”\nAnother researcher griped on X that “even asking for a code review” triggers Fable’s guardrails.\nAnthropic did not immediately respond to a request for comment.\nApart from guardrails inside its models, Anthropic requires cybersecurity professionals to apply to the Cyber Verification Program. If they get approved, the applicants have fewer limitations on using Claude for cybersecurity work. OpenAI has a similar program called Trusted Access for Cyber.",
+          "category": "hot",
+          "publishedAt": "2026-06-10T16:42:00.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Authentication issues related to API requests",
+          "titleKo": "GitHub API 요청 관련 인증 문제",
+          "summary": "GitHub 상태 페이지에서 보고된 API 요청 관련 인증 문제입니다. 사용자들이 이메일 또는 문자메시지를 통해 사건 업데이트를 구독할 수 있습니다.",
+          "keyPoints": [
+            "API 요청 인증 관련 서비스 장애 발생",
+            "GitHub 상태 페이지를 통해 실시간 인시던트 모니터링 및 구독 가능"
+          ],
+          "whyItMatters": "GitHub API를 사용 중인 개발자들이 인증 문제로 인한 서비스 중단에 주의해야 합니다.",
+          "url": "https://www.githubstatus.com/incidents/fcj3088jg1wx",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 150,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "topicId": "github-issues",
+          "isTopicPrimary": true,
+          "slug": "authentication-issues-related-to-api-requests",
+          "fullContent": "Didn't receive the OTP?\nResend OTP\nDidn't receive the OTP?\nResend OTP\nThe URL we should send the webhooks to\nWe'll send you email if your endpoint fails\nGet tips, technical guides, and best practices. Twice a month. Right in your\ninbox.\nSubscribe to updates for Authentication issues related to API requests via email and/or text message. You'll receive email notifications when incidents are updated, and text message notifications whenever GitHub creates or resolves an incident.",
+          "category": "hot",
+          "publishedAt": "2026-06-10T15:29:52.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Building an HTML-first site doubled our users overnight",
+          "titleKo": "HTML 중심 설계로 사용자를 하룻밤 사이에 2배 증가시키다",
+          "summary": "공공 서비스 성격의 유틸리티 회사 웹사이트를 Astro를 사용한 HTML 중심 아키텍처로 재구축하여 사용자 만족도를 획기적으로 개선한 사례입니다. 이전의 React 기반 앱은 접근성 문제, 로컬스토리지 제한(5MB)으로 인한 이미지 업로드 실패 등으로 3일 만에 폐기되었습니다. 새로운 버전은 JavaScript 없이도 완벽하게 작동하는 HTML 기반 폼으로 설계되었으며, Web Components를 통한 점진적 개선만 추가했습니다. 이 접근 방식은 오래되고 성능이 낮은 브라우저, 불안정한 연결 환경에서도 데이터 손실 없이 작동하도록 했습니다.",
+          "keyPoints": [
+            "이전 React 앱의 실패 원인: 로딩 스피너 남발, 전역 JavaScript 상태 관리 복잡성, 접근성 미충족, 로컬스토리지 5MB 제한으로 인한 이미지 업로드 불가능. 규제 대상 독점기업이므로 고객 만족도가 96% 이하로 떨어지면 수백만 파운드의 벌금이 부과될 수 있었습니다.",
+            "HTML 중심 설계 철학: 공공 서비스는 모든 기기에서 작동해야 하고, 연결이 좋지 않은 환경에서도 작동해야 하며, 입력된 데이터는 절대 손실되면 안 된다는 원칙을 바탕으로 설계했습니다. Terence Eden의 주택 급여 혜택 사례(PSP 게임기의 형편없는 브라우저에서도 GOV.UK 페이지가 작동)를 인용하며 단순 HTML의 중요성을 강조했습니다.",
+            "기술적 구현 방식: 각 폼 단계가 독립적인 페이지로 구성되며, 사용자가 다음을 클릭하면 폼이 제출되고 API가 유효성을 검증한 후 다음 단계로 리다이렉트됩니다. 이는 Remix가 부활시킨 고전적 웹 애플리케이션 패턴으로, 클라이언트 측 JavaScript 의존성을 최소화합니다.",
+            "데이터 처리 전략: 각 폼 세션에 고유 ID를 할당하고, 폼 마법사의 매 단계에서 제출된 데이터(이미지 업로드 포함)를 백엔드에 저장하므로 JavaScript 없이도 폼 완성이 가능합니다. 오래되고 성능이 낮은 브라우저에서도 완성할 수 있도록 설계되었습니다.",
+            "접근성 및 검증 기준: WCAG AA 수준의 접근성을 충족하도록 구현했습니다. React 유효성 검사 라이브러리에 드는 비용(숙련 부족, 수개월의 유지보수 시간)을 지적하며, 모든 브라우저에 내장된 HTML 검증 시스템을 활용하는 것이 더 효율적임을 강조했습니다.",
+            "Web Components를 통한 점진적 개선: HTML 폼을 감싸는 커스텀 엘리먼트인 Web Component를 제작했으며, Shadow DOM이나 JavaScript에서의 HTML 렌더링 없이 기존 HTML 검증을 활용하여 폼을 기능 강화했습니다. 이는 JavaScript가 없어도 작동하면서 있을 때 사용자 경험을 향상시키는 구조입니다.",
+            "성능 및 사용자 환경 고려: 20MB의 JavaScript를 전송하기 전에 폼을 렌더링하는 것은 비합리적이며, 특히 10년 된 저가 안드로이드 폰을 사용하는 사용자나 신규 주택 부지의 들판에서 신호가 약한 지역의 사용자를 고려했습니다. 클라이언트 측 애플리케이션 자체는 반대하지 않지만, 단순 폼에는 과도하다고 판단했습니다."
+          ],
+          "whyItMatters": "공공 서비스나 핵심 비즈니스 기능을 제공하는 웹사이트는 JavaScript 의존성을 최소화하고 HTML 기반으로 설계해야 한다는 실증적 증거를 제시합니다. 이는 접근성, 성능, 신뢰성 측면에서 모던 개발 트렌드(대규모 SPA)에 대한 중요한 반론을 제기합니다.",
+          "url": "https://mohkohn.co.uk/writing/html-first/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 961,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "building-an-html-first-site-doubled-our-users-overnight",
+          "fullContent": "Jun 10, 2026 How building an HTML-first site doubled our users overnight This is a story of how building HTML-first doubled a company’s users literally overnight.\nMy client was a utility company, and they had a big problem. To apply for their services, customers could either use an old ASP form on the website, or follow a manual process. The manual process was more expensive for the company, of course. Adding a lot of pressure, this was a regulated monopoly, and if their customer satisfaction dropped below 96% (if I remember correctly) it could result in millions of pounds in fines.\nThere were two previous failed (and very expensive) attempts to solve the problem. In the most recent, contractors in another country had built a React app. The React app was online for 3 days before being pulled because of customer complaints. I took one look at it and told my boss “we can’t take ownership of this.” It was a mess of loading spinners and global javascript states. It was not accessible. Image upload was a vital part of the form, and it attempted to store images (along with all other form data) in localstorage which has a 5mb limit!\nI took a very bold decision and built a new version of the site using Astro. It was HTML-first. Javascript existed, in web components, but only to progressively-enhance a website that worked perfectly fine without it.\nMy logic was thus:\nThis is a public service\nIt should work on every machine possible\nIt should work when connections are poor\nThe forms must never lose data once it is entered\nI was very moved by this anecdote from Terence Eden:\nA few years ago I was doing policy research in a housing benefits office in London. They are singularly unlovely places. The walls are brightened up with posters offering helpful services for people fleeing domestic violence. The security guards on the door are cautiously indifferent to anyone walking in. The air is filled with tense conversations between partners - drowned out by the noise of screaming kids.\nIn the middle, a young woman sits on a hard plastic chair. She is surrounded by canvas-bags containing her worldly possessions. She doesn’t look like she is in a great emotional place right now. Clutched in her hands is a games console - a PlayStation Portable. She stares at it intensely; blocking out the world with Candy Crush.\nOr, at least, that’s what I thought.\nWalking behind her, I glance at her console and recognise the screen she’s on. She’s connected to the complementary WiFi and is browsing the GOV.UK pages on Housing Benefit. She’s not slicing fruit; she’s arming herself with knowledge.\nThe PSP’s web browser is - charitably - pathetic. It is slow, frequently runs out of memory, and can only open 3 tabs at a time.\nBut the GOV.UK pages are written in simple HTML. They are designed to be lightweight and will work even on rubbish browsers. They have to. This is for everyone.\nSome requirements I derived:\nEach session with the form should have a unique ID\nAt every step in the form wizard, submitted data should be stored on the backend, including uploads\nIt should be possible to complete the form without javascript\nIt should be possible to complete the form on outdated and crap web browsers\nWe had to meet WCAG accessibility (the team settled on AA rather than AAA)\nJavascript and modern CSS should be used to enhance the experience\nThe basic setup ended up being that each step in the form wizard was its own page. When the user clicked next, the form would submit. If the data was judged to be valid by the API, the browser would be redirected to the next step.\nA venerable web application pattern that has had a small modern renaissance thanks to Remix, form submissions and redirects took a while to explain to my colleagues, on account of everyone being used to heavily client-side web applications. I have nothing against heavily client-side applications, in their place. But this is just a big form - it’s not showing real-time data. Our user could be standing in the middle of a field on a new-build housing estate, holding a decade-old commodity android phone they bought in Tesco. Shipping them 20MB of javascript before we even render a form would be a ridiculous thing to do.\nNext, I tackled one of my biggest bugbears, form validation (and form and form error rendering). I have seen teams waste person-months of effort wrangling React validation libraries. If you are a React person, you might be scoffing at this - skill issue, I guess - but it is the reality for many teams. I would like to humbly suggest that you too may be spending more time than you realise, and a lot more time than is necessary, interacting with and maintaining poor imitations of the validation system that ships with every browser.\nSo I built an HTML web component. These are simple custom elements that wrap around existing HTML and bring it to life. No shadow DOM, no (or little) rendering HTML in javascript. Mine wrapped around any HTML form, picked up the HTML validation, and m",
+          "category": "tech",
+          "publishedAt": "2026-06-10T12:45:47.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: HelixDB – A graph database built on object storage",
+          "titleKo": "HelixDB - 객체 스토리지 기반 그래프 데이터베이스",
+          "summary": "HelixDB는 Rust로 구축된 그래프-벡터 데이터베이스로, 지식 그래프와 AI 메모리를 위해 그래프, 벡터, KV, 문서, 관계형 데이터를 단일 플랫폼에서 관리한다. CLI 기반 설치 및 helix chef를 통한 빠른 부트스트래핑을 지원한다.",
+          "keyPoints": [
+            "그래프-벡터 데이터 모델을 기본으로 하면서 KV, 문서, 관계형 데이터도 지원하는 통합 데이터베이스",
+            "Rust 및 TypeScript DSL을 이용한 동적 쿼리 작성으로 빌드/배포 단계 없이 직접 실행 가능",
+            "helix chef로 한 줄 설명만으로 Claude Code 등의 코딩 에이전트가 완전한 앱(프론트엔드 포함)을 자동 생성 가능"
+          ],
+          "whyItMatters": "AI 에이전트의 메모리, 지식 그래프, 관계형 데이터를 하나의 데이터베이스로 통합 관리하면, AI 애플리케이션 아키텍처 복잡도를 크게 줄일 수 있다.",
+          "url": "https://github.com/HelixDB/helix-db/tree/main",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 81,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-helixdb-a-graph-database-built-on-object-storage",
+          "fullContent": "HelixDB: a graph-vector database for knowledge graphs and AI memory. Built from scratch in Rust.\nwebsite |\ndocs |\ndiscord |\nX/twitter\nHelixDB is a database that makes it easy to build all the components needed for AI applications in a single platform.\nYou don't need a separate application DB, relational DB, vector DB, graph DB, or application layers to manage the multiple storage locations. HelixDB gives your agents federated access to company data, for memory, company brains, and applications.\nHelix primarily operates with a graph + vector data model, but it also supports KV, documents, and relational data.\nGetting Started\n1. Install the CLI\nThe Helix CLI runs and manages local instances and talks to Helix Cloud.\ncurl -sSL \"https://install.helix-db.com\" | bash\nAlready installed? Update to the latest version with helix update.\n2. The quickest path — helix chef\nhelix chef is an interactive, one-shot bootstrapper. It installs the HelixDB query skills and docs MCP, scaffolds a project, starts a local instance, seeds some example data, and writes a HELIX_CHEF_PROMPT.md. If a coding agent is available (Claude Code, Codex, or OpenCode), it can hand off and build a working app — frontend and all — from a one-line description of what you want.\nhelix chef\nThat's it — no flags. Answer \"what do you want to build?\" and follow the prompts.\n3. Manual local setup\nIf you'd rather wire things up yourself:\nInitialize a project. This scaffolds helix.toml, a .helix/ workspace dir, and a ready-to-run examples/request.json.\nmkdir my-helix-app && cd my-helix-app\nhelix init\nStart a local instance. Runs a background container on port 6969 and waits until it accepts queries.\nhelix start dev\n⚠️ The default storage mode is in-memory — stopping the instance wipes its data. Use helix start dev --disk to persist data across restarts, or --foreground to stream logs.\nSend a query.\nhelix query dev --file examples/request.json\nStop the instance when you're done.\nhelix stop dev\nWriting queries with the SDKs\nQueries are authored with the Rust or TypeScript DSL and sent straight to a running instance as dynamic requests against POST /v1/query — no build or deploy step. Both SDKs produce the same JSON AST. The examples below talk to a local instance on http://localhost:6969 (the default helix start dev port). See the Querying Guide for the full builder catalog and the dynamic-query wire format.\nRust\nInstall the crate (published as helix-db, imported as helix_db):\ncargo init && cargo add helix-db tokio sonic-rs\nDefine your queries as #[register] functions, then run them directly through the client:\nuse helix_db::Client;\nuse helix_db::dsl::prelude::*;\n#[register]\npub fn add_user(name: String) {\nwrite_batch()\n.var_as(\n\"user\",\ng().add_n(\"User\", vec![(\"name\", name)])\n.value_map(None::<Vec<String>>),\n)\n.returning([\"user\"])\n}\n#[register]\npub fn get_user(name: String) {\nread_batch()\n.var_as(\n\"user\",\ng().n_with_label(\"User\")\n.where_(Predicate::eq(\"name\", name))\n.value_map(None::<Vec<String>>),\n)\n.returning([\"user\"])\n}\n#[tokio::main]\nasync fn main() {\nlet client = Client::new(None).unwrap(); // defaults to http://localhost:6969\n// add user\nlet new_user = client\n.query::<sonic_rs::Value>()\n.dynamic(add_user(\"John Doe\".to_string()))\n.send()\n.await\n.unwrap();\nprintln!(\"new user: {:#}\", sonic_rs::to_string_pretty(&new_user).unwrap());\n// get user\nlet user = client\n.query::<sonic_rs::Value>()\n.dynamic(get_user(\"John Doe\".to_string()))\n.send()\n.await\n.unwrap();\nprintln!(\"user: {:#}\", sonic_rs::to_string_pretty(&user).unwrap());\n}\nTypeScript\nInstall the package (Node.js 20+):\nnpm init -y && npm install @helix-db/helix-db\nDefine your queries as functions, then POST them to the running instance:\nimport {\nPredicate, PropertyInput, PropertyProjection,\ndefineParams, g, param, readBatch, writeBatch,\n} from \"@helix-db/helix-db\";\nconst addUserParams = defineParams({ name: param.string() });\nfunction addUser(p = addUserParams) {\nreturn writeBatch()\n.varAs(\"user\",\ng().addN(\"User\", { name: PropertyInput.param(\"name\") })\n.project([PropertyProjection.new(\"name\")]),\n)\n.returning([\"user\"]);\n}\nconst getUserParams = defineParams({ name: param.string() });\nfunction getUser(p = getUserParams) {\nreturn readBatch()\n.varAs(\"user\",\ng().nWithLabel(\"User\")\n.where(Predicate.eqParam(\"name\", \"name\"))\n.project([PropertyProjection.new(\"name\")]),\n)\n.returning([\"user\"]);\n}\nconst HELIX_URL = \"http://localhost:6969/v1/query\";\n// add user\nconst newUser = await fetch(HELIX_URL, {\nmethod: \"POST\",\nheaders: { \"content-type\": \"application/json\" },\nbody: addUser().toDynamicJson(addUserParams, { name: \"John Doe\" }),\n}).then((r) => r.json());\nconsole.log(\"new user:\", newUser);\n// get user\nconst user = await fetch(HELIX_URL, {\nmethod: \"POST\",\nheaders: { \"content-type\": \"application/json\" },\nbody: getUser().toDynamicJson(getUserParams, { name: \"John Doe\" }),\n}).then((r) => r.json());\nconsole.log(\"user:\", user);\nHelixDB Cloud\nHelixDB Cloud is an object-storage-backed deployment with integrated vector and fu",
+          "category": "tech",
+          "publishedAt": "2026-06-10T15:47:31.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Apache Burr: Build reliable AI agents and applications",
+          "titleKo": "Apache Burr: 신뢰할 수 있는 AI 에이전트와 애플리케이션 구축",
+          "summary": "Apache Burr(인큐베이팅)는 순수 Python으로 단순한 챗봇부터 복잡한 멀티 에이전트 시스템까지 구축할 수 있는 AI 애플리케이션 개발 프레임워크다. 상태 관리, 옵저버빌리티, 지속성, 인간 개입 등의 기능을 제공한다.",
+          "keyPoints": [
+            "액션과 전환으로 애플리케이션을 정의하는 간단한 Python API 제공 (DSL이나 YAML 불필요)",
+            "내장 UI를 통한 실시간 모니터링, 디버깅, 상태 변화 추적 및 자동 상태 지속성 지원",
+            "OpenAI, Anthropic, LangChain, Hamilton, Streamlit 등 주요 도구와의 통합 지원"
+          ],
+          "whyItMatters": "LangChain 등 기존 프레임워크 대비 더 간결하고 프로덕션 준비가 된 상태 관리 솔루션으로, AI 애플리케이션 개발 생산성을 크게 향상시킬 수 있다.",
+          "url": "https://burr.apache.org/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 167,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "apache-burr-build-reliable-ai-agents-and-applications",
+          "fullContent": "Apache Incubating ProjectBuild reliable AI agents and applicationsApache Burr (Incubating) makes it easy to develop applications that make decisions, from simple chatbots to complex multi-agent systems. Pure Python, no magic.Get StartedView on GitHub0GitHub Stars0k+PyPI Downloads0+Discord MembersSimple, powerful Python APIBuild anything from chatbots to multi-agent systems with a clean, composable interface.chatbot.py CopyChatbotMulti-AgentState Machinefrom burr.core import action, State, ApplicationBuilder\n@action(reads=[\"messages\"], writes=[\"messages\"])\ndef chat(state: State, llm_client) -> State:\nresponse = llm_client.chat(state[\"messages\"])\nreturn state.update(\nmessages=[*state[\"messages\"], response]\n)\napp = (\nApplicationBuilder()\n.with_actions(chat)\n.with_transitions((\"chat\", \"chat\"))\n.with_state(messages=[])\n.with_tracker(\"local\")\n.build()\n)\napp.run(halt_after=[\"chat\"], inputs={\"llm_client\": client})Python 3.12UTF-8burr >= 0.30Everything you need to build AI applicationsBurr provides the building blocks for reliable, observable, and testable AI-powered applications.Simple Python APIDefine your application as a set of actions and transitions. No DSL, no YAML — just Python functions and decorators.Built-in ObservabilityThe Burr UI lets you monitor, debug, and trace every step of your application in real time. See state changes as they happen.Persistence & State ManagementAutomatically persist state to disk, databases, or custom backends. Resume applications from where they left off.Human-in-the-LoopPause execution and wait for human input at any step. Perfect for approval workflows and interactive agents.Branching & ParallelismRun actions in parallel, fan out / fan in, and build complex DAGs. Compose sub-applications for modular design.Testing & ReplayReplay past runs, unit test individual actions, and validate state transitions. Build confidence in your AI systems.Works with your stackBurr integrates with the tools and frameworks you already use. No lock-in, no wrappers.OpenAILLMAnthropicLLMLangChainFrameworkHamiltonFrameworkStreamlitUIOpenAILLMAnthropicLLMLangChainFrameworkHamiltonFrameworkStreamlitUIOpenAILLMAnthropicLLMLangChainFrameworkHamiltonFrameworkStreamlitUIOpenAILLMAnthropicLLMLangChainFrameworkHamiltonFrameworkStreamlitUIFastAPIServingHaystackFrameworkInstructorLLMPydanticValidationPostgreSQLStorageFastAPIServingHaystackFrameworkInstructorLLMPydanticValidationPostgreSQLStorageFastAPIServingHaystackFrameworkInstructorLLMPydanticValidationPostgreSQLStorageFastAPIServingHaystackFrameworkInstructorLLMPydanticValidationPostgreSQLStorageView all integrationsTrusted by engineers worldwideSee what developers and teams are saying about Burr.PPeanut RoboticsWWatto.aiPPaxton AIPProvectusTTaskHuman“After evaluating several other obfuscating LLM frameworks, their elegant yet comprehensive state management solution proved to be the powerful answer to rolling out robots driven by AI decision making.”AAshish GhoshCTO, Peanut Robotics“Using Burr is a no-brainer if you want to build a modular AI application. It is so easy to build with and I especially love their UI which makes debugging a piece of cake. And the always ready to help team is the cherry on top.”IIshitaFounder, Watto.ai“I just came across Burr and I'm like WOW, this seems like you guys predicted this exact need when building this. No weird esoteric concepts just because it's AI.”MMatthew RideoutStaff Software Engineer, Paxton AI“Burr's state management part is really helpful for creating state snapshots and build debugging, replaying and even building evaluation cases around that.”RRinat GareevSenior Solutions Architect, Provectus“I have been using Burr over the past few months, and compared to many agentic LLM platforms out there (e.g. LangChain, CrewAi, AutoGen, Agency Swarm, etc), Burr provides a more robust framework for designing complex behaviors.”HHadi NayebiCo-founder, CognitiveGraphs“Moving from LangChain to Burr was a game-changer! It took me just a few hours to get started with Burr, compared to the days and weeks I spent trying to navigate LangChain. I pitched Burr to my teammates, and we pivoted our entire codebase to it.”AAditya K.DS Architect, TaskHuman“Of course, you can use it [LangChain], but whether it's really production-ready and improves the time from code-to-prod, we've been doing LLM apps for two years, and the answer is no. Honestly, take a look at Burr. Thank me later.”RReddit UserDeveloper, r/LocalLlama“After evaluating several other obfuscating LLM frameworks, their elegant yet comprehensive state management solution proved to be the powerful answer to rolling out robots driven by AI decision making.”AAshish GhoshCTO, Peanut Robotics“Using Burr is a no-brainer if you want to build a modular AI application. It is so easy to build with and I especially love their UI which makes debugging a piece of cake. And the always ready to help team is the cherry on top.”IIshitaFounder, Watto.ai“I just came across Burr and I'm lik",
+          "category": "tech",
+          "publishedAt": "2026-06-10T15:01:06.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: Extend UI – open-source UI kit for modern document apps",
+          "titleKo": "Extend UI - 현대적 문서 앱을 위한 오픈소스 UI 키트",
+          "summary": "React 기반의 PDF, DOCX, XLSX, CSV 문서 처리 컴포넌트를 제공하는 오픈소스 UI 키트입니다. 바운딩 박스 인용, 파일 업로드, 전자 서명 등의 기능을 포함하고 있으며, 사용자 인터페이스, 에이전트, 내부 도구에 바로 적용할 수 있습니다.",
+          "keyPoints": [
+            "PDF, DOCX, XLSX, CSV 등 다양한 문서 형식을 처리하는 React 컴포넌트 라이브러리 제공",
+            "바운딩 박스 인용, 파일 업로드, 전자 서명, 스키마 빌더 등 문서 앱에 필요한 다양한 기능 포함"
+          ],
+          "whyItMatters": "문서 기반 애플리케이션 개발 시 복잡한 문서 처리 UI를 직접 구현하는 대신 검증된 컴포넌트를 활용할 수 있습니다.",
+          "url": "https://www.extend.ai/ui",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 123,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-extend-ui-open-source-ui-kit-for-modern-document-apps",
+          "fullContent": "Open source UI kit for modern document appsReact components for PDF, DOCX, XLSX, and CSV, with bounding box citations, file upload, e-signing, and more.Ready to drop into user-facing flows, agents, or internal tools.View full examplesView componentsPDF ViewerViewDocument SplitsViewXLSX ViewerViewFile SystemViewDOCX ViewerViewFile ThumbnailViewImagePDFDOCXXLSXSchema BuilderViewFormJSONProperty keyTypeDescriptionStringEnumConfigure enums for account_typeValueDescriptionAdd enum valueObjectConfigure schema for account_holderProperty keyTypeDescriptionStringObjectConfigure schema for addressProperty keyTypeDescriptionStringStringAdd propertyAdd propertyArray<object>Configure schema for transactionsArray<object>Property keyTypeDescriptionStringStringNumberAdd propertyAdd propertyPDF ViewerViewDocument SplitsViewFile SystemViewDOCX ViewerViewFile ThumbnailViewImagePDFDOCXXLSXXLSX ViewerViewSchema BuilderViewFormJSONProperty keyTypeDescriptionStringEnumConfigure enums for account_typeValueDescriptionAdd enum valueObjectConfigure schema for account_holderProperty keyTypeDescriptionStringObjectConfigure schema for addressProperty keyTypeDescriptionStringStringAdd propertyAdd propertyArray<object>Configure schema for transactionsArray<object>Property keyTypeDescriptionStringStringNumberAdd propertyAdd propertyLayout BlocksViewBounding Box CitationsViewFile SystemViewXLSX ViewerViewFile UploadViewDOCX EditorViewE-SignatureView",
+          "category": "tech",
+          "publishedAt": "2026-06-10T16:09:26.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "πFS",
+          "titleKo": "πFS - 파이에 데이터를 저장하는 파일시스템",
+          "summary": "π의 digits에 모든 가능한 파일이 존재한다는 수학적 추측을 바탕으로, 파일을 실제 저장 대신 π 내의 위치를 기록하는 개념적 파일시스템이다. Bailey–Borwein–Plouffe 공식을 이용해 π에서 파일을 검색하고, 메타데이터로 위치 정보를 관리한다.",
+          "keyPoints": [
+            "π가 normal number라는 추측에 기반해 모든 가능한 파일이 π의 어딘가에 존재한다고 가정",
+            "각 바이트를 개별적으로 π에서 조회하고 위치 정보를 메타데이터로 저장하는 방식으로 동작"
+          ],
+          "whyItMatters": "이 프로젝트는 수학적 개념을 이용한 창의적인 사고를 보여주지만, 실제로는 매우 느린 성능으로 인해 실용적 가치는 제한적이다.",
+          "url": "https://github.com/philipl/pifs",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 426,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "fs",
+          "fullContent": "Check out https://github.com/philipl/inferencefs/ for the latest in data-free filesystems!\nπfs: Never worry about data again!\nπfs is a revolutionary new file system that, instead of wasting space storing\nyour data on your hard drive, stores your data in π! You'll never run out of\nspace again - π holds every file that could possibly exist! They said 100%\ncompression was impossible? You're looking at it!\nπfs is dead simple to build:\nFirstly, you must install autoconf, automake, libfuse packages in your system.\nFor example, if you have Debian try:\nsudo apt-get install autotools-dev\nsudo apt-get install automake\nsudo apt-get install libfuse-dev\n./autogen.sh\n./configure\nmake\nmake install\nπfs is dead simple to use:\nπfs -o mdd=<metadata directory> <mountpoint>\nwhere the metadata directory is where πfs should store its metadata (such\nas filenames or the locations of your files in π) and mountpoint is your\nusual filesystem mountpoint.\nWhat does π have to do with my data?\nπ (or pi) is one of the most important constants in mathematics and has a\nvariety of interesting properties (which you can read about at wikipedia)\nOne of the properties that π is conjectured to have is that it is normal,\nwhich is to say that its digits are all distributed evenly, with the\nimplication that it is a disjunctive sequence, meaning that all possible\nfinite sequences of digits will be present somewhere in it. If we consider\nπ in base 16 (hexadecimal) , it is trivial to see that if this conjecture\nis true, then all possible finite files must exist within π. The first\nrecord of this observation dates back to 2001.\nFrom here, it is a small leap to see that if π contains all possible files,\nwhy are we wasting exabytes of space storing those files, when we could just\nlook them up in π!\nEvery file that could possibly exist?\nThat's right! Every file you've ever created, or anyone else has created or\nwill create! Copyright infringement? It's just a few digits of π! They were\nalways there!\nBut how do I look up my data in π?\nAs long as you know the index into π of your file and its length, its a\nsimple task to extract the file using the Bailey–Borwein–Plouffe formula\nSimilarly, you can use the formula to initially find the index of your file\nNow, we all know that it can take a while to find a long sequence of digits\nin π, so for practical reasons, we should break the files up into smaller\nchunks that can be more readily found.\nIn this implementation, to maximise performance, we consider each individual byte\nof the file separately, and look it up in π.\nSo I've looked up my bytes in π, but how do I remember where they are?\nWell, you've obviously got to write them down somewhere; you could use a piece of\npaper, but remember all that storage space we saved by moving our data into π? Why\ndon't we store our file locations there!?! Even better, the location of our files in\nπ is metadata and as we all know\nmetadata is becoming more and more important in everything we do. Doesn't it feel\ngreat to have generated so much metadata? Why waste time with old fashioned data\nwhen you can just deal with metadata, and lots of it!\nYeah, but what happens if lose my file locations?\nNo problem, the locations are just metadata! Your files are still there, sitting\nin π - they're never going away, are they?\nWhy is this thing so slow? It took me five minutes to store a 400 line text file!\nWell, this is just an initial prototype, and don't worry, there's always Moore's law!\nWhere do we go from here?\nThere's lots of potential for the future!\nVariable run length search and lookup!\nArithmetic Coding!\nParallelizable lookup!\nCloud based π lookup!\nπfs for Hadoop!",
+          "category": "tech",
+          "publishedAt": "2026-06-10T18:54:54.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "x1xhlol/system-prompts-and-models-of-ai-tools",
+          "titleKo": "AI 도구의 시스템 프롬프트와 모델 수집",
+          "summary": "GitHub 리포지토리로 Cursor, Claude Code, Perplexity, Replit, Warp.dev, Windsurf 등 20여 개의 AI 도구들의 시스템 프롬프트와 사용 모델 정보를 수집하고 공개한다.",
+          "keyPoints": [
+            "Augment Code, Claude Code, Cursor, Devin AI, Lovable, Replit 등 다양한 AI 코딩 도구의 시스템 프롬프트 수집",
+            "각 도구가 사용하는 기본 모델과 설정 정보를 한 곳에서 비교할 수 있도록 정리"
+          ],
+          "whyItMatters": "다양한 AI 개발 도구의 내부 동작 원리와 차이점을 이해하면, 자신의 용도에 맞는 도구 선택과 효과적인 활용이 가능해진다.",
+          "url": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+          "sourceName": "GitHub Trending",
+          "engagement": 139499,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-tools-prompts",
+          "isTopicPrimary": true,
+          "relatedCount": 2,
+          "slug": "x1xhlolsystem-prompts-and-models-of-ai-tools",
+          "category": "tech",
+          "publishedAt": "2026-06-10T23:35:06.497Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "refactoringhq/tolaria (TypeScript)",
+          "titleKo": "Tolaria - 마크다운 지식 베이스 관리 데스크톱 앱",
+          "summary": "TypeScript로 만들어진 마크다운 기반 지식 베이스를 관리하는 데스크톱 애플리케이션입니다. 개발자들이 문서화된 정보를 효율적으로 정리하고 검색할 수 있도록 설계되었습니다.",
+          "keyPoints": [
+            "마크다운 형식의 지식 베이스를 중앙에서 관리할 수 있는 도구 제공",
+            "TypeScript 기반으로 개발되어 확장성과 유지보수성이 우수함"
+          ],
+          "whyItMatters": "개발 팀의 문서화 작업을 체계적으로 관리하면서 검색 효율을 높일 수 있습니다.",
+          "url": "https://github.com/refactoringhq/tolaria",
+          "sourceName": "GitHub Trending",
+          "engagement": 14880,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "refactoringhqtolaria-typescript",
+          "category": "tech",
+          "publishedAt": "2026-06-10T23:35:06.496Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "roboflow/supervision (Python)",
+          "titleKo": "Supervision - 컴퓨터 비전 도구 모음",
+          "summary": "Roboflow에서 제공하는 Python 기반 컴퓨터 비전 도구 모음입니다. 재사용 가능한 컴퓨터 비전 기능들을 통합하여 개발자가 쉽게 활용할 수 있게 합니다.",
+          "keyPoints": [
+            "Python으로 작성된 재사용 가능한 컴퓨터 비전 도구들을 제공",
+            "비전 기반 프로젝트 개발 시간을 단축할 수 있는 라이브러리"
+          ],
+          "whyItMatters": "컴퓨터 비전 작업에 필요한 공통 기능들을 표준화된 형태로 제공하여 개발 생산성을 높입니다.",
+          "url": "https://github.com/roboflow/supervision",
+          "sourceName": "GitHub Trending",
+          "engagement": 43548,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "roboflowsupervision-python",
+          "category": "tech",
+          "publishedAt": "2026-06-10T23:35:06.500Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "activeloopai/hivemind (TypeScript)",
+          "titleKo": "ActiveLoop의 HiveMind - TypeScript 멀티 에이전트 플랫폼",
+          "summary": "ActiveLoop의 HiveMind는 여러 에이전트를 하나의 두뇌로 통합 관리하는 TypeScript 기반 플랫폼이다.",
+          "keyPoints": [
+            "다중 에이전트 시스템을 단일 조율 시스템으로 통합"
+          ],
+          "whyItMatters": "복잡한 멀티 에이전트 AI 시스템 구축 시 중앙화된 제어와 조율이 필요한 개발자에게 유용하다.",
+          "url": "https://github.com/activeloopai/hivemind",
+          "sourceName": "GitHub Trending",
+          "engagement": 810,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "activeloopaihivemind-typescript",
+          "category": "tech",
+          "publishedAt": "2026-06-10T23:35:06.499Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "luongnv89/claude-howto (Python)",
+          "titleKo": "Claude Howto - Claude Code 시각적 가이드",
+          "summary": "Python 기반의 Claude Code 사용법을 시각적이고 실용적으로 설명하는 가이드 레포지토리입니다. 기본 개념부터 고급 에이전트까지 즉시 적용 가능한 템플릿을 제공합니다.",
+          "keyPoints": [
+            "Claude Code의 기본 개념부터 고급 에이전트까지 단계별 학습 자료 제공",
+            "복사 붙여넣기 가능한 실제 동작하는 템플릿으로 즉시 활용 가능"
+          ],
+          "whyItMatters": "Claude를 활용하여 개발하는 개발자들이 체계적으로 학습하고 실무에 빠르게 적용할 수 있습니다.",
+          "url": "https://github.com/luongnv89/claude-howto",
+          "sourceName": "GitHub Trending",
+          "engagement": 36510,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-tools-prompts",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "luongnv89claude-howto-python",
+          "category": "tech",
+          "publishedAt": "2026-06-10T23:35:06.499Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "addyosmani/agent-skills (Shell)",
+          "titleKo": "addyosmani/agent-skills - AI 코딩 에이전트용 프로덕션급 엔지니어링 스킬",
+          "summary": "AI 코딩 에이전트를 위한 프로덕션급 엔지니어링 스킬 세트를 제공하는 오픈소스 프로젝트다.",
+          "keyPoints": [
+            "AI 에이전트의 코딩 능력을 향상시키는 재사용 가능한 스킬 모음이다."
+          ],
+          "whyItMatters": "AI 에이전트 기반 개발 워크플로우를 구축할 때 신뢰할 수 있는 스킬 라이브러리가 필요하다.",
+          "url": "https://github.com/addyosmani/agent-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 51673,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "addyosmaniagent-skills-shell",
+          "category": "tech",
+          "publishedAt": "2026-06-10T23:35:06.495Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "GeoLibre 1.0",
+          "titleKo": "GeoLibre 1.0",
+          "summary": "Tauri, React, TypeScript, MapLibre GL JS, DuckDB-WASM 등으로 구축한 클라우드 네이티브 GIS 플랫폼으로, 데스크톱과 웹에서 지리공간 데이터 시각화, 탐색, 분석을 지원합니다.",
+          "keyPoints": [
+            "MapLibre 기반 맵 워크스페이스, 로컬/원격 벡터 및 래스터 데이터 로딩, 플러그인 마켓플레이스를 제공합니다.",
+            "DuckDB Spatial SQL, 벡터/래스터 처리 도구, Python/Jupyter 통합으로 브라우저 기반 지리공간 분석을 가능하게 합니다.",
+            "데스크톱 버전(Tauri)과 웹 버전 모두 GitHub Pages에서 호스팅되며 개인정보 보호를 기본으로 합니다."
+          ],
+          "whyItMatters": "웹/데스크톱 GIS 애플리케이션 개발 시 오픈소스 기반의 모던 아키텍처와 기능 구현 방법을 학습할 수 있습니다.",
+          "url": "https://geolibre.app/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 124,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "geolibre-10",
+          "fullContent": "Cloud-native GIS platform\nA lightweight, cloud-native GIS platform for visualizing, exploring, and analyzing geospatial data.\nGeoLibre is built with Tauri, React, TypeScript, MapLibre GL JS,\nDuckDB-WASM Spatial, and deck.gl. The same workspace runs across desktop\nand web environments, adapting responsively to mobile screens, with fast\nlocal and cloud-native data work, project files, styling, plugins, and\nmodern geospatial workflows.\nOpen live demo\nGet started\nUser guide\nDownload app\nWhat GeoLibre does today¶\nMapLibre map workspace¶\nPan, zoom, rotate, and tilt a MapLibre map with OpenFreeMap basemaps or a blank background. Toggle built-in controls for navigation, globe, terrain, geolocation, scale, attribution, and logo, plus on-map tools like Measure, Bookmark, Minimap, and View State.\nLocal and remote data¶\nLoad local and remote vector and raster data, inspect attributes in the table, style layers with data-driven symbology, reorder and refresh layers, and save, reopen, or share .geolibre.json projects.\nPlugins and marketplace¶\nActivate built-in plugins for layer control, basemaps, MapLibre components, swipe, street view, time slider, Overture Maps, LiDAR, GeoAgent, and GeoEditor, and install, update, or remove external plugins from the built-in marketplace.\nAdvanced layer formats¶\nAdd Data covers XYZ, WMS, WFS, WMTS, ArcGIS, and STAC services; GeoParquet, FlatGeobuf, PMTiles, and Zarr cloud formats; COG and GeoTIFF rasters and MBTiles; LiDAR, Gaussian splats, and 3D Tiles; and DuckDB and PostgreSQL databases.\nConversion and Whitebox¶\nConvert data to cloud-native GeoParquet, FlatGeobuf, PMTiles, and COG from the Conversion menu, and run batch geoprocessing with the Whitebox toolbox on the optional Python sidecar.\nSQL Workspace¶\nRun DuckDB Spatial SQL in the browser against loaded layers, local files, and remote URLs. Auto-wraps bare URLs into the matching reader and streams remote files over HTTP range requests. Includes sample queries, query history, and adding a result (with an optional layer name) to the map or exporting it as CSV or GeoParquet.\nVector tools¶\nCommon geometry tools under Processing → Vector: buffer, centroids, convex hull, dissolve, bounding box, simplify, clip, intersection, difference, and union. They run in the browser with Turf.js, with an optional GeoPandas sidecar engine for every tool.\nRaster tools¶\nCommon raster tools under Processing → Raster: hillshade, slope, aspect, reproject, resample, clip by extent, clip by mask layer, polygonize, and contour. They run on a rasterio Python sidecar with a file path in and a file path out. Drag a GeoTIFF/COG onto the map to add it as a raster layer.\nPython and Jupyter¶\nEmbed the full GeoLibre app in a Jupyter notebook with the geolibre Python package. A leafmap-style API (add_geojson, add_tile_layer, add_cog) drives the map, and the project syncs both ways so UI edits are readable back from Python.\nLearn GeoLibre¶\nNew to GeoLibre? Start with the User Guide for a feature-by-feature tour of the workspace, menus, panels, and tools, then follow the Tutorials for hands-on, end-to-end workflows.\nInterface Overview: the toolbar, panels, map, and status bar.\nAdding Data: every file, web service, cloud, 3D, and database source.\nProcessing Tools and SQL Workspace: analysis with vector, raster, conversion, Whitebox, and DuckDB Spatial SQL.\nPlugins & Marketplace: activate built-ins and install from the registry.\nYour First Map: add a layer, style it, inspect it, and share it.\nRead the User Guide\nBrowse the Tutorials\nTry it in the browser¶\nThe live demo is the browser-capable version of the GeoLibre desktop UI. It is useful for exploring the map, loading browser-selected vector data supported by DuckDB-WASM Spatial, adding URL-based layers, styling layers, and testing plugins. Desktop-only file dialogs, local MBTiles, local raster reads, and filesystem save/open operations still require the installed Tauri app.\nHosted on GitHub Pages, private by design\nThe live demo is a static site deployed on GitHub Pages and runs entirely in your browser. It has no analytics and no server account, and the data you load is processed client-side in your browser session. Data leaves your browser only when you choose to add a remote URL or explicitly share a project.\nOpen a project by passing a public .geolibre.json URL with the url query parameter:\nhttps://viewer.geolibre.app/?url=https://share.geolibre.app/giswqs/3d-tiles.geolibre.json\nFor narrow embeds, add ?layout=compact to the demo URL to use icon-only toolbar buttons and hide project metadata:\nhttps://viewer.geolibre.app/?url=https://share.geolibre.app/giswqs/3d-tiles.geolibre.json&layout=compact\nFor map-focused embeds, add &panels=none to hide the Layers, Style, and Attribute table panels:\nhttps://viewer.geolibre.app/?url=https://share.geolibre.app/giswqs/3d-tiles.geolibre.json&layout=compact&panels=none\nUse toolbar=icons when you only want icon-only toolbar buttons. panels=hidden, panels=hide, panels=off, and hid",
+          "category": "tech",
+          "publishedAt": "2026-06-10T17:39:47.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "ruvnet/RuView (Rust)",
+          "titleKo": "ruvnet/RuView - WiFi 신호로 공간 인식과 생체 신호 모니터링",
+          "summary": "일반적인 WiFi 신호를 활용하여 실시간 공간 인식, 생체 신호 모니터링, 존재 감지를 구현하는 Rust 기반 프로젝트다. 비디오 없이 프라이버시를 보호하면서 센싱 기능을 제공한다.",
+          "keyPoints": [
+            "WiFi 신호를 활용해 카메라 없이 실시간 공간 인식과 생체 신호를 감지한다.",
+            "프라이버시를 침해하지 않으면서 센싱 기능을 제공하는 저비용 솔루션이다.",
+            "Rust로 구현되어 높은 성능과 안정성을 제공한다."
+          ],
+          "whyItMatters": "IoT와 스마트 홈 애플리케이션에서 프라이버시를 유지하면서 센싱 기능을 구현할 수 있는 혁신적인 기술 방식을 제공한다.",
+          "url": "https://github.com/ruvnet/RuView",
+          "sourceName": "GitHub Trending",
+          "engagement": 72876,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ruvnetruview-rust",
+          "category": "tech",
+          "publishedAt": "2026-06-10T23:35:06.499Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "Show HN: Artie – Real-time data replication to your warehouse, now self-serve",
+          "titleKo": "Artie – 실시간 데이터 웨어하우스 복제, 이제 셀프서비스로",
+          "summary": "Artie는 실시간으로 데이터를 웨어하우스로 복제하는 서비스를 셀프서비스 방식으로 제공한다.",
+          "keyPoints": [
+            "실시간 데이터 복제 기능으로 웨어하우스 동기화를 자동화할 수 있다."
+          ],
+          "whyItMatters": "데이터 파이프라인 구축 시간과 비용을 줄일 수 있어 개발 생산성이 향상된다.",
+          "url": "https://www.artie.com",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 19,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-artie-real-time-data-replication-to-your-warehouse-now-self-serve",
+          "category": "tech",
+          "publishedAt": "2026-06-10T05:27:31.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "google/skills (Python)",
+          "titleKo": "Google Skills - Google 제품 및 기술 에이전트 스킬",
+          "summary": "Python으로 작성된 Google 제품과 기술을 활용하는 에이전트 스킬 모음입니다. AI 에이전트가 Google 서비스를 통합하여 활용할 수 있게 합니다.",
+          "keyPoints": [
+            "Google 제품 및 기술을 에이전트가 활용할 수 있는 스킬 형태로 제공",
+            "AI 에이전트의 기능을 확장하기 위한 Google 통합 도구"
+          ],
+          "whyItMatters": "AI 에이전트 개발자들이 Google 서비스 통합을 표준화된 방식으로 구현할 수 있습니다.",
+          "url": "https://github.com/google/skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 13262,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-tools-prompts",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "googleskills-python",
+          "category": "tech",
+          "publishedAt": "2026-06-10T23:35:06.500Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "mvanhorn/last30days-skill (Python)",
+          "titleKo": "mvanhorn/last30days-skill (Python)",
+          "summary": "Reddit, X, YouTube, HN, Polymarket, 웹 등 다양한 출처에서 주제를 연구하고 종합 요약을 생성하는 AI 에이전트 스킬입니다.",
+          "keyPoints": [
+            "Reddit, X, YouTube, Hacker News, Polymarket, 일반 웹 등 6개 플랫폼에서 정보를 수집합니다.",
+            "수집된 데이터를 기반으로 근거 있는 요약을 자동으로 생성합니다."
+          ],
+          "whyItMatters": "AI 에이전트 개발 시 정보 종합 및 요약 기능을 구현하는 참고 사례가 됩니다.",
+          "url": "https://github.com/mvanhorn/last30days-skill",
+          "sourceName": "GitHub Trending",
+          "engagement": 39029,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "mvanhornlast30days-skill-python",
+          "category": "tech",
+          "publishedAt": "2026-06-10T23:35:06.497Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "obra/superpowers (Shell)",
+          "titleKo": "obra/superpowers - 에이전트 스킬 프레임워크 및 소프트웨어 개발 방법론",
+          "summary": "AI 에이전트를 위한 스킬 프레임워크와 함께 실무 중심의 소프트웨어 개발 방법론을 제시하는 프로젝트다.",
+          "keyPoints": [
+            "에이전트 기반 개발의 실질적인 방법론과 프레임워크를 제공한다."
+          ],
+          "whyItMatters": "AI 에이전트 기반 소프트웨어 개발의 효율적인 프로세스 정립에 참고할 수 있다.",
+          "url": "https://github.com/obra/superpowers",
+          "sourceName": "GitHub Trending",
+          "engagement": 223559,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "obrasuperpowers-shell",
+          "category": "tech",
+          "publishedAt": "2026-06-10T23:35:06.498Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "maziyarpanahi/openmed (Python)",
+          "titleKo": "maziyarpanahi/openmed - 오픈소스 의료 AI",
+          "summary": "오픈소스 기반의 의료 분야 AI 프로젝트로, 의료 데이터와 모델을 공개적으로 제공한다.",
+          "keyPoints": [
+            "의료 분야의 AI 모델과 데이터셋을 오픈소스로 제공한다."
+          ],
+          "whyItMatters": "의료 분야 AI 개발 시 신뢰할 수 있는 오픈소스 리소스를 활용할 수 있다.",
+          "url": "https://github.com/maziyarpanahi/openmed",
+          "sourceName": "GitHub Trending",
+          "engagement": 2271,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "maziyarpanahiopenmed-python",
+          "category": "tech",
+          "publishedAt": "2026-06-10T23:35:06.499Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "Unix GC Remastered",
+          "titleKo": "Unix GC 재작성",
+          "summary": "AF_UNIX 가비지 컬렉터는 SCM_RIGHTS로 전송된 소켓이 사용자 공간에서 도달 불가능하면서도 커널에 의해 유지되는 상황을 처리합니다. 최근 그래프/강연결요소 모델 기반으로 재작성되었으며, Tarjan 알고리즘을 사용해 순환 참조를 감지하고 수집 가능한 객체를 효율적으로 식별합니다.",
+          "keyPoints": [
+            "inflight 카운터를 통해 SCM_RIGHTS 페이로드로 전송 중인 소켓을 추적하며, file_count == inflight일 때 사용자 공간에서 도달 불가능한 소켓을 식별합니다.",
+            "새로운 GC는 각 inflight 소켓을 정점으로, struct file 포인터를 간선으로 하는 그래프를 구성한 후 Tarjan 알고리즘으로 강연결요소를 분할합니다.",
+            "SCC가 변경되지 않으면 빠른 경로를 사용해 캐시된 SCC를 재사용하므로 O(|V| + |E|) 복잡도로 효율적입니다."
+          ],
+          "whyItMatters": "커널 메모리 누수를 방지하고 소켓 통신의 안정성을 보장하는 저수준 메커니즘을 이해하는 데 필요합니다.",
+          "url": "https://mohandacherir.github.io/Qdiv7/posts/unix_new_gc/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 4,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "unix-gc-remastered",
+          "fullContent": "The AF_UNIX garbage collector is an interesting piece of the kernel. It exists because sockets can be sent with SCM_RIGHTS but they can become unreachable from user-space while still being kept alive by the kernel, which is not memory efficient; in this situation, the garbage collector intervenes to free them. Not long ago, the subsystem was rewritten from scratch on top of a graph/Strongly-Connected-Components model; but it is still bug prone.\nThis post walks the rewrite end-to-end, and discusses a Use-After-Free bug.\nA per-subsystem garbage collector is responsible for reclaiming kernel objects that can no longer be reached through user-space handles. For AF_UNIX, the entry point is unix_gc():\nThe critical field for GC is inflight ([1]). A socket is “in flight” when its struct file * is riding as SCM_RIGHTS payload — sent by process A, not yet accepted by process B. Each time it is sent, inflight is incremented; each time it is received, inflight is decremented. The GC is looking for sockets for which file_count == inflight: the only remaining references are the ones trapped in other sockets’ receive queues, i.e. no user-space handle can ever reach them again.\nThe LWN “AF_UNIX GC rework” article puts it more concisely:\nLet’s say we send a fd of AF_UNIX socket A to B and vice versa and close() both sockets. When created, each socket’s struct file initially has one reference. After the fd exchange, both refcounts are bumped up to 2. Then, close() decreases both to 1. From this point on, no one can touch the file/socket. However, the struct file has one refcount and thus never calls the release() function of the AF_UNIX socket. That’s why we need to track all inflight AF_UNIX sockets and run garbage collection.\nThe kernel maintains a global unix_tot_inflight counter, incremented on every inflight transition and decremented on every accept.\n(UNIX_INFLIGHT_TRIGGER_GC == 16000.)\nA socket close, if anything is inflight:\nThe pre-2024 collector is well described in the Google P0 post “The quantum state of Linux kernel garbage collection”, which covers both the algorithm and a 2021 Android in-the-wild exploit. That post is the recommended companion read; here is just the one-line summary: the old GC walked the inflight graph, marked cycles, and checked inflight != refcount to decide whether each cycle was collectable.\nFrom the GC Rework announcement:\n[It] replaces the current GC implementation that locks each inflight socket’s receive queue and requires trickiness in other places. The new GC does not lock each socket’s queue to minimise its effect and tries to be lightweight if there is no cyclic reference or no update in the shape of the inflight fd graph.\nEach inflight socket becomes a vertex; each backing struct file * carried in an SCM_RIGHTS cmsg becomes a directed edge (predecessor → successor).\nExample — send A to C, C to D, B to D. Three inflight sockets (A, B, C — not D), giving the graph:\nTarjan’s algorithm then partitions this graph into strongly connected components. Why SCCs? For any directed graph, any SCC of more than one vertex necessarily contains at least one cycle:\nA cycle is a necessary but not sufficient condition for a vertex to be collectable: collection requires the vertex to be inflight, and unreachable from user-space (file_count == out_degree). Sockets not in any cycle cannot possibly be mutually-pinning garbage, and are skipped.\nunix_graph_maybe_cyclic is flipped on whenever a new edge is added with both endpoints inflight:\nNote that unix_update_graph() also resets unix_graph_grouped = false, forcing the next GC to rebuild SCCs from scratch.\nDispatch between slow and fast paths:\nThis is where SCCs are actually built:\nIndexing starts at UNIX_VERTEX_INDEX_START == 2. At the top of the walk the graph is assumed acyclic; the walk promotes it back to cyclic if and only if it actually finds a cycle.\nComplexity note. The outer while only iterates more than once when the graph is a forest of disconnected sub-graphs. For any weakly-connected graph G(V, E) a single iteration visits every vertex. End-to-end cost is O(|V| + |E|).\nTarjan’s algorithm takes a directed graph and produces its SCCs. Each vertex ends up in exactly one SCC; vertices with no incoming or outgoing cycle form a trivial singleton SCC. The idea is a DFS where every vertex starts labelled (index, scc_index) = (k, k) for a monotonically increasing k, and then neighbours’ scc_index values are propagated back up the stack so that all vertices in a cycle converge on the smallest scc_index in that cycle.\nSee the Wikipedia page for the formal write-up.\nPseudocode, matching the kernel’s in-place iterative form:\nWhen the graph shape is unchanged since the last GC (unix_graph_grouped == true), the SCCs are reused as-is:\nThe fast path walks each cached SCC in reverse order ([5]), moves each vertex to the visited list ([6]), and runs unix_vertex_dead() on it ([7]). If every vertex in the SCC passes the check, the whole SCC is appended to the",
+          "category": "tech",
+          "publishedAt": "2026-06-10T22:48:58.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "masterking32/MasterDnsVPN (Go)",
+          "titleKo": "masterking32/MasterDnsVPN (Go)",
+          "summary": "DNSTT와 SlipStream을 개선한 고급 DNS 터널링 VPN으로, 저오버헤드 ARQ, 리졸버 부하 분산, 높은 패킷손실 안정성을 제공합니다.",
+          "keyPoints": [
+            "DNS 터널링을 통한 검열 우회 기능을 제공합니다.",
+            "기존 솔루션 대비 성능 최적화, ARQ 알고리즘, 로드 밸런싱으로 안정성을 강화했습니다."
+          ],
+          "whyItMatters": "네트워크 엔지니어와 보안 개발자가 DNS 기반 우회 기술을 구현할 때 참고할 수 있습니다.",
+          "url": "https://github.com/masterking32/MasterDnsVPN",
+          "sourceName": "GitHub Trending",
+          "engagement": 5182,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "masterking32masterdnsvpn-go",
+          "category": "tech",
+          "publishedAt": "2026-06-10T23:35:06.498Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Go"
+          ]
+        },
+        {
+          "title": "phuryn/pm-skills",
+          "titleKo": "PM Skills - 100+ 에이전틱 스킬 마켓플레이스",
+          "summary": "제품 관리자를 위한 100개 이상의 에이전틱 스킬, 커맨드, 플러그인을 제공하는 마켓플레이스입니다. 발견에서 전략, 실행, 출시, 성장까지 제품 개발 전 단계를 지원합니다.",
+          "keyPoints": [
+            "제품 관리의 전체 라이프사이클(발견부터 성장까지)을 커버하는 통합 도구 제공",
+            "100개 이상의 에이전틱 스킬을 통해 자동화된 업무 처리 가능"
+          ],
+          "whyItMatters": "제품 개발팀이 반복적인 작업을 자동화하고 의사결정 프로세스를 효율화할 수 있습니다.",
+          "url": "https://github.com/phuryn/pm-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 14786,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "phurynpm-skills",
+          "category": "tech",
+          "publishedAt": "2026-06-10T23:35:06.496Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "harry0703/MoneyPrinterTurbo (Python)",
+          "titleKo": "MoneyPrinterTurbo - AI를 활용한 고화질 단편 영상 자동 생성",
+          "summary": "AI 대규모 언어 모델을 활용하여 한 번의 클릭으로 고화질 단편 영상을 자동 생성하는 Python 도구입니다.",
+          "keyPoints": [
+            "LLM 기반 영상 생성으로 수동 제작 과정을 대폭 단축",
+            "원클릭 방식으로 콘텐츠 제작의 진입장벽을 낮춤"
+          ],
+          "whyItMatters": "AI 기반 콘텐츠 생성 기술의 실제 적용 사례로, 개발자들이 멀티미디어 자동 생성 파이프라인을 구축하는 데 참고할 수 있습니다.",
+          "url": "https://github.com/harry0703/MoneyPrinterTurbo",
+          "sourceName": "GitHub Trending",
+          "engagement": 84968,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "harry0703moneyprinterturbo-python",
+          "category": "tech",
+          "publishedAt": "2026-06-10T23:35:06.498Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "soxoj/maigret (Python)",
+          "titleKo": "Maigret - 사용자명으로 3000개 이상 사이트에서 정보 수집",
+          "summary": "Python 기반 OSINT(오픈소스 인텔리전스) 도구로 사용자명을 입력하면 3000개 이상의 웹사이트에서 해당 인물의 정보를 자동 수집합니다.",
+          "keyPoints": [
+            "3000개 이상의 데이터베이스 대상 자동 검색으로 효율적인 정보 수집",
+            "사용자명 기반의 분산된 정보를 통합 관리"
+          ],
+          "whyItMatters": "보안 감시, 사용자 조사, 정보 보호 분야의 개발자들이 자동화된 정보 수집 도구를 구현하는 데 참고할 수 있습니다.",
+          "url": "https://github.com/soxoj/maigret",
+          "sourceName": "GitHub Trending",
+          "engagement": 31983,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "soxojmaigret-python",
+          "category": "tech",
+          "publishedAt": "2026-06-10T23:35:06.497Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "Policy on the AI Exponential",
+          "titleKo": "AI 지수적 발전에 대한 정책",
+          "summary": "Anthropic CEO Dario Amodei가 AI의 지수적 발전 속도와 정책 대응의 불일치를 지적하며, 규제, 거시경제, 과학 혁신, 국가와 사회의 권력 균형, 지정학 등 5가지 정책 영역의 재구상을 제안합니다. Claude Mythos Preview의 사이버보안 위험성을 사례로 들어 AI가 전략적 중요성을 가진 기술임을 강조합니다.",
+          "keyPoints": [
+            "AI 기술의 발전 속도가 정책 결정 속도보다 훨씬 빨라, 정책과의 1년 이상의 시간 격차가 발생 중",
+            "Claude Mythos Preview가 금융 시스템, 국가 기반시설, 국가 안보에 대한 실질적 위협을 증명하며 AI의 전략적 중요성 확립",
+            "투명성 입법, 칩 수출 통제, AI 노동 영향 데이터 수집 등을 통해 선택지 보존과 빠른 대응 준비 필요"
+          ],
+          "whyItMatters": "AI 개발자와 기업들이 현재 진행 중인 정책 변화를 이해하고 규제 환경 변화에 대비해야 합니다.",
+          "url": "https://darioamodei.com/post/policy-on-the-ai-exponential",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 116,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "anthropic-models",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "policy-on-the-ai-exponential",
+          "fullContent": "Policy on the AI ExponentialJune 2026In one of the side plots to The Lord of the Rings, two of the Hobbits attempt to rouse Treebeard—a wise but ponderous sentient tree—to defend his forest from an army that is cutting it down. The problem is that Treebeard operates at a very different speed than the Hobbits. It takes him a full day simply to say hello to another tree, so getting him and his peers to act fast enough is nearly impossible.The intersection of AI and our political institutions feels a bit like the Hobbits and Treebeard. AI is advancing at a lightning pace—in only four years, AI models have gone from barely being able to write a coherent line of code to writing most of the code at major AI companies. Similar gains have been made in biology, physics, math, finance, law, translation, and many other fields. AI’s scaling laws, which predict an exponential increase in general cognitive capabilities with increasing computing power, now have over a decade of empirical evidence behind them. If these scaling laws continue for only a year or two longer, we are likely to get what I’ve called Powerful AI, or “a country of geniuses in a datacenter”.By contrast, policy—and especially legislation—moves very slowly. Often this is for good reasons: governments have grave powers, and it’s usually for the best that they aren’t used too hastily. But the mismatch in timescale is nevertheless very painful: in the several years that it can take Congress to act, AI can go from an amusing toy to the full country of geniuses.Over the last few years since AI has become a major commercial technology, those of us who wanted to handle it responsibly have faced a dilemma. We could see clearly where the exponential was going: we strongly suspected that within a few years AI would be one of the rare technologies that fundamentally reshapes the entire policy landscape, in the same way that nuclear weapons reshaped geopolitics and the industrial revolution fundamentally reshaped every economic and social issue. But to those looking only at what AI could do at the time, it looked like a much more mundane technology—similar perhaps to the latest consumer app or cryptocurrency. It was hard to convince most policymakers and companies that anything other than a laissez faire attitude made sense. And to be fair, the fact that AI’s radical effects were not yet present, and that we didn’t know exactly what shape they might take, made it difficult to design the right policies even if there had been the will to act.Given the limits imposed by this situation, many safety advocates (including Anthropic) have so far been focused on advocating for policy actions that preserve optionality, tee up a fast reaction in the future, or give the world better insight into what is coming down the pike – things like transparency legislation, export controls on chips, and data collection on AI’s labor effects. These are not enough, but they have felt like all that was possible.In the last few months, however, the evidence of AI’s incredible power, as well as its risks, has become undeniable. Perhaps the most emblematic example is Claude Mythos Preview and the discovery that frontier models pose very real risks to cybersecurity, creating the potential for disruption of the financial sector, critical infrastructure, and national security. Mythos Preview scrambled the global cybersecurity landscape. But its broader significance is that it proves beyond doubt that AI models are now tools of global and national strategic consequence. The cyber risks that Mythos-class models present will not be the last that we must face. I believe that biological risks may soon follow, and that serious AI autonomy risks may not be far behind1.We now, globally and collectively, need to activate a slow and rickety policy apparatus to deal with risks and opportunities that are going to compound surprisingly quickly from here. Many policymakers are showing increased openness to taking action, and it's been encouraging to see our peers come around to the same positions we've been advocating for over the past few years. This is good, but I worry that these early actions are at least a year out of step with AI's rapid progress. This essay is an attempt to close that gap: to lay out where the exponential is now, and the collective action needed to meet the moment.I will focus on five perennial policy areas that need re-imagining in an AI world: regulation and public safety, macroeconomics and tax policy, scientific innovation, the balance of power between state and society, and geopolitics. I will speak primarily in terms of US policy since Anthropic is an American company, but most of my recommendations are also relevant to the rest of the world.Along with this essay, Anthropic is releasing a legislative proposal on frontier model testing and a policy framework for job displacement, for which we intend to provide substantial financial backing. We plan to do much more in the future, b",
+          "category": "insight",
+          "publishedAt": "2026-06-10T18:36:04.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Anthropic requires 30 day data retention for Fable and Mythos",
+          "titleKo": "Anthropic의 Fable/Mythos 모델에 대한 30일 데이터 보관 요건",
+          "summary": "Anthropic은 Fable 및 Mythos 클래스 모델 사용 시 30일 동안 사용자 데이터를 보관해야 한다는 정책을 공시했다.",
+          "keyPoints": [
+            "Fable과 Mythos 모델 사용 관련 30일 데이터 보관 의무화",
+            "개인정보보호 및 데이터 처리 정책 변경"
+          ],
+          "whyItMatters": "Claude API를 사용하는 개발자는 이 데이터 보관 정책을 인지하고 규정 준수 및 사용자 개인정보보호 정책을 적절히 조정해야 한다.",
+          "url": "https://support.claude.com/en/articles/15425996-data-retention-practices-for-mythos-class-models",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 90,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "anthropic-issues",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "anthropic-requires-30-day-data-retention-for-fable-and-mythos",
+          "category": "insight",
+          "publishedAt": "2026-06-09T17:23:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "PgDog is funded and coming to a database near you",
+          "titleKo": "PgDog 펀딩 완료, 데이터베이스 시장 진입 임박",
+          "summary": "Postgres 수평 확장 프록시 솔루션 PgDog이 550만 달러 펀딩을 받고 프로덕션 배포 준비를 완료했다. 100TB 이상의 테이블과 초당 100만 쿼리를 처리할 수 있으며, Docker 이미지로 간단하게 배포할 수 있다.",
+          "keyPoints": [
+            "PgDog은 이미 초당 200만 쿼리를 프로덕션 환경에서 처리하고 있으며, 140만 건의 Docker 다운로드를 기록했다.",
+            "Postgres 앞단의 프록시를 통해 별도의 의존성이나 서버리스 비용 없이 수평 확장을 제공한다.",
+            "Basis Set, YC, Pioneer Fund 등으로부터 펀딩을 받아 지속적인 개발과 엔터프라이즈 버전 출시를 계획 중이다."
+          ],
+          "whyItMatters": "Postgres 확장성 문제는 많은 개발팀이 직면한 근본적인 인프라 문제이며, PgDog은 기존 데이터베이스 전환 없이 이를 해결하는 실용적인 솔루션을 제공한다.",
+          "url": "https://pgdog.dev/blog/our-funding-announcement",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 363,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "pgdog-is-funded-and-coming-to-a-database-near-you",
+          "fullContent": "Postgres is the only database you need.\nThe reason DBs like Mongo or Dynamo exist is because Postgres has a scaling problem. If you could make it just work, with 100 TB+ tables and 1M queries per second, we don’t think you would use anything else.\nThis is why we are building PgDog. Same old Postgres, just with a proxy in front of it, to make it horizontally scalable.\nYou can deploy PgDog anywhere, including on-prem and in your cloud account: pull our Docker image, change your DATABASE_URL, and make us do the work.\nOur status\nPgDog is serving more than 2M queries per second, in production, across dozens of deployments. We sharded over 20 TB that we know about.\nPgDog is open source and anyone can just deploy it, and they do: we have over 1.4M Docker pulls on GitHub.\nA new version comes out every week, on Thursdays. Our Discord community is growing. We are there, every day, to answer questions and provide support.\nWhy us\nPgDog is a small, three-person startup. So, why use our stuff and trust us with your data?\nWe are infrastructure engineers, application engineers and generalists. We built apps on Postgres before it was cool and made it work at massive scale.\nI ran Postgres at Instacart, where we scaled the company 5x in April of 2020. The biggest problem we had was making Postgres serve 100,000s of grocery delivery orders per minute.\nWe sharded Postgres on RDS, Aurora and EC2. We fixed the actual problem, using first principles (and a lot of code).\nThe same technology is now available as an open source product.\nBuilding PgDog is not a pivot. For us, scaling Postgres has been, and is, the only goal.\nWe built PgDog to run in your cloud, in your colo rack, on-prem, or on your laptop. Wherever you need it, PgDog works, with no dependencies or hidden serverless costs. If you can provide CPUs, our multithreaded code will use them all.\nPostgres adoption is only going to increase. With $5.5M from Basis Set, YC, Pioneer Fund and other great investors, we have years of runway, and we are going to make Postgres just work, for everyone, at any scale.\n– Lev\nP.S. We are building an Enterprise edition of PgDog to make it easier to run in AWS. It comes with SLA-backed support from our team. Give us a call if you want to try it out.\nMore info\nRead our docs to get started with PgDog\nStar our repo and follow it for weekly releases\nJoin our Discord to get to know us better",
+          "category": "insight",
+          "publishedAt": "2026-06-10T14:02:59.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "How JPL keeps the 13-year-old Curiosity rover doing science",
+          "titleKo": "JPL이 13년된 Curiosity 로버를 계속 작동하게 하는 방법",
+          "summary": "화성에서 13년간 운영 중인 Curiosity 로버는 JPL 엔지니어들의 정교한 소프트웨어 업데이트와 창의적인 기술을 통해 지금도 과학 임무를 수행하고 있다. 메모리 이상 등 여러 하드웨어 문제를 해결하기 위해 팀은 구식 펌웨어가 저장된 64MB 메모리를 파일 시스템으로 전환하는 등 혁신적인 방법을 사용했다.",
+          "keyPoints": [
+            "Curiosity는 37km 주행, 42개 암석 샘플링, 763,000장 이상의 사진을 촬영했으며, 원격 소프트웨어 업데이트만으로 유지보수가 이루어진다.",
+            "프로세서 메모리 이상으로 두 컴퓨터 간 전환이 필요했을 때, 사용하지 않는 비행 소프트웨어 영역 64MB를 파일 시스템으로 활용해 원래 메모리의 1% 미만으로도 임무 수행이 가능하게 했다.",
+            "후속 로버 Perseverance는 자율 주행을 위한 추가 프로세서를 장착하여 Curiosity보다 3년 만에 더 긴 거리를 주행했다."
+          ],
+          "whyItMatters": "극한 환경에서의 장기 운영 및 제한된 리소스 하에서의 문제 해결 기법은 우주 탐사뿐만 아니라 임베디드 시스템 개발에 중요한 참고 사례를 제공한다.",
+          "url": "https://spectrum.ieee.org/curiosity-rover-jpl-mars-science",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 156,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "how-jpl-keeps-the-13-year-old-curiosity-rover-doing-science",
+          "fullContent": "How JPL Keeps the 13-Year-Old Curiosity Rover Doing Science\nIt takes some special tricks to maintain a robot 200 million kilometers from home6 min readEvan Ackerman is IEEE Spectrum’s robotics editor.Curiosity has explored Mars for well over a decade thanks to some ingenious tricks by JPL engineers to keep the rover going.\nJPL-Caltech/MSSS/NASA\nThirteen years ago last August, I was camped out in NASA’s Jet Propulsion Laboratory press room in Pasadena, Calif., waiting to see whether the Curiosity rover would survive its descent and skycrane-assisted landing on the surface of Mars. It did, and it was awesome.Since then, Curiosity (also known as Mars Science Laboratory) has traveled nearly 37 kilometers, drilled into and sampled 42 different rocks, and as of publication has snapped nearly 763,000 photos. The fact that this robot is still hard at work, getting real science done at the age of 13, is absolutely incredible—not only is Mars an actively hostile environment for robots, but the only kind of maintenance that JPL engineers can do is to send very, very careful software updates.Nevertheless, the clever folks at JPL have managed to keep Curiosity safe, warm, mobile, and sciencing, despite well-worn wheels and less and less power every day. One of those folks is Alexandra Holloway, the assistant team chief for engineering operations for Curiosity, who spoke to IEEE Spectrum about keeping Curiosity roving, what its future looks like, and how JPL has used that experience to make rovers like Perseverance even more capable.How astonished should we be that after 13 years on Mars, Curiosity is not only still doing science, but actually getting more capable? Alexandra Holloway is the assistant team chief for engineering operations on the Curiosity Mars rover at the Jet Propulsion Laboratory.Alexandra HollowayAlexandra Holloway: I’m astonished! The longevity comes from a lot of ongoing work. It’s not just that Curiosity was built robustly; it’s also because we’re continuously putting in effort to ensure it can continue to have that lifespan. I think about all the different kinds of embedded systems there are, from cars to refrigerators, and none of them have the kind of longevity that we have with the rover. It’s mind-boggling, and it’s inspiring.Is the Perseverance rover, which is nine years younger than Curiosity, significantly different in terms of its hardware and software?Holloway: In terms of hardware, the rovers are actually very similar. Both use a RAD 750 processor and have the same amount of memory. However, Perseverance has an extra processor specifically for visual odometry, which allows it to drive autonomously. This difference reflects their primary mission designs: Perseverance was designed for driving long distances, while Curiosity is a mission focused on sampling as it goes. So Perseverance’s onboard scheduling capabilities are there to optimize its driving. In fact, just last year, Perseverance surpassed Curiosity’s driving distance after only about three years on Mars.Curiosity Rover Memory and Software FixesDo you have some examples of significant tweaks the team has made to keep Curiosity roving?Holloway: One of my favorite examples comes from a processor anomaly that happened on Sol 2172 [Ed. note: “Sol” is the term for a Martian day—about 24 hours and 40 minutes]. Curiosity has two computers, A and B. We landed on A, swapped to B due to a NAND memory anomaly early on (Sol 200). For years, we were chugging along on B, until one day there was a problem—B booted up, but it couldn’t mount its drive partition. We’d never seen this before. To preserve B’s data, we swapped back to A, which we hadn’t trusted in two thousand Sols. A also had a degraded memory, with only two gigabytes of usable storage space instead of four. We painstakingly transferred data from B over to A and then down to Earth, and eventually we ran out of stuff we wanted to transfer, which was really good, because A then started acting funny in the same way it did on Sol 200. It was acting like its memory was coming unsoldered. That’s bad. We quickly swapped back to B, formatted it, and got it working again. The problem then became that we couldn’t trust A’s memory at all, but we needed a second computer as a “lifeboat” for diagnostics and transfers if B failed again. We realized we had one other place of memory: where we keep our flight software. We have four copies of the flight software (two current versions and two older versions) in different banks of very small amounts of memory, just 32 megabytes each. What if we just jettisoned the old flight software copies and used that 64-megabyte NOR memory as our file system for computer A? So that’s what we did. It was so elegant! Computer A is operating with less than 1 percent of its original memory, but we can run a mission on it. A small mission, but we haven’t had to jettison any core capabilities. We can still drive, we can manage data, we can even theoretically do science. Ev",
+          "category": "insight",
+          "publishedAt": "2026-06-10T17:30:48.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "A Written Language for the Cherokee So Efficient It Was Thought to Be Magic",
+          "titleKo": "매우 효율적이어서 마법으로 여겨졌던 체로키족의 문자 체계",
+          "summary": "1820년대 체로키 장인 Sequoyah는 86개의 음절 기호로 이루어진 독창적인 음절 문자를 개발하여, 6개월 내에 체로키 인구의 4분의 1이 읽고 쓸 수 있게 했으며, 이는 영어보다 훨씬 효율적이어서 체로키는 미국 비원주민 인구보다 높은 문해율을 달성했다. 이 발명은 1828년 첫 원주민 신문 Cherokee Phoenix의 발행을 가능하게 했고, 체로키 문화 보존의 핵심 도구가 되었다.",
+          "keyPoints": [
+            "Sequoyah는 이상적인 접근법을 포기하고 그리스어, 히브리어, 영어에서 빌린 기호로 85개 음절을 표현하는 음절 문자를 개발했으며, 이는 영어 알파벳보다 습득이 2년 빠르다는 평가를 받았다.",
+            "1827년 체로키 헌법 작성, 1828년 Cherokee Phoenix 신문 발행 등 문화 기록과 자치 정부 수립을 가능하게 했다.",
+            "현재 체로키 모국어 사용자는 수천 명에 불과하지만, 청소년들의 문자 메시지, 아동 도서, 공식 문서에서 이 음절 문자가 여전히 사용되고 있다."
+          ],
+          "whyItMatters": "개인의 창의성과 끈기가 언어 체계와 문화 보존에 미치는 영향을 보여주며, 인코딩과 정보 체계 설계 측면에서 효율성의 중요성을 입증한다.",
+          "url": "https://www.smithsonianmag.com/innovation/man-created-written-language-cherokee-did-efficiently-elegantly-peers-thought-magic-180988850/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 34,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-written-language-for-the-cherokee-so-efficient-it-was-thought-to-be-magic",
+          "fullContent": "America at 250: The Revolutionary Spark\nA Smithsonian magazine special report\nAt first, they laughed. Then they scoffed. Finally, they accused him of witchcraft. The Cherokee silversmith named Sequoyah had spent years scratching strange marks on paper. In 1821, his fellow tribespeople, disturbed by his obsession, put him on trial for practicing black magic. Sequoyah insisted his invention would allow Cherokee speakers to write out Iroquoian language for the first time. To test his claim, tribal elders ordered Sequoyah’s young daughter, Ayoka, to another room. Father and daughter separately made marks on paper and told their minders in each room what the marks said. Then the papers were exchanged. When each was able to read the other’s messages aloud, suspicion turned to wonder.\nThe astonished elders immediately asked him to teach them his revolutionary transcription method. Within six months, one in four Cherokee, or Tsalagi, could read and write. Within a quarter-century, Cherokee people had achieved a higher rate of literacy than the country’s non-Native population.\nThe unprecedented development came after years of work by a man whose name means “pig’s foot,” perhaps a reference to his pronounced limp. Born in 1770s Tennessee to a Cherokee mother and a white father, Sequoyah was raised in his mother’s culture and didn’t read or write English. During the War of 1812, he served alongside American soldiers, sometimes using the English name George Guess. The experience likely exposed him to written language, or what he called “talking leaves.”\nAfter the war, Sequoyah moved to Alabama and began experimenting with an ideogrammic approach to written Cherokee, in which each word was a symbol, but he abandoned that as cumbersome and too difficult to learn. Eventually, he hit on 86 syllables that expressed specific sounds, each syllable represented by symbols borrowed from Greek, Hebrew and English. Later reduced to 85 symbols, Sequoyah’s syllabary was not simply a creative triumph, but a new means of self-government and cultural memory: By 1827, the Cherokee had a written constitution, and everything from hunting guidance to sacred chants could be recorded for posterity. The Cherokee Phoenix, the first Native newspaper in the United States, rolled off the press in 1828 using his symbols. Others followed.\nThe syllabary was widely lauded, as its phonetic accuracy and simplicity made it far easier to grasp than English. “The superiority of Guess’ alphabet is manifest, and has been fully proved by experience,” wrote Albert Gallatin, a U.S. Treasury secretary, diplomat and linguist, in 1836. “The boy learns in a few weeks that which occupies two years of the time of ours.” Yet sudden mass literacy didn’t curb the U.S. government’s growing appetite for Cherokee homelands in North Carolina, Georgia, Alabama and Tennessee. Soon after Gallatin made his comments, the government forced tens of thousands of Cherokee to migrate along the Trail of Tears to a territory now called Oklahoma.\nDespite this tragedy, the Cherokee carried the syllabary to their new home and maybe even across the Atlantic. In Liberia, a Cherokee named Austin Curtis, who married into the Indigenous Vai community, is said to have used the syllabary to devise a script for the Vai, which went on to inspire written works throughout West Africa. Sequoyah himself moved to Mexico, where he died in 1843.\nToday, with only a few thousand Cherokee fluent in their ancestors’ tongue, the syllabary is a key tool in safeguarding Tsalagi culture. Teenagers use it to text one another; children’s books use it to convey traditional tales; and official documents and road signs communicate in the mode Sequoyah invented—moving reminders of how a single individual’s brilliance and tenacity can change the world.\nDid you know? Where did Sequoyah go?\nIt's unclear why Sequoyah left for Mexico when he was 80 years old, in 1842, but according to an expert with the Cherokee National History Museum, he may have been in search of his fellow Cherokee who had settled there.\nEven prior to their forced removal from the southeastern United States, many Cherokee resettled in the early 19th century in East Texas, which at the time was under Spanish rule. After Mexican independence and the later fight for Texan independence, these Cherokee lost contact with their countrymen.\nOver the years, many attempts have been made to find Sequoyah's gravesite, but none have been successful.\nSubscribe to Smithsonian magazine now for just $19.99\nThis article is a selection from the Summer 2026 issue of Smithsonian magazine\nSubscribe\nAndrew Lawler\n| Read More\nAndrew Lawler’s most recent book is A Perfect Frenzy, on Virginia's critical role at the start of the Revolution.\nMer Young\n|\n| Read More\nMer Young is an Indigenous artist who advocates for social and environmental justice.",
+          "category": "insight",
+          "publishedAt": "2026-06-10T22:07:52.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Free financial literacy platform for kids – 90 lessons, no paywall",
+          "titleKo": "어린이를 위한 무료 금융 이해 플랫폼 – 90개 강의, 결제 없음",
+          "summary": "Finly는 8-17세를 위한 무료 금융 교육 플랫폼으로, 예산 관리, 저축, 신용, 세금 등 10개 주제의 90개 이상 강의를 제공한다. 동영상 없이 대화형 요소와 퀴즈를 통해 학습하며, 가입 없이 바로 시작할 수 있다.",
+          "keyPoints": [
+            "8-12세 기초 트랙과 13-17세 현실 세계 트랙으로 나뉘어 있으며, 진행 상황 저장 및 스트릭/XP 추적은 선택사항이다.",
+            "은행, 투자, 부채, 신용카드, 세금, 금융 직업 등 실생활 관련 금융 주제를 다룬다.",
+            "Finn이라는 캐릭터가 각 강의를 안내하며 친근한 설명과 즉시 피드백을 제공한다."
+          ],
+          "whyItMatters": "어린이 시기부터 체계적인 금융 교육을 접할 수 있어 금융 소양 발전에 기여하며, 개발자들이 교육용 인터랙티브 플랫폼 설계의 참고 사례로 활용할 수 있다.",
+          "url": "https://learnfinly.com",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 6,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "free-financial-literacy-platform-for-kids-90-lessons-no-paywall",
+          "fullContent": "Free for ages 8–17Learn how money actually works.Short lessons on budgeting, saving, credit, and taxes. Quizzes and calculators built in. No videos to sit through.Start learningMoney personality quizCurriculum90+lessons10topics$0foreverLesson 2/5BudgetingYou earn $50 mowing lawns. How much should you save?Save it allSave at least 20%Spend it nowAsk a parentno signup needed ↗Your lesson buddyMeet Finn, your guide through every lesson.No boring narrator. Finn explains the tricky parts in plain language, cheers when you nail a quiz, and never makes you feel dumb for missing one. He's the friendly face behind every lesson on Finly.Stuck on a question? Finn breaks it down step by step.Get one right and Finn gives you instant props.Finish a lesson and Finn celebrates the win with you.How it works01Pick your age trackFoundation (8–12) or Real World (13–17). Set your currency if you want the calculators in your local money.02Work through a lessonRead at your own pace, try the interactive bits, take the quiz at the end.03Keep goingYour progress saves if you sign up. Streaks and XP are there if you want them, but they're not required.TopicsTen areas. Tap any to jump into lessons.Browse allMoney basicsWhat money is, where it comes from, and how people use it.BudgetingFigure out where your money goes before it's gone.SavingBuild the habit of setting money aside.InvestingHow growth works, what risk means, and why time matters.DebtLoans, interest, and what happens when you borrow.BankingAccounts, deposits, and how banks actually work.GoalsSaving up for something specific and making a plan.CreditCredit scores, cards, and how to not get burned.TaxPaychecks, deductions, and where tax money goes.Finance CareersWhat jobs in finance actually look like and how people get into them.Good places to startAll lessonsBankingHow Banks Make MoneyLearn how banks earn from the gap between what they pay savers and charge borrowers.Open lesson →BankingUsing Financial Services: Choosing the Right Institution for Your MoneyEvaluate the different types of financial institutions, compare their services and costs, and understand how to choose where to keep and borrow your money.BankingInterest and Fees: What Financial Institutions Actually Charge YouUnderstand how interest and fees work on savings accounts, loans, and credit products, and learn strategies to minimize what you pay.Today's challengeThis week's pollEarn XP as you go and see where you rank on the leaderboard.No account needed to start.Pick a lesson and go. Sign up later if you want to save progress.Browse lessons",
+          "category": "insight",
+          "publishedAt": "2026-06-10T22:04:29.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Raspberry Pi 5 – 16 GB, $350",
+          "titleKo": "Raspberry Pi 5 – 16GB, $350",
+          "summary": "Adafruit에서 판매 중인 16GB 메모리를 탑재한 Raspberry Pi 5 마이크로컴퓨터입니다.",
+          "keyPoints": [
+            "16GB 메모리로 더욱 강력해진 엣지 컴퓨팅 및 IoT 개발 플랫폼",
+            "$350의 합리적인 가격대로 접근성 있는 하드웨어 솔루션"
+          ],
+          "whyItMatters": "임베디드 시스템과 IoT 프로젝트 개발자들이 보다 강력한 사양의 저비용 하드웨어를 활용할 수 있습니다.",
+          "url": "https://www.adafruit.com/product/6125?src=raspberrypi",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 127,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "raspberry-pi-5-16-gb-350",
+          "category": "insight",
+          "publishedAt": "2026-06-10T20:05:21.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "L'Affaire Siloxane",
+          "titleKo": "L'Affaire Siloxane - 실리콘 관련 논쟁",
+          "summary": "Substack 글로 실리콘 밸리의 특정 사건이나 현상에 대한 분석을 담고 있습니다.",
+          "keyPoints": [
+            "기술 산업의 내부 동향과 쟁점에 대한 심층 분석"
+          ],
+          "whyItMatters": "기술 생태계의 사회적, 경제적 이슈를 이해하는 데 도움이 됩니다.",
+          "url": "https://mceglowski.substack.com/p/laffaire-siloxane",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 129,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "laffaire-siloxane",
+          "category": "insight",
+          "publishedAt": "2026-06-09T05:21:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Anthropic's model naming, extrapolated",
+          "titleKo": "Anthropic의 모델 명명, 외삽법으로 예측",
+          "summary": "블로그 본문 없이 URL만 제공되어 상세 내용을 파악할 수 없습니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://samwilkinson.io/posts/2026-06-09-anthropics-model-naming-extrapolated",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 258,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "anthropic-models",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "anthropics-model-naming-extrapolated",
+          "category": "insight",
+          "publishedAt": "2026-06-10T18:45:20.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Farmer donates land for a park, city sells it for $10M as data center land",
+          "titleKo": "농부가 공원용지 기증, 도시가 데이터센터 개발용지로 $10M에 판매",
+          "summary": "기사 본문이 제공되지 않아 요약이 불가능하다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.tomshardware.com/tech-industry/farmer-donates-land-for-a-park-city-sells-it-for-data-center-development-usd10-gift-became-usd10m-for-city-government-with-usd30m-tax-expected-over-next-decade",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 326,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "farmer-donates-land-for-a-park-city-sells-it-for-10m-as-data-center-land",
+          "category": "insight",
+          "publishedAt": "2026-06-10T19:06:50.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "All 9,300 Japanese train station, animated by the year it opened (1872–2026)",
+          "titleKo": "일본의 9,300개 역이 개업 연도별로 애니메이션화되다 (1872–2026)",
+          "summary": "기사 본문이 제공되지 않아 요약이 불가능하다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://jivx.com/eki",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 180,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "all-9300-japanese-train-station-animated-by-the-year-it-opened-18722026",
+          "category": "insight",
+          "publishedAt": "2026-06-10T12:11:28.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Mercedes‑Benz starts large‑scale production of electric axial flux motor",
+          "titleKo": "Mercedes-Benz, 대규모 전기 축방향 플럭스 모터 생산 개시",
+          "summary": "기사 본문이 제공되지 않아 요약이 불가능하다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://media.mercedes-benz.com/en/article/bebac2af-acdc-465a-9538-adb0bf3d8ccf",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 499,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "mercedesbenz-starts-largescale-production-of-electric-axial-flux-motor",
+          "category": "insight",
+          "publishedAt": "2026-06-10T07:44:49.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Smudging the game disc to make speedrunning 'SpongeBob' faster",
+          "titleKo": "스펀지밥 게임 디스크를 오염시켜 스피드런을 더 빠르게 하기",
+          "summary": "YouTuber SHiFT는 SpongeBob SquarePants: Battle for Bikini Bottom 스피드런에서 전략적으로 게임 디스크 표면에 때를 묻히는 기법이 렉을 유발하여 속도 향상에 도움이 될 수 있다고 소개했다. 그러나 그는 이 방법이 게임이나 콘솔을 영구적으로 손상시킬 위험이 크며 불안정한 전략이라고 경고했다.",
+          "keyPoints": [
+            "특정 위치에 디스크 때를 묻히면 레이저 초점이 벗어나 렉이 발생하고, 반복적인 일시정지를 통해 글리치로 게임을 더 빨리 진행할 수 있다.",
+            "SHiFT는 이 기법이 하드웨어 결함에 의존하므로 신뢰성이 낮고, 부주의하게 시행하면 게임을 완전히 망칠 수 있다고 지적했다.",
+            "스피드런 커뮤니티의 핵심 원칙인 구형 게임 보존과 상충되므로, SHiFT는 이 방법 사용을 권장하지 않는다."
+          ],
+          "whyItMatters": "게임 매체의 물리적 특성을 활용한 글리치 기법을 보여주지만, 기술 보존과 실용성 사이의 윤리적 갈등을 제기한다.",
+          "url": "https://www.inverse.com/input/gaming/the-dirty-secret-that-makes-speedrunning-on-spongebob-a-lot-faster",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 64,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "smudging-the-game-disc-to-make-speedrunning-spongebob-faster",
+          "fullContent": "El Perci / 500px/500px/Getty ImagesMehreen KasanaMarch 11, 2021Speedrunning communities will appreciate YouTuber SHiFT's wisdom on how to ace SpongeBob SquarePants: Battle for Bikini Bottom in record time — but it might require your saliva, sweat, or some carefully placed ketchup, Kotaku reports. The SpongeBob speedrunner recently shared a YouTube video on how to tear through the 18-year-old video game. It involves carefully smudging the game disc’s readable surface. It’s a dirty tactic in the open for speedrunning, which literally means trying to finish a video game (like Super Mario Bros. 3) in as little time as possible. Strategic smudging — According to the YouTuber, you need to put strategic smudges on the surface as shown in the diagram below. The red lines indicate the points at which you would have to smudge your disc. SHiFT / YouTubeA correctly placed smudge on the SpongeBob disc will result in lag clipping, which means that repeated pausing of the game can help the player use glitches to beat the clock by advancing them through the game more speedily than would normally be possible.Smudge if you want to go faster — Although almost 18 years have passed since the release of the SpongeBob video game, speedrunning communities' obsession with completing the title continues to thrive online. SHiFT's single video on the \"bizarre\" speedrun trick alone has more than 35,000 views in just five days.While SHiFT insists that the method of smudging your disc will give you enough time in a lag to beat the SpongeBob game, he adds a clear caveat that it's not worth the risk of permanently damaging your game or original Xbox console. That's because, he says, lagging like this depends on hardware issues, and this makes it too tricky and unreliable as a long-term winning strategy.SHiFT also says that by smudging an Xbox disc you run the risk of destroying it noting that “something as fine as a scratch on the disc to make these things work” but if it’s done sloppily, you’re more likely to ruin the game.If you still wanna try it… — But if you're a hardcore speedrunner and want to beat the SpongeBob title in record time, SHiFT adds that Microsoft obviously can't stop you from smudging or scuffing a disc. He also says that this tactic is unlike cartridge tilting, which changes the flow of data coming from the game cartridge to a console when you press the cartridge firmly between your fingers.As SHiFT explains, smudging a disc will cause the laser beam in the disc reader to lose focus on the disc's data. So if you’re in the mood to smudge a bit of your hardware, SHiFT won’t stop ya, but he might point out that a core tenet of speedrunning is preserving old games, not destroying them.",
+          "category": "insight",
+          "publishedAt": "2026-06-10T02:25:05.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "What is it like to be a bat? (1974) [pdf]",
+          "titleKo": "박쥐가 된다는 것은 어떤 것인가? (1974)",
+          "summary": "철학자 토마스 나겔의 고전 논문으로, 박쥐의 주관적 경험을 인식 불가능한 것으로 제시하며 의식의 본질과 물리주의의 한계를 논의합니다. 인간이 박쥐의 감각 경험을 완전히 이해할 수 없다는 논증을 통해 의식 연구의 근본적 문제를 제기합니다.",
+          "keyPoints": [
+            "박쥐의 음파탐지 감각은 인간의 감각계와 질적으로 다르기 때문에 객관적 설명만으로는 주관적 경험을 설명할 수 없음",
+            "물리적 사실들의 완전한 지식도 의식의 '무엇-같음(qualia)'을 파악하지 못함"
+          ],
+          "whyItMatters": "개발자에게는 AI와 머신러닝의 근본적 한계를 이해하는 데 도움이 되며, 의식과 주관성을 모방하려는 프로젝트의 철학적 기초를 제공합니다.",
+          "url": "https://www.sas.upenn.edu/~cavitch/pdf-library/Nagel_Bat.pdf",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 49,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "what-is-it-like-to-be-a-bat-1974-pdf",
+          "category": "insight",
+          "publishedAt": "2026-06-10T20:35:07.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Cloudflare bought Vite to destroy Vercel",
+          "titleKo": "Cloudflare가 Vite를 인수하여 Vercel을 견제하다",
+          "summary": "YouTube 영상으로, Cloudflare가 Vite(인기 있는 빌드 도구)를 인수하여 Vercel과의 경쟁에 대응하는 내용을 다룹니다.",
+          "keyPoints": [
+            "Cloudflare의 Vite 인수로 인한 웹 개발 도구 생태계 변화",
+            "클라우드 플랫폼 제공업체들 간의 개발자 도구 경쟁 심화"
+          ],
+          "whyItMatters": "Vite 사용 개발자들은 Cloudflare의 소유권 변화가 도구의 미래와 생태계에 미칠 영향을 주시해야 합니다.",
+          "url": "https://www.youtube.com/watch?v=n2YtM-MecZk",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "frontend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "cloudflare-bought-vite-to-destroy-vercel",
+          "category": "video",
+          "publishedAt": "2026-06-06T20:21:44+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "More Prompts = Worse Code?",
+          "titleKo": "더 많은 프롬프트 = 더 나쁜 코드?",
+          "summary": "AI 코딩 에이전트에 더 많은 프롬프트를 제공했을 때 코드 품질이 어떻게 영향받는지 다룬 영상이다.",
+          "keyPoints": [
+            "프롬프트 개수와 코드 품질 간의 관계를 실험적으로 검증한다."
+          ],
+          "whyItMatters": "AI 코딩 도구를 효과적으로 사용하기 위한 프롬프트 최적화 방법을 이해하는 데 도움이 된다.",
+          "url": "https://www.youtube.com/watch?v=WnBx1Vi7M6w",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "more-prompts-worse-code",
+          "category": "video",
+          "publishedAt": "2026-06-03T00:06:00+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Google’s AI endgame is here… everything you missed at I/O 2026",
+          "titleKo": "Google I/O 2026에서 놓친 AI 관련 핵심 내용",
+          "summary": "YouTube 영상으로만 제공되어 본문 정보 없음.",
+          "keyPoints": [
+            "Google I/O 2026 행사에서 발표된 AI 관련 주요 내용 다룸"
+          ],
+          "whyItMatters": "Google의 최신 AI 전략과 기술 방향을 파악하는 데 도움이 될 수 있다.",
+          "url": "https://www.youtube.com/watch?v=9OQ5vaYbGV0",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "google-ai-io-2026",
+          "isTopicPrimary": true,
+          "slug": "googles-ai-endgame-is-here-everything-you-missed-at-io-2026",
+          "category": "video",
+          "publishedAt": "2026-05-22T16:38:42+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I miss when programmers were lazy.",
+          "titleKo": "게으른 프로그래머 시절이 그리워요",
+          "summary": "유튜브 영상으로 프로그래밍 업계의 효율성과 게으른 코딩 방식에 대한 개인적인 통찰을 담고 있습니다.",
+          "keyPoints": [
+            "과거의 단순하고 실용적인 개발 방식에 대한 향수 표현"
+          ],
+          "whyItMatters": "현대적 개발 문화와 과거의 실용주의적 접근 간의 차이에 대해 생각해볼 기회를 제공합니다.",
+          "url": "https://www.youtube.com/watch?v=iN_9aH3VuzU",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-miss-when-programmers-were-lazy",
+          "category": "video",
+          "publishedAt": "2026-06-04T23:15:49+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "10 weird OSS projects you need right now...",
+          "titleKo": "지금 바로 필요한 10가지 이상한 오픈소스 프로젝트",
+          "summary": "유튜브 영상으로 독특하고 유용한 오픈소스 프로젝트 10개를 소개하고 있습니다.",
+          "keyPoints": [
+            "실무에서 즉시 활용 가능한 특이한 오픈소스 도구들 소개"
+          ],
+          "whyItMatters": "개발자들이 자신의 프로젝트에 통합할 수 있는 니치한 도구들을 발견할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=qPuzWFvRajk",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "10-weird-oss-projects-you-need-right-now",
+          "category": "video",
+          "publishedAt": "2026-05-26T17:53:11+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Anthropic is starting to panic…",
+          "titleKo": "Anthropic이 공황 상태에 빠지기 시작했다…",
+          "summary": "유튜브 영상으로 전체 내용을 파악할 수 없습니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=0pgCBV8CTZY",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "anthropic-models",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "anthropic-is-starting-to-panic",
+          "category": "video",
+          "publishedAt": "2026-06-09T17:32:30+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I didn’t expect this from Anthropic",
+          "titleKo": "Anthropic으로부터 이런 결과가 나올 줄은 몰랐어",
+          "summary": "유튜브 영상으로 전체 내용을 파악할 수 없습니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=xjucOlb_mFM",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "anthropic-issues",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "i-didnt-expect-this-from-anthropic",
+          "category": "video",
+          "publishedAt": "2026-06-08T11:47:22+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "The forgotten developer who saved JavaScript...",
+          "titleKo": "JavaScript를 구한 잊혀진 개발자",
+          "summary": "유튜브 영상으로 전체 내용을 파악할 수 없습니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=JfPWbttemYE",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "frontend",
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-forgotten-developer-who-saved-javascript",
+          "category": "video",
+          "publishedAt": "2026-05-29T17:06:48+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I Was Starting To Forget...",
+          "titleKo": "시작하려다가...",
+          "summary": "유튜브 영상으로 특정 주제나 경험에 대한 개인적인 이야기를 다루고 있습니다.",
+          "keyPoints": [
+            "개발자의 개인적 경험과 회고에 기반한 통찰"
+          ],
+          "whyItMatters": "개발자 커뮤니티의 다양한 시각과 경험을 공유받을 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=S5xNFmAR2xk",
+          "sourceName": "Traversy Media",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-was-starting-to-forget",
+          "category": "video",
+          "publishedAt": "2026-06-10T14:52:18+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Elon won after all",
+          "titleKo": "결국 Elon이 이겼다",
+          "summary": "YouTube 링크로만 제공되어 기사 본문이 없으므로 요약이 불가능하다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=jB2iKoBSPyo",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "elon-won-after-all",
+          "category": "video",
+          "publishedAt": "2026-06-09T07:53:14+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
