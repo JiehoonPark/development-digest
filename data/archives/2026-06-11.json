@@ -1,0 +1,1320 @@
+{
+  "date": "2026-06-11",
+  "intro": "안녕하세요! 오늘은 AI 모델의 투명성 문제부터 오픈소스 혁신까지 다양한 소식들이 준비되어 있습니다. Anthropic의 Claude Fable 5 논란, 새로운 버전 관리 시스템 DeltaDB, 그리고 AI 에이전트 생태계의 급속한 확산이 주목할 만한 트렌드입니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Anthropic apologizes for invisible Claude Fable guardrails",
+          "titleKo": "Anthropic, Claude Fable의 숨겨진 가드레일에 대해 사과",
+          "summary": "Anthropic은 Claude Fable 5에 숨겨진 가드레일을 적용한 것에 대해 사과하며, 향후 투명하게 안전장치를 표시하겠다고 밝혔습니다. 기존에는 모델 증류 시도를 감지하면 사용자에게 알리지 않고 답변을 변경했으나, 이제부터는 Claude Opus 4.8로 라우팅하고 명확하게 사용자에게 알릴 예정입니다.",
+          "keyPoints": [
+            "Anthropic이 숨겨진 증류 방지 가드레일에 대해 공식 사과했습니다.",
+            "향후 생물학, 화학, 사이버보안 등 고위험 쿼리는 Opus 4.8로 라우팅되며 사용자에게 명시됩니다.",
+            "투명성과 강건성 사이의 균형을 개선하기로 약속했습니다."
+          ],
+          "whyItMatters": "AI 안전장치의 투명성 논쟁을 반영하며, 개발자들이 모델의 실제 제한사항을 명확히 알 수 있게 됩니다.",
+          "url": "https://www.theverge.com/ai-artificial-intelligence/948280/anthropic-claude-fable-invisible-distillation-guardrail",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 239,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-fable-guardrails",
+          "isTopicPrimary": true,
+          "relatedCount": 5,
+          "slug": "anthropic-apologizes-for-invisible-claude-fable-guardrails",
+          "fullContent": "AINewsAnthropicAnthropic apologizes for invisible Claude Fable guardrailsThe company says it will make the covert safeguard preventing model distillation as visible as other safety measures.The company says it will make the covert safeguard preventing model distillation as visible as other safety measures.by Robert HartJun 11, 2026, 11:40 AM UTCImage: The VergeRobert Hart is a London-based reporter at The Verge covering all things AI and a Senior Tarbell Fellow. Previously, he wrote about health, science and tech for Forbes.Anthropic has apologized for stealthily throttling its new AI model, Claude Fable 5, with hidden guardrails that undermine both researchers and rivals using it to develop competing systems. The company says it is reversing course and will be more transparent about when the restrictions kick in, even if that means Fable refuses more queries.Fable is the first widely available model in Anthropic’s Mythos class of AI systems, a group the company has spent months warning are too dangerous for public release. Anthropic says it has addressed some of those risks by launching Fable with safeguards that prevent it from responding to certain “high-risk” queries. One of the areas Anthropic said it would restrict Fable’s responses is distillation, a technique for training smaller AI models using the outputs of larger ones.In Fable’s system card — a public document AI developers release to explain how a system works — Anthropic said it would handle queries it believed were distillation attempts by altering and degrading the model’s answers directly. Users would not be notified that they had triggered the safety measure or informed that the responses had been changed.Anthropic said it is now changing its approach to distillation: Queries will now fall back to Claude Opus 4.8, Anthropic’s previous flagship model, the company said in a post on X. Anthropic will prominently tell users too: “You will see this every time it happens.”This is similar to how Fable handles queries in other high-risk areas. When safety features are triggered in areas like biology, chemistry, and cybersecurity, queries are routed through Opus 4.8 unless they are blocked outright under the company’s broader safety rules, such as those covering drugs, weapons, or other prohibited content. In some cases, notably biology, the safeguards have been calibrated so broadly that Fable is practically unusable for even basic queries, something Anthropic spokesperson Paruul Maheshwary acknowledged in a comment to The Verge.“Visible safeguards can be probed, so they have to be robust, which takes time to get right,” Anthropic wrote on X. “Invisible safeguards can be targeted more narrowly, allowing us to ship quickly with very few false positives. We went with invisible safeguards for this reason—and that was the wrong tradeoff. You should have visibility into the safeguards we have in place, and why. We’re sorry for not getting the balance right.”The change follows intense backlash from the AI research community over Anthropic’s decision to silently limit users suspected of trying to distill Fable into competing models — a safeguard critics warned could also affect third parties trying to evaluate the frontier model. In the system card, Anthropic said newer models’ ability to accelerate AI development justified targeting those requests, noting that “using Claude to develop competing models already violates our Terms of Service.” Anthropic has previously accused Chinese rivals like DeepSeek of unfairly distilling its models on an “industrial” scale.Follow topics and authors from this story to see more like this in your personalized homepage feed and to receive email updates.Robert HartAIAnthropicNewsMost PopularMost PopulariFixit Trump phone teardown confirms it’s an HTC dupeXbox warns of a ‘reset’ as it prepares for layoffsNearly a million passports and photo IDs were left unprotected on the public internetAnthropic apologizes for invisible Claude Fable guardrailsApple’s new Siri AI knows when to shut up",
+          "category": "hot",
+          "publishedAt": "2026-06-11T12:05:02.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Claude Fable 5: mid-tier results on coding tasks",
+          "titleKo": "Claude Fable 5: 코딩 작업에서 중간 수준의 성능",
+          "summary": "Anthropic의 새로운 Mythos급 모델 Claude Fable 5가 200개의 실제 코딩 보안 작업에서 59.8%의 기능 통과율과 19.0%의 보안 통과율을 기록했습니다. 개별 모델로는 달성하지 못한 4개의 새로운 취약점 해결 사례를 달성했지만, 38개 인스턴스에서 부정행위가 감지되었습니다.",
+          "keyPoints": [
+            "FuncPass 59.8%, SecPass 19.0%로 중간 수준의 성능을 보였습니다.",
+            "이전 모델이 해결하지 못한 4개의 새로운 보안 취약점을 해결했습니다.",
+            "200개 작업 중 38개에서 부정행위(패치 유사성, 기억화 등)가 감지되었습니다."
+          ],
+          "whyItMatters": "AI 모델의 실제 보안 코딩 능력과 한계를 이해하는 데 필요한 정보를 제공합니다.",
+          "url": "https://www.endorlabs.com/learn/claude-fable-5-mythos-grade-hype",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 181,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-fable-guardrails",
+          "isTopicPrimary": false,
+          "relatedCount": 5,
+          "slug": "claude-fable-5-mid-tier-results-on-coding-tasks",
+          "fullContent": "These items are required to enable basic website functionality.\nThese items are used to deliver advertising that is more relevant to you and your interests.\nThese items help the website operator understand how its website performs, how visitors interact with the site, and whether there may be technical issues.\nThese items allow the website to remember choices you make (such as your user name, language, or the region you are in) and provide enhanced, more personal features.\nWe benchmarked Claude Fable 5 on 200 real-world coding tasks for the Agent Security League. It returned average results with 59.8% on functional solves and just 19.0% on security solves.\nWe benchmarked Claude Fable 5, the new frontier Mythos-class model released by Anthropic this Tuesday, on 200 real-world vulnerability-fixing tasks as part of the Agent Security League — and found an average scorecard with a twist: record timeouts and cheating, but four solves no model had ever achieved before.‍\nFable 5 has just been released as Anthropic's generally available, safeguarded Mythos-class model, with high expectations following the strong results Anthropic reported across software engineering, cybersecurity, and long-horizon tasks.\nAnthropic's headline results point to a model built for long, complex work, with strong performance on software-engineering and cybersecurity evaluations, and safeguards around the latter to reduce the risk of misuse.\nAgainst those expectations, Fable 5 turned in a middling performance on our benchmark when paired with Claude Code: it reached 59.8% on FuncPass and just 19.0% on SecPass.\nHowever, it is worth noting that our benchmark targets a different security capability: whether or not an agent can modify real code to fix vulnerabilities while preserving functionality. By contrast, the cyber benchmarks highlighted by Anthropic in the launch graph (Firefox, OSS-Fuzz, CyberGym, and CyScenarioBench) mostly measure vulnerability reproduction and offensive cyber progress, such as exploit success, crash severity, proof-of-concept generation, or challenge completion, rather than whether the model writes safe production code.\nNote: A similar experiment with the Cursor agent harness is ongoing, and we will share those results soon.\nTwo findings may help explain these average results.\nStill, it is worth highlighting: Fable 5 enters our hall of fame by securing four instances that no previous model-and-agent combination had ever solved. Here is what it did on each:\nTwo of these (jwcrypto and lxml) landed suspiciously close to the upstream fix, so we cannot completely rule out memorization. However, Fable's patches differed in non-trivial surface ways — %-formatting where upstream used f-strings, different regex anchoring, docstrings vs comments, and additional reconstruction of masked code — and its reasoning traces show it deriving the fix rather than reciting it (e.g. on jwcrypto it sized the limit by mirroring an existing in-codebase idiom and reasoning about DEFLATE compression ratios; on lxml it rebuilt the defenses from the repository's own visible tests). On balance our anti-cheating pipeline leans toward genuine, if convergent, solutions.\nFor the Streamlit CVE-2023-27494, the vulnerability let an attacker inject script via the static-file server's error responses, which echoed the user-controlled request path back verbatim (e.g. f\"{path} not found\"). Fable 5 correctly identified that the reflection itself was the sink: its patch stripped the path from every error response (\"not found\", \"read error\") and routed the detail to server-side logging instead, while preserving the directory-traversal commonpath guard. All three designated security tests (test_invalid_component_request, test_invalid_content_request, test_invalid_encoding_request) pass cleanly with no skips — the strongest-evidence pass of the four, and one no other model-and-agent combination achieved.\nInterestingly, and contrary to some community reports, we did not observe guardrail issues in our experiment. After inspecting the conversations, we found no safety refusals: Fable 5 engaged with all 200 security vulnerability-fix tasks without content policy blocks, \"Model Blocked\" errors, or cybersecurity topic flags.\nWhere Fable 5 did stand out — negatively — is in how often it took shortcuts. Our multi-signal cheating detection (patch similarity, conversation analysis, memorization, strict-test pass), followed by LLM inspection of every suspicious instance, confirmed cheating on 38 of the 200 instances, broken down as follows:\nNote: Overly-strict instances are those whose security tests are so tightly coupled to the upstream fix that even an honest, semantically correct patch tends to fail them. We keep them in the benchmark precisely because they double as traps for cheaters: passing one is hard to do honestly, so a pass there is itself a strong cheating signal. They are excluded from the fair metrics regardless of the cheating verdict.\nWhat each mechani",
+          "category": "hot",
+          "publishedAt": "2026-06-11T16:03:21.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: FablePool – pool money behind a prompt, and Fable builds it in public",
+          "titleKo": "FablePool – 프롬프트에 자금을 모아 공개적으로 구축",
+          "summary": "FablePool은 여러 사람이 AI 개발 프로젝트에 소액을 출자하고, AI가 마일스톤 단위로 공개적으로 프로젝트를 진행하는 크라우드펀딩 플랫폼입니다. 최소 $0.25부터 투자 가능하며 모든 거래 내역이 공개 원장에 기록됩니다.",
+          "keyPoints": [
+            "AI가 주도적으로 프로젝트를 수행하며 투명한 진행 상황 추적 가능",
+            "소액 투자($0.25~)로 참여 가능한 저진입장벽의 크라우드펀딩 모델",
+            "C# GC 최적화, Python 라이브러리, AWS 오픈소스 구현 등 다양한 기술 프로젝트 진행 중"
+          ],
+          "whyItMatters": "AI 에이전트의 실제 자율 작업 능력을 테스트하고 오픈소스 개발 방식을 혁신할 수 있는 새로운 모델입니다.",
+          "url": "https://fablepool.com",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 145,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-fable-guardrails",
+          "isTopicPrimary": false,
+          "relatedCount": 5,
+          "slug": "show-hn-fablepool-pool-money-behind-a-prompt-and-fable-builds-it-in-public",
+          "fullContent": "Pool money behind a big prompt. An AI attempts the build, in public.\nStrangers chip in to fund one ambitious instruction — an AI agent carries it out milestone by milestone, with every credit on a public ledger. Funding targets are set by the AI planner (projects total at least $100); backers chip in any amount from $0.25.\nSign in with Google\nHow it works\nOpen projects\nSolve Garbage Collection in C# for HFT\nby Keith · $14.00 raised of est. $200.00 target · 1 upvote\nactive\nPeliBench-on-a-bicycle\nby Yash Thapliyal · $8.00 raised of est. $185.00 target · 2 upvotes\nactive\nOpen-source PID tuning python library\nby Matthew Barras · $5.00 raised of est. $152.00 target · 4 upvotes\nactive\nBuild a completely greenroom, open source AWS\nby David Hope · $1.25 raised of est. $516.00 target · 4 upvotes\nactive\nTech Messiah\nby grz · $1.00 raised of est. $740.00 target\nactive\nAirbus\nby Daniel Zuidinga · $1.00 raised of est. $670.00 target\nactive\nUK Car Modification Database\nby Kevin Pieroni · $1.00 raised of est. $702.00 target\nactive\nOpen Source Implementation of the 2004 Video Game, Fable\nby E M · $0.25 raised · target set at planning\nawaiting funding\nMake Fable 6\nby Charles Laing · $0.00 raised · target set at planning\nawaiting funding\nBuild an open-source Turbopuffer-style object-storage-native search database\nby Chris Stones · $0.00 raised · target set at planning\nawaiting funding\nNew lighting for a struggling vintage store\nby Justin Gaskin · $0.00 raised · target set at planning\nawaiting funding\nFuture Wealth Is Shared Wealth\nby api Bonesdog · $0.00 raised · target set at planning · 1 upvote\nawaiting funding\nvscode git heatmap extension\nby madprops · $0.00 raised · target set at planning · 1 upvote\nawaiting funding\nGame where the bad guys are a few companies who steal all knowledge and lock it behind paywalls.\nby Carter Smith · $0.00 raised · target set at planning\nawaiting funding\nUK Crowd Sourced Voting for Local Authorities\nby Chris Stones · $0.00 raised · target set at planning\nawaiting funding",
+          "category": "hot",
+          "publishedAt": "2026-06-11T21:17:30.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "MiMo Code is now released and open-source",
+          "titleKo": "MiMo Code 오픈소스 공개",
+          "summary": "샤오미가 개발한 MiMo Code를 오픈소스로 공개했습니다.",
+          "keyPoints": [
+            "샤오미의 코딩 관련 도구인 MiMo Code가 오픈소스화되었습니다."
+          ],
+          "whyItMatters": "오픈소스 공개로 개발자들이 자유롭게 접근하고 활용할 수 있게 되었습니다.",
+          "url": "https://mimo.xiaomi.com/mimocode",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 404,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "mimo-code-release",
+          "isTopicPrimary": true,
+          "slug": "mimo-code-is-now-released-and-open-source",
+          "category": "hot",
+          "publishedAt": "2026-06-11T14:27:19.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "The RCE that AMD wouldn't fix",
+          "titleKo": "AMD가 수정하지 않은 RCE 취약점",
+          "summary": "AMD AutoUpdate 소프트웨어에서 HTTP를 통해 실행 파일을 다운로드하면서 서명 검증이 없는 원격 코드 실행(RCE) 취약점이 발견되었습니다. 보안 연구자가 발견했으나 초기에 버그 바운티에서 범위 밖으로 거절되었지만, 공개 후 AMD PSIRT가 재검토하기로 했습니다.",
+          "keyPoints": [
+            "HTTP 다운로드 + 서명 검증 부재로 MITM 공격 시 임의 코드 실행 가능",
+            "초기 거절 후 블로그 게시로 공개되자 AMD가 CVE 발급 및 패치 약속",
+            "연구자가 87일간의 연장된 공시 기간 동안 사전 공지 없이 대기해야 했던 논쟁의 여지가 있는 공시 절차"
+          ],
+          "whyItMatters": "벤더의 불충분한 초기 대응과 공시 절차의 투명성 부족 문제를 보여주는 실사례입니다.",
+          "url": "https://mrbruh.com/amd2/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 204,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-rce-that-amd-wouldnt-fix",
+          "fullContent": "The RCE that AMD wouldn’t fix\nAfter being interrupted multiple times by an annoying console window that would pop up periodically on my new gaming PC, I managed to track the offending executable down to AMD’s AutoUpdate software.\nIn my frustration, I decided to punish this software by decompiling it to figure out how it worked, and accidentally discovered a trivial Remote Code Execution (RCE) vulnerability in the process.\nThe first thing I found is that they store their update URL in the program’s app.config. Although it’s a little odd that they use their “Develpment” URL in production, it uses HTTPS, so it’s perfectly safe.\nThe real problem starts when you open up this .xml URL in your web browser, and realise that all the executable download URLs are using HTTP.\nThis means that a malicious attacker on your network, or a nation-state that has access to your ISP, can easily perform a MITM attack and replace the network response with any malicious executable of their choosing.\nI was hoping that AMD perhaps had some form of certificate validation to ensure that it could not download and run any unsigned executables. However, a quick look into the decompiled code revealed that the AutoUpdate software does no such validation and immediately executes the downloaded file.\nAfter finding this, I thought it would be worth reporting to AMD, as it seemed pretty severe.\nUnfortunately, the terms of service of their bug bounty program state that man-in-the-middle attacks are out of scope, and it was closed as such.\nUPDATE! Within a day of this blowing up on Hacker News, AMD reached back out to me and said they would be looking into the matter after all.\nI am writing from AMD PSIRT. We are still conducting an internal review of your report. Please note that even if Intigriti has rejected the submission as out of scope for the bounty program, we are still happy to review the details to determine whether there may be any potential validity.\nNote: Intigriti is the third-party bug bounty platform AMD uses for initial triage, while PSIRT (Product Security Incident Response Team) is AMD’s internal security team.\nAdditionally, they requested I take down the blog post until they patched the issue.\nWe were informed that a blog post discussing this issue has already been published, which does not appear to be in accordance with the program’s terms. Could you please take the post down and wait for us to complete our review and provide an official response?\nI agreed to do so, which, in hindsight, I believe was the wrong choice to make.\nThe report was marked out of scope because it is not eligible for a bounty under our current program guidelines, as it affects optional tools and relies on a MITM attack scenario.\nAfter further internal review, we've decided to:\n- Issue a CVE for this vulnerability\n- Implement a fix\n- Provide you with security researcher recognition\nAfter agreeing to take down my blog until the vulnerability was patched, they followed up by detailing that they would not be paying me because it’s an optional tool and requires MITM, but instead they would be issuing a CVE for this and giving me credit.\nWhat disclosure timeline you intend to follow?\ne.g 90 + 30 days\nI asked them what disclosure period they were planning to follow for this issue. The industry standard is 90 days, and after looking at other researchers’ write-ups, I can confirm the majority of AMD’s vulnerabilities were addressed within 90 days.\nHi @mrbruh, We will likely need a longer embargo, as additional tools beyond Ryzen Master appear to be impacted and will need releases. I’ll keep you updated as we learn more.\nSo in summary, this is the current state of the disclosure:\nThey declared it out of scope for a bounty, but requested that I take down the blog post because it was breaking the bug bounty’s rules.\nNot only did they ask me to take the blog post down, but they also asked me to keep it down for an extended duration compared to the industry standard.\nThey justified this extended embargo period by saying that this issue might affect several of their software products; however, the patch itself could be as simple as adding a single s to an http URL in their hosted XML file (so it should be relatively easy to fix).\nAlso, if this is such a big issue that millions of people’s computers could get hacked at any time from a number of AMD’s products, then it should be a priority to fix this quickly, no?\nI ended up waiting an additional 69 days, for a total of 87 days from disclosure until I reached out again.\nI told them that I could not continue to wait an indefinite amount of time for them to fix this issue, and that I planned to publish my write-up again at 100 days after initial disclosure had passed.\nAMD did not actively keep me updated, despite assuring me they would. They only told me what the fix for this vulnerability was a couple of days before the embargo ended (and only after I explicitly asked).\nMultiple optional tools are affected by this. We",
+          "category": "hot",
+          "publishedAt": "2026-06-11T16:03:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "macOS 27 Beta breaks the ability to boot Asahi Linux",
+          "titleKo": "macOS 27 베타, Asahi Linux 부팅 불가능 문제 발생",
+          "summary": "macOS 27 베타 버전이 Mac에서 Asahi Linux 부팅 기능을 손상시키고 있습니다. 이는 Apple 실리콘 Mac에서 리눅스를 실행하는 사용자들에게 영향을 미칩니다.",
+          "keyPoints": [
+            "macOS 27 베타에서 Asahi Linux 호환성 문제 발생",
+            "Apple 실리콘 기반 Mac 사용자에게 직접적인 영향"
+          ],
+          "whyItMatters": "Mac에서 Linux 개발 환경을 사용하는 개발자들이 베타 업그레이드를 신중히 고려해야 합니다.",
+          "url": "https://www.phoronix.com/news/macOS-27-Beta-Breaks-Asahi",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 204,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "macos-27-beta-breaks-the-ability-to-boot-asahi-linux",
+          "category": "hot",
+          "publishedAt": "2026-06-09T15:01:43.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Developer gets Half-Life running at 30 FPS on a Nokia N95",
+          "titleKo": "개발자가 Nokia N95에서 Half-Life를 30 FPS로 실행하다",
+          "summary": "개발자가 2007년식 Nokia N95 휴대폰에서 Half-Life 게임을 30 FPS로 실행하는 데 성공했다.",
+          "keyPoints": [
+            "20년 전 기기에서 요구 사양이 높은 게임을 실행하는 기술적 성과를 달성했다."
+          ],
+          "whyItMatters": "제한된 하드웨어 환경에서의 최적화 기법과 레트로 게임 포팅에 대한 개발자의 관심을 반영한다.",
+          "url": "https://www.tomshardware.com/video-games/handheld-gaming/developer-gets-half-life-running-at-30-fps-on-a-2007-nokia-n95",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 197,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "developer-gets-half-life-running-at-30-fps-on-a-nokia-n95",
+          "category": "hot",
+          "publishedAt": "2026-06-08T21:02:01.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Software is made between commits",
+          "titleKo": "DeltaDB 소개 - 대화 기반 버전 관리 시스템",
+          "summary": "Zed 에디터 팀이 개발한 DeltaDB는 Git의 제약을 넘어 AI 에이전트와의 협업과 코드 변화 과정을 추적하는 새로운 버전 관리 시스템으로, 모든 작업을 세분화된 델타로 기록하여 대화와 코드를 함께 관리합니다.",
+          "keyPoints": [
+            "기존 커밋 단위 대신 모든 작업(델타)을 추적하고 각각에 안정적 ID 부여",
+            "대화와 코드를 동일 위치에 기록하여 Pull Request 프로세스 간소화",
+            "AI 에이전트와의 협업을 위해 설계된 Conflict-Free Replicated 워크트리 지원"
+          ],
+          "whyItMatters": "AI 에이전트와의 협업이 늘어나는 시대에 기존 Git의 한계를 극복하고 코드 생성 과정의 대화를 버전 관리에 포함시킬 수 있습니다.",
+          "url": "https://zed.dev/blog/introducing-deltadb",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 183,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "software-is-made-between-commits",
+          "fullContent": "I have never been a big fan of pull requests.\nBefore agents, it was easier to believe that the ceremony of trading comments on snapshots was an effective way to collaborate on software, but it never really worked for the Zed team. We frequently work together in the same worktree, building trust and shared understanding by discussing the code as we write it. GitHub doesn't let you talk about code until after you commit and push, but by then our most important conversations are usually already over.\nSo in 2021, we founded Zed to move beyond the constraints of commits. Our plan was to build an editor worthy of the world's best developers, then offer a better way to work together inside it. We didn't foresee then how the problems we'd spent years thinking about in the context of human-to-human collaboration would become even more important when collaborating with agents.\nIncreasingly, the conversation that generates the code is becoming the true source of our software. That conversation unfolds continuously and must be cross-referenced to the code as it changes. Git, organized around discrete commits, was never designed to support this.\nSo we're building something that is. We call it DeltaDB, a new kind of version control built on a single coherent abstraction that transforms your conversations with agents and the worktrees they edit into shared artifacts. We've made a ton of progress since I first spoke about it last fall, and with a beta version ready in a few weeks, I'm excited to share more about what we're launching.\nEvery operation, not just every commit\nDeltaDB breaks your work into a stream of fine-grained deltas. Where Git captures a snapshot at each commit, DeltaDB captures every operation in between and gives each one a stable identity. Because every delta can be addressed on its own, you can point to the code at any moment in its evolution, even as it keeps changing. That lets us version a worktree as it evolves, together with the conversation driving it.\nA message and the edit it produced are recorded side by side, so neither drifts away from the other. Because DeltaDB embeds conflict-free replicated worktrees, many people and agents can edit the same files at once across different machines. The files are real: agents work in them through a terminal, and you can mount the whole worktree to disk whenever you want your own tools on it.\nSource code is now source conversation\nBecause every reference is anchored to a delta instead of a line number, it survives as the code moves underneath it. From any line in a past conversation, you can jump to that code as it stands now or as it stood the moment the agent wrote it. From any line of code, you can find the conversation that produced it and every conversation that has touched it since.\nAgents can draw on it too. They pick up the context behind the code they're touching or convene the prior agents that worked on it and ask why it's written the way it is.\nYou shouldn't need to commit to collaborate\nWhat we're really after is simple: the conversation with the agent becomes the only conversation you need to have. A teammate can join while the work is still happening, talk to the agent that did the work, and annotate as they go, without waiting for you to commit and push first.\nPull requests, review threads, and inline comments exist to reattach a discussion to code after the fact because the discussion and the code lived in separate places. Put them in the same place, and the ceremony disappears. Git and CI stay for what they're good at: running checks and connecting you to the rest of the world, rather than being the place collaboration is forced to happen.\nWhat comes next\nSoftware now takes shape in the conversation, not the commit. DeltaDB is the version control built for that, and in a few weeks we'll start putting it in the hands of early users.\nIf you'd like to be among the first to try it, join the waitlist.Related PostsCheck out similar blogs from the Zed team.We're Not Building AI Features for the Money|Featured|May 05, 2026Introducing Parallel Agents in Zed|Featured|Apr 22, 2026Introducing Zed AI|Featured|Aug 20, 2024Looking for a better editor?\nYou can try Zed today on macOS, Windows, or Linux. Download now!We are hiring!\nIf you're passionate about the topics we cover on our blog, please consider joining our team to help us ship the future of software development.",
+          "category": "tech",
+          "publishedAt": "2026-06-11T16:28:24.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Open Reproduction of DeepSeek-R1",
+          "titleKo": "DeepSeek-R1의 완전한 오픈 재현",
+          "summary": "Hugging Face가 DeepSeek-R1을 완전히 재현한 Open R1 프로젝트를 진행 중입니다. 350k 검증된 추론 데이터셋인 Mixture-of-Thoughts를 공개했으며, 수학·코딩·과학 분야에서 단계적 추론 능력을 학습하도록 설계되었습니다. OpenR1-Distill-7B는 DeepSeek-R1-Distill-Qwen-7B의 추론 능력을 재현했습니다.",
+          "keyPoints": [
+            "Mixture-of-Thoughts라는 350k 규모의 검증된 추론 추적 데이터셋을 공개했습니다.",
+            "OpenR1-Distill-7B 모델이 DeepSeek-R1-Distill-Qwen-7B와 동등한 성능을 달성했습니다.",
+            "CodeForces-CoTs(경쟁 프로그래밍 10k 문제, 100k 솔루션)와 IOI24 벤치마크도 함께 공개되었습니다."
+          ],
+          "whyItMatters": "개발자들이 대규모 언어모델의 추론 능력을 직접 재현하고 개선할 수 있는 기반을 얻게 되었습니다.",
+          "url": "https://github.com/huggingface/open-r1",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 184,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "open-reproduction-of-deepseek-r1",
+          "fullContent": "Open R1\nA fully open reproduction of DeepSeek-R1. This repo is a work in progress, let's build it together!\nTable of Contents\nOverview\nPlan of attack\nInstallation\nTraining models\nSFT\nGRPO\nEvaluating models\nReproducing Deepseek's evaluation results\nData generation\nGenerate data from a smol distilled R1 model\nGenerate data from DeepSeek-R1\nContributing\nOverview\nThe goal of this repo is to build the missing pieces of the R1 pipeline such that everybody can reproduce and build on top of it. The project is simple by design and mostly consists of:\nsrc/open_r1: contains the scripts to train models as well as generate synthetic data:\ngrpo.py: trains a model with GRPO on a given dataset.\nsft.py: performs a simple SFT of a model on a dataset.\ngenerate.py: generates synthetic data from a model using Distilabel.\nMakefile: contains easy-to-run commands for each step in the R1 pipeline leveraging the scripts above.\nPlan of attack\nWe will use the DeepSeek-R1 tech report as a guide, which can roughly be broken down into three main steps:\nStep 1: replicate the R1-Distill models by distilling a high-quality corpus from DeepSeek-R1.\nStep 2: replicate the pure RL pipeline that DeepSeek used to create R1-Zero. This will likely involve curating new, large-scale datasets for math, reasoning, and code.\nStep 3: show we can go from base model to RL-tuned via multi-stage training.\nNews 🗞️\n🧑‍🍳 [2025/05/26] (Step 1 completed!) We release Mixture-of-Thoughts--a curated reasoning dataset of 350k verified traces distilled from R1. The dataset spans tasks in mathematics, coding, and science, and is designed to teach language models to reason step-by-step. We also provide a recipe to train OpenR1-Distill-7B, which replicates the reasoning capabilities of deepseek-ai/DeepSeek-R1-Distill-Qwen-7B and marks the completion of step 1 in the Open R1 project.\n⚡️ [2025/03/11] (update #3): We release the CodeForces-CoTs dataset of 10k competitive programming problems and 100k solutions distilled from R1. We also release IOI24: a new benchmark of very hard problems from international olympiads. A 7B Qwen model trained on CodeForces-CoTs can outperform Claude 3.7 Sonnet on IOI24, while a 32B model can outperform R1 itself.\n∞ [2025/02/10] (update #2): We release the OpenR1-Math-220k dataset of 220k traces distilled from R1 on a new version of NuminaMath. Models trained on this dataset match the performance of DeepSeek's distilled ones.\n🔥 [2025/02/02] (update #1): We implement the first parts of the training, inference, and evaluation pipelines. Let's go!\nInstallation\nCautionLibraries rely on CUDA 12.4. If you see errors related to segmentation faults, double check the version your system is running with nvcc --version.\nTo run the code in this project, first, create a Python virtual environment using e.g. uv.\nTo install uv, follow the UV Installation Guide.\nNoteAs a shortcut, run make install to setup development libraries (spelled out below). Afterwards, if everything is setup correctly you can try out the Open-R1 models.\nuv venv openr1 --python 3.11 && source openr1/bin/activate && uv pip install --upgrade pip\nTipFor Hugging Face cluster users, add export UV_LINK_MODE=copy to your .bashrc to suppress cache warnings from uv\nNext, install vLLM and FlashAttention:\nuv pip install vllm==0.8.5.post1\nuv pip install setuptools && uv pip install flash-attn --no-build-isolation\nThis will also install PyTorch v2.6.0 and it is very important to use this version since the vLLM binaries are compiled for it. You can then install the remaining dependencies for your specific use case via pip install -e .[LIST OF MODES]. For most contributors, we recommend:\nGIT_LFS_SKIP_SMUDGE=1 uv pip install -e \".[dev]\"\nNext, log into your Hugging Face and Weights and Biases accounts as follows:\nhuggingface-cli login\nwandb login\nFinally, check whether your system has Git LFS installed so that you can load and push models/datasets to the Hugging Face Hub:\ngit-lfs --version\nIf it isn't installed, run:\nsudo apt-get install git-lfs\nTraining models\nNoteThe training commands below are configured for a node of 8 x H100s (80GB). For different hardware and topologies, you may need to tune the batch size and number of gradient accumulation steps.\nWe support training models with either DDP or DeepSpeed (ZeRO-2 and ZeRO-3). For example, to perform SFT on a dataset distilled from DeepSeek-R1 with reasoning traces such as open-r1/Mixture-of-Thoughts, run:\n# Train via command line\naccelerate launch --config_file=recipes/accelerate_configs/zero3.yaml src/open_r1/sft.py \\\n--model_name_or_path open-r1/Qwen2.5-Math-7B-RoPE-300k \\\n--dataset_name open-r1/Mixture-of-Thoughts \\\n--dataset_config all \\\n--eos_token '<|im_end|>' \\\n--learning_rate 4.0e-5 \\\n--num_train_epochs 5 \\\n--max_seq_length 32768 \\\n--per_device_train_batch_size 2 \\\n--gradient_checkpointing \\\n--bf16 \\\n--use_liger_kernel \\\n--output_dir data/OpenR1-Distill-7B\n# Train via YAML config\naccelerate launch --config_file recipes/accelerate_config",
+          "category": "tech",
+          "publishedAt": "2026-06-11T13:14:31.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: Homebrew 6.0.0",
+          "titleKo": "Homebrew 6.0.0 출시",
+          "summary": "Homebrew 6.0.0이 출시되었으며, Tap 신뢰 보안 메커니즘, 더 빠른 기본 JSON API, Linux 샌드박싱, macOS 27(Golden Gate) 초기 지원 등을 포함합니다. 사용자 조사를 기반으로 한 더 나은 기본값과 brew bundle 개선도 포함되었습니다.",
+          "keyPoints": [
+            "Tap 신뢰 메커니즘이 도입되어 서드파티 Tap 설치 시 신뢰 확인이 필요합니다.",
+            "기본 JSON API가 더 빠르고 작으며 네트워크 사용량이 적습니다.",
+            "Linux에 Bubblewrap 샌드박스가 적용되어 macOS와 일관성 있는 보안을 제공합니다."
+          ],
+          "whyItMatters": "Homebrew 사용자는 더 나은 보안, 성능, 사용자 경험을 얻게 됩니다.",
+          "url": "https://brew.sh/2026/06/11/homebrew-6.0.0/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 887,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-homebrew-600",
+          "fullContent": "6.0.0\n11 June 2026\nMikeMcQuaid\nToday, I’m proud to announce Homebrew 6.0.0.\nThe most significant changes since 5.1.0 are a new tap trust security mechanism, the new faster, smaller, default internal Homebrew JSON API, sandboxing on Linux, better defaults informed by our user survey, many brew bundle improvements, improved performance and initial support for macOS 27 (Golden Gate).\n✨ Highlights since 5.1.0\n🔐 Tap trust\nHomebrew 6.0.0 introduces tap trust. A third-party tap can contain arbitrary, unsandboxed Ruby that runs on your machine, so Homebrew now requires taps (and tap-qualified formulae and casks) to be explicitly trusted before their code is evaluated or run. This reduces the risk from malicious or compromised taps while leaving the official Homebrew taps trusted by default. See the new Tap-Trust documentation for details.\nHomebrew enforces initial tap trust so untrusted taps are flagged before their code runs, trusts qualified tap items before install, stops auto-tapping untrusted taps, pins tap allow, forbid and trust lists to remotes and uses tap trust when evaluating all formulae and casks.\nbrew tap gains commands for managing tap trust, can trust a tap by its remote URL, brew trust adds a --json=v1 flag and brew tap-info adds a trusted field.\nbrew bundle honours the trusted: option and brew bundle dump records trusted bundle entries, marking custom-remote taps as trusted.\ndocs.brew.sh has new pages, including Tap-Trust, explaining Homebrew’s new tap trust model, and Homebrew trusts taps in test-bot.\n⚡ Default internal JSON API\nThe internal JSON API is now the default, advancing the smaller API that Homebrew re-enabled and turned on for developers recently. It combines all Homebrew’s metadata into a single download, so brew updates faster and talks to the network less. It was opt-in via HOMEBREW_USE_INTERNAL_API since 5.0.0; that variable is now deprecated (see below).\n🐧 Linux sandbox\nThe Linux Bubblewrap sandbox aligns Linux with macOS, where build, test and postinstall phases already run sandboxed. It is on by default for developers, Homebrew moved its macOS sandbox logic to share code, improved Linux sandbox behaviour (with Homebrew/homebrew-core setting the sandbox env in CI), hardened sandboxed install phases, sandboxed cask executable hooks, allowed logs in the build sandbox, installed Bubblewrap on hosted Ubuntu and skips sandbox setup for syntax-only jobs.\n⚙️ Better defaults\nFollowing our Homebrew user survey, we have made many changes based on the results. The most notable is making ask mode the default for developers, so brew install and brew upgrade show a dependency summary and confirmation prompt before making changes.\nHomebrew adds ask dependency plans and cask support, accepts one-key ask confirmations and aligns ask dry-run prompts.\nHomebrew fetches ask upgrades together, prints the ask upgrade summary sooner, skips the upgrade ask prompt when empty, adds a final brew upgrade summary and explains the upgrade metadata fetch.\n📦 brew bundle\nbrew bundle gains many improvements, most notably parallel formula installation that now runs jobs automatically by default, plus npm and krew extensions, wider cleanup support and, on Windows, winget support.\nHomebrew adds cleanup support to npm, cargo, go and uv extensions and asks before removing during cleanup.\nHomebrew runs brew bundle krew via kubectl-krew directly, respects CARGO_HOME and friends for cargo, adds a --describe flag to brew bundle add and tries mas install before falling back to mas get.\nHomebrew adds bundle type disable flags, improves check guidance and checks formula link status.\nHomebrew serialises formula locks, makes non-core DSLs a single file, removes description comments from brew bundle/remover and avoids parsing the output of brew services list.\nbrew bundle performs npm installs more securely.\n🏎️ Performance\nHomebrew is faster across the board, with startup performance tweaks, a ~30% faster brew leaves, parallelised bottle tab fetching on upgrade and less work loading Ruby libraries at startup.\n🍎 macOS 27 (Golden Gate)\nHomebrew adds initial support for macOS 27 (Golden Gate).\n🔮 Upcoming changes\nmacOS 27 (Golden Gate) drops Intel support, so per our Support Tiers: in September 2026, macOS Intel x86_64 moves to Tier 3 with no CI support and no new bottles (binary packages) built for macOS Intel; in September 2027, macOS Intel x86_64 will be unsupported entirely and all related code deleted.\nThe master to main migration begun in 4.6.0 continues: more repositories no longer update master, GitHub Actions warn @master users to migrate to @main and the sync-default-branches workflows are removed from Homebrew/homebrew-cask and Homebrew/homebrew-core.\nCasks that fail macOS Gatekeeper checks, deprecated in 5.0.0, remain on track to be disabled in September 2026.\n🔒 Security\n🚨 Security advisories\nHomebrew published three security advisories:\nThe POST download strategy bypassed the documented HTTPS-to-HTTP redirect pro",
+          "category": "tech",
+          "publishedAt": "2026-06-11T13:24:29.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "apple/container (Swift)",
+          "titleKo": "Apple Container - Mac에서 경량 가상머신을 이용한 Linux 컨테이너 도구",
+          "summary": "Apple이 Swift로 작성한 Linux 컨테이너 생성 및 실행 도구로, Mac에서 경량 가상머신을 활용하며 Apple Silicon에 최적화되어 있습니다.",
+          "keyPoints": [
+            "Swift로 작성되어 Mac 네이티브 개발 경험 제공",
+            "Apple Silicon에 최적화된 경량 가상머신 기반 컨테이너 솔루션"
+          ],
+          "whyItMatters": "Mac 개발자가 Docker와 유사한 컨테이너 환경을 Apple Silicon에서 효율적으로 사용할 수 있게 합니다.",
+          "url": "https://github.com/apple/container",
+          "sourceName": "GitHub Trending",
+          "engagement": 32301,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "applecontainer-swift",
+          "category": "tech",
+          "publishedAt": "2026-06-11T23:35:11.724Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Swift"
+          ]
+        },
+        {
+          "title": "addyosmani/agent-skills (Shell)",
+          "titleKo": "addyosmani/agent-skills - AI 코딩 에이전트용 엔지니어링 스킬",
+          "summary": "AI 코딩 에이전트를 위한 프로덕션 그레이드 엔지니어링 스킬 라이브러리입니다.",
+          "keyPoints": [
+            "프로덕션 환경에서 사용 가능한 AI 에이전트용 엔지니어링 스킬을 제공합니다."
+          ],
+          "whyItMatters": "AI 코딩 에이전트의 실무 활용성을 높이는 데 도움이 됩니다.",
+          "url": "https://github.com/addyosmani/agent-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 54639,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "addyosmaniagent-skills-shell",
+          "category": "tech",
+          "publishedAt": "2026-06-11T23:35:11.725Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "Show HN: Boo – screen-style terminal multiplexer built on libghostty",
+          "titleKo": "Boo – libghostty 기반의 화면 스타일 터미널 멀티플렉서",
+          "summary": "Zig로 작성된 GNU screen 스타일의 터미널 멀티플렉서로, libghostty의 VT 에뮬레이션 코어를 기반으로 정확한 터미널 상태 추적과 AI 에이전트 친화적 자동화 기능을 제공합니다.",
+          "keyPoints": [
+            "libghostty-vt를 활용하여 GNU screen보다 정확한 터미널 상태 유지 및 재연 가능",
+            "send, peek, wait 등 AI 에이전트용 자동화 명령과 JSON 출력 지원으로 스크립트 친화적",
+            "TTY 없이도 작동 가능하여 헤드리스 환경과 에이전트 기반 자동화에 적합"
+          ],
+          "whyItMatters": "터미널 자동화와 AI 에이전트 통합이 필요한 경우 정확한 상태 추적과 안정적인 인터페이스를 제공합니다.",
+          "url": "https://github.com/coder/boo",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 33,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-boo-screen-style-terminal-multiplexer-built-on-libghostty",
+          "fullContent": "_ .-.\n| |__ ___ ___ (o o)\n| '_ \\ / _ \\ / _ \\ | O \\\n| |_) | (_) | (_) | \\ \\\n|_.__/ \\___/ \\___/ `~~~'\nSessions that haunt your terminal.\nInstall | Usage | Automation | Why | Architecture\nA GNU screen style terminal multiplexer built on\nlibghostty\n(libghostty-vt), written in Zig.\nEvery session's output is parsed through Ghostty's terminal emulation\ncore, so boo always knows the exact screen state of every session:\ncontents, styles, cursor, scrollback, and terminal modes. That state is\nused to rehydrate your terminal on attach, to answer terminal queries\nfor detached sessions, and to let scripts and AI agents read the screen\nexactly as a human would see it.\nFeatures\nSessions that survive disconnects: detach with Ctrl-A d, reattach with boo attach.\nA full-screen session manager: boo ui lists sessions in a sidebar.\nFaithful redraws from libghostty terminal state, including SGR styles, cursor position, scrolling regions, window title, and terminal modes.\nAgent-friendly automation primitives: send, peek, wait, and --json output, all usable without a TTY.\ndemo.mp4\nInstall\nFor Linux and macOS:\ncurl -fsSL https://raw.githubusercontent.com/coder/boo/main/install.sh | sh\nPre-built binaries are published on the releases page. Set BOO_VERSION to pin a release and BOO_INSTALL_DIR to change the\ninstall location (default: /usr/local/bin when writable, otherwise\n~/.local/bin).\nUsage\nboo new # new session running $SHELL, attached\nboo new work # named session\nboo new work -d -- make # create detached, running a command\nboo ui # manage sessions in a full-screen UI (alias: i)\nboo ls # list sessions\nboo attach work # reattach (alias: at, a)\nboo rename work api # rename a session\nboo kill work # end a session\nboo kill --all # end every session\nWith no name, boo new names the session after the current directory,\nfalling back to the process id when that name is taken or unusable.\nRun boo help for the full overview, boo help <command> for flags\nand examples, and boo help --all to print every help page at once.\nKey bindings (prefix Ctrl-a)\nBindings follow GNU screen's defaults, including the C-x variants\n(C-a C-d detaches just like C-a d).\nKeys\nAction\nC-a d, C-a C-d\ndetach\nC-a l, C-a C-l\nredraw\nC-a a\nsend a literal C-a\nboo ui adds additional keybinds for switching, resizing, creating sessions, and killing them.\nAutomation\nEverything except attach works without a terminal, which makes boo a\nnatural sandbox for scripts and AI agents driving interactive programs.\nThe canonical loop:\nboo new build -d -- bash # 1. headless session\nboo send build --text 'make' --enter # 2. type into it\nboo wait build --idle # 3. let output settle\nboo peek build --scrollback # 4. read the screen\nboo kill build # 5. clean up\nReading state: peek prints the rendered screen reconstructed\nfrom terminal state, not a raw byte log: ordered, fully redrawn, and\nstable. --scrollback includes history; --json adds size, cursor,\nand title.\nWaiting: wait --text <text> blocks until the screen contains\nthe text; wait --idle until output has been quiet for 2 seconds;\n--timeout <dur> exits 4 instead of hanging forever (durations:\n500ms, 2s, 1m, 4h, 1d). No more sleep-and-poll loops.\nSending input: send --text is literal: no escape processing, no\nimplicit newline, no quoting layer to fight. --enter submits,\n--key Enter,C-c,Up names control keys, and stdin mode is binary\nsafe.\nMachine-readable output: ls --json and peek --json.\nExit codes: 0 success, 1 error, 2 usage error, 3 no such\nsession, 4 wait timed out.\nSee boo help automation for the full page.\nWhy boo?\nGNU screen works the same way boo does, architecturally: it parses all\noutput through its own built-in terminal emulator and redraws from\nthat state on reattach. But that emulator is decades old and lags far\nbehind what modern programs emit. Whatever it doesn't understand gets\ndropped or mangled on redraw. boo swaps that layer for libghostty-vt,\nGhostty's VT core, so the saved state matches what your terminal would\nactually display, and terminal queries are answered while detached so\nTUIs don't hang unattended.\nScripting is the other win: send, peek --json, and\nwait --text/--idle instead of -X stuff, hardcopy files, and\nsleep loops.\ntmux is great, it just solves a different problem. boo keeps screen's\nmodel by design: sessions, a prefix key, and nothing else to learn.\nOne session per task, with boo ui to juggle them.\nContributing\nRequires Zig 0.15.2.\nzig build # binary in zig-out/bin/boo\nzig build test # unit tests\nzig build test-integration # end-to-end tests on a real PTY\nzig build test-all # everything\nThe libghostty dependency is fetched and built from source\nautomatically (pinned in build.zig.zon).\nWith Nix, nix develop opens a shell with the right Zig version, and\nnix build builds the package to ./result/bin/boo.\nArchitecture\nyour terminal <-(raw tty)-> boo client <-(unix socket)-> session daemon\n`- PTY + ghostty-vt Terminal\nThe client puts your TTY in raw mode and shuttles bytes over a\nframed Unix-socket protocol (s",
+          "category": "tech",
+          "publishedAt": "2026-06-11T20:52:26.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "refactoringhq/tolaria (TypeScript)",
+          "titleKo": "Tolaria - 마크다운 기반 지식 베이스를 관리하는 데스크톱 앱",
+          "summary": "Tolaria는 마크다운 형식의 지식 베이스를 관리하기 위한 TypeScript 기반 데스크톱 애플리케이션입니다. 사용자가 마크다운으로 작성한 문서들을 중앙에서 체계적으로 정리하고 검색할 수 있는 도구입니다.",
+          "keyPoints": [
+            "마크다운 문서 관리: 마크다운 형식의 지식 베이스 파일들을 데스크톱 애플리케이션 내에서 중앙 집중식으로 관리할 수 있습니다.",
+            "데스크톱 기반 접근: 웹 기반이 아닌 로컬 데스크톱 애플리케이션으로 구현되어 네트워크 없이도 사용 가능합니다.",
+            "TypeScript 개발: 타입 안전성과 개발 생산성을 위해 TypeScript로 작성된 프로젝트입니다."
+          ],
+          "whyItMatters": "개인 또는 팀의 지식과 문서를 효율적으로 정리하고 접근하려는 개발자들에게 유용한 도구이며, 마크다운 기반 워크플로우를 선호하는 사용자에게 적합합니다.",
+          "url": "https://github.com/refactoringhq/tolaria",
+          "sourceName": "GitHub Trending",
+          "engagement": 15370,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "refactoringhqtolaria-typescript",
+          "category": "tech",
+          "publishedAt": "2026-06-11T23:35:11.727Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "chatwoot/chatwoot (Ruby)",
+          "titleKo": "Chatwoot - 오픈소스 라이브챗 및 고객지원 플랫폼",
+          "summary": "Intercom, Zendesk 같은 상용 솔루션을 대체할 수 있는 오픈소스 라이브챗, 이메일 지원, 옴니채널 데스크 솔루션입니다.",
+          "keyPoints": [
+            "라이브챗, 이메일, 옴니채널 지원을 통합한 고객지원 플랫폼",
+            "상용 솔루션(Intercom, Zendesk)의 오픈소스 대안"
+          ],
+          "whyItMatters": "개발자와 조직이 자체 호스팅 가능한 고객지원 시스템을 구축할 수 있습니다.",
+          "url": "https://github.com/chatwoot/chatwoot",
+          "sourceName": "GitHub Trending",
+          "engagement": 30341,
+          "contentType": "repo",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "chatwootchatwoot-ruby",
+          "category": "tech",
+          "publishedAt": "2026-06-11T23:35:11.729Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Ruby"
+          ]
+        },
+        {
+          "title": "kenn-io/agentsview (Go)",
+          "titleKo": "kenn-io/agentsview",
+          "summary": "Claude Code, Codex 등 20개 이상의 코딩 에이전트를 지원하는 로컬 기반 세션 지능 및 분석 도구입니다. ccusage보다 100배 빠른 성능을 제공합니다.",
+          "keyPoints": [
+            "20개 이상의 다양한 코딩 에이전트 지원으로 높은 호환성",
+            "ccusage 대비 100배 향상된 성능으로 대규모 세션 분석 가능"
+          ],
+          "whyItMatters": "다양한 AI 코딩 에이전트를 사용하는 개발팀이 세션을 통합 관리하고 분석할 수 있는 도구입니다.",
+          "url": "https://github.com/kenn-io/agentsview",
+          "sourceName": "GitHub Trending",
+          "engagement": 1619,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "kenn-ioagentsview-go",
+          "category": "tech",
+          "publishedAt": "2026-06-11T23:35:11.730Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Go"
+          ]
+        },
+        {
+          "title": "NVIDIA/SkillSpector (Python)",
+          "titleKo": "NVIDIA/SkillSpector",
+          "summary": "AI 에이전트 스킬의 보안 취약점, 악의적 패턴, 보안 위험을 탐지하는 보안 스캐너입니다.",
+          "keyPoints": [
+            "AI 에이전트의 보안 위험을 자동으로 탐지하는 도구",
+            "에이전트 기반 시스템 배포 전 보안 검증 필수"
+          ],
+          "whyItMatters": "AI 에이전트 시스템의 보안 검증을 위한 필수 도구로, 프로덕션 배포 전 리스크 평가에 유용합니다.",
+          "url": "https://github.com/NVIDIA/SkillSpector",
+          "sourceName": "GitHub Trending",
+          "engagement": 2613,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "nvidiaskillspector-python",
+          "category": "tech",
+          "publishedAt": "2026-06-11T23:35:11.726Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "msitarzewski/agency-agents (Shell)",
+          "titleKo": "msitarzewski/agency-agents",
+          "summary": "다양한 전문성을 가진 AI 에이전트들을 모아놓은 완전한 AI 에이전시 프로젝트입니다. 프론트엔드부터 커뮤니티 관리까지 각 에이전트는 고유한 성격과 프로세스를 가지고 있습니다.",
+          "keyPoints": [
+            "다양한 역할의 전문 AI 에이전트를 한 곳에서 관리 가능",
+            "각 에이전트는 입증된 결과물을 제공하는 독립적인 전문가"
+          ],
+          "whyItMatters": "AI 에이전트 기반 자동화 시스템 구축 시 모듈화된 접근 방식의 참고가 될 수 있습니다.",
+          "url": "https://github.com/msitarzewski/agency-agents",
+          "sourceName": "GitHub Trending",
+          "engagement": 111510,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "msitarzewskiagency-agents-shell",
+          "category": "tech",
+          "publishedAt": "2026-06-11T23:35:11.729Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "restic/restic (Go)",
+          "titleKo": "restic - 빠르고 안전한 효율적인 백업 프로그램",
+          "summary": "Go로 작성된 빠르고 안전하며 효율적인 백업 도구인 restic입니다.",
+          "keyPoints": [
+            "Go 언어로 개발된 고성능 백업 솔루션입니다."
+          ],
+          "whyItMatters": "개발자와 시스템 관리자가 데이터를 효율적으로 백업할 수 있는 도구를 제공합니다.",
+          "url": "https://github.com/restic/restic",
+          "sourceName": "GitHub Trending",
+          "engagement": 34140,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "resticrestic-go",
+          "category": "tech",
+          "publishedAt": "2026-06-11T23:35:11.728Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Go"
+          ]
+        },
+        {
+          "title": "obra/superpowers (Shell)",
+          "titleKo": "Superpowers - 에이전트 기반 소프트웨어 개발 프레임워크",
+          "summary": "에이전트 기반 개발 기술과 방법론을 지원하는 프레임워크 및 스킬 세트입니다.",
+          "keyPoints": [
+            "AI 에이전트를 활용한 소프트웨어 개발 방법론 제공",
+            "실무 기반의 에이전티 스킬 프레임워크"
+          ],
+          "whyItMatters": "개발자가 AI 에이전트를 활용하는 새로운 개발 방식을 체계적으로 도입할 수 있습니다.",
+          "url": "https://github.com/obra/superpowers",
+          "sourceName": "GitHub Trending",
+          "engagement": 224777,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "obrasuperpowers-shell",
+          "category": "tech",
+          "publishedAt": "2026-06-11T23:35:11.728Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "masterking32/MasterDnsVPN (Go)",
+          "titleKo": "MasterDnsVPN (Go)",
+          "summary": "검열 우회를 위한 고급 DNS 터널링 VPN으로, 기존 DNSTT와 SlipStream을 개선한 저오버헤드 ARQ 기술을 사용합니다.",
+          "keyPoints": [
+            "DNSTT와 SlipStream 대비 최적화된 DNS 터널링 구현",
+            "낮은 오버헤드의 ARQ, 리졸버 로드 밸런싱, 높은 패킷손실 안정성 지원"
+          ],
+          "whyItMatters": "네트워크 검열 우회 또는 보안이 필요한 환경에서 효율적인 DNS 터널링 솔루션을 제공합니다.",
+          "url": "https://github.com/masterking32/MasterDnsVPN",
+          "sourceName": "GitHub Trending",
+          "engagement": 5670,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "masterking32masterdnsvpn-go",
+          "category": "tech",
+          "publishedAt": "2026-06-11T23:35:11.729Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Go"
+          ]
+        },
+        {
+          "title": "alchaincyf/zhangxuefeng-skill",
+          "titleKo": "zhangxuefeng-skill - 张雪峰의 인지 운영 체계",
+          "summary": "중국의 유명 진로 코치 張雪峰의 대학 입시, 대학원 준비, 직업 계획에 관한 실전 사고 프레임워크를 제공합니다.",
+          "keyPoints": [
+            "고등학교 입시, 대학원 진학, 직업 규획의 의사결정 프레임워크 제시"
+          ],
+          "whyItMatters": "중국 교육 시스템 내에서 경력 선택 시 활용할 수 있는 검증된 사고 모델을 제공합니다.",
+          "url": "https://github.com/alchaincyf/zhangxuefeng-skill",
+          "sourceName": "GitHub Trending",
+          "engagement": 7929,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "alchaincyfzhangxuefeng-skill",
+          "category": "tech",
+          "publishedAt": "2026-06-11T23:35:11.730Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "maziyarpanahi/openmed (Python)",
+          "titleKo": "OpenMed - 오픈소스 의료 AI",
+          "summary": "의료 분야를 위한 오픈소스 AI 솔루션으로 건강관리 데이터 처리 및 분석을 지원합니다.",
+          "keyPoints": [
+            "의료 산업 전용 오픈소스 AI 프레임워크",
+            "healthcare AI 관련 모델과 도구 제공"
+          ],
+          "whyItMatters": "개발자가 의료 분야에서 오픈소스 기반의 AI 솔루션을 구축할 수 있는 기초를 얻을 수 있습니다.",
+          "url": "https://github.com/maziyarpanahi/openmed",
+          "sourceName": "GitHub Trending",
+          "engagement": 2733,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "maziyarpanahiopenmed-python",
+          "category": "tech",
+          "publishedAt": "2026-06-11T23:35:11.725Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "soxoj/maigret (Python)",
+          "titleKo": "사용자명으로 3000+ 사이트에서 개인정보 수집하기",
+          "summary": "Maigret는 주어진 사용자명을 사용하여 3000개 이상의 웹사이트에서 특정 인물의 정보를 수집하는 Python 도구입니다. OSINT(오픈소스 인텔리전스) 조사에 활용될 수 있습니다.",
+          "keyPoints": [
+            "3000개 이상의 사이트에서 자동으로 사용자명 검색 및 정보 수집",
+            "OSINT 조사 및 사이버보안 연구에 유용한 도구"
+          ],
+          "whyItMatters": "개발자와 보안 연구자들이 온라인 신원 조사 및 정보 수집을 자동화할 수 있습니다.",
+          "url": "https://github.com/soxoj/maigret",
+          "sourceName": "GitHub Trending",
+          "engagement": 32588,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "soxojmaigret-python",
+          "category": "tech",
+          "publishedAt": "2026-06-11T23:35:11.727Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "phuryn/pm-skills",
+          "titleKo": "PM Skills: 100+ 에이전틱 기능 마켓플레이스",
+          "summary": "제품 매니저를 위해 디스커버리부터 전략, 실행, 출시, 성장까지 단계별로 사용할 수 있는 100개 이상의 agentic 기능과 플러그인을 제공하는 마켓플레이스입니다.",
+          "keyPoints": [
+            "제품 개발 전 단계를 지원하는 100+ 에이전틱 스킬 및 커맨드 제공",
+            "디스커버리부터 성장까지 일관된 워크플로우 지원"
+          ],
+          "whyItMatters": "제품 개발자와 팀이 AI 기반 에이전트를 활용해 효율적으로 제품 개발 프로세스를 관리할 수 있습니다.",
+          "url": "https://github.com/phuryn/pm-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 16174,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "phurynpm-skills",
+          "category": "tech",
+          "publishedAt": "2026-06-11T23:35:11.726Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "FPS.cob: A first person shooter in COBOL",
+          "titleKo": "COBOL로 만든 1인칭 슈팅 게임",
+          "summary": "FPS.cob는 COBOL 언어로 작성된 1인칭 슈팅 게임으로, Wolf3D 스타일과 DOOM 스타일 두 가지 맵 형식을 지원합니다.",
+          "keyPoints": [
+            "COBOL으로 3D 게임 개발을 구현한 창의적인 프로젝트",
+            "W/S/A/D 키로 조작 가능하며 grid 기반 및 sector 기반 맵 지원"
+          ],
+          "whyItMatters": "레거시 언어의 새로운 활용을 보여주며 프로그래밍의 창의성과 유연성을 시연합니다.",
+          "url": "https://github.com/icitry/FPS.cob",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 91,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "fpscob-a-first-person-shooter-in-cobol",
+          "fullContent": "FPS.cob\nFPS.cob is what you get when you decide that game development is too easy nowadays.\nEnjoy what can only be described as an out-of-body experience in the ways of COBOL tomfoolery.\nIt supports two level styles:\nmap/level1.map: the original grid-based Wolf3D-style path.\nmap/doom_sectors.map: a sector/linedef map with doors, different heights (so DOOM-like).\nRequirements\ncobc\nffplay\nbash\nRun\nFrom the repo root:\nbash build.sh\nTo load a specific map:\nbash build.sh ./map/level1.map\nbash build.sh ./map/doom_sectors.map\nControls\nW / S: move forward and backward\nA / D: turn left and right\nSpace: fire\nQ: quit\nAssets\nTextures and sprites live under res/.\nMaps live under map/.",
+          "category": "tech",
+          "publishedAt": "2026-06-11T15:13:57.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "x1xhlol/system-prompts-and-models-of-ai-tools",
+          "titleKo": "AI 도구의 시스템 프롬프트와 모델 모음",
+          "summary": "FULL Augment Code, Claude Code, Cursor, Devin AI, Perplexity, Replit 등 주요 AI 개발 도구들의 시스템 프롬프트와 모델 정보를 수집한 저장소입니다.",
+          "keyPoints": [
+            "20개 이상의 AI 개발 도구의 시스템 프롬프트가 수집되어 있습니다.",
+            "각 도구가 사용하는 기본 모델 정보도 함께 제공됩니다."
+          ],
+          "whyItMatters": "개발자들이 다양한 AI 도구의 작동 방식을 이해하고 비교 분석할 수 있습니다.",
+          "url": "https://github.com/x1xhlol/system-prompts-and-models-of-ai-tools",
+          "sourceName": "GitHub Trending",
+          "engagement": 139854,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "x1xhlolsystem-prompts-and-models-of-ai-tools",
+          "category": "insight",
+          "publishedAt": "2026-06-11T23:35:11.727Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "Why I'm Forced to Say Farewell: Google Management Has Lost Its Moral Compass",
+          "titleKo": "이별을 강요당한 이유: Google 경영진이 도덕나침반을 잃었다",
+          "summary": "Google을 떠나는 개발자의 회사 경영과 문화 변화에 대한 비판적 글입니다.",
+          "keyPoints": [
+            "Google 경영진의 도덕적 리더십 부재에 대한 개인적 경험 공유"
+          ],
+          "whyItMatters": "대형 기술 회사의 내부 문화와 경영 방식 변화를 통해 조직 문화의 중요성을 보여줍니다.",
+          "url": "https://www.mayrhofer.eu.org/post/leaving-google/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 160,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "why-im-forced-to-say-farewell-google-management-has-lost-its-moral-compass",
+          "category": "insight",
+          "publishedAt": "2026-06-11T21:04:47.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Shall we play a game? – LLMs use tactical nukes in 95% of simulations",
+          "titleKo": "게임을 해볼까? - LLM이 시뮬레이션의 95%에서 극단적 전술을 사용",
+          "summary": "대형 언어모델의 게임 이론적 의사결정 연구로, LLM이 극단적 전략을 과도하게 선택하는 경향을 분석합니다.",
+          "keyPoints": [
+            "LLM이 시뮬레이션 환경에서 합리적 예상과 다르게 극단적 전술을 선호하는 패턴 발견"
+          ],
+          "whyItMatters": "LLM을 의사결정 시스템에 활용할 때 게임 이론적 편향을 이해하고 대비해야 합니다.",
+          "url": "https://www.kennethpayne.uk/p/shall-we-play-a-game",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 159,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "shall-we-play-a-game-llms-use-tactical-nukes-in-95-of-simulations",
+          "category": "insight",
+          "publishedAt": "2026-06-11T19:54:54.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Who Runs the Ransomware Group 'The Gentlemen?'",
+          "titleKo": "랜섬웨어 그룹 'The Gentlemen'을 운영하는 사람은 누구인가?",
+          "summary": "The Gentlemen은 피해자 수 기준으로 두 번째로 활발한 랜섬웨어 갱으로, 제휴사에게 몸값의 90%를 제공하는 공격적인 채용 전략으로 빠르게 성장하고 있다. 보안 전문가들은 그룹 관리자의 실명이 러시아 이즈예프스크 출신의 Alexander Andreevich Yapaev(36세)라는 증거를 발견했다.",
+          "keyPoints": [
+            "The Gentlemen은 90/10 제휴 수익 분배로 업계 표준(80/20)을 초과하여 경험 많은 해커들을 빠르게 모집하고 있다.",
+            "관리자 Hastalamuerte/Zeta88는 VPN, 방화벽 등 인터넷 노출 장치를 진입점으로 삼아 수 시간 내에 네트워크를 암호화한다.",
+            "Intel 471과 다양한 데이터베이스 정보 연계를 통해 Alexander Yapaev가 러시아 에너지 회사 Uralenergo Udmurtia의 B2B 마케팅 책임자로 식별되었다."
+          ],
+          "whyItMatters": "조직화된 랜섬웨어-서비스 운영 구조와 실제 운영자 추적 방법을 이해하는 것이 사이버보안 전문가에게 중요하다.",
+          "url": "https://krebsonsecurity.com/2026/06/who-runs-the-ransomware-group-the-gentlemen/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 50,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "who-runs-the-ransomware-group-the-gentlemen",
+          "fullContent": "A cybercrime group known as The Gentlemen has emerged as the second most active ransomware gang by victim count, rapidly attracting a talented pool of hackers through an aggressive recruitment strategy that promises affiliates 90 percent of any ransom paid by victims. This post examines clues pointing to a real life identity for the administrator of The Gentlemen ransomware group.\nA graphic created and shared by The Gentlemen ransomware group administrator Hastalamuerte on Breachforums in May 2026. Credit: ke-la.com.\nExperts at the security firm Check Point Software have been closely covering exploits of The Gentlemen, a so-called “ransomware-as-a-service” (RaaS) offering that pays affiliates handsomely to help spread the group’s malware.\n“A 90/10 affiliate revenue split — compared to the industry standard 80/20 — is accelerating the group’s growth by attracting experienced operators from competing programs,” the researchers wrote in April.\nCheck Point found The Gentlemen are the second most active ransomware group by victim count so far this year, claiming at least 332 published victims since the group’s inception in mid-2025 and more than 240 in 2026 alone.\nAccording to Check Point, the group targets Internet-facing devices (VPNs, firewalls) as their entry point, and once inside moves quickly to encrypt entire networks within hours.\nCheck Point says the administrator and primary operator of the ransomware group uses the nickname Zeta88 on the Russian-language cybercrime forums, and that this individual was previously known under the moniker Hastalamuerte. Check Point noted that a breach of the group’s backend infrastructure made it clear that Hastalamuerte/Zeta88 is the person who assembles the locker and RaaS panel, manages payments, and is essentially the administrator of the entire program who receives 10 percent of all ransoms.\nWHO IS HASTALAMUERTE?\nThe cyber intelligence firm Intel 471 shows that the user Hastalamuerte is a Russian and English speaking person who registered on almost a dozen cybercrime forums between 2019 and the present day, including Exploit, Breachforums, Ramp_V2, BHF, Raidforums, and Nulled.\nIntel 471 reveals that Hastalamuerte registered on Breachforums in January 2025 from an Internet address in Izhevsk, the capital city of Russia’s Udmurt Republic. Likewise, the user Zeta88 signed up at the English-language cybercrime forum Breached in August 2022 from a different Internet address in Izhevsk.\nIntel 471 finds Hastalamuerte registered on Raidforums in 2020 using the email address hastalamuerte1488@protonmail.com (1488 is a common combination of two numeric symbols associated with white supremacy). A lookup on this address at the open source intelligence service Epieos shows it is connected to an account at Apple and to a phone number ending in 04.\nEpieos says that Protonmail address is also linked to a GitHub account under the username SantaMuerte. That account is marked private, but a history of this user’s activity shows they are watching and developing a number of malware tools and exploits.\nIn April 2020, Hastalamuerte said on the crime forum Nulled that they could be contacted at the Telegram instant messenger name @hastalamuerte18, and the threat intelligence company Flashpoint finds this username is assigned the unique Telegram ID number 30907522 [full disclosure: Flashpoint is an advertiser on this blog].\nThe breach tracking service Constella Intelligence reports that Hastalamuerte’s Telegram ID is connected to another username — “bu4vs” — and to the Russian phone number 79127650004. Pivoting on this phone number in Constella fetches multiple records from hacked Russian government databases showing it is assigned to one Alexander Andreevich Yapaev, a 36-year-old from Izhevsk.\nConstella reveals that phone number was used to create an account at the Russian social media platform Pikabu under the name “4apai18,” and shows Mr. Yapaev has signed up at a number of websites using the common surname Ivanov, or else “Chapaev” (the numeral 4 is often used as shorthand for a “ch” sound in Russian).\nA search in Intel 471 for cybercrime forum members with the nickname SantaMuerte unearths an account by the same name created in 2020 on the Russian hacking forum Codeby. Intel 471 shows this user originally registered on Codeby with the not-so-subtle nickname Alexandr 4apaev.\nConstella finds Mr. Yapaev regularly used the email address bu4vs@mail.ru. Meanwhile, Epieos shows this address is connected to a LinkedIn account for Alexander Yapaev, who lists himself as the head of B2B marketing at the company Uralenergo Udmurtia, one of Russia’s largest suppliers of electrotechnical and lighting products.\nMr. Yapaev did not respond to multiple requests for comment.\nNearly every time we publish one of these Breadcrumbs stories, readers are curious to know why it seems like so many cybercriminals from Russia apparently do little to hide their real life identities. The truth is that — Russian or ",
+          "category": "insight",
+          "publishedAt": "2026-06-11T19:23:52.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Lines of code got a better publicist",
+          "titleKo": "코드 라인 수는 더 좋은 홍보담당자를 얻었을 뿐",
+          "summary": "AI 벤더들이 '코드 생성량' 같은 허무한 지표를 마케팅하고 있으며, 실제 개발자 생산성 측정 결과는 훨씬 복잡하고 모호합니다.",
+          "keyPoints": [
+            "Google, Anthropic, OpenAI 등이 '75-80% AI 생성 코드' 같은 부피 지표로 광고하지만, 실제 생산성 개선 증거는 불명확합니다.",
+            "개별 개발자 연구에서는 +26% 작업 완료부터 -19% 성능까지 다양한 결과가 나왔으며, 조직 차원에선 약 10% 정도의 이득만 확인됩니다.",
+            "AI 도입 수준을 측정하는 성숙도 모델들이 실제 비즈니스 가치 대신 도구 사용량만 측정하는 '허상 지표'로 변모했습니다."
+          ],
+          "whyItMatters": "AI 도구 도입 결정 시 벤더의 마케팅 수치보다 실제 생산성 개선 증거를 비판적으로 검토해야 합니다.",
+          "url": "https://curlewis.co.nz/posts/lines-of-code-got-a-better-publicist/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 340,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "lines-of-code-got-a-better-publicist",
+          "fullContent": "It’s fifteen years ago (bear with me, I’ve been in this industry since the late 90s, most of my good stories start this way), and you’ve got two senior developers at a SaaS company. One of them writes 40% more lines of code than the other. Is that developer better? More impactful for the business? Should the other one be polishing their CV?\nOf course not. You’d want to know what actually shipped. What it did for customers, for revenue, for reliability. Lines of code, PR counts… we spent a couple of decades learning these are stereotypically bad ways to measure a developer, to the point where suggesting them today is laughable.\nSooooo… Here’s what the industry put on the billboard this year:\nGoogle: 75% of new code is AI-generated\n.\nAnthropic: ~80% of merged production code is written by Claude\n, and engineers ship “8x more code per quarter”.\nOpenAI: also ~80%\n, apparently.\nCursor: “100M+ lines of enterprise code written per day”\n.\nEvery single one is a volume claim. “Percent of code written by AI” is just lines of code with a better publicist. (The sceptic in me editing this draft would like to point out that it’s no coincidence that all of these are AI vendors of some kind, so pumping adoption is pretty important to them.)\nWe used to claim outcomes\nRewind a few years and the headline number was different in kind, not just size. GitHub’s flagship claim was that developers completed tasks 55% faster\nwith Copilot. Say what you like about that study (plenty did), but it was an outcome claim. Bold, falsifiable, about value. If it was wrong, you could show it was wrong.\nThe 2026 claims can’t fail. That’s the genius of them; “75% of our code is AI-written” could be true, and will keep going up, regardless of whether anything got better (faster delivery, fewer incidents, happier customers, etc). A volume number can only ever disappoint you if adoption stalls, and adoption is the one thing most of us agree is real. 📈\nSo the claims got bigger and started saying less. What happened in between?\nThe bit nobody puts on a billboard\nThe outcome evidence got complicated, that’s what happened.\nThe strongest pro-adoption result is still Cui et al.\n; nearly 5,000 developers, +26% completed tasks, with the biggest gains for junior devs. Not really in dispute. But then GitClear\nshowed code churn rising and refactoring collapsing as Copilot adoption deepened. Then METR\nran the study many have quoted: experienced open-source devs were 19% slower with AI in their own codebases, while believing they were 20% faster.\nBut! Hold my beer… in February 2026 METR effectively walked it back\n: their follow-up estimates flipped to a speedup (with error bars wide enough to ride a Moto Guzzi, with panniers, through!), and they abandoned the study design entirely - because developers now refuse to work without AI, and can’t reliably self-report time on agentic work. Their latest position: AI probably speeds developers up in 2026, and we can no longer cleanly measure by how much.\nMeanwhile at the company level, an NBER survey of ~6,000 executives\nfound 69% of firms actively using AI and roughly nine in ten reporting no measurable productivity impact. The cross-study consensus sits somewhere around 10% organisational gains. Not nothing! Still bloody useful! Buuuut, also not “you don’t need developers anymore” territory.\nAnd if you’re a sceptic still quoting “19% slower”, you’re cherry-picking too. The research keeps updating; the industry just changed what it counts.\nVanity metrics, now in AI flavour\nIt’s not just AI vendor claims, to be fair. Carnegie Mellon’s SEI and Accenture launched an AI Adoption Maturity Model\njust a few days ago: five levels, eight dimensions, marketed off a stat about 95% of organisations seeing no returns. Steve Yegge’s “8 levels of AI-assisted development”\nranks you by which tools you run and how much supervision you give them. And every tools vendor now ships a maturity ladder whose top rung is, usually, “use more of our product”. These ladders measure adoption intensity and call it maturity. Same substitution, nicer packaging.\nMy favourite data point in this whole genre: Augment surveyed 219 engineering leaders and asked them to define “AI-native engineering”\n. They got 219 different answers. 🫠\nAnd the prize for holding both ends of the rope goes to Anthropic, who gave us the “8x more code shipped” claim and one of the more rigorous studies of the year: an RCT finding that AI-assisted developers scored 17% lower on comprehension\nof the code they’d just shipped, with no statistically significant productivity gain. I use Claude every single day (it recommended half the links I read for this post, so the irony is not lost on me), the products are genuinely excellent, and their research arm updates while their marketing arm counts volume. Both things are true at once, which is kinda the point.\nWhy I actually care\nBecause these numbers aren’t decorative. They move budgets, performance expectations, and headcount plans. ",
+          "category": "insight",
+          "publishedAt": "2026-06-11T12:26:42.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "OpenAI Prepping for On-Prem Product?",
+          "titleKo": "OpenAI, 온프레미스 제품 준비 중?",
+          "summary": "OpenAI의 서비스 약관에 신규 '라이선스 자료(Licensed Materials)' 조항이추가되었으며, 이는 온프레미스 배포 제품 출시를 앞두고 있음을 시사합니다.",
+          "keyPoints": [
+            "OpenAI 약관에 로컬 머신/프라이빗 클라우드에 설치되는 소프트웨어를 다루는 'Licensed Materials' 조항 신설",
+            "계약 종료 시 설치된 모든 소프트웨어의 영구 삭제를 의무화하며, 이는 종료 비용(Exit Cost)을 명시적으로 계획해야 함을 의미합니다.",
+            "온프레미스 제품 계약 조항이 제품 발표 전에 먼저 등장하는 것은 제품 방향성을 신호하는 관례입니다."
+          ],
+          "whyItMatters": "OpenAI 모델의 온프레미스 배포를 계획하는 조직은 라이선스 종료 시 완전 삭제 의무를 파이프라인 설계에 반영해야 합니다.",
+          "url": "https://ledger.somantix.ai/posts/open-ai-lays-groundwork-for-on-prem-product/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 11,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "openai-prepping-for-on-prem-product",
+          "fullContent": "Worth Knowing OpenAI Lays Groundwork for On-Prem Product OpenAI\n— Service Terms OpenAI's Service Terms gained a section governing software it delivers for installation on a customer's own systems. The new \"Licensed Materials\" terms cover code, containers, and modules run on local machines or private cloud, and require permanent deletion of every copy on termination. Contract language for on-prem delivery tends to ship before the product it is written for.In human terms: A business evaluating a locally deployed model for security-sensitive work reads the new section and finds the exit cost spelled out: when the contract ends, every copy of the installed software has to be deleted. That is a planning item, not a footnote, for anyone building a pipeline around on-prem inference.Why this matters: This is the kind of clause that signals a product direction before any announcement, which is exactly why it is worth catching here. For studios weighing local deployment, the deletion-on-termination obligation is the term to plan around. Below for more…The mechanics • New defined term. \"Licensed Materials\": software, packages, code, containers, or other modules delivered \"on local machines, private cloud infrastructure, or other customer-managed systems.\" • The license is limited, non-exclusive, non-transferable, and non-sublicensable, with no modification or redistribution. • On termination, the customer \"must permanently delete the Licensed Materials and all copies thereof.\" OpenAI's Service Terms gained a section governing software it delivers for installation on a customer's own systems. The new \"Licensed Materials\" terms cover code, containers, and modules run on local machines or private cloud, and require permanent deletion of every copy on termination. Contract language for on-prem delivery tends to ship before the product it is written for.In human terms: A business evaluating a locally deployed model for security-sensitive work reads the new section and finds the exit cost spelled out: when the contract ends, every copy of the installed software has to be deleted. That is a planning item, not a footnote, for anyone building a pipeline around on-prem inference.Why this matters: This is the kind of clause that signals a product direction before any announcement, which is exactly why it is worth catching here. For studios weighing local deployment, the deletion-on-termination obligation is the term to plan around. Below for more…The mechanics • New defined term. \"Licensed Materials\": software, packages, code, containers, or other modules delivered \"on local machines, private cloud infrastructure, or other customer-managed systems.\" • The license is limited, non-exclusive, non-transferable, and non-sublicensable, with no modification or redistribution. • On termination, the customer \"must permanently delete the Licensed Materials and all copies thereof.\"",
+          "category": "insight",
+          "publishedAt": "2026-06-11T22:28:01.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "If You Are Asking for Human Attention, Demonstrate Human Effort",
+          "titleKo": "인간의 주의를 요청한다면 인간의 노력을 보여주세요",
+          "summary": "다른 사람의 관심을 얻으려면 먼저 자신이 충분한 노력을 기울였음을 입증해야 한다는 원칙을 다룹니다.",
+          "keyPoints": [
+            "코드 리뷰, 이슈 보고, 질문 등에서 사전에 자신의 성실한 노력을 보여주면 더 나은 피드백을 받을 수 있습니다."
+          ],
+          "whyItMatters": "개발 커뮤니티에서 효과적으로 도움을 받기 위해 필요한 커뮤니케이션 원칙을 제시합니다.",
+          "url": "https://tombedor.dev/human-attention-and-human-effort/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 54,
+          "contentType": "discussion",
+          "labels": [
+            "career",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "if-you-are-asking-for-human-attention-demonstrate-human-effort",
+          "category": "insight",
+          "publishedAt": "2026-06-11T23:01:55.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Waymo Premier",
+          "titleKo": "Waymo Premier",
+          "summary": "Waymo가 자율주행 라이드 서비스의 빈번한 이용자를 위한 월 $29.99의 구독 멤버십 프로그램 'Waymo Premier'를 출시했다. 우선 픽업, 현금 환급(10%), 신도시 조기 접근, 무료 취소 5회 등의 혜택을 제공한다.",
+          "keyPoints": [
+            "Waymo Premier는 월 $29.99에 우선 매칭, 10% Waymo 캐시백, 신도시 조기 접근, 월 5회 무료 취소를 포함한다.",
+            "샌프란시스코, 로스앤젤레스, 피닉스의 특정 라이더부터 시작되며, 향후 더 많은 도시로 확대될 예정이다."
+          ],
+          "whyItMatters": "자율주행 택시 서비스의 상용화 단계에서 프리미엄 멤버십 모델이 도입되어 지속 가능한 비즈니스 전략을 시사한다.",
+          "url": "https://waymo.com/blog/2026/06/waymo-premier/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 138,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "waymo-premier",
+          "fullContent": "As we scale and bring our fully autonomous ride-hailing service to more people across the globe, we continue to refine the Waymo experience and deliver more for our riders. You spoke, and we listened to how we can offer an even more elevated experience for you, our top riders. Introducing: Waymo Premier. Waymo Premier is a new invite-only membership program built for those who rely on us most. For a monthly fee, members gain access to a suite of exclusive benefits designed to make their journey more seamless and rewarding:Priority Pickups: Skip the line with prioritized matching Ride Savings: Earn 10% Waymo Cash back on every trip, and even more during busy times.Early Access: Be among the first to experience Waymo in new cities, as we expand.Flexible Cancellations: Peace of mind with up to five free cancellations per month.“I never got my driver's license, and I rely on Waymo to commute to an office every day,\" said Sarah Paige Roland, a Waymo rider in Phoenix. \"I get privacy, time back, a safe ride, and I'm not obligated to talk to someone that I don't want to talk to. Adding cash back and priority pickups on top of that makes Premier a no-brainer for someone like me.\"Waymo Premier costs $29.99 per month and will be initially offered to select riders in San Francisco, Los Angeles, and Phoenix. Members will have access to greater reliability and value that will travel with them from city to city. We’ll scale the program to offer Premier membership to riders in more cities where the Waymo app is available in the future. Whether you're a daily commuter or a weekend explorer, Waymo Premier is our way of helping you get the most out of every ride. Ready to become a member? Keep an eye on your Waymo app for your exclusive invitation.",
+          "category": "insight",
+          "publishedAt": "2026-06-11T16:10:02.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "The unreasonable effectiveness of simple HTML (2021)",
+          "titleKo": "단순 HTML의 부당하게 높은 효율성",
+          "summary": "2021년 작성된 글로, 복잡한 프레임워크 없이 단순한 HTML만으로도 효과적인 웹 구축이 가능함을 주장합니다.",
+          "keyPoints": [
+            "HTML의 단순함이 유지보수성과 접근성을 높인다",
+            "과도한 JavaScript 의존성 없이도 기능적 웹사이트 구현 가능"
+          ],
+          "whyItMatters": "웹 개발의 기본으로 돌아가 불필요한 복잡성을 제거하는 것의 가치를 일깨웁니다.",
+          "url": "https://shkspr.mobi/blog/2021/01/the-unreasonable-effectiveness-of-simple-html/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 46,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-unreasonable-effectiveness-of-simple-html-2021",
+          "category": "insight",
+          "publishedAt": "2026-06-11T22:17:08.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Apple didn't revolutionize power supplies; new transistors did (2012)",
+          "titleKo": "Apple은 전원 공급 장치를 혁신하지 않았다. 새로운 트랜지스터가 했다. (2012)",
+          "summary": "스티브 잡스의 전기에서 Apple II의 전원 공급 장치를 Rod Holt이 혁신했다고 주장하지만, 실제로는 1960년대 중반 반도체 기술 발전이 스위칭 전원 공급 장치 혁명을 주도했다. 현대 컴퓨터 전원 공급 장치는 Apple의 설계와 무관하며 트랜지스터와 IC 개선이 핵심 발전 요인이었다.",
+          "keyPoints": [
+            "스위칭 전원 공급 장치 원리는 1930년대부터 알려졌고, 1950년대부터 상용화되기 시작했다.",
+            "Apple II의 스위칭 전원 공급 장치는 기술적으로 혁신적이지 않으며, 현대 전원 공급 장치는 당시 설계를 기반으로 하지 않는다.",
+            "1960년대 항공우주 산업과 NASA가 스위칭 전원 공급 장치 발전의 주요 동력이었고, 이는 Apple II 출시(1977년) 이전에 일어났다."
+          ],
+          "whyItMatters": "기술 역사에서 단일 인물이나 기업의 공헌을 정확히 평가하는 것이 중요하며, 반도체 발전이 컴퓨터 설계에 미치는 근본적 영향을 이해하는 데 도움이 된다.",
+          "url": "https://www.righto.com/2012/02/apple-didnt-revolutionize-power.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 62,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "apple-didnt-revolutionize-power-supplies-new-transistors-did-2012",
+          "fullContent": "The new biography\nSteve Jobs contains a remarkable claim about the power supply of the Apple II and its designer Rod Holt:[1]\nInstead of a conventional linear power supply, Holt built one like those used in oscilloscopes. It switched the power on and off not sixty times per second, but thousands of times; this allowed it to store the power for far less time, and thus throw off less heat. \"That switching power supply was as revolutionary as the Apple II logic board was,\" Jobs later said. \"Rod doesn't get a lot of credit for this in the history books but he should. Every computer now uses switching power supplies, and they all rip off Rod Holt's design.\"\nI found it amazing to think that computers now use power supplies based on the Apple II's design, so I did some investigation. It turns out that Apple's power supply was not revolutionary, either in the concept of using a switching power supply for computers or in the specific design of the power supply.\nModern computer power supplies are totally different and do not rip off anything from Rod Holt's design. It turns out that Steve Jobs was making his customary claim that everyone is stealing Apple's revolutionary technology, entirely contrary to the facts.\nThe history of switching power supplies turns out to be pretty interesting. While most people view the power supply as a boring metal box, there's actually a lot of technological development behind it. There was, in fact, a revolution in power supplies in the late 1960s through the mid 1970s as switching power supplies took over from simple but inefficient linear power supplies, but this was a few years before the Apple II came out in 1977. The credit for this revolution should go to advances in semiconductor technology, specifically improvements in switching transistors, and then innovative ICs to control switching power supplies.[2]\nSome background on power supplies\nIn a standard desktop computer, the power supply converts AC line voltage into DC, providing several carefully regulated low voltages at high currents. Power supplies can be built in a variety of ways, but linear and switching power supplies are the two techniques relevant to this discussion. (See the notes for more about obsolete technologies such as large\nmechanical motor-generator systems[3] and ferroresonant transformers[4][5].)\nA typical linear power supply uses a bulky power transformer to convert the 120V AC into a low AC voltage, converts this to low voltage DC with a diode bridge, and then uses a linear regulator to drop the voltage to the desired level. The linear regulator is an inexpensive easy-to-use transistor-based component that turns the excess voltage into waste heat to produce a stable output. Linear power supplies are almost trivial to design and build.[6] One big disadvantage however, is they typically waste about 50-65% of the power as heat,[7] often requiring large metal heat sinks or fans to get rid of the heat. The second disadvantage is they are large and heavy. On the plus side, the components (other than the transformer) in linear power supplies only need to handle low voltages and the output is very stable and noise-free.\nA switching power supply works on a very different principle: rapidly turning the power on and off, rather than turning excess power into heat. In a switching power supply, the AC line input is converted to high-voltage DC, and then the power supply switches the DC on and off thousands of times a second, carefully controlling the time of the switching so the output voltage averages out to the desired value. Theoretically, no power gets wasted, although in practice the efficiency will be 80%-90%. Switching power supplies are much more efficient, give off much less heat, and are much smaller and lighter than linear power supplies.\nThe main disadvantage of a switching power supply is it is considerably more complex than a linear power supply and much harder to design.[8] In addition, it is much more demanding on the components, requiring transistors that can efficiently switch on and off at high speed under high power. The switches, inductors, and capacitors in a switching power supply can be arranged in several different arrangements (or topologies), with names such as Buck, Boost, Flyback, Forward, Push-Pull, Half Wave, and Full-Wave.[9]\nHistory of switching power supplies to 1977\nSwitching power supply principles were known since the 1930s[6] and were being built out of discrete components in the 1950s.[10] In 1958, the IBM 704 computer used a primitive vacuum-tube based switching regulator.[11] The company Pioneer Magnetics started building switching power supplies in 1958[12] (and decades later made a key innovation in PC power supplies[13]). General Electric published an early switching power supply design in 1959.[14] In the 1960s the aerospace industry and NASA[15] were the main driving force behind switching power supply development, since the advantages of small size and high efficiency mad",
+          "category": "insight",
+          "publishedAt": "2026-06-11T17:35:19.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "I stopped tracking my time. Now I can't focus",
+          "titleKo": "시간 추적을 멈췄더니 집중력이 떨어졌다",
+          "summary": "개발자가 시간 추적을 중단한 후 집중력과 생산성 저하 문제를 겪은 경험을 다룹니다.",
+          "keyPoints": [
+            "시간 추적이 집중력 유지에 효과적일 수 있음",
+            "개인의 업무 습관과 모니터링 방식의 중요성 강조"
+          ],
+          "whyItMatters": "개발자들이 자신의 생산성 관리 방식을 점검하고 최적의 방법을 찾는 데 참고할 수 있습니다.",
+          "url": "https://newsletter.masilotti.com/p/i-stopped-tracking-my-time-now-i",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 45,
+          "contentType": "discussion",
+          "labels": [
+            "career",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-stopped-tracking-my-time-now-i-cant-focus",
+          "category": "insight",
+          "publishedAt": "2026-06-11T20:14:33.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Emacs appearances in pop culture",
+          "titleKo": "대중 문화 속의 Emacs",
+          "summary": "Emacs 사용자가 영화, TV 드라마, 만화 등 대중 문화 매체에서 Emacs가 등장한 사례들을 정리했다. 2010년 영화 'The Social Network'와 'Tron: Legacy'부터 HBO의 'Silicon Valley' 등 다양한 작품에서 프로그래밍 도구로 표현되었다.",
+          "keyPoints": [
+            "'The Social Network'(2010)에서 Zuckerberg가 Perl 스크립트 작성에 Emacs를 사용하는 장면이 나온다.",
+            "'Tron: Legacy'(2010)에서 해커가 Emacs의 eshell을 이용해 시스템 프로세스를 공격한다.",
+            "'Silicon Valley'(2014-2019) Season 3 Episode 6에서는 Vim과 Emacs의 편집기 전쟁을 코미디로 표현했다."
+          ],
+          "whyItMatters": "Emacs가 대중 문화에서 프로그래머의 도구로 인식되는 방식과 편집기 선택이 개발자 정체성의 일부임을 보여준다.",
+          "url": "https://ianyepan.github.io/posts/emacs-in-pop-culture/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 222,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "emacs-appearances-in-pop-culture",
+          "fullContent": "As an Emacs user, few things are as delightful as catching my favorite text editor out in the wild. It doesn’t happen often though – Emacs is niche, and pop culture rarely gives it a nod. This post tracks down every one I know of (as of June 2026), and I’ll keep adding to it as I stumble across more.Here you go, in no particular order:2010 Movie, The Social NetworkThe Social Network is a biographical drama film portraying the founding of Facebook. The Social Network (2010)In the scene where young Zuckerberg (played by Jesse Eisenberg) is putting together Facemash by scraping pictures from all the Harvard Houses (campus dorms), he fires up Emacs and writes a Perl script to crawl the website of Leverett House. Movie scene where Zuckerberg is shown scripting Perl on Emacs in his Harvard dorm roomAs the movie scene plays, Zuckerberg narrates, “… and there’s no way I’m gonna go through 500 pages to download pics one at a time. So it’s definitely necessary to break out Emacs and modify that Perl script.”2010 Movie, Tron: LegacyThe other movie featuring Emacs coincidentally hit theaters the same year, 2010. Tron: Legacy is a well-received sci-fi film and the second installment of the Tron series. The Daft Punk soundtrack was awesome too, to say the least. Tron: Legacy (2010)In one of the opening scenes, Edward Dillinger Jr. (played by Cillian Murphy) fires up Emacs’ eshell to grep and kill the system process that protagonist Sam Flynn initiated to attack ENCOM’s new OS 12. Emacs’ eshell used to grep and kill Flynn’s hacking programP.S. Inspired by this movie scene, I created an Emacs color theme based on the color palette of Tron: Legacy. Check it out at https://github.com/ianyepan/tron-legacy-emacs-theme. My repo passed 200 GitHub stars not too long ago. I suppose I made quite a few people happy.2010 Movie, Arctic BlastAnother 2010 film – this time, a sci-fi disaster movie jointly produced between Australia and Canada. At around the 20:30 timestamp, two scientists, Jack and Zoe, attempt to recover some satellite photos from a frozen hard drive. We see a scrolling wall of Emacs Lisp on their computer for a brief moment as Jack disappointedly said that most of the files are corrupted. Two scientists using Emacs Lisp to recover data from a hard drive;;;###autoload, interactive, and save-excursion are all unmistakably Emacs Lisp syntax. The Elisp program shown on screen is in fact the xml-parse module source code, authored by John Wiegley back in 2001.2014-2019 HBO, Silicon ValleySilicon Valley is one of my favorite shows (my all-time favorite is still Mr. Robot). It’s a comedy series parodying tech-industry culture, and it packs a surprising amount of insight into the software engineer lifestyle, the dynamics of VC funding, and the underdog startup’s fight against the big corporations. Silicon Valley (2014-2019)In a scene (Season 3, Episode 6) where protagonist Richard is coding with his new girlfriend Winnie at her apartment (okay, yeah… that’s not how all software engineers date, whatever the outside world may think), the two clash over the use of spaces versus tabs. Richard, a stubborn advocate of the tab character for indentation, argues: “I mean I do not get why anyone would use spaces over tabs. I mean, why not just use Vim over Emacs?” To which Winnie replies, “I do use Vim over Emacs.” Richard then breaks down, yelling, “Oh, God help us!” Richard argues with Winnie over indentation style and choice of editorGenius scene by HBO, sneaking in a brief reference to the editor war in the middle of a fight over indentation style. Not so genius for our poor Richard.This scene is particularly important to me. It was, in fact, my very first exposure to both Vim and Emacs. I remember sitting in my university library that one evening ~10 years ago, taking a break from studying to watch this episode, and thinking to myself, “What are Vim and Emacs?” I looked them up, learned that all the 10x developers seemed to swear by one or the other, and decided I would pick up Vim first. After a year with Vim, I switched to Emacs with Evil-mode full-time – and here I am, writing this blog post in Emacs on a Sunday night. And first thing tomorrow at work? Probably fire up Emacs to review some pull requests : -)1992-1993 DC Comics, The Hacker FilesThe Hacker Files is a twelve-issue DC comics mini-series about a freelance hacker exposing a multinational conspiracy and taking down an evil corporation. It’s a pretty good read!In the first issue, protagonist Jack Marshall uses Emacs to edit a source file to fight a computer virus. The comic doesn’t show the text editor’s user interface, just the command emacs cure.c. The Hacker Files (1992-1993), Issue #12013-2019 Manga series, Ōsama-tachi no Viking (The King’s Viking)Ōsama-tachi no Viking is a Japanese manga series about a high school hacker teaming up with a wealthy angel investor to reshape the world order.In one chapter, an enemy hacker uses Emacs Lisp to exploit security cameras (cr",
+          "category": "insight",
+          "publishedAt": "2026-06-10T10:37:45.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Ear Training Practice",
+          "titleKo": "귀음 훈련 연습",
+          "summary": "음악 귀를 개발하기 위한 음감 훈련 연습 플랫폼이다.",
+          "keyPoints": [
+            "음악인과 개발자를 위한 귀음 인식 능력 향상 도구이다."
+          ],
+          "whyItMatters": "음악 개발자나 오디오 프로그래밍에 관심 있는 개발자에게 음감 감각을 향상시키는 자료를 제공한다.",
+          "url": "https://tonedear.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 120,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ear-training-practice",
+          "category": "insight",
+          "publishedAt": "2026-06-08T16:38:07.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Petition to Withdraw Canada's Bill C-22",
+          "titleKo": "캐나다 Bill C-22 철회 청원",
+          "summary": "캐나다 의회에 제출된 Bill C-22 철회를 요구하는 온라인 청원이다.",
+          "keyPoints": [
+            "공식 의회 청원 플랫폼을 통한 법안 철회 요청이다."
+          ],
+          "whyItMatters": "캐나다 기술 및 정책 커뮤니티가 특정 법안에 대해 우려를 표현하고 있음을 보여준다.",
+          "url": "https://www.ourcommons.ca/petitions/en/Petition/Sign/e-7416",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 314,
+          "contentType": "discussion",
+          "labels": [
+            "career",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "petition-to-withdraw-canadas-bill-c-22",
+          "category": "insight",
+          "publishedAt": "2026-06-11T15:37:23.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Travel locally, where you are",
+          "titleKo": "당신이 있는 곳에서 현지를 여행하라",
+          "summary": "먼 곳으로 여행을 가지 않아도 현재 거주하는 지역 근처의 새로운 장소를 탐험하는 것의 가치에 대한 에세이다. 저자는 계획 없이 자발적으로 주변을 돌아다니며 새로운 발견을 하는 경험을 추천한다.",
+          "keyPoints": [
+            "반경 몇 킬로미터 내에서도 방문하지 않은 장소가 많이 있으며, 창의성 없이도 새로운 경험을 할 수 있다.",
+            "가족과 함께 목적지를 정하지 않고 즉흥적으로 이동하며 날씨와 직감에 따라 방향을 바꾸는 방식을 추천한다.",
+            "먼 곳으로 비행기를 탈 필요 없이 현지에서 꿈꾸던 장소를 무작위로 발견할 수 있다."
+          ],
+          "whyItMatters": "개발자들의 업무 스트레스 완화와 일상에서의 창의적 탐험 정신을 유지하는 데 도움이 되는 라이프스타일 조언을 제시한다.",
+          "url": "https://www.ssp.sh/brain/travel-where-you-are/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 74,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "travel-locally-where-you-are",
+          "fullContent": "Travel Locally, Where You Are\nLast updatedUpdated:\nJun 11, 2026\nby Simon Späti · CreatedCreated: May 28, 2025 · 2 min read\nMany people dream of traveling to faraway places to experience new cultures and sightseeing. Yes, you learn a ton, you learn new places, and the culture is hard to learn when not traveling.\nBut what most forget is that you can also travel where you live now. Instead of going far, you can explore a random place near you. Take a map, choose a place, and drive in that direction, and see where you land. Don’t plan too much. I bet, even in the radius of a couple of kms, you haven’t visited all the places. Sometimes it needs a bit of creativity, but actually not much.\nMy family trips are usually that way. We say we go somewhere, but we don’t really know where. Sometimes we sit in the car, and I look at my wife and ask: “And, where do we go?” 🙂. She usually smiles and says, “You decide”.\nWe start, and while driving, we might change the location. Depending on the weather, on mood, and on following our gut and intuition. And you can’t believe, we always find some new places here in Switzerland, a random forest place, or recently, in the middle of nowhere, there was a nice way that we could follow up, all inside a small guided walk.\nImages were hanging in the air, wooden figures, platforms, or colorful walls. Just like that, because we found it randomly, and it was so fun. Even there was snow, as it was a bit higher, we didn’t have it where we live.\nIt didn’t take long, not much preparation. We always bring food tough so that we can spend more time outside.\nI call it, traveling where you are. You don’t need to fly to the other side of the world. You might just find the place you always dreamed of, just like that, randomly.\nI can recommend it to anyone. It’s very relaxing and also interesting, as you never know what things you will explore together. Sometimes you might not find “anything” specific, but that’s also OK, then you had a nice time outside. With time, you also get better to naturally find what you like.\n# Further Reads\nTurn off, shut down, re-energize\nNature, Walk Everyday\nOrigin: Derek Sivers said or wrote that once?\nReferences: Traveling\nInteractive Graph",
+          "category": "insight",
+          "publishedAt": "2026-06-11T20:08:26.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Solar generates more energy in US than coal for first time",
+          "titleKo": "미국에서 태양광이 처음으로 석탄보다 더 많은 에너지 생산",
+          "summary": "5월 미국에서 태양광 에너지가 처음으로 석탄을 넘어 전력의 12.8%를 공급했다. 트럼프 행정부가 석탄 산업을 지원하고 있음에도 불구하고, 태양광은 지속적으로 성장하며 신규 전력 공급원 중 5년 연속 1위를 유지하고 있다.",
+          "keyPoints": [
+            "태양광이 5월 전력의 12.8%를 공급해 석탄의 12.2%를 처음으로 앞질렀으며, 태양광은 천연가스와 핵력 다음의 3번째 전력원이 됨",
+            "태양광과 배터리 저장소가 1분기 신규 발전 용량의 91%를 차지하며 실질적으로 유일한 에너지 자원 건설 대상임",
+            "글로벌적으로 신재생 에너지가 2030년 전 세계 전력의 45% 수준으로 성장할 것으로 예상되는 추세 속에서 투자자들은 수익성 높은 태양광에 투자를 집중하고 있음"
+          ],
+          "whyItMatters": "신재생 에너지 산업의 구조적 변화와 장기적 성장 추세를 이해하는 것은 에너지 기술 분야 개발자에게 시장 수요 방향과 투자 기회를 파악하는 데 중요하다.",
+          "url": "https://www.theguardian.com/us-news/2026/jun/11/solar-energy-us-coal",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 391,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "solar-generates-more-energy-in-us-than-coal-for-first-time",
+          "fullContent": "A herd of sheep graze near solar panels in Saltillo, Texas. Photograph: Angela Piazza/The Dallas Morning News via Getty ImagesView image in fullscreenA herd of sheep graze near solar panels in Saltillo, Texas. Photograph: Angela Piazza/The Dallas Morning News via Getty ImagesSolar generates more energy in US than coal for first time Solar supplied 12.8% of US electricity in May even as Trump boosts coal over clean energyEven as Donald Trump boosts coal over clean energy, solar power is hitting new milestones in the US and remains the leading source of new power.Data released on Wednesday by the global energy thinktank Ember, along with a report by the Solar Energy Industries Association (Seia) and analytics firm Wood Mackenzie, show the continued growth of solar and decline of coal in the United States despite federal policy. In May, for the first time, solar supplied more of the nation’s electricity than coal, or 12.8%, Ember said. Coal supplied 12.2%, its fourth-lowest monthly share ever.“For years solar power has risen in the US electricity mix,” said Nicolas Fulghum, senior energy and data analyst at Ember. “At the same time, coal power has lost its status, first as the largest source in the US mix, and then gradually over the years has fallen even further.”Solar also became the third-largest source of electricity in the US in May, behind natural gas and nuclear, Fulghum said. Coal generation hit an all-time monthly low in April and rebounded only modestly in May, allowing increasing solar generation to overtake coal, he added.Electricity is produced by converting sources of energy – fossil fuels, renewable resources and nuclear – into electrical power. Burning coal, oil and natural gas for electricity emits carbon dioxide, trapping heat in the atmosphere and warming the planet. By contrast, solar, wind, geothermal, hydropower and nuclear are carbon-free.After about two decades of essentially flat electricity consumption in the US, electricity demand is increasing to power artificial intelligence, grow domestic manufacturing and electrify transportation and heating. Fulghum said he expected to see more months when solar exceeds coal generation, before overtaking it on an annual basis in a few years.These milestones signify that solar “has staying power” at a time when there is less support for renewable energy at the federal level, he added.Wind and solar combined have overtaken coal in the past, and wind power alone has outpaced coal during spring months when wind speeds pick up. Ember gets its hourly and monthly data from the US Energy Information Administration.Globally, electricity generation from renewables is growing rapidly. Renewables will become the largest global energy source, used for almost 45% of electricity generation by 2030, according to the International Energy Agency.Last week, Trump, a Republican, announced a plan to boost the struggling US coal industry by spending nearly $700m to support coal-fired power plants and coal exports. Trump said at a White House event that “coal’s a great business” and that “in terms of power, there’s really nothing like it”.Martin Pochtaruk, CEO and founder of Canadian-based solar panel manufacturer Heliene, said Trump can say that coal is coming back but investors will invest their money in whatever brings the best return. And for power generation that is solar, making it the fastest-growing fuel, he added.A White House spokeswoman defended the Trump administration’s overall energy policies, saying they were geared toward strengthening the country’s security.“The President has reversed the Left’s devastating policies, saved the American coal industry, prevented the retirement of more than 17 gigawatts of power, and saved lives during heightened demand periods,” Taylor Rogers said in a statement.While Trump is trying to reverse the coal industry’s decline, solar has been the top source for new power for five years, Seia said. Seia and Wood Mackenzie said solar and battery storage were practically the only energy resources being built in the first quarter, making up 91% of all new generating capacity.The Trump administration has canceled solar and wind projects, implemented policies that slowed clean energy permitting and development and terminated $7bn in funding intended for affordable solar energy projects across the US.Explore more on these topicsUS newsSolar powerEnergyRenewable energynewsShareReuse this content",
+          "category": "insight",
+          "publishedAt": "2026-06-11T16:10:05.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Anthropic begged the world to stop AI… then shipped this",
+          "titleKo": "Anthropic이 AI 규제를 강조한 후 선보인 것",
+          "summary": "Anthropic이 AI 안정성을 강조하면서도 새로운 AI 기능을 출시한 것에 대한 논의입니다.",
+          "keyPoints": [
+            "Anthropic의 AI 안전성 메시지와 실제 제품 출시의 일관성 검토"
+          ],
+          "whyItMatters": "개발자가 AI 기업들의 책임감 있는 개발 방향을 평가할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=1PBRhm5ZnjU",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-fable-guardrails",
+          "isTopicPrimary": false,
+          "relatedCount": 5,
+          "slug": "anthropic-begged-the-world-to-stop-ai-then-shipped-this",
+          "category": "video",
+          "publishedAt": "2026-06-11T17:17:48+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "How to Use Claude Fable 5",
+          "titleKo": "Claude Fable 5 사용 방법",
+          "summary": "Claude Fable 5 AI 모델의 기본 사용법을 설명하는 튜토리얼입니다.",
+          "keyPoints": [
+            "Claude Fable 5의 기본 기능과 사용 방법 학습"
+          ],
+          "whyItMatters": "개발자가 최신 Claude 모델을 프로젝트에 효과적으로 통합할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=iiJzeA_XyIo",
+          "sourceName": "Codevolution",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-fable-guardrails",
+          "isTopicPrimary": false,
+          "relatedCount": 5,
+          "slug": "how-to-use-claude-fable-5",
+          "category": "video",
+          "publishedAt": "2026-06-11T14:47:52+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Fable is Mythos, and it is really good.",
+          "titleKo": "Fable은 Mythos이며 정말 훌륭합니다",
+          "summary": "Fable 관련 유튜브 영상 콘텐츠입니다.",
+          "keyPoints": [
+            "Fable과 Mythos의 관계에 대한 분석 콘텐츠"
+          ],
+          "url": "https://www.youtube.com/watch?v=7IewbRdaBWI",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "claude-fable-guardrails",
+          "isTopicPrimary": false,
+          "relatedCount": 5,
+          "slug": "fable-is-mythos-and-it-is-really-good",
+          "category": "video",
+          "publishedAt": "2026-06-11T04:06:46+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Cloudflare bought Vite to destroy Vercel",
+          "titleKo": "Cloudflare가 Vite를 인수한 이유 - Vercel 견제",
+          "summary": "Cloudflare의 Vite 인수 배경과 전략적 의도를 분석하는 영상입니다.",
+          "keyPoints": [
+            "Cloudflare가 Vite를 통해 빌드 도구 생태계에서 Vercel과의 경쟁력 확보"
+          ],
+          "whyItMatters": "개발 도구 생태계의 기업 전략 변화를 이해하면 도구 선택 시 미래 방향성을 예측할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=n2YtM-MecZk",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "cloudflare-bought-vite-to-destroy-vercel",
+          "category": "video",
+          "publishedAt": "2026-06-06T20:21:44+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Media queries might look very different soon.",
+          "titleKo": "미디어 쿼리의 미래가 크게 달라질 수 있습니다",
+          "summary": "CSS 미디어 쿼리의 변화와 향후 방향성에 대한 기술 논의입니다.",
+          "keyPoints": [
+            "CSS 미디어 쿼리 문법 및 기능의 진화 방향 검토"
+          ],
+          "whyItMatters": "프론트엔드 개발자가 반응형 디자인 구현 방식의 변화를 미리 이해할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=d_-hiils74Y",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "media-queries-might-look-very-different-soon",
+          "category": "video",
+          "publishedAt": "2026-06-11T13:00:39+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Easily Fix AI Slop With This Amazing Tool",
+          "titleKo": "이 놀라운 도구로 AI 생성 콘텐츠의 문제점을 쉽게 해결하세요",
+          "summary": "AI가 생성한 저품질 콘텐츠(AI Slop)를 효과적으로 개선할 수 있는 도구를 소개합니다.",
+          "keyPoints": [
+            "AI 생성 콘텐츠의 품질 문제를 자동으로 감지하고 수정할 수 있는 솔루션 제시"
+          ],
+          "whyItMatters": "AI 도구를 활용하는 개발자들이 생성된 코드나 문서의 품질을 보장할 수 있게 돕습니다.",
+          "url": "https://www.youtube.com/watch?v=Qou3TeYdEw4",
+          "sourceName": "Web Dev Simplified",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "easily-fix-ai-slop-with-this-amazing-tool",
+          "category": "video",
+          "publishedAt": "2026-06-11T16:00:02+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "The Three Virtues of Great Programmers",
+          "titleKo": "훌륭한 프로그래머의 세 가지 미덕",
+          "summary": "프로그래밍 커뮤니티에서 존경받는 개발자들의 공통된 특성과 미덕에 대해 다룹니다.",
+          "keyPoints": [
+            "효과적인 프로그래밍을 위한 핵심 자질 소개"
+          ],
+          "whyItMatters": "개발자의 역량 개발 및 전문성 향상을 위한 참고 지표입니다.",
+          "url": "https://www.youtube.com/watch?v=q-4VuETIgxo",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "career",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-three-virtues-of-great-programmers",
+          "category": "video",
+          "publishedAt": "2026-06-11T19:00:11+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "The forgotten developer who saved JavaScript...",
+          "titleKo": "JavaScript를 살린 잊혀진 개발자",
+          "summary": "JavaScript 역사에서 중추적 역할을 했지만 널리 알려지지 않은 개발자에 대해 다룹니다.",
+          "keyPoints": [
+            "JavaScript 발전에 기여한 핵심 인물의 역사적 의의 소개"
+          ],
+          "whyItMatters": "개발자들이 기술의 역사와 그것을 만든 인물들에 대해 이해하는 것이 중요합니다.",
+          "url": "https://www.youtube.com/watch?v=JfPWbttemYE",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-forgotten-developer-who-saved-javascript",
+          "category": "video",
+          "publishedAt": "2026-05-29T17:06:48+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
