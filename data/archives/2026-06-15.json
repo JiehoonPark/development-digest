@@ -1,0 +1,1314 @@
+{
+  "date": "2026-06-15",
+  "intro": "안녕하세요! 오늘은 개발자 보안이 중요한 날입니다. LinkedIn 채용 제안을 통한 npm 백도어 공격이 발생했고, 클라우드 인프라 비용 인상 소식도 전해집니다. 한편 Iroh 1.0 출시와 Typst 0.15.0 업데이트 등 개발 도구의 진화도 주목할 만합니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "A backdoor in a LinkedIn job offer",
+          "titleKo": "LinkedIn 채용 제안에 숨겨진 백도어",
+          "summary": "개발자가 LinkedIn을 통해 받은 채용 제안 관련 GitHub 저장소에 npm install 실행 시 악성 코드를 다운로드하는 백도어가 숨겨져 있었다. 저장소의 test 파일에 원격 서버에서 명령을 받아 실행하는 코드가 위장되어 있었으며, 실제 개발자의 정보를 도용해 커밋 이력을 조작했다.",
+          "keyPoints": [
+            "npm prepare 스크립트가 자동 실행되는 특성을 악용해 npm install 직후 백도어 실행",
+            "원격 서버와 통신해 임의 코드를 실행하는 페이로드가 주석 처리된 테스트 코드 사이에 위장됨",
+            "AI 에이전트를 읽기 전용 샌드박스에서 실행해 수동 코드 리뷰보다 빠르게 위협 탐지"
+          ],
+          "whyItMatters": "채용 관련 코드 리뷰 요청 시 주의가 필요하며, 의심스러운 상황에서는 샌드박스 환경에서 검토하는 것이 효과적임을 보여준다.",
+          "url": "https://roman.pt/posts/linkedin-backdoor/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 515,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "linkedin-security",
+          "isTopicPrimary": true,
+          "slug": "a-backdoor-in-a-linkedin-job-offer",
+          "fullContent": "Full-stack Python developer. Building Smello.\nLast week, I got a LinkedIn message from a recruiter at a small crypto startup. We exchanged a few messages over a couple of days, she described a broken proof-of-concept they needed a lead engineer for, and then sent me a public GitHub repo to review. Specifically, she asked me to “check out the deprecated Node modules issue.”\nIt’s not uncommon to ask for a review of an existing codebase, but something felt off and raised an alarm in my head, so I decided to get a bit extra paranoid.\nInstead of cloning and installing dependencies, I spun up a throwaway VPS on Hetzner, cloned the repo there, and pointed Pi at it in read-only mode, with only file-reading tools enabled:\nI asked the agent to review the codebase and flag anything suspicious. It stopped almost immediately at app/test/index.js.\nThe repo felt like a React frontend with a Node backend. The trap was in app/test/index.js, about 250 lines disguised as a test suite. Inside, a URL is assembled from fragments:\nThese combine into https://rest-icon-handler.store/icons/77.\nThen, buried between walls of commented-out tests, the payload runs anything the server sends back to your machine.\nThe payload on line 225, hiding in plain sight between commented-out tests.\nThe file doesn’t wait for the tests to run. app/index.js itself executes const test = require('./test'), which loads and runs app/test/index.js.\npackage.json wires app/index.js into startup:\nprepare runs app:pre, which is node app/index.js.\nThe prepare script is the important one. npm runs prepare automatically after npm install, so just installing dependencies executes the backdoor.\nThe instruction to “check out the deprecated Node modules issue” was bait to get me to run npm install.\nI could have let the payload run in the sandbox and watched what the server sent back as the second stage, but I stopped there. A repo that runs whatever a server hands it was enough evidence.\nThe commits in the repo were authored under the name and email of a real developer, a full-stack engineer with an ordinary LinkedIn profile, a personal website, and a GitHub account with a long history. I messaged him, pretending I’d inherited the codebase and had a few implementation questions, to see how he’d react.\nHe told me he’d never worked for them. He’d been impersonated on GitHub before and had a repo taken down over it, and he had nothing to do with this one. He was reporting these repos too.\nThe whole commit history, 39 commits, attributed to one developer who’d never touched the repo.\nThe recruiter’s profile belonged to a real arts journalist, a well-known one I looked up later, with a long cultural background and nothing technical on it. When I played along and told her I couldn’t get the project to install, the journalist instantly turned into an expert on npm and Node versions. It was quite amusing, I’d say.\nThe non-technical recruiter, suddenly debating Node versions and pushing me to run npm install.\nI’ve heard of these attacks and read about them on HN, but when one came after me it still caught me a bit off guard. I suspected something from the first few messages, but on a more tired or rushed day, I could easily have run npm install before thinking it through. So, if you get a LinkedIn message asking you to review a repo, a bit of paranoia and good security hygiene never hurts.\nAnother takeaway is that reviewing the code with a read-only agent turned out more productive than reading it myself. The backdoor was dressed up as sloppy beginner code, but the agent flagged it in seconds.\nI reported the repo to GitHub and the recruiter to LinkedIn. So far nothing has changed and the code is still up.\nI am a full-stack Python developer. Currently building Smello, a local-first HTTP traffic inspector for Python.",
+          "category": "hot",
+          "publishedAt": "2026-06-15T20:00:57.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Hetzner Price Adjustment",
+          "titleKo": "Hetzner 가격 조정",
+          "summary": "Hetzner는 2026년 6월 15일부터 신규 주문 및 클라우드 인스턴스 리스케일에 대한 가격을 인상했다. 전용 서버와 클라우드 서버 모두에서 상당한 가격 상향 조정이 있었으며, 이전 주문 및 제한 제공 상품도 영향을 받는다.",
+          "keyPoints": [
+            "가격 조정 적용: 2026년 6월 15일 08:00 CEST부터 신규 주문 및 리스케일 대상",
+            "전용 서버: AX/EX/SX/DX/GEX 시리즈 전반에 걸쳐 월간 가격 10-30% 인상",
+            "클라우드 서버: CAX, CCX, CPX, CX 인스턴스 대부분 33-50% 이상 월간 가격 인상"
+          ],
+          "whyItMatters": "클라우드/인프라 비용에 민감한 개발자들은 장기 인스턴스 계약 및 비용 최적화 전략을 재검토해야 한다.",
+          "url": "https://docs.hetzner.com/general/infrastructure-and-availability/price-adjustment/#cloud-servers",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 297,
+          "contentType": "discussion",
+          "labels": [
+            "devops"
+          ],
+          "topicId": "hetzner-pricing",
+          "isTopicPrimary": true,
+          "slug": "hetzner-price-adjustment",
+          "fullContent": "The price adjustment applies to new orders and cloud instance rescales starting from 15 June 2026; 8 AM CEST.\nFor orders placed before 15 June 2026, but delivered after 15 June 2026, the previous prices will apply.\nDedicated servers\nAll prices are excluding VAT.\nFalkenstein and Helsinki\nServertype\nMonthly price excl. IPv4 in €\nSetup fee in €\nMonthly price excl. IPv4 in $\nSetup fee in $\nAX42-1\n187.30\n94.00\n217.10\n109.00\nAX102-1\n452.30\n224.00\n532.10\n264.00\nAX102-2\n547.30\n274.00\n642.10\n319.00\nAX162-1\n612.30\n304.00\n722.10\n359.00\nAX162-2\n842.30\n419.00\n992.10\n494.00\nAX162-3\n1,597.30\n799.00\n1,897.10\n949.00\nEX63-1\n237.30\n119.00\n282.10\n139.00\nEX63-2\n537.30\n269.00\n632.10\n314.00\nEX63-3\n757.30\n379.00\n892.10\n444.00\nEX131-1\n557.30\n279.00\n667.10\n334.00\nEX131-2\n1,077.30\n539.00\n1,297.10\n649.00\nEX131-3\n1,397.30\n699.00\n1,597.10\n799.00\nSX65-2\n82.30\n39.00\n92.10\n44.00\nSX65-1\n272.30\n134.00\n322.10\n159.00\nSX65-3\n292.30\n144.00\n342.10\n169.00\nSX135-2\n287.30\n144.00\n337.10\n169.00\nSX135-1\n447.30\n224.00\n527.10\n264.00\nSX295-1\n877.30\n439.00\n997.10\n499.00\nGEX131-1\n1,197.30\n599.00\n1,397.10\n699.00\nGEX131-2\n1,797.30\n899.00\n2,097.10\n1,049.00\nGEX131-3\n2,297.30\n1,149.00\n2,697.10\n1,349.00\nNuremberg and Helsinki\nServertype\nMonthly price excl. IPv4 in €\nSetup fee in €\nMonthly price excl. IPv4 in $\nSetup fee in $\nDX182-1\n720.60\n359.00\n850.20\n424.00\nDX182-2\n1,195.60\n599.00\n1,395.20\n699.00\nDX182-3\n2,095.60\n1,049.00\n2,495.20\n1,249.00\nFalkenstein\nServertype\nMonthly price excl. IPv4 in €\nSetup fee in €\nMonthly price excl. IPv4 in $\nSetup fee in $\nGEX44-1\n232.30\n114.00\n272.10\n134.00\nLimited offerings\nThe availability of these limited offerings is dependent on the hardware used in these servers. We will only offer the limited pricing tier once servers with a significantly reduced procurement cost are available in our data center.\nThis can sometimes take up to several weeks for a meaningful number of servers to be available (mostly dependent on cancellations) and they will be offered as long as supply lasts.\nPlease note that limited offerings still contain all the service and support of a regular server type.\nWe strongly recommend to also look into our server auction for some great deals on older server models. Prices in the server auction are defined by offer and demand based on a Dutch-style auction.\nRead more in our Server Auction FAQs.\nServertype\nMonthly price excl. IPv4 in €\nSetup fee in €\nMonthly price excl. IPv4 in $\nSetup fee in $\nAX41-1-LTD\n57.30\n0.00\n67.10\n0.00\nAX42-1-LTD\n77.30\n39.00\n77.30\n39.00\nAX102-1-LTD\n157.30\n39.00\n187.10\n39.00\nAX162-1-LTD\n317.30\n39.00\n372.10\n39.00\nEX44-1-LTD\n57.30\n0.00\n72.10\n0.00\nEX63-1-LTD\n97.30\n39.00\n117.10\n39.00\nSX65-1-LTD\n157.30\n39.00\n187.10\n39.00\nSX135-1-LTD\n307.30\n39.00\n367.10\n39.00\nSX295-1-LTD\n597.30\n59.00\n707.10\n69.00\nDX182-1-LTD\n510.60\n51.00\n600.20\n60.00\nCloud servers\nAll prices are excluding VAT.\nGermany (FSN/NBG) / Finland (HEL)\nProduct\nOld price excl. IPv4 in € (hourly/monthly)\nNew price excl. IPv4 in € (hourly/monthly)\nOld price excl. IPv4 in $ (hourly/monthly)\nNew price excl. IPv4 in $ (hourly/monthly)\nCAX11\n0.0072 / 4.49\n0.0096 / 5.99\n0.0088 / 5.49\n0.0112 / 6.99\nCAX21\n0.0128 / 7.99\n0.0168 / 10.49\n0.0152 / 9.49\n0.0200 / 12.49\nCAX31\n0.0256 / 15.99\n0.0336 / 20.99\n0.0296 / 18.49\n0.0400 / 24.99\nCAX41\n0.0505 / 31.49\n0.0657 / 40.99\n0.0593 / 36.99\n0.0777 / 48.49\nCCX13\n0.0256 / 15.99\n0.0689 / 42.99\n0.0296 / 18.49\n0.0809 / 50.49\nCCX23\n0.0505 / 31.49\n0.1378 / 85.99\n0.0593 / 36.99\n0.1626 / 101.49\nCCX33\n0.1001 / 62.49\n0.2219 / 138.49\n0.1186 / 73.99\n0.2612 / 162.99\nCCX43\n0.2003 / 124.99\n0.4423 / 275.99\n0.2364 / 147.49\n0.5216 / 325.49\nCCX53\n0.4006 / 249.99\n0.8550 / 533.49\n0.4727 / 294.99\n1.0088 / 629.49\nCCX63\n0.6001 / 374.49\n1.3678 / 853.49\n0.7083 / 441.99\n1.6138 / 1,006.99\nCPX22\n0.0128 / 7.99\n0.0312 / 19.49\n0.0152 / 9.49\n0.0368 / 22.99\nCPX32\n0.0224 / 13.99\n0.0569 / 35.49\n0.0256 / 15.99\n0.0673 / 41.99\nCPX42\n0.0408 / 25.49\n0.1114 / 69.49\n0.0481 / 29.99\n0.1314 / 81.99\nCPX52\n0.0585 / 36.49\n0.1610 / 100.49\n0.0689 / 42.99\n0.1907 / 118.99\nCPX62\n0.0809 / 50.49\n0.2083 / 129.99\n0.0953 / 59.49\n0.2452 / 152.99\nCX23\n0.0064 / 3.99\n0.0088 / 5.49\n0.0080 / 4.99\n0.0104 / 6.49\nCX33\n0.0104 / 6.49\n0.0136 / 8.49\n0.0128 / 7.99\n0.0160 / 9.99\nCX43\n0.0192 / 11.99\n0.0256 / 15.99\n0.0224 / 13.99\n0.0296 / 18.49\nCX53\n0.0360 / 22.49\n0.0473 / 29.49\n0.0425 / 26.49\n0.0561 / 34.99\nUSA (ASH/HIL)\nProduct\nOld price excl. IPv4 in € (hourly/monthly)\nNew price excl. IPv4 in € (hourly/monthly)\nOld price excl. IPv4 in $ (hourly/monthly)\nNew price excl. IPv4 in $ (hourly/monthly)\nCCX13\n0.0272 / 16.99\n0.0697 / 43.49\n0.0320 / 19.99\n0.0817 / 50.99\nCCX23\n0.0545 / 33.99\n0.1402 / 87.49\n0.0641 / 39.99\n0.1650 / 102.99\nCCX33\n0.1042 / 64.99\n0.2259 / 140.99\n0.1234 / 76.99\n0.2660 / 165.99\nCCX43\n0.2083 / 129.99\n0.4479 / 279.49\n0.2460 / 153.49\n0.5280 / 329.49\nCCX53\n0.4167 / 259.99\n0.8630 / 538.49\n0.4920 / 306.99\n1.0184 / 635.49\nCCX63\n0.6250 / 389.99\n1.3782 / 853.49\n0.7380 / 460.49\n1.6420 / 1,014.49\nCPX11\n0.0096 / 5.99\n0.0280 / 17.49\n0.0112 / 6.99\n0.0328 / 20.49\nCPX21\n0.0192 / 11.99\n0",
+          "category": "hot",
+          "publishedAt": "2026-06-15T13:19:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "TinyWind: A pixel pirate sailing game with real wind physics (380k+ kms sailed)",
+          "titleKo": "TinyWind: 실제 바람 물리를 구현한 픽셀 해적 항해 게임",
+          "summary": "380,000km 이상 항해된 실제 바람 물리를 시뮬레이션하는 픽셀 아트 항해 게임입니다.",
+          "keyPoints": [
+            "정확한 풍력 물리 시뮬레이션을 게임에 구현",
+            "커뮤니티 플레이로 검증된 게임 메커닉"
+          ],
+          "whyItMatters": "게임에서 현실적인 물리 시뮬레이션을 구현하려는 개발자에게 좋은 참고 사례입니다.",
+          "url": "https://tinywind.io",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 545,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "tinywind-a-pixel-pirate-sailing-game-with-real-wind-physics-380k-kms-sailed",
+          "category": "hot",
+          "publishedAt": "2026-06-15T16:15:53.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: Vet turned founder, AI lawn diagnosis",
+          "titleKo": "수의사 출신 창업가의 AI 잔디 진단",
+          "summary": "수의사 경력의 창업가가 AI 기술을 활용한 잔디 진단 서비스를 개발했습니다.",
+          "keyPoints": [
+            "수의사의 진단 경험을 AI 기술에 적용한 혁신적 접근"
+          ],
+          "whyItMatters": "AI를 전혀 다른 분야에 적용하는 창의적인 사례를 보여줍니다.",
+          "url": "https://grassdx.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 28,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-vet-turned-founder-ai-lawn-diagnosis",
+          "category": "hot",
+          "publishedAt": "2026-06-15T17:56:00.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "US battery manufacturing output continues to break records",
+          "titleKo": "미국 배터리 제조 생산량이 계속 기록을 경신 중",
+          "summary": "2026년 5월 기준 미국 배터리 산업 생산 지수가 239.625(2017년=100 기준)로 계속 증가하고 있습니다. 연방준비제도가 발표하는 산업생산지수로 추적되고 있습니다.",
+          "keyPoints": [
+            "미국의 배터리 제조 생산량이 2017년 대비 139% 이상 증가한 상태임",
+            "연방준비제도의 공식 산업생산지수로 확인되는 꾸준한 성장세"
+          ],
+          "whyItMatters": "EV, IoT, 에너지 저장 기술 등에 의존하는 개발자들에게 공급망과 산업 동향 파악이 중요합니다.",
+          "url": "https://fred.stlouisfed.org/series/IPG33591S",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 124,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "us-battery-manufacturing-output-continues-to-break-records",
+          "fullContent": "May 2026: 239.6250 |\nIndex 2017=100, Seasonally Adjusted |\nMonthly\nUpdated:\nJun 15, 2026\n8:31 AM CDT\nNext Release Date:\nJul 17, 2026\nSource:\nBoard of Governors of the Federal Reserve System (US)\nRelease:\nG.17 Industrial Production and Capacity Utilization\nUnits:\nIndex 2017=100, Seasonally Adjusted\nFrequency:\nMonthly\nThe Federal Reserve's monthly index of industrial production and the related capacity indexes and capacity utilization rates cover manufacturing, mining, and electric and gas utilities. The industrial sector, together with construction, accounts for the bulk of the variation in national output over the course of the business cycle. The industrial detail provided by these measures helps illuminate structural developments in the economy. The industrial production (IP) index measures the real output of all relevant establishments located in the United States, regardless of their ownership, but not those located in U.S. territories. For more information, see the explanatory notes issued by the Board of Governors. For recent updates, see the announcements issued by the Board of Governors.\nBoard of Governors of the Federal Reserve System (US),\nIndustrial Production: Manufacturing: Durable Goods: Battery (NAICS = 33591) [IPG33591S],\nretrieved from FRED,\nFederal Reserve Bank of St. Louis;\nhttps://fred.stlouisfed.org/series/IPG33591S,\n.\nmodal open, choose link customization options\nSelect automatic updates to the data or a static time frame. All data are subject to revision.",
+          "category": "hot",
+          "publishedAt": "2026-06-15T20:28:24.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Fox to buy Roku",
+          "titleKo": "Fox가 Roku를 인수한다",
+          "summary": "Fox가 스트리밍 플랫폼 Roku를 인수하는 거래를 진행 중입니다. 미디어 회사의 콘텐츠 배포 전략 강화로 보입니다.",
+          "keyPoints": [
+            "Fox의 Roku 인수는 자체 스트리밍 플랫폼 강화 전략의 일부",
+            "미디어 산업의 통합 추세를 보여주는 사례"
+          ],
+          "whyItMatters": "동영상 플랫폼, 스트리밍 기술 개발자들에게 산업 구조 변화의 신호입니다.",
+          "url": "https://www.wsj.com/business/deals/fox-roku-deal-f6e564f9",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 252,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "fox-to-buy-roku",
+          "category": "hot",
+          "publishedAt": "2026-06-15T12:50:03.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "San Francisco Weighs PG&E Takeover Amid Soaring Utility Costs",
+          "titleKo": "샌프란시스코, 높아지는 공과금 와중에 PG&E 인수 검토 중",
+          "summary": "샌프란시스코가 100년간 추진해온 전력회사 PG&E 인수를 다시 검토하고 있습니다. 공과금 상승 문제 해결을 목표로 하고 있습니다.",
+          "keyPoints": [
+            "샌프란시스코의 전통적 인프라 인수 추진이 공과금 위기로 재점화됨",
+            "공공 에너지 관리를 통한 비용 절감 전략"
+          ],
+          "whyItMatters": "에너지 효율, 스마트그리드 기술 개발자들에게 공공 인프라 현대화의 기회를 의미합니다.",
+          "url": "https://www.kqed.org/news/12081882/san-francisco-has-been-trying-to-leave-pge-for-100-years-will-this-time-be-different",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 33,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "san-francisco-weighs-pge-takeover-amid-soaring-utility-costs",
+          "category": "hot",
+          "publishedAt": "2026-06-15T22:00:44.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Copper transport drug restores memory and clears toxic Alzheimer's proteins",
+          "titleKo": "구리 수송 약물이 기억력을 회복하고 알츠하이머 독성 단백질을 제거한다",
+          "summary": "모나시 대학의 연구팀이 구리 수송 메커니즘을 이용한 약물이 알츠하이머병의 기억력 손상을 회복하고 독성 단백질을 제거할 수 있음을 발견했습니다.",
+          "keyPoints": [
+            "구리 기반 약물이 알츠하이머병의 독성 단백질(amyloid-beta, tau)을 제거함",
+            "임상 시험에서 기억력 개선 효과 확인"
+          ],
+          "whyItMatters": "의료 기술, 생명정보학 개발자들에게 신약 개발 사례와 생물학적 데이터 처리의 중요성을 보여줍니다.",
+          "url": "https://www.monash.edu/news/articles/copper-drug-restores-memory-and-clears-toxic-alzheimers-proteins",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 228,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "copper-transport-drug-restores-memory-and-clears-toxic-alzheimers-proteins",
+          "category": "hot",
+          "publishedAt": "2026-06-15T14:48:47.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Typst 0.15.0",
+          "titleKo": "Typst 0.15.0",
+          "summary": "Typst 0.15.0은 가변 글꼴, MathML을 통한 방정식 내보내기, 다중 문서 번들 내보내기, 다중 참고문헌 지원 등 주요 기능을 추가했습니다. 파일 경로 타입 도입, HTML 내보내기 개선, 다수의 레이아웃 및 문법 버그 수정이 포함되었습니다.",
+          "keyPoints": [
+            "변수 글꼴 지원 및 MathML 기반 방정식 내보내기 추가",
+            "번들 내보내기, 다중 참고문헌, 파일 경로 타입 등 주요 언어 기능 확장",
+            "여러 PDF 표준 동시 지원 및 HTML 내보내기 성능 개선"
+          ],
+          "whyItMatters": "Typst 사용자들이 더욱 복잡한 문서 작성과 다양한 출력 형식을 효과적으로 처리할 수 있게 되었습니다.",
+          "url": "https://typst.app/docs/changelog/0.15.0/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 259,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "typst-release",
+          "isTopicPrimary": true,
+          "slug": "typst-0150",
+          "fullContent": "Changelog0.15.0Typst 0.15.0 (June 15, 2026)This section documents all changes to the Typst language and compiler between Typst 0.14.2 and 0.15.0. If you are migrating an existing document to Typst 0.15, make sure to check out the Migration guide. It walks you through changes you may need to make to your existing documents to ensure compatibility with Typst 0.15.HighlightsTypst now supports variable fontsHTML export now supports equations out of the box via MathMLWith the new, experimental bundle export target, a single Typst project can output multiple files (e.g. a multi-page website)A single document can now contain multiple bibliographiesTypst can now target multiple PDF standards at onceThe new within selector simplifies many introspection use casesThe new divider element represents a thematic break that templates can styleSpot colors enable use of custom pigments in offset printingWith the new file path type, project-relative paths can be passed to packagesThe new, more general typst eval CLI subcommand supersedes typst queryLayout convergence issues now result in detailed diagnosticsTwo long-standing list layout issues with marker alignment and centering were fixedParagraph handling in HTML export is improved, preventing unexpected paragraphs from appearingThis documentation now has a print versionLanguageSyntaxFile paths (e.g. in imports or image function calls) may not contain backslashes anymore; instead forward slashes must be used (Breaking change)Added hints for invalid characters in code mode Added hint when trying to use a unary operator directly in an embedded expression using a hash (e.g. #-30deg) Fixed potential stack overflow crashes by enforcing a maximum parsing depth Fixed incremental parsing of unclosed strings StylingText show rules now have tracebacks that include the matched text Fixed a crash with text show rules that match on multi-character symbols ScriptingExtended hint when built-in definitions are shadowed to set and show rules Added hint when trying to spread one or multiple dictionaries into an array Improved diagnostics for invalid method calls Improved hint for unknown variables in math that are available in std Fixed a misleading error message when trying to assign to a temporary return value LibraryFoundationsAdded file path type that is now accepted in all places where paths were previously only represented as strings A path constructed in one file can be used in another file, but will be resolved relative to its original fileLikewise, paths can be passed across package boundariesThe initial path type is very minimal, but additional features like file existence checks or directory walking are plannedCollectionsAdded map and filter functions on dictionaries and arguments Named arguments on arguments values are now accessible with field access syntax The slice functions on strings and arrays will now error if passing both an end and a count (Minor breaking change)Added inclusive parameter to range function CalculationAdded asinh, acosh, atanh, and erf functions to calc module Added int.min and int.max constants for the minimum and maximum representable integer, respectively Fixed behavior of quo for negative integers Fixed potential overflows in norm, abs, gcd, and lcm Floating-point calculations are now consistently deterministic across platforms Date & time handlingThe offset parameter of datetime.today now accepts durations as an alternative to integers, allowing for sub-hour precision offsets Addition and subtraction of datetimes and durations now retains precision instead of clamping to full days in some cases The datetime constructor now emits more precise errors when components are missing ConversionsAdded base parameter to int constructor to configure in which base to parse a string Fixed that the base parameter of the str constructor was accepted for non-integer values if its value was 10 (Minor breaking change)Added hint when trying to construct a string with base 1 The panic function now displays strings as-is instead of showing their repr, making it more suitable for friendly, user-facing messages Changed repr of styles and locations to be more distinct ModelAdded divider element representing a thematic break that templates can style Bundle-related elementsThe document element can now be constructed to produce individual documents in bundle export Added path and format parameters to document element Added experimental asset element Bibliography managementA single document can now contain multiple bibliographies Added target parameter to bibliography element to configure which citation is picked up by which bibliography Added group parameter to bibliography element to configure how numbers are shared/reset across bibliographies Added support for numeric values for the month key in .bib files Added support for BibLaTeX name options in .bib files Added support for propagating non-numeric volume fields in .bib files to bibliographies Improved sorting in bibliograp",
+          "category": "tech",
+          "publishedAt": "2026-06-15T17:24:17.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Iroh 1.0",
+          "titleKo": "Iroh 1.0",
+          "summary": "Iroh 1.0 릴리스에 대한 블로그 포스트입니다. 본문이 제공되지 않아 상세 내용을 파악하기 어렵지만, 메이저 버전 업데이트로 주요 기능 개선이나 아키텍처 변경이 있을 것으로 예상됩니다.",
+          "keyPoints": [
+            "Iroh 프로젝트의 1.0 메이저 버전 출시로 프로덕션 레벨의 안정성에 도달했을 가능성이 높으며, 주요 기능이 완성되었음을 시사합니다.",
+            "Iroh 공식 블로그를 통해 기술적 변경사항, 성능 개선, 마이그레이션 가이드 등 상세한 정보가 제공될 것으로 예상됩니다."
+          ],
+          "whyItMatters": "Iroh 사용자에게는 안정화된 버전으로 업그레이드하거나 새로운 프로젝트에 도입할 수 있는 시점을 제공합니다.",
+          "url": "https://www.iroh.computer/blog/v1",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 873,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "topicId": "iroh-release",
+          "isTopicPrimary": true,
+          "slug": "iroh-10",
+          "category": "tech",
+          "publishedAt": "2026-06-15T15:13:06.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "How TimescaleDB compresses time-series data",
+          "titleKo": "TimescaleDB의 시계열 데이터 압축 방식",
+          "summary": "TimescaleDB가 시계열 데이터를 어떻게 압축하고 최적화하는지에 대한 기술 분석 글이다.",
+          "keyPoints": [
+            "대규모 시계열 데이터 저장소의 압축 기법 설명"
+          ],
+          "whyItMatters": "시계열 데이터베이스 성능 최적화와 스토리지 효율성 개선 방법을 이해할 수 있다.",
+          "url": "https://roszigit.com/en/blog/timescaledb-compression-hypercore",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 107,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "topicId": "timescaledb-compression",
+          "isTopicPrimary": true,
+          "slug": "how-timescaledb-compresses-time-series-data",
+          "category": "tech",
+          "publishedAt": "2026-06-15T17:29:17.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "meshery/meshery (TypeScript)",
+          "titleKo": "Meshery - 클라우드 네이티브 매니저",
+          "summary": "클라우드 네이티브 환경을 관리하는 오픈소스 플랫폼으로, TypeScript로 구현되어 있다.",
+          "keyPoints": [
+            "마이크로서비스 및 클라우드 네이티브 애플리케이션 관리 및 모니터링 지원"
+          ],
+          "whyItMatters": "Kubernetes와 서비스 메시 환경에서 인프라 관리를 효율적으로 할 수 있는 도구를 제공한다.",
+          "url": "https://github.com/meshery/meshery",
+          "sourceName": "GitHub Trending",
+          "engagement": 10618,
+          "contentType": "repo",
+          "labels": [
+            "devops",
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "mesherymeshery-typescript",
+          "category": "tech",
+          "publishedAt": "2026-06-15T23:38:09.239Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "chatwoot/chatwoot (Ruby)",
+          "titleKo": "Chatwoot - 오픈소스 라이브 채팅 및 고객 지원 플랫폼",
+          "summary": "Intercom, Zendesk 같은 상용 제품 대신 사용할 수 있는 오픈소스 라이브 채팅, 이메일 지원, 멀티채널 데스크 플랫폼이다.",
+          "keyPoints": [
+            "라이브 채팅, 이메일, 멀티채널 지원 통합",
+            "상용 고객 지원 도구의 오픈소스 대안"
+          ],
+          "whyItMatters": "자체 호스팅으로 고객 지원 플랫폼을 저렴하게 운영하고 커스터마이징할 수 있다.",
+          "url": "https://github.com/chatwoot/chatwoot",
+          "sourceName": "GitHub Trending",
+          "engagement": 31659,
+          "contentType": "repo",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "chatwootchatwoot-ruby",
+          "category": "tech",
+          "publishedAt": "2026-06-15T23:38:09.239Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Ruby"
+          ]
+        },
+        {
+          "title": "trycua/cua (HTML)",
+          "titleKo": "trycua/cua - Computer-Use Agent를 위한 오픈소스 인프라",
+          "summary": "데스크톱을 제어할 수 있는 AI 에이전트를 훈련하고 평가하기 위한 오픈소스 인프라입니다. 샌드박스, SDK, 벤치마크를 제공하며 macOS, Linux, Windows를 지원합니다.",
+          "keyPoints": [
+            "AI 에이전트가 전체 데스크톱을 제어할 수 있는 환경 제공",
+            "다양한 운영체제 지원 및 훈련/평가 도구 통합"
+          ],
+          "whyItMatters": "AI 에이전트 개발자들이 실제 데스크톱 환경에서 에이전트를 효과적으로 훈련하고 검증할 수 있는 표준화된 플랫폼을 제공합니다.",
+          "url": "https://github.com/trycua/cua",
+          "sourceName": "GitHub Trending",
+          "engagement": 18132,
+          "contentType": "repo",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "trycuacua-html",
+          "category": "tech",
+          "publishedAt": "2026-06-15T23:38:09.241Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "HTML"
+          ]
+        },
+        {
+          "title": "Panniantong/Agent-Reach (Python)",
+          "titleKo": "Agent-Reach - AI 에이전트를 위한 인터넷 접근 도구",
+          "summary": "AI 에이전트가 Twitter, Reddit, YouTube, GitHub, Bilibili, XiaoHongShu 등 다양한 플랫폼에 접근해 정보를 검색하고 수집할 수 있게 해주는 Python 기반 CLI 도구이다.",
+          "keyPoints": [
+            "하나의 CLI로 여러 플랫폼에 API 비용 없이 접근 가능",
+            "AI 에이전트의 정보 수집 능력 확장"
+          ],
+          "whyItMatters": "AI 에이전트 애플리케이션 개발 시 다양한 소스에서 실시간 정보를 효율적으로 수집할 수 있다.",
+          "url": "https://github.com/Panniantong/Agent-Reach",
+          "sourceName": "GitHub Trending",
+          "engagement": 30069,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "agent-reach-trending",
+          "isTopicPrimary": true,
+          "slug": "panniantongagent-reach-python",
+          "category": "tech",
+          "publishedAt": "2026-06-15T23:38:09.239Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "teslamate-org/teslamate (Elixir)",
+          "titleKo": "teslamate-org/teslamate (Elixir)",
+          "summary": "TeslaMate는 Tesla 차량 데이터를 자체 호스팅하기 위한 데이터 로거 오픈소스 프로젝트이다. Elixir로 작성되었으며 주요 관리자는 JakobLichterfeld이다.",
+          "keyPoints": [
+            "Tesla 차량의 데이터 수집 및 분석을 위한 자체 호스팅 솔루션",
+            "Elixir 언어로 구현된 오픈소스 프로젝트"
+          ],
+          "whyItMatters": "IoT 데이터 수집 및 자동화에 관심 있는 개발자들에게 Elixir의 실제 활용 사례를 제공한다.",
+          "url": "https://github.com/teslamate-org/teslamate",
+          "sourceName": "GitHub Trending",
+          "engagement": 8220,
+          "contentType": "repo",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "teslamate-orgteslamate-elixir",
+          "category": "tech",
+          "publishedAt": "2026-06-15T23:38:09.238Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Elixir"
+          ]
+        },
+        {
+          "title": "music-assistant/server (Python)",
+          "titleKo": "music-assistant/server - 오픈소스 미디어 라이브러리 관리자",
+          "summary": "Music Assistant는 스트리밍 서비스와 다양한 스피커를 연결하는 무료 오픈소스 미디어 라이브러리 관리자입니다. 서버는 Raspberry Pi, NAS, Intel NUC 같은 항상 켜진 기기에서 실행되어야 합니다.",
+          "keyPoints": [
+            "여러 스트리밍 서비스와 스피커를 통합 관리하는 플랫폼",
+            "가볍고 안정적인 기기에서 실행 가능한 항상-온(always-on) 아키텍처"
+          ],
+          "whyItMatters": "개발자들이 홈 오토메이션 및 음악 스트리밍 통합 프로젝트에 활용할 수 있는 견고한 오픈소스 기반을 제공합니다.",
+          "url": "https://github.com/music-assistant/server",
+          "sourceName": "GitHub Trending",
+          "engagement": 2377,
+          "contentType": "repo",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "music-assistantserver-python",
+          "category": "tech",
+          "publishedAt": "2026-06-15T23:38:09.242Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "iptv-org/iptv (TypeScript)",
+          "titleKo": "iptv-org/iptv (TypeScript)",
+          "summary": "전 세계의 공개 IPTV 채널을 모아둔 TypeScript 기반 저장소로, IPTV 채널 정보를 체계적으로 관리하고 제공합니다.",
+          "keyPoints": [
+            "전 세계 공개 IPTV 채널을 한곳에서 관리하는 오픈소스 프로젝트",
+            "TypeScript로 작성되어 타입 안정성과 유지보수성 제공"
+          ],
+          "whyItMatters": "IPTV 관련 개발을 할 때 신뢰할 수 있는 채널 데이터 소스 제공",
+          "url": "https://github.com/iptv-org/iptv",
+          "sourceName": "GitHub Trending",
+          "engagement": 122819,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "iptv-orgiptv-typescript",
+          "category": "tech",
+          "publishedAt": "2026-06-15T23:38:09.237Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Raphire/Win11Debloat (PowerShell)",
+          "titleKo": "Raphire/Win11Debloat (PowerShell)",
+          "summary": "Windows 10/11에서 기본 앱 제거, 원격 분석 비활성화 등 시스템 최적화를 수행하는 간단하고 가벼운 PowerShell 스크립트입니다.",
+          "keyPoints": [
+            "기본 설치 앱 제거 및 원격 분석 비활성화 기능 제공",
+            "Windows 10과 Windows 11 모두 지원하는 경량 도구"
+          ],
+          "whyItMatters": "Windows 개발 환경 구축 시 불필요한 요소를 빠르게 제거하고 최적화할 수 있음",
+          "url": "https://github.com/Raphire/Win11Debloat",
+          "sourceName": "GitHub Trending",
+          "engagement": 48004,
+          "contentType": "repo",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "raphirewin11debloat-powershell",
+          "category": "tech",
+          "publishedAt": "2026-06-15T23:38:09.242Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "PowerShell"
+          ]
+        },
+        {
+          "title": "Boot Naked Linux",
+          "titleKo": "부팅된 Linux 커널",
+          "summary": "전체 OS 대신 단일 프로세스만 실행하는 최소화된 Linux 커널을 1초 이내에 부팅하는 방법을 설명합니다. 정적으로 컴파일된 init 프로그램을 포함한 간단한 initrd를 만들어 부팅 시간을 극적으로 단축합니다.",
+          "keyPoints": [
+            "C로 작성된 간단한 init 프로그램과 정적 컴파일을 통해 최소 initrd 구성",
+            "cpio와 gzip을 이용해 단일 파일만 포함하는 초경량 initramfs 생성",
+            "QEMU를 이용한 가상 환경에서 1초 이내 부팅 달성"
+          ],
+          "whyItMatters": "부팅 성능 최적화, 컨테이너화, 임베디드 시스템 개발에 필요한 Linux 커널 경량화 기법 습득",
+          "url": "https://nick.zoic.org/art/boot-naked-linux/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 77,
+          "contentType": "discussion",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "boot-naked-linux",
+          "fullContent": "Boot Naked Linux\n2026-05-19\nc\n/\nlinux\nStarting up a Linux kernel to host one single process rather than a full on operating system ... and doing it in less than a second!\nWhen I was a kid, computers weren’t coddled and\nleft running 24/7, when you were done with them you switched them off, and\nwhen you wanted them again you just switched them on and within a second or\nso they’d be loading whatever was in their disk drive.\nThere was a brief moment in the early 2000s where the newly introduced\nSSDs made booting quick but as always the tech industry has taken up the\nslack until even a 16 core monster with a fast SSD still takes a minute\nto get its feet under it.\nSo I wanted to try an alternative.\nKeep the Linux kernel but strip away everything else I could.\nHere goes … well not quite here goes nothing, but here goes a lot less.\nUPDATE: As per long tradition, while trying to fix a couple of details\nI found “Building a tiny Linux from scratch”\nwhich does most of what I do here but in Rust and a year ago,\nso that’s worth a look too.\nHello, World!\nThe first thing a Linux system does is run an “init” program of one sort\nor another which loads all the other processes and configurations and stuff.\nThere’s nothing too special about this program, it’s just a regular\nexecutable or script, and there have been a few different approaches taken\nover the years in any case.\nSo we can write a new one in C … here’s init.c:\n#include <stdio.h>\n#include <stdlib.h>\n#include <sys/reboot.h>\nint main(int argc, char **argv) {\nfprintf(stderr, \"Hello from init.c!\");\nreboot(RB_POWER_OFF);\n}\nAll it does is print a message, and then reboot the computer.\nIf our init process exits the kernel panics, so instead of busy waiting1\nor sleeping forever or whatever, we use reboot(RB_POWER_OFF) to shut the\nvirtual machine down in an orderly manner.\nMaking initrd\nModern Linux supports\nquite a complex multi-stage process.\nThere’s a lot of\nresources\nout there, and a lot of them are 20 years out of date, and\nthere have been changes\nbut here’s a summary of how I think it works right now,\nas of 2026 and Linux 6.8 or thereabouts:\nA boot loader runs with a kernel and a dummy filesystem called ‘initrd’.\nThe kernel attempt to unpack the ‘initrd’ file into an ‘initramfs’, a\nroot filesystem in RAM which allows initialization tools to run.\nit looks for a file called /init (or whatever is specified in the\nrdinit= kernel parameter)\nif it exists, it runs it and that process takes over initialization.\nOtherwise, it falls back to:\nmount the root partition specified by the root= kernel parameter\nmount the devtmpfs filesystem at /dev\nrun /init (or whatever is specified in the init= kernel\nparameter) from that.\nOtherwise, or if the init process exits, it kernel panics.\nMost modern distros use the first branch: quite a large initrd filesystem is\nprovided so that modules and firmware can get loaded before attempting to\nboot the real filesystem.\nThe initrd file which my PC boots from is 73MB and according to lsintramfs\nit contains 2163 files!\nThere’s a few examples of how to\nconstruct a filesystem with a\nreplacement for init\nbut I wanted to go even simpler and replace the entire initrd.\nIf we compile our example code statically, eg: containing all the libraries it\nneeds, we can make our own initrd with only one file in it:\ngcc -static init.c -o init\necho 'init' | cpio -o --format=newc | gzip -c > initrd\nabout cpio\ncpio is a very weird and ancient program with a command line\nwhich makes tar look user-friendly.\nBut let’s not worry about the details for now.\nI will note that, later, if you get a kernel message:\nInitramfs unpacking failed: no cpio magic\n… it means that either the cpio format or the compression or something\nsimilar isn’t compatible with your kernel. The kernel will attempt to\ncontinue, but a later error message like:\ncheck access for rdinit=/init failed: -2, ignoring\n… means that either the initramfs didn’t happen or your binary is\nin the wrong place (-2 is -ENOENT which means file not found).\nYou might also get a message about incompatible architectures.\nThis message happens pretty early in the boot process, which attempts to\ncontinue anyway, so you’ll have to look back carefully.\nWhereas if you see:\nTrying to unpack rootfs image as initramfs...\n… and then nothing else, that’s a good sign. It never logs that it was\nsuccessful until much later when it should hopefully say:\nRun /init as init process\nIncidentally, if you’re looking to pack many files into a cpio archive,\nyou want something along the lines of:\n(cd $SOURCE_DIR; find . | cpio -o -H newc) | gzip -c > $OUTPUT_FILE\nThe whole thing about piping in a list of files probably seems\nperverse but cpio is older than tar, older than shell filename\nglobbing so perhaps we can forgive it\nVirtualized\nGetting this going on real hardware would involve an irritating\namount of USB key swapping,\nso I’m using QEMU to make a virtual system\nto experiment with.\nQEMU lets you boot from just\na kernel and a filesystem image\non t",
+          "category": "tech",
+          "publishedAt": "2026-06-15T16:03:26.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Free-TV/IPTV (Python)",
+          "titleKo": "Free-TV/IPTV (Python)",
+          "summary": "무료 TV 채널의 M3U 재생목록을 제공하는 Python 기반 IPTV 프로젝트입니다.",
+          "keyPoints": [
+            "오픈소스 IPTV 스트리밍 솔루션 제공"
+          ],
+          "whyItMatters": "미디어 스트리밍 관련 개발자에게 참고할 수 있는 구현 사례입니다.",
+          "url": "https://github.com/Free-TV/IPTV",
+          "sourceName": "GitHub Trending",
+          "engagement": 17264,
+          "contentType": "repo",
+          "labels": [
+            "backend"
+          ],
+          "topicId": "iptv-projects",
+          "isTopicPrimary": false,
+          "slug": "free-tviptv-python",
+          "category": "tech",
+          "publishedAt": "2026-06-15T23:38:09.242Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "How memory safety CVEs differ between Rust and C/C++",
+          "titleKo": "Rust와 C/C++의 메모리 안전 CVE 차이점",
+          "summary": "Rust와 C/C++에서 메모리 안전 관련 CVE가 보도되는 방식에 근본적인 차이가 있다. C/C++에서는 API 오용으로 인한 미정의 동작이 라이브러리의 책임으로 간주되지 않지만, Rust의 타입 시스템은 이러한 계약 위반을 컴파일 단계에서 방지한다.",
+          "keyPoints": [
+            "C/C++는 제한된 타입 시스템으로 인해 API 계약을 명확히 지정하기 어려워 오용을 라이브러리 책임으로 보지 않음",
+            "Rust는 강력한 타입 시스템으로 많은 메모리 안전 문제를 컴파일 타임에 방지하여 실제로 더 안전함",
+            "같은 수의 CVE가 존재해도 Rust는 `unsafe` 키워드 필요, C/C++는 일반적인 코드에서도 발생 가능"
+          ],
+          "whyItMatters": "개발자들이 CVE 개수만으로 언어의 안전성을 비교할 때 메모리 안전 문제의 근본적인 차이를 이해해야 한다.",
+          "url": "https://kobzol.github.io/rust/2026/06/15/how-memory-safety-cves-differ-between-rust-and-c-cpp.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 100,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "rust-safety-comparison",
+          "isTopicPrimary": true,
+          "slug": "how-memory-safety-cves-differ-between-rust-and-cc",
+          "fullContent": "CVE is a database used for categorizing and reporting security vulnerabilities in software. There\nare various kinds of vulnerabilities that can be reported. Some of them are caused simply by bugs\nin the program logic (like a recent CVE reported in Cargo), but some of the most nasty\nones are caused by memory unsafety, which can easily lead to exploits. In this post I want to focus\non the latter kind of CVEs, how they are reported, especially in libraries, and how it differs\nbetween Rust and C or C++.\nBecause sometimes I see people online who compare the number of CVEs in Rust and C/C++ software, which\ntends to be accompanied by claims about Rust not being really memory safe or not being worth\nadopting when CVEs can still exist in it. And sometimes I also observe similar views when I teach Rust\nto programmers who are used to programming in C or C++.\nNow, anyone is, of course, free to do such comparisons, and make their own conclusions based on it. But I think that there is an important difference in how potential vulnerabilities related to memory safety are treated in Rust and C/C++, which might not be obvious at first, especially if you don’t know how Rust works. I’d like to explain that in this post.\nBut first, I should clarify that it is absolutely possible to cause memory unsafety bugs and undefined\nbehaviour in Rust. In the vast majority of cases1, the unsafe keyword is required for\nthis to happen, but anyone who claims that Rust programs cannot experience UB at all is simply incorrect.\nIt is also perfectly possible to cause general vulnerabilities (meaning those unrelated\nto memory unsafety) in Rust. Forgetting to add a check that your admin dashboard is only accessible to admins can happen in any language, after all.\nAnd yet, there is something very different between potential vulnerabilities in Rust and C or C++, which is\nrelated to the core reason of why Rust is actually much more memory safe in practice than C\nor C++. I’ll try to demonstrate it on the curl networking library, which is written in C.\nPotential vulnerability in curl?\n(lib)curl is one of the most used and well-maintained open source libraries in the world. Its primary\ndeveloper, Daniel Stenberg, is one of the most prolific open source maintainers of our time,\nand together with many other people, he has been dilligently improving this library for the past 30 years.\nDespite having to deal with a recent avalanche of CVEs found by LLMs,\nhe and his collaborators are doing a very good job of keeping curl safe from potential exploits and vulnerabilities,\nand they take pride in curl being a very robust piece of software.\nSo, let’s take that to the test, shall we? I opened the documentation\nof libcurl and found the first function I saw that accepts an argument, curl_getenv. This is supposed to be a simple function that provides a portable\nabstraction for getting the value of an environment variable across different operating systems.\ncurl is supposed to be safe and robust, so surely this function doesn’t contain any UB or memory unsafety, right?\nSo what about the following C program?\n#include <curl/curl.h>\nint main(void) {\ncurl_getenv(NULL);\n}\nThis 5-line C program is as simple as it gets, it just calls the curl_getenv function with a\nNULL pointer argument, and compiles without any warnings. And yet, when you execute it, you (might)\nget a segfault, and thus a memory safety bug, and thus a potential vulnerability/exploit:\n$ gcc test.c -otest -lcurl -Wall -Wextra\n$ ./test\nSegmentation fault (core dumped)\nOf course, this program is artificially simple, but that’s kind of the point. In practice, situations\nlike this can (and do) easily happen in larger programs by accident all the time.\nHuh. So maybe curl isn’t so safe after all? Should I go and report this as a vulnerability in curl?!\nNo, of course not. That would be stupid. I know that, you know that. But how do we actually know it?\nThat’s the interesting part.\nConsider a very similar program that would call the function like this: curl_getenv(\"FOO\"). What if\nthat program would still segfault, and thus contain a potential vulnerability? I am sure that the curl\nmaintainers would like to know about that happening, and would consider it to be a pretty big issue if I reported it! At the same time, I’m sure that they would (rightfully) tell me off if I reported the first program as a vulnerability in curl. Yet those two programs differ only by so little.\nSo, what gives? Well, in practice, UB like the one in my original example is said to be caused by “wrong usage”2, and it is not considered to be an issue in the library or API that I am using, but in my (application)\ncode. This is done mostly for the following two reasons:\nIn C, it is often not possible to specify the contract (invariants, preconditions,\npostconditions, etc.) of APIs precisely3 due to its limited type system, and library authors often\ndon’t bother describing all possible kinds of wrong usage, as it would not be practical.\nIndeed, the d",
+          "category": "insight",
+          "publishedAt": "2026-06-15T16:11:02.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "What job interviews taught me about Kubernetes",
+          "titleKo": "직무 면접이 나에게 가르친 Kubernetes에 대해",
+          "summary": "최근 5년간 거의 모든 회사가 Kubernetes를 도입했으며, 기술적 필요성보다는 조직 관리의 이점(배포 일관성, 표준화된 지식, 추적성)을 주요 이유로 채택하고 있다. CTOs는 기술 문제보다 조직 문제를 해결하기 위해 Kubernetes의 복잡성을 감수하고 있다.",
+          "keyPoints": [
+            "Kubernetes 채택 이유: 모든 서비스의 일관된 배포 방식, 표준화된 지식(YAML 기반 아키텍처 공유), GitOps를 통한 감사 추적성",
+            "작은 스타트업도 기술적 필요성 없이 Kubernetes를 선택하는 추세(topologySpreadConstraints, HPA 미사용)",
+            "저자 판단: 팀 규모 2명 이상이면 Kubernetes의 가치가 분명하나, 초기 스타트업은 VPS+git pull이 더 실용적"
+          ],
+          "whyItMatters": "인프라 도입 결정 시 기술적 요구사항뿐 아니라 조직 관리 비용을 고려해야 하며, 회사 성장 단계에 따른 적절한 도구 선택이 중요하다.",
+          "url": "https://notnotp.com/notes/what-job-interviews-taught-me-about-kubernetes/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 44,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "career"
+          ],
+          "topicId": "kubernetes-interviews",
+          "isTopicPrimary": true,
+          "slug": "what-job-interviews-taught-me-about-kubernetes",
+          "fullContent": "What job interviews taught me about Kubernetes\nPublished on 15 June 2026\nSo I've been job hunting lately. Reading job postings, doing interviews,\ntalking to engineering teams at like a dozen companies. And I noticed\nsomething compared to five years ago when I was last doing this: literally\neveryone is on Kubernetes now. Every single company I talked to.\nLast time I was job hunting that wasn't the case at all. There were\nbasically three camps: the rare Kubernetes adopters, the systemd-on-VM/VPS/EC2 crowd, and the serverless people (Lambda,\nCloud Run, etc.).\nThat surprised me, because where I work we have actual Big Tech-scale\nproblems, so K8s makes obvious sense for us. But a 10-person startup with\ntwo services? None of these places were doing microservices or anything\nclose to high scale. So I asked why.\nSpoiler: they don't care much about the technical side of\nK8s.\nWhy?\nA technical interview is actually a great place to ask why, especially\nwhen you're talking directly to the CTO. So I did. The answers were\nbasically the same everywhere.\nUniformity\nFirst one was uniformity. Every service deploys the same way. No\none secretly knowing that the payments service runs on some bare VM with a\ncursed bash script from 2019 while the API is on Docker Compose because\nnobody ever touched it. One way to deploy, for everything.\nStandardized knowledge\nSecond was shared, hireable knowledge. K8s is basically a lingua\nfranca now. My first day at my current job, I pulled up the repo with the\nHelm charts and Kube configs and had a solid picture of the whole\narchitecture within an hour. The knowledge is in the YAML, not stuck in\nsomeone's head. Lose someone, their replacement isn't spending three weeks\ndigging through docs trying to figure out how anything runs.\nAt my current company, on-call SREs can keep any service up even if\nthey've never touched it before. They know Kubernetes, and Kubernetes\npatterns are the same everywhere for all teams. Try doing that with a\nbunch of VMs where every service is set up differently. (Caveat: this only\nholds if nobody went exotic with the setup, of course.)\nTracing who does what\nThird was traceability (with or without compliance). At my current\ncompany, nobody can just kubectl apply -f something straight\nto the cluster. You push a Helm chart to git, there's a trace, there's an\nMR approval process, then FluxCD or ArgoCD handles the actual deployment.\nNothing happens in the shadow. That composes really well with compliance:\nit's basically how we ace ISO certifications. And since GitOps pairs\nnaturally with Kubernetes, you get all of that almost for free.\nWhat I took from it\nThe CTOs I talked to aren't making a dumb choice. They're solving real\nproblems.\nI was focused on the technical side only, and Kube always has been a\ntechnical solution to technical problems, for me. But it looks like a lot\nof CTOs are interested primarily in the non-tech benefits. More than I\nthought. Their technical problems just don't require it. I bet you won't\nfind any topologySpreadConstraints in their manifests, they don't\ncare. No HPA, no Pod Disruption Budgets, no node affinity rules. Just the\nsame number of nodes they'd have VMs otherwise. But they accepted to pay\nthe price of having a complex piece of software for the organizational\nbenefits.\nHonestly, I think it's mostly fine. But I still think most companies\nshould start without it. Clusters are genuinely hard to debug when stuff\ngoes wrong, and at that stage you want your energy on the product, not the\ninfra. When you're still pitching to your next big customer, spinning up a\nVPS and doing a dirty git pull is a totally valid\nemergency fix. Suboptimal, sure. But fast, and you know exactly what's\nhappening. You really don't want to spend two hours figuring out why your\npod is stuck in CrashLoopBackOff right before a customer\ncall.\nWhy the shift happened recently\nI still don't totally get why the shift happened when it did. Five years\nago all three camps were doing fine. Now the VM+systemd crowd\nhas basically disappeared from job postings, serverless stayed niche, and\nK8s just won.\nMy best guesses: managed K8s (EKS, GKE, AKS) got mature and the talent\npool flipped: enough people learned it that hiring for anything else\nbecame the harder choice. And Helm made \"just use someone else's chart\" a\nreal option. But I'm not certain. If you were there for the shift and have\na better theory, I'd genuinely like to know.\nWhen to use Kubernetes\nMy personal threshold would be the moment the CTO isn't the only engineer\nanymore. As soon as a second person shows up, the problems K8s solves\nbecome real. Now you've got someone who didn't set up the servers but\nneeds to deploy. Someone who needs proper access controls, not SSH keys to\neverything. Someone who'll leave eventually and take everything they know\nwith them. That's when you want the system to hold the knowledge, not\npeople.",
+          "category": "insight",
+          "publishedAt": "2026-06-15T20:12:37.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "freeCodeCamp/freeCodeCamp (TypeScript)",
+          "titleKo": "freeCodeCamp/freeCodeCamp (TypeScript)",
+          "summary": "freeCodeCamp.org의 오픈소스 코드베이스이자 커리큘럼으로, 수학, 프로그래밍, 컴퓨터과학을 무료로 학습할 수 있는 플랫폼입니다. TypeScript로 구현되어 있으며, 초보자부터 심화 과정까지 다양한 수준의 교육 자료를 제공합니다.",
+          "keyPoints": [
+            "무료 프로그래밍 교육 플랫폼으로서 수학, 프로그래밍, 컴퓨터과학의 포괄적인 커리큘럼을 제공하며, 비용 없이 실무 수준의 기술을 습득할 수 있습니다.",
+            "TypeScript 기반의 오픈소스 프로젝트로 운영되어 커뮤니티 기여가 활발하며, 코드의 품질 관리와 최신 웹 개발 패턴을 따릅니다.",
+            "다양한 수준의 학습 경로를 제공하여 완전 초보자부터 취업 준비 단계의 개발자까지 단계적으로 학습할 수 있는 구조를 갖추고 있습니다."
+          ],
+          "whyItMatters": "무료 교육 리소스로서 개발자 커뮤니티에 접근성 높은 학습 기회를 제공하며, 오픈소스 참여를 통해 실제 프로젝트 경험을 쌓을 수 있습니다.",
+          "url": "https://github.com/freeCodeCamp/freeCodeCamp",
+          "sourceName": "GitHub Trending",
+          "engagement": 447858,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "freecodecampfreecodecamp-typescript",
+          "category": "insight",
+          "publishedAt": "2026-06-15T23:38:09.240Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "jwasham/coding-interview-university",
+          "titleKo": "코딩 면접 대학 (Coding Interview University)",
+          "summary": "소프트웨어 엔지니어가 되기 위한 완전한 컴퓨터과학 학습 계획을 제공하는 저장소입니다. 자료구조, 알고리즘, 시스템 설계 등 기술 면접에 필요한 모든 주제를 체계적으로 다룹니다.",
+          "keyPoints": [
+            "기술 면접 준비에 필요한 핵심 컴퓨터과학 주제들을 구조화된 커리큘럼으로 정리하여, FAANG 회사 면접에 대비할 수 있는 학습 가이드를 제공합니다.",
+            "자료구조(배열, 링크드리스트, 트리, 그래프), 알고리즘(정렬, 탐색, 동적 계획법) 등 면접의 필수 주제를 다루며, 각 주제별 학습 자료와 연습 문제를 명시합니다.",
+            "넓은 커뮤니티 기여를 받아 지속적으로 업데이트되며, 다양한 프로그래밍 언어로 예제 코드를 제공하여 학습자들이 선호하는 언어로 학습할 수 있습니다."
+          ],
+          "whyItMatters": "기술 면접을 준비하는 개발자들이 구조화된 학습 계획을 따라 체계적으로 준비할 수 있으며, 취업 준비 시간을 효율적으로 활용할 수 있습니다.",
+          "url": "https://github.com/jwasham/coding-interview-university",
+          "sourceName": "GitHub Trending",
+          "engagement": 352281,
+          "contentType": "repo",
+          "labels": [
+            "general",
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "jwashamcoding-interview-university",
+          "category": "insight",
+          "publishedAt": "2026-06-15T23:38:09.241Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "krahets/hello-algo (Java)",
+          "titleKo": "Hello 알고리즘 (Java)",
+          "summary": "《Hello 算法》는 애니메이션과 그래프를 통해 설명하는 데이터구조와 알고리즘 교과서로, 원버튼 실행 기능을 지원합니다. Python, Java, C++, C, C#, JavaScript, Go, Swift, Rust, Ruby, Kotlin, TypeScript, Dart 등 13가지 프로그래밍 언어로 코드 구현을 제공합니다.",
+          "keyPoints": [
+            "동적 애니메이션과 도식을 활용하여 알고리즘과 데이터구조의 작동 원리를 직관적으로 설명하며, 추상적인 개념을 시각화하여 이해도를 높입니다.",
+            "13가지 프로그래밍 언어(Python, Java, C++, C, C#, JS, Go, Swift, Rust, Ruby, Kotlin, TS, Dart)로 동일한 알고리즘 구현을 제공하여 언어 간 비교 학습이 가능합니다.",
+            "간체중문, 번체중문, 영어, 일본어 등 다국어 지원으로 세계적인 학습자들이 접근할 수 있으며, 각 언어 커뮤니티의 참여를 통해 지속적으로 개선됩니다.",
+            "원버튼 실행 기능으로 학습자가 바로 코드를 테스트할 수 있어, 이론 학습과 실습을 즉시 연결할 수 있는 구조를 제공합니다."
+          ],
+          "whyItMatters": "알고리즘과 자료구조를 시각적으로 이해하고자 하는 개발자들에게 직관적인 학습 자료를 제공하며, 여러 언어 구현을 한 곳에서 비교할 수 있어 언어 선택 시 참고 자료로 활용할 수 있습니다.",
+          "url": "https://github.com/krahets/hello-algo",
+          "sourceName": "GitHub Trending",
+          "engagement": 126869,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "krahetshello-algo-java",
+          "category": "insight",
+          "publishedAt": "2026-06-15T23:38:09.240Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Java"
+          ]
+        },
+        {
+          "title": "My Homelab AI Dev Platform",
+          "titleKo": "홈랩 AI 개발 플랫폼 구축기",
+          "summary": "OpenCode를 활용해 Git 연동 AI 코딩 환경을 홈랩에 구축하고, GitOps 워크플로우와 연계해 안전하게 인프라를 관리하는 방식을 소개한다. AI가 변경사항을 작성하면 사용자가 PR을 검토해 승인하는 구조로 인증된 코드만 배포된다.",
+          "keyPoints": [
+            "OpenCode 웹 UI를 VM 서버로 실행해 여러 기기에서 지속적 코딩 세션 관리",
+            "AI는 쓰기 권한이 없고 feature branch에만 푸시하며, 사용자가 PR 검토 후 배포하는 구조로 보안 확보",
+            "Docker compose 스택을 Arcane GitOps로 관리해 git 기반 배포 자동화"
+          ],
+          "whyItMatters": "AI 도구의 능력을 활용하면서도 인증 및 감시 계층을 유지하는 안전한 홈 인프라 자동화 패턴을 제시한다.",
+          "url": "https://rsgm.dev/post/ai-dev-platform/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 213,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "devops"
+          ],
+          "topicId": "ai-dev-platform",
+          "isTopicPrimary": true,
+          "slug": "my-homelab-ai-dev-platform",
+          "fullContent": "I set up OpenCode Web UI with Git access to make my homelab easier to manage.\nOpenCode pushes changes to Git, I approve the PRs, GitOps deploys the changes.\nBest of all, OpenCode runs as a server with persistent coding sessions synced across devices.\nI’ll share my homelab setup soon.\nThere are about a dozen docker compose stacks for the services that I manage.\nI recently moved them to Arcane so I can manage/deploy them with GitOps.\nThe next logical step was using AI tooling to help maintain my services.\nThe first use that came to mind was using AI to help with container updates.\nPreviously, I would spend time looking up the release notes for each of the services, checking for any breaking changes, running the updates,\nand manually checking each of the services for issues.\nI would spend a few hours on this. Now I can read a summary of the release notes in a few minutes, making version upgrades easier and safer.\nOn top of that, I’ve used AI to add healthchecks to most of the containers to make it faster to spot issues.\nOpenCode\nI mainly used Claude Code, but AI providers have been really squeezing the value out of customers recently through token limits,\nso I took the opportunity to look into other options.\nI wanted something that was vendor agnostic and supported by the major plugins.\nI ended on OpenCode.\nThere are probably other decent coding environments, but this was my favorite of the ones I tried.\nThen I found it ships with a built in webserver and web UI, which gave me an idea.\nAI Dev Platform\nI set up a simple VM on the Truenas host with basic dev tooling and added OpenCode webserver as a systemd unit.\nIt’s a solid environment with a built in terminal, file browser, and git diffs,\nas well as git worktree support for managing multiple coding sessions at the same time.\nPlus, OpenCode had the best the question/answer popups in the mobile web UI that I’ve seen.\nI gave OpenCode its own user on my Git server with dedicated SSH keys.\nIt can clone projects and push branches, but it cannot push straight to the deploy branch.\nMy workflow keeps the AI behind PR review. OpenCode writes the change and I merge it myself in a PR.\nI think it’s cute, but more importantly, it keeps unreviewed code from getting deployed.\nThe VM has internet access and access to my Git server, but it cannot reach my actual services.\nBecause the blast radius is small, I am comfortable giving OpenCode root on the VM when it needs to install build tools or test dependencies.\nI could see building this into a production developer platform. Ephemeral containers available to developers with preinstalled tooling,\naccess guardrails, and audit logs. But for me, it does what I need it to without too many moving parts.\nWorkflow\nMy basic workflow is:\nPlan out a feature or improvement in OpenCode (spec, implementation plan, and self-reviews)\nI’ll test or verify changes if possible\nIterate with OpenCode on things I don’t like\nOpenCode pushes changes to a feature branch\nI’ll open a PR for this branch\nI’ll merge the PR once I’m happy\nGitOps takes over from there\n- Arcane for docker service changes, GitOps plugin for Home Assistant config changes, Cloudflare Pages worker for blog changes\nI migrated my services from Truenas to Arcane GitOps projects.\nThis was mainly to have git-backed storage for all the docker compose stacks I was running in Truenas previously.\nI was surprised how well this worked in conjunction with adding OpenCode.\nBeing able to update the networking across all containers, for example, from my phone makes the sprawl much easier to manage.\nBefore it would take hours to comb through all of the compose stacks, tracing out network connectivity.\nNow I can point OpenCode at the codebase with a goal, check the resulting PR changes, and merge.\nThe main missing piece is CI feedback.\nOn GitHub, I like pointing a coding agent at Actions logs so it can diagnose failing tests, linter errors, stack traces, and IaC plan changes.\nThis helps maintain a fast feedback loop for changes that unit tests don’t cover.\nForgejo makes that harder.\nForgejo Actions does not expose job logs through the public API.\nThere are undocumented APIs, but I would rather not build around those.\nThis setup lets me make home infra changes from any device without giving AI direct access to the services it’s changing.\nI can start a change from my computer, review the PR from my phone, and let GitOps handle the deploy.\nI set up OpenCode Web UI with Git access to make my homelab easier to manage.\nOpenCode pushes changes to Git, I approve the PRs, GitOps deploys the changes.\nBest of all, OpenCode runs as a server with persistent coding sessions synced across devices.\nI’ll share my homelab setup soon.\nThere are about a dozen docker compose stacks for the services that I manage.\nI recently moved them to Arcane so I can manage/deploy them with GitOps.\nThe next logical step was using AI tooling to help maintain my services.\nThe first use that came to mind was using AI to help with conta",
+          "category": "insight",
+          "publishedAt": "2026-06-15T15:09:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "rohitg00/ai-engineering-from-scratch (Python)",
+          "titleKo": "AI 엔지니어링 처음부터 배우기",
+          "summary": "AI 엔지니어링 기초부터 실제 구현, 배포까지 학습할 수 있는 Python 기반 저장소이다.",
+          "keyPoints": [
+            "AI 엔지니어링의 전체 파이프라인을 실습 중심으로 다룸"
+          ],
+          "whyItMatters": "AI 시스템을 처음부터 직접 구축하고 배포하려는 개발자에게 실용적인 학습 자료를 제공한다.",
+          "url": "https://github.com/rohitg00/ai-engineering-from-scratch",
+          "sourceName": "GitHub Trending",
+          "engagement": 33052,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-engineering-learning",
+          "isTopicPrimary": true,
+          "slug": "rohitg00ai-engineering-from-scratch-python",
+          "category": "insight",
+          "publishedAt": "2026-06-15T23:38:09.241Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "mikeroyal/Self-Hosting-Guide (Dockerfile)",
+          "titleKo": "자체 호스팅 가이드",
+          "summary": "클라우드, LLM, WireGuard, 자동화, Home Assistant, 네트워킹 등 온프레미스 서버 구축 및 관리에 필요한 종합 가이드이다.",
+          "keyPoints": [
+            "자체 서버 구축과 운영에 필요한 다양한 기술 및 도구 정보 제공",
+            "클라우드 대안으로 자체 인프라 구성 방법 제시"
+          ],
+          "whyItMatters": "개인 또는 조직의 서버를 직접 호스팅하고 관리하려는 개발자에게 필수 기술 정보를 제공한다.",
+          "url": "https://github.com/mikeroyal/Self-Hosting-Guide",
+          "sourceName": "GitHub Trending",
+          "engagement": 20983,
+          "contentType": "repo",
+          "labels": [
+            "devops"
+          ],
+          "topicId": "self-hosting-guide",
+          "isTopicPrimary": true,
+          "slug": "mikeroyalself-hosting-guide-dockerfile",
+          "category": "insight",
+          "publishedAt": "2026-06-15T23:38:09.242Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Dockerfile"
+          ]
+        },
+        {
+          "title": "Banned Book Library in a Wi-Fi Smart Light Bulb",
+          "titleKo": "Wi-Fi 스마트 전구에 숨겨진 금지 도서 도서관",
+          "summary": "저자가 ESP32 기반 스마트 전구를 해킹하여 무선 접근점과 웹 서버를 설치해 금지된 도서에 접근할 수 있도록 하는 프로젝트를 구현했습니다. 탐지하기 어려운 물리적 위치에서 금지 콘텐츠 배포가 가능합니다.",
+          "keyPoints": [
+            "Tasmota 펌웨어를 사용한 스마트 기기 커스터마이징으로 클라우드 의존성 제거",
+            "4MB 플래시 저장소의 제약을 극복하기 위해 마이크로SD 카드 추가 저장소 구현",
+            "사이버펑크적 개념의 실제 하드웨어 해킹 프로젝트로 기술적, 정치적 메시지 전달"
+          ],
+          "whyItMatters": "IoT 기기 해킹과 임베디드 시스템 커스터마이징의 실제 사례를 배울 수 있으며, 오픈소스 펌웨어의 창의적 활용을 보여줍니다.",
+          "url": "https://www.richardosgood.com/posts/banned-book-library/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 39,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "banned-book-library-in-a-wi-fi-smart-light-bulb",
+          "fullContent": "Banned Book Library\nTags = [\ncyberpunk,\nhacking,\nhardware ]\nPosted on June 15, 2026 at 06:35 PDT\nOverview\nA long while back I had an idea to hack a WiFi smart light bulb to do something more useful to me. Actually, I had a few different ideas of things to do with them. One of these ideas was to modify the device to have an open WiFi access point and a web server hosting banned books. The idea was that if you lived somewhere that banned books you thought were important, you could theoretically stick a digital copy of the book on one of these light bulbs. Then you could go install it somewhere in your community. As long as the light bulb is switched on, then anyone in the vicinity can still access the banned material assuming they have an electronic device with WiFi. Since the device is a light bulb, it would be difficult to detect and likely to go unnoticed. A cyberpunk digital dead drop. These devices are also fairly inexpensive, so leaving them around town as is hopefully not very cost prohibitive.\nI think the idea hosting banned books specifically came to me after having read Ben Brown's short story Library. It's been a while since I read it, but if I recall there are characters in the story who maintain a \"library\" which acts as a digital archive of creative works, owners manuals, 3d models, etc. Things that others might find useful or interesting that you wouldn't want to lose should they be somehow wiped from the Internet. That's only a part of the story and it was a fun read. You should go read it!\nAnyway, a few months ago I decided to finally get to work on this project. The result is the Banned Book Library!\nHardware\nI brought up this idea with some folks at my local DEFCON meetup group. One of them had some experience with home automation and recommended I look into Tasmota. Tasmota is an open-source firmware you can install on various smart devices to integrate them into a home automation system such as HomeAssistant. The main idea with this firmware is to provide you with local control over the device. Many of these devices rely on cloud services that change over time or sometimes completely disappear, leaving the devices unusable. Tasmota allows you to untether yourself from these cloud services and host everything internally. Actually, this is another great parallel to Ben Brown's Library story. Also relevant is Cory Doctorow's Unauthorized Bread.\nI hadn't heard of Tasmota but after reading about it, it sounded like a good way to go. I had sort of expected many of these smart light bulbs would rely on ESP32 chips, or similar. Having no experience with them made it feel a bit daunting to get started. I thought maybe it might be easier to modify the Tasmota firmware to do what I wanted instead of writing something from scratch. I did not end up modifying Tasmota in the end, but this rabbit hole did lead me to find a website that sells WiFi light bulbs with Tasmota pre-installed. The product page even specified that the bulb uses an ESP32C3 4MB. It also listed which GPIO pins were used to control the various LEDs, which would come in handy later:\nR：GPIO6\nG：GPIO7\nB：GPIO5\nCW：GPIO3\nWW：GPIO4\nThis seemed like a great starting point because although Tasmota supports many other devices, not all of them can be flashed over the air (OTA). Many of them require breaking them open, soldering on small wires, and flashing via a serial programmer. Tasmota has a built-in mechanism to update the firmware OTA, so it seemed likely I might be able to flash my own modified Tasmota firmware, or otherwise a custom firmware without having to tear the light bulbs apart.\nThe one thing that struck me as a potential problem was the flash size. It was listed as 4MB. This is not very much space to host a library of books... That 4MB would need to fit all of the firmware, the website, and any books. Not much space. I thought I might be able to overcome this by adding storage, such as a microSD card reader. More on that later.\nI purchased two of these bulbs to play with. I figured I might end up breaking or bricking one, so having a backup would be good.\nTeardown\nThe bulbs showed up in the main a few days later and I opened up the box to check it out.\nThe first thing I wanted to do was open it up and see what I was working with. I was mainly wondering if the pins were exposed so I might be able to attach a microSD card reader. To remove the white plastic bulb on top, I ran a razer blade around the circumference of the bulb in between the base and the bulb. I had to go around twice, the second time angling the knife downward to cut through the sealant inside. Then I was able to just twist and pull the bulb right off. Minimal damage.\nThis revealed a round daughter board with all of the LEDs on it. This PCB was attached to another one underneath using six pins. There was also a hole in the middle where the mother board stuck through a bit. This ended up being the antenna for the ESP32. The bulb housing was lined with aluminum and t",
+          "category": "insight",
+          "publishedAt": "2026-06-15T22:37:55.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Introduction-to-Autonomous-Robots/Introduction-to-Autonomous-Robots (TeX)",
+          "titleKo": "Introduction-to-Autonomous-Robots/Introduction-to-Autonomous-Robots",
+          "summary": "자율 로봇 입문 교육 자료입니다.",
+          "keyPoints": [
+            "로봇 개발자를 위한 기초 학습 리소스"
+          ],
+          "whyItMatters": "로보틱스 분야의 입문자들이 체계적으로 자율 로봇의 기초를 학습할 수 있는 교육 자료를 제공합니다.",
+          "url": "https://github.com/Introduction-to-Autonomous-Robots/Introduction-to-Autonomous-Robots",
+          "sourceName": "GitHub Trending",
+          "engagement": 3054,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "introduction-to-autonomous-robotsintroduction-to-autonomous-robots-tex",
+          "category": "insight",
+          "publishedAt": "2026-06-15T23:38:09.242Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TeX"
+          ]
+        },
+        {
+          "title": "Making glass-to-metal seals for home­made vacuum tubes",
+          "titleKo": "수제 진공관을 위한 유리-금속 밀폐 제작",
+          "summary": "수제 진공관 제작을 위해 유리와 금속을 밀폐하는 기술에 대한 상세한 가이드입니다.",
+          "keyPoints": [
+            "진공관 제작의 핵심 기술인 유리-금속 밀폐 방법 설명"
+          ],
+          "whyItMatters": "전자기기 수제 제작과 하드웨어 엔지니어링에 관심 있는 개발자들에게 실용적인 기술 자료입니다.",
+          "url": "https://maurycyz.com/projects/glass/1/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 117,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "making-glass-to-metal-seals-for-homemade-vacuum-tubes",
+          "category": "insight",
+          "publishedAt": "2026-06-14T15:52:09.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Game Engine White Papers Commander Keen",
+          "titleKo": "게임 엔진 백서 Commander Keen",
+          "summary": "고전 게임 Commander Keen의 엔진에 대한 기술 문서로, 레트로 게임 개발의 역사와 기술적 구현을 다룬 것으로 보입니다.",
+          "keyPoints": [
+            "Commander Keen 게임 엔진의 기술적 상세 분석"
+          ],
+          "whyItMatters": "게임 개발 역사와 최적화 기법 이해에 도움이 됨",
+          "url": "https://forgottenbytes.net/commander_keen.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 130,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "game-dev-history",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "game-engine-white-papers-commander-keen",
+          "category": "insight",
+          "publishedAt": "2026-06-15T17:52:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "I Love the Computer",
+          "titleKo": "나는 컴퓨터를 사랑한다",
+          "summary": "저자가 1990년대 초 IBM 486 컴퓨터와의 만남부터 인터넷 시대까지 컴퓨터와의 개인적 여정과 사랑을 이야기합니다. 현재의 과도한 AI 마케팅 속에서도 컴퓨터 자체에 대한 순수한 사랑을 되찾자는 메시지를 전달합니다.",
+          "keyPoints": [
+            "개인 컴퓨터와의 만남이 인생의 안정적인 지점이 되어준 경험",
+            "인쇄 잡지와 인터넷을 통한 기술 발견의 차이와 매력",
+            "현대의 상업화된 기술 문화 속에서 컴퓨터 자체에 대한 사랑 재발견"
+          ],
+          "whyItMatters": "기술 산업의 마케팅 과열 속에서 개발자들이 초심을 되찾게 도와줍니다.",
+          "url": "https://michaelenger.com/blog/i-love-the-computer/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 104,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-love-the-computer",
+          "fullContent": "2026-06-06\nI Love the Computer\nIn a recent discussion on the Aftermath Podcast about the ill effects of the current AI hype cycle, one of the editors said something that really resonated with me:\nI love the computer. — Chris Person\nThis was in the middle of a rant about how these snake oil salesmen are ruining the space he loves with their insatiable avarice and, as much as I’d like to add my voice to the chorus of technologists who are legitimately angry at this social crime being committed, I’m going focus on that specific quote.\nBecause I, too, love the computer.\nIn The Beginning\nIt all began with a curious box that my mother brought home from work. Sometime when I was around six or seven we were living in Dølihagen, a suburban area near Jessheim, itself a small town in Norway. The area was less populous then than it is now, having ballooned in size since they opened the new international airport nearby, and my memories of it are a sparse mix of playgrounds, muddy fields, and a sea of homogenous buildings.\nWe had moved there after the death of my father, from a large house my parents had build next door to my grandparents, to a small flat on the lower ground floor where my mother, my brother, and I all slept in the same room. My mother flitted through a series of workplaces and eventually landed a job in the ministry of foreign affairs, a position that was going to send us to the Philippines. I don’t remember much of the preparations leading up to the move, but one experience is burned into my mind: the day she brought home the computer. From the moment she unpacked and set it up on the dining room table I was enthralled.\nThis daunting and foreign machine was fairly typical for the early 90s and was a tool she was given to aid in her new work. It was an IBM 486 DX6 running Windows 3.0 (later Windows for Workgroups 3.11), housed in a business-grey tower adorned with green LEDs and an beguiling turbo button. It came preinstalled with Paint, SkiFree, and Solitaire, and would become my portal into a new world wherein I would find friends, hobbies, and a career. It was eventually equipped with a sound card and CD-ROM drive—my mother damning whomever had coined the term “Plug & Play” during its installation—and I have countless memories of time spent exploring all it had to offer. Nearly two decades after that first introduction, a therapist would speculate that my interest in computers could stem from how it was a rare point of stability in a life where I ended up leaving my home and my friends every few years.\nThe Smell of Ink on Cheap Paper\nAs I had the pleasure of being drawn into the world of computers in the pre-Internet era1, my experience of discovery is inexorably linked with the enthusiast print media at the time. Magazines like TEKNO and Geek, and eventually Incite PC Gaming and PC Gamer, gave me insight not only into the hardware and software that so enraptured me, but a culture which I yearned to be a part of. My interests revolved mostly around gaming, but I would pour over any and all computer-related publication I could get my hands on. I understood very little but I was desperate to learn, and thoroughly explored the floppy discs and CDs that came along with the magazines. Through these publications I picked up the slang and the overlapping interests, and found myself building an identity around what it meant to be a “geek”, a “gamer”, or a “computer guy”. Having revisited some of those magazines in recent times shows how crude, misogynistic, and adversarial a lot of the writing was, so although they provided me with a lot of self-discovery I’m glad I outgrew that mentality.\nIt would be easy to say that it’s just nostalgia that makes me lament what was lost in the transition to the Internet, and it’s not like print was spared the rot of capitalism that has made online geek spaces into ad-ridden, engagement-maximising cesspools. But I am glad that I was able to do my initial discovery in a world devoid of pop-ups, auto-playing ads, click-bait, and incessant pleas to “like and subscribe”. Print media was slow, imperfect, and filled with a callous toxicity that still permeates the hobby, but, as I have espoused before, there is something unique in the kind of writing that was done by a full editorial team and meant for permanently printing on paper. All that being said, as much as I loved the magazines I collected, they pale in comparison to the endless font of knowledge which was about to enter my life. For what better place is there for a kid with a voracious appetite for niche information than the wonderful World Wide Web?\nAn Era of Self-Discovery\nIn my early teens we moved to Malaysia and I started attending a school which had a permanent Internet connection available to students. I had had a brief introduction to use of the Internet at my former school, but having it available on all computers and free to be explored was a boon to a tech addict like me. My exploration was wide and deep, and ",
+          "category": "insight",
+          "publishedAt": "2026-06-15T20:14:15.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Why I Email Complete Strangers",
+          "titleKo": "왜 나는 낯선 사람에게 이메일을 보내는가",
+          "summary": "저자는 이메일을 통해 낯선 사람들과 의미 있는 연결을 만드는 경험을 공유합니다. 이메일의 오래된 매력, 영구성, 의도적이고 깊이 있는 소통의 가치를 설명하고, 낯선 사람에게 연락하는 것이 두렵지 않다는 것을 보여줍니다.",
+          "keyPoints": [
+            "이메일은 소셜 미디어와 달리 영구성과 유연성을 제공하는 통신 수단",
+            "인스턴트 메시징과 다르게 사람들의 리듬을 존중하는 깊이 있는 대화 가능",
+            "불안감을 극복하고 의도적인 메시지를 보내는 것이 결국 의미 있는 연결을 만듦"
+          ],
+          "whyItMatters": "개발자들이 전문가 네트워킹과 커뮤니티 형성을 위해 이메일을 효과적으로 활용하는 방법을 배울 수 있습니다.",
+          "url": "https://www.goodinternetmagazine.com/why-i-email-complete-strangers/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 41,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "why-i-email-complete-strangers",
+          "fullContent": "The first time I emailed a stranger, I swear my cursor hovered over Send for a full five minutes.I had plenty of justifiable reasons to remain hesitant. Not wanting to take up their time, feeling bothersome, worried my question was a silly one... A hundred disparate excuses leading back to the same core: \"I’m not enough.\" That’s the forever curse of low self-esteem. The best and worst-case scenario can never occur, because you’ve rejected yourself first. Who knows how the other is going to respond?That’s where the rub is, isn’t it? The terrifying unknown.Yet, despite all the odds, I’ve moved through that suffocating fear. And you can do the same too. Allow me to explain.Email is old. More established than the smartphone, the hyperlink, and even the beloved internet.While Tim Berners-Lee was still only theorizing on what would later become the World Wide Web, programmers were already sending each other emails. Ray Tomlinson sent the first email from one computer to another in 1971, choosing the @ symbol to separate the sender from the host machine.That was 54 years ago. And a few hours previous, as I write this in 2025? I continued what he started.Email is an oft-cited example for demonstrating Lindy’s law: a theory positing that something’s future life expectancy is in proportion to its current age. The longer something lasts, the longer it’ll continue.Social media platforms rise and fall like ancient empires sped up a thousand times. Yet email endures. Like the postal service or the printed book. Is it any coincidence these technologies remain my great loves? They share a quality I struggle to name. Perhaps it’s permanence in an ephemeral world. You can tuck a letter in a drawer, discovering it decades later. A book can outlive its author by centuries. One can archive, search, and treasure an email. They’re all vessels that honor my beloved words.And in their longevity is their flexibility. You can read a book anywhere, anytime. You can send a letter to the farthest-flung corners of the earth imaginable. And you can email anyone.Whoever you are, wherever you are, however you send and receive your emails, it’s there for you. And if you ever leave, you can take it all with you. Or change it over. Can the same be said for anything on a social media platform? Perhaps not. An email can be spam, sure, just as a letter can be junk, or a book unenjoyable.The other thing I love about this communication method is it can be intentional, meaningful, hope-filled, and considerate. Or just kind. You can make a small difference with each one you send. Just like a smile.I’ve been thinking about why it continues to feel special. Even though it’s an integral part of our age of instant everything, the way we treat it doesn’t have to operate on perpetual now’s terms.You can choose to engage with it in human time, and so can the recipient: compose when you have something to say, respond when you have space to think.This breathing room creates something rare: conversations that deepen rather than scatter. Unlike the terror-inducing typing indicators and read receipts of instant messaging, email lets thoughts linger. You can draft, reconsider, refine. It’s communication that honors people’s rhythms.Over the past year, I’ve sent countless emails to writers, developers, bloggers, artists, thinkers, and poetic web folks. Not all replied — and why should I expect them to? — but so many did.I’ve never experienced the slow death that is the commercial or corporate inbox, but for the first time in my life, I don’t dread my inbox. I look forward to opening it.Each connection, no matter how fleeting, started with a simple email.So, why do we hesitate?There’s something vulnerable about sending missives out into the void, not knowing if you’ll be welcomed or ignored. We’ve been conditioned to think of unsolicited contact as unwelcome.While much of it is…there’s a difference between spam and genuine effort.There’s something to be said for respecting the other person’s time and attention.Approaching someone when you’ve engaged with their work, when you have something specific and meaningful to share or ask…you’re not being intrusive. You’re being human.The worst thing that can happen? They don’t reply. And it’s not that bad.Their silence says nothing about your worth. They might be busy, taking a break from email, or not in a place where they can engage with new folk…who knows? And what does it matter?Wait. Is that you asking for guidelines on navigating this hobby? (Even if you weren’t, I’m going to continue, because I still think you’ll find at least one thing useful!)Here’s a list. Not rules, per se, but principles. Or mistakes I’ve made you’ll never have to.Don’t contact someone unless you’d want to consider them a friend.If they have a place on the web, wander through it. See who they are, what makes them tick, any interests you have in common. Be specific. This shows you paid attention and you care.Make it about them as much as it is ab",
+          "category": "insight",
+          "publishedAt": "2026-06-15T21:57:10.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Commander Keen Games (free book)",
+          "titleKo": "Commander Keen 게임 (무료 책)",
+          "summary": "Commander Keen 게임 관련 무료 전자책 리소스를 제공하는 사이트입니다.",
+          "keyPoints": [
+            "레트로 게임 개발 학습 자료 제공"
+          ],
+          "whyItMatters": "클래식 게임 개발의 역사와 기술을 학습하려는 게임 개발자에게 유용합니다.",
+          "url": "https://forgottenbytes.net/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 19,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "topicId": "game-dev-history",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "commander-keen-games-free-book",
+          "category": "insight",
+          "publishedAt": "2026-06-15T20:30:37.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "The Dead Economy Theory",
+          "titleKo": "죽은 경제 이론",
+          "summary": "경제학의 기본 가정과 현실 간의 괴리에 대한 비판적 분석 글입니다. 전통 경제 이론의 한계를 지적하고 있습니다.",
+          "keyPoints": [
+            "전통 경제 모델이 현실의 복잡성을 충분히 반영하지 못하고 있음",
+            "경제 주체의 비합리적 행동과 시장 실패에 대한 이해 필요"
+          ],
+          "whyItMatters": "개발자가 구축하는 시스템이 실제 경제 현실을 반영해야 할 때 필요한 비판적 관점을 제공합니다.",
+          "url": "https://gmalandrakis.com/writings/ad-economicum.html",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 50,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-dead-economy-theory",
+          "category": "insight",
+          "publishedAt": "2026-06-15T21:10:36.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Techno-libertarians are flocking to the Caribbean",
+          "titleKo": "테크노-자유주의자들이 카리브해로 몰려가고 있다",
+          "summary": "기술 중심의 자유주의 이념을 가진 사람들이 카리브해 지역으로 이동하는 추세를 다루고 있습니다. 규제가 적은 환경에서 자신들의 이상을 실현하려는 움직임으로 보입니다.",
+          "keyPoints": [
+            "테크놀로지 업계의 자유주의 성향 인물들이 카리브해 지역의 저규제 환경을 선호하고 있음",
+            "이는 블록체인, 암호화폐 등 기술 혁신 추구와 맞닿아 있음"
+          ],
+          "whyItMatters": "암호화폐와 탈중앙화 기술 개발자들의 이동 경향을 이해하는 데 중요한 배경 정보입니다.",
+          "url": "https://economist.com/the-americas/2026/06/11/techno-libertarians-are-flocking-to-the-caribbean",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 40,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "techno-libertarians-are-flocking-to-the-caribbean",
+          "category": "insight",
+          "publishedAt": "2026-06-15T21:30:41.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Anthropic begged the world to stop AI… then shipped this",
+          "titleKo": "Anthropic이 AI를 중단하도록 호소한 후 이것을 출시함",
+          "summary": "YouTube 영상 콘텐츠로 구체적인 본문이 없어 분석 불가",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=1PBRhm5ZnjU",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "anthropic-ai-news",
+          "isTopicPrimary": true,
+          "slug": "anthropic-begged-the-world-to-stop-ai-then-shipped-this",
+          "category": "video",
+          "publishedAt": "2026-06-11T17:17:48+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "WebMCP: 50% Perfect",
+          "titleKo": "WebMCP: 50% 완성도",
+          "summary": "영상 콘텐츠로 WebMCP에 대한 내용을 다룬 것으로 보이나, 제공된 본문이 없어 상세 요약 불가능합니다.",
+          "keyPoints": [
+            "WebMCP 기술 소개"
+          ],
+          "whyItMatters": "웹 개발 관련 새로운 도구나 프로토콜에 대한 이해 필요",
+          "url": "https://www.youtube.com/watch?v=ivHYOwMRayc",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "topicId": "webmcp-discussion",
+          "isTopicPrimary": true,
+          "slug": "webmcp-50-perfect",
+          "category": "video",
+          "publishedAt": "2026-06-15T17:10:28+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "The forgotten developer who saved JavaScript...",
+          "titleKo": "JavaScript를 구한 잊혀진 개발자",
+          "summary": "영상 콘텐츠로 JavaScript 역사와 관련 인물을 다룬 것으로 보이나, 제공된 본문이 없어 상세 요약 불가능합니다.",
+          "keyPoints": [
+            "JavaScript 역사"
+          ],
+          "whyItMatters": "현대 웹 개발의 기초가 된 JavaScript의 배경 이해",
+          "url": "https://www.youtube.com/watch?v=JfPWbttemYE",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "topicId": "javascript-history",
+          "isTopicPrimary": true,
+          "slug": "the-forgotten-developer-who-saved-javascript",
+          "category": "video",
+          "publishedAt": "2026-05-29T17:06:48+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "The Secret to Better AI Animations",
+          "titleKo": "더 나은 AI 애니메이션의 비결",
+          "summary": "제목만 있고 상세 내용이 없어 정확한 요약이 불가능합니다.",
+          "keyPoints": [
+            "AI 기반 애니메이션 개선 기법"
+          ],
+          "whyItMatters": "AI를 활용한 애니메이션 개발자들에게 품질 향상 방법을 제시할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=eaFCpssns1Y",
+          "sourceName": "Codevolution",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "topicId": "ai-animations",
+          "isTopicPrimary": true,
+          "slug": "the-secret-to-better-ai-animations",
+          "category": "video",
+          "publishedAt": "2026-06-15T07:58:15+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "10 weird OSS projects you need right now...",
+          "titleKo": "지금 바로 필요한 10개의 이상한 오픈소스 프로젝트",
+          "summary": "영상 콘텐츠로 독특하고 유용한 오픈소스 프로젝트들을 소개한 것으로 보이나, 제공된 본문이 없어 상세 요약 불가능합니다.",
+          "keyPoints": [
+            "오픈소스 프로젝트 발굴"
+          ],
+          "whyItMatters": "개발 생산성 향상에 도움이 될 수 있는 새로운 도구 발견",
+          "url": "https://www.youtube.com/watch?v=qPuzWFvRajk",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "topicId": "oss-projects",
+          "isTopicPrimary": true,
+          "slug": "10-weird-oss-projects-you-need-right-now",
+          "category": "video",
+          "publishedAt": "2026-05-26T17:53:11+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Fable 5 vs Mythos 5: The Basics",
+          "titleKo": "Fable 5 vs Mythos 5: 기본사항",
+          "summary": "제목만 있고 상세 내용이 없어 정확한 요약이 불가능합니다.",
+          "keyPoints": [
+            "두 게임 엔진 또는 도구 간의 비교 분석"
+          ],
+          "whyItMatters": "게임 개발자들이 프로젝트에 맞는 엔진을 선택하는 데 도움이 될 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=9ut0E62jJ1o",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "fable-vs-mythos",
+          "isTopicPrimary": true,
+          "slug": "fable-5-vs-mythos-5-the-basics",
+          "category": "video",
+          "publishedAt": "2026-06-15T21:28:41+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "One man just liberated Fable... and now it’s illegal",
+          "titleKo": "어떤 남자가 Fable을 해방시켰고 이제 그것은 불법입니다",
+          "summary": "제목만 있고 상세 내용이 없어 정확한 요약이 불가능합니다.",
+          "keyPoints": [
+            "Fable 관련 법적 이슈 발생"
+          ],
+          "whyItMatters": "게임 개발 커뮤니티의 법적/정책 변화를 파악할 필요가 있습니다.",
+          "url": "https://www.youtube.com/watch?v=ey_GaPdC9zk",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "fable-legal",
+          "isTopicPrimary": true,
+          "slug": "one-man-just-liberated-fable-and-now-its-illegal",
+          "category": "video",
+          "publishedAt": "2026-06-15T18:35:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Anthropic is starting to panic…",
+          "titleKo": "Anthropic이 패닉을 시작하고 있다",
+          "summary": "제목만 있고 상세 내용이 없어 정확한 요약이 불가능합니다.",
+          "keyPoints": [
+            "Anthropic의 사업 또는 전략 관련 뉴스"
+          ],
+          "whyItMatters": "AI 업계 동향과 주요 기업의 방향성 변화를 추적할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=0pgCBV8CTZY",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "anthropic-concerns",
+          "isTopicPrimary": true,
+          "slug": "anthropic-is-starting-to-panic",
+          "category": "video",
+          "publishedAt": "2026-06-09T17:32:30+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Fable/Mythos Usage Is INSANE",
+          "titleKo": "Fable/Mythos 사용량이 미친 수준",
+          "summary": "영상 콘텐츠로 Fable 또는 Mythos 기술의 높은 사용률을 다룬 것으로 보이나, 제공된 본문이 없어 상세 요약 불가능합니다.",
+          "keyPoints": [
+            "Fable/Mythos 인기"
+          ],
+          "whyItMatters": "함수형 프로그래밍 또는 대체 언어 생태계의 현황 파악",
+          "url": "https://www.youtube.com/watch?v=Hppa7QsijhA",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "fable-adoption",
+          "isTopicPrimary": true,
+          "slug": "fablemythos-usage-is-insane",
+          "category": "video",
+          "publishedAt": "2026-06-12T22:00:11+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "BREAKING NEWS: Fable &amp; Mythos REMOVED Over National Security Concerns",
+          "titleKo": "속보: Fable & Mythos 국가 안보 우려로 삭제됨",
+          "summary": "YouTube 영상 콘텐츠로 구체적인 본문이 없어 분석 불가",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=E7lntF7y3k0",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "fable-mythos-security",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "breaking-news-fable-amp-mythos-removed-over-national-security-concerns",
+          "category": "video",
+          "publishedAt": "2026-06-13T06:03:37+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "BREAKING: Fable and Mythos have been taken down for security concerns.",
+          "titleKo": "속보: Fable과 Mythos 보안 우려로 제거됨",
+          "summary": "YouTube 영상 콘텐츠로 구체적인 본문이 없어 분석 불가",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=W-kM56mf-Nw",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "fable-mythos-security",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "breaking-fable-and-mythos-have-been-taken-down-for-security-concerns",
+          "category": "video",
+          "publishedAt": "2026-06-13T02:16:41+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "The weird situation with Fable",
+          "titleKo": "Fable의 이상한 상황",
+          "summary": "YouTube 영상 콘텐츠로 구체적인 본문이 없어 분석 불가",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=cZ3kARY_MDI",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "topicId": "fable-situation",
+          "isTopicPrimary": true,
+          "slug": "the-weird-situation-with-fable",
+          "category": "video",
+          "publishedAt": "2026-06-15T09:36:23+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
