@@ -130,3 +130,27 @@ jobs:
           name: obsidian-markdown
           path: data/markdown/
           retention-days: 30
+
+      # 앞 스텝이 하나라도 실패하면 실행 — 침묵 실패 방지.
+      # RESEND_API_KEY/DIGEST_RECIPIENTS 는 뉴스레터 발송용을 그대로 재사용.
+      - name: 파이프라인 실패 알림
+        if: failure()
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "$RESEND_API_KEY" ] || [ -z "$DIGEST_RECIPIENTS" ]; then
+            echo "RESEND_API_KEY 또는 DIGEST_RECIPIENTS 미설정 — 알림 건너뜀"
+            exit 0
+          fi
+          TO_JSON=$(printf '%s' "$DIGEST_RECIPIENTS" | jq -R 'split(",") | map(gsub("^\\s+|\\s+$";"")) | map(select(length > 0))')
+          PAYLOAD=$(jq -n \
+            --argjson to "$TO_JSON" \
+            --arg subject "❌ FE 데일리 리포트 실패 ($(TZ=Asia/Seoul date +%Y-%m-%d))" \
+            --arg html "<p>오늘 FE 데일리 리포트 파이프라인이 실패했습니다.</p><p><a href=\"$RUN_URL\">실행 로그 보기 →</a></p>" \
+            '{from:"Dev Digest <onboarding@resend.dev>", to:$to, subject:$subject, html:$html}')
+          curl -sS -X POST https://api.resend.com/emails \
+            -H "Authorization: Bearer $RESEND_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD"
