@@ -1,0 +1,1310 @@
+{
+  "date": "2026-07-09",
+  "intro": "안녕하세요! 오늘은 프론트엔드와 개발 생태계에 큰 변화가 일어나는 날입니다. Bun이 Rust로 재작성되면서 JavaScript 런타임 전쟁이 본격화되고 있으며, AI 에이전트 기술이 실무 개발 도구로 빠르게 진화하고 있습니다. 또한 Cloudflare의 혁신적인 분산 합의 기술과 Microsoft의 AI 시각화 언어 등 엔터프라이즈급 기술들이 속속 공개되고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Rewriting Bun in Rust",
+          "titleKo": "Bun을 Rust로 다시 작성하기",
+          "summary": "Bun 프로젝트가 Anthropic에 인수되었으며, 원래 Zig로 개발된 Bun의 런타임을 Rust로 재작성하는 작업을 진행 중입니다. Zig에서 발견된 메모리 안전성 문제들(use-after-free, 메모리 누수, race condition 등)을 해결하기 위해 가비지 수집과 수동 메모리 관리를 더 효과적으로 처리할 수 있는 Rust로의 전환을 추진하고 있습니다. 현재 Bun CLI는 월 2,200만 건 이상의 다운로드를 기록하고 있으며, Vercel, Railway, DigitalOcean 등 주요 플랫폼에서 1차 지원을 제공합니다.",
+          "keyPoints": [
+            "Bun의 역사와 현황 - 2021년 Zig로 1년간 개발된 프로젝트가 JavaScript/TypeScript 트랜스파일러, npm 호환 패키지 매니저, Jest 유사 테스트 러너, Node.js API 구현(fs, net, tls 등) 등 광범위한 기능을 제공하며 월 2,200만 다운로드를 기록",
+            "Zig 선택의 배경과 한계 - 초기에 Zig의 저수준 제어와 성능 최적화로 방대한 기능을 1년 내에 구현 가능했으나, 가비지 수집(GC) 언어인 JavaScript와 수동 메모리 관리 언어의 혼합으로 인한 메모리 안전성 문제 발생",
+            "메모리 안전성 문제들 - node:zlib의 heap-use-after-free 크래시, node:http2의 use-after-free 크래시, UDPSocket의 out-of-bounds 접근, fs.watch() 워처의 가비지 컬렉션 미처리 등 12개 이상의 주요 메모리 관련 버그가 v1.3.14에서만 수정됨",
+            "기존 안정성 대책 - ASAN(Address Sanitizer) 지원을 패치한 Zig 컴파일러로 모든 커밋마다 테스트 스위트 실행, Windows에서 Zig의 ReleaseSafe 빌드 배포, JavaScript 엔진 퍼저인 Fuzzilli를 활용한 24/7 퍼징, 광범위한 end-to-end 메모리 누수 테스트 진행",
+            "Rust 전환의 필요성 - GC와 수동 메모리 관리의 상충을 Rust의 소유권 시스템으로 더 효과적으로 처리할 수 있으며, 메모리 안전성을 컴파일 타임에 보장하여 런타임 크래시를 근본적으로 방지 가능",
+            "언어 선택의 전환점 - 과거에는 프로젝트 중반에 프로그래밍 언어를 변경하기 어려웠으나, 최근에는 가능해졌으며 Claude Fable 5 (pre-release) 등의 LLM 도구가 대규모 재작성 작업을 지원"
+          ],
+          "whyItMatters": "Bun은 현대적 JavaScript 런타임으로서 개발자 경험 개선과 성능 최적화를 목표로 하는데, Rust로의 전환을 통해 메모리 안전성을 보장하고 프로덕션 환경의 안정성을 대폭 향상시킬 수 있습니다.",
+          "url": "https://bun.com/blog/bun-in-rust",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 255,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "topicId": "bun-rewrite-rust",
+          "isTopicPrimary": true,
+          "slug": "rewriting-bun-in-rust",
+          "fullContent": "Disclosure: Bun was acquired by Anthropic in December 2025. I and others on the Bun team work at Anthropic. I used a pre-release version of Claude Fable 5 for much of the Rust rewrite.Bun started as a line-for-line port of esbuild's JavaScript & TypeScript transpiler from Go to Zig. I wrote my first line of Zig on April 16, 2021. I bet on Zig after seeing the single-page Zig Language Reference on Hacker News and getting really excited about the low-level control and care for performance.From the start, Bun's scope was massive:JavaScript, TypeScript, and CSS transpiler, minifier, and bundlernpm-compatible package managerJest-like test runnerNode.js & TypeScript-compatible module resolutionHTTP/1.1 & WebSocket clientNode.js API implementations like fs, net, tls, and dozens of other modulesThe initial version of Bun was written by me in 1 year, in a cramped Oakland apartment, pre-LLM, in Zig. The default outcome for ambitiously-scoped projects like Bun is joining the graveyard of dead side projects on a GitHub profile page. Zig made Bun possible. I would never have been able to build this much in 1 year if it wasn't for Zig.Nowadays, Bun's CLI gets over 22 million monthly downloads. Popular tools like Claude Code and OpenCode bet on Bun as their runtime. Vercel, Railway, DigitalOcean and more have 1st-party support for Bun.Bun's scope has also been a challenge for stability. Here's a small sample of bugs we fixed in Bun v1.3.14:heap-use-after-free crash in node:zlib when calling .reset() on a zlib, Brotli, or Zstd stream while an async .write() is still in progress on the threadpooluse-after-free crash in node:zlib when an onerror callback issued a re-entrant write() followed by close() on native handlesuse-after-free crashes in node:http2 when re-entrant JS callbacks (e.g. session.request() inside a timeout listener, an options getter, or a write callback) triggered a hashmap rehash, invalidating internal stream pointersuse-after-free in UDPSocket.send() and sendMany() where user code in valueOf() or toString() callbacks could detach an ArrayBuffer between payload capture and the actual sendcrash and out-of-bounds read in Buffer#copy and Buffer#fill when a valueOf callback detaches or resizes the underlying ArrayBuffer during argument coercionheap out-of-bounds write in UDPSocket.sendMany() when the socket's connection state changed mid-iteration via user JS callbacksmemory leak in crypto.scrypt where the callback and protected password/salt buffers were never released when the output buffer allocation failedSSLWrapper.init leaked the strdup'd passphrase on error pathsmemory leak in tlsSocket.setSession() where each call leaked one SSL_SESSION (~6.5 KB per call) due to a missing SSL_SESSION_free after d2i_SSL_SESSIONmemory leak where fs.watch() watchers were never garbage collected after .close(), caused by a reference count underflow that permanently pinned each watcher as a GC rootdouble-free crash in the CSS parser when background-clip had vendor prefixes and multi-layer backgroundsDuplexUpgradeContext was never freed — a full leak per tls.connect({ socket: duplex })race condition crash in MessageEvent where the GC marker thread could observe a torn variant in m_data during concurrent access from a BroadcastChannel or MessagePortWe could have kept fixing these kinds of bugs one-off in perpetuity, but we owe it to our users counting on us to do better than that, and systematically prevent these kinds of bugs from recurring.What we were already doingWe patched the Zig compiler to add Address Sanitizer support. We run our test suite with ASAN on every commit.We ship Zig safety-checked ReleaseSafe builds on WindowsWe fuzz Bun's runtime APIs 24/7 using Fuzzilli, the JavaScript engine fuzzer used by V8 & JavaScriptCoreWe have a whole lot of end-to-end memory leak testsThis is more than many projects do.Just be really smart and don't make mistakes?Our bugfix list felt bad and I was tired of going to sleep worrying about crashes in Bun. I don't blame Zig for that - other users of Zig don't have the bugs we had, and mixing GC with manually-managed memory is an uncommon enough thing for software to need that no language really designs for it. We wouldn't have gotten this far if not for Zig, and I'll always be grateful. Until very recently, programming language choice was a one-way decision for a project like Bun.JavaScript is a garbage-collected language and modern JavaScript engines like JavaScriptCore (and V8) have strict rules around exception handling and the garbage collector. Zig, like C, doesn't manage memory for you and this is a tradeoff that for many projects is a great reason to use Zig. Zig does not have constructors/destructors, and most cleanup is expected to be written out explicitly at each call site with defer.For Bun, correctly handling the lifetimes of garbage-collected values and manually-managed values has been a major source of stability issues - most often small memory leaks and occasionally, ",
+          "category": "hot",
+          "publishedAt": "2026-07-08T21:49:59.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Mistral's Robostral Navigate: a state of the art robotics navigation model",
+          "titleKo": "Mistral의 Robostral Navigate: 최첨단 로봇 네비게이션 모델",
+          "summary": "Mistral은 단일 RGB 카메라만으로 로봇이 복잡한 환경을 자율적으로 네비게이션할 수 있는 8B 모델인 Robostral Navigate를 발표했습니다. R2R-CE 벤치마크에서 76.6%의 성공률을 달성하며 다중 센서 방식을 능가하고, 시뮬레이션 데이터와 토큰 효율적 기법으로 다양한 로봇 유형에 일반화됩니다.",
+          "keyPoints": [
+            "RGB 카메라 단독으로 LiDAR나 깊이 센서 없이 최고 성능 달성",
+            "Prefix-caching을 통한 효율적 학습으로 훈련 기간을 수개월에서 수일로 단축",
+            "온라인 강화학습(CISPO)을 통해 실패 복구 및 탐험 행동 학습"
+          ],
+          "whyItMatters": "로봇 자율 네비게이션 기술이 실제 산업 적용에 근접했으며, 효율적인 모델 구축 방식은 다른 embodied AI 개발에 참고할 수 있습니다.",
+          "url": "https://mistral.ai/news/robostral-navigate/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 406,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-model-releases",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "mistrals-robostral-navigate-a-state-of-the-art-robotics-navigation-model",
+          "fullContent": "← + − → Introducing Robostral Navigate\nThinking Summary Robostral Navigate is an 8B model that enables robots to autonomously navigate complex environments using only a single RGB camera, achieving 76.6% success on unseen R2R-CE benchmarks—outperforming multi-sensor approaches while being more efficient. Built entirely in-house with simulated data and token-efficient techniques, it generalizes across robot types and adapts to real-world obstacles unseen during training. The model combines pointing-based navigation with reinforcement learning for continuous improvement, paving the way for unified embodied AI in robotics. Today we're introducing Robostral Navigate, our first model built for embodied navigation. It's an 8B model that takes RGB images and a plain-language instruction and moves a robot through an environment: “Leave the lobby, walk through the corridor, enter the supply room, and stop to face the second shelf.” To perform such tasks, other models often employ depth sensors, LiDAR, or several cameras working together. Robostral Navigate uses only one ordinary RGB camera and no depth sensors, yet still achieves 76.6% on R2R-CE (Room-to-Room in Continuous Environments) validation unseen, the benchmark for following instructions in environments held out of training. Consequently, it beats the best single-camera approach by 9.7 points and the best system using depth or multiple cameras by 4.5 points, despite using neither. Navigation Our model is designed for robotic navigation, enabling robots to autonomously navigate complex environments, including offices, residential and commercial buildings, and outdoor settings. Robostral Navigate running fully autonomously in one long-horizon instruction route through a working office. This technology unlocks numerous applications across manufacturing, delivery, logistics, and hospitality, making it one of the most in-demand capabilities for our customers today. Give Robostral Navigate one instruction and it completes the entire task on its own, moving through a live space full of people and obstacles it was never shown, capable of adapting to any setting. Highlights State-of-the-art performance on R2R-CE 79.4% Success Rate on validation seen 76.6% Success Rate on validation unseen Operates from a single RGB camera, with no LiDAR or depth sensors 8B model, built in-house and trained entirely in simulation Runs on wheeled, legged, and flying robots, and generalizes across robot sizes Robust to differences in camera intrinsics Token-efficient training via prefix-caching Success Rate Oracle Success Rate Success weighted by path length Navigation Error Navigation via pointing Given a task and a history of observations, Robostral Navigate predicts where the robot should move next via pointing: it infers the image coordinates of the target location in the robot's current camera view, together with the desired orientation upon arrival. Unlike commands relying on metric displacements, pointing makes the policy naturally robust to changes in camera intrinsics and world scale. However, this method cannot handle cases where the target location lies outside the current field of view. When pointing does not apply, the model falls back to displacements in the robot's local coordinate frame, such as: \"Move 2 meters forward, 1.5 meters to the left, and turn 25 degrees left.\" Built from the ground up Robostral Navigate is built entirely in-house and does not rely on existing open-source VLMs. The model is initialized from our vision-language model specialized for grounding tasks such as pointing, counting, and object localization. Navigation emerges as a natural extension of these capabilities: once it understands where things are, it learns how to move. We built an efficient data generation pipeline entirely in simulation. This enabled rapid iteration on the data, resulting in a dataset of approximately 400,000 trajectories collected across 6,000 scenes. Efficient supervised training A key ingredient of Robostral Navigate is an efficient training algorithm based on prefix-caching. Using a tree-based attention-masking strategy, our method compresses an entire episode into a single sequence, enabling training on all time steps in a single forward pass while preventing information leakage between time steps. Compared to training with one sample per time step, our approach reduces the number of training tokens by 22× while preserving all of the learning signals. In practice, this method transforms training runs that would take months into runs that complete in days.Online reinforcement learningWe leverage our knowledge of post-training LLMs at scale, using online reinforcement learning, to boost the performance of Robostral Navigate. After the supervised training stage, we further improve the model's performance using CISPO, an online reinforcement learning algorithm. This enables the model to learn from trial and error, recover from failures, and acquire exploratory behaviors, e",
+          "category": "hot",
+          "publishedAt": "2026-07-08T14:09:17.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Grok 4.5",
+          "titleKo": "Grok 4.5",
+          "summary": "xAI에서 Grok 4.5를 출시했습니다.",
+          "keyPoints": [
+            "구체적인 내용이 제공되지 않음"
+          ],
+          "whyItMatters": "최신 AI 모델의 동향을 파악할 수 있습니다.",
+          "url": "https://x.ai/news/grok-4-5",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 462,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-model-releases",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "grok-45",
+          "category": "hot",
+          "publishedAt": "2026-07-08T18:00:32.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "GPT‑Live",
+          "titleKo": "GPT-Live 소개",
+          "summary": "본문 없음",
+          "keyPoints": [
+            "OpenAI의 새로운 라이브 스트리밍 기반 AI 기능 출시"
+          ],
+          "whyItMatters": "개발자들이 실시간 AI 상호작용 기능을 애플리케이션에 통합할 수 있는 새로운 방식을 제공합니다.",
+          "url": "https://openai.com/index/introducing-gpt-live/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 590,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-model-releases",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "gptlive",
+          "category": "hot",
+          "publishedAt": "2026-07-08T17:03:19.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "TypeScript 7",
+          "titleKo": "TypeScript 7 발표",
+          "summary": "본문 없음",
+          "keyPoints": [
+            "TypeScript의 새로운 메이저 버전 출시로, 언어 기능과 개발자 경험 개선"
+          ],
+          "whyItMatters": "TypeScript 사용자들이 업그레이드를 통해 새로운 기능과 개선사항을 활용할 수 있습니다.",
+          "url": "https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 459,
+          "contentType": "discussion",
+          "labels": [
+            "typescript"
+          ],
+          "topicId": "typescript-7-release",
+          "isTopicPrimary": true,
+          "slug": "typescript-7",
+          "category": "hot",
+          "publishedAt": "2026-07-08T16:06:35.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "John Deere owners will get the right to repair equipment under FTC settlement",
+          "titleKo": "John Deere 소유자, FTC 합의로 장비 수리 권리 획득",
+          "summary": "FTC와 5개 주의 사법부가 John Deere와 수리 권리 합의를 체결했으며, 농부와 독립 수리점이 소프트웨어 접근 없이 자체 장비를 수리할 수 없도록 제한한 관행을 금지한다. Deere는 진단 및 수리 도구를 장비 소유자와 독립 수리점에 공개해야 하며, 10년간 엄격한 준수 감시를 받게 된다.",
+          "keyPoints": [
+            "Deere는 공인 대리점에만 제공하던 소프트웨어 도구를 이제 모든 장비 소유자와 독립 수리점에 제공해야 함",
+            "합의는 Deere 대리점이 자체 수리를 선택한 고객이나 수리점에 대해 보복하는 것을 금지하며, 100만 달러의 벌금 부과"
+          ],
+          "whyItMatters": "기술 제품의 수리 권리 논쟁이 확대되는 가운데 농업 장비 분야의 선례를 설정하여 향후 개발자의 소프트웨어 접근 정책에 영향을 미칠 수 있다.",
+          "url": "https://apnews.com/article/john-deere-right-to-repair-agriculture-equipment-cb7514ffedb95c130a976af661f2bc02",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 203,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "john-deere-owners-will-get-the-right-to-repair-equipment-under-ftc-settlement",
+          "fullContent": "John Deere owners will get the right to repair their own equipment under a new FTC settlement\n1 of 2 |\nA John Deer emblem is seen at the Husker Harvest Days farm show in Wood River, Neb., Sept. 12, 2018. (AP Photo/Nati Harnik, File)\nRead More\n2 of 2 |\nJohn Deere tractors sit in Norfolk Southern’s Conway Yard in Conway, Pa., Dec. 5, 2022. (AP Photo/Gene J. Puskar, File)\nRead More\nJohn Deere owners will get the right to repair their own equipment under a new FTC settlement\n1 of 2 |\nA John Deer emblem is seen at the Husker Harvest Days farm show in Wood River, Neb., Sept. 12, 2018. (AP Photo/Nati Harnik, File)\nRead More\n1 of 2\nA John Deer emblem is seen at the Husker Harvest Days farm show in Wood River, Neb., Sept. 12, 2018. (AP Photo/Nati Harnik, File)\nAdd AP News on Google\nAdd AP News as your preferred source to see more of our stories on Google.\nShare\nRead More\n2 of 2 |\nJohn Deere tractors sit in Norfolk Southern’s Conway Yard in Conway, Pa., Dec. 5, 2022. (AP Photo/Gene J. Puskar, File)\nRead More\n2 of 2\nJohn Deere tractors sit in Norfolk Southern’s Conway Yard in Conway, Pa., Dec. 5, 2022. (AP Photo/Gene J. Puskar, File)\nAdd AP News on Google\nAdd AP News as your preferred source to see more of our stories on Google.\nShare\nRead More\nBy\nSARAH RAZA\nUpdated [hour]:[minute] [AMPM] [timezone], [monthFull] [day], [year]\nAdd AP News on Google\nAdd AP News as your preferred source to see more of our stories on Google.\nShare\nIt looks like John Deere owners can soon feel free to fix their own machines.The Federal Trade Commission and attorneys general from several states secured a right-to-repair settlement Wednesday with agriculture equipment giant Deere & Co. — commonly known as John Deere — that requires the company to let farmers and independent shops fix their own equipment.The Illinois-based manufacturer has faced complaints for years for withholding the software needed for repairs and forcing customers to use authorized dealers instead of independent ones. This marks the second right-to-repair settlement Deere has reached this year, following a separate $99 million class-action settlement with farmers in April. Though the class-action compensated consumers, the FTC’s settlement instead requires Deere to make its repair services available to equipment owners and independent shops.The FTC and attorneys general from Arizona, Illinois, Michigan, Minnesota and Wisconsin brought the antitrust lawsuit in January 2025, arguing that Deere had illegally restricted farmers and independent shops that might otherwise service them from repairing farm equipment such as tractors. Deere also makes engines and equipment for forestry, landscaping and construction.\nUnder the order filed in Illinois, Deere will now be required to make diagnostic and repair tools available to equipment owners and independent repair shops, not only its own network of authorized dealers. It also prevents Deere dealers from retaliating against equipment owners or repair shops who choose to fix their own equipment instead of paying for Deere’s services. The order is headed to Judge Iain D. Johnston for his approval.\n“For too long, Arizona farmers and independent mechanics have been at the mercy of Deere’s monopoly over repair tools, forced to wait — and pay — for authorized dealers just to fix broken tractors and other equipment,” Arizona Attorney General Kris Mayes said in a statement Wednesday.\nRead More\nDeere must pay $1 million collectively to the five states for antitrust enforcement costs and will be subject to strict compliance oversight for the next 10 years.\nIn the complaint, the FTC argued that Deere provides a service software tool to authorized dealers but does not provide the full version to equipment owners or independent shops. Deere had said the lawsuit was baseless, denied that its distribution of service tools was anticompetitive and argued that it could not monopolize services since it does not directly provide them.\nDeere maintained its commitment to independent repair in a statement Wednesday, adding that the agreement with the FTC reinforces its innovation of more flexible repair options.“This is good news for our customers and for the future of how Deere equipment is supported,” said Denver Caldwell, vice president of aftermarket and customer support.Right-to-repair has become an increasingly common issue over the years, especially for tech products, with consumers complaining that even simple repairs can only be done by company-authorized dealers.\nSARAH RAZA\nRaza covers South Dakota for The Associated Press. She is based in Sioux Falls, South Dakota.",
+          "category": "hot",
+          "publishedAt": "2026-07-08T23:37:43.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Cloudflare Meerkat - Globally distributed consensus",
+          "titleKo": "Cloudflare Meerkat - 전역 분산 합의",
+          "summary": "Cloudflare는 330개 이상의 글로벌 데이터센터에서 강한 일관성을 보장하면서 고가용성을 제공하는 새로운 분산 합의 서비스 Meerkat을 개발했습니다. 기존 Raft 알고리즘의 한계를 극복하기 위해 QuePaxa 알고리즘을 기반으로 구현되었으며, 모든 복제본이 언제든 쓰기를 수행할 수 있어 예측 불가능한 네트워크 환경에 더 적합합니다.",
+          "keyPoints": [
+            "Meerkat은 QuePaxa 알고리즘 기반으로 모든 복제본이 동시에 쓰기 가능하며, 타임아웃으로 인한 시스템 중단이 없습니다.",
+            "Raft와 달리 리더 장애로 인한 가용성 문제를 해결하여 광역 네트워크 환경에 최적화되었습니다.",
+            "제어 평면 상태 관리와 분산 잠금 시스템 등의 애플리케이션을 Meerkat 위에 구축할 수 있습니다."
+          ],
+          "whyItMatters": "Linearizability를 보장하면서 글로벌 규모의 고가용성 시스템을 구축하려는 개발자들에게 새로운 솔루션을 제공합니다.",
+          "url": "https://blog.cloudflare.com/meerkat-introduction/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 215,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "cloudflare-meerkat-globally-distributed-consensus",
+          "fullContent": "Introducing Meerkat: an experiment in global consensus2026-07-08James LarischBob HalleyJoão Pedro Leite12 min readMany internal services at Cloudflare need to read and modify the same control-plane state from across our 330+ global data centers. They need guarantees that different readers never see inconsistent state, and that the system remains available for writes even when some data centers or links fail. But Cloudflare’s network runs across the entire Internet, and the Internet is an unpredictable place. Servers and data centers go down. Queues fill up. Links and cables get cut. These conditions make it difficult to run a globally available data system that guarantees strong consistency (e.g., that all readers are guaranteed to read all prior writes) because hostile conditions hinder distributed system replicas’ ability to reliably synchronize data with one another.One way to synchronize data safely despite adverse network conditions is via a consensus algorithm, which allows a set of machines to agree on the same sequence of values, such as key-value store put and get operations, as long as a majority remains alive and able to communicate. Unfortunately, commonly deployed consensus algorithms like Raft suffer in wide-area networks like Cloudflare’s because they rely on leaders and timeouts. The leader is the only replica allowed to make writes, and if it fails due to a crash or network degradation, the system becomes unavailable until some other replica times out and a new leader is elected. And these timeout values are hard to configure in networks with unpredictable latencies.We have experienced multiple incidents caused by unavailable leaders in consensus-driven systems.And so, for the past year, Cloudflare’s Research team has been building a new distributed consensus service called Meerkat powered by a consensus algorithm called QuePaxa, published in 2023 by researchers at EPFL. QuePaxa differs from Raft in that all replicas can perform writes at all times, and progress is never halted due to a timeout, which makes it well suited for Cloudflare’s network. We layer applications, like a transactional key-value store and leasing system, atop Meerkat’s consensus log. To our knowledge, this will be the first industrial deployment of QuePaxa at global scale.Meerkat is an experimental consensus service that is still in development. It’s being designed initially to manage small pieces of control plane state (e.g., leadership for replicated databases) and so it will be kept internal-only for the immediate future. This post introduces Meerkat and lays the groundwork for the Meerkat-related blog posts to come.\nWhat we need from a global control-plane data system\nMany Cloudflare services read and write control-plane data, data that helps those services operate correctly, from multiple machines distributed all over the world. One example of control-plane data is placement information: where certain resources (like an AI model instance) are stored. Another example is leadership information: which machine is currently allowed to perform writes to a database. Control-plane data must be both strongly consistent and accessible despite particular kinds of faults.In this section we precisely describe our consistency and fault tolerance requirements for a Cloudflare consensus service. We use a key-value store for a running example of an application running atop our consensus service, though other applications (e.g., distributed leases/locks) are possible.\nStrong consistency\nA distributed data system’s consistency level describes what kinds of weird behavior the system is allowed to exhibit when it receives concurrent reads and writes. Consider a distributed key-value store that stores a single numeric value x = 6 across multiple nodes. Also consider the following sequence of writes. These writes are submitted to different nodes on a best-effort basis, and could arrive in any order: x = x + 1x = x / 2A system’s consistency level tells you what values of x a client might see when reading x after these writes. Consider the following sequence of operations and the possible execution orders under different consistency levels:\nIn a weak consistency level, writes can be re-ordered. In a stronger consistency model, writes can’t be reordered, but reads can. In the strongest possible consistency level, the operations are ordered exactly as they occurred in real time. This property is called linearizability.At Cloudflare, many services want linearizability. Unlike weaker forms of consistency, linearizability relieves programmers from thinking about all the weird behaviors the data systems might exhibit. Instead, they can reason about the distributed system like they reason about local memory on a single-threaded machine: all reads after a write will see that write. For additional reading material on the dangers of weak consistency, check out this post by Marc Brooker.(If you’re wondering, Meerkat’s key-value store also provides s",
+          "category": "tech",
+          "publishedAt": "2026-07-08T13:18:03.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: Microsoft releases Flint, a visualization language for AI agents",
+          "titleKo": "Microsoft가 Flint를 공개: AI 에이전트를 위한 시각화 언어",
+          "summary": "Microsoft는 AI 에이전트를 위한 시각화 언어인 Flint를 공개했습니다.",
+          "keyPoints": [
+            "AI 에이전트의 동작을 시각화할 수 있는 새로운 언어"
+          ],
+          "whyItMatters": "AI 에이전트 개발 시 디버깅과 모니터링이 용이해집니다.",
+          "url": "https://microsoft.github.io/flint-chart/#/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 193,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "show-hn-microsoft-releases-flint-a-visualization-language-for-ai-agents",
+          "category": "tech",
+          "publishedAt": "2026-07-08T17:46:12.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "TencentCloud/TencentDB-Agent-Memory (TypeScript)",
+          "titleKo": "TencentCloud/TencentDB-Agent-Memory (TypeScript)",
+          "summary": "TencentDB Agent Memory는 4단계 파이프라인을 통해 외부 API 의존성 없이 AI 에이전트를 위한 완전한 로컬 장기 메모리를 제공합니다.",
+          "keyPoints": [
+            "외부 API 없는 순수 로컬 장기 메모리 구현",
+            "4단계 점진적 파이프라인 아키텍처"
+          ],
+          "whyItMatters": "AI 에이전트의 장기 메모리 관리를 프라이버시 보호와 함께 구현할 수 있습니다.",
+          "url": "https://github.com/TencentCloud/TencentDB-Agent-Memory",
+          "sourceName": "GitHub Trending",
+          "engagement": 7656,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "typescript",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "tencentcloudtencentdb-agent-memory-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-09T01:15:42.353Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "addyosmani/agent-skills (JavaScript)",
+          "titleKo": "addyosmani/agent-skills (JavaScript)",
+          "summary": "AI 코딩 에이전트용 프로덕션 수준의 엔지니어링 스킬 라이브러리입니다.",
+          "keyPoints": [
+            "AI 에이전트가 실제 프로덕션 환경에서 사용할 수 있는 수준의 소프트웨어 엔지니어링 기술을 제공합니다."
+          ],
+          "whyItMatters": "AI 코딩 에이전트의 실용적 활용도를 높이기 위한 기술 스택을 제공합니다.",
+          "url": "https://github.com/addyosmani/agent-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 74108,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "addyosmaniagent-skills-javascript",
+          "category": "tech",
+          "publishedAt": "2026-07-09T01:15:42.352Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "wonderwhy-er/DesktopCommanderMCP (TypeScript)",
+          "titleKo": "wonderwhy-er/DesktopCommanderMCP (TypeScript)",
+          "summary": "Claude를 위한 MCP 서버로, 터미널 제어, 파일 시스템 검색, 파일 비교 편집 기능을 제공합니다.",
+          "keyPoints": [
+            "Claude가 터미널 명령어를 실행하고 파일 시스템을 탐색할 수 있도록 합니다.",
+            "파일 diff 및 편집 기능으로 코드 수정을 자동화합니다."
+          ],
+          "whyItMatters": "Claude를 개발 도구로 활용할 때 시스템 수준의 제어 능력을 확장합니다.",
+          "url": "https://github.com/wonderwhy-er/DesktopCommanderMCP",
+          "sourceName": "GitHub Trending",
+          "engagement": 6380,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "wonderwhy-erdesktopcommandermcp-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-09T01:15:42.356Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "TencentCloud/CubeSandbox (Rust)",
+          "titleKo": "TencentCloud/CubeSandbox (Rust)",
+          "summary": "AI 에이전트를 위한 즉각적이고 동시성이 뛰어나며 안전하고 가벼운 샌드박스 환경을 제공합니다.",
+          "keyPoints": [
+            "즉각적 실행, 동시성 지원, 보안성, 경량의 특징을 갖춘 샌드박스",
+            "Rust로 구현되어 높은 성능과 메모리 안전성 제공"
+          ],
+          "whyItMatters": "AI 에이전트 실행 시 안전한 격리 환경이 필요한 경우 신뢰할 수 있는 솔루션입니다.",
+          "url": "https://github.com/TencentCloud/CubeSandbox",
+          "sourceName": "GitHub Trending",
+          "engagement": 8933,
+          "contentType": "repo",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "tencentcloudcubesandbox-rust",
+          "category": "tech",
+          "publishedAt": "2026-07-09T01:15:42.357Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "Chatto is now open source",
+          "titleKo": "Chatto가 오픈 소스로 공개됨",
+          "summary": "팀 채팅 애플리케이션 Chatto가 오픈 소스로 공개되었으며, 자체 호스팅과 엔드-투-엔드 암호화를 지원합니다. 버전 0.4에서 시작하며 1.0.0 출시는 약 6-12개월 예상되고, Chatto Cloud를 통한 유료 호스팅도 곧 베타에 진입할 예정입니다.",
+          "keyPoints": [
+            "Homebrew로 간단히 설치 가능한 경량 자체 호스팅 솔루션",
+            "사용자별 키로 암호화된 모든 데이터와 엔드-투-엔드 암호화된 음성/영상 통화 지원",
+            "Chatto Cloud는 유럽 인프라 기반 자동 스케일링과 무중단 업그레이드 제공"
+          ],
+          "whyItMatters": "개발자와 팀이 데이터 프라이버시를 유지하면서 자체 인프라에 채팅 시스템을 배포할 수 있습니다.",
+          "url": "https://www.hmans.dev/blog/chatto-is-open-source",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 714,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "chatto-is-now-open-source",
+          "fullContent": "← Back Hot damn. This is the big one. I’m happy to announce that Chatto, the group and team chat application that I’ve been working on for the past year or so, is now officially Open Source, and available for anyone to self-host. The fastest way to give it a try is through Homebrew: brew install chattocorp/tap/chatto\nchatto init\nchatto run See Chatto’s Getting Started Guide for details. Or stick around to hear more! Chat Just Got Real Chatto aims to be the group chat application that you actually enjoy using. You’re probably familiar with the one that rhymes with “knack”, or the one that rhymes with “beams”, or the one that rhymes with “this gourd”. Chatto is just like those. Except you’re going to love how compact and snappy it is. And that it’s Open Source. And you can just self-host it. For free, too! (A weird thing to write, but the OSS chat app space has become very weird in many ways!) This is what it looks like: If you want to see it in action, drop by the Chatto HQ Community! It’s designed to be extremely easy to self-host on your own infrastructure. In its most basic shape, you just run the executable, and that’s it. It even serves its own frontend! It’s very light on resources, and probably has the snappiest frontend that you’ve ever used in an app like this. It puts data protection and privacy first, with all personal and chat data fully encrypted at rest with per-user keys that get shredded when a user decides to delete their account. Each Chatto server powers a single community, with no federation of data between servers, nor any third-party tracking or analytics. If you want to hang out in multiple servers at once, the client will simply connect to all of them directly. If you want to host multiple communities, just spin up multiple Chatto processes. Easy! Chatto comes with full support for voice and video calls, with screen-sharing, built in. Calls are fully end-to-end encrypted and will scale to as many participants as your infrastructure can handle. And you can use it today, for free, by self-hosting it on your own server. Binaries are available for Linux (x86_64 and ARM64), macOS, and Windows; head over to the Chatto Self-Hosting Documentation site to get started. Chatto Cloud If you prefer someone else to take care of the hosting, I’m also happy to announce that Chatto Cloud will soon enter public beta. Chatto Cloud’s offering is very simple: it provides paid hosting for Chatto servers — and that’s it. No premium subscriptions, no ads, no icky bits. Just hosting. And it’s really good hosting! Chatto Cloud is launching with fully European and European-owned infrastructure, with more regions slated for launch in early 2027. Every Chatto server on Chatto Cloud benefits from automatic scaling, nightly backups of all data, and zero-downtime version upgrades. There’s no lock-in; servers hosted through Chatto Cloud are 100% compatible with self-hosted ones, and you can pack up your data and move into or out of Chatto Cloud at any time. If you want to get notified about the start of the beta, please see the end of this post for a low-volume newsletter you can subscribe to. What’s Next for Chatto Chatto is now at version 0.4. I consider it stable enough for production use, but there are a few important features still missing — head over to the Chatto Roadmap if you want an overview. The focus for Chatto 0.5 will be on additional safety features (content reporting and moderation) as well as polishing the client, particularly its multi-server functionality. I have some fun stuff planned for this that I can’t wait to put into people’s hands. I expect Chatto to hit 1.0.0 in about 6-12 months. Until then, there may still be breaking changes, even though I’ll be trying to keep them to a minimum. If you do decide to self-host, please be ready to update to new versions as they are released. Get in Touch It’s been an exciting journey so far and I’m looking forward to finding out what’s ahead. If you’re self-hosting Chatto, I’m super eager to hear from you about your experience — please don’t hesitate to head over to the Chatto HQ community and get in touch. Also please feel free to drop by and say hello if you’re interested in Chatto for your company, Open Source project, or similar. I’d love to learn more about your requirements, and help you get set up. Links Chatto HQ Community - we have a #self-hosting support channel! Chatto Self-Hosting Documentation GitHub Repository Chatto on Bluesky Newsletter If you want to be notified about new releases or the start of Chatto Cloud’s beta, you’re invited to subscribe to the Chatto announcements newsletter. It’s super low-volume (~1 email per month), and is only used for notifying you when exciting new stuff becomes available. Powered by Buttondown.",
+          "category": "tech",
+          "publishedAt": "2026-07-08T15:19:50.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "prisma/prisma (TypeScript)",
+          "titleKo": "Prisma - Node.js & TypeScript를 위한 차세대 ORM",
+          "summary": "Prisma는 Node.js와 TypeScript 환경에서 사용할 수 있는 현대적 ORM으로, PostgreSQL, MySQL, MariaDB, SQL Server, SQLite, MongoDB, CockroachDB 등 다양한 데이터베이스를 지원합니다.",
+          "keyPoints": [
+            "다양한 데이터베이스 지원 - PostgreSQL, MySQL, MariaDB, SQL Server, SQLite, MongoDB, CockroachDB 등 주요 데이터베이스 플랫폼과의 호환성 제공",
+            "TypeScript 중심 설계 - Node.js와 TypeScript 개발 환경에 최적화되어 타입 안정성 강화"
+          ],
+          "whyItMatters": "TypeScript 프로젝트에서 데이터베이스 작업을 안전하고 효율적으로 수행할 수 있게 해줍니다.",
+          "url": "https://github.com/prisma/prisma",
+          "sourceName": "GitHub Trending",
+          "engagement": 46558,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "typescript"
+          ],
+          "isTopicPrimary": true,
+          "slug": "prismaprisma-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-09T01:15:42.353Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Turning a pile of documents into a searchable useable knowledge base",
+          "titleKo": "문서 더미를 검색 가능한 지식 기반으로 변환하기",
+          "summary": "DocuBrowse v0.9.0은 PDF, Word, 이북 등 다양한 형식의 문서를 로컬 AI 모델로 인덱싱하고 키워드/의미론적 검색을 지원하는 도구입니다.",
+          "keyPoints": [
+            "SQLite FTS5 키워드 검색과 Ollama 기반 의미론적 유사도 검색을 결합한 하이브리드 검색",
+            "인터넷 연결 없이 로컬 머신에서 완전히 동작하므로 데이터 프라이버시 보장 및 API 비용 없음",
+            "PDF, DOCX, PPTX, XLSX, EPUB, MOBI, AZW, HTML, TXT, Markdown 등 10개 이상의 형식 지원 및 PII 자동 감지·제거"
+          ],
+          "whyItMatters": "개발자가 대량의 내부 문서를 효율적으로 관리하고 검색할 수 있는 오픈소스 솔루션으로, 프라이버시와 비용 효율성을 모두 확보할 수 있습니다.",
+          "url": "https://github.com/linuxrebel/DocuBrowser",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 68,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "turning-a-pile-of-documents-into-a-searchable-useable-knowledge-base",
+          "fullContent": "DocuBrowse v0.9.0\nPackaged for Linux (RPM, DEB, tarball), Windows (zip), and macOS (dmg).\nInterfaces are stable; breaking changes are avoided where possible.\nDocuBrowse turns a messy pile of documents into something you can actually search.\nPoint it at your files — PDFs, ebooks, Word docs, notes, whatever — and it builds a smart\nindex that understands not just keywords, but meaning. Ask for \"that contract about the\nlease renewal\" and find it even if those exact words never appear. Click any result for\nan instant AI summary before you even open the file. PII aware and works with multiple document directories.\nDocuBrowse runs entirely on your own machine using local AI models — no internet\nconnection required, no accounts, no API keys, and no per-query costs eating into a\ntoken budget. Your data. Your AI.\nUnder the hood: SQLite FTS5 keyword search plus AI-powered semantic similarity and\nsynopsis generation (Ollama + nomic-embed-text + dolphin3). Supports multiple document and source code types.\nNavigation\nFeatures\nScreenshots\nQuick Start\nCLI Reference\nConfiguration\nArchitecture\nAPI Endpoints\nSearch Algorithm\nSecurity\nFile Structure\nTroubleshooting\nKnown Limitations\nRecent Changes\nRoadmap\nAI-Assisted Dev\nLicense\nFeatures\n↑ Top\n🔍 Dual Search Modes\nKeyword Search — fast full-text search via SQLite FTS5 (title, author, subject, tags, snippet)\nSemantic Search — AI-powered similarity via Ollama embeddings (nomic-embed-text:latest)\nHybrid Mode (default) — 70% semantic + 30% keyword, merged and re-ranked\n📖 AI Synopsis\nClick any document title for a Kindle-style book-jacket synopsis, generated on demand\nvia Ollama (dolphin3:latest) and cached in the database after first generation.\nSemantic search embeddings are produced by a second local model (nomic-embed-text:latest)\n📚 Document Indexing\nFormats: PDF, DOCX, PPTX, XLSX, EPUB, MOBI, AZW3, AZW, HTML, TXT, Markdown\nPDF intelligence: pdfplumber (preferred) with pypdf fallback for bloated-object files; layout=False retry for complex layouts; scanned (image-only) PDFs detected and routed to ocr_list_pdfs.txt\nWord documents: python-docx extracts paragraphs, tables, and core properties (title, author, subject)\nPresentations: python-pptx extracts slide text, notes, and core properties\nSpreadsheets: openpyxl extracts cell values and sheet names\nE-books: ebooklib for EPUB; mobi package + Calibre fallback for MOBI/AZW3; DRM-encrypted AZW files indexed with metadata only (title/author visible, body not searchable)\nMetadata: title, author, subject extracted from document metadata fields; auto-generated tags from directory structure and content keywords\nPII protection: post-ingest scanner detects SSN, credit card, bank routing/account number, DOB, MRN, driver license, passport patterns; removes matching documents and permanently blacklists them\n🎨 User Interface\nDark/Light theme toggle\nPaginated results (50 docs/page) with Back/Next controls\nAlphabetic index bar (A–Z, 0–9) for quick navigation, with state preserved across page loads; Home button to reset\nTag cloud for filtering by topic\nRelevance score badges (0–100%) on every result\nOpen button on each result card — launches the file in your default app via xdg-open\nClick document title for an AI synopsis; 📋 copies path to clipboard; 🗑 deletes file from disk and index (with confirmation)\nMoved/deleted documents: clicking a doc whose file no longer exists shows a dismissable\nmodal (and removes it from the index on dismiss) if its filesystem is mounted, or a\ntoast (no index change) if the filesystem can't be verified (e.g. unmounted drive)\n⚙️ Settings (/settings)\nGeneral panel: document directory (with live directory browser), any number of additional scan directories (added/removed under the same panel — automatically included in scan/rescan, no extra command needed), working directory, and port\nIgnored Directories panel: browse to add a directory to ignore_dirs.txt, with a confirmation prompt before purging already-indexed documents under it, and a confirmation before removing an entry\n⚡ Performance\nSearch latency: <150ms typical\nParallel PDF extraction with ProcessPoolExecutor (physical-core-aware worker count)\nMemory-safe: kernel-enforced RLIMIT_AS (6 GB/worker) + pause/resume on free-RAM threshold\nScreenshots\n↑ Top\nClick any thumbnail to view full size.\nDark Mode\nLight Mode\nSettings\nAI Synopsis\nSettings is a standalone page at /settings (opened in a new tab via the gear icon). The General panel covers the document directory (with live directory browser, plus any number of additional scan directories), working directory, and port; the Ignored Directories panel manages scan exclusions, each with a directory browser, add/clear controls, and confirmation before removal.\nQuick Start\n↑ Top\nPrerequisites\nPython 3.9+\npdfplumber, pypdf — PDF extraction\npython-docx — Word documents\npython-pptx — PowerPoint presentations\nopenpyxl — Excel spreadsheets\nebooklib, beautifulsoup4, mobi — E-books\npsutil — cross-platform process and hardwar",
+          "category": "tech",
+          "publishedAt": "2026-07-08T20:37:29.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "argoproj/argo-cd (Go)",
+          "titleKo": "argoproj/argo-cd (Go)",
+          "summary": "Kubernetes를 위한 선언적 지속 배포 솔루션인 Argo CD입니다.",
+          "keyPoints": [
+            "Kubernetes 환경에서의 GitOps 기반 배포 자동화"
+          ],
+          "whyItMatters": "클라우드 네이티브 개발 환경에서 배포 자동화를 구현할 수 있습니다.",
+          "url": "https://github.com/argoproj/argo-cd",
+          "sourceName": "GitHub Trending",
+          "engagement": 23434,
+          "contentType": "repo",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "argoprojargo-cd-go",
+          "category": "tech",
+          "publishedAt": "2026-07-09T01:15:42.354Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Go"
+          ]
+        },
+        {
+          "title": "Cloudflare Drop",
+          "titleKo": "Cloudflare Drop",
+          "summary": "Cloudflare에서 Drop 서비스를 제공합니다.",
+          "keyPoints": [
+            "구체적인 내용이 제공되지 않음"
+          ],
+          "whyItMatters": "Cloudflare의 새로운 개발자 도구를 확인할 수 있습니다.",
+          "url": "https://www.cloudflare.com/drop/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 229,
+          "contentType": "discussion",
+          "labels": [
+            "devops",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "cloudflare-drop",
+          "category": "tech",
+          "publishedAt": "2026-07-08T19:18:26.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "bradautomates/claude-video (Python)",
+          "titleKo": "bradautomates/claude-video (Python)",
+          "summary": "Claude에게 비디오 시청 능력을 부여하는 도구로, 비디오를 다운로드하고 프레임을 추출한 후 자막을 생성하여 Claude에게 전달합니다.",
+          "keyPoints": [
+            "비디오 파일 자동 다운로드 및 프레임 추출 기능을 제공합니다.",
+            "자동 자막 생성(transcribe)으로 Claude가 영상 내용을 분석할 수 있습니다."
+          ],
+          "whyItMatters": "LLM과 비디오 분석을 결합하려는 개발자에게 간단한 통합 솔루션을 제공합니다.",
+          "url": "https://github.com/bradautomates/claude-video",
+          "sourceName": "GitHub Trending",
+          "engagement": 6061,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "bradautomatesclaude-video-python",
+          "category": "tech",
+          "publishedAt": "2026-07-09T01:15:42.357Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "alibaba/zvec (C++)",
+          "titleKo": "zvec - 가볍고 빠른 인프로세스 벡터 데이터베이스 (C++)",
+          "summary": "Alibaba의 zvec는 가볍고 고속 성능의 인프로세스 벡터 데이터베이스로, AI와 머신러닝 응용에서 벡터 검색이 필요한 개발자들을 위해 설계되었다.",
+          "keyPoints": [
+            "경량 설계로 낮은 리소스 사용량을 유지하면서 고속 벡터 검색 성능 제공",
+            "인프로세스 실행 방식으로 별도 서버 운영 없이 응용에 통합 가능"
+          ],
+          "whyItMatters": "벡터 임베딩 기반 AI 응용의 성능 최적화에 필수적인 오픈소스 도구를 제공한다.",
+          "url": "https://github.com/alibaba/zvec",
+          "sourceName": "GitHub Trending",
+          "engagement": 14414,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "alibabazvec-c",
+          "category": "tech",
+          "publishedAt": "2026-07-09T01:15:42.355Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "C++"
+          ]
+        },
+        {
+          "title": "iOfficeAI/OfficeCLI (C#)",
+          "titleKo": "OfficeCLI - AI 에이전트용 Office 스위트 (C#)",
+          "summary": "OfficeCLI는 AI 에이전트가 Word, Excel, PowerPoint 파일을 읽고 편집, 자동화할 수 있도록 설계된 오픈소스 Office 스위트이다. Office 설치 없이 단일 바이너리로 실행되는 무료 도구이다.",
+          "keyPoints": [
+            "Word, Excel, PowerPoint 자동화를 AI 에이전트 친화적으로 설계한 첫 번째 전용 도구",
+            "별도의 Office 설치 불필요한 단일 바이너리 형식의 오픈소스 솔루션"
+          ],
+          "whyItMatters": "AI 에이전트의 사무용 문서 처리 능력을 표준화하여 자동화 개발의 진입장벽을 낮춘다.",
+          "url": "https://github.com/iOfficeAI/OfficeCLI",
+          "sourceName": "GitHub Trending",
+          "engagement": 11860,
+          "contentType": "repo",
+          "labels": [
+            "backend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "iofficeaiofficecli-c",
+          "category": "tech",
+          "publishedAt": "2026-07-09T01:15:42.354Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "C#"
+          ]
+        },
+        {
+          "title": "obra/superpowers (Shell)",
+          "titleKo": "obra/superpowers (Shell)",
+          "summary": "작동하는 에이전트 기반 소프트웨어 개발 방법론 및 스킬 프레임워크입니다.",
+          "keyPoints": [
+            "AI 에이전트 중심의 개발 워크플로우를 위한 실용적인 방법론을 제공합니다."
+          ],
+          "whyItMatters": "AI 에이전트를 효과적으로 활용하는 개발 프로세스 설계에 참고할 수 있습니다.",
+          "url": "https://github.com/obra/superpowers",
+          "sourceName": "GitHub Trending",
+          "engagement": 249827,
+          "contentType": "repo",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "obrasuperpowers-shell",
+          "category": "tech",
+          "publishedAt": "2026-07-09T01:15:42.355Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Shell"
+          ]
+        },
+        {
+          "title": "mvanhorn/last30days-skill (Python)",
+          "titleKo": "mvanhorn/last30days-skill (Python)",
+          "summary": "Reddit, X, YouTube, HN, Polymarket 등 여러 플랫폼에서 주제를 연구하고 요약하는 AI 에이전트 스킬입니다.",
+          "keyPoints": [
+            "Reddit, X, YouTube, HN, Polymarket, 웹 전반에서 자동 정보 수집 및 분석",
+            "수집된 정보를 기반으로 신뢰성 있는 요약 생성"
+          ],
+          "whyItMatters": "AI 에이전트 개발 시 다양한 데이터 소스를 통합하여 정보를 처리하는 방식을 참고할 수 있습니다.",
+          "url": "https://github.com/mvanhorn/last30days-skill",
+          "sourceName": "GitHub Trending",
+          "engagement": 50757,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "mvanhornlast30days-skill-python",
+          "category": "tech",
+          "publishedAt": "2026-07-09T01:15:42.353Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "MIRA: Multiplayer Interactive World Models Trained on Rocket League",
+          "titleKo": "MIRA: Rocket League 데이터로 학습된 멀티플레이어 인터랙티브 월드 모델",
+          "summary": "MIRA는 Rocket League 게임 플레이 데이터를 기반으로 학습된 멀티플레이어 상호작용 월드 모델로, AI의 동적 환경 이해와 의사결정 능력을 개선한다.",
+          "keyPoints": [
+            "Rocket League의 복잡한 멀티플레이어 환경을 학습 데이터로 활용한 월드 모델 구축",
+            "게임 내 물리, 충돌, 플레이어 상호작용 등 동적 요소를 모델링하여 AI 훈련에 적용"
+          ],
+          "whyItMatters": "게임 환경 기반의 시뮬레이션 학습 모델은 실제 로봇공학이나 멀티에이전트 시스템 개발에 활용될 수 있다.",
+          "url": "https://mira-wm.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 4,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "mira-multiplayer-interactive-world-models-trained-on-rocket-league",
+          "category": "tech",
+          "publishedAt": "2026-07-09T00:27:57.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "ruvnet/RuView (Rust)",
+          "titleKo": "RuView - WiFi 신호 기반 공간 인식 시스템 (Rust)",
+          "summary": "RuView는 Rust로 개발된 도구로 일반 WiFi 신호를 실시간 공간 인식, 생체신호 모니터링, 존재감 감지로 변환한다. 영상 없이 작동하는 프라이버시 친화적인 솔루션이다.",
+          "keyPoints": [
+            "WiFi 신호의 특성 변화를 분석하여 실시간 위치 추적 및 움직임 감지 가능",
+            "비디오 없이 작동하므로 프라이버시 보호와 저전력 운영 가능"
+          ],
+          "whyItMatters": "비침투적인 센싱 기술로 스마트홈, 의료 모니터링, 보안 시스템 등 다양한 IoT 응용 개발에 활용될 수 있다.",
+          "url": "https://github.com/ruvnet/RuView",
+          "sourceName": "GitHub Trending",
+          "engagement": 79149,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "ruvnetruview-rust",
+          "category": "tech",
+          "publishedAt": "2026-07-09T01:15:42.352Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Rust"
+          ]
+        },
+        {
+          "title": "huxingyi/autoremesher (C++)",
+          "titleKo": "huxingyi/autoremesher (C++)",
+          "summary": "자동 쿼드 리메싱 도구로, 3D 메시를 자동으로 최적화하는 C++ 프로젝트입니다.",
+          "keyPoints": [
+            "3D 모델의 자동 쿼드 메시 생성 기술 제공"
+          ],
+          "whyItMatters": "3D 그래픽스, CAD, 게임 개발 등에서 메시 최적화가 필요한 개발자들에게 유용한 도구입니다.",
+          "url": "https://github.com/huxingyi/autoremesher",
+          "sourceName": "GitHub Trending",
+          "engagement": 2019,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "huxingyiautoremesher-c",
+          "category": "tech",
+          "publishedAt": "2026-07-09T01:15:42.357Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "C++"
+          ]
+        },
+        {
+          "title": "Decoding the obfuscated bash script on a Uniqlo t-shirt",
+          "titleKo": "유니클로 티셔츠에 숨겨진 난독화 bash 스크립트 해석",
+          "summary": "Akamai의 'Peace for All' 캠페인으로 유니클로에서 판매된 티셔츠 뒷면에 Base64 인코딩된 bash 스크립트가 인쇄되어 있으며, 디코딩하면 평화 메시지를 화려한 터미널 애니메이션으로 출력하는 이스터 에그가 나타난다.",
+          "keyPoints": [
+            "티셔츠 텍스트는 Base64로 인코딩된 자가평가 bash 스크립트로, 한국어, 일본어, 영어 축하 메시지 포함",
+            "스크립트는 터미널의 '♥PEACE♥FOR♥ALL♥' 텍스트를 사인 함수로 파동 애니메이션하며 색상 그래디언트 적용"
+          ],
+          "whyItMatters": "개발자 커뮤니티의 창의성과 보안 인식을 다루며, 난독화 코드 분석과 문자 인식(OCR) 기술의 실제 활용 사례를 보여준다.",
+          "url": "https://tris.sherliker.net/blog/obfuscated-self-evaluating-bash-script-by-cdn-akamai-being-supplied-to-consumers-via-retail-stores/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 1291,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "decoding-the-obfuscated-bash-script-on-a-uniqlo-t-shirt",
+          "fullContent": "Obfuscated, self-evaluating bash script by CDN Akamai being supplied to consumers via retail stores\nWhen my wife said to me “Let me show you a t-shirt I saw…”, I wasn’t sure what to expect, but it definitely wasn’t an obfuscated bash script printed on the back designed to print a happy Easter egg message. I’m not in the habit of clickbaity headlinesI’ve no idea at all how many views this site gets, but I’m willing to bet it’s not even double-digit humans per month. but I can see why subeditors have such fun with them. The title above is, strictly speaking, entirely accurate, but probably not what you think. The obfuscated code in question is actually an easter egg, it’s being supplied via Uniqlo stores on an excellent t-shirt designed by Akamai in support of their Peace for All campaign. And it’s very cool! The front has a heart in curly braces:While the back has a big alphanumeric block:\nIs that … a shebang?!My wife was right that I’d want to see it. Was that… a shebang? Take a closer look at the text block: Yes, a shebang! On a t-shirt sold in a high street store, no less. And it is clearly a base64 encoded Here string being fed to eval via base64 --decode. Interesting. I told my wife \"that’s basically how people ship viruses’ and bought it.\nOCR was cumbersomeThere was good news and bad news:\nThe bad news was that base64 hasn’t got error correction, meaning that the transcription would need to be perfect. Sigh.\nThe good news was that the string seemed to be intact - at least, it terminated with the expected padding and had matching quotes and braces. This is a good thing because Uniqlo x Akamai sells another design of shirt in the same range which is plainly incompleteFor example, its imports are truncated and it ends “retu” instead of “return”. This is a pity, because it’s a really nice colour combination and contains the highly idiomatic instruction go doStuff(msg, work... which anyone can relate to., a truncated crop from a wider text block which could never compile.\nI ran OCR in a few ways: First, using the built-in OCR of the circle-to-search feature on Android, which is often very good. Second, by using Tesseract with a few options and tweaks. And third by running it through Claude. After diffing the three to look for mismatches and getting Claude to output a table of locations for quick scanning, it became trivial but time-consuimg to tidy up the remainder. The resulting string was: IyEvYmluL2Jhc2gKCiMgQ29uZ3JhdHVsYXRpb25zISBZb3UgZm91bmQgdGhlIGVhc3RlciBlZ2chIOKdpO+4jwojIOOBiuOCgeOBp+OBqOOBhuOBlOOBluOBhOOBvuOBme+8gemaoOOBleOCjOOBn+OCteODl+ODqeOCpOOCuuOCkuimi+OBpOOBkeOBvuOBl+OBn++8geKdpO+4jwoKIyBEZWZpbmUgdGhlIHRleHQgdG8gYW5pbWF0ZQp0ZXh0PSLimaVQRUFDReKZpUZPUuKZpUFMTOKZpVBFQUNF4pmlRk9S4pmlQUxM4pmlUEVBQ0XimaVGT1LimaVBTEzimaVQRUFDReKZpUZPUuKZpUFMTOKZpVBFQUNF4pmlRk9S4pmlQUxM4pmlIgoKIyBHZXQgdGVybWluYWwgZGltZW5zaW9ucwpjb2xzPSQodHB1dCBjb2xzKQpsaW5lcz0kKHRwdXQgbGluZXMpCgojIENhbGN1bGF0ZSB0aGUgbGVuZ3RoIG9mIHRoZSB0ZXh0CnRleHRfbGVuZ3RoPSR7I3RleHR9CgojIEhpZGUgdGhlIGN1cnNvcgp0cHV0IGNpdmlzCgojIFRyYXAgQ1RSTCtDIHRvIHNob3cgdGhlIGN1cnNvciBiZWZvcmUgZXhpdGluZwp0cmFwICJ0cHV0IGNub3JtOyBleGl0IiBTSUdJTlQKCiMgU2V0IGZyZXF1ZW5jeSBzY2FsaW5nIGZhY3RvcgpmcmVxPTAuMgoKIyBJbmZpbml0ZSBsb29wIGZvciBjb250aW51b3VzIGFuaW1hdGlvbgpmb3IgKCggdD0wOyA7IHQrPTEgKSk7IGRvCiAgICAjIEV4dHJhY3Qgb25lIGNoYXJhY3RlciBhdCBhIHRpbWUKICAgIGNoYXI9IiR7dGV4dDp0ICUgdGV4dF9sZW5ndGg6MX0iCiAgICAKICAgICMgQ2FsY3VsYXRlIHRoZSBhbmdsZSBpbiByYWRpYW5zCiAgICBhbmdsZT0kKGVjaG8gIigkdCkgKiAkZnJlcSIgfCBiYyAtbCkKCiAgICAjIENhbGN1bGF0ZSB0aGUgc2luZSBvZiB0aGUgYW5nbGUKICAgIHNpbmVfdmFsdWU9JChlY2hvICJzKCRhbmdsZSkiIHwgYmMgLWwpCgogICAgIyBDYWxjdWxhdGUgeCBwb3NpdGlvbiB1c2luZyB0aGUgc2luZSB2YWx1ZQogICAgeD0kKGVjaG8gIigkY29scyAvIDIpICsgKCRjb2xzIC8gNCkgKiAkc2luZV92YWx1ZSIgfCBiYyAtbCkKICAgIHg9JChwcmludGYgIiUuMGYiICIkeCIpCgogICAgIyBFbnN1cmUgeCBpcyB3aXRoaW4gdGVybWluYWwgYm91bmRzCiAgICBpZiAoKCB4IDwgMCApKTsgdGhlbiB4PTA7IGZpCiAgICBpZiAoKCB4ID49IGNvbHMgKSk7IHRoZW4geD0kKChjb2xzIC0gMSkpOyBmaQoKICAgICMgQ2FsY3VsYXRlIGNvbG9yIGdyYWRpZW50IGJldHdlZW4gMTIgKGN5YW4pIGFuZCAyMDggKG9yYW5nZSkKICAgIGNvbG9yX3N0YXJ0PTEyCiAgICBjb2xvcl9lbmQ9MjA4CiAgICBjb2xvcl9yYW5nZT0kKChjb2xvcl9lbmQgLSBjb2xvcl9zdGFydCkpCiAgICBjb2xvcj0kKChjb2xvcl9zdGFydCArIChjb2xvcl9yYW5nZSAqIHQgLyBsaW5lcykgJSBjb2xvcl9yYW5nZSkpCgogICAgIyBQcmludCB0aGUgY2hhcmFjdGVyIHdpdGggMjU2LWNvbG9yIHN1cHBvcnQKICAgIGVjaG8gLW5lICJcMDMzWzM4OzU7JHtjb2xvcn1tIiQodHB1dCBjdXAgJHQgJHgpIiRjaGFyXDAzM1swbSIKCiAgICAjIExpbmUgZmVlZCB0byBtb3ZlIGRvd253YXJkCiAgICBlY2hvICIiCgpkb25lCgo=\nThe decoded scriptAfter Base64 decoding, the resulting script is a welcoming and nicely commented Easter egg:#!/bin/bash\n# Congratulations! You found the easter egg! ❤️\n# おめでとうございます！隠されたサプライズを見つけました！❤️\n# Define the text to animate\ntext=\"♥PEACE♥FOR♥ALL♥PEACE♥FOR♥ALL♥PEACE♥FOR♥ALL♥PEACE♥FOR♥ALL♥PEACE♥FOR♥ALL♥\"\n# Get terminal dimensions\ncols=$(tput cols)\nlines=$(tput lines)\n# Calculate the length of the text\ntext_length=${#text}\n# Hide the cursor\ntput civis\n# Trap CTRL+C to show the cursor before exiting\ntrap \"tput cn",
+          "category": "tech",
+          "publishedAt": "2026-07-08T08:46:06.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Diolinux/PhotoGIMP (CSS)",
+          "titleKo": "Diolinux/PhotoGIMP (CSS)",
+          "summary": "Photoshop 사용자를 위한 GIMP 3+ 패치로, Photoshop 같은 UI/UX를 제공합니다.",
+          "keyPoints": [
+            "GIMP에 Photoshop 스타일의 인터페이스 적용",
+            "Photoshop 사용자의 진입 장벽 낮춤"
+          ],
+          "whyItMatters": "오픈소스 이미지 편집 도구 채택을 높이고 Photoshop 사용자들의 전환을 용이하게 합니다.",
+          "url": "https://github.com/Diolinux/PhotoGIMP",
+          "sourceName": "GitHub Trending",
+          "engagement": 15040,
+          "contentType": "repo",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "diolinuxphotogimp-css",
+          "category": "tech",
+          "publishedAt": "2026-07-09T01:15:42.356Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "CSS"
+          ]
+        },
+        {
+          "title": "Open Source Barware: free, local-first bar inventory software (GPLv3)",
+          "titleKo": "오픈 소스 바웨어: 무료 로컬 우선 바 재고 관리 소프트웨어 (GPLv3)",
+          "summary": "GPLv3 라이선스로 배포되는 무료 오픈소스 바 재고 관리 소프트웨어입니다. 로컬 우선 방식으로 설계되어 온라인 연결 없이 독립적으로 운영 가능합니다.",
+          "keyPoints": [
+            "바 운영자들을 위한 무료 오픈소스 솔루션으로 GPLv3 라이선스 적용",
+            "로컬 우선 아키텍처로 데이터 프라이버시와 독립성 보장"
+          ],
+          "whyItMatters": "소규모 사업체가 비용 부담 없이 전문적인 재고 관리 시스템을 구축할 수 있는 오픈소스 선택지를 제공합니다.",
+          "url": "https://opensourcebarware.com",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 19,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "open-source-barware-free-local-first-bar-inventory-software-gplv3",
+          "category": "tech",
+          "publishedAt": "2026-07-08T21:43:07.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "We made Grok 4.5, GPT-5.5, and Claude build the same apps",
+          "titleKo": "Grok 4.5, GPT-5.5, Claude가 동일한 앱을 만들 때의 비교",
+          "summary": "세 가지 AI 모델(Grok 4.5, GPT-5.5, Claude Opus/Fable)에 동일한 프롬프트를 주어 순수 HTML 앱을 생성하게 한 후 결과를 비교했습니다. 3D Rubik's Cube, 입자 중력 샌드박스, Breakout 게임 등의 테스트에서 Claude가 정확성 면에서 강했고, Grok 4.5가 속도와 비용 면에서 가장 효율적이었습니다.",
+          "keyPoints": [
+            "Claude Opus/Fable은 복잡한 3D 수학이 필요한 Rubik's Cube 구현에서 첫 시도에 성공했으며, 다른 모델들은 실패하거나 재시도가 필요했습니다.",
+            "Grok 4.5는 중간 토큰 0.44초, 처리량 110 tok/s로 가장 빠르고 저렴했으며, Claude Fable 5는 지능 지표는 최고이지만 처리 속도가 느렸습니다.",
+            "게임 구현 라운드에서는 모든 모델이 완성도 높은 결과물을 생성했으며, 보너스 SVG 드로잉에서 Claude Fable 5가 창의적 표현력을 보였습니다."
+          ],
+          "whyItMatters": "코딩 능력과 비용-성능 지표를 종합적으로 비교하여 프로젝트 요구사항에 맞는 AI 모델을 선택하는 데 실질적 기준을 제공합니다.",
+          "url": "https://www.tryai.dev/blog/grok-4.5-vs-gpt-5.5-vs-claude-build-off",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 33,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "topicId": "ai-model-releases",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "we-made-grok-45-gpt-55-and-claude-build-the-same-apps",
+          "fullContent": "All postsGrok 4.5 landed this week with xAI calling it their smartest model yet, \"trained alongside Cursor\" for coding and agentic work. The internet's favorite way to vibe-check a new coding model is the build-off: hand it one prompt, see what app it spits out, post the clip. So we did it, but properly.\nWe gave Grok 4.5, GPT-5.5, Claude Opus 4.8, and Claude Fable 5 the exact same three prompts: build a single self-contained HTML file (no libraries, no network calls) for an interactive app. One shot each, no hand-holding, no prompt-fiddling. Then we loaded every result in a real browser, poked at it, and recorded what happened. Every clip below is the model's raw output, and you can click \"play it live\" to run the actual generated app yourself.\nOne rule on failures: if an app did not render at all, we allowed exactly one retry, and we tell you when we used it.\nRound 1: a 3D Rubik's Cube that scrambles and solves\nBuild a colorful, 3D-looking Rubik's Cube with 'Scramble' and 'Solve' buttons. The cube must visibly animate its rotations.\nThis is the mean one. It needs real 3D math, per-face state, and animation, all in one file.\nGrok 4.5GPT-5.5\nClaude Opus 4.8Claude Fable 5\nPlay them live: Grok 4.5 · GPT-5.5 · Opus 4.8 · Fable 5\nThe Claudes ran away with this one. Opus 4.8 and Fable 5 both produced a proper, correctly colored 3D cube that scrambles and solves with animated turns, first try. Grok 4.5 stumbled here: its first attempt rendered the title and buttons but no cube at all (a blank void), so we spent our one allowed retry, and the second attempt produced a clean, colorful 3D cube. GPT-5.5 was the odd one out, rendering only a single dark face with barely any color instead of a full cube. Winner: Opus and Fable, tied.\nRound 2: a particle gravity sandbox\nAn interactive particle gravity sandbox on a canvas: hundreds of particles with trails, clicking adds a heavy attractor. Make it mesmerizing.\nGrok 4.5GPT-5.5\nClaude Opus 4.8Claude Fable 5\nPlay them live: Grok 4.5 · GPT-5.5 · Opus 4.8 · Fable 5\nEveryone shipped a working sandbox here, so this came down to taste. GPT-5.5 made the most genuinely mesmerizing one: glowing neon attractors with dense, swirling colored trails. Grok 4.5 went clean and orbital, with tidy attractor rings and colorful streaking particles. Fable 5 leaned into soft glowing orbs, and Opus 4.8 produced the busiest, most web-like particle field, great physics, slightly less eye-candy. Winner: GPT-5.5, on vibes.\nRound 3: a playable Breakout game\nA playable Breakout / brick-breaker on a canvas: paddle follows the mouse, ball breaks colorful bricks, with score and lives.\nGrok 4.5GPT-5.5\nClaude Opus 4.8Claude Fable 5\nPlay them live: Grok 4.5 · GPT-5.5 · Opus 4.8 · Fable 5\nDead heat. All four produced a polished, actually-playable brick-breaker with score, lives, and a glowing paddle, on the first try. Grok 4.5 and GPT-5.5 leaned hardest into the neon arcade look (GPT even racked up a score while our script batted the ball around). If we are splitting hairs, all four are ship-quality. Winner: everybody.\nThe receipts: speed and cost\nPretty demos are one thing; what does each model cost to run? We measured it ourselves with our own harness (three fixed prompts spanning coding, reasoning, and summarization, three reps each, capped at 400 output tokens) through the same provider path the app uses. Throughput is output tokens over total wall-clock latency, measured uniformly for every provider.\nModelMedian latencyFirst tokenThroughputCost / replySuccessGrok 4.52.8s0.44s110 tok/s0.002¢100%GPT-5.52.0s1.26s53 tok/s0.004¢100%Claude Opus 4.82.6s1.16s47 tok/s0.004¢100%Claude Fable 56.3s3.47s28 tok/s0.009¢100%\nThis is where Grok 4.5 flexes. It hit first token in under half a second, streamed at ~110 tokens/second (roughly double everything else here), and was the cheapest reply of the bunch, exactly the \"intelligence per unit of time and cost\" pitch xAI made. Its median wall-clock only looks mid-pack because it is verbose (it wrote the most tokens per answer), and its tail was spiky (a ~9s p95). GPT-5.5 was snappiest on short answers, Opus 4.8 sat in the balanced middle, and Fable 5 was the slowest and priciest, the tax you pay for the top of the intelligence charts.\nBonus round: draw something weird\nCoding is one axis; spatial imagination is another. We asked each model for a single hand-authored SVG (no raster, no libraries) of a deliberately silly scene: a horse riding piggyback on an astronaut walking on the moon. Role reversal, two figures, one file.\nGrok 4.5GPT-5.5\nClaude Opus 4.8Claude Fable 5\nRaw SVGs: Grok 4.5 · GPT-5.5 · Opus 4.8 · Fable 5\nFable 5 stole the show: a cowboy-hatted horse yelling \"Giddy-up, human!\" while a hunched astronaut wheezes \"hff... hff...\". That is not just drawing, that is comedy. GPT-5.5 was a close second with a gleeful horse shouting \"WHEE!\". Grok 4.5 nailed the brief cleanly with a colorful, readable scene. Opus 4.8 drew a characterful horse-on-astronaut too, but its ra",
+          "category": "insight",
+          "publishedAt": "2026-07-08T23:27:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "asgeirtj/system_prompts_leaks (JavaScript)",
+          "titleKo": "시스템 프롬프트 유출 모음 (JavaScript)",
+          "summary": "Anthropic의 Claude, OpenAI의 ChatGPT, Google의 Gemini 등 주요 AI 모델의 시스템 프롬프트를 수집한 GitHub 저장소이다. 정기적으로 업데이트되며 xAI Grok, Cursor, VS Code 등 다양한 도구의 프롬프트도 포함한다.",
+          "keyPoints": [
+            "Claude Fable 5, Opus 4.8, Claude Code 등 Anthropic 모델의 시스템 프롬프트 공개",
+            "ChatGPT 5.5, GPT 5.5, Gemini 3.5 등 경쟁 AI 모델의 프롬프트도 추출 및 정리"
+          ],
+          "whyItMatters": "AI 모델의 내부 지시사항 노출로 보안 우려가 발생하며, 개발자들은 프롬프트 인젝션 공격에 더욱 주의해야 한다.",
+          "url": "https://github.com/asgeirtj/system_prompts_leaks",
+          "sourceName": "GitHub Trending",
+          "engagement": 54212,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "asgeirtjsystem-prompts-leaks-javascript",
+          "category": "insight",
+          "publishedAt": "2026-07-09T01:15:42.355Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "Separating signal from noise in coding evaluations",
+          "titleKo": "코딩 평가에서 신호와 잡음 분리하기",
+          "summary": "OpenAI의 코딩 평가 방법론에 대한 문서로, AI 모델의 코딩 능력을 정확하게 측정하고 평가하는 방법을 설명합니다.",
+          "keyPoints": [
+            "코딩 평가 벤치마크에서 신뢰할 수 있는 신호와 무의미한 잡음을 구분하는 방법론을 제시합니다.",
+            "AI 모델 성능 비교 시 정확한 측정 기준의 중요성을 강조합니다."
+          ],
+          "whyItMatters": "AI 코딩 모델을 객관적으로 평가하고 비교할 때 신뢰할 수 있는 평가 지표를 확립하는 데 도움이 됩니다.",
+          "url": "https://openai.com/index/separating-signal-from-noise-coding-evaluations/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 144,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "separating-signal-from-noise-in-coding-evaluations",
+          "category": "insight",
+          "publishedAt": "2026-07-08T21:03:51.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Unicode's transliteration rules are Turing-complete",
+          "titleKo": "유니코드의 음차 규칙은 튜링 완전성을 갖는다",
+          "summary": "유니코드 표준(UTS#35)의 음차 규칙이 튜링 완전(Turing-complete)이라는 것을 보여주는 분석 자료입니다. 이는 이 규칙들이 이론적으로 모든 계산 가능한 문제를 해결할 수 있음을 의미합니다.",
+          "keyPoints": [
+            "유니코드 음차 규칙이 단순한 문자 변환 규칙을 넘어 일반 계산 능력을 갖춘 시스템임을 증명",
+            "이는 기술 표준이 의도치 않게 얼마나 강력한 계산 능력을 포함할 수 있는지 보여주는 사례"
+          ],
+          "whyItMatters": "국제화와 텍스트 처리에 광범위하게 사용되는 유니코드 표준의 복잡성과 한계를 이해하는 데 도움이 됩니다.",
+          "url": "https://seriot.ch/computation/uts35/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 21,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "unicodes-transliteration-rules-are-turing-complete",
+          "category": "insight",
+          "publishedAt": "2026-07-08T09:44:20.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "A software engineering interview question I like: computing the median",
+          "titleKo": "좋아하는 소프트웨어 엔지니어링 면접 문제: 중앙값 계산",
+          "summary": "배열의 중앙값을 계산하는 함수를 작성하는 면접 문제로, 직관적이면서도 여러 깊이로 탐구할 수 있는 질문입니다.",
+          "keyPoints": [
+            "단순한 퍼즐 문제가 아닌 실무 기반의 알고리즘 문제로 설계",
+            "Python 구현 예시와 함께 심화 토론 지점을 제시"
+          ],
+          "whyItMatters": "개발자는 실제 면접에서 사용 가능한 좋은 기술 면접 문제 설계 원칙을 배울 수 있습니다.",
+          "url": "https://krisshamloo.com/blog/007",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 3,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-software-engineering-interview-question-i-like-computing-the-median",
+          "fullContent": "I have a number of questions in my quiver when I'm giving technical interviews to candidates. They are all of a similar flavor. I don't ask puzzle questions, I find them low value. Instead, I ask questions that are straightforward but have a few angles with which to explore deeper topics.\nWrite a function that takes an array of numbers and returns the median.\nHere's a Python implementation with discussion comments.",
+          "category": "insight",
+          "publishedAt": "2026-07-09T00:38:02.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "A bug which affected only left handed users",
+          "titleKo": "왼손 사용자에게만 영향을 미친 버그",
+          "summary": "블로그 댓글 기능에서 2017년에 추가된 touchstart 리스너로 인해 왼손으로 스크롤하는 사용자들만 원치 않게 댓글 상자가 나타나는 버그가 7년 후에 수정되었습니다.",
+          "keyPoints": [
+            "좌측에 위치한 '답글' 링크가 왼손 스크롤 시에만 오동작 발생",
+            "2017년 추가된 touchstart 리스너는 이미 불필요한 브라우저 호환성 대책이었음",
+            "특정 사용자군만 영향받는 엣지 케이스 버그의 중요성 시사"
+          ],
+          "whyItMatters": "모든 사용자 그룹을 고려한 테스트와 접근성 검토가 버그 발견에 얼마나 중요한지 보여줍니다.",
+          "url": "https://shkspr.mobi/blog/2026/07/a-bug-which-only-affected-left-handed-users/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 80,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-bug-which-affected-only-left-handed-users",
+          "fullContent": "Verily, some of our brethren (and sistren) be afflicted with a sinister disposition. While the righteous scroll using the thumb of their right hand - as is good and proper - an accurs'd minority swing the other way.\nLook, you try writing an interesting bug report without sounding like a clanker, OK!\nI try to optimise my blog as much as possible. It may not look like much, but it has got it where it counts. I've made a lot of special modifications myself to the base WordPress install.\nOne of those modifications is reducing the amount of JavaScript in use to the bare minimum. Everything functions without it, but there are a few places where it helps - the most notable being comments.\nThat's why I was distressed when a loyal reader wrote in saying there was a bug on my site. When they were scrolling the page a comment box would suddenly appear and interrupt their browsing.\nI scroll my own site a lot (probably more than is healthy) so why hadn't I noticed this bug?\nBecause I scroll with my right thumb and the bug reporter uses their left. The \"reply\" link which was being triggered is on the left side of the page. A bug which won't be triggered by righteous people but infuriating to those who will surely be left behind after The Rapture™.\nTo be fair, this bug was reported seven years ago - but I guess the WordPress team have been too busy cleaning up after their mad God-Emperor to take a look at it.\nBack in 2017, a developer added a touchstart listener to link clicks. I don't really understand why. At one point in history, browsers couldn't be sure if a touch event was the start of a click or a double-tap to zoom. So firing an even when a touch occurred on a link sort of made sense to avoid a 300ms delay.\nBut that hadn't been the case for several years - as this 2013 blog post makes clear. Even in 2015 it was no longer an issue.\nSo why was this lefty-baiting code added? Not a clue.\nAnyway, seven years after the bug was reported I committed a fix. It isn't the most sophisticated change to WordPress - merely deleting a couple of lines. But hopefully it will stop those strange and unusual mutants from complaining that their unnatural thumb-usage is accidentally triggering unwanted events on my website.\nSadly, there is as yet no way to prevent the corrupt from using our blessed sites. The WHAT-WG haven't seen fit to take on board my suggestion of <meta handed=\"right\"> to keep out the unwanted and polluted. So, hopefully, this change will at least prevent them complaining.\nWhy, yes officer, I have had a glass or two of tonic wine. Why do you ask?\nShare this post on…\nCassidy Leftthebuilding\n“By faith did Abraham thumb left handed and it was accorded to him righteousness.”\nLeft handed but tend to scroll left handed only on my phone but right handed on a tablet. English makes a lot of historically bigoted assumptions: right handedness, gender binaries, color and handedness based correctness and morality, and others. Most of these are still taken for granted, even fought over, in a time when reason should have long since supplanted superstition. Walking a mile in another’s shoes is just as valid today for empathy as it was 2000 years ago. I’m left handed, queer, ethnically a mutt, with mild visual impairment and bipolar. I continually struggle with American exclusionary assumptions in life most of us never question and often react poorly when they are. Thank you for making the effort and for the humor. I loved it.\n2026-07-08 15:55\nSteph Driver\nthis got me thinking - as a right-handed person, I hold my phone in my left hand, scroll with their left thumb, so that the right hand is free to type.\nAnd why wouldn’t you hold your phone in your less-dextrous hand?\n| Reply to original comment on bsky.app 2026-07-08 17:17\nJob van der Zwan\nAs a lefty who once upon a time looked into the design of bimanual interfaces for his master thesis, all I can say is: Yves Guiard would be proud\nhttps://www.lri.fr/~mbl/ENS/FONDIHM/2013/papers/Guiard-JMB87.pdf\n2026-07-08 20:44\nDajve Bloke\nAs a lefty, i tend to use my right hand to work mouse or phone, for a similar reason to you - it allows me to use my dominant hand to jot notes down when this becomes necessary.\n2026-07-08 21:16\nDenilson\nTruth to be told, I have faced this bug myself; and I'm right-handed. I just never bothered to report it. Mostly because reporting it requires more energy and time than I have available whenever I'm reading on the phone.\n2026-07-08 18:47\nnews.ycombinator.com\nA bug which affected only left handed users | Hacker News\n| Reply to original comment 2026-07-08 19:20\nMore comments on Mastodon.",
+          "category": "insight",
+          "publishedAt": "2026-07-08T13:20:05.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Remote Attestation",
+          "titleKo": "원격 증명(Remote Attestation)",
+          "summary": "시스템의 신뢰성과 보안을 원격으로 검증하는 기술에 대한 설명입니다.",
+          "keyPoints": [
+            "원격 시스템의 무결성 확인 메커니즘"
+          ],
+          "whyItMatters": "클라우드, IoT, 보안 시스템을 다루는 개발자들이 신뢰할 수 있는 인프라를 구축할 때 필수적입니다.",
+          "url": "https://www.liamcvw.com/p/remote-attestation",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 10,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "remote-attestation",
+          "category": "insight",
+          "publishedAt": "2026-07-09T00:32:33.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "EU now one step away from reviving private message scanning rules",
+          "titleKo": "EU, 개인 메시지 스캔 규칙 부활 단계에 진입",
+          "summary": "EU가 개인 메시지에 대한 자동 스캔 규칙을 다시 도입하려는 움직임을 보이고 있습니다.",
+          "keyPoints": [
+            "EU의 개인 메시지 감시 정책 추진 단계 진전",
+            "사용자 프라이버시와 보안 규제 간 충돌"
+          ],
+          "whyItMatters": "메시징 플랫폼과 암호화 기술을 다루는 개발자들에게 규제 변화에 대응할 필요성을 알립니다.",
+          "url": "https://cyberinsider.com/eu-now-one-step-away-from-reviving-private-message-scanning-rules/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 355,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "eu-now-one-step-away-from-reviving-private-message-scanning-rules",
+          "category": "insight",
+          "publishedAt": "2026-07-08T16:53:06.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "FAANG Simulator",
+          "titleKo": "FAANG 시뮬레이터",
+          "summary": "매일 같은 타임라인으로 모든 사람이 동일한 '저주받은' 경험을 하며, 다양한 탈출 방법을 비교할 수 있는 시뮬레이터입니다.",
+          "keyPoints": [
+            "대형 기술 회사 문화의 일상적 경험을 시뮬레이션",
+            "사용자들이 다양한 탈출 시나리오를 비교 가능"
+          ],
+          "whyItMatters": "기술 업계의 현실을 유머러스하게 조명하며 커리어 선택에 대한 성찰을 유도합니다.",
+          "url": "https://www.abeyk.com/escape-the-rat-race/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 265,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "isTopicPrimary": true,
+          "slug": "faang-simulator",
+          "fullContent": "daily run = everyone gets the same cursed timeline today. compare escapes.\nnot affiliated with any trillion-dollar company, allegedly.",
+          "category": "insight",
+          "publishedAt": "2026-07-08T20:05:42.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "OpenMandriva: Statement regarding attempted distribution sabotage",
+          "titleKo": "OpenMandriva: 배포판 방해 시도에 대한 성명서",
+          "summary": "OpenMandriva 리눅스 배포판이 의도적인 방해 또는 공격 시도에 대해 공식 입장을 발표했습니다.",
+          "keyPoints": [
+            "OpenMandriva 프로젝트가 외부의 악의적인 방해 행위에 대해 공식 성명을 발표",
+            "오픈소스 프로젝트의 보안과 무결성이 위협받고 있음을 시사"
+          ],
+          "whyItMatters": "오픈소스 프로젝트 운영자들이 보안 위협에 어떻게 대응하는지, 그리고 커뮤니티 프로젝트의 취약성을 이해하는 데 중요합니다.",
+          "url": "https://forum.openmandriva.org/t/statement-regarding-attempted-distribution-sabotage/8997",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 71,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "openmandriva-statement-regarding-attempted-distribution-sabotage",
+          "category": "insight",
+          "publishedAt": "2026-07-08T18:21:53.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "New Sweden: the US's long-lost 'secret' colony",
+          "titleKo": "뉴 스웨덴: 미국의 오래된 '비밀' 식민지",
+          "summary": "1638-1655년 델라웨어 밸리에 존재했던 스웨덴 식민지 뉴 스웨덴에 대한 역사 기사입니다. 가장 작고 단기간 존속했던 유럽 식민지지만 로그캐빈 도입과 미국 문화 형성에 중요한 역할을 했습니다.",
+          "keyPoints": [
+            "1638-1655년 17년간 존속했던 스웨덴 식민지 뉴 스웨덴은 뉴저지, 펜실베이니아, 델라웨어, 메릴랜드 일부를 차지했던 비밀 식민지였음",
+            "스웨덴 정착민들이 미국에 로그캐빈을 소개하고 루터교를 전파하며 미국 문화 형성에 기여",
+            "현재 미국인 대부분이 이 식민지의 존재를 인식하지 못하고 있음"
+          ],
+          "whyItMatters": "미국 역사와 문화의 기원에 대한 덜 알려진 부분을 이해함으로써 역사에 대한 폭넓은 관점을 제공합니다.",
+          "url": "https://www.bbc.com/travel/article/20260629-new-sweden-the-uss-long-lost-secret-colony",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 41,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "new-sweden-the-uss-long-lost-secret-colony",
+          "fullContent": "New Sweden: The US's long-lost 'secret' colony30 June 2026ShareSaveAdd as preferred on GoogleEliot SteinSerenity Strull / Getty Images(Credit: Serenity Strull / Getty Images)It was the smallest, least-populated and shortest-lived colony in the US. But despite being virtually unheard of today, it helped shape the nation's birth 250 years ago.The 125-year-old elevator wheezed to a halt somewhere above Philadelphia's skyline. When the door creaked open, I was inside the clock tower of the US's tallest municipal building, gazing down at \"The Birthplace of America\" from a 500ft (152m) observation deck atop City Hall.From my glass perch, I could make out City Tavern, where the Founding Fathers plotted the American Revolution. Just west, I spotted Carpenters' Hall, where the Colonies united against the British at the First Continental Congress. Nearby was Independence Hall, where the US Constitution was signed in 1787.Squinting, I then followed a parade of red-white-and-blue American flags down Market Street, towards the Delaware River and New Jersey in the distance.\"So, everything I can see from up here was once part of… Sweden?\" I asked our guide.\"I think so,\" he said, hesitantly. \"Though you're the first visitor to ever ask about that.\"AlamyPhiladelphia is considered \"The Birthplace of America\" – but almost no one realises the area was once Swedish (Credit: Alamy)Ask most Americans and they'll tell you that the United States started in Philadelphia on 4 July 1776 when the Founding Fathers signed the Declaration of Independence. Fittingly, the city is the epicentre of the US's 250th anniversary celebrations this week, and as many as 1.5 million people are expected to descend on it for what will be the nation's largest Fourth of July festival.But chances are, almost none of those coming realises that the US's political and ideological birthplace was once part of a little-known Swedish colony known as Nya Sverige (New Sweden). In fact, very few Americans (or Swedes) have any idea that there ever even was a Swedish colony in America.American originsThis is the second in a four-part series highlighting the many ways the US was founded as it celebrates its 250th anniversary.From 1638-1655, this forgotten Swedish settlement extended across the Delaware Valley, encompassing parts of modern-day New Jersey, Pennsylvania, Delaware and Maryland. In addition to being the smallest, least-populated and shortest-lived European colony in the US, it was also the most clandestine.\"It started as sort of secret colony,\" said Deborah-Jean Hoffman, a board member at the New Sweden Centre, which promotes the Delaware Valley's colonial history. \"The Swedes weren't flag-planting like the French or the Spanish. The idea was to create an under-the-radar colony where the Dutch wouldn't see them.\"Eliot SteinNew Swedish settlers introduced the log cabin to the US, which would become an enduring symbol of the nation's pioneering spirit (Credit: Eliot Stein)Despite lasting just 17 years, New Sweden would play a pivotal role in forging the nation's culture to come. New Swedish settlers introduced the most iconic of American frontier buildings: the log cabin. They also brought Lutheran Christianity to the New World, led one of the earliest civilian uprisings in the US colonies and left their mark on two future US cities.And as I was discovering, there are still traces of this long-lost Swedish outpost scattered across the Delaware Valley – if you know where to look.A covert colony built on revengeBy 1637, European powers had already carved up much of the US's Atlantic coast when Peter Minuit, the disgruntled former governor of the New Netherland colony, approached the Swedish Crown. Minuit had famously purchased the island of Manhattan for the Dutch and spent years scouting the Mid-Atlantic for a place to establish New Netherland. But after being abruptly dismissed in 1632, he sought revenge against his former employers.  \"To get back at the Dutch, Minuit went to Sweden and essentially said: you are the only major power in Europe without a colony and you're missing out on the beaver and tobacco trade. I know where you can start one,\" Hoffman said.Jon CasparSometimes called the \"Swedish Mayflower\", the Kalmar Nyckel brought the first Swedish and Finnish settlers to New Sweden (Credit: Jon Caspar)With map in hand, Minuit showed Swedish officials that in between England's claim to Virginia and New Netherland, there was a vast area unoccupied by Europeans. Minuit knew that even though the Dutch claimed the entire Delaware River, they had only actually purchased one side of it along their southern border from the Lenape. He also knew that they were far more concerned with defending New Amsterdam (modern-day Manhattan) than the Delaware Valley. So in December 1637, Minuit led two ships out of Gothenburg with 25 would-be settlers to covertly cut in on the Dutch's trade lucrative trade monopoly with the Native nations. After four months at sea, they qui",
+          "category": "insight",
+          "publishedAt": "2026-07-08T19:26:18.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "A proper guide to Fable 5",
+          "titleKo": "Fable 5의 완벽한 가이드",
+          "summary": "최신 Claude 모델 Fable 5의 사용법과 기능을 종합적으로 설명하는 튜토리얼입니다.",
+          "keyPoints": [
+            "Fable 5의 주요 기능과 사용 방법 상세 해설"
+          ],
+          "whyItMatters": "개발자가 최신 Claude 모델을 효과적으로 활용하기 위한 체계적 학습 자료입니다.",
+          "url": "https://www.youtube.com/watch?v=8GRmLR__OGQ",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "a-proper-guide-to-fable-5",
+          "category": "video",
+          "publishedAt": "2026-07-06T01:41:48+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I Let Claude Fable 5 Run a Business Alone for 6 Days",
+          "titleKo": "Claude Fable 5를 혼자 6일간 비즈니스 운영하게 해보았습니다",
+          "summary": "Claude Fable 5 AI 모델이 6일간 독립적으로 비즈니스를 운영한 실험 결과를 보여주는 영상입니다.",
+          "keyPoints": [
+            "최신 Claude 모델의 자율 업무 수행 능력 시연"
+          ],
+          "whyItMatters": "개발자는 대규모 언어 모델의 실제 자율성과 한계를 이해할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=x-hI_k2JFRc",
+          "sourceName": "Ben Awad",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-let-claude-fable-5-run-a-business-alone-for-6-days",
+          "category": "video",
+          "publishedAt": "2026-07-09T00:23:17+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "New Skills! v1.1 brings /wayfinder, /research, /implement, /to-spec, /to-tickets",
+          "titleKo": "새로운 기능! v1.1에서 /wayfinder, /research, /implement, /to-spec, /to-tickets 추가",
+          "summary": "개발 도구의 v1.1 버전에서 5가지 새로운 슬래시 명령어가 추가되었습니다.",
+          "keyPoints": [
+            "개발 워크플로우를 자동화하는 새로운 명령어 지원"
+          ],
+          "whyItMatters": "개발자의 생산성 향상을 위한 새로운 기능이 추가되었습니다.",
+          "url": "https://www.youtube.com/watch?v=A8mokin_YOs",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "new-skills-v11-brings-wayfinder-research-implement-to-spec-to-tickets",
+          "category": "video",
+          "publishedAt": "2026-07-08T14:26:10+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Why Can't We Commit .env Files?",
+          "titleKo": ".env 파일을 커밋할 수 없는 이유",
+          "summary": "환경 설정 파일(.env)을 버전 관리에 포함시킬 수 없는 보안 및 관리 이유를 설명합니다.",
+          "keyPoints": [
+            ".env 파일에는 API 키, 데이터베이스 암호 등 민감한 정보가 포함되어 있습니다.",
+            "리포지토리에 커밋하면 모든 협업자와 공개적으로 민감 정보가 노출될 위험이 있습니다."
+          ],
+          "whyItMatters": "개발자가 안전한 설정 관리 및 보안 모범 사례를 이해하는 데 필수적입니다.",
+          "url": "https://www.youtube.com/watch?v=vgdpLKxS8dY",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "devops"
+          ],
+          "isTopicPrimary": true,
+          "slug": "why-cant-we-commit-env-files",
+          "category": "video",
+          "publishedAt": "2026-07-07T16:00:14+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Make a next-level site with GSAP",
+          "titleKo": "GSAP로 차원이 다른 웹사이트 만들기",
+          "summary": "GSAP 라이브러리를 활용하여 고급 수준의 웹사이트를 구축하는 방법을 다룬 튜토리얼입니다.",
+          "keyPoints": [
+            "GSAP를 이용한 고급 애니메이션 및 인터랙티브 효과 구현"
+          ],
+          "whyItMatters": "웹 개발자가 사용자 경험을 한 단계 높일 수 있는 애니메이션 기법을 배울 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=AiZsEIhIves",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "make-a-next-level-site-with-gsap",
+          "category": "video",
+          "publishedAt": "2026-07-08T13:00:03+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I need to rant about local models",
+          "titleKo": "로컬 모델에 대해 토로하고 싶습니다",
+          "summary": "로컬 AI 모델 사용에 대한 개인적 의견과 경험을 공유하는 영상입니다.",
+          "keyPoints": [
+            "로컬 모델 사용 시 장단점 논의"
+          ],
+          "whyItMatters": "개발자는 클라우드 기반 모델 대신 로컬 모델 도입 시 고려해야 할 실제 의견을 참고할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=wnfxSxP8pGs",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "i-need-to-rant-about-local-models",
+          "category": "video",
+          "publishedAt": "2026-07-07T20:44:25+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Stop Being Scared of Deleting Code",
+          "titleKo": "코드 삭제가 두렵지 않아야 하는 이유",
+          "summary": "YouTube 영상으로 개발자들이 코드 삭제를 꺼리는 심리와 그것을 극복하는 방법에 대해 다룬다.",
+          "keyPoints": [
+            "개발자들의 심리적 장벽: 작성한 코드 삭제에 대한 불안감과 죄책감",
+            "코드 삭제의 중요성: 기술부채 감소, 코드베이스 유지보수성 향상"
+          ],
+          "whyItMatters": "코드 품질 유지와 프로젝트 건강성을 위해 개발자의 코드 관리 철학을 재정립하는 데 도움이 된다.",
+          "url": "https://www.youtube.com/watch?v=v85waTtzdm0",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "stop-being-scared-of-deleting-code",
+          "category": "video",
+          "publishedAt": "2026-07-08T18:30:14+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Your Product Could Be A Markdown File",
+          "titleKo": "당신의 제품이 마크다운 파일일 수도 있습니다",
+          "summary": "마크다운 형식으로 제품 문서화 및 관리를 단순화할 수 있음을 다룹니다.",
+          "keyPoints": [
+            "마크다운을 활용한 간단한 제품 관리 방식 제시",
+            "복잡한 도구 없이도 효과적인 문서화 가능"
+          ],
+          "whyItMatters": "개발자들이 빠르고 효율적으로 제품을 문서화하고 관리할 수 있는 실용적인 방법을 제공합니다.",
+          "url": "https://www.youtube.com/watch?v=Uq0eyrJ9Fkg",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "isTopicPrimary": true,
+          "slug": "your-product-could-be-a-markdown-file",
+          "category": "video",
+          "publishedAt": "2026-07-06T17:00:31+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude is definitely not conscious…",
+          "titleKo": "Claude는 확실히 의식이 없다",
+          "summary": "Claude AI 모델의 의식 여부에 대한 분석 영상입니다.",
+          "keyPoints": [
+            "Claude의 의식성에 대한 과학적 검증 필요"
+          ],
+          "whyItMatters": "AI 모델의 실제 능력과 한계를 정확히 이해하는 것이 개발에 중요합니다.",
+          "url": "https://www.youtube.com/watch?v=KGtko3y2RXQ",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "claude-is-definitely-not-conscious",
+          "category": "video",
+          "publishedAt": "2026-07-08T17:53:47+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Midjourney has a new side quest... death",
+          "titleKo": "Midjourney의 새로운 사이드 퀘스트... 죽음",
+          "summary": "Midjourney AI 이미지 생성 도구의 새로운 기능이나 업데이트에 대한 YouTube 영상입니다.",
+          "keyPoints": [
+            "제목만으로는 구체적인 내용을 파악하기 어려우나, Midjourney의 새로운 기능 소개로 보임"
+          ],
+          "whyItMatters": "AI 이미지 생성 도구의 발전 동향을 파악할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=a2i9h2ip-nY",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "isTopicPrimary": true,
+          "slug": "midjourney-has-a-new-side-quest-death",
+          "category": "video",
+          "publishedAt": "2026-06-23T16:46:50+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "The weird history of the internet...",
+          "titleKo": "인터넷의 이상한 역사",
+          "summary": "인터넷의 발전 과정과 역사적 배경을 다루는 YouTube 영상입니다.",
+          "keyPoints": [
+            "인터넷 발전의 덜 알려진 이면과 흥미로운 역사적 사건들을 다룸"
+          ],
+          "whyItMatters": "현대 웹 기술을 이해하는 데 필요한 역사적 배경 지식을 제공합니다.",
+          "url": "https://www.youtube.com/watch?v=7B0ydm64cV8",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "isTopicPrimary": true,
+          "slug": "the-weird-history-of-the-internet",
+          "category": "video",
+          "publishedAt": "2026-07-01T16:33:28+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
