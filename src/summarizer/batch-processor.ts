@@ -26,6 +26,7 @@ export interface DigestItem {
   engagement?: number;
   contentType: string;
   labels?: string[];
+  relevance?: number;
   topicId?: string;
   isTopicPrimary?: boolean;
   relatedCount?: number;
@@ -146,6 +147,7 @@ export async function processWithAI(items: ScoredItem[]): Promise<DigestResult> 
         engagement: item.engagement,
         contentType: item.contentType,
         labels: item.labels,
+        relevance: item.relevance,
         topicId: item.topicId,
         isTopicPrimary: item.isTopicPrimary,
         relatedCount: relatedCount > 0 ? relatedCount : undefined,

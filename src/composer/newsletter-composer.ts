@@ -8,7 +8,10 @@ export interface ComposeOptions {
   maxEmailItems?: number;
 }
 
-const DEFAULT_MAX_EMAIL_ITEMS = 18;
+const DEFAULT_MAX_EMAIL_ITEMS = 15;
+// 이메일은 FE 중심 상위만 — FILTER_PROMPT 가 FE 기준으로 매긴 relevance 게이트.
+// 웹 아카이브는 전체 유지 (이메일/웹 역할 분리).
+const EMAIL_MIN_RELEVANCE = 60;
 
 export function composeNewsletter(digest: DigestResult, options?: ComposeOptions): string {
   const T = EMAIL_TOKENS;
@@ -26,6 +29,7 @@ export function composeNewsletter(digest: DigestResult, options?: ComposeOptions
       items: section.items.filter((item) => {
         if (emailItemCount >= maxItems) return false;
         if (item.topicId && !item.isTopicPrimary) return false;
+        if ((item.relevance ?? 100) < EMAIL_MIN_RELEVANCE) return false;
         emailItemCount++;
         return true;
       }),

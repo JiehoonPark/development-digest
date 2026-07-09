@@ -94,5 +94,5 @@ const FE_KEYWORDS = [
 function keywordBonus(title: string): number {
   const lower = title.toLowerCase();
   const matchCount = FE_KEYWORDS.filter((kw) => lower.includes(kw)).length;
-  return Math.min(matchCount * 3, 15);
+  return Math.min(matchCount * 4, 20);
 }
