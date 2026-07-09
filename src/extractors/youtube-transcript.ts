@@ -9,6 +9,10 @@ const log = createChildLogger("youtube-transcript");
 
 const MAX_TRANSCRIPT_LENGTH = 15000;
 
+// 동시 yt-dlp 실행이 YouTube 자막 엔드포인트 429 를 유발해 영상 추출만 직렬화.
+// enricher 의 concurrency 3 은 기사 추출에는 그대로 유효하다.
+let ytQueue: Promise<unknown> = Promise.resolve();
+
 export async function extractYoutubeTranscript(url: string): Promise<ExtractionResult> {
   const videoId = parseVideoId(url);
   if (!videoId) {
@@ -20,19 +24,18 @@ export async function extractYoutubeTranscript(url: string): Promise<ExtractionR
     return fallbackToLibrary(url, videoId);
   }
 
-  try {
-    const content = extractWithYtDlp(videoId);
-    if (content.length > 0) {
-      log.info({ videoId, length: content.length }, "yt-dlp 자막 추출 성공");
-      return { url, content, wordCount: content.split(/\s+/).length, status: "success" };
-    }
-    log.warn({ videoId }, "yt-dlp: SRT 파일 없음 — 폴백");
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    log.warn({ videoId, error: message }, "yt-dlp 실패 — 라이브러리 폴백");
-  }
+  const run = ytQueue.then(() => extractSerialized(url, videoId));
+  ytQueue = run.then(() => undefined, () => undefined);
+  return run;
+}
 
-  // yt-dlp 실패 시 기존 라이브러리 폴백
+async function extractSerialized(url: string, videoId: string): Promise<ExtractionResult> {
+  const content = extractWithYtDlp(videoId);
+  if (content.length > 0) {
+    log.info({ videoId, length: content.length }, "yt-dlp 자막 추출 성공");
+    return { url, content, wordCount: content.split(/\s+/).length, status: "success" };
+  }
+  log.warn({ videoId }, "yt-dlp: SRT 파일 없음 — 폴백");
   return fallbackToLibrary(url, videoId);
 }
 
@@ -42,11 +45,19 @@ function extractWithYtDlp(videoId: string): string {
   const dir = tmpdir();
 
   try {
-    // 자막 + 자동 생성 자막 모두 시도, 다국어 지원
-    execSync(
-      `yt-dlp --write-subs --write-auto-sub --sub-lang "en.*,en,ko.*,ko,ja.*,ja" --sub-format srt --skip-download --no-warnings --output "${tmpFile}" "https://www.youtube.com/watch?v=${videoId}"`,
-      { timeout: 30000, stdio: "pipe" }
-    );
+    // 자막 + 자동 생성 자막 모두 시도. 언어는 en,ko 만 — 패턴이 많을수록
+    // 자막 요청 수가 늘어 429 로 이어진다.
+    try {
+      execSync(
+        `yt-dlp --write-subs --write-auto-sub --sub-lang "en,ko" --sub-format srt --sleep-requests 1 --skip-download --no-warnings --output "${tmpFile}" "https://www.youtube.com/watch?v=${videoId}"`,
+        { timeout: 60000, stdio: "pipe" }
+      );
+    } catch (error) {
+      // 일부 언어만 429 등으로 실패해도 yt-dlp 는 비정상 종료한다.
+      // 이미 다운로드된 SRT 는 유효하므로 버리지 않고 아래에서 스캔한다.
+      const message = error instanceof Error ? error.message : String(error);
+      log.warn({ videoId, error: message.slice(0, 300) }, "yt-dlp 비정상 종료 — 받아둔 SRT 스캔 계속");
+    }
 
     // 다운로드된 SRT 파일을 패턴으로 찾기 (언어 코드가 다양할 수 있음)
     const srtFiles = readdirSync(dir)
@@ -69,7 +80,7 @@ function extractWithYtDlp(videoId: string): string {
 
     if (srtFiles.length === 0) return "";
 
-    log.debug({ videoId, srtFiles: srtFiles.map(basename) }, "SRT 파일 발견");
+    log.debug({ videoId, srtFiles: srtFiles.map((f) => basename(f)) }, "SRT 파일 발견");
 
     const srt = readFileSync(srtFiles[0], "utf-8");
     return parseSrt(srt);
