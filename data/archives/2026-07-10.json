@@ -1,0 +1,1187 @@
+{
+  "date": "2026-07-10",
+  "intro": "안녕하세요! 프론트엔드 개발자 여러분을 위한 뉴스레터입니다. 오늘은 PostgreSQL의 Rust 재구현이 완전한 호환성을 달성하고, Meta의 멀티모달 AI 모델과 OpenAI의 비즈니스 솔루션이 발표되며, 웹 크롤링부터 AI 에이전트까지 다양한 개발자 도구들이 주목받고 있습니다. 또한 HTML popover 속성 같은 실용적인 웹 기술부터 AI 모델의 경제적 효과까지 폭넓은 인사이트를 담았습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Postgres rewritten in Rust, now passing 100% of the Postgres regression tests",
+          "titleKo": "Rust로 재작성된 PostgreSQL, 46,000개 회귀 테스트 100% 통과",
+          "summary": "pgrust는 PostgreSQL을 Rust로 재구현한 프로젝트로, 46,000개 이상의 회귀 쿼리에서 완벽한 호환성을 달성했습니다. 기존 PostgreSQL 18.3 데이터 디렉토리와 호환되며, 멀티스레드 처리, 연결 풀링, JSON 최적화 등의 기능을 로드맵에 포함하고 있습니다.",
+          "keyPoints": [
+            "PostgreSQL 18.3 호환성 100% 달성으로 모든 표준 회귀 테스트 통과",
+            "기존 PostgreSQL 데이터와 디스크 호환성 유지하며 Rust 기반으로 재설계",
+            "성능 최적화, 멀티스레드 처리, 내장 연결 풀링 등 향후 계획 수립"
+          ],
+          "whyItMatters": "PostgreSQL의 내부 개선이나 성능 최적화를 고려하는 개발자와 데이터베이스 엔지니어의 선택지를 확대합니다.",
+          "url": "https://github.com/malisper/pgrust",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 304,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "relevance": 70,
+          "topicId": "postgres-rust",
+          "isTopicPrimary": true,
+          "slug": "postgres-rewritten-in-rust-now-passing-100-of-the-postgres-regression-tests",
+          "fullContent": "pgrust\nA Postgres rewrite in Rust.\nBrowser demo\n|\nDiscord\n|\nGet pgrust updates\n|\nIssues\npgrust targets compatibility with Postgres 18.3 and matches Postgres's\nexpected output across more than 46,000 regression queries.\npgrust is disk compatible with Postgres and can boot from an existing Postgres\n18.3 data directory.\nThe goal is to make Postgres easier to change from the inside: keep the behavior\nPostgres-shaped, keep the real Postgres tests as the oracle, and use Rust plus\nAI-assisted programming to explore deeper server changes.\nFollow pgrust\nGet project updates by email, including new\nreleases, compatibility milestones, and architecture experiments.\nStatus\npgrust is not production-ready yet. It is not performance optimized yet.\nExisting Postgres extensions and procedural language extensions such as\nPL/Python, PL/Perl, and PL/Tcl are not generally compatible yet. Some bundled\ncontrib modules are already ported, and more compatibility may be possible over\ntime.\nRoadmap\nmultithreaded Postgres internals\nbuilt-in connection pooling\nbetter JSON-heavy workload support\nfast forking and branching workflows\nstorage experiments, including no-vacuum designs\nruntime guardrails for bad queries and AI-generated SQL\nfewer sudden bad plan switches\nTry It\nTry the WebAssembly demo at https://pgrust.com.\nDocker:\ndocker run -d --name pgrust -e POSTGRES_PASSWORD=secret malisper/pgrust:v0.1 && until docker exec -e PGPASSWORD=secret pgrust psql -h 127.0.0.1 -U postgres -c '\\q' >/dev/null 2>&1; do sleep 1; done && docker exec -it -e PGPASSWORD=secret pgrust psql -h 127.0.0.1 -U postgres; docker rm -f pgrust\nThis uses the psql client inside the Docker image.\nmalisper/pgrust:latest currently points at the same release, but v0.1 is the\npinned launch image.\nBuild From Source\nmacOS:\nbrew install icu4c openssl@3 libpq\nexport LIBRARY_PATH=\"$(brew --prefix openssl@3)/lib:${LIBRARY_PATH:-}\"\nexport PKG_CONFIG_PATH=\"$(brew --prefix openssl@3)/lib/pkgconfig:$(brew --prefix icu4c)/lib/pkgconfig:${PKG_CONFIG_PATH:-}\"\nexport PATH=\"$(brew --prefix libpq)/bin:$PATH\"\nDebian/Ubuntu:\nsudo apt-get update\nsudo apt-get install -y build-essential pkg-config libicu-dev libssl-dev libldap2-dev libpam0g-dev postgresql-client-18\nBuild:\nPGRUST_PGSHAREDIR=\"$PWD/vendor/postgres-18.3/share\" \\\ncargo build --release --locked --bin postgres\nCreate a data directory:\ntarget/release/postgres --initdb \\\n-D /tmp/pgrust-data \\\n-L \"$PWD/vendor/postgres-18.3/share\" \\\n--no-locale \\\n--encoding UTF8 \\\n-U postgres\nRun pgrust:\nulimit -s 65520\nRUST_MIN_STACK=33554432 target/release/postgres \\\n-D /tmp/pgrust-data \\\n-F \\\n-c listen_addresses= \\\n-k /tmp \\\n-p 5432 \\\n-c io_method=sync \\\n-c max_stack_depth=60000\nConnect:\npsql -h /tmp -p 5432 -U postgres -d postgres \\\n-c \"select version(), 1 + 1 as two\"\nRegression Tests\nRun the Postgres regression tests against pgrust:\nPGRUST_BIN=\"$PWD/target/release/postgres\" \\\nscripts/run-regression\nThe runner uses pgrust's own --initdb plus the vendored Postgres 18.3 test\nfiles in this repository. It needs a Postgres 18 psql client on PATH; if\npsql is somewhere else, set PGRUST_PSQL=/path/to/psql.\nVerified launch result: pgrust matched Postgres's expected output across more\nthan 46,000 regression queries.\nHistory\nThis repository now contains the newer pgrust implementation that reached the\nregression-test milestone.\nThe older public implementation is archived on\narchive/pre-fabled-2026-06-23.\nBackground:\nOriginal pgrust launch: https://malisper.me/pgrust-rebuilding-postgres-in-rust-with-ai/\n67% regression update: https://malisper.me/pgrust-update-at-67-postgres-compatibility-and-accelerating/\nFour Horsemen roadmap: https://malisper.me/the-four-horsemen-behind-thousands-of-postgres-outages/\nFeedback\nPlease open an issue if something breaks, if setup is confusing, or if there is\na Postgres improvement you want to see first.\nContact\nEmail: maintainers@pgrust.com\nDiscord: https://discord.gg/FZZ4dbdvwU\nProject updates: https://pgrust.com/#updates\nLicense\npgrust is licensed under AGPL-3.0. See LICENSE.",
+          "category": "hot",
+          "publishedAt": "2026-07-09T06:18:19.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Muse Spark 1.1",
+          "titleKo": "Meta, Muse Spark 1.1 공개 미리보기 및 Meta Model API 출시",
+          "summary": "Meta Superintelligence Labs가 발표한 Muse Spark 1.1은 멀티모달 추론 모델로, 도구 사용, 컴퓨터 제어, 코딩 등에서 이전 버전보다 크게 향상되었습니다. 1백만 토큰 컨텍스트 윈도우, 다중 에이전트 조율, 복잡한 멀티태스크 처리 능력을 갖춘 공개 API 형태로 개발자에게 제공됩니다.",
+          "keyPoints": [
+            "에이전트 작업에 최적화된 멀티모달 추론으로 계획 수립, 도구 사용, 컴퓨터 제어 능력 대폭 강화",
+            "1백만 토큰 컨텍스트 관리와 다중 에이전트 조율로 복잡한 작업을 병렬 처리",
+            "코딩 작업에서 대규모 버그 진단, 기능 구현, 코드 마이그레이션 등 엔터프라이즈급 능력 제공"
+          ],
+          "whyItMatters": "AI 에이전트 개발자는 Meta Model API를 통해 고성능 멀티모달 추론 능력을 활용하여 자동화 시스템의 복잡도를 크게 높일 수 있습니다.",
+          "url": "https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 309,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "relevance": 60,
+          "topicId": "ai-models",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "muse-spark-11",
+          "fullContent": "Today, we’re excited to introduce Muse Spark 1.1, the latest model from Meta Superintelligence Labs and a significant upgrade from Muse Spark. Muse Spark 1.1 is a multimodal reasoning model built for agentic tasks, with major gains in tool and computer use, coding, and multimodal understanding.\nWith these improvements, Muse Spark 1.1 advances the performance-efficiency frontier. Together with this week’s launch of Muse Image, this release brings us closer to our vision of personal superintelligence: models that help you pursue your goals, create what you imagine, deepen your relationships, and take action on what you value most.\nAlong with this release, we are launching a public preview of the new Meta Model API where developers can access Muse Spark 1.1. The model is available now in \"Thinking\" mode in the Meta AI app and on meta.ai.\nFor more details about our evaluations, see our report.\nMuse Spark 1.1 delivers exceptional performance in personal agentic tasks that require planning and orchestration across a range of external apps and services. It zero-shot generalizes to new native tools, MCP servers, and custom skills.\nIt tackles complex projects significantly faster than Muse Spark, as it is trained to orchestrate multi-agent systems to optimize end-to-end latency. As the main agent, it can gather context, make a plan, and delegate execution across parallel subagents. As a subagent, it adheres to its job, understands available tools, and knows when to escalate back to the main agent.\nMuse Spark 1.1 can actively manage its context window of 1 million tokens. It remembers actions, retrieves information from much earlier work, and compacts in a way that keeps the critical steps needed for later work.\nMuse Spark 1.1 excels at computer-use workflows that unfold across multiple applications with information changing on-the-fly. It maintains context across extended sessions, adapts to evolving requirements, and navigates unfamiliar interfaces with minimal human intervention.\nRather than reasoning through every desktop step one click at a time, Muse Spark 1.1 understands when to automate and when to use the interface directly. We trained the model to write scripts when automation is faster, click when direct interaction is simpler, and generate batches of actions at each step.\nAgentic dinner party organization: In real-world applications, new context arises that changes the task. Muse Spark 1.1 notices these changes when placing the dinner order and makes necessary updates without user intervention.\nCoding performance for Muse Spark 1.1 improved substantially on real-world tasks involving large, complex codebases. It can diagnose and fix complex bugs, implement new features in enterprise-grade systems, and execute large code migrations. In use cases like creating web applications and end-to-end question answering, Muse Spark 1.1 shows large gains over our first model.\nWe trained our model to smoothly adapt to diverse harnesses and reliably handle complex multi-turn dynamics. Muse Spark 1.1 performs well with popular agentic coding setups, supporting common features like planning mode, goal conditioning, subagent delegation, and context compaction.\nDebugging demo in OpenCode: Muse Spark 1.1 builds a chat web app, takes automated screenshots to identify user-visible failures, traces issues back to relevant code to implement fixes, and validates these changes. The model seamlessly combines coding, multimodal understanding, and tool calling.\nAcross Meta, developers and researchers are using Muse Spark 1.1 daily to build faster and work smarter. On our primary internal coding evaluation, Meta Internal Coding Bench, Muse Spark 1.1 significantly improves upon Muse Spark and is competitive with leading alternatives.\nResearchers are now also automating model development and evaluation tasks by leveraging Muse Spark 1.1 in their workflows.\nDeepSWE evaluation in OpenCode: Muse Spark 1.1 evaluates itself on a subset of DeepSWE tasks across different reasoning strengths and produces an analysis dashboard based on the results.\nAlong with coding and agentic capabilities, Muse Spark 1.1 excels in perception, multimodal reasoning, and tool use. It can interact with real environments and produce grounded outputs with strengths in visual-to-code artifact generation, ultra-descriptive image and video captioning, and agentic workflow execution for multimodal use cases.\nMuse Spark 1.1’s multimodal capabilities are especially valuable when perception and action need to happen together. The model can inspect visual and audio, preserve details across a long workflow, and use those details while operating computers on the user’s behalf.\nFacebook Marketplace agent: Using video shot from a smartphone, Muse Spark 1.1 extracts useful photos and reasons about the product to operate a user's browser and make a Facebook Marketplace listing on the user's behalf.\nWe conducted extensive safety evaluations before deployment, following the Advance",
+          "category": "hot",
+          "publishedAt": "2026-07-09T14:10:22.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "ChatGPT Work",
+          "titleKo": "ChatGPT Work",
+          "summary": "OpenAI가 ChatGPT의 업무 활용 기능을 강화하는 새로운 솔루션을 발표했습니다.",
+          "keyPoints": [
+            "ChatGPT를 이용한 전문적 작업 처리 기능 확대"
+          ],
+          "whyItMatters": "개발자들이 AI를 활용한 생산성 향상 도구로 ChatGPT를 더욱 적극 활용할 수 있게 됩니다.",
+          "url": "https://openai.com/index/chatgpt-for-your-most-ambitious-work/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 314,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "relevance": 60,
+          "topicId": "ai-models",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "chatgpt-work",
+          "category": "hot",
+          "publishedAt": "2026-07-09T17:03:53.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "GPT-5.6",
+          "titleKo": "GPT-5.6",
+          "summary": "OpenAI가 GPT-5.6 모델을 발표했습니다.",
+          "keyPoints": [
+            "새로운 GPT 모델 버전 출시"
+          ],
+          "whyItMatters": "개발자들이 더욱 향상된 성능의 GPT 모델을 활용하여 애플리케이션을 개발할 수 있습니다.",
+          "url": "https://openai.com/index/gpt-5-6/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 983,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "relevance": 55,
+          "topicId": "gpt-5-release",
+          "isTopicPrimary": true,
+          "slug": "gpt-56",
+          "category": "hot",
+          "publishedAt": "2026-07-09T17:04:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Launch HN: Context.dev (YC S26) – API to get structured data from any website",
+          "titleKo": "Context.dev 출시: 모든 웹사이트에서 구조화된 데이터를 얻는 API",
+          "summary": "Context.dev는 웹사이트에서 구조화된 데이터를 추출하는 API로, Mintlify, daily.dev, Propane 등 여러 회사가 자동화된 문서 생성, 데이터 검증, 온보딩 개선에 활용하고 있습니다. 기업들이 몇 분의 통합 시간으로 브랜드 데이터를 자동으로 처리하고 활성화율을 높이는 데 성공했습니다.",
+          "keyPoints": [
+            "웹사이트에서 자동으로 구조화된 데이터를 추출하여 LLM 파이프라인에 활용 가능",
+            "GitHub repo를 문서 사이트로 변환, 회사 검증, 온보딩 자동화 등 다양한 사용 사례 제공",
+            "10분 이내의 짧은 통합 시간으로 빠른 구현 가능"
+          ],
+          "whyItMatters": "웹 데이터 추출이 필요한 AI 파이프라인 개발자에게 적분 시간을 단축시켜줍니다.",
+          "url": "https://www.context.dev",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 67,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "ai"
+          ],
+          "relevance": 72,
+          "isTopicPrimary": true,
+          "slug": "launch-hn-contextdev-yc-s26-api-to-get-structured-data-from-any-website",
+          "fullContent": "MintlifyHow Mintlify used Context.dev to power a tool that transforms any GitHub repo URL into a complete, branded documentation site — and got there in under 10 minutes of integration time.Read their storyDaily.devIdo Shamun, Co-founder of daily.dev, shares how Context.dev powers their internal enrichment system to verify companies with zero maintenance overhead.Read their storyPropaneHow Propane AI enhanced their onboarding process and user interview experiences using Context.dev's API for automated brand asset integration.Read their storyArchitectLuke Ramsden walks through how Architect dropped Context.dev into their onboarding flow and sales workflow in an afternoon.Read their storyDocsBotAaron, founder of DocsBot, shares how Context.dev helped transform their onboarding experience by automatically pulling brand data, leading to higher activation rates.Read their storyAnnouncing Monitors: Watch Any Website for ChangesJul 9, 2026Context.dev vs Firecrawl, Diffbot, Apify, and ScraperAPI for LLM PipelinesJul 9, 2026Best Real-Time Web Content APIs for LLM Pipelines in 2026Jul 8, 2026Website Crawler API Comparison for AI Agents in 2026Jul 6, 2026Best Web Extraction APIs for AI Pipelines in 2026Jul 5, 2026Tool Comparison: Best for LLM Data Pipelines in 2026Jul 4, 2026Best Web Scraping APIs for JavaScript-Heavy Sites in 2026Jul 2, 2026Best AI Web Crawlers and Data Pipeline Tools in 2026Jul 1, 2026Best Web Crawling APIs to Replace Internal Crawlers in 2026Jun 30, 2026How to Generate LLMs.txt Automatically with Context.devJun 28, 2026",
+          "category": "tech",
+          "publishedAt": "2026-07-09T15:28:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "addyosmani/agent-skills (JavaScript)",
+          "titleKo": "AI 코딩 에이전트를 위한 프로덕션급 엔지니어링 스킬",
+          "summary": "Addy Osmani가 개발한 AI 코딩 에이전트용 엔지니어링 스킬 라이브러리입니다. 프로덕션 환경에서 사용 가능한 수준의 기능을 제공합니다.",
+          "keyPoints": [
+            "AI 에이전트가 실제 개발 작업을 수행할 수 있도록 설계된 스킬 세트",
+            "프로덕션급 품질의 코드 작성 및 엔지니어링 작업 지원"
+          ],
+          "whyItMatters": "AI 에이전트의 실용적인 소프트웨어 개발 능력을 향상시키려는 개발자에게 필요합니다.",
+          "url": "https://github.com/addyosmani/agent-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 75844,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "relevance": 72,
+          "topicId": "ai-agents",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "addyosmaniagent-skills-javascript",
+          "category": "tech",
+          "publishedAt": "2026-07-10T00:05:40.565Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "MadsLorentzen/ai-job-search (TypeScript)",
+          "titleKo": "AI 기반 자동 채용 지원 프레임워크",
+          "summary": "ai-job-search는 Claude Code 기반의 TypeScript 프레임워크로, 프로필을 입력하면 Claude가 자동으로 채용공고를 평가하고, CV 맞춤, 자기소개서 작성, 면접 준비를 수행합니다.",
+          "keyPoints": [
+            "Claude를 활용한 자동화된 채용공고 평가 및 맞춤형 지원서 작성",
+            "사용자가 프로필을 입력하면 AI가 CV, 커버레터, 면접 준비를 자동 생성"
+          ],
+          "whyItMatters": "Claude Code의 실제 활용 사례를 보여주며, AI 에이전트를 활용한 자동화 시스템 개발의 참고 자료가 됩니다.",
+          "url": "https://github.com/MadsLorentzen/ai-job-search",
+          "sourceName": "GitHub Trending",
+          "engagement": 18920,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "typescript"
+          ],
+          "relevance": 65,
+          "topicId": "ai-job-tools",
+          "isTopicPrimary": false,
+          "slug": "madslorentzenai-job-search-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-10T00:05:40.564Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "unclecode/crawl4ai (Python)",
+          "titleKo": "unclecode/crawl4ai - LLM 친화적 오픈소스 웹 크롤러",
+          "summary": "Crawl4AI는 LLM 모델과 연동하기 위한 오픈소스 웹 크롤러 및 스크래퍼 도구입니다.",
+          "keyPoints": [
+            "LLM 친화적인 설계로 AI 모델의 입력 데이터 수집 최적화",
+            "오픈소스로 커뮤니티 기여 가능"
+          ],
+          "whyItMatters": "개발자가 AI 프로젝트에 필요한 데이터를 효율적으로 수집할 수 있는 도구를 제공합니다.",
+          "url": "https://github.com/unclecode/crawl4ai",
+          "sourceName": "GitHub Trending",
+          "engagement": 71809,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "relevance": 60,
+          "isTopicPrimary": true,
+          "slug": "unclecodecrawl4ai-python",
+          "category": "tech",
+          "publishedAt": "2026-07-10T00:05:40.567Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "bradautomates/claude-video (Python)",
+          "titleKo": "bradautomates/claude-video - Claude에 동영상 시청 능력 추가",
+          "summary": "Claude가 동영상을 분석할 수 있도록 하는 도구로, 동영상 다운로드, 프레임 추출, 음성 인식을 자동 처리합니다.",
+          "keyPoints": [
+            "동영상 프레임 자동 추출 및 음성 전사 기능",
+            "Claude API와 통합하여 시각 및 음성 분석 가능"
+          ],
+          "whyItMatters": "개발자가 Claude를 활용해 멀티미디어 콘텐츠 분석을 자동화할 수 있습니다.",
+          "url": "https://github.com/bradautomates/claude-video",
+          "sourceName": "GitHub Trending",
+          "engagement": 6681,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "relevance": 60,
+          "topicId": "ai-video",
+          "isTopicPrimary": true,
+          "slug": "bradautomatesclaude-video-python",
+          "category": "tech",
+          "publishedAt": "2026-07-10T00:05:40.569Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "TLS certificates for internal services done right",
+          "titleKo": "내부 서비스를 위한 TLS 인증서 올바르게 설정하기",
+          "summary": "VPN 환경의 내부 서비스에 Let's Encrypt 인증서를 적용하는 Split-Horizon DNS 방식을 제시합니다. NetBird를 이용한 VPN 설정, acme.sh를 통한 인증서 자동 갱신, nginx WAF를 통한 접근 제어를 결합하여 자체 서명 인증서 없이 신뢰된 TLS 통신을 구현합니다.",
+          "keyPoints": [
+            "Split-Horizon DNS로 공개 CA 인증서를 내부 서비스에 적용 가능",
+            "nginx WAF로 VPN 외부 접근을 차단하여 보안 계층 추가",
+            "acme.sh 자동 갱신으로 인증서 관리 운영 비용 최소화"
+          ],
+          "whyItMatters": "내부 서비스의 TLS 보안을 경제적이고 효율적으로 구현하려는 DevOps 엔지니어에게 실무 가이드를 제공합니다.",
+          "url": "https://tuxnet.dev/posts/tls-for-internal-services/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 125,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "devops"
+          ],
+          "relevance": 65,
+          "isTopicPrimary": true,
+          "slug": "tls-certificates-for-internal-services-done-right",
+          "fullContent": "TLS certificates for internal services done right 2026-07-09 Jakub Kołodziejczak dnstlsacmeletsencryptnetbirdnginxacme.sh Title is a bit clickbait-y — YMMV, but let me explain why I think “this is the\nway”. Let’s start with a simple example — we have a server which hosts bunch\nof HTTP services. Some of those services are external, others internal. In\norder to reach the internal ones you need to be connected to the VPN.\nFor the sake of simplicity let’s consider we have two choices:\nWe use top-level domain restricted by ICANN for private\nuse\n— e.g. .internal.\nWe use a public apex domain that we own — e.g. tuxnet.dev\nGrafana would be our example internal app. Let’s assume that it’s reachable on\n10.0.1.10 internal IP address and our VPN has DNS resolver features.\nWhat’s wrong with .internal then?\nWe could simply create a DNS record of type “A” that resolves to 10.0.1.10\ninternal IP address — e.g. grafana.tuxnet.internal. But then if we don’t\nwant it to be a plain text HTTP service we would need to create a self-signed\ncertificate.\nThe good part is that there are plenty tutorials that show you how to do this\n(e.g. this\none).\nThe ugly part is that suddenly every HTTP client should be configured to trust\nthis self-signed certificate. Alternatively we could just tell our users to\nignore the TLS certificate errors ¯\\_(ツ)_/¯.\nHow to do it “the right way”\nMeet the “split-horizon DNS” configuration. For public DNS resolvers our\ngrafana.tuxnet.dev domain resolves to a public IP and for clients connected\nto the VPN this domain resolves to an internal IP.\nThe good part is that since it resolves to a public IP we can use some public\nCA like Let’s Encrypt or ZeroSSL. The ugly part is that we still need some WAF\nrejecting traffic that does not originate from the VPN.\nConsidering pros and cons of both solutions I think it’s much easier to set up\na WAF in one place (on our server) than to install self-signed certificate on\nevery machine that joins our internal network (… or advising our users to\nsuppress the TLS errors).\n”Talk is cheap show me the code”\nWe have theory now, time to get our hands dirty. We will need:\nA VPN with DNS resolver features — I choose NetBird.\nACME client for issuing a certificate — I choose acme.sh.\nA reverse proxy with WAF features in front of our grafana — I choose nginx.\nIf you’ve read my other blog posts you probably noticed that I am a fan of\nNetBird (sorry Tailscale). Thanks to Custom\nZones feature, NetBird does\nall the heavy lifting required for “split-horizon DNS” for us. By using user\ngroups or peer\ngroups we can\nselectively apply Custom Zones so that server uses public DNS resolver for\ngrafana.tuxnet.dev.\nWhy exclude server from that custom zone? It’s not required unless we want to\nuse http-01 challange. Using\nother methods is also possible but for the sake of this blog post I choose\nhttp-01. Ok, let’s get the certificate now with:\nacme.sh --issue -d grafana.tuxnet.dev --server letsencrypt --standalone\nacme.sh is quite flexible and has a lot of\nmodes.\nThe cool part about the standalone mode (enabled with --standalone flag) is\nthat our nginx doesn’t have to listen on port 80 at all. This port becomes\n“active” only when acme.sh gets the certificate.\nOk now we can put nginx into action. This is our config:\nupstream grafana {\nserver localhost:3000;\n}\nmap $http_upgrade $connection_upgrade {\ndefault upgrade;\n'' close;\n}\nserver {\nlisten our-server.netbird.cloud:443 ssl;\nserver_name grafana.tuxnet.dev;\nhttp2 on;\nssl_certificate /etc/ssl/certs/grafana.tuxnet.dev.crt;\nssl_certificate_key /etc/ssl/private/grafana.tuxnet.dev.key;\naccess_log /var/log/nginx/grafana.tuxnet.dev.access.log main;\nerror_log /var/log/nginx/grafana.tuxnet.dev.error.log warn;\nlocation / {\nproxy_pass http://grafana;\nproxy_set_header Host $host;\n}\n# Proxy Grafana Live WebSocket connections.\nlocation /api/live/ {\nproxy_pass http://grafana;\nproxy_http_version 1.1;\nproxy_set_header Upgrade $http_upgrade;\nproxy_set_header Connection $connection_upgrade;\nproxy_set_header Host $host;\n}\n}\nThere is one key setting in this configuration worth explaining — listen our-server.netbird.cloud:443 ssl;. We are binding to the VPN network interface\nof our server. Instead of our-server.netbird.cloud this could be a VPN IP\naddress. In practice this will reject any traffic to grafana.tuxnet.dev that\noriginates from public internet — this is our Web Access Firewall.\nSecurity is about layers (just like onions and ogres). Our first layer is\nsplit-horizon DNS but if for whatever reason it fails or is cleverly bypassed\nwe have a 2nd layer - WAF - that should hold the line.\nLast but not least — certificate auto renewal. acme.sh has a out-of-the box\n--cron flag. Now we need a daily cron job that will call\nacme.sh --cron\nacme.sh automatically chooses which certificates should be renewed. All we\nneed to do is to make sure that cron job copies new certificates into the\nlocation defined in nginx’s ssl_certificate and ssl_certificate_key. Nginx\nalso needs to be rel",
+          "category": "tech",
+          "publishedAt": "2026-07-09T14:57:02.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "prisma/prisma (TypeScript)",
+          "titleKo": "Prisma: Node.js & TypeScript용 차세대 ORM",
+          "summary": "Prisma는 PostgreSQL, MySQL, MariaDB, SQL Server, SQLite, MongoDB, CockroachDB를 지원하는 Node.js 및 TypeScript용 최신 ORM 솔루션입니다.",
+          "keyPoints": [
+            "다양한 데이터베이스(SQL, NoSQL)에 대한 통일된 인터페이스 제공",
+            "TypeScript 네이티브 지원으로 타입 안정성과 개발 생산성 향상"
+          ],
+          "whyItMatters": "TypeScript 기반 백엔드 개발에서 데이터베이스 접근을 간편하고 안전하게 처리할 수 있게 해줍니다.",
+          "url": "https://github.com/prisma/prisma",
+          "sourceName": "GitHub Trending",
+          "engagement": 46891,
+          "contentType": "repo",
+          "labels": [
+            "backend",
+            "typescript"
+          ],
+          "relevance": 65,
+          "isTopicPrimary": true,
+          "slug": "prismaprisma-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-10T00:05:40.569Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "wonderwhy-er/DesktopCommanderMCP (TypeScript)",
+          "titleKo": "wonderwhy-er/DesktopCommanderMCP - Claude용 데스크톱 제어 MCP 서버",
+          "summary": "Claude에게 터미널 제어, 파일시스템 검색, 파일 편집 기능을 제공하는 MCP 서버입니다.",
+          "keyPoints": [
+            "Claude가 터미널 명령어와 파일 작업을 직접 수행 가능",
+            "diff 파일 편집 기능으로 코드 변경 추적"
+          ],
+          "whyItMatters": "개발자가 Claude를 활용해 로컬 개발 환경 자동화 작업을 수행할 수 있습니다.",
+          "url": "https://github.com/wonderwhy-er/DesktopCommanderMCP",
+          "sourceName": "GitHub Trending",
+          "engagement": 6567,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "typescript"
+          ],
+          "relevance": 55,
+          "topicId": "ai-agents",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "wonderwhy-erdesktopcommandermcp-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-10T00:05:40.566Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Show HN: Getting GLM 5.2 running on my slow computer",
+          "titleKo": "느린 컴퓨터에서 GLM 5.2 실행하기",
+          "summary": "744B 파라미터 혼합 전문가(MoE) 모델인 GLM-5.2를 약 25GB RAM의 일반 컴퓨터에서 순수 C로 실행하는 경량 엔진 Colibrì를 소개합니다. 디스크에서 전문가 모델을 스트리밍하여 필요한 파라미터만 로드하는 방식으로 구현되었습니다.",
+          "keyPoints": [
+            "744B MoE 모델이 토큰당 약 40B 파라미터만 활성화하므로, 디스크 스트리밍으로 저사양 기계에서 실행 가능",
+            "순수 C 단일 파일(~1,300줄)로 구현되었으며 BLAS, Python, GPU 의존성이 없음",
+            "MLA 어텐션, MTP 추측 디코딩, int4 양자화 등으로 성능 최적화하여 콜드 캐시 기준 초당 0.05-0.1 토큰 처리"
+          ],
+          "whyItMatters": "대규모 언어 모델을 저사양 하드웨어에서 실행하는 혁신적인 방법으로, 엣지 배포와 개인용 컴퓨터에서의 AI 활용을 가능하게 합니다.",
+          "url": "https://github.com/JustVugg/colibri",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 302,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "relevance": 55,
+          "isTopicPrimary": true,
+          "slug": "show-hn-getting-glm-52-running-on-my-slow-computer",
+          "fullContent": "Tiny engine, immense model. Run GLM-5.2 (744B-parameter MoE) on a consumer machine with ~25 GB of RAM — in pure C, with zero dependencies, by streaming experts from disk.\n$ ./coli chat\n🐦 colibrì v1.0 — GLM-5.2 · 744B MoE · int4 · streaming CPU\n✓ pronto in 32s · residente 9.9 GB\n› ciao!\n◆ Ciao! 😊 Come posso aiutarti oggi?\nThe idea\nA 744B Mixture-of-Experts model activates only ~40B parameters per token — and only ~11 GB of those change from token to token (the routed experts). So:\nthe dense part (attention, shared experts, embeddings — ~17B params) stays resident in RAM at int4 (~9.9 GB);\nthe 21,504 routed experts (75 MoE layers × 256 experts + the MTP head, ~19 MB each at int4) live on disk (~370 GB) and are streamed on demand, with a per-layer LRU cache, an optional pinned hot-store, and the OS page cache as a free L2.\nThe engine is a single C file (c/glm.c, ~1,300 lines) plus small headers. No BLAS, no Python at runtime, no GPU.\nWhat's implemented\nFaithful GLM-5.2 (glm_moe_dsa) forward — validated token-exact against a transformers oracle (teacher-forcing 32/32, greedy 20/20 on a tiny-random model with the real architecture).\nMLA attention (q/kv-LoRA, interleaved partial RoPE) with compressed KV-cache: 576 floats/token instead of 32,768 (57× smaller — GLM-5.2 has 64 heads and no GQA).\nDeepSeek-V3-style sigmoid router (noaux_tc, routed_scaling_factor), shared expert, first-3-dense layers.\nNative MTP speculative decoding — GLM-5.2's own multi-token-prediction head (layer 78) drafts tokens that the main model verifies in one batched forward. The head must be int8 (the converter does this by default): at int4 draft acceptance collapses to 0–4% and speculation never engages; at int8 it's 39–59% acceptance, 2.2–2.8 tokens/forward (community-measured, #8). Lossless — and stays lossless under sampling via rejection sampling. Honest caveat from the same measurement: on a cold cache each verified draft routes to extra experts (~660 → ~1100 expert-loads/token), so speculation can be a net time loss until the cache/pin warms up — the adaptive guard and DRAFT=0 are there for that.\nTrue sampling — temperature + nucleus, defaults tuned for int4 reality (0.7 / 0.90; the official 1.0 / 0.95 samples quantization noise from the tail).\nInteger-dot kernels (Q8_0-style int8 activations, AVX2 maddubs): int8 matmuls 1.4–2.5× faster (119 GFLOP/s measured), int4 1.8× in batch — routing decided per shape by measurement (int4 single-row stays f32: it measured slower).\nMLA weight absorption (DeepSeek trick) for decode: no per-token k/v reconstruction — the query absorbs kv_b, context is projected after attention. Validated exact: TF 32/32 and generation 20/20 with absorption forced everywhere.\nAsync expert readahead: while one block of experts is being multiplied, the kernel is already reading the next (WILLNEED).\nQuantization kernels: int8 / packed int4 / packed int2, per-row scales, AVX2, dequant-on-use. Packing validated bit-identical to the int8 container.\nDSA sparse attention: in progress — the lightning-indexer weights (a ~108 GB extraction from the FP8 repo, --indexer converter mode) are downloading; the indexer forward lands next. Until then attention is dense and exact for contexts ≤ 2048 tokens.\nBatch-union MoE: in prefill (and MTP verification), each unique expert of the batch is read once and applied to every position that routes to it.\nByte-level BPE tokenizer in C (GPT-2-style with Unicode-property regex, 320k merges).\nRAM safety: the expert cache is auto-sized from MemAvailable at startup — an honest peak projection (working set, KV, MTP row, reconstruction buffers) so the kernel OOM-killer never fires.\nOffline FP8→int4 converter (c/convert_fp8_to_int4.py): downloads one shard at a time (~5 GB), dequants (128×128 block scales), requantizes to the engine's container, deletes the shard — the 756 GB FP8 checkpoint never needs to exist on disk at once. Resumable.\nHonest numbers (WSL2, 12 cores, 25 GB RAM, NVMe via VHDX)\nmetric\nvalue\nmodel on disk (int4 container)\n~370 GB\nresident RAM (dense, int4)\n9.9 GB\nload time\n~30 s\npeak RSS during chat\n~20 GB (auto-capped)\ncold decode cost\n~11 GB disk reads/token (75 layers × 8 experts)\ndisk ceiling (VHDX random)\n~1 GB/s → ~0.05–0.1 tok/s cold\nMTP speculation (int8 head)\n2.2–2.8 tok/forward measured (#8)\nThis is not fast. It is a 744B frontier-class model answering correctly on a machine that costs less than one H100 fan. Warm cache, pinned hot experts and MTP push the useful-response latency down considerably; the physics of the disk does the rest.\nSSD note\nCold starts are heavy on random reads (~11 GB/token), but reads don't meaningfully wear an SSD — colibrì's streaming is read-only. The real concerns under heavy use are (1) swap traffic if the system runs out of RAM (writes do wear the drive — keep a sane --ram budget; colibrì's auto-budget is designed to stay clear of swap) and (2) sustained thermals: hours at full read duty cycle will heat cheaper drives. Monitor drive tempera",
+          "category": "tech",
+          "publishedAt": "2026-07-09T08:05:04.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "kyutai-labs/pocket-tts (Python)",
+          "titleKo": "CPU와 주머니에 들어가는 TTS",
+          "summary": "Kyutai Labs의 Pocket TTS는 CPU 리소스만으로 동작하며 휴대 가능한 경량 음성 합성 모델입니다. 별도의 GPU나 클라우드 서비스 없이 로컬에서 실행할 수 있도록 설계되었습니다.",
+          "keyPoints": [
+            "CPU 기반 실행으로 별도 하드웨어 투자 없이 음성 합성 가능",
+            "경량화로 모바일이나 엣지 디바이스에 배포 가능"
+          ],
+          "whyItMatters": "개발자가 클라우드 API 의존 없이 독립적으로 TTS 기능을 구현할 수 있으며, 비용과 지연 시간을 크게 줄일 수 있습니다.",
+          "url": "https://github.com/kyutai-labs/pocket-tts",
+          "sourceName": "GitHub Trending",
+          "engagement": 6967,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "relevance": 50,
+          "isTopicPrimary": true,
+          "slug": "kyutai-labspocket-tts-python",
+          "category": "tech",
+          "publishedAt": "2026-07-10T00:05:40.569Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "GLM 5.2 is nearly as accurate as a human book keeper",
+          "titleKo": "GLM 5.2가 인간 수준의 회계 정확도를 비용의 1% 이하로 달성",
+          "summary": "GLM 5.2 오픈 웨이트 AI 모델이 UK 중소기업의 분기별 VAT 신고서 작성을 인간 수준으로 수행했으며, 전문 회계사 비용(분기당 750-2,100 GBP)의 1% 미만인 2.73 USD의 비용으로 처리했습니다. 59건의 거래를 68분에 처리하여 최종 세금 산출액이 실제값에서 7펜스만 차이가 났습니다.",
+          "keyPoints": [
+            "오픈 웨이트 AI 모델로 대규모 회계 작업을 거의 인간 수준의 정확도로 자동화 가능",
+            "기존 전문 서비스 대비 99% 비용 절감으로 중소기업의 컴플라이언스 비용 획기적 감소"
+          ],
+          "whyItMatters": "AI가 복잡한 비즈니스 로직과 규정을 이해하고 실행할 수 있음을 보여주며, 엔터프라이즈 자동화 솔루션 개발에 새로운 가능성을 제시합니다.",
+          "url": "https://toot-books.pages.dev/blog/glm-5-2-vat-benchmark",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 165,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "relevance": 50,
+          "isTopicPrimary": true,
+          "slug": "glm-52-is-nearly-as-accurate-as-a-human-book-keeper",
+          "fullContent": "Toot blog\nGLM 5.2 is (nearly) as accurate as a human book-keeper at less than 1% of the cost\n8 July 2026 · Adam Kurkiewicz, Vineyard Finance\nWe evaluated the performance of GLM 5.2, an open weights AI model, on the task of quarterly value-added tax (VAT) return preparation for a small UK business. Preparing a VAT return is a typical compliance task for a small/medium-sized UK business (SME). VAT registered businesses in the UK must prepare the VAT return every quarter. For SMEs, VAT returns are typically prepared by an external accounting firm. A typical fee for this service is ~750–2,100 GBP/quarter (1,000–2,800 USD/quarter). The statutory requirement is to file the VAT return submission within 5 weeks from the end of the quarter. Late submissions incur substantial penalties.\nIn our testing GLM 5.2 can prepare a nearly perfect quarterly VAT return for a UK SME, processing 59 transactions in 68 minutes at the raw token cost of 2.73 USD. GLM 5.2 had to input each transaction into the accounting software via a command-line tool (CLI). We scored the end-state of the accounting software, scoring the correctness of 6 criteria per transaction. The model produced an essentially correct VAT return, with the net position (Box 5) off by only 7 pence (~10 US cents) relative to the ground truth.\nIn this blog post, we will explain how the benchmark was conducted and note the errors made by the model.\nHow the benchmark was conducted\nWe used Claude Fable 5 to extract the benchmark in the form of transaction data and corresponding receipts from our accounting software: the first quarter of Vineyard Finance’s 2026 books (January, February, March 2026). These books were prepared internally by humans, following a typical accounting process: one person prepared the books, and another person verified them. The job performed by the humans was broader than what was requested of the model in this benchmark: humans also had to find the relevant invoices (searching through mailboxes, or requesting them from providers) and reason through any circumstances which cannot be inferred from the bank feed and invoices/receipts on their own. In the benchmark these circumstances are presented to the model as “user notes”.\nGLM 5.2 ran on a Google Cloud Platform (GCP) instance isolated from the rest of the testing environment (to prevent the model from accessing the ground truth): but it did have access to the internet and to the cloud-based accounting software, as well as a pre-authenticated CLI tool. The model ran on a custom, minimal harness, which exposed only two tools: the bash tool and the session termination + final reporting tool. We used the Fireworks AI serverless tier as the GLM 5.2 model provider (the exact quantisation of the model is not disclosed by the provider, but is believed to be either FP16 or FP8).\nThe audit of the model’s reasoning and tool use did not detect any overt cheating. The only unexpected use of the internet connection by the model was gathering information about recording reverse-charge VAT, and the information sought was specific to the accounting software used. Other outbound connections were anticipated and made for operational reasons in the form of API calls to the accounting SaaS provider. We note that the model’s reasoning was influenced by the awareness of it being tested. For example, at one point, the model remarks:\n“the task is testing whether I get VAT right… what is the ‘expected’ answer”\nWhat the model saw\nHere is how a typical transaction from the benchmark would appear to the model:\nBank feed line:\n{\"id\": \"941285000000092067\", \"date\": \"2026-03-08\", \"amount\": -18, \"currency\": \"GBP\", \"account\": \"Wise GBP\", \"description\": \"Card transaction of 18.00 GBP issued by Claude.ai Subscription ANTHROPIC.COM CARD-3534994599\", \"card_ref\": \"CARD-3534994599\"}\nReceipt PDF: all receipts and invoices in the benchmark were text-containing PDFs; no receipts or PDFs required image processing. As a result, lack of vision support in the GLM 5.2 model was not a limiting factor for this benchmark.\nAn optional user note. Only two out of 59 transactions had user notes. The text of the user notes was precisely as follows: 1) “founder shares” and 2) “personal car hire”. These two user notes were necessary to allow the model to reason about real-world context that was not derivable from the bank feed and receipt data.\nHow we scored it\nEach transaction was scored from the end-state of the books in the accounting software after the run of the benchmark, on the following 6 criteria:\nType of transaction (e.g. purchase, bank_fee, transfer, sales_income, capital_introduced, director_loan, refund, etc…) — these were deterministically derived from the state of the processed transaction in the accounting software.\nCategory (the “account” from the chart of accounts, e.g. “IT and Internet Expenses”).\nVAT treatment (e.g. reverse charge, 20% VAT, 0% VAT, VAT exempt).\nVAT amount (tolerance of 0.02 GBP).\nReverse-charge VAT (tolerance of 0.",
+          "category": "tech",
+          "publishedAt": "2026-07-09T18:29:41.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "vxcontrol/pentagi (Go)",
+          "titleKo": "vxcontrol/pentagi - 완전 자동화 AI 에이전트 모의침투 테스트 시스템",
+          "summary": "Go로 작성된 pentagi는 복잡한 모의침투 테스트 작업을 완전 자동화로 수행할 수 있는 AI 에이전트 시스템입니다.",
+          "keyPoints": [
+            "AI 에이전트가 침투 테스트 작업을 완전 자동으로 수행",
+            "Go 기반으로 높은 성능과 동시성 처리"
+          ],
+          "whyItMatters": "개발자와 보안 담당자가 AI를 활용해 자동화된 보안 진단을 수행할 수 있습니다.",
+          "url": "https://github.com/vxcontrol/pentagi",
+          "sourceName": "GitHub Trending",
+          "engagement": 19375,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "devops"
+          ],
+          "relevance": 55,
+          "isTopicPrimary": true,
+          "slug": "vxcontrolpentagi-go",
+          "category": "tech",
+          "publishedAt": "2026-07-10T00:05:40.567Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Go"
+          ]
+        },
+        {
+          "title": "imthenachoman/How-To-Secure-A-Linux-Server",
+          "titleKo": "Linux 서버 보안 설정 방법",
+          "summary": "Linux 서버를 보안하기 위한 실용적인 가이드를 제공하는 지속적으로 업데이트되는 저장소입니다. 시스템 관리자와 개발자들이 참고할 수 있는 보안 모범 사례를 다룹니다.",
+          "keyPoints": [
+            "Linux 서버 보안의 체계적인 가이드를 제공하는 오픈소스 자료",
+            "커뮤니티 기여로 지속적으로 업데이트되어 최신 보안 동향 반영"
+          ],
+          "whyItMatters": "프로덕션 서버 운영 시 보안 설정의 기본이 되는 필수 참고 자료입니다.",
+          "url": "https://github.com/imthenachoman/How-To-Secure-A-Linux-Server",
+          "sourceName": "GitHub Trending",
+          "engagement": 29067,
+          "contentType": "repo",
+          "labels": [
+            "devops",
+            "general"
+          ],
+          "relevance": 55,
+          "isTopicPrimary": true,
+          "slug": "imthenachomanhow-to-secure-a-linux-server",
+          "category": "tech",
+          "publishedAt": "2026-07-10T00:05:40.568Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "iOfficeAI/OfficeCLI (C#)",
+          "titleKo": "OfficeCLI - AI 에이전트용 Office 자동화 도구",
+          "summary": "AI 에이전트가 Word, Excel, PowerPoint 파일을 읽고 편집할 수 있도록 설계된 C# 기반 Office 스위트 CLI 도구입니다. 무료 오픈소스이며 단일 바이너리 형식으로 Office 설치가 필요 없습니다.",
+          "keyPoints": [
+            "AI 에이전트를 위해 특별히 설계된 첫 번째 Office 자동화 도구",
+            "C#로 구현되었으며, 무료 오픈소스 단일 바이너리로 배포되어 의존성 없음"
+          ],
+          "whyItMatters": "AI 에이전트가 기존 Office 문서를 직접 처리할 수 있게 해주므로 문서 자동화 워크플로우 구축에 필수적입니다.",
+          "url": "https://github.com/iOfficeAI/OfficeCLI",
+          "sourceName": "GitHub Trending",
+          "engagement": 13391,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "relevance": 50,
+          "isTopicPrimary": true,
+          "slug": "iofficeaiofficecli-c",
+          "category": "tech",
+          "publishedAt": "2026-07-10T00:05:40.566Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "C#"
+          ]
+        },
+        {
+          "title": "Girls just wanna have fast MPMC queues with bounded waiting",
+          "titleKo": "대기 시간이 제한된 빠른 MPMC 큐 구현하기",
+          "summary": "멀티 프로듀서-멀티 컨슈머(MPMC) 큐의 고성능 구현과 대기 시간 제한 메커니즘에 대한 기술 블로그입니다.",
+          "keyPoints": [
+            "동시성 프로그래밍에서 필요한 MPMC 큐의 최적화 기법 설명",
+            "무대기(wait-free) 또는 제한된 대기 시간으로 동작하는 자료구조 구현"
+          ],
+          "whyItMatters": "고성능 멀티스레드 애플리케이션 개발 시 필수적인 동시성 패턴을 다루는 심화 자료입니다.",
+          "url": "https://nahla.dev/blog/waitfree_queue/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 123,
+          "contentType": "discussion",
+          "labels": [
+            "backend",
+            "general"
+          ],
+          "relevance": 55,
+          "isTopicPrimary": true,
+          "slug": "girls-just-wanna-have-fast-mpmc-queues-with-bounded-waiting",
+          "category": "tech",
+          "publishedAt": "2026-07-06T19:46:30.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: 18 Words",
+          "titleKo": "18 Words (18단어 게임)",
+          "summary": "18단어 챌린지 게임 웹사이트로, 사용자가 게임을 플레이하고 피드백을 제공할 수 있습니다.",
+          "keyPoints": [
+            "간단한 웹 기반 게임 프로젝트",
+            "개발자의 다른 게임 Zanagrams도 제공"
+          ],
+          "whyItMatters": "웹 게임 개발의 간단한 예시로 참고할 수 있습니다.",
+          "url": "https://18words.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 784,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "ai"
+          ],
+          "relevance": 50,
+          "isTopicPrimary": true,
+          "slug": "show-hn-18-words",
+          "fullContent": "Can you survive the 18 words challenge?\nThanks for playing! You can send me feedback or try my other game Zanagrams.",
+          "category": "tech",
+          "publishedAt": "2026-07-09T12:48:52.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Hy3",
+          "titleKo": "Hy3",
+          "summary": "Tencent에서 개발한 Hy3 연구 프로젝트에 대한 정보 페이지입니다.",
+          "keyPoints": [
+            "Tencent 연구팀의 프로젝트"
+          ],
+          "whyItMatters": "산업 연구 기관의 최신 기술 동향을 파악하는 데 도움이 됩니다.",
+          "url": "https://hy.tencent.com/research/hy3",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 356,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "relevance": 50,
+          "isTopicPrimary": true,
+          "slug": "hy3",
+          "category": "tech",
+          "publishedAt": "2026-07-09T15:27:48.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Opinionated and easy Pi.dev configuration",
+          "titleKo": "의견 기반의 간단한 Pi.dev 설정",
+          "summary": "Lazypi.org는 Python 프로젝트 설정을 위한 의견 기반(opinionated) 구성 도구입니다. 개발자 선택지를 최소화하고 권장 설정을 자동 적용합니다.",
+          "keyPoints": [
+            "의견 기반 설정으로 초기 프로젝트 구성 시간 단축",
+            "Python 개발 커뮤니티의 베스트 프랙티스 자동 적용"
+          ],
+          "whyItMatters": "새로운 Python 프로젝트 시작 시 설정 결정을 줄이고 빠르게 개발을 시작할 수 있습니다.",
+          "url": "https://lazypi.org/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 98,
+          "contentType": "discussion",
+          "labels": [
+            "backend"
+          ],
+          "relevance": 50,
+          "isTopicPrimary": true,
+          "slug": "opinionated-and-easy-pidev-configuration",
+          "category": "tech",
+          "publishedAt": "2026-07-09T15:19:33.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: I mapped 8.5M research papers into an interactive atlas",
+          "titleKo": "850만 개의 연구 논문을 인터랙티브 지도로 매핑했습니다",
+          "summary": "850만 개의 연구 논문을 시각화한 인터랙티브 아틀라스 프로젝트로, 연구 논문 간의 관계와 분포를 탐색할 수 있는 도구이다.",
+          "keyPoints": [
+            "대규모 학술 데이터셋을 인터랙티브하게 시각화하는 방법론"
+          ],
+          "whyItMatters": "개발자는 대규모 데이터셋의 시각화, 벡터 임베딩, 그래프 알고리즘 등 학술 정보 검색 도구 개발 기술을 참고할 수 있다.",
+          "url": "https://tomesphere.com/atlas",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 56,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "relevance": 40,
+          "isTopicPrimary": true,
+          "slug": "show-hn-i-mapped-85m-research-papers-into-an-interactive-atlas",
+          "category": "tech",
+          "publishedAt": "2026-07-09T02:23:24.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "SmartlyDressedGames/U3-SDK (C#)",
+          "titleKo": "SmartlyDressedGames/U3-SDK (C#)",
+          "summary": "Unturned라는 무료 오픈 월드 좀비 생존 샌드박스 게임의 소스 코드를 공개한 SDK로, C#으로 구현되어 있다.",
+          "keyPoints": [
+            "게임 개발을 위한 완전한 오픈소스 코드베이스 공개"
+          ],
+          "whyItMatters": "게임 개발자는 대규모 게임 프로젝트의 C# 구조, 아키텍처 패턴, 그리고 오픈월드 게임 시스템 구현을 학습할 수 있다.",
+          "url": "https://github.com/SmartlyDressedGames/U3-SDK",
+          "sourceName": "GitHub Trending",
+          "engagement": 1998,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "relevance": 35,
+          "isTopicPrimary": true,
+          "slug": "smartlydressedgamesu3-sdk-c",
+          "category": "tech",
+          "publishedAt": "2026-07-10T00:05:40.564Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "C#"
+          ]
+        },
+        {
+          "title": "huxingyi/autoremesher (C++)",
+          "titleKo": "huxingyi/autoremesher (C++)",
+          "summary": "자동 쿼드 리메싱 도구인 C++ 기반의 오픈소스 프로젝트이다.",
+          "keyPoints": [
+            "3D 모델링에서 자동화된 메시 처리 기술"
+          ],
+          "whyItMatters": "3D 그래픽 개발자는 메시 최적화, 기하학적 처리 알고리즘, C++ 성능 최적화 기법을 학습할 수 있다.",
+          "url": "https://github.com/huxingyi/autoremesher",
+          "sourceName": "GitHub Trending",
+          "engagement": 2353,
+          "contentType": "repo",
+          "labels": [
+            "general"
+          ],
+          "relevance": 30,
+          "isTopicPrimary": true,
+          "slug": "huxingyiautoremesher-c",
+          "category": "tech",
+          "publishedAt": "2026-07-10T00:05:40.568Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "C++"
+          ]
+        },
+        {
+          "title": "Show HN: Rubiks Cube Solver",
+          "titleKo": "Show HN: 루빅스 큐브 솔버",
+          "summary": "루빅스 큐브를 푸는 알고리즘이나 도구를 소개하는 프로젝트입니다.",
+          "keyPoints": [
+            "해커 뉴스 커뮤니티에 공유된 큐브 솔버 구현"
+          ],
+          "whyItMatters": "알고리즘 최적화와 문제 해결 능력을 향상시키는 실습 프로젝트입니다.",
+          "url": "https://speedcube.com.br/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 13,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "relevance": 25,
+          "isTopicPrimary": true,
+          "slug": "show-hn-rubiks-cube-solver",
+          "category": "tech",
+          "publishedAt": "2026-07-09T21:09:05.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "asgeirtj/system_prompts_leaks (JavaScript)",
+          "titleKo": "시스템 프롬프트 누수 모음",
+          "summary": "Claude Fable 5, Opus 4.8을 포함한 Anthropic, OpenAI, Google, xAI의 주요 AI 모델들의 추출된 시스템 프롬프트를 정리한 저장소입니다. ChatGPT 5.5, Gemini 3.5 등 여러 모델의 프롬프트를 포함하며 정기적으로 업데이트됩니다.",
+          "keyPoints": [
+            "주요 AI 서비스 제공자들의 시스템 프롬프트 공개, 모델 동작 원리 이해 가능",
+            "정기 업데이트로 최신 모델 정보 유지"
+          ],
+          "whyItMatters": "AI 모델의 지시사항과 제약을 이해하여 더 효과적인 프롬프트 엔지니어링과 모델 동작 예측이 가능합니다.",
+          "url": "https://github.com/asgeirtj/system_prompts_leaks",
+          "sourceName": "GitHub Trending",
+          "engagement": 55136,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "relevance": 45,
+          "topicId": "ai-security",
+          "isTopicPrimary": true,
+          "slug": "asgeirtjsystem-prompts-leaks-javascript",
+          "category": "insight",
+          "publishedAt": "2026-07-10T00:05:40.570Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "anthropics/claude-cookbooks (Jupyter Notebook)",
+          "titleKo": "Claude 요리책: Anthropic 공식 활용 가이드",
+          "summary": "Claude를 효과적으로 활용하는 방법을 보여주는 Jupyter 노트북 모음집입니다.",
+          "keyPoints": [
+            "Claude API의 다양한 활용 패턴을 실제 예제로 제시",
+            "개발자가 자신의 프로젝트에 Claude를 적용할 수 있는 실용적인 레시피 제공"
+          ],
+          "whyItMatters": "Claude를 처음 사용하거나 고급 활용법을 배우려는 개발자에게 공식 학습 자료 역할을 합니다.",
+          "url": "https://github.com/anthropics/claude-cookbooks",
+          "sourceName": "GitHub Trending",
+          "engagement": 47141,
+          "contentType": "repo",
+          "labels": [
+            "ai"
+          ],
+          "relevance": 65,
+          "topicId": "ai-tutorial",
+          "isTopicPrimary": true,
+          "slug": "anthropicsclaude-cookbooks-jupyter-notebook",
+          "category": "insight",
+          "publishedAt": "2026-07-10T00:05:40.567Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Jupyter Notebook"
+          ]
+        },
+        {
+          "title": "AI content is everywhere on social media, especially LinkedIn",
+          "titleKo": "소셜 미디어에 AI 콘텐츠가 넘쳐난다",
+          "summary": "Pangram의 Chrome 확장 프로그램으로 스캔한 소셜 미디어 데이터에 따르면, 장문 게시물의 25%가 완전히 AI 생성 콘텐츠이며, LinkedIn이 가장 심각하게 AI 콘텐츠로 포화되어 있다. 플랫폼별로 상이한 AI 생성 비율을 보였으며, 장문 콘텐츠일수록 AI 생성 가능성이 높았다.",
+          "keyPoints": [
+            "LinkedIn의 장문 게시물 40% 이상이 완전 AI 생성이며, 전체 스캔 항목의 1/3에 불과하지만 발견된 AI 콘텐츠의 62%를 차지",
+            "X/Twitter는 거의 절반(46.8%)의 게시물이 완전 또는 부분 AI 생성 콘텐츠로, 순수 인간 저작은 53.2%에 불과",
+            "Reddit는 상위 게시물은 11.6% AI 비율이지만 댓글은 98.1%가 인간 저작으로, 플랫폼의 스팸 정책이 자동화된 AI 댓글을 효과적으로 필터링"
+          ],
+          "whyItMatters": "개발자는 AI 콘텐츠 탐지 기술 개발, 소셜 미디어 API 설계, 콘텐츠 검증 시스템 구축 시 실제 AI 포화도 데이터를 고려해야 한다.",
+          "url": "https://www.pangram.com/blog/ai-in-your-feed",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 171,
+          "contentType": "discussion",
+          "labels": [
+            "ai",
+            "general"
+          ],
+          "relevance": 40,
+          "isTopicPrimary": true,
+          "slug": "ai-content-is-everywhere-on-social-media-especially-linkedin",
+          "fullContent": "Two months ago, we launched our Chrome extension to help combat the rising slop problem on social media. It lets users scan posts on social media as they scroll, flagging AI-generated content so they can make informed decisions about how they spend their attention.\nPangram is a research-first company, not just for our industry-leading AI detection algorithms, but for tracking the risk and prevalence of AI-generated content. Social media is one of the hardest domains to study here — much harder than, say, news articles, research papers, or Amazon reviews. But it's also one of the most crucial, because it's potentially the highest-volume source of AI-generated content we face.\nWe believe it's important to understand this problem so that we can better combat it. That's why we included an opt-in setting in our Chrome extension, to allow users to aid our research by anonymously sharing their scan statistics with us. We've compiled the first few months of this data into the report below.\nKey findings:\nOne in four longform posts on social media flagged as fully AI-generated\nOf all posts we flagged as AI-generated, two-thirds came from LinkedIn\nNearly half of X/Twitter articles contained AI writing\nAI-generated content is hitting longform the hardest\nAI-generated content appeared across all social media platforms in our data set. The average AI rate across all scanned items was 13.8%, but specific rates varied by platform and item length. On four out of five platforms, longer content was more likely to be AI-generated than shortform content. Across all platforms, one in four longform items (25.72% of items over 250 words) were fully AI-generated.\nSubstack was an exception; there, the rate of fully AI-generated content remained fairly flat, and longer, more substantial posts were actually slightly less likely to be AI-generated compared to shorter ones.\nLinkedIn was the most AI-saturated platform, where more than 40% of longform posts flagged as fully AI-generated. However, if we included mixed AI and human content, X/Twitter was the worst off: almost half of X articles were either fully AI-generated (23.9%) or AI-assisted/mixed (22.9%), with only 53.2% of X articles flagging as fully human-authored.\nOur data shows that AI-generated content is a problem across all platforms, and it is hitting longform content especially hard. Even Substack, which was the longform platform with the lowest combined AI rate, still saw more than a fifth of its posts (21.9%) flag as AI-generated or AI-assisted. This is consistent with the rise of AI-generated content we're seeing in writing elsewhere, such as in newspaper opinion pieces.\nAI slop is flooding LinkedIn\nLinkedIn had the highest AI share of any platform across the board. LinkedIn posts made up a third of scanned items, yet it accounted for nearly two-thirds (62%) of all AI content we flagged. Contrary to what one might expect, people are overwhelmingly willing to use AI to speak on their behalf in professional settings that are associated with their real identity, and less likely to use it on casual and anonymous platforms.\nLinkedIn also encourages AI use on its platform in several ways, including a built-in \"Write with AI\" button (now rebranded \"Enhance post,\" but still offering AI writing assistance). People are noticing LinkedIn's growing reputation for slop – perhaps to combat it, an executive at LinkedIn recently announced that the platform would be detecting and downranking AI-generated posts using an in-house algorithm; ironically, the announcement was itself AI-generated. Whether or not the company is attempting to modulate AI in their feed, our users are still seeing a lot of AI writing on LinkedIn.\nTop-level posts were more AI-generated than replies\nIn our data, Reddit had the highest scan volume of any platform, making up 36.7% of items that we scanned. Yet at just 4.4%, Reddit had one of the lowest combined AI shares of any platform. This is due to a composition effect: replies on Reddit were overwhelmingly human-authored (98.1%) and replies altogether made up 72% of Reddit items that we scanned. Top-level posts on Reddit were much more likely to be AI-written, at 11.6% of posts, in line with X/Twitter's 10.0% AI-saturation. The same pattern held on LinkedIn, albeit to a lesser extent: a top-level LinkedIn post was 1.35x more likely to be AI-generated than a comment.\nAlthough LinkedIn replies were less likely to be AI-generated than posts, the effect reverses when controlling for length: LinkedIn comments were actually slightly more likely to be AI compared to top-level posts. For Reddit, the difference in AI rate was independent of post format – when controlling for length, top-level Reddit posts still had a 5.25x greater chance of being AI-generated.\nReddit's AI-free replies point to a blind spot of many anti-botting strategies. While Reddit's spam policy effectively eliminates accounts that use AI to automatically generate spam replies, this approach only catch",
+          "category": "insight",
+          "publishedAt": "2026-07-09T15:50:09.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "VoltAgent/awesome-design-md",
+          "titleKo": "VoltAgent/awesome-design-md - 디자인 시스템 분석 컬렉션",
+          "summary": "유명 브랜드의 DESIGN.md 파일을 분석하여 모아놓은 컬렉션으로, AI 코딩 에이전트가 이를 바탕으로 UI를 생성할 수 있습니다.",
+          "keyPoints": [
+            "유명 브랜드의 디자인 시스템 가이드라인 중앙화",
+            "AI 에이전트가 디자인 일관성을 유지하며 UI 자동 생성 가능"
+          ],
+          "whyItMatters": "개발자가 AI 에이전트를 통해 브랜드 일관성을 유지하면서 UI 개발을 자동화할 수 있습니다.",
+          "url": "https://github.com/VoltAgent/awesome-design-md",
+          "sourceName": "GitHub Trending",
+          "engagement": 99640,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "relevance": 55,
+          "isTopicPrimary": true,
+          "slug": "voltagentawesome-design-md",
+          "category": "insight",
+          "publishedAt": "2026-07-10T00:05:40.565Z",
+          "language": "en",
+          "tags": [
+            "github"
+          ]
+        },
+        {
+          "title": "Interview with Mitchell Hashimoto about Ghostty and Zig",
+          "titleKo": "Mitchell Hashimoto와 Ghostty, Zig에 대한 인터뷰",
+          "summary": "Vagrant, Terraform 등을 만든 Mitchell Hashimoto가 새로운 터미널 에뮬레이터 Ghostty와 Zig 언어에 대해 이야기한다. 그는 CLI 애플리케이션 개발 경력을 바탕으로 GPU 프로그래밍, 데스크톱 시스템 프로그래밍, 그리고 Zig 학습을 목표로 Ghostty를 만들었다고 밝혔다.",
+          "keyPoints": [
+            "Ghostty는 빠르고 기능 풍부하며 크로스플랫폼을 지원하는 터미널 에뮬레이터로, 기존 터미널의 한계를 개선하기 위해 설계됨",
+            "PTY의 대역내 신호(이스케이프 시퀀스 포함 바이트 스트림)는 근본적인 문제이며, 구조화된 데이터를 지원하는 더 나은 API 필요",
+            "텍스트 기반 애플리케이션은 브라우저나 데스크톱과 다른 장점이 있으며, UNIX 철학의 조합 가능성을 강화하면 더 나은 자동화와 스크립팅이 가능"
+          ],
+          "whyItMatters": "터미널 도구 개발자는 Ghostty와 같은 현대적 터미널 아키텍처의 설계 철학을 이해하고, 새로운 프로토콜과 API 설계 시 기존 생태계의 한계를 고려해야 한다.",
+          "url": "https://alexalejandre.com/programming/interview-with-mitchell-hashimoto/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 80,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "relevance": 40,
+          "isTopicPrimary": true,
+          "slug": "interview-with-mitchell-hashimoto-about-ghostty-and-zig",
+          "fullContent": "Jul 2026 - Alex AlejandreMitchell Hashimoto was behind Vagrant, Packer, Consul, Terraform, Vault, Nomad, Waypoint and now builds Ghostty and Vouch.In this interview, we talk about terminals, Zig and open source.You’ve been interviewed a lot. Why do people like to interview you?In interviews, everyone comes from a different angle. Many people want to know how the software engineering to business founder mindset transition went. Then others are interested in product stuff, the work I did at Hashicorp or Ghostty now. What’s different here is there’s no known agenda coming into it; neither of us have anything to sell.What do you find so fun about terminals? Like, why Ghostty?I spent ~15 years building CLI applications (not TUIs like we see nowadays). Through that process, I accidentally learned how to color things, move cursors etc. Leaving Hashicorp, I wanted to sharpen my technical skills (where they’d grown dull from neglect) and specifically work on: Pre-AI GPU programming, desktop/single node systems programming (spending so much time on the distributed side where you didn’t worry about cache locality or vector operations, since network costs dominated). I also really wanted to play with Zig. I wanted to satisfy those 3 things.After 15 years building CLIs, I didn’t understand how a terminal emulator worked. I knew the components of a terminal but really wanted to understand how it worked, which would also let me work on the GPU, desktop and in Zig. My goal was to run vim and the compiler in it, have it build itself, then throw it away. But as I learned more about the terminal ecosystem, I understood nothing fit the niche I wanted: fast, feature-rich and natively cross-platform. I shared it with a few friends in Discord, who asked if they could share it with others because they were actually using it every day. The Ghostty Discord was just my friends’ group chat which got repurposed. I didn’t want to publish because my public persona would generate too much undue attention, so I ran a private beta for a long time.How can we push terminals harder?I don’t support pushing terminals to the extreme. Sure, they’re an application platform capable of the same things other application platforms on top of the OS are like the browser, old Java app runtime environments. You could build all functionality into it: video and microphone access, responsive layouts… You could.But the browser is good at something, the desktop is good at something else and text-based (monospaced-grid) applications are also good at something unique. These text-based applications should be quick to implement, easy to interact with, clear in their security model. There’s a lot of opportunity in the ecosystem here and I’d love to build more protocols to enable that.Terminal-based applications lend themselves to composition better than other paradigms. TUIs less so, but most CLI tools have mechanisms (beyond stdin and stdout) to use them like a function (the UNIX do one thing philosophy is the extreme). Neovim and AI tooling offer ever more cmdline flags. A world of better terminal applications, is a world of better automation, scriptability.I want to make the terminal a special place for applications. The PTY’s in-band signalling (an unstructured byte stream with escape sequences) is a big problem. The Nushell ecosystem tries to fix it with another layer, but we need a fundamental improvement. Many people dislike the Microsoft ecosystem, but PowerShell gets a lot right with structured data.What do you think about non-legacy terminal APIs?My guiding star is how we now have multiple major, huge application platforms: the browser, emacs, the whole Apple ecosystem, Microsoft ecosystem, Android, video game console platforms. These ecosystems have strengths and weaknesses, but how do their frameworks work? On the web, it’s the DOM and JS APIs. On Apple, it’s AppKit, Cocoa and SwiftUI. On Windows, it’s Win32, WinUI etc. On Linux, it’s GTK and Qt etc. When someone says we need a better way of accessing clipboard data (historical protocols are text only, what about images, multiple MIME types etc. which desktops have handled for decades), I would grab the docs for clipboard managers on every platform to see what we’ve landed on. There’s no reason for us to build something based on our own understanding without researching decades of prior art. That’s the approach I’m trying to take here. I’ve not introduced any custom protocols yet.Two protocols scream at me. Currently, terminals have a main screen and an alt (sometimes called primary and secondary) with different properties. Main screen is like your shell with scrollback etc. and the alternate screen is like Neovim, most TUIs etc. There are only 2, you either turn a mode on or off putting you into primary or secondary (taking up the whole screen, losing scrollback etc.)I’d like to introduce an n-screen API to create and populate an unlimited number of screens in the background, let you overlay screens wit",
+          "category": "insight",
+          "publishedAt": "2026-07-09T17:17:16.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "A road to Lisp: Why Lisp",
+          "titleKo": "Lisp로의 여정: Lisp를 배우는 이유",
+          "summary": "Lisp의 독특한 강력함을 설명하는 기사로, 매크로를 통한 언어 확장성, 메타프로그래밍, 그리고 알고리즘 작성의 새로운 관점을 제시한다. Blub 역설을 언급하며, Lisp를 배우면 다른 언어에서 불가능한 프로그래밍 접근 방식을 습득할 수 있음을 강조한다.",
+          "keyPoints": [
+            "Lisp의 매크로(defmacro)는 C나 Rust의 매크로와 달리 언어 자체를 확장하는 새로운 구문을 만들 수 있으며, 이를 통해 '프로그래밍 가능한 프로그래밍 언어' 구현",
+            "문제에 맞게 언어를 성장시키는 접근법으로, 일반적인 '언어로 프로그램을 짜는' 것과 반대로 '프로그램을 위해 언어를 만드는' 철학",
+            "Lisp는 함수형 패러다임과 다른 문제 해결 방식을 제공하여, 다른 언어에서는 인식하지 못하는 프로그래밍 언어의 강력함을 깨닫게 함"
+          ],
+          "whyItMatters": "개발자는 Lisp를 통해 매크로 시스템, 메타프로그래밍, 동적 타이핑 등의 개념을 익히고, 다른 언어의 설계 철학과 한계를 더 깊이 이해할 수 있다.",
+          "url": "https://scotto.me/blog/2026-07-09-why-lisp/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 98,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "relevance": 35,
+          "isTopicPrimary": true,
+          "slug": "a-road-to-lisp-why-lisp",
+          "fullContent": "A road to Lisp: Why Lisp July 9, 2026 The question that most programmers face when seeing some Lisp code for the first time is, without doubt, “what the hell is this?”. I asked myself the same thing when I first read its unconventional syntax: all those parentheses, the weird indentation, and who thought to use the first argument of format to print to stdout?\n(defun flip-coin-for-real () (<= (random 100) 80))\n(defun hello-lisp () (write-line \"What is your name?\") (let ((name (read-line)) (learn-it (if (flip-coin-for-real) \"should\" \"should not\"))) (format t \"Hello, ~A.~%\" name) (format t \"The Oracle said... you ~A learn Lisp!~%\" learn-it)))\nAfter getting comfortable reading code with so many parentheses, I had to learn how to use packages and symbols, how to create new projects and import libraries, how to use the REPL, and how to use conditions and restarts. Most importantly, I had to switch to a new way of thinking when constructing algorithms.\nThe Lisp journey has a steep learning curve compared to most common languages. But it can also unlock skills that those languages never will. Why? Because in Lisp you can do things that are not possible in other languages. Lisp enables new possibilities and allows algorithms to take different shapes, giving the programmer more power and flexibility.\nPaul Graham coined the term Blub paradox to explain why it is difficult for programmers who have only used less powerful languages to understand the power of Lisp. In short, it’s because they are missing the concepts needed to perceive what is lacking in those languages and the advantage Lisp has over them. Louis Armstrong said something similar about jazz:\nIf you have to ask what jazz is, you’ll never know.\n— Louis Armstrong.\nIn this article, I’ll explain a few features that show why this special language is worth learning. It’s not an easy path, and to truly grasp its power you’ll need to use Lisp yourself. And even if you don’t end up using Lisp, you will gain a different perspective on what programming languages can do.\nLisp is going to make you a better programmer because it changes the way you think about problems using code. To be more specific, it will teach you an approach that is not possible with other programming languages. You will be able to program Lisp itself and thus adapt the language you use to the problems you are solving. Using Lisp, you will learn to grow the language toward your problem, then write the program in that language.\nExtensibility\nLisp is extensible within itself. Experts — called lispers — commonly refer to it as the programmable programming language1. Not only will you write code for your programs, but you can write code that extends Lisp itself.\nThis is possible thanks to the macro operator. If you’ve used macros before in languages like C, Rust, or Swift, don’t expect the same thing. Those macros are primarily a way to eliminate boilerplate or generate repetitive code. Beyond that, macros in Lisp allow you to create new constructs that become part of the language itself.\nThey are one of the hardest features to master for Lisp programmers, so I won’t try to teach you how to use them or how they work here. I just want to give you a taste of what they do. For example, C programmers might want to use the while operator to define a simple loop. Common Lisp does not provide it, so the programmer can write a macro and add it to the language.\n(defmacro while (condition &body body) `(loop while ,condition do (progn ,@body)))\nThe new while macro executes a series of instructions (the body) for as long as the condition is true. It uses loop, which is itself a macro used to write complex iterations (notice that it uses a while symbol as well). progn is a special form that takes multiple expressions, runs them in order, and returns the result of the last one.\nInstead of writing (loop while ... do (progn ...)), we can use the new while operator, shortening the code and making it similar to C. We just extended the language available to us.\n(let ((counter 3)) (while (> counter 0) (print counter) (decf counter)))\n;; 3;; 2;; 1\nThe beginner might not grasp what is really magical here, since, other than the unique syntax, defmacro looks pretty similar to defun, which was used in the first code example to define new functions.\nTo better understand the difference between the two, let’s define a new while as a function, then call it.\n(defun fake-while (condition body) (loop while condition do (funcall body)))\n(let ((counter 3)) (fake-while (> counter 0) (progn (print counter) (decf counter))))\nloop is the same macro we used before; funcall calls the function received as the first parameter, in this case body. Try to execute the code above in a Common Lisp REPL. You will receive a condition of type error, similar to this: The value 2 is not of type FUNCTION.\nThis happens because the arguments to fake-while are evaluated immediately. (< x 3) evaluates to t — true. Because progn is a function, its arguments a",
+          "category": "insight",
+          "publishedAt": "2026-07-09T13:06:04.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "How to Start a Ruby Meetup",
+          "titleKo": "Ruby 밋업 시작하기",
+          "summary": "Ruby 개발자 커뮤니티 밋업을 운영하는 방법을 다루는 가이드입니다. Ruby Events에서 제공하는 밋업 조직 및 운영 지침입니다.",
+          "keyPoints": [
+            "Ruby 커뮤니티 밋업 조직을 위한 실용적 가이드 제공"
+          ],
+          "whyItMatters": "개발자 커뮤니티 형성과 네트워킹을 통해 지역 기술 생태계를 강화할 수 있습니다.",
+          "url": "https://guides.rubyevents.org/meetups/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 59,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "relevance": 45,
+          "isTopicPrimary": true,
+          "slug": "how-to-start-a-ruby-meetup",
+          "category": "insight",
+          "publishedAt": "2026-07-09T18:27:06.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Wildcard (YC W25) Is Hiring a Founding Engineer",
+          "titleKo": "Wildcard (YC W25) 창립 엔지니어 채용",
+          "summary": "Y Combinator W25 배치의 Wildcard가 초기 팀을 구성할 창립 엔지니어를 모집하고 있습니다.",
+          "keyPoints": [
+            "Y Combinator 스타트업의 초기 엔지니어 채용 기회"
+          ],
+          "whyItMatters": "초기 스타트업에서 기술 방향을 설정할 수 있는 영향력 있는 역할을 경험할 수 있습니다.",
+          "url": "https://www.ycombinator.com/companies/wildcard/jobs/ZSLVaaU-founding-engineer",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 1,
+          "contentType": "discussion",
+          "labels": [
+            "career"
+          ],
+          "relevance": 45,
+          "isTopicPrimary": true,
+          "slug": "wildcard-yc-w25-is-hiring-a-founding-engineer",
+          "category": "insight",
+          "publishedAt": "2026-07-09T17:00:37.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "SimPolitics: America’s quest to solve politics with computers",
+          "titleKo": "SimPolitics: 컴퓨터로 정치 문제를 해결하려는 미국의 시도",
+          "summary": "MIT Press에서 출판한 'SimPolitics'는 컴퓨터 기술을 활용하여 정치 문제를 해결하려는 미국의 접근 방식을 다룬 도서입니다.",
+          "keyPoints": [
+            "정치 문제 해결을 위한 컴퓨터 기술의 적용 사례를 탐구"
+          ],
+          "whyItMatters": "정책 입안과 정치 시스템 개선에 기술이 어떻게 활용될 수 있는지 이해하는 데 도움이 됩니다.",
+          "url": "https://mitpress.mit.edu/9780262053198/simpolitics/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 71,
+          "contentType": "discussion",
+          "labels": [
+            "general"
+          ],
+          "relevance": 30,
+          "isTopicPrimary": true,
+          "slug": "simpolitics-americas-quest-to-solve-politics-with-computers",
+          "category": "insight",
+          "publishedAt": "2026-07-09T14:20:14.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "The popover attribute is magic ✨",
+          "titleKo": "popover 속성은 마법이다 ✨",
+          "summary": "HTML의 popover 속성은 JavaScript 없이도 팝오버, 드롭다운, 모달 같은 UI 패턴을 구현할 수 있게 해주는 강력한 기능입니다. 이 속성을 사용하면 개발자가 복잡한 상태 관리 로직과 이벤트 리스너를 작성할 필요 없이 선언적으로 오버레이 UI를 만들 수 있습니다. 브라우저 API 레벨에서 자동으로 포커스 관리, 백드롭 처리, 접근성 기능을 처리해주므로 일반적인 문제들을 해결할 수 있습니다.",
+          "keyPoints": [
+            "popover 속성의 기본 개념: 단순히 `popover='auto'` 또는 `popover='manual'`을 HTML 요소에 추가하면 JavaScript 없이 팝오버 동작이 가능합니다. `popovertarget` 속성으로 버튼을 연결하면 클릭 시 자동으로 표시/숨김이 작동합니다.",
+            "자동 vs 수동 모드의 차이: `popover='auto'` 모드에서는 다른 팝오버가 열리면 현재 팝오버가 자동으로 닫히고, `popover='manual'` 모드에서는 사용자가 명시적으로 닫아야 합니다. 이는 팝오버 그룹 동작과 모달 같은 단일 팝오버 컨트롤에 유용합니다.",
+            "내장된 접근성 기능: 브라우저가 자동으로 포커스 관리, 이스케이프 키 처리, 백드롭 클릭 감지 등을 처리하므로 개발자가 따로 구현할 필요가 없습니다. 이는 일관된 사용자 경험과 웹 표준 준수를 보장합니다.",
+            "CSS 스타일링 가능성: `::backdrop` 의사 요소를 사용하여 팝오버 뒤의 백드롭을 스타일할 수 있으며, popover 상태에 따른 조건부 CSS도 가능합니다. 이를 통해 디자인 요구사항에 맞춘 커스터마이징이 가능합니다.",
+            "JavaScript API 제공: `showPopover()`, `hidePopover()`, `togglePopover()` 메서드를 통해 필요시 프로그래매틱 제어가 가능하며, `beforetoggle` 이벤트로 상태 변화를 감지할 수 있습니다. 이는 복잡한 상호작용이 필요한 경우에도 대응할 수 있게 합니다.",
+            "복잡한 드롭다운/메뉴 구현 단순화: 기존에는 이벤트 리스너, 포커스 트래핑, 바깥 영역 클릭 감지를 모두 구현해야 했지만, popover API를 사용하면 몇 줄의 HTML 마크업만으로 완전한 기능의 드롭다운을 만들 수 있습니다.",
+            "브라우저 호환성 고려: 현재 대부분의 모던 브라우저(Chrome, Firefox, Safari)에서 지원하지만, 레거시 브라우저를 지원해야 하는 경우 폴리필이나 대체 구현이 필요할 수 있습니다."
+          ],
+          "whyItMatters": "팝오버 API는 UI 라이브러리 없이도 복잡한 오버레이 컴포넌트를 안전하게 구현할 수 있게 해주므로, 번들 크기 감소와 개발 속도 향상으로 직결됩니다. 또한 브라우저 수준의 표준 구현이므로 접근성과 사용자 경험이 자동으로 보장됩니다.",
+          "url": "https://www.youtube.com/watch?v=tciB-lGsXOA",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 85,
+          "topicId": "popover-api",
+          "isTopicPrimary": true,
+          "slug": "the-popover-attribute-is-magic",
+          "category": "video",
+          "publishedAt": "2026-07-09T13:00:33+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Oracle's Amazing Select-AI #ai #oracle #database",
+          "titleKo": "Oracle의 뛰어난 Select-AI",
+          "summary": "Oracle이 데이터베이스에 AI 기능을 통합한 Select-AI 기능을 소개합니다.",
+          "keyPoints": [
+            "Oracle 데이터베이스에 AI 쿼리 최적화 기능 탑재"
+          ],
+          "whyItMatters": "개발자가 데이터베이스 쿼리 작성과 최적화를 더욱 효율적으로 수행할 수 있게 됩니다.",
+          "url": "https://www.youtube.com/watch?v=ONVETZ_5NNY",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "backend"
+          ],
+          "relevance": 60,
+          "isTopicPrimary": true,
+          "slug": "oracles-amazing-select-ai-ai-oracle-database",
+          "category": "video",
+          "publishedAt": "2026-07-09T23:42:27+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Oh no (the new Grok model is good)",
+          "titleKo": "오 이런 (새로운 Grok 모델이 훌륭하다)",
+          "summary": "새로운 Grok 모델의 성능에 대한 동영상 분석 콘텐츠입니다.",
+          "keyPoints": [
+            "YouTube 동영상 형식의 기술 리뷰 콘텐츠"
+          ],
+          "whyItMatters": "최신 AI 모델의 성능 평가를 통해 현재 기술 동향을 파악하는 데 유용합니다.",
+          "url": "https://www.youtube.com/watch?v=U3uX115I9sY",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "relevance": 55,
+          "topicId": "grok-model",
+          "isTopicPrimary": true,
+          "slug": "oh-no-the-new-grok-model-is-good",
+          "category": "video",
+          "publishedAt": "2026-07-09T05:04:08+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "How To Use The Pi Agent Harness In 1 Minute",
+          "titleKo": "1분 안에 Pi Agent Harness 사용하는 방법",
+          "summary": "Pi Agent Harness의 기본 사용 방법을 1분 내에 설명하는 튜토리얼 동영상입니다.",
+          "keyPoints": [
+            "빠른 학습을 위해 설계된 간단한 튜토리얼 콘텐츠"
+          ],
+          "whyItMatters": "에이전트 기술의 초보자 진입장벽을 낮추는 입문 가이드입니다.",
+          "url": "https://www.youtube.com/watch?v=Kh8M_iiIhUY",
+          "sourceName": "Web Dev Simplified",
+          "contentType": "video",
+          "labels": [
+            "backend"
+          ],
+          "relevance": 55,
+          "isTopicPrimary": true,
+          "slug": "how-to-use-the-pi-agent-harness-in-1-minute",
+          "category": "video",
+          "publishedAt": "2026-07-09T16:00:20+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude is definitely not conscious…",
+          "titleKo": "Claude는 명백히 의식이 없습니다",
+          "summary": "Claude AI의 의식 여부에 대한 철학적 분석 영상입니다.",
+          "keyPoints": [
+            "AI 모델의 의식성에 대한 학술적 논의"
+          ],
+          "whyItMatters": "AI 모델의 능력과 한계를 이해하는 데 도움이 됩니다.",
+          "url": "https://www.youtube.com/watch?v=KGtko3y2RXQ",
+          "sourceName": "Fireship",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "relevance": 50,
+          "isTopicPrimary": true,
+          "slug": "claude-is-definitely-not-conscious",
+          "category": "video",
+          "publishedAt": "2026-07-08T17:53:47+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "It's FINALLY here!!!",
+          "titleKo": "드디어 여기에 있습니다!!!",
+          "summary": "특정 기술이나 제품의 출시를 알리는 영상입니다. (구체적 내용은 영상 접근 필요)",
+          "keyPoints": [
+            "새로운 기술 또는 제품 출시 공지"
+          ],
+          "whyItMatters": "최신 개발 도구나 기술의 출시 소식을 확인할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=BxxQX6G6BTU",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "relevance": 45,
+          "isTopicPrimary": true,
+          "slug": "its-finally-here",
+          "category": "video",
+          "publishedAt": "2026-07-09T23:32:01+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Terminals Are Skeuomorphism",
+          "titleKo": "터미널은 스큐어모피즘이다",
+          "summary": "영상 기반의 기사로 터미널의 스큐어모피즘적 특성에 대해 다룬 것으로 보임.",
+          "keyPoints": [
+            "터미널의 설계 철학과 현대적 의미에 대한 분석"
+          ],
+          "whyItMatters": "터미널 개발 및 CLI 도구 설계 시 사용자 인터페이스의 역사적 배경과 설계 원칙을 이해하는 데 도움이 된다.",
+          "url": "https://www.youtube.com/watch?v=xshBSn5btcg",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "relevance": 40,
+          "isTopicPrimary": true,
+          "slug": "terminals-are-skeuomorphism",
+          "category": "video",
+          "publishedAt": "2026-07-09T18:00:32+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Stop Being Scared of Deleting Code",
+          "titleKo": "코드 삭제를 두려워하지 마세요",
+          "summary": "영상 기반의 기사로 소프트웨어 개발에서 코드 삭제의 중요성에 대해 다룬 것으로 보임.",
+          "keyPoints": [
+            "기술부채 관리와 코드 품질 유지를 위한 리팩토링 전략"
+          ],
+          "whyItMatters": "개발자는 과도한 기술부채를 피하고 코드베이스를 건강하게 유지하기 위해 과감한 삭제와 리팩토링의 필요성을 인식해야 한다.",
+          "url": "https://www.youtube.com/watch?v=v85waTtzdm0",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "general"
+          ],
+          "relevance": 40,
+          "isTopicPrimary": true,
+          "slug": "stop-being-scared-of-deleting-code",
+          "category": "video",
+          "publishedAt": "2026-07-08T18:30:14+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
