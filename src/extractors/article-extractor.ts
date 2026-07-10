@@ -40,7 +40,8 @@ const SKIP_DOMAINS = [
   "t.co",
 ];
 
-const MAX_CONTENT_LENGTH = 5000;
+// 아티클 생성 입력으로 쓰이므로 넉넉하게 (buildArticleInput 이 12000 에서 자름)
+const MAX_CONTENT_LENGTH = 12000;
 const FETCH_TIMEOUT_MS = 10_000;
 
 export function shouldSkipExtraction(url: string): boolean {

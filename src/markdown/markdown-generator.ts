@@ -109,23 +109,21 @@ aliases: []
   md += `## 핵심 개념\n\n`;
   md += `> [!abstract]\n> ${item.summary}\n\n`;
 
-  // 핵심 포인트
-  if (item.keyPoints?.length) {
-    md += `## 상세 내용\n\n`;
-    for (const kp of item.keyPoints) {
-      md += `- ${kp}\n`;
+  const body = item.article ?? item.translatedContent;
+  if (body) {
+    // 아티클이 있으면 그것이 본문 — keyPoints 목록은 중복이라 생략
+    md += `## 아티클\n\n${body}\n\n`;
+  } else {
+    if (item.keyPoints?.length) {
+      md += `## 상세 내용\n\n`;
+      for (const kp of item.keyPoints) {
+        md += `- ${kp}\n`;
+      }
+      md += "\n";
     }
-    md += "\n";
-  }
-
-  // 왜 중요한가
-  if (item.whyItMatters) {
-    md += `> [!tip] 왜 중요한가\n> ${item.whyItMatters}\n\n`;
-  }
-
-  // 전문 번역
-  if (item.translatedContent) {
-    md += `## 전문 번역\n\n${item.translatedContent}\n\n`;
+    if (item.whyItMatters) {
+      md += `> [!tip] 왜 중요한가\n> ${item.whyItMatters}\n\n`;
+    }
   }
 
   // 참고 자료

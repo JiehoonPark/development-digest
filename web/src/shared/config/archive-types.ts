@@ -14,6 +14,7 @@ export interface ArchiveItem {
   summary: string;
   keyPoints: string[];
   whyItMatters?: string;
+  article?: string;
   engagement?: number;
   contentType: string;
   labels?: string[];

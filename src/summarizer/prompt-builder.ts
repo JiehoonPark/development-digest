@@ -32,6 +32,28 @@ export function buildFilterInput(
   return recentContext + itemsList;
 }
 
+/** 아티클 생성 입력: 아이템 1건의 메타 + 원문(본문 또는 트랜스크립트). */
+export function buildArticleInput(item: {
+  title: string;
+  url: string;
+  sourceName: string;
+  contentType?: string;
+  fullContent?: string;
+}): string {
+  const kind = item.contentType === "video" ? "영상 트랜스크립트" : "아티클 본문";
+  return [
+    `제목: ${item.title}`,
+    `URL: ${item.url}`,
+    `소스: ${item.sourceName}`,
+    `원문 유형: ${kind}`,
+    "",
+    "원문:",
+    (item.fullContent ?? "").slice(0, ARTICLE_MAX_INPUT_LENGTH),
+  ].join("\n");
+}
+
+const ARTICLE_MAX_INPUT_LENGTH = 12000;
+
 export function buildSummarizeInput(
   items: Array<{
     index: number;

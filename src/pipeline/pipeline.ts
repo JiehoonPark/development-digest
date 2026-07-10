@@ -4,7 +4,7 @@ import { createCollector } from "../collectors/index.js";
 import type { CollectedItem, CollectorResult } from "../collectors/types.js";
 import { dedup, markUrlsSeen, markTitlesSeenInDigest } from "../dedup/dedup-service.js";
 import { prioritize } from "../prioritizer/prioritizer.js";
-import { processWithAI } from "../summarizer/batch-processor.js";
+import { classifyItems, composeDigest } from "../summarizer/batch-processor.js";
 import { enrichWithContent } from "../extractors/content-enricher.js";
 import { composeNewsletter } from "../composer/newsletter-composer.js";
 import { sendDigestEmail } from "../email/email-sender.js";
@@ -13,7 +13,6 @@ import { cleanExpiredTitles } from "../db/repositories/recent-titles.js";
 import { recordSuccess, recordFailure } from "../db/repositories/source-health.js";
 import { saveDigestHistory } from "../db/repositories/digest-history.js";
 import { buildArchiveData, saveArchive } from "../data/digest-archiver.js";
-import { translateArticles } from "../translator/article-translator.js";
 import { generateMarkdown } from "../markdown/markdown-generator.js";
 import { runStep } from "./step-runner.js";
 import { createChildLogger } from "../utils/logger.js";
@@ -74,14 +73,19 @@ export async function runPipeline(): Promise<void> {
       return prioritize(uniqueItems);
     });
 
-    // 5. 본문 추출
-    const enriched = await runStep("본문 추출", async () => {
-      return enrichWithContent(prioritized);
+    // 5. AI 분류·선별 (제목 기반 — 본문 추출 전에 탈락시켜 추출 비용 절감)
+    const selected = await runStep("AI 분류·선별", async () => {
+      return classifyItems(prioritized);
     });
 
-    // 6. AI 요약
-    const digest = await runStep("AI 요약", async () => {
-      return processWithAI(enriched);
+    // 6. 본문 추출 (선별된 아이템만)
+    const enriched = await runStep("본문 추출", async () => {
+      return enrichWithContent(selected);
+    });
+
+    // 7. AI 아티클·요약
+    const digest = await runStep("AI 아티클·요약", async () => {
+      return composeDigest(enriched);
     });
 
     // 6. HTML 구성
@@ -104,15 +108,13 @@ export async function runPipeline(): Promise<void> {
       });
     }
 
-    // 8. 데이터 보관 → 번역 → Markdown 생성
+    // 8. 데이터 보관 → Markdown 생성
     //    (웹 HTML은 이 파이프라인 다음 `web/` Next.js 빌드가 책임짐)
     await runStep("데이터 보관", async () => {
       const archive = buildArchiveData(digest, enriched);
       saveArchive(archive);
 
-      const translated = await translateArticles(archive);
-
-      generateMarkdown(translated);
+      generateMarkdown(archive);
     });
 
     // 9. 이력 저장 + URL 마킹

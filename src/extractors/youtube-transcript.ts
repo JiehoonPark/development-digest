@@ -44,12 +44,16 @@ function extractWithYtDlp(videoId: string): string {
   const prefix = basename(tmpFile);
   const dir = tmpdir();
 
+  // CI(데이터센터 IP)는 봇차단을 자주 당함 — YT_COOKIES_FILE 시크릿이 있으면 로그인 쿠키로 우회
+  const cookiesFile = process.env.YT_COOKIES_FILE;
+  const cookiesArg = cookiesFile && existsSync(cookiesFile) ? ` --cookies "${cookiesFile}"` : "";
+
   try {
     // 자막 + 자동 생성 자막 모두 시도. 언어는 en,ko 만 — 패턴이 많을수록
     // 자막 요청 수가 늘어 429 로 이어진다.
     try {
       execSync(
-        `yt-dlp --write-subs --write-auto-sub --sub-lang "en,ko" --sub-format srt --sleep-requests 1 --skip-download --no-warnings --output "${tmpFile}" "https://www.youtube.com/watch?v=${videoId}"`,
+        `yt-dlp --write-subs --write-auto-sub --sub-lang "en,ko" --sub-format srt --sleep-requests 1 --skip-download --no-warnings${cookiesArg} --output "${tmpFile}" "https://www.youtube.com/watch?v=${videoId}"`,
         { timeout: 60000, stdio: "pipe" }
       );
     } catch (error) {

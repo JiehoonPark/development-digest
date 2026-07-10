@@ -59,42 +59,66 @@ export function ArticleDetailView({ year, month, day, slug }: ArticleDetailViewP
           ) : null}
         </header>
 
-        <section className={styles.section}>
-          <h2>요약</h2>
-          <p className={styles.summary}>{item.summary}</p>
-        </section>
+        {item.article ? (
+          <>
+            {/* 아티클이 본문 — 요약/핵심포인트 블록은 목록·이메일용이라 중복 표시하지 않음 */}
+            <section className={styles.section}>
+              <div
+                className={styles.translated}
+                dangerouslySetInnerHTML={{
+                  __html: renderTranslatedMarkdown(item.article),
+                }}
+              />
+            </section>
 
-        {item.keyPoints?.length ? (
-          <section className={styles.section}>
-            <h2>핵심 포인트</h2>
-            <ul className={styles.keyPoints}>
-              {item.keyPoints.map((kp, i) => (
-                <li key={i}>{kp}</li>
-              ))}
-            </ul>
-          </section>
-        ) : null}
+            {item.whyItMatters ? (
+              <section className={styles.section}>
+                <Callout emoji="💡" variant="accent">
+                  {item.whyItMatters}
+                </Callout>
+              </section>
+            ) : null}
+          </>
+        ) : (
+          <>
+            <section className={styles.section}>
+              <h2>요약</h2>
+              <p className={styles.summary}>{item.summary}</p>
+            </section>
 
-        {item.whyItMatters ? (
-          <section className={styles.section}>
-            <h2>왜 중요한가</h2>
-            <Callout emoji="💡" variant="accent">
-              {item.whyItMatters}
-            </Callout>
-          </section>
-        ) : null}
+            {item.keyPoints?.length ? (
+              <section className={styles.section}>
+                <h2>핵심 포인트</h2>
+                <ul className={styles.keyPoints}>
+                  {item.keyPoints.map((kp, i) => (
+                    <li key={i}>{kp}</li>
+                  ))}
+                </ul>
+              </section>
+            ) : null}
 
-        {item.translatedContent ? (
-          <section className={styles.section}>
-            <h2>📄 전문 번역</h2>
-            <div
-              className={styles.translated}
-              dangerouslySetInnerHTML={{
-                __html: renderTranslatedMarkdown(item.translatedContent),
-              }}
-            />
-          </section>
-        ) : null}
+            {item.whyItMatters ? (
+              <section className={styles.section}>
+                <h2>왜 중요한가</h2>
+                <Callout emoji="💡" variant="accent">
+                  {item.whyItMatters}
+                </Callout>
+              </section>
+            ) : null}
+
+            {item.translatedContent ? (
+              <section className={styles.section}>
+                <h2>📄 전문 번역</h2>
+                <div
+                  className={styles.translated}
+                  dangerouslySetInnerHTML={{
+                    __html: renderTranslatedMarkdown(item.translatedContent),
+                  }}
+                />
+              </section>
+            ) : null}
+          </>
+        )}
 
         <div className={styles.cta}>
           <a href={item.url} target="_blank" rel="noopener noreferrer">

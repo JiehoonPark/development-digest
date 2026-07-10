@@ -49,6 +49,19 @@ jobs:
       - name: Install yt-dlp
         run: pip install yt-dlp
 
+      # YT_COOKIES 시크릿(Netscape cookies.txt 형식)이 있으면 yt-dlp 봇차단 우회에 사용
+      - name: Write YouTube cookies
+        env:
+          YT_COOKIES: ${{ secrets.YT_COOKIES }}
+        run: |
+          if [ -n "$YT_COOKIES" ]; then
+            printf '%s' "$YT_COOKIES" > "$RUNNER_TEMP/yt-cookies.txt"
+            echo "YT_COOKIES_FILE=$RUNNER_TEMP/yt-cookies.txt" >> "$GITHUB_ENV"
+            echo "YouTube 쿠키 사용"
+          else
+            echo "YT_COOKIES 미설정 — 쿠키 없이 시도"
+          fi
+
       - name: Restore SQLite cache
         uses: actions/cache@v4
         with:
@@ -79,7 +92,6 @@ jobs:
           DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           SITE_BASE_URL: ${{ secrets.SITE_BASE_URL || 'https://jiehoonpark.github.io/development-digest/' }}
-          SKIP_TRANSLATION: ${{ secrets.SKIP_TRANSLATION || 'false' }}
           LOG_LEVEL: info
         run: npx tsx src/index.ts
 

@@ -6,18 +6,15 @@ import { createChildLogger } from "../utils/logger.js";
 
 const log = createChildLogger("content-enricher");
 
-const ENRICHMENT_LIMIT = 40;
 const CONCURRENCY = 3;
 
-export async function enrichWithContent(items: ScoredItem[]): Promise<ScoredItem[]> {
-  const toEnrich = items.slice(0, ENRICHMENT_LIMIT);
-  const rest = items.slice(ENRICHMENT_LIMIT);
-
+/** 입력은 이미 분류·선별을 통과한 소수(≤15건) — 전 건 추출한다. */
+export async function enrichWithContent<T extends ScoredItem>(items: T[]): Promise<T[]> {
   let successCount = 0;
   let failCount = 0;
 
   const enriched = await pMap(
-    toEnrich,
+    items,
     async (item) => {
       // GitHub repo는 description으로 충분
       if (item.contentType === "repo") {
@@ -43,12 +40,10 @@ export async function enrichWithContent(items: ScoredItem[]): Promise<ScoredItem
     { concurrency: CONCURRENCY }
   );
 
-  const skipped = rest.map((item) => ({ ...item, extractionStatus: "skipped" as const }));
-
   log.info(
-    { total: toEnrich.length, success: successCount, failed: failCount, skipped: rest.length },
+    { total: items.length, success: successCount, failed: failCount },
     "본문 추출 완료"
   );
 
-  return [...enriched, ...skipped];
+  return enriched;
 }
