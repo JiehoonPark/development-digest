@@ -26,6 +26,11 @@ export async function extractYoutubeTranscript(url: string): Promise<ExtractionR
     const viaApi = await fetchTranscriptViaApi(url, videoId);
     if (viaApi.status === "success") return viaApi;
     // API 실패 시에도 아래 yt-dlp 를 시도 (로컬/일시장애 대비)
+    log.warn({ videoId }, "Supadata 실패 — yt-dlp 폴백(CI 는 봇차단으로 실패 가능)");
+  } else {
+    // 키 없으면 CI 에선 yt-dlp/라이브러리가 전부 봇차단당해 자막 0바이트가 된다.
+    // 조용히 실패하지 않도록 명시 로깅 — "왜 또 제목만 나오지"를 로그로 바로 확인.
+    log.warn({ videoId }, "SUPADATA_API_KEY 미설정 — 영상 자막 API 건너뜀(yt-dlp 폴백)");
   }
 
   // yt-dlp 사용 가능 여부 확인
@@ -43,12 +48,19 @@ export async function extractYoutubeTranscript(url: string): Promise<ExtractionR
 //       응답 { content, lang, availableLangs }
 async function fetchTranscriptViaApi(url: string, videoId: string): Promise<ExtractionResult> {
   try {
-    const endpoint = `https://api.supadata.ai/v1/youtube/transcript?url=${encodeURIComponent(
+    // /v1/transcript = 현재 정식(범용) 엔드포인트. 구 /v1/youtube/transcript 는 deprecated.
+    const endpoint = `https://api.supadata.ai/v1/transcript?url=${encodeURIComponent(
       url
     )}&text=true`;
     const res = await fetch(endpoint, {
       headers: { "x-api-key": process.env.SUPADATA_API_KEY! },
     });
+    if (res.status === 202) {
+      // ponytail: 20분 초과 영상은 202+jobId 비동기 처리. 폴링 미구현 —
+      // 장영상 자막이 실제로 필요해지면 GET /v1/transcript/{jobId} 폴링 추가.
+      log.warn({ videoId }, "Supadata: 장영상 비동기(202) — 미지원, 폴백");
+      return { url, content: "", wordCount: 0, status: "failed", error: "async 202" };
+    }
     if (!res.ok) {
       log.warn({ videoId, status: res.status }, "Supadata 자막 API 실패");
       return { url, content: "", wordCount: 0, status: "failed", error: `HTTP ${res.status}` };
