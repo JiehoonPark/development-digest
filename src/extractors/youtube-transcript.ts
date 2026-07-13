@@ -19,6 +19,15 @@ export async function extractYoutubeTranscript(url: string): Promise<ExtractionR
     return { url, content: "", wordCount: 0, status: "failed", error: "Invalid YouTube URL" };
   }
 
+  // CI(데이터센터 IP)는 유튜브에 ASN 봇차단당해 yt-dlp/라이브러리가 전부 실패한다.
+  // 매니지드 API(Supadata)가 깨끗한 IP로 대신 긁어오는 게 CI에서 유일하게 동작하는 경로.
+  // 키 없으면(로컬, 레지던셜 IP) 기존 yt-dlp 로 폴백.
+  if (process.env.SUPADATA_API_KEY) {
+    const viaApi = await fetchTranscriptViaApi(url, videoId);
+    if (viaApi.status === "success") return viaApi;
+    // API 실패 시에도 아래 yt-dlp 를 시도 (로컬/일시장애 대비)
+  }
+
   // yt-dlp 사용 가능 여부 확인
   if (!isYtDlpAvailable()) {
     return fallbackToLibrary(url, videoId);
@@ -27,6 +36,38 @@ export async function extractYoutubeTranscript(url: string): Promise<ExtractionR
   const run = ytQueue.then(() => extractSerialized(url, videoId));
   ytQueue = run.then(() => undefined, () => undefined);
   return run;
+}
+
+// Supadata 트랜스크립트 API — 자막 없는 영상도 AI 로 생성해준다(caption-less shorts 커버).
+// 스펙: GET /v1/youtube/transcript?url=<url>&text=true , 헤더 x-api-key
+//       응답 { content, lang, availableLangs }
+async function fetchTranscriptViaApi(url: string, videoId: string): Promise<ExtractionResult> {
+  try {
+    const endpoint = `https://api.supadata.ai/v1/youtube/transcript?url=${encodeURIComponent(
+      url
+    )}&text=true`;
+    const res = await fetch(endpoint, {
+      headers: { "x-api-key": process.env.SUPADATA_API_KEY! },
+    });
+    if (!res.ok) {
+      log.warn({ videoId, status: res.status }, "Supadata 자막 API 실패");
+      return { url, content: "", wordCount: 0, status: "failed", error: `HTTP ${res.status}` };
+    }
+    const data = (await res.json()) as { content?: string };
+    const content = (data.content ?? "")
+      .replace(/\s{2,}/g, " ")
+      .trim()
+      .slice(0, MAX_TRANSCRIPT_LENGTH);
+    if (content.length === 0) {
+      return { url, content: "", wordCount: 0, status: "failed", error: "empty" };
+    }
+    log.info({ videoId, length: content.length }, "Supadata 자막 추출 성공");
+    return { url, content, wordCount: content.split(/\s+/).length, status: "success" };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    log.warn({ videoId, error: message }, "Supadata 자막 API 예외");
+    return { url, content: "", wordCount: 0, status: "failed", error: message };
+  }
 }
 
 async function extractSerialized(url: string, videoId: string): Promise<ExtractionResult> {
