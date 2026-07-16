@@ -1,0 +1,422 @@
+{
+  "date": "2026-07-16",
+  "intro": "안녕하세요! 오늘은 WebAssembly와 AI 코딩 도구의 혁신이 주목받고 있습니다. Firefox를 WebAssembly로 브라우저 탭에 구현하는 대담한 시도부터 Claude, Grok 같은 AI 에이전트의 UI를 재현한 컴포넌트 라이브러리까지, 프론트엔드 기술의 경계가 빠르게 확장되고 있습니다. 동시에 AI 코딩의 부작용과 효율적인 활용법에 대한 개발자들의 성찰도 깊어지고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Show HN: Firefox in WebAssembly",
+          "titleKo": "WebAssembly로 구현한 Firefox",
+          "summary": "Gecko 엔진을 WebAssembly로 컴파일하여 브라우저 탭 내에서 실제 Firefox 인터페이스를 실행하는 프로젝트입니다. GPU 가속, JIT 컴파일, WebSocket 프록시 등 고급 기능을 지원합니다.",
+          "keyPoints": [
+            "Gecko 엔진의 WebAssembly 컴파일로 브라우저 내 Firefox 실행 가능",
+            "WebGL 기반 렌더링과 실험적 JIT 컴파일, Wisp 서버를 통한 네트워킹 지원"
+          ],
+          "whyItMatters": "WebAssembly의 성능과 가능성을 보여주며, 브라우저 기술의 경계를 확장합니다.",
+          "url": "https://developer.puter.com/labs/firefox-wasm/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 103,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 72,
+          "isTopicPrimary": true,
+          "slug": "show-hn-firefox-in-webassembly",
+          "fullContent": "×\nFirefox in WebAssembly\nThe Gecko engine compiled to WebAssembly.\nThe real Firefox interface, rendering entirely inside this browser\ntab.\nPreparing\nPreparing Firefox…\nLaunch Firefox\nAdvanced options\nGPU acceleration\nWebGL-based rendering for web content.\nEnable JIT\nExperimental JS → WASM JIT. Expect bugs.\nWisp server\nWebSocket proxy that tabs load web content through.\nWeb content is proxied through a Puter-hosted Wisp server.\nStartup log\nNetworking in the browser powered by Puter.js",
+          "category": "hot",
+          "publishedAt": "2026-07-15T21:00:17.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Brainless: Shadcn components that look like Claude Code, Codex and Grok",
+          "titleKo": "Claude Code, Codex, Grok를 그대로 흉내 낸 shadcn 컴포넌트, Brainless",
+          "summary": "Brainless는 Claude Code, OpenAI Codex, Grok 같은 AI 코딩 에이전트의 터미널 UI를 그대로 재현한 shadcn 컴포넌트 라이브러리입니다. 버전 표기, bash 실행 로그, 파일 diff, 토큰 사용량 등 실제 도구의 디테일을 세밀하게 모사하며, bunx shadcn add 명령 한 줄로 웹페이지에 설치할 수 있습니다. AI 코딩 툴을 소개하는 랜딩 페이지나 데모에서 실제 녹화 없이도 사실적인 에이전트 작업 화면을 연출할 수 있게 해줍니다.",
+          "keyPoints": [
+            "Claude Code, Codex, Grok 세 가지 AI 코딩 에이전트의 터미널 UI를 shadcn 컴포넌트로 재현했습니다.",
+            "버전 표기, 모델/이펙트 레벨 선택, 작업 디렉터리, bash 명령 실행 로그, 파일 diff, 토큰 사용량, 훅 실행 로그까지 세부 UI 요소를 그대로 구현했습니다.",
+            "bunx shadcn add brainless/pricing 같은 shadcn CLI 명령으로 기존 프로젝트에 바로 설치할 수 있습니다.",
+            "각 컴포넌트의 데모 시나리오 자체가 'Brainless 컴포넌트를 설치하는 장면'으로, 메타적인 자기 참조 구조를 갖고 있습니다.",
+            "사이트에서 제공하는 'Copy agent prompt' 버튼으로 AI 에이전트에게 바로 설치를 지시하는 프롬프트를 복사할 수 있습니다."
+          ],
+          "whyItMatters": "AI 코딩 도구를 소개하는 마케팅 페이지나 제품 데모를 만들 때, 실제 화면 녹화 없이도 신뢰도 높은 에이전트 작업 화면을 손쉽게 재현할 수 있어 프론트엔드 개발자에게 실용적인 도구입니다.",
+          "article": "# Claude Code, Codex, Grok를 그대로 흉내 낸 shadcn 컴포넌트, Brainless\n\n터미널 기반 AI 코딩 에이전트가 대세가 되면서 이제는 랜딩 페이지나 블로그 포스트에서도 \"Claude Code가 코드를 작성하는 화면\"을 보여주고 싶은 니즈가 생겼습니다. Brainless는 이런 니즈를 정확히 겨냥한 shadcn 컴포넌트 라이브러리로, Claude Code, OpenAI Codex, Grok 같은 실제 AI 코딩 도구의 터미널 UI를 그대로 재현한 컴포넌트를 제공합니다. 코드 한 줄 없이 `shadcn add` 명령 한 번으로 이 인터페이스들을 웹페이지에 그대로 박아 넣을 수 있다는 게 핵심입니다.\n\n## 무엇을 재현했나\n\nBrainless가 제공하는 컴포넌트는 실제 서비스의 UI를 세밀하게 모사합니다. 예를 들어 Claude Code 컴포넌트는 다음과 같은 요소를 그대로 담고 있습니다.\n\n- `Claude Code v2.1.206` 같은 버전 표기와 \"Welcome back Ben!\" 인사말\n- `Fable 7 with xhigh effort · Claude Max` 같은 모델/플랜 정보\n- `~/acme-site` 같은 작업 디렉터리 경로 표시\n- `/cd` 디렉터리 자동완성, `/doctor` 명령어 같은 \"What's new\" 릴리즈 노트 섹션\n- `⏺Bash(bunx shadcn add brainless/pricing)` 형태의 실제 bash 명령 실행 로그\n- `Update(app/page.tsx)` 처럼 파일 diff를 보여주는 블록 (`+added: <Pricing tiers={TIERS} />` 같은 추가 라인 표시)\n- `Thinking…(0s · ↑ 0 tokens · esc to interrupt)` 같은 사고 과정 표시\n- `◉ xhigh · /effort` 이펙트 레벨 선택, `⏵⏵ auto mode on (shift+tab to cycle)` 같은 하단 상태 바\n\nCodex 컴포넌트 역시 비슷한 패턴을 따릅니다. `OpenAI Codex(v0.132.0)`라는 버전 표기, `model:gpt-6.9 low` 모델 선택 UI, `directory:~/acme-site` 경로, 그리고 `Read app/(marketing)/page.tsx` → `Edited components/pricing.tsx(+22 −0)` → `Running pnpm build` 로 이어지는 작업 로그, 마지막으로 `16K / 500K` 토큰 사용량과 `2/3 ✓ steps complete` 같은 진행 상태까지 세세하게 구현되어 있습니다.\n\nGrok 컴포넌트는 `Grok Build Beta 0.2.93`이라는 버전과 `Grok 4.21이 새로 나왔다`는 알림, `ctrl+w` 새 워크트리, `ctrl+s` 세션 재개, `ctrl+q` 종료 같은 키바인딩 힌트, 그리고 `user_prompt_submit`, `stop` 같은 훅(hook) 실행 로그(`[hooks: 3/1]`)까지 포함하고 있습니다. 하단에는 `Turn completed in 9.2s.`처럼 실행 시간이 표시되고, `Grok 4.21 (xhigh) · always-approve` 같은 실행 모드 상태도 그대로 재현됩니다.\n\n## 사용 방식: shadcn add 한 줄\n\n세 컴포넌트 모두 공통적으로 보여주는 시나리오가 하나 있습니다. 사용자가 \"브레인리스 프라이싱 블록을 랜딩 페이지에 추가해줘\"라고 요청하면, 각 에이전트가 실제로 하는 것처럼 아래와 같은 흐름을 그대로 흉내 냅니다.\n\n```\nadd the brainless pricing block to our landing page\n⏺Bash(bunx shadcn add brainless/pricing)\n⏺⎿Added 1 block · 2 files\n⏺Update(app/page.tsx)\n⏺⎿Updated app/page.tsx with 3 additions\n41 <Features />\n42+added: <Pricing tiers={TIERS} />\n43 <Footer />\n```\n\n즉, Brainless 자체가 `bunx shadcn add brainless/pricing` 같은 명령으로 설치되는 컴포넌트이면서, 동시에 그 컴포넌트가 보여주는 데모 시나리오도 \"Brainless 컴포넌트를 shadcn으로 설치하는 장면\"이라는 일종의 메타적 구성을 취하고 있습니다. 사이트 자체에도 \"Copy agent prompt\" 버튼이 있어, 이 컴포넌트를 설치하라는 프롬프트를 그대로 복사해 AI 코딩 에이전트에 붙여넣을 수 있도록 만들어져 있습니다.\n\n## 정리\n\nBrainless는 Claude Code, Codex, Grok 같은 AI 코딩 에이전트의 터미널 UI를 픽셀 단위로 재현한 shadcn 컴포넌트 세트입니다.\n\n- **버전 표기, 모델/이펙트 레벨, 작업 디렉터리, bash 실행 로그, 파일 diff, 토큰 사용량, 훅 실행 로그** 등 실제 도구에서 볼 수 있는 디테일을 그대로 살려 신뢰도 높은 \"가짜 데모\"를 만들 수 있습니다.\n- `bunx shadcn add brainless/pricing` 처럼 shadcn CLI 생태계에 올라타 있어, 별도 설치 과정 없이 기존 shadcn 프로젝트에 바로 추가할 수 있습니다.\n- AI 코딩 도구를 소개하는 랜딩 페이지, 블로그, 제품 데모 영상 등에서 실제 스크린 레코딩 없이도 \"AI가 코드를 작성하는 장면\"을 손쉽게 연출할 수 있다는 점이 실무적으로 유용합니다.\n- 사이트에 있는 \"Copy agent prompt\" 기능을 통해, 이 컴포넌트 자체를 AI 에이전트에게 설치시키는 프롬프트를 바로 복사할 수 있어 사용 진입 장벽이 낮습니다.",
+          "url": "https://brainless.swerdlow.dev",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 76,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 78,
+          "isTopicPrimary": true,
+          "slug": "brainless-shadcn-components-that-look-like-claude-code-codex-and-grok",
+          "fullContent": "brainlessClaude Code, Codex, and Grok interfaces as shadcn components.Copy agent prompt◆@benswerd · freestyleClaude Code v2.1.206Welcome back Ben!Fable 7 with xhigh effort · Claude Maxben@freestyle.sh's Organization~/acme-siteTips for getting startedAsk Claude to create a new app or clone a repoWhat's newAdded directory path suggestions to /cdAdded a /doctor check that proposes trims/release-notes for more❯add the brainless pricing block to our landing page⏺Bash(bunx shadcn add brainless/pricing)⏺⎿Added 1 block · 2 files⏺Update(app/page.tsx)⏺⎿Updated app/page.tsx with 3 additions41 <Features />42+added: <Pricing tiers={TIERS} />43 <Footer />·Thinking…(0s · ↑ 0 tokens · esc to interrupt)◉ xhigh · /effort❯⏵⏵ auto mode on (shift+tab to cycle) · ← for agents>_OpenAI Codex(v0.132.0)model:gpt-6.9 low/modelto changedirectory:~/acme-site›add the brainless pricing section to the docs site•Read app/(marketing)/page.tsx•Edited components/pricing.tsx(+22 −0)•Running pnpm build(0s • esc to interrupt)›gpt-6.9 low · ~/acme-site main ~/acme-site16K / 500K│2/3 ✓ steps completeGrok Build Beta 0.2.93Grok 4.21 is here!Grok 4.21 is now available. Try it out in the /model picker.New worktreectrl+wResume sessionctrl+sChangelogQuitctrl+qTip: Use Shift+Tab to cycle between modes, like Plan mode.❯put the brainless pricing block on the marketing page4:38 PM◆user_prompt_submit[hooks: 3/1]◆Thought for 0.4sI'll open the marketing page, drop in the pricing block, then verify the build.4:38 PMreadapp/(marketing)/page.tsx◆Run Write components/pricing.tsx[hooks: 3]41before: <Features />41after: <Pricing tiers={TIERS} />◆stop[hooks: 3/1]Turn completed in 9.2s.❯Grok 4.21 (xhigh) · always-approve",
+          "category": "tech",
+          "publishedAt": "2026-07-15T19:42:53.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Nutlope/hallmark (CSS)",
+          "titleKo": "Nutlope/hallmark (CSS)",
+          "summary": "Claude Code, Cursor, Codex를 위한 anti-AI-slop 디자인 스킬 모음입니다.",
+          "keyPoints": [
+            "AI 생성 코드의 과도한 복잡성을 피하는 디자인 원칙 제시"
+          ],
+          "whyItMatters": "AI 코드 생성 도구 사용 시 품질 높은 CSS를 작성하는 데 도움이 됩니다.",
+          "url": "https://github.com/Nutlope/hallmark",
+          "sourceName": "GitHub Trending",
+          "engagement": 8408,
+          "contentType": "repo",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 75,
+          "isTopicPrimary": true,
+          "slug": "nutlopehallmark-css",
+          "category": "tech",
+          "publishedAt": "2026-07-15T23:58:32.947Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "CSS"
+          ]
+        },
+        {
+          "title": "OpenCut-app/OpenCut (TypeScript)",
+          "titleKo": "OpenCut-app/OpenCut (TypeScript)",
+          "summary": "오픈소스 CapCut 대안으로, TypeScript로 개발된 비디오 편집 애플리케이션입니다.",
+          "keyPoints": [
+            "CapCut의 오픈소스 대체재로 기능 제공"
+          ],
+          "whyItMatters": "오픈소스 비디오 편집 도구가 필요한 경우 직접 커스터마이징 및 기여할 수 있습니다.",
+          "url": "https://github.com/OpenCut-app/OpenCut",
+          "sourceName": "GitHub Trending",
+          "engagement": 71600,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 65,
+          "isTopicPrimary": true,
+          "slug": "opencut-appopencut-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-15T23:58:32.947Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "P2P local file transfer based on WebRTC",
+          "titleKo": "WebRTC 기반 P2P 로컬 파일 전송",
+          "summary": "WebRTC를 활용하여 중앙 서버 없이 브라우저 간 피어-투-피어 파일 전송을 가능하게 하는 서비스입니다.",
+          "keyPoints": [
+            "WebRTC를 통한 P2P 파일 전송으로 프라이버시 보호",
+            "중앙 서버를 거치지 않는 직접 전송"
+          ],
+          "whyItMatters": "서버 인프라 없이 안전한 파일 공유 기능을 구현할 수 있습니다.",
+          "url": "https://pairdrop.net/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 18,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 68,
+          "isTopicPrimary": true,
+          "slug": "p2p-local-file-transfer-based-on-webrtc",
+          "category": "tech",
+          "publishedAt": "2026-07-15T22:22:08.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Collection of Digital Clock Designs",
+          "titleKo": "디지털 시계 디자인 모음",
+          "summary": "다양한 디지털 시계 디자인을 모아놓은 컬렉션입니다.",
+          "keyPoints": [
+            "웹 기반 시계 UI/UX 디자인 참고 자료 제공"
+          ],
+          "url": "https://clocks.dev",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 164,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 68,
+          "isTopicPrimary": true,
+          "slug": "collection-of-digital-clock-designs",
+          "category": "tech",
+          "publishedAt": "2026-07-15T16:33:15.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: One More Letter",
+          "titleKo": "한 글자 더",
+          "summary": "정확한 정보 없음",
+          "keyPoints": [],
+          "whyItMatters": null,
+          "url": "https://playonemoreletter.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 10,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 55,
+          "isTopicPrimary": true,
+          "slug": "show-hn-one-more-letter",
+          "category": "tech",
+          "publishedAt": "2026-07-15T23:10:10.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "AI Coding is exhausting",
+          "titleKo": "AI 코딩이 사람을 지치게 만드는 이유",
+          "summary": "AI 코딩 도구가 등장하며 개발자가 직접 코드를 짜는 '전술적' 작업이 사라지고, 그 자리를 고차원적 의사결정을 요구하는 '전략적' 사고가 채우게 되었습니다. 그 결과 모든 개발자가 사실상 리드 개발자처럼 일하게 되었고, 지루한 작업은 줄었지만 정신적 피로는 오히려 커졌습니다. Matt Pocock은 이런 변화가 되돌릴 수 없는 구조적 현실이라고 진단합니다.",
+          "keyPoints": [
+            "예전 코딩은 손을 움직이며 뇌를 쉬게 하는 '전술적' 작업이 많았지만, AI가 이 영역을 대부분 흡수했습니다.",
+            "개발자는 이제 AI보다 한 단계 위에서 사고해야 하는 '전략적' 역할로 밀려 올라갔습니다.",
+            "이 변화로 모든 개발자가 사실상 리드 개발자처럼 일하게 되었고, 이는 되돌리기 어려운 구조적 현상입니다.",
+            "지루한 반복 작업은 사라졌지만 인지적 부담과 피로감은 오히려 커졌습니다."
+          ],
+          "whyItMatters": "AI 코딩 도구를 도입한 프론트엔드 개발자라면 왜 업무가 편해진 것 같으면서도 더 지치는지, 그 원인을 구조적으로 이해하고 대응 방식을 고민해볼 수 있습니다.",
+          "article": "# AI 코딩이 사람을 지치게 만드는 이유\n\n요즘 AI로 코딩을 하다 보면 유독 피로감을 느끼는 개발자들이 많습니다. 단순히 \"적응이 덜 돼서\"가 아니라, AI 코딩 자체가 우리 뇌를 쓰는 방식을 근본적으로 바꿔놨기 때문인데요. 이 글에서는 그 피로감의 정체가 무엇인지, 왜 예전보다 개발이 더 피곤해졌는지를 짚어봅니다.\n\n## 코딩의 '전술적 영역'이 사라졌다\n\n예전에는 코딩 세션이 뇌에게 일종의 휴식 시간이었습니다. 코드를 직접 타이핑하고, 변수 이름을 고민하고, 로직을 한 줄 한 줄 짜맞추는 작업은 손과 눈이 바쁘긴 해도 머리는 오히려 쉬어가는 구간이었죠. 이건 거의 비언어적인 사고에 가까운, 크게 고민하지 않고 그냥 손을 움직이며 게임을 하듯 몰입하는 '전술적(tactical)' 작업이었습니다.\n\n그런데 지금은 AI가 바로 이 전술적 영역을 통째로 먹어치웠습니다. 코드를 직접 짜는 그 재미있고 편안한 작업이 사라지고, 개발자에게 남은 건 전략적(strategic) 사고뿐입니다.\n\n## 우리는 모두 리드 개발자가 되었다\n\nAI가 실무 코딩을 대신 처리하게 되면서, 개발자는 AI보다 한 단계 높은 레벨에서 사고해야 하는 위치로 밀려 올라갔습니다. 다시 말해, 우리 모두가 원하든 원하지 않든 '리드 개발자'의 역할을 떠맡게 된 셈입니다. AI가 처리한 결과물을 검토하고, 방향을 설계하고, 장기적인 관점에서 판단을 내리는 고차원적 사고가 일상적인 업무가 됐습니다.\n\n이건 딱히 해결책이 있는 문제가 아니라, 이미 구조적으로 고착된 현실에 가깝습니다. AI를 코딩에 쓰든 다른 업무에 쓰든, 지루하고 기계적인 작업은 사라졌지만 그만큼 뇌가 감당해야 할 부담은 훨씬 커졌습니다.\n\n## 그래도 이 방식이 나쁘지만은 않다\n\n개인적으로는 이런 고차원적인 의사결정을 내리는 작업 자체는 좋아합니다. 다만 하루를 마칠 때쯤이면 예전보다 훨씬 더 녹초가 되어 있다는 건 부정할 수 없는 사실입니다.\n\n## 정리\n\n- AI 코딩 도구가 등장하면서 개발자가 직접 코드를 짜는 '전술적' 작업이 크게 줄었고, 그 자리를 '전략적' 사고가 채우고 있습니다.\n- 전술적 코딩은 손을 움직이며 머리를 쉬게 하는 구간이었지만, 전략적 사고는 AI보다 높은 레벨에서 판단과 방향을 결정해야 하므로 인지적 부담이 훨씬 큽니다.\n- 결과적으로 모든 개발자가 사실상 '리드 개발자'처럼 일하게 되었고, 이는 되돌릴 수 없는 구조적 변화로 보입니다.\n- 지루한 반복 작업은 줄었지만 정신적 피로도는 오히려 늘어난 것이 AI 코딩 시대의 현실입니다.",
+          "url": "https://www.youtube.com/watch?v=e-pFrQ_Rh0s",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "relevance": 62,
+          "isTopicPrimary": true,
+          "slug": "ai-coding-is-exhausting",
+          "fullContent": "AI coding feels uh exhausting. I mean, I think a lot of people are feeling this way because I think the main thing that I'm seeing is that people are having to do so much more strategic thinking than they used to. Before you would have these coding sessions where you would write the code and that was like a little break for your brain. That's the kind of tactical side where you're kind of on the ground doing its sort of almost like non-verbal reasoning, not having to think very much, just sort of moving stuff around, kind of playing a game almost. But now all AI has just eaten that, right? AI has eaten the tactical side of programming. So everything that we do now is strategic, thinking long term. and everything that we do because we're having to operate at a level above the AI, think above the level that the AI is operating at. I mean, we've all turned into lead developers. We've gone higher up the chain, and that demands higher level thinking. I don't honestly know what we do about this. I think it's just baked into the loaf. Everyone who's using AI, whether they're using it for coding or anything else, they're having their boring grunt work taken away, but it means their brain is under so much more strain. I have to say that I like it. You know, I do like making highlevel decisions, but I end each day pretty knackered.",
+          "category": "video",
+          "publishedAt": "2026-07-15T14:50:51+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "The most fun I've had with CSS in a while thanks to offset-path",
+          "titleKo": "offset-path 하나로 만드는 재미있는 CSS 버튼 애니메이션",
+          "summary": "CSS Day에서 Eric Meyer의 발표를 통해 발견한 offset-path의 border-box/padding-box 활용법을 다룹니다. SVG path 없이도 요소의 실제 테두리를 애니메이션 경로로 삼아, 버튼에 hover하면 별 모양 장식이 테두리를 따라 흐르는 효과를 offset-distance, offset-rotate, translate 지연 트랜지션, keyframes 애니메이션을 조합해 단계별로 구현합니다.",
+          "keyPoints": [
+            "offset-path: border-box(또는 padding-box)를 쓰면 SVG path 없이 요소의 실제 테두리를 애니메이션 경로로 사용할 수 있다.",
+            "offset-distance를 hover 시 트랜지션시키면 장식 요소가 경로를 따라 이동하는 애니메이션이 만들어진다.",
+            "offset-rotate로 회전 방식을 제어할 수 있으며, 0deg는 방향 고정, auto는 경로를 따라 계속 회전한다.",
+            "translate 트랜지션에 delay를 줘서 경로 끝에서 튕기는 듬한 디테일을 추가할 수 있다.",
+            "opacity를 0→1→0으로 다단계 변화시키려면 transition 대신 @keyframes와 animation ... both를 써야 한다."
+          ],
+          "whyItMatters": "라이브러리나 SVG 없이 순수 CSS만으로 정교한 경로 기반 애니메이션을 만들 수 있다는 것을 보여주며, 프론트엔드 개발자가 인터페이스에 가벼운 비용으로 재치있는 마이크로 인터랙션을 더할 수 있는 실전 기법을 제공합니다.",
+          "article": "CSS로 뭔가 재미있는 걸 만들어보고 싶다는 생각, 다들 한 번쯽 해보셨을 겁니다. AI가 만들어내는 반복적이고 예측 가능한 결과물들 사이에서, 웹사이트에 작은 '기발함(whimsy)'을 더하는 일이 요즘 더 필요하다는 생각이 드는데요. 얼마 전 CSS Day에서 Eric Meyer가 발표한 `offset-path` 활용법을 보고, 저 역시 몰랐던 사실을 하나 알게 됐습니다. `offset-path`를 쓸 때 SVG path 없이도, 그냥 요소의 테두리(border-box)를 경로로 삼아 애니메이션을 만들 수 있다는 것이었죠. 이번 글에서는 이 기능을 이용해 버튼에 마우스를 올리면 작은 장식이 테두리를 따라 별똥별처럼 흘러가는 효과를 처음부터 직접 만들어보겠습니다.\n\n## 기본 마크업 준비하기\n\n먼저 버튼과 장식용 요소를 준비합니다. 버튼을 구분하기 위해 `data-button=\"whimsical\"` 속성을 달았는데, 원한다면 클래스로 대체해도 무방합니다. 장식 요소는 5개 이상 여러 개를 다룰 예정이라 `span`으로 만들었습니다(2개 정도만 필요하다면 pseudo-element로도 충분합니다). 스크린 리더가 무시하도록 `aria-hidden=\"true\"`도 함께 붙여줬습니다.\n\n```html\n<button data-button=\"whimsical\">\n  Hover me\n  <span class=\"deco\" aria-hidden=\"true\"></span>\n</button>\n```\n\n버튼 자체에는 특별한 스타일이 없습니다. 테두리 색을 바꾸는 트랜지션과, box-shadow보다 성능이 좋은 opacity 애니메이션으로 만든 블러 효과용 pseudo-element만 있는 정도입니다.\n\n## offset-path 하나로 테두리를 따라가는 장식 만들기\n\n`.deco`에 너비 30px, `aspect-ratio: 1`, 배경색 흰색을 주고 시작합니다. 그런데 이 요소는 기본적으로 인라인 요소라 너비가 적용되지 않죠. `position: absolute`를 주면 포맷팅 컨텍스트가 바뀌면서 너비가 먹히기 시작합니다.\n\n여기서 핵심이 등장합니다. 이 요소를 테두리 위에, 그리고 테두리를 따라 움직이게 만들려면 `top`, `left` 같은 값을 계산할 필요가 전혀 없습니다. 그냥 `offset-path: border-box`만 주면 됩니다.\n\n```css\n.deco {\n  position: absolute;\n  width: 30px;\n  aspect-ratio: 1;\n  background: white;\n  border-radius: 50%;\n  offset-path: border-box;\n}\n```\n\n이렇게만 해도 장식 요소가 곧바로 버튼 테두리 위에 나타납니다. `border-radius: 50%`를 추가하면 작은 구슬 모양이 되죠. SVG path를 그려야만 offset-path를 쓸 수 있다고 생각했는데, `border-box`나 `padding-box` 같은 키워드만으로도 요소의 실제 테두리를 경로로 삼을 수 있다는 걸 이번에 처음 알았습니다.\n\n## offset-distance로 위치를 옮기고 transition 걸기\n\n경로가 정해졌으니 이제 이 경로 위에서 얼마나 이동했는지를 정하는 `offset-distance`를 씁니다. hover 상태에서 이 값을 바꾸면 됩니다.\n\n```css\n.deco {\n  offset-path: border-box;\n  offset-distance: 0%;\n  transition: offset-distance 1s;\n}\n\n[data-button=\"whimsical\"]:hover .deco,\n[data-button=\"whimsical\"]:focus-visible .deco {\n  offset-distance: 80%;\n}\n```\n\n`offset-distance`는 px 같은 길이값도, %도 모두 쓸 수 있습니다. 100px로 지정하면 그만큼, 80%로 지정하면 테두리 전체 길이의 80%만큼 이동합니다. 여기에 `transition`을 걸어주면 hover할 때 장식이 border-radius를 따라 모서리를 부드럽게 돌면서 버튼 테두리를 타고 슥 움직이는 걸 볼 수 있습니다.\n\n## offset-rotate로 회전 방식 제어하기\n\n기본 상태로 두면 장식이 모서리를 돌 때 경로 방향에 맞춰 자연스럽게 회전합니다. 화살표 모양처럼 방향성이 있는 도형이라면 이게 딱 맞겠죠. 하지만 방향과 무관하게 항상 같은 자세를 유지하고 싶을 때도 있습니다. 이럴 때는 `offset-rotate`를 씁니다.\n\n```css\n.deco {\n  offset-rotate: 0deg;      /* 회전 없이 항상 고정된 방향 유지 */\n  /* offset-rotate: 45deg;        고정된 각도로 시작 */\n  /* offset-rotate: 45deg auto;   45도에서 시작해 경로를 따라 계속 회전 */\n}\n```\n\n`0deg`를 주면 이동만 하고 회전은 전혀 하지 않습니다. `45deg`처럼 특정 각도를 지정하면 그 각도로 고정되고, 여기에 `auto` 키워드를 추가하면 지정한 각도를 기준점으로 삼아 경로를 따라 계속 회전합니다. 이번 예제는 별 모양을 만들 것이므로 회전할 필요가 없어 `offset-rotate: 0deg`로 고정했습니다.\n\n## pseudo-element로 별 모양 만들기\n\nX자 모양을 만들다가, 조금만 더 손보면 별 모양이 될 것 같아 방향을 바꿨습니다. `.deco`에 `::before`, `::after` pseudo-element를 추가해 너비, border-radius, aspect-ratio, 색상, translate 값을 `inherit`으로 그대로 물려받게 하고, 각각 반대 방향으로 `rotate`를 줘서 별 형태를 만듭니다.\n\n```css\n.deco::before,\n.deco::after {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  width: inherit;\n  aspect-ratio: inherit;\n  border-radius: inherit;\n  background: inherit;\n}\n\n.deco::before { rotate: 60deg; }\n.deco::after { rotate: -60deg; }\n```\n\n이렇게 하면 별 모양 장식이 경로를 따라 그대로 흘러갑니다. 여기에 눈에 잘 보이는 빨간색을 주고, `aspect-ratio`를 `1 / 3` 정도로 좁혀 좀 더 갸름한 오벌 형태로 바꿔줬습니다. 크기가 30px 정도로 큰 편이라 `filter: blur(2px)` ~ `blur(3px)` 정도를 줘서 살짝 뭉개주면 훨씬 자연스러워 보입니다.\n\n## 모서리에서 튕기듯 움직이는 효과\n\n이제 애니메이션을 좀 더 생동감 있게 만들 차례입니다. 경로를 따라 완벽하게 미끄러지듯 움직이는 것 말고, 끝에 도달했을 때 살짝 튕기듯 방향을 트는 느낌을 추가하고 싶었습니다. 이를 위해 `translate`를 hover 상태에서 함께 바꿔줍니다.\n\n```css\n.deco {\n  translate: 0 0;\n  transition:\n    offset-distance 5s,\n    translate 2s 1s; /* 2초짜리 트랜지션에 1초 지연 */\n}\n\n[data-button=\"whimsical\"]:hover .deco {\n  offset-distance: 80%;\n  translate: 0 30px;\n}\n```\n\ntranslate 트랜지션에 지연(delay)을 걸어두면, offset-distance 이동이 먼저 시작되고 마지막 순간에 아래로 살짝 튕겨 떨어지는 듯한 효과를 낼 수 있습니다. 처음에는 delay를 3초로 줬다가 타이밍이 너무 늦어서 1초 정도로 줄였는데, 이 정도가 모서리를 돌면서 아래로 툭 떨어지는 느낌과 가장 잘 맞았습니다. easing 값에 따라 끝부분에서 속도가 느려지는 게 어색해 보일 수도 있으니, 실제로는 원하는 느낌에 맞게 세부 값을 조정해야 합니다.\n\n## opacity 페이드 인/아웃은 transition이 아니라 animation으로\n\n이 효과의 마지막 조각은 장식이 등장할 때 서서히 나타나고, 사라질 때 서서히 없어지는 opacity 처리입니다. 문제는 opacity를 0 → 1 → 0으로 두 단계에 걸쳐 바꿔야 하는데, `transition`은 시작값과 끝값 사이만 다룰 수 있어서 이런 다단계 변화는 표현할 수 없습니다. 이럴 때는 `@keyframes` 애니메이션이 필요합니다.\n\n```css\n@keyframes --decoration-life {\n  0%, 100% { opacity: 0; }\n  20%, 80% { opacity: 1; }\n}\n\n[data-button=\"whimsical\"]:hover .deco {\n  animation: --decoration-life 5s both;\n}\n```\n\n키프레임 이름에 더블 하이픈(`--`)을 붙인 건 CSS 전문가 Roma Komarov에게서 배운 네이밍 컨벤션입니다. 커스텀 프로퍼티는 물론이고 anchor-name 같은 최근 스펙들도 더블 하이픈으로 이름을 짓는 경우가 늘고 있어서, 직접 이름을 붙이는 대상이라면 이 컨벤션을 따르는 게 합리적이라는 생각이 듭니다. 물론 꼭 따라야 하는 규칙은 아닙니다.\n\n`animation`에 `both` 키워드를 주는 게 중요한데, 이렇게 하면 애니메이션이 시작되기 전과 끝난 후에도 각각 0%, 100% 키프레임 값(opacity: 0)이 적용된 상태를 유지합니다. 그래서 hover하지 않을 때는 완전히 투명한 상태로 숨어 있다가, hover하면 서서히 나타나 경로를 따라 흐르듯 이동하고, 끝에서는 다시 서서히 사라지게 됩니다. 처음에는 애니메이션을 잘못된 선택자에 걸어놓고 \"왜 한 번 실행되고 끝나지?\"하고 헤맸는데, hover 상태 선택자에 정확히 걸어줘야 hover할 때마다 애니메이션이 다시 실행됩니다. opacity가 너무 늦게 사라지는 느낌이 들면 20%/80% 같은 퍼센트 지점을 조정하거나, 이 애니메이션의 지속 시간을 다른 트랜지션보다 먼저 끝나도록 맞춰주면 자연스러워집니다.\n\n## 정리\n\n`offset-path`에 SVG path 대신 `border-box`나 `padding-box` 같은 키워드를 넘기면, 별도의 좌표 계산 없이 요소의 실제 테두리 자체를 애니메이션 경로로 활용할 수 있습니다. 이 방식과 `offset-distance`, `offset-rotate`, `transition`, `@keyframes`를 조합하면 버튼 테두리를 따라 별똥별처럼 흐르는 장식 효과를 SVG 없이 순수 CSS만으로 만들 수 있습니다.\n\n- `position: absolute` + `offset-path: border-box`만으로 요소가 곧바로 테두리 경로 위에 배치됩니다.\n- `offset-distance`(px 또는 %)를 hover 시 트랜지션시키면 경로를 따라 이동하는 애니메이션이 만들어집니다.\n- `offset-rotate: 0deg`는 방향과 무관하게 자세를 고정하고, `auto`를 붙이면 경로 방향을 따라 계속 회전합니다. 도형의 방향성에 따라 선택하면 됩니다.\n- `translate`에 별도의 지연(delay)을 준 트랜지션을 추가하면 경로 끝에서 튕기듯 움직이는 디테일을 더할 수 있습니다.\n- opacity를 0 → 1 → 0처럼 다단계로 바꾸려면 `transition`이 아니라 `@keyframes` + `animation ... both`가 필요합니다.\n\n화려한 라이브러리나 SVG 애니메이션 없이도, 순수 CSS 몇 줄만으로 인터페이스에 재치 있는 디테일을 더할 수 있다는 걸 보여주는 좋은 사례입니다. 브라우저 지원 범위를 확인한 뒤, 버튼 hover나 로딩 인디케이터처럼 작은 인터랙션에 이런 장식을 적용해보면 사용자 경험에 재미있는 포인트를 줄 수 있을 것입니다.",
+          "url": "https://www.youtube.com/watch?v=pMo2CzcSiko",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 82,
+          "isTopicPrimary": true,
+          "slug": "the-most-fun-ive-had-with-css-in-a-while-thanks-to-offset-path",
+          "fullContent": "Hello, my friend and friends. Recently, I was at CSS Day, where I had the pleasure of speaking. Uh Eric Meyer had a talk where he looked at offset path, which enables this to be done like super simply. Uh I I knew about offset path. I just didn't realize that we could do it without SVG paths, and it's amazingly easy to use. Uh super fun. And so, yeah, let's dive into the code and see how we can pull this type of effect off, cuz I think it's pretty fun. Because we live in a world of AI just repetition and everything else, and adding a little bit of whimsy to our website these days is something I think that we need a little bit more of. dive in and check out the code we can do this. All right, so to get started with this, I have a button set up. I have my data button type of whimsical. This could be a class if you'd rather it be a class. Uh and I have a span in here of deco for decoration. Uh if you only want two of these, you could do it with pseudo elements, but because I'm going to do five or more, then I'm going to have a whole bunch of spans for them. I did put an area hidden of true on here. It is an empty span. Not sure if it's needed or not. Let me know in the comments. Uh but I figured it doesn't hurt to have it there, so throwing that on there. It just means screen readers and assistive technologies ignore it. Uh and then I have just basic button styling, nothing fancy here. I have my main color set up on my button type of whimsical that is transitioning the border color. I have a pseudo element on there set up actually to do the blur, cuz it's a little bit more performant animate animation uh opacity over an actual box shadow. You could probably do the box shadow and be fine. Uh and yeah, that's all I have set up right now is to have this. And then down here, I have this deco that is set up. So, very quickly, let's come on this decoration. I'm going to give this a width of we'll do like pretty big for now, 30 pixels maybe. Uh we're going to give this an aspect ratio for now of one, and I'm going to give it a background of white so we can actually see it. And that should show up somewhere. It needs a height as well. No, it should not need a height. Uh but I'm doesn't matter why it's not showing up. Oh, it's because it's an inline element, and you can't give those widths. But, I want this to be a position absolute, and that changes the formatting context. I don't need a display block or anything. Just like that, now it shows up. Now, how do I get it on the border? And how do I get it to travel along the border? It sounds complicated, but it's incredibly easy. And this is what I learned I I knew about this feature, which is offset path. So, with this, I don't need a position like a top, bottom, left, and right. I just say that the offset path is In this case, I want to travel along the border, so I'm going to put my border box. And like magic, it will show up on the border. Super cool, right? Uh let's also give this an a border radius of 50% as well, so it looks like a little orb for now. Uh and then yeah, that's just it works. It's super cool. Uh I have my hover state down here. It is quite long. But there there on my button type of whimsical, if it's hover or focus visible, we want to change things. And because this is already set on my offset path, what I can say here is the offset distance. And I can say this is, I don't know, 100 pixels. And if I hover on top, it will move 100 pixels. So, that of course means we can transition our offset path. And let's just say it's over 1 second for now. And so, if I hover on top, it will not transition uh cuz I don't want the offset path, I want the offset distance to transition. Uh and just like that, now we can see that it slides back and forth along there. This can be any type of length value. So, I'm going to say something like 80%, so it travels 80% of the way around my button. And now it goes all the way around following the border radius. Like I I didn't realize this was possible. Uh I've played with offset path. I thought you needed to have the SVG path for it to follow along. So, really, really cool that we can do this. And it was very When I saw Eric Meyer use the border box, which also have padding box, um I was just like, \"Oh, that that's amazing.\" >> [laughter] >> So, there we go. Already like you can probably see that the building blocks of this are now in place and everybody's going to stop watching. Don't stop watching cuz YouTube likes watch time metrics. So, continue watching even if you understand how the rest of it is done at this point. So, what I'm going to do is maybe make this a little I will leave this size big. Let's change it to red for now just so it it stands out a little bit more. But, I'm going to change this aspect ratio to a 1/3 to give us a little bit of an oval shape instead. Uh like that. Oh, and this is an important thing. Let's slow this down a little bit. I do want to mention this. So, make this like 5 seconds maybe. Uh when it's going notice how it when it turns it like follows the edge which you might want. That can potentially be a good thing. But, it's possible you want to keep its orientation. So, for that it would be off offset rotate and you just say 0°. If I say 0°, it means well it goes along and now stays at 0° the whole time. And of course, you could do this at like 45° if you wanted to. It's going to set it at 45° and then it's going to go along keeping that. And if you wanted it 45° but then you also want it to follow and turn, you just add the auto keyword in there. I think it's this way around. Yeah, there we go. Nice. So, a few different options you have there depending on the shape. If you have an arrow or something or whatever it is that you might want to use. In this case though, I'm actually going to put this at zero cuz we're going to make star shapes. I don't really want them turning. I just want them doing their thing. So, I'm going to put an offset rotate of 0°. Nice. The next thing I'm going to do we're going to paste in some code here just to speed things up a little bit where I'm going to add some pseudo elements. And originally, I don't even this with an X but I figured why not make it into more of a star shape. So, a pseudo element coming in content property also position absolute inheriting the width, the border radius, the aspect ratio, and the color and the translate just so it actually lines up in place and then I'm rotating each of them opposite one another to give us a bit of a star shape. And now we have a star that follows along our path. Nice. Uh of course there's a few more things we want to do with this star. One of them it probably will look better. I think it looks better anyway. If we have a filter on here a blur of like two or three pixels is probably enough just to give it a little bit of a, you know, blurry effect especially 30 pixels is very big for this. So once this is smaller, it'll look a little bit better. I think we can leave it like that. The red does definitely stand out. Um okay. What do we do next? Well, we want to make this animation a little bit more interesting. So the first thing we can do is not only change the offset distance when we hover, but also change like if it just follows perfectly like this. As it's getting to the end, actually want the speed of it is wrong too. Okay, there's a few things we need to do to actually make this look better. But let's start with the translate. So I'm going to say when it's finished, we want it to translate and actually move a little bit. So I'm going to say like hmm the first one is X. That can probably stay at zero. And then the Y, let's have it move down a little bit by like, I don't know, 10 pixels. And now when I hover you can see it just like shifts down a little bit. I may actually make this a bit bigger. Let's try 30. Uh that doesn't look like 30. That looks like 30. So when it finishes I actually want to finish down there so it looks like it sort of flicks off the bottom as it turns the corner. And to be able to take advantage of that, that just means we come back up here. We're doing our transition here. And then we can say that this is also going to have a transition of our That's our translate. Now I don't want the translate to kick in right away. So we're going to say that this is going to be like a 2 second and we're probably do some calcs and other things, but let's set it up the this way first and then actually figure out the math. So we can do a translate of 2 seconds with a 3 second delay. And that should have a comma, I believe. Uh so now when it goes, it's going to stay there, but then at the end Now that's way too late. In there, but you get the idea. So, maybe this is like a 1 second delay, actually. So, now it comes around, it flicks off the bottom. I think that works out actually really well, the timing on that. Now, the timing can also be hard because of the eases that are on there, and now I'm going to have to change these because the easing is not working for me. I sort of want it to get Well, first of all, it's really slow. I'm going to go with faster times than this, but I think it it doesn't really make sense that it's slowing down so much at the end, does it? I guess it could slow down at the end a little bit. Um We could have it slow down. I might leave that now that I'm thinking about it. But, the other thing that I do want to do is the opacity. And, the opacity presents a small problem because I don't want to see it now, so the opacity should be zero. It should come in as we're traveling along, and then it should fade back out. And, because we're going fade zero to in to out, we can't do that really with a transition. We need to multiple steps, multiple steps means we need an animation. So, let's come all the way down to here, and I can do an at keyframes. I'm going to call it decoration life. I'm doing this with the double hyphen. This is a naming convention I've gotten from Roma Komarov, who's a very smart CSS person. Just we're starting to name so many things in CSS with a double hyphen now. Custom properties are the obvious one, but we have anchor positions, or anchor names, I should say. There's a few other things I'm forgetting. for functions and some other stuff. So, just naming any custom name thing sort of makes sense to do it. If you don't want to do this, you obviously don't have to. And, we can just say that it's going to do a I'm going to say from 20% to 80% we're going to have an opacity of one. And, at 100% we'll go to an opacity of zero. What I'm not sure is if I should bother in the animation. I guess we could just do a 0% of opacity of zero here as well. So then we're just sort of follow like this is the entire life cycle of our star. So let's try and add that in and see what happens. So if I come up to here where I have the transitions, let's also add our animation of decoration decoration life and it's not a property. So we're going to say decoration life. Let's just stick with the 5 seconds for now and I'm going to do a both so it actually uses the starting and ending key frames. So now you can see it has disappeared cuz we're using the both keyword which means we're starting at the 0% key frame. Comes to life, shoots along and then fades out. Now the weird thing here is how long it takes to come to life. Oh, I put it on the wrong spot. I'm doing this all the time. I only want this to be on my hover. I was like it ran the animation and then it was done. I want the animation to run here which actually doesn't help. Well actually we see it. So it's going to go to zero, it's going to fade in, fly along and then slowly fade out and I want to actually fade out a bit sooner. So there's we could play with our percentages or I could just make sure this is finished before the other one is finished. And [clears throat] so again this will be at a zero. We hover on top, it comes to life, shoots off and then fades away as it sort of slows down. I think that slowing down that I didn't like I actually kind of like now. So there we go. That is looking pretty good. Now what I would do is turn a lot of before I make more decorations, I think it's important that we create a few custom properties here. Where I would probably put the all of the custom properties to control a lot of this here where I have the main color as well just so I'm not like hunting down through the different areas. So I could do something like deco timing is something like I don't know 1.5 seconds cuz that probably makes more sense. The advantage of having that there too means we can reuse it in different ways. So, if we come down to where I was setting all my transitions up, which actually we might have to rethink because of the way it pops back to the beginning, some of these should maybe only be on hover as well, but I'll worry about that after. So, this would be my var of my deco timing. And then here we would do a var Let's do var deco timing and to see if this even works cuz sometimes we surprise ourselves. So, it shoots along. See, the faster timing works. Let's also set that up for this. So, this one I'm going to do a calc of var deco timing minus 1 second. Just so or not no. Let's do times point seven maybe or that way like no matter what we do, it's always slightly shorter than the total decoration timing. So, it shoots across and then fades out. Now, it's so fast I actually am wondering if I wanted to slow down a little bit more. We might make this a little bit higher, point eight five or something. And then that could be oh, that's better. There we go. So, it shoots along and then fades out to death or whatever it's doing. Death is a little sad for something whimsy. Here I just do need to add that opacity of zero so we start with nothing. And then it shoots along and then fades out. And then it shoots along and it fades out. Now, the problem is this. This is what I mentioned. If I if I hover and it doesn't have time to go all the way back because we're using a transition, that means like every time I hover and if I go it it's starting over at the wrong place. So, I do think the offset distance I think both of these actually are going to also get moved down to here. So, our animations and our transitions are there. So, every time when hover on it, it's always going to start back over from the very beginning. The only disadvantage I can think of here is potentially like it just does like if you hover and then you leave, it just instantly turns off. Um but I don't think there's a better alternative to that. So, we're going to leave it like that. Uh another thing I'm going to do here is we're going to very quickly I we could probably move a lot of things into there, but maybe we don't want to do it, but we could do like a deco uh one do do do do what do I want to color? And so here, obviously the the red is kind of weird. Uh we could even like do variations based on this, right? So, we could just have it you Well",
+          "category": "video",
+          "publishedAt": "2026-07-15T13:00:32+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Your effort level is TOO DAMN HIGH",
+          "titleKo": "AI 에이전트, effort 레벨은 낮을수록 좋다",
+          "summary": "AI 코딩 에이전트를 쓸 때 무작정 effort(사고 강도) 레벨을 최대로 올리는 것은 비효율적입니다. 벤치마크 차트는 작업 지시를 고정한 채 effort만 변화시켜 측정하기 때문에, 실제로는 더 좋은 컨텍스트와 지시를 주면 낮은 effort로도 동일한 결과를 낼 수 있다는 점을 보여주지 못합니다. Matt Pocock은 가장 낮은 effort 레벨부터 시작해 필요할 때만 점진적으로 올리라고 조언합니다.",
+          "keyPoints": [
+            "Effort를 높이면 에이전트가 탐색과 추론에 더 많은 토큰을 쓰지만, 탐색 자체는 원래 높은 effort가 필요 없는 작업입니다.",
+            "벤치마크 차트는 작업 지시 방식을 고정값으로 두고 effort만 변화시키기 때문에, 지시를 개선하면 낮은 effort로도 같은 품질을 낼 수 있다는 사실을 반영하지 못합니다.",
+            "에이전트에게 더 명확하고 질 높은 정보를 제공할수록 필요한 effort 레벨은 낮아집니다.",
+            "가장 낮은 effort 레벨부터 시작해서 필요에 따라 점진적으로 올리는 것이 토큰 효율 면에서 더 유리합니다.",
+            "Chain of thought의 유용성 때문에 effort를 완전히 없앨 필요는 없지만, 무조건 max effort를 쓰는 습관은 재고해야 합니다."
+          ],
+          "whyItMatters": "AI 코딩 에이전트를 매일 쓰는 프론트엔드 개발자에게는 effort 설정 하나로 토큰 비용과 응답 속도, 결과물 품질이 크게 달라지므로, 이 습관을 바꾸는 것만으로 실질적인 생산성 향상을 얻을 수 있습니다.",
+          "article": "AI 코딩 에이전트를 쓸 때 대부분의 개발자는 습관적으로 \"effort 레벨\"을 최대로 설정합니다. 더 똑똑하게 일해줄 것 같은 느낌 때문인데요. 하지만 Matt Pocock은 이 습관이 오히려 비효율적이라고 지적합니다. 그가 왜 \"effort는 낮을수록 좋다\"고 말하는지, 그리고 벤치마크 차트가 왜 착시를 일으키는지 살펴보겠습니다.\n\n## Effort 레벨이 실제로 하는 일\n\nEffort 레벨을 낮춘다는 건 결국 에이전트가 탐색(exploration)에 쓰는 토큰 수를 줄인다는 뜻입니다. 코드베이스를 훑어보고 맥락을 파악하는 과정이 더 효율적으로 돌아간다는 얘기죠. 그런데 애초에 탐색이라는 작업 자체는 그렇게 높은 effort가 필요한 일이 아닙니다.\n\n문제는 effort를 올릴수록 에이전트가 똑같은 작업을 처리하는 데 훨씬 많은 사고 토큰(thinking tokens), 추론 토큰(reasoning tokens)을 쓴다는 데 있습니다. 그 결과 굳이 힘을 줄 필요가 없는 부분에도 과도하게 파고들게 됩니다. 즉, effort를 높인다고 해서 항상 더 나은 결과가 나오는 게 아니라, 불필요한 곳에 리소스를 쏟아붓는 셈입니다.\n\n## 벤치마크 차트가 놓치고 있는 것\n\n모델 회사들이 공개하는 벤치마크 차트를 보면 effort를 최대로 올릴수록 출력 품질이 올라가는 그래프를 흔히 볼 수 있습니다. 대부분의 사람들이 이 차트를 보고 \"그럼 무조건 max effort로 써야겠다\"고 판단합니다.\n\n하지만 이 차트에는 결정적인 맹점이 있습니다. 바로 과제(task) 자체를 고정값으로 취급한다는 점입니다. 실제 개발 현장에서는 개발자가 얼마든지 작업 지시 방식을 바꿔서 에이전트의 일을 더 쉽게 만들어줄 수 있는데, 벤치마크는 이 변수를 반영하지 않습니다. 즉, 벤치마크는 \"똑같은 애매한 지시를 줬을 때 effort를 올리면 결과가 좋아진다\"는 것만 보여줄 뿐, \"지시를 더 잘 주면 애초에 그렇게 높은 effort가 필요 없다\"는 사실은 보여주지 않습니다.\n\n## 좋은 정보를 줄수록 필요한 effort는 낮아진다\n\n핵심 원리는 간단합니다. 에이전트에게 더 양질의, 더 구체적인 정보를 제공할수록 작업을 완수하는 데 필요한 effort는 낮아집니다. 모호한 지시를 던져놓고 에이전트가 알아서 추론하게 만들 바에야, 처음부터 명확한 맥락과 요구사항을 정리해서 전달하는 편이 훨씬 효율적이라는 뜻입니다.\n\n## 실천 방법: 낮은 effort에서 시작하기\n\nMatt Pocock의 구체적인 제안은 이렇습니다. Opus든 다른 모델이든, 사용 가능한 effort 레벨 중 가장 낮은 것부터 시작해서 필요할 때만 점진적으로 올리라는 것입니다. 처음부터 최대치로 설정해놓고 시작하는 방식은 대부분의 경우 낭비에 가깝습니다.\n\n다만 완전히 effort를 없애도 된다는 뜻은 아닙니다. Chain of thought 방식 자체가 에이전트와 협업할 때 유용한 작업 방식이기 때문에, 최소한의 사고 토큰은 여전히 필요합니다. 그럼에도 불구하고 일단 더 낮은 effort 레벨을 시도해보라는 것이 그의 조언입니다. 예상보다 훨씬 좋은 결과를 얻을 가능성이 높다는 것이죠.\n\n## 정리\n\n- Effort 레벨을 높이면 에이전트가 탐색과 추론에 더 많은 토큰을 쓰지만, 탐색 자체는 원래 높은 effort가 필요한 작업이 아닙니다.\n- 벤치마크 차트는 작업 지시 방식을 고정한 채 effort만 변화시켜 측정하기 때문에, 실제로는 지시를 더 잘 주면 낮은 effort로도 같은 품질을 낼 수 있다는 점을 감춥니다.\n- 에이전트에게 더 명확하고 질 높은 컨텍스트를 제공할수록 필요한 effort 레벨은 낮아집니다.\n- 실무에서는 가장 낮은 effort 레벨부터 시작해서 필요에 따라 점진적으로 올리는 접근이 토큰 효율과 결과물 품질 면에서 더 유리합니다.\n- Chain of thought의 유용성 때문에 effort를 아예 0으로 만들 필요는 없지만, 무조건 max effort를 쓰는 습관은 재고할 필요가 있습니다.",
+          "url": "https://www.youtube.com/watch?v=iQb3F9UzBR4",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "typescript"
+          ],
+          "relevance": 58,
+          "isTopicPrimary": true,
+          "slug": "your-effort-level-is-too-damn-high",
+          "fullContent": "Pretty much everyone can get, um, better bang for your buck by using a lower effort level. Lower effort basically means fewer tokens spent on exploration. So, the agent is more efficient as it goes through your code base. Exploration is a task that you don't really need effort for. As you crank up the effort, the agent is going to be spending more thinking tokens to do the same work, more reasoning tokens. And what that means is that it's going to push harder on things that you don't need to push on. Everyone looks at the charts for the benchmarks that models use and they see that, okay, if you crank it up to max effort, you're going to get higher quality outputs. The weird thing about those charts is that they don't really take into account the crucial thing, which is that the tasks stay static, whereas you have the opportunity as the developer to change the way that you specify tasks to make things easier for the agent. The more high-quality information you give it, the lower effort you actually need to complete the task. So, I recommend actually starting, if you're using Opus or Fable or something, starting with the lowest effort you have access to and then cranking it up from there. You do still need a little bit of thinking tokens just because chain of thought is such a useful way of working with agents and getting it to do good stuff, but honestly, just try a lower effort level. You'll be surprised by what you get.",
+          "category": "video",
+          "publishedAt": "2026-07-15T10:20:03+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Lighting My Porch With Vega #coding #programming #javascript #vega",
+          "titleKo": "React Native로 포치 조명 제어하기: Amazon Vega 체험기",
+          "summary": "천문학을 좋아하는 저자가 3D 프린팅 행성 모형과 LED 조명으로 포치를 꾸미고, 이를 Amazon의 Fire TV 플랫폼 Vega와 연동한 경험을 소개합니다. React Native 기반인 Vega는 VS Code 확장과 로컬 시뮬레이터, CLI 도구를 제공해 개발이 수월했고, WLED 컨트롤러 제어는 fetch로, 음성 명령은 aria label만으로 손쉽게 구현할 수 있었습니다. React/React Native 경험자라면 TV 앱 개발에 쉽게 도전할 수 있다는 점이 핵심입니다.",
+          "keyPoints": [
+            "Amazon Vega는 React Native 기반 UI를 지원하는 Fire TV용 앱 플랫폼으로, 기존 React 지식을 그대로 활용할 수 있습니다.",
+            "VS Code 확장의 로컬 시뮬레이터와 CLI 도구 덕분에 디버깅과 프로젝트 셋업이 간편했으며, AI 코딩 에이전트도 React Native 문법에 익숙해 작업 효율이 높았습니다.",
+            "WLED 컨트롤러 같은 외부 하드웨어 제어는 별도 SDK 없이 일반 fetch를 이용한 HTTP 요청만으로 충분했습니다.",
+            "음성 명령 기능은 커스텀 음성 인식 로직 없이 aria label 지정만으로 Vega가 자동 처리해, 접근성 속성이 곧 음성 제어 기능으로 확장됩니다.",
+            "리모컨 D-pad 내비게이션과 화면 UI, 실물 조명을 연동해 태양계 정보를 탐색하는 인터랙티브 경험을 완성했습니다."
+          ],
+          "whyItMatters": "React/React Native 지식을 그대로 활용해 TV 및 스마트홈 기기까지 애플리케이션 범위를 확장할 수 있다는 점에서, 크로스플랫폼 역량을 넓히려는 프론트엔드 개발자에게 실질적인 참고 사례가 됩니다.",
+          "article": "가족이 다 같이 천문학을 좋아하다 보니, 집 포치(porch)에 3D 프린팅한 행성 모형들을 쭉 늘어놓고 컨트롤 가능한 LED로 조명을 넣어봤습니다. 영화를 볼 때 분위기는 정말 좋았는데, 여기서 한 걸음 더 나아가 포치의 행성 조명들과 대형 프로젝션 스크린을 서로 연동시키고 싶었습니다. 이 프로젝트를 진행하면서 사용한 것이 바로 Amazon의 Fire Stick용 앱 플랫폼인 **Vega**인데요, React Native 기반으로 UI를 만들 수 있어서 평소 React와 React Native에 익숙한 개발자라면 진입장벽이 낮다는 점이 매력적이었습니다.\n\n## Vega로 개발하기: 생각보다 쉬웠던 이유\n\n실제로 써보니 예상보다 훨씬 수월했습니다. 몇 가지 이유를 꼽아보면 다음과 같습니다.\n\n- **VS Code 확장 프로그램**: Vega 전용 확장이 제공되는데, 로컬 시뮬레이터가 내장되어 있어서 코드를 디버깅하기가 아주 쉬웠습니다.\n- **AI 코딩 에이전트와의 궁합**: React Native는 코딩 에이전트들이 이미 많이 다뤄본 익숙한 스택이라, Vega 공식 문서 링크만 던져주면 세부적인 API나 설정 관련 내용을 알아서 잘 참고해 작업해줬습니다.\n- **CLI 도구**: 프로젝트를 처음 세팅할 때 쓸 수 있는 CLI 앱도 제공돼서, 초기 셋업 과정이 번거롭지 않았습니다.\n\n## 실제로 만든 것: 행성 지도와 LED 연동\n\n이렇게 만든 앱으로는 집에 손님이 오면 화면에 태양계 지도를 띄우고, 각 행성에 대한 정보를 보여줄 수 있습니다. 리모컨의 D-pad로 지도를 이리저리 움직이면서 조명이 켜진 실제 행성 모형들과 화면 속 정보를 함께 탐색할 수 있는 구조입니다.\n\nLED 조명 제어는 **WLED 컨트롤러**를 사용했는데, Vega 앱에서 별도의 복잡한 통신 레이어 없이 그냥 일반적인 `fetch`로 HTTP 요청을 보내는 것만으로 컨트롤러에 명령을 전달할 수 있었습니다.\n\n## 마무리: 음성 인식은 aria label만으로 충분\n\n프로젝트에 화룡점정을 찍고 싶어서, 사용자가 행성 이름을 말하면 화면과 조명에 해당 행성이 표시되는 기능을 추가했습니다. 이 부분이 특히 간단했는데, 각 요소에 **aria label**만 달아주면 나머지 음성 인식 처리와 press 이벤트 전달은 Vega가 알아서 다 처리해줬습니다. 예를 들어 \"Saturn\"이라고 말하면 그에 맞는 press 이벤트가 자동으로 발생하는 식이죠. 별도의 음성 인식 로직을 직접 구현할 필요가 없었다는 점이 인상적이었습니다.\n\nReact와 React Native를 이미 알고 있다면, Vega는 큰 화면용 애플리케이션을 만드는 데 꽤 진입장벽이 낮은 선택지입니다.\n\n## 정리\n\n- Amazon의 Fire TV 플랫폼 **Vega**는 React Native 기반 UI를 지원해, React/React Native 경험이 있는 개발자라면 빠르게 적응할 수 있습니다.\n- VS Code 확장(로컬 시뮬레이터 포함)과 CLI 도구 덕분에 개발·디버깅 환경 셋업이 간단하며, AI 코딩 에이전트도 React Native 기반이라 잘 활용할 수 있었습니다.\n- 외부 하드웨어 제어(WLED 컨트롤러)는 일반적인 `fetch` 기반 HTTP 요청만으로 충분히 연동 가능했습니다.\n- 음성 명령 기능은 별도의 음성 인식 로직 없이 **aria label**만 지정하면 Vega가 알아서 처리해, 접근성 속성이 곧 음성 제어 기능으로 이어지는 점이 실무적으로 유용한 인사이트입니다.\n- 웹/모바일 개발자가 익숙한 React 생태계 지식을 그대로 살려 TV/거실용 애플리케이션까지 확장할 수 있다는 점에서, 크로스플랫폼 개발 범위를 넓히고 싶은 프론트엔드 개발자에게 시도해볼 만한 선택지입니다.",
+          "url": "https://www.youtube.com/watch?v=55hdtzM8T98",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 72,
+          "isTopicPrimary": true,
+          "slug": "lighting-my-porch-with-vega-coding-programming-javascript-vega",
+          "fullContent": "My family's own to astronomy. So, I printed out all these 3D printable planets and I put them along the back of the porch and I lit them with controllable LEDs. It's really nice when we're watching movies, but I wanted a way to connect the planets with the big projection screen. So, I looked around and picked a Fire Stick with Amazon's Vega because it uses React Native for the UI and I'm pretty good with React and React Native. And I got to tell you, it was easier than I expected. There's a Vega extension for VS Code. It's got a local simulator that makes it really easy to debug the code, which is great. The L coding agents obviously love React Native. And so, I just pointed them at the Vega docs for the extra details. They've even got a CLI app to get your project started. So, now when folks come over, I can just pop up a map of the solar system with all the facts about each planet and they can navigate around the lights and the planets with the D-pad on the controller. And then to control the LEDs, I use a WLED controller and then just send the command to it with HTTP right out of the Vega app using just a regular fetch. But to kind of add that finishing touch, I wanted folks to be able to say the name of the planet and have it show up on the screen and also on the lights. And it was as easy as just adding aria labels and Vega just handled all the extra voice work and sent the press events when you use the name. Saturn. It's just so slick and it really brought that project to life. So, give Vega a shot. If you know React Native and React already, it's an easy way to get your application up on the big screen. Check out the link in the description for more information and thank you so much, Amazon, for sponsoring this video.",
+          "category": "video",
+          "publishedAt": "2026-07-02T18:22:02+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "A dictionary of AI Coding",
+          "titleKo": "AI 코딩 용어 사전: 불필요하게 어려워진 개념들을 정리하다",
+          "summary": "Matt Pocock은 AI 코딩 분야에서 단순한 개념이 'harness engineering', 'context engineering' 같은 용어로 불필요하게 어렵게 포장되는 문제를 지적하며, 이를 해결하기 위해 클릭으로 탐색 가능한 AI 코딩 용어 사전을 만들었습니다. 이 사전은 GitHub에 마크다운 형식으로 공개되어 있으며, context window, harness, tool call 같은 용어들이 서로 링크로 연결되어 있습니다. 사람이 직접 학습하는 용도는 물론 AI 에이전트에게 참고 자료로 제공해 개념을 설명받는 용도로도 활용할 수 있습니다.",
+          "keyPoints": [
+            "AI 코딩 분야의 여러 용어(harness engineering, context engineering, prompt engineering)는 실제보다 과장되게 포장된 경우가 많다는 문제의식에서 사전이 시작됨",
+            "용어들이 하이퍼링크로 서로 연결되어 있어 클릭하며 관련 개념을 탐색할 수 있는 구조",
+            "GitHub 저장소에 마크다운 형식으로 공개되어 누구나 접근 가능",
+            "AI 에이전트에게 이 문서를 제공해 AI 코딩 개념을 학습하는 참고 자료로도 활용 가능"
+          ],
+          "whyItMatters": "AI 코딩 관련 용어가 난립하는 상황에서 프론트엔드 개발자가 핵심 개념을 빠르고 정확하게 이해하는 데 실질적인 도움을 주는 자료입니다.",
+          "article": "AI 코딩 분야를 지켜보다 보면 유독 거슬리는 지점이 있습니다. 원래 단순한 개념을 일부러 어렵게 포장해서 마치 대단한 전문 지식인 것처럼 보이게 만드는 경향인데요. 금융이나 크립토 업계에서 흔히 보이던 이 현상이 이제 AI 코딩 분야에도 그대로 옮겨왔습니다. 아니, 사실은 처음부터 있었다고 보는 게 맞을 겁니다. Matt Pocock은 이런 문제의식에서 출발해 AI 코딩 용어를 정리한 사전을 직접 만들었고, 이번 영상에서 그 배경과 사용법을 소개합니다.\n\n## 왜 사전을 만들었나\n\n\"harness engineering\", \"context engineering\", 심지어 \"prompt engineering\"이라는 용어까지도 어느 정도는 과장된 표현이라는 게 저자의 주장입니다. 실제로는 그렇게 복잡하거나 새로운 개념이 아닌데, 마치 고도로 전문화된 분야인 것처럼 이름을 붙여서 진입장벽을 높이는 경우가 많다는 겁니다. 이런 식으로 용어를 부풀리는 관행은 결국 초심자들이 AI 코딩을 이해하는 데 불필요한 혼란만 가중시킵니다.\n\n이런 문제를 해결하기 위해 저자는 AI 코딩과 관련된 다양한 용어들을 모아 정리한 사전을 만들었습니다. 단순히 용어와 뜻을 나열한 목록이 아니라, 용어끼리 서로 연결되어 있어 클릭하면서 관련 개념들을 자유롭게 넘나들며 탐색할 수 있는 구조로 되어 있습니다.\n\n## 사전은 어떻게 구성되어 있나\n\n예를 들어 \"context window\"라는 용어가 궁금하다면 해당 항목을 클릭해서 설명을 확인할 수 있고, 거기서 다시 \"harness\"나 \"tool call\" 같은 연관 용어로 넘어가면서 각 개념이 서로 어떻게 이어지는지 자연스럽게 파악할 수 있습니다. 이런 하이퍼링크 방식의 탐색 구조 덕분에, 단순 암기가 아니라 개념 간의 관계를 이해하면서 학습할 수 있다는 점이 특징입니다.\n\n이 사전은 전부 GitHub 저장소에 공개되어 있으며, 마크다운(markdown) 형식으로 작성되어 있습니다. 별도의 툴이나 복잡한 뷰어 없이도 텍스트 파일 형태로 바로 열어볼 수 있다는 뜻입니다.\n\n## 활용 방법\n\n마크다운으로 작성되어 있다는 점은 실용적인 활용도로도 이어집니다. 저장소 자체를 AI 에이전트에게 넘겨주고, 이 내용을 바탕으로 AI 코딩 개념을 설명해달라고 요청하는 식으로 활용할 수 있습니다. 즉, 사람이 직접 문서를 읽으며 학습하는 것뿐 아니라 AI 에이전트가 이 사전을 참고 자료 삼아 사용자에게 AI 코딩을 가르치도록 만드는 용도로도 쓸 수 있다는 점이 강조됩니다.\n\n## 정리\n\n- AI 코딩 분야에는 실제로는 단순한 개념을 어렵게 포장하는 용어들이 많으며, \"harness engineering\", \"context engineering\", \"prompt engineering\" 같은 표현이 대표적인 예로 언급됩니다.\n- 이런 문제를 해결하기 위해 저자는 AI 코딩 용어를 정리한 사전을 만들었고, 용어들이 서로 링크로 연결되어 있어 클릭하며 관련 개념을 탐색할 수 있는 구조로 되어 있습니다.\n- 이 사전은 GitHub 저장소에 마크다운 형식으로 공개되어 있어 누구나 접근할 수 있습니다.\n- 마크다운 형식이라는 특성 덕분에 사람이 직접 읽는 것은 물론, AI 에이전트에게 이 문서를 제공해 AI 코딩 개념을 학습하는 자료로 활용할 수도 있습니다.",
+          "url": "https://www.youtube.com/watch?v=CE57AICfAew",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "relevance": 62,
+          "isTopicPrimary": true,
+          "slug": "a-dictionary-of-ai-coding",
+          "fullContent": "There's something I hate more than anything in the world, and that is when people make something that is actually simple feel confusing for their benefit. You see this all the time in finance, in crypto especially, and now it's coming to AI coding. Or rather, it's been here from day one, right? Harness engineering, context engineering, even prompt engineering is BS to some extent. And so, I've put together this AI coding dictionary that has a bunch of different terms that you can click on, navigate around, and see all of the terms that make sense for AI coding. We can see that here, if you want to know what a context window is, then you can just click on the context window, and then go to harness, let's say, or tool call, and understand all of these different things. All of this is all inside a GitHub repo as well, which is just written in plain markdown. So, if you want your agent to teach you about AI coding, this is a great place to start.",
+          "category": "video",
+          "publishedAt": "2026-07-15T11:40:40+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "React 2025 – Adding MDX",
+          "titleKo": "React 2025 – MDX 추가하기",
+          "summary": "React 2025에서 MDX를 프로젝트에 통합하는 방법을 다룬 영상입니다.",
+          "keyPoints": [
+            "React에서 MDX를 사용하여 마크다운과 JSX를 함께 작성 가능"
+          ],
+          "whyItMatters": "MDX를 활용하면 문서와 인터랙티브 컴포넌트를 통합적으로 관리할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=TUnbglpVhiU",
+          "sourceName": "Lee Robinson",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 88,
+          "isTopicPrimary": true,
+          "slug": "react-2025-adding-mdx",
+          "category": "video",
+          "publishedAt": "2025-11-07T14:31:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Codex Was A Developer Brand, So Why Remove It?",
+          "titleKo": "Codex는 개발자 브랜드였는데, 왜 제거했을까?",
+          "summary": "OpenAI의 Codex 개발자 브랜드가 단종된 이유를 다루는 영상입니다.",
+          "keyPoints": [],
+          "url": "https://www.youtube.com/watch?v=mDajpRHMlRk",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 62,
+          "isTopicPrimary": true,
+          "slug": "codex-was-a-developer-brand-so-why-remove-it",
+          "category": "video",
+          "publishedAt": "2026-07-14T23:53:14+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "I'm just as surprised as you.",
+          "titleKo": "나도 당신만큼 놀랐습니다",
+          "summary": "제목만으로는 내용을 추측할 수 없습니다.",
+          "keyPoints": [],
+          "url": "https://www.youtube.com/watch?v=-naUpl-4two",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "relevance": 58,
+          "isTopicPrimary": true,
+          "slug": "im-just-as-surprised-as-you",
+          "category": "video",
+          "publishedAt": "2026-07-15T20:38:50+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
