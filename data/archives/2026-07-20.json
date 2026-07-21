@@ -1,0 +1,441 @@
+{
+  "date": "2026-07-20",
+  "intro": "안녕하세요! 오늘은 React 생태계를 뒤흔드는 중대한 보안 위기로 시작합니다. React Server Components의 연쇄 취약점(RCE, DoS, 소스코드 노출)이 발견되어 긴급 업그레이드가 필수적인 상황입니다. 한편 AI 게이트웨이, 음성 AI, 물리 기반 UI 등 혁신적인 오픈소스 프로젝트들이 주목받고 있으며, 면접 도구로서의 AI 협업 능력 평가라는 새로운 트렌드도 보이고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Critical Security Vulnerability in React Server Components",
+          "titleKo": "React Server Components 치명적 보안 취약점(CVE-2025-55182) 발생, 즉시 업그레이드 필요",
+          "summary": "React Server Function 엔드포인트의 페이로드 디코딩 결함으로 인증 없이 원격 코드 실행(RCE)이 가능한 CVE-2025-55182(CVSS 10.0)가 발견되었습니다. react-server-dom-webpack/parcel/turbopack의 19.0~19.2.0 버전이 대상이며, Next.js, React Router, Waku, Redwood SDK 등 RSC를 지원하는 대부분의 프레임워크가 영향을 받습니다. React 팀은 즉시 패치 버전으로 업그레이드할 것을 권고했으며, 이후 서비스 거부 및 소스 코드 노출 관련 후속 취약점도 추가로 공개되었습니다.",
+          "keyPoints": [
+            "react-server-dom-webpack/parcel/turbopack의 19.0, 19.1.0, 19.1.1, 19.2.0 버전에서 인증 없는 원격 코드 실행이 가능하며 CVSS 10.0으로 평가되었습니다.",
+            "Server Function 엔드포인트를 직접 만들지 않아도 RSC를 지원하는 프레임워크를 쓰면 취약할 수 있습니다.",
+            "Next.js, React Router, Waku, Redwood SDK, @vitejs/plugin-rsc, @parcel/rsc 등 주요 프레임워크가 영향을 받으며 각각 패치 버전이 배포되었습니다.",
+            "호스팅 제공업체의 임시 완화 조치는 보조 수단일 뿐이며 반드시 직접 패키지를 업그레이드해야 합니다.",
+            "이후 DoS(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864) 및 소스 코드 노출(CVE-2025-55183) 관련 추가 취약점도 공개되었습니다."
+          ],
+          "whyItMatters": "RSC 기반 프레임워크(Next.js App Router 등)를 프로덕션에 사용 중인 모든 프론트엔드/풀스택 개발자에게 직접적인 보안 위험이 되는 사안으로, 즉각적인 버전 확인과 업그레이드가 필요합니다.",
+          "article": "React Server Components 생태계 전반에 영향을 미치는 심각한 보안 취약점이 발견되어, React 팀이 2025년 12월 3일 즉시 업그레이드를 권고하는 공지를 발표했습니다. 인증 없이도 원격 코드 실행(RCE)이 가능한 이 취약점은 CVSS 최고 등급인 10.0을 받았으며, Next.js, React Router, Waku 등 RSC를 지원하는 주요 프레임워크와 번들러 대부분이 영향을 받습니다. 이 글에서는 취약점의 원인과 영향 범위, 그리고 프레임워크별 업그레이드 방법을 정리합니다.\n\n## 취약점 개요\n\n이번 취약점은 CVE-2025-55182로 등록되었으며, React가 React Server Function 엔드포인트로 전송된 페이로드를 디코딩하는 과정의 결함을 악용한 것입니다. 11월 29일 Lachlan Davidson이 Meta Bug Bounty를 통해 이 문제를 신고했습니다.\n\nReact Server Functions는 클라이언트가 서버의 함수를 호출할 수 있게 해주는 기능입니다. React는 클라이언트의 요청을 HTTP 요청으로 변환해 서버로 전달하고, 서버에서는 이를 다시 함수 호출로 변환해 결과를 클라이언트에 반환합니다. 문제는 인증되지 않은 공격자가 임의의 Server Function 엔드포인트에 악의적인 HTTP 요청을 보낼 수 있고, React가 이를 역직렬화(deserialize)하는 과정에서 서버 측 원격 코드 실행으로 이어질 수 있다는 점입니다. 구체적인 취약점 상세 내용은 패치 배포가 완전히 끝난 이후에 공개될 예정이라고 밝혔습니다.\n\n여기서 중요한 점은, **자신의 앱이 React Server Function 엔드포인트를 직접 구현하지 않았더라도 React Server Components를 지원하는 구조라면 취약할 수 있다**는 것입니다. 반대로 React 코드가 서버를 전혀 사용하지 않거나, RSC를 지원하는 프레임워크·번들러·번들러 플러그인을 사용하지 않는다면 이번 취약점의 영향을 받지 않습니다.\n\n## 영향받는 패키지와 버전\n\n다음 세 패키지의 19.0, 19.1.0, 19.1.1, 19.2.0 버전이 취약점의 대상입니다.\n\n- `react-server-dom-webpack`\n- `react-server-dom-parcel`\n- `react-server-dom-turbopack`\n\n수정 사항은 19.0.1, 19.1.2, 19.2.1 버전에 반영되었습니다. 위 패키지를 사용 중이라면 즉시 해당 패치 버전으로 업그레이드해야 합니다.\n\n## 영향받는 프레임워크와 번들러\n\n취약한 React 패키지를 의존성, 피어 의존성, 혹은 내부적으로 포함하고 있는 프레임워크와 번들러는 다음과 같습니다.\n\n- Next.js (`next`)\n- React Router (`react-router`)\n- Waku (`waku`)\n- `@parcel/rsc`\n- `@vitejs/plugin-rsc`\n- Redwood SDK (`rwsdk`)\n\nReact 팀은 여러 호스팅 제공업체와 협력해 임시 완화 조치도 적용했지만, 이는 어디까지나 임시 조치이며 각 앱은 반드시 직접 즉시 업그레이드를 진행해야 한다고 강조했습니다.\n\n## 후속 공개된 추가 취약점\n\n이후 안내문이 업데이트되면서 다음 취약점들도 추가로 공개되었습니다.\n\n- **서비스 거부(DoS) - High**: CVE-2025-55184, CVE-2025-67779 (CVSS 7.5)\n- **소스 코드 노출 - Medium**: CVE-2025-55183 (CVSS 5.3)\n- **서비스 거부(DoS) - High**: CVE-2026-23864 (2026년 1월 26일 공개, CVSS 7.5)\n\n자세한 내용은 후속 블로그 포스트에서 확인할 수 있으며, 이번 업데이트 안내문 자체도 2026년 1월 26일 기준으로 갱신되었습니다.\n\n## 프레임워크별 업그레이드 방법\n\n### Next.js\n\n각 릴리스 라인의 최신 패치 버전으로 업그레이드해야 합니다.\n\n```\nnpm install next@14.2.35\nnpm install next@15.0.8\nnpm install next@15.1.12\nnpm install next@15.2.9\nnpm install next@15.3.9\nnpm install next@15.4.11\nnpm install next@15.5.10\nnpm install next@16.0.11\nnpm install next@16.1.5\nnpm install next@15.6.0-canary.60\nnpm install next@16.1.0-canary.19\n```\n\n패치 대상 버전은 15.0.8, 15.1.12, 15.2.9, 15.3.9, 15.4.10, 15.5.10, 15.6.0-canary.61, 16.0.11, 16.1.5입니다. Next.js 13.3 이상(13.3.x, 13.4.x, 13.5.x)을 사용 중이라면 14.2.35로 업그레이드해야 하며, `next@14.3.0-canary.77` 이후의 canary 버전을 쓰고 있다면 최신 안정 버전인 14.x로 다운그레이드해야 합니다.\n\n```\nnpm install next@14\n```\n\n자세한 사항은 Next.js 블로그의 업데이트 안내를 참고하면 됩니다.\n\n### React Router\n\nReact Router의 unstable RSC API를 사용 중이라면 다음 의존성들을 최신으로 업그레이드해야 합니다.\n\n```\nnpm install react@latest\nnpm install react-dom@latest\nnpm install react-server-dom-parcel@latest\nnpm install react-server-dom-webpack@latest\nnpm install @vitejs/plugin-rsc@latest\n```\n\n### Expo\n\n완화 방법은 expo.dev/changelog의 공지를 참고해야 합니다.\n\n### Redwood SDK\n\n`rwsdk>=1.0.0-alpha.0` 이상인지 확인하고, 최신 베타 버전으로 업그레이드합니다.\n\n```\nnpm install rwsdk@latest\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\n```\n\n자세한 마이그레이션 방법은 Redwood 공식 문서를 참고합니다.\n\n### Waku\n\n```\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest waku@latest\n```\n\n자세한 사항은 Waku 공지를 참고합니다.\n\n### @vitejs/plugin-rsc\n\n```\nnpm install react@latest react-dom@latest @vitejs/plugin-rsc@latest\n```\n\n### react-server-dom-parcel / react-server-dom-turbopack / react-server-dom-webpack\n\n각각 다음과 같이 최신 버전으로 업데이트합니다.\n\n```\nnpm install react@latest react-dom@latest react-server-dom-parcel@latest\nnpm install react@latest react-dom@latest react-server-dom-turbopack@latest\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\n```\n\n### React Native\n\n모노레포를 사용하지 않고 `react-dom`을 사용하지 않는 React Native 사용자라면, `react` 버전이 이미 `package.json`에 고정되어 있으므로 추가 조치가 필요 없습니다.\n\n모노레포 환경에서 React Native를 사용 중이라면, 설치되어 있는 경우에 한해 다음 패키지만 업데이트하면 됩니다.\n\n- `react-server-dom-webpack`\n- `react-server-dom-parcel`\n- `react-server-dom-turbopack`\n\n이 취약점을 완화하기 위해 필요한 조치는 이것뿐이며, `react`와 `react-dom`까지 함께 업데이트할 필요는 없습니다. 즉 React Native에서 흔히 발생하는 버전 불일치 오류는 걱정하지 않아도 됩니다. 자세한 내용은 관련 GitHub 이슈에서 확인할 수 있습니다.\n\n## 대응 타임라인\n\n- **11월 29일**: Lachlan Davidson이 Meta Bug Bounty를 통해 취약점을 신고\n- **11월 30일**: Meta 보안 연구원들이 취약점을 확인하고 React 팀과 함께 수정 작업 시작\n- **12월 1일**: 수정본이 완성되었고, React 팀이 영향받는 호스팅 제공업체 및 오픈소스 프로젝트와 협력해 수정 사항 검증, 완화 조치 적용, 배포 작업 진행\n- **12월 3일**: npm에 수정본이 배포되고 CVE-2025-55182로 공개 발표\n\nReact 팀은 이 취약점을 발견하고 신고한 후 수정까지 협력해준 Lachlan Davidson에게 감사를 표했습니다.\n\n## 정리\n\n이번 취약점은 React Server Components 생태계 전반에 걸쳐 있는 매우 심각한 보안 이슈로, CVSS 10.0이라는 최고 등급이 부여될 만큼 파급력이 큽니다. 핵심은 다음과 같습니다.\n\n- `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack`의 19.0, 19.1.0, 19.1.1, 19.2.0 버전이 인증 없는 원격 코드 실행에 취약하며, 19.0.1, 19.1.2, 19.2.1로 즉시 업그레이드해야 합니다.\n- Server Function 엔드포인트를 직접 구현하지 않았더라도 RSC를 지원하는 프레임워크(Next.js, React Router, Waku, Redwood SDK 등)를 사용 중이라면 영향을 받을 수 있으므로, 각 프레임워크의 안내에 따라 패치 버전을 확인해야 합니다.\n- 호스팅 제공업체의 임시 완화 조치는 보조 수단일 뿐, 반드시 애플리케이션 차원에서 직접 업그레이드를 진행해야 합니다.\n- 이후 추가로 서비스 거부(DoS) 및 소스 코드 노출 관련 취약점(CVE-2025-55184, CVE-2025-67779, CVE-2025-55183, CVE-2026-23864)도 공개되었으므로, RSC를 사용하는 프로젝트라면 관련 후속 공지도 함께 확인하는 것이 안전합니다.\n\nRSC를 사용하는 프로덕션 서비스를 운영 중이라면 지금 바로 사용 중인 프레임워크와 패키지 버전을 확인하고, 위 업그레이드 가이드에 따라 최신 패치 버전으로 갱신하는 것이 최우선입니다.",
+          "url": "https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 90,
+          "topicId": "rsc-security",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "critical-security-vulnerability-in-react-server-components",
+          "fullContent": "BlogCopy pageCopyCritical Security Vulnerability in React Server ComponentsDecember 3, 2025 by The React Team\nThere is an unauthenticated remote code execution vulnerability in React Server Components.We recommend upgrading immediately.\nOn November 29th, Lachlan Davidson reported a security vulnerability in React that allows unauthenticated remote code execution by exploiting a flaw in how React decodes payloads sent to React Server Function endpoints.\nEven if your app does not implement any React Server Function endpoints it may still be vulnerable if your app supports React Server Components.\nThis vulnerability was disclosed as CVE-2025-55182 and is rated CVSS 10.0.\nThe vulnerability is present in versions 19.0, 19.1.0, 19.1.1, and 19.2.0 of:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nImmediate Action Required\nA fix was introduced in versions 19.0.1, 19.1.2, and 19.2.1. If you are using any of the above packages please upgrade to any of the fixed versions immediately.\nIf your app’s React code does not use a server, your app is not affected by this vulnerability. If your app does not use a framework, bundler, or bundler plugin that supports React Server Components, your app is not affected by this vulnerability.\nAffected frameworks and bundlers\nSome React frameworks and bundlers depended on, had peer dependencies for, or included the vulnerable React packages. The following React frameworks & bundlers are affected: next, react-router, waku, @parcel/rsc, @vitejs/plugin-rsc, and rwsdk.\nSee the update instructions below for how to upgrade to these patches.\nHosting Provider Mitigations\nWe have worked with a number of hosting providers to apply temporary mitigations.\nYou should not depend on these to secure your app, and still update immediately.\nVulnerability overview\nReact Server Functions allow a client to call a function on a server. React provides integration points and tools that frameworks and bundlers use to help React code run on both the client and the server. React translates requests on the client into HTTP requests which are forwarded to a server. On the server, React translates the HTTP request into a function call and returns the needed data to the client.\nAn unauthenticated attacker could craft a malicious HTTP request to any Server Function endpoint that, when deserialized by React, achieves remote code execution on the server. Further details of the vulnerability will be provided after the rollout of the fix is complete.\nUpdate Instructions\nNoteThese instructions have been updated to include the new vulnerabilities:\nDenial of Service - High Severity: CVE-2025-55184 and CVE-2025-67779 (CVSS 7.5)\nSource Code Exposure - Medium Severity: CVE-2025-55183 (CVSS 5.3)\nDenial of Service - High Severity: January 26, 2026 CVE-2026-23864 (CVSS 7.5)\nSee the follow-up blog post for more info.Updated January 26, 2026.\nNext.js\nAll users should upgrade to the latest patched version in their release line:\nnpm install next@14.2.35 npm install next@15.0.8 npm install next@15.1.12 npm install next@15.2.9 npm install next@15.3.9 npm install next@15.4.11 npm install next@15.5.10 npm install next@16.0.11 npm install next@16.1.5 npm install next@15.6.0-canary.60 npm install next@16.1.0-canary.19\n15.0.8, 15.1.12, 15.2.9, 15.3.9, 15.4.10, 15.5.10, 15.6.0-canary.61, 16.0.11, 16.1.5\nIf you are on version 13.3 or later version of Next.js 13 (13.3.x, 13.4.x, or 13.5.x) please upgrade to version 14.2.35.\nIf you are on next@14.3.0-canary.77 or a later canary release, downgrade to the latest stable 14.x release:\nnpm install next@14\nSee the Next.js blog for the latest update instructions and the previous changelog for more info.\nReact Router\nIf you are using React Router’s unstable RSC APIs, you should upgrade the following package.json dependencies if they exist:\nnpm install react@latestnpm install react-dom@latestnpm install react-server-dom-parcel@latestnpm install react-server-dom-webpack@latestnpm install @vitejs/plugin-rsc@latest\nExpo\nTo learn more about mitigating, read the article on expo.dev/changelog.\nRedwood SDK\nEnsure you are on rwsdk>=1.0.0-alpha.0\nFor the latest beta version:\nnpm install rwsdk@latest\nUpgrade to the latest react-server-dom-webpack:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\nSee Redwood docs for more migration instructions.\nWaku\nUpgrade to the latest react-server-dom-webpack:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest waku@latest\nSee Waku announcement for more migration instructions.\n@vitejs/plugin-rsc\nUpgrade to the latest RSC plugin:\nnpm install react@latest react-dom@latest @vitejs/plugin-rsc@latest\nreact-server-dom-parcel\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-parcel@latest\nreact-server-dom-turbopack\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-turbopack@latest\nreact-server-dom-webpack\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\nReact Native\nFor React Native users not using a monorepo or react-dom, your react version should be pinned in your package.json, and there are no additional steps needed.\nIf you are using React Native in a monorepo, you should update only the impacted packages if they are installed:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nThis is required to mitigate the security advisory, but you do not need to update react and react-dom so this will not cause the version mismatch error in React Native.\nSee this issue for more information.\nTimeline\nNovember 29th: Lachlan Davidson reported the security vulnerability via Meta Bug Bounty.\nNovember 30th: Meta security researchers confirmed and began working with the React team on a fix.\nDecember 1st: A fix was created and the React team began working with affected hosting providers and open source projects to validate the fix, implement mitigations and roll out the fix\nDecember 3rd: The fix was published to npm and the publicly disclosed as CVE-2025-55182.\nAttribution\nThank you to Lachlan Davidson for discovering, reporting, and working to help fix this vulnerability.PreviousDenial of Service and Source Code Exposure in React Server ComponentsNextReact Conf 2025 Recap",
+          "category": "hot",
+          "publishedAt": "2025-12-03T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Denial of Service and Source Code Exposure in React Server Components",
+          "titleKo": "React Server Components의 서비스 거부 및 소스 코드 노출 취약점",
+          "summary": "React 팀이 지난주 공개한 치명적 RCE 취약점(React2Shell) 패치를 검증하던 중, 연구자들이 두 건의 추가 취약점을 발견했습니다. DoS 취약점(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864, CVSS 7.5)과 소스 코드 노출 취약점(CVE-2025-55183, CVSS 5.3)이 그것으로, react-server-dom-webpack/parcel/turbopack 19.0.0~19.2.3 버전 사용자는 즉시 19.0.4/19.1.5/19.2.4로 업그레이드해야 합니다. 특히 이전에 발표된 19.0.3, 19.1.4, 19.2.3 패치는 불완전한 것으로 확인되어 재업데이트가 필요합니다.",
+          "keyPoints": [
+            "지난주 공개된 RCE 취약점(React2Shell) 패치를 검증하던 중 연구자들이 발견한 후속 취약점으로, RCE로 이어지지는 않지만 DoS와 소스 코드 노출 문제가 있다.",
+            "이전에 배포된 19.0.3, 19.1.4, 19.2.3 패치는 불완전했으며, 19.0.4, 19.1.5, 19.2.4로 다시 업데이트해야 한다.",
+            "DoS 취약점은 조작된 HTTP 요청이 Server Function 역직렬화 과정에서 무한 루프를 유발해 서버 크래시, OOM, CPU 과다 사용을 일으킬 수 있다.",
+            "소스 코드 노출 취약점은 인자를 문자열 그대로 응답에 포함하는 Server Function이 있을 때, 하드코딩된 시크릿을 포함한 함수 소스 자체가 유출될 수 있다(런타임 환경변수 시크릿은 영향 없음).",
+            "Next.js, React Router, Waku, Parcel RSC, Vite RSC 플러그인, rwsdk 등 관련 프레임워크·번들러도 영향을 받으며, 서버를 쓰지 않거나 RSC 미지원 환경은 영향이 없다."
+          ],
+          "whyItMatters": "React Server Components를 프로덕션에 사용 중인 프레임워크(Next.js 등)를 쓰는 프론트엔드 개발자라면, 서버가 다운되거나 하드코딩된 시크릿과 소스 코드가 외부에 노출될 수 있는 심각한 보안 위협이므로 패키지 버전을 즉시 점검하고 업그레이드해야 한다.",
+          "article": "React 팀이 지난주 공개한 치명적 원격 코드 실행(RCE) 취약점, 이른바 \"React2Shell\"의 패치를 검증하는 과정에서 보안 연구자들이 두 건의 추가 취약점을 발견해 공개했습니다. 이번에 발견된 취약점은 RCE로 이어지지는 않지만, 서비스 거부(DoS)와 소스 코드 노출이라는 별도의 심각한 문제를 안고 있어 React Server Components를 사용하는 프로젝트라면 즉시 대응이 필요합니다. 이 글에서는 새로 공개된 CVE의 내용, 영향받는 패키지와 버전, 그리고 대응 방법을 정리합니다.\n\n## 요약: 무엇이, 왜 문제인가\n\n이번에 공개된 취약점은 다음과 같습니다.\n\n- **서비스 거부(DoS) - High Severity**: CVE-2025-55184, CVE-2025-67779, CVE-2026-23864 (CVSS 7.5)\n- **소스 코드 노출 - Medium Severity**: CVE-2025-55183 (CVSS 5.3)\n\n지난주 공개된 RCE 취약점 패치는 여전히 유효합니다. 다만 문제는 그 RCE 패치를 함께 배포하면서 나온 초기 수정본 자체가 불완전했다는 점인데요. **19.0.3, 19.1.4, 19.2.3으로 이미 업데이트했더라도 이는 불완전한 패치이므로 다시 업데이트해야 합니다.** 즉, 지난주 안내를 따라 한 차례 패치를 적용했다고 안심할 수 없는 상황입니다.\n\n## 영향받는 패키지와 버전\n\n이번 취약점들은 지난번 CVE-2025-55182와 동일한 패키지, 동일한 버전 범위에 존재합니다.\n\n영향받는 버전: 19.0.0, 19.0.1, 19.0.2, 19.0.3, 19.1.0, 19.1.1, 19.1.2, 19.1.3, 19.2.0, 19.2.1, 19.2.2, 19.2.3\n\n영향받는 패키지:\n- `react-server-dom-webpack`\n- `react-server-dom-parcel`\n- `react-server-dom-turbopack`\n\n수정된 버전은 19.0.4, 19.1.5, 19.2.4로 백포트되었습니다. 위 패키지를 사용 중이라면 즉시 해당 버전으로 업그레이드해야 합니다.\n\n지난 공지와 마찬가지로, 앱이 서버를 사용하지 않는 React 코드라면 영향을 받지 않습니다. 마찬가지로 React Server Components를 지원하는 프레임워크, 번들러, 번들러 플러그인을 사용하지 않는다면 이 취약점의 영향권 밖입니다.\n\n영향받는 프레임워크와 번들러 목록은 다음과 같습니다: `next`, `react-router`, `waku`, `@parcel/rsc`, `@vite/rsc-plugin`, `rwsdk`.\n\nReact 팀은 \"치명적 CVE가 후속 취약점을 드러내는 것은 흔한 패턴\"이라고 설명합니다. 치명적 취약점이 공개되면 연구자들이 인접한 코드 경로를 면밀히 검토하면서 초기 완화 조치를 우회할 수 있는 변종 공격 기법을 테스트하기 때문인데요. 이는 JavaScript 생태계만의 현상이 아니라 업계 전반에서 반복되는 패턴입니다. 예를 들어 Log4Shell 사태 이후에도 커뮤니티가 원본 패치를 검증하는 과정에서 추가 CVE들이 보고된 바 있습니다. 추가 공개가 당황스러울 수는 있지만, 이는 대체로 건강한 대응 사이클이 작동하고 있다는 신호라고 강조합니다.\n\n## 호스팅 프로바이더 및 React Native 대응\n\nReact 팀은 여러 호스팅 프로바이더와 협력해 임시 완화 조치를 적용해두었습니다. 다만 이는 어디까지나 임시방편이므로, 이 조치에 의존하지 말고 반드시 즉시 업데이트해야 한다고 강조합니다.\n\nReact Native 사용자의 경우:\n- 모노레포를 사용하지 않고 `react-dom`도 쓰지 않는다면, `package.json`에 React 버전이 고정(pinned)되어 있을 것이므로 추가 조치가 필요 없습니다.\n- 모노레포 환경에서 React Native를 사용 중이라면, 설치되어 있는 경우에 한해 `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack` 패키지만 업데이트하면 됩니다. `react`와 `react-dom`은 업데이트할 필요가 없으므로 React Native 특유의 버전 불일치 오류는 발생하지 않습니다.\n\n## 취약점별 상세 내용\n\n### High Severity: 다중 DoS (CVE-2026-23864)\n\n- Base Score: 7.5 (High)\n- 공개일: 2026년 1월 26일\n\n보안 연구자들이 React Server Components에 여전히 존재하는 추가 DoS 취약점을 발견했습니다. 이 취약점은 Server Function 엔드포인트로 특수하게 조작된 HTTP 요청을 전송함으로써 트리거되며, 취약한 코드 경로와 애플리케이션 설정·코드에 따라 서버 크래시, 메모리 부족(OOM) 예외, 과도한 CPU 사용을 유발할 수 있습니다.\n\n주목할 점은 CVE-2025-55184에 대한 최초 패치가 불완전했다는 사실입니다. 즉 이전 버전들은 여전히 취약한 상태로 남아 있었고, 1월 26일 공개된 패치를 통해 이 문제를 해결했습니다. 19.0.4, 19.1.5, 19.2.4 버전이 안전합니다.\n\n### High Severity: 서비스 거부 (CVE-2025-55184, CVE-2025-67779)\n\n- Base Score: 7.5 (High)\n\n보안 연구자들은 Server Functions 엔드포인트로 전송되는 악의적인 HTTP 요청을 조작하면, React가 이를 역직렬화(deserialize)하는 과정에서 무한 루프가 발생해 서버 프로세스가 멈추고 CPU를 소진시킬 수 있다는 사실을 발견했습니다. 여기서 중요한 지점은, 앱이 React Server Function 엔드포인트를 직접 구현하지 않았더라도 React Server Components를 지원하기만 하면 여전히 취약할 수 있다는 점입니다.\n\n이는 공격자가 사용자의 제품 접근을 막고, 서버 환경의 성능에 영향을 미칠 수 있는 공격 벡터를 만들어냅니다. 오늘 공개된 패치는 이 무한 루프 발생을 차단하는 방식으로 문제를 완화합니다.\n\n### Medium Severity: 소스 코드 노출 (CVE-2025-55183)\n\n- Base Score: 5.3 (Medium)\n\n한 보안 연구자는 취약한 Server Function으로 전송된 악의적인 HTTP 요청이 해당 Server Function의 소스 코드를 안전하지 않게 반환할 수 있다는 사실을 발견했습니다. 이 공격이 성립하려면, 명시적으로든 암묵적으로든 문자열화된(stringified) 인자를 노출하는 Server Function이 존재해야 합니다. 예를 들어 다음과 같은 코드입니다.\n\n```\n'use server';\n\nexport async function serverFunction(name) {\n  const conn = db.createConnection('SECRET KEY');\n  const user = await conn.createUser(name);\n  return { id: user.id, message: `Hello, ${name}!` }\n}\n```\n\n공격자는 다음과 같은 형태로 정보를 유출시킬 수 있습니다.\n\n```\n0:{\"a\":\"$@1\",\"f\":\"\",\"b\":\"Wy43RxUKdxmr5iuBzJ1pN\"}\n1:{\"id\":\"tva1sfodwq\",\"message\":\"Hello, async function(a){console.log(\\\"serverFunction\\\");let b=i.createConnection(\\\"SECRET KEY\\\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!\"}\n```\n\n보다시피 응답 메시지 안에 `SECRET KEY`라는 하드코딩된 문자열을 포함한 함수 소스 자체가 그대로 노출되는 것을 확인할 수 있습니다. 오늘 공개된 패치는 Server Function의 소스 코드가 문자열화되는 것을 원천적으로 막습니다.\n\n여기서 반드시 짚어야 할 점이 있습니다. 노출되는 것은 **소스 코드에 하드코딩된 시크릿**에 한정됩니다. 즉 `process.env.SECRET`처럼 런타임에 주입되는 시크릿은 이 취약점의 영향을 받지 않습니다. 또한 노출 범위는 해당 Server Function 내부 코드로 제한되지만, 번들러의 인라이닝 정도에 따라 다른 함수까지 포함될 수 있습니다. 따라서 항상 프로덕션 번들 기준으로 검증해야 합니다.\n\n## 타임라인\n\n- **12월 3일**: Andrew MacPherson이 Vercel과 Meta Bug Bounty에 소스 코드 노출 취약점을 제보\n- **12월 4일**: RyotaK가 Meta Bug Bounty에 최초 DoS 취약점을 제보\n- **12월 6일**: React 팀이 두 이슈를 확인하고 조사 착수\n- **12월 7일**: 초기 패치 작성, 검증 및 신규 패치 계획 시작\n- **12월 8일**: 영향받는 호스팅 프로바이더와 오픈소스 프로젝트에 통보\n- **12월 10일**: 호스팅 프로바이더 완화 조치 적용 및 패치 검증 완료\n- **12월 11일**: Shinsaku Nomura가 Meta Bug Bounty에 추가 DoS 취약점 제보\n- **12월 11일**: 패치 공개, CVE-2025-55183 및 CVE-2025-55184로 공식 공개\n- **12월 11일**: 내부적으로 누락된 DoS 케이스 발견, 패치 후 CVE-2025-67779로 공개\n- **1월 26일**: 추가 DoS 케이스 발견, 패치 후 CVE-2026-23864로 공개\n\n## 제보자\n\n소스 코드 노출 취약점을 제보한 Andrew MacPherson(AndrewMohawk), DoS 취약점을 제보한 GMO Flatt Security Inc의 RyotaK와 Bitforest Co., Ltd.의 Shinsaku Nomura에게 감사를 전합니다. 또한 추가 DoS 취약점을 제보한 Winfunc Research의 Mufeed VH, Joachim Viide, GMO Flatt Security Inc의 RyotaK, Tencent Security YUNDING LAB의 Xiangwei Zhang에게도 감사드립니다.\n\n## 정리\n\n- 이번 발표는 지난주 공개된 React2Shell RCE 취약점 패치를 검증하던 중 발견된 **후속 취약점**에 대한 것으로, RCE로는 이어지지 않지만 DoS(CVSS 7.5)와 소스 코드 노출(CVSS 5.3)이라는 별도의 위협이 존재합니다.\n- **가장 중요한 사실은 이전 패치(19.0.3, 19.1.4, 19.2.3)가 불완전했다는 것**입니다. 지난주에 이미 업데이트를 했더라도 반드시 다시 확인하고 19.0.4, 19.1.5, 19.2.4로 재업데이트해야 합니다.\n- 영향받는 패키지는 `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack`이며, Next.js, React Router, Waku, Parcel RSC, Vite RSC 플러그인, rwsdk 등 이 패키지에 의존하는 프레임워크·번들러도 함께 영향을 받습니다.\n- Server Function을 사용한다면 인자를 문자열 그대로 응답에 포함시키는 패턴이 있는지 점검하고, 하드코딩된 시크릿이 코드에 남아있지 않은지 프로덕션 번들 기준으로 다시 확인하는 것이 좋습니다.\n- 호스팅 프로바이더의 임시 완화 조치는 어디까지나 임시방편이므로, 서버를 통해 RSC를 사용하는 프로젝트라면 호스팅 측 조치와 무관하게 패키지 자체를 즉시 업데이트해야 합니다.",
+          "url": "https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 88,
+          "topicId": "rsc-security",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "denial-of-service-and-source-code-exposure-in-react-server-components",
+          "fullContent": "BlogCopy pageCopyDenial of Service and Source Code Exposure in React Server ComponentsDecember 11, 2025 by The React Team\nUpdated January 26, 2026.\nSecurity researchers have found and disclosed two additional vulnerabilities in React Server Components while attempting to exploit the patches in last week’s critical vulnerability.These new vulnerabilities do not allow for Remote Code Execution. The patch for React2Shell remains effective at mitigating the Remote Code Execution exploit.\nThe new vulnerabilities are disclosed as:\nDenial of Service - High Severity: CVE-2025-55184, CVE-2025-67779, and CVE-2026-23864 (CVSS 7.5)\nSource Code Exposure - Medium Severity: CVE-2025-55183 (CVSS 5.3)\nWe recommend upgrading immediately due to the severity of the newly disclosed vulnerabilities.\nNoteThe patches published earlier are vulnerable. If you already updated for the previous vulnerabilities, you will need to update again.If you updated to 19.0.3, 19.1.4, and 19.2.3, these are incomplete, and you will need to update again.Please see the instructions in the previous post for upgrade steps.Updated January 26, 2026.\nFurther details of these vulnerabilities will be provided after the rollout of the fixes are complete.\nImmediate Action Required\nThese vulnerabilities are present in the same packages and versions as CVE-2025-55182.\nThis includes 19.0.0, 19.0.1, 19.0.2, 19.0.3, 19.1.0, 19.1.1, 19.1.2, 19.1.3, 19.2.0, 19.2.1, 19.2.2, and 19.2.3 of:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nFixes were backported to versions 19.0.4, 19.1.5, and 19.2.4. If you are using any of the above packages please upgrade to any of the fixed versions immediately.\nAs before, if your app’s React code does not use a server, your app is not affected by these vulnerabilities. If your app does not use a framework, bundler, or bundler plugin that supports React Server Components, your app is not affected by these vulnerabilities.\nNoteIt’s common for critical CVEs to uncover follow‑up vulnerabilities. When a critical vulnerability is disclosed, researchers scrutinize adjacent code paths looking for variant exploit techniques to test whether the initial mitigation can be bypassed.This pattern shows up across the industry, not just in JavaScript. For example, after Log4Shell, additional CVEs (1, 2) were reported as the community probed the original fix.Additional disclosures can be frustrating, but they are generally a sign of a healthy response cycle.\nAffected frameworks and bundlers\nSome React frameworks and bundlers depended on, had peer dependencies for, or included the vulnerable React packages. The following React frameworks & bundlers are affected: next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, and rwsdk.\nPlease see the instructions in the previous post for upgrade steps.\nHosting Provider Mitigations\nAs before, we have worked with a number of hosting providers to apply temporary mitigations.\nYou should not depend on these to secure your app, and still update immediately.\nReact Native\nFor React Native users not using a monorepo or react-dom, your react version should be pinned in your package.json, and there are no additional steps needed.\nIf you are using React Native in a monorepo, you should update only the impacted packages if they are installed:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nThis is required to mitigate the security advisories, but you do not need to update react and react-dom so this will not cause the version mismatch error in React Native.\nSee this issue for more information.\nHigh Severity: Multiple Denial of Service\nCVEs: CVE-2026-23864\nBase Score: 7.5 (High)\nDate: January 26, 2026\nSecurity researchers discovered additional DoS vulnerabilities still exist in React Server Components.\nThe vulnerabilities are triggered by sending specially crafted HTTP requests to Server Function endpoints, and could lead to server crashes, out-of-memory exceptions or excessive CPU usage; depending on the vulnerable code path being exercised, the application configuration and application code.\nThe patches published January 26th mitigate these DoS vulnerabilities.\nNoteAdditional fixes published The original fix addressing the DoS in CVE-2025-55184 was incomplete.This left previous versions vulnerable. Versions 19.0.4, 19.1.5, 19.2.4 are safe.Updated January 26, 2026.\nHigh Severity: Denial of Service\nCVEs: CVE-2025-55184 and CVE-2025-67779\nBase Score: 7.5 (High)\nSecurity researchers have discovered that a malicious HTTP request can be crafted and sent to any Server Functions endpoint that, when deserialized by React, can cause an infinite loop that hangs the server process and consumes CPU. Even if your app does not implement any React Server Function endpoints it may still be vulnerable if your app supports React Server Components.\nThis creates a vulnerability vector where an attacker may be able to deny users from accessing the product, and potentially have a performance impact on the server environment.\nThe patches published today mitigate by preventing the infinite loop.\nMedium Severity: Source Code Exposure\nCVE: CVE-2025-55183\nBase Score: 5.3 (Medium)\nA security researcher has discovered that a malicious HTTP request sent to a vulnerable Server Function may unsafely return the source code of any Server Function. Exploitation requires the existence of a Server Function which explicitly or implicitly exposes a stringified argument:\n'use server';export async function serverFunction(name) { const conn = db.createConnection('SECRET KEY'); const user = await conn.createUser(name); return { id: user.id, message: `Hello, ${name}!` }}\nAn attacker may be able to leak the following:\n0:{\"a\":\"$@1\",\"f\":\"\",\"b\":\"Wy43RxUKdxmr5iuBzJ1pN\"}1:{\"id\":\"tva1sfodwq\",\"message\":\"Hello, async function(a){console.log(\\\"serverFunction\\\");let b=i.createConnection(\\\"SECRET KEY\\\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!\"}\nThe patches published today prevent stringifying the Server Function source code.\nNoteOnly secrets in source code may be exposed. Secrets hardcoded in source code may be exposed, but runtime secrets such as process.env.SECRET are not affected.The scope of the exposed code is limited to the code inside the Server Function, which may include other functions depending on the amount of inlining your bundler provides.Always verify against production bundles.\nTimeline\nDecember 3rd: Leak reported to Vercel and Meta Bug Bounty by Andrew MacPherson.\nDecember 4th: Initial DoS reported to Meta Bug Bounty by RyotaK.\nDecember 6th: Both issues confirmed by the React team, and the team began investigating.\nDecember 7th: Initial fixes created and the React team began verifying and planning new patch.\nDecember 8th: Affected hosting providers and open source projects notified.\nDecember 10th: Hosting provider mitigations in place and patches verified.\nDecember 11th: Additional DoS reported to Meta Bug Bounty by Shinsaku Nomura.\nDecember 11th: Patches published and publicly disclosed as CVE-2025-55183 and CVE-2025-55184.\nDecember 11th: Missing DoS case found internally, patched and publicly disclosed as CVE-2025-67779.\nJanuary 26th: Additional DoS cases found, patched, and publicly disclosed as CVE-2026-23864.\nAttribution\nThank you to Andrew MacPherson (AndrewMohawk) for reporting the Source Code Exposure, RyotaK from GMO Flatt Security Inc and Shinsaku Nomura of Bitforest Co., Ltd. for reporting the Denial of Service vulnerabilities. Thank you to Mufeed VH from Winfunc Research, Joachim Viide, RyotaK from GMO Flatt Security Inc and Xiangwei Zhang of Tencent Security YUNDING LAB for reporting the additional DoS vulnerabilities.PreviousThe React Foundation: A New Home for React Hosted by the Linux FoundationNextCritical Security Vulnerability in React Server Components",
+          "category": "hot",
+          "publishedAt": "2025-12-11T00:00:00.000Z",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "diegosouzapw/OmniRoute (TypeScript)",
+          "titleKo": "OmniRoute - 통합 AI 게이트웨이",
+          "summary": "268개 이상의 AI 제공자(50개 이상 무료)와 500개 이상의 모델을 하나의 엔드포인트로 통합하는 MIT 라이선스 AI 게이트웨이입니다. RTK+Caveman 압축으로 토큰 사용량 15-95% 절감하며, Claude Code, Cursor, Cline 등 다양한 개발 도구와 호환됩니다.",
+          "keyPoints": [
+            "Claude, GPT, Gemini, DeepSeek 등 268+ 제공자의 500+ 모델을 단일 API로 제공",
+            "토큰 압축 기술로 API 비용 15-95% 절감 및 자동 폴백 지원",
+            "MCP/A2A, 멀티모달, 로컬/PWA 지원으로 다양한 환경에서 사용 가능"
+          ],
+          "whyItMatters": "여러 AI 서비스의 복잡한 통합을 단순화하고 비용을 절감할 수 있는 개발 인프라 제공.",
+          "url": "https://github.com/diegosouzapw/OmniRoute",
+          "sourceName": "GitHub Trending",
+          "engagement": 21753,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 78,
+          "topicId": "typescript-repos",
+          "isTopicPrimary": true,
+          "relatedCount": 3,
+          "slug": "diegosouzapwomniroute-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-20T23:56:47.510Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Jelly UI: Soft-body physics for native HTML form controls",
+          "titleKo": "Jelly UI: 소프트-바디 물리 효과를 입힌 네이티브 폼 컨트롤 Web Components 라이브러리",
+          "summary": "Jelly UI는 의존성 없이 단일 스크립트 태그로 사용할 수 있는 Web Components 기반 UI 라이브러리로, 실제 네이티브 폼 컨트롤에 소프트-바디 물리 효과를 결합한 것이 특징입니다. 40개의 커스텀 엘리먼트를 제공하며 다크 모드, RTL, WCAG AA 색상 토큰을 기본 내장하고 있습니다. 프레임워크에 종속되지 않아 어떤 스택에서도 손쉽게 도입할 수 있습니다.",
+          "keyPoints": [
+            "Jelly UI는 0개의 외부 의존성으로 동작하는 Web Components 라이브러리입니다.",
+            "40개의 커스텀 엘리먼트를 단 하나의 script 태그로 로드해 사용할 수 있습니다.",
+            "다크 모드, RTL(우측에서 좌측 읽기) 레이아웃, WCAG AA 색상 토큰을 기본 지원합니다.",
+            "실제 네이티브 폼 컨트롤 기능성을 유지하면서 소프트-바디 물리 효과로 촉각적인 인터랙션을 구현합니다.",
+            "jelly-theme, jelly-button 같은 커스텀 엘리먼트를 HTML에 그대로 작성하는 방식으로 사용합니다."
+          ],
+          "whyItMatters": "프레임워크에 종속되지 않는 경량 Web Components 라이브러리로, 접근성과 국제화 요구사항을 기본 내장한 채 색다른 인터랙션 경험을 빠르게 프로토타이핑하려는 프론트엔드 개발자에게 유용한 선택지가 될 수 있습니다.",
+          "article": "Web Components 기반 UI 라이브러리는 이미 여럿 나와 있지만, 대부분 \"네이티브 폼 컨트롤을 어떻게 감쌀 것인가\"라는 문제에서 타협을 합니다. Jelly UI는 여기에 소프트-바디 물리 효과라는 독특한 접근을 더해 화제가 된 프로젝트인데요, 의존성 없이 단일 스크립트 태그만으로 40개의 커스텀 엘리먼트를 제공한다는 점에서 눈여겨볼 만합니다.\n\n## Jelly UI란 무엇인가\n\nJelly UI는 부드럽고 촉각적인(tactile) 제품 인터페이스를 만들기 위한 의존성 없는(dependency-free) Web Components 라이브러리입니다. 핵심 콘셉트는 \"real form controls meet soft-body physics\", 즉 실제 네이티브 폼 컨트롤에 소프트-바디 물리 효과를 결합했다는 점입니다. 버튼이나 인풋 같은 UI 요소가 마치 젤리처럼 말랑말랑한 반응성을 가지면서도, 기능적으로는 진짜 폼 컨트롤로 동작하도록 설계되어 있습니다.\n\n## 핵심 스펙\n\n랜딩 페이지에 명시된 수치들을 보면 이 라이브러리가 얼마나 가볍고 단순하게 설계되었는지 알 수 있습니다.\n\n- **0 dependencies**: 외부 라이브러리 의존성이 전혀 없습니다.\n- **40 custom elements**: 40개의 커스텀 엘리먼트를 제공합니다.\n- **1 script tag**: 스크립트 태그 하나만 추가하면 전체 기능을 사용할 수 있습니다.\n- **WCAG AA**: 색상 토큰이 WCAG AA 접근성 기준을 충족하도록 내장되어 있습니다.\n- **Dark mode**: 다크 모드를 기본 지원합니다.\n- **RTL**: 오른쪽에서 왼쪽으로 읽는 언어(right-to-left) 레이아웃을 지원합니다.\n\n## 사용 방법\n\nJelly UI를 적용하는 방법은 매우 단순합니다. 아래처럼 모듈 스크립트 하나를 로드하고, `jelly-theme`와 `jelly-button` 같은 커스텀 엘리먼트를 HTML에 바로 작성하면 됩니다.\n\n```html\n<script type=\"module\" src=\"https://jelly-ui.com/package.js\"></script>\n<jelly-theme mode=\"auto\">\n  <jelly-button variant=\"mint\">Publish</jelly-button>\n</jelly-theme>\n```\n\n`jelly-theme` 엘리먼트는 `mode=\"auto\"` 속성을 통해 시스템 설정에 따라 다크/라이트 모드를 자동으로 전환하는 것으로 보이며, `jelly-button`은 `variant` 속성으로 색상 테마(`mint` 등)를 지정할 수 있는 구조입니다. 별도의 번들러나 프레임워크 설정 없이 `<script type=\"module\">` 태그 하나로 40개 컴포넌트 전체에 접근할 수 있다는 점이 이 라이브러리의 가장 큰 셀링 포인트입니다.\n\n## 정리\n\nJelly UI는 \"실제 동작하는 네이티브 폼 컨트롤 + 소프트-바디 물리 효과\"라는 컨셉을 의존성 제로, 단일 스크립트 태그, 40개 커스텀 엘리먼트라는 형태로 구현한 Web Components 라이브러리입니다. 다크 모드, RTL, WCAG AA 색상 토큰을 기본 내장하고 있어 접근성과 국제화 요구사항을 별도 설정 없이 충족할 수 있다는 점이 특징입니다. 프레임워크에 종속되지 않는 순수 Web Components 방식이므로 React, Vue, Svelte 등 어떤 스택에서도 스크립트 태그 하나만 추가하면 바로 사용해볼 수 있습니다. 다만 랜딩 페이지 정보만으로는 번들 크기, 물리 엔진의 구체적인 구현 방식, 브라우저 호환성 등 실제 프로덕션 적용 전에 확인해야 할 세부 사항은 API 레퍼런스를 통해 추가로 확인이 필요합니다.",
+          "url": "https://jelly-ui.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 295,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 72,
+          "isTopicPrimary": true,
+          "slug": "jelly-ui-soft-body-physics-for-native-html-form-controls",
+          "fullContent": "It's okay to bea little jelly\nJelly UI is a dependency-free Web Components library for soft, tactile product\ninterfaces. Real form controls meet soft-body physics, with dark mode,\nright-to-left support and WCAG AA color tokens built in.\n0 dependencies\n40 custom elements\n1 script tag\nWCAG AA\nDark mode\nRTL\nScroll the showcase ↓\nRead the API reference →\nindex.html\n<script type=\"module\" src=\"https://jelly-ui.com/package.js\"></script>\n<jelly-theme mode=\"auto\">\n<jelly-button variant=\"mint\">Publish</jelly-button>\n</jelly-theme>",
+          "category": "tech",
+          "publishedAt": "2026-07-20T17:07:39.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "jamiepine/voicebox (TypeScript)",
+          "titleKo": "Voicebox - 오픈소스 AI 음성 스튜디오",
+          "summary": "음성 클론, 받아쓰기, 음성 생성 기능을 제공하는 오픈소스 AI 음성 스튜디오입니다.",
+          "keyPoints": [
+            "음성 클론, 받아쓰기, 창작 등 종합 음성 처리 기능 제공"
+          ],
+          "whyItMatters": "오픈소스 기반으로 음성 AI 기능을 자유롭게 구현하고 커스터마이징할 수 있습니다.",
+          "url": "https://github.com/jamiepine/voicebox",
+          "sourceName": "GitHub Trending",
+          "engagement": 44141,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 75,
+          "topicId": "typescript-repos",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "jamiepinevoicebox-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-20T23:56:47.511Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "every-app/open-seo (TypeScript)",
+          "titleKo": "Open-SEO - Semrush와 Ahrefs의 오픈소스 대안",
+          "summary": "Semrush와 Ahrefs의 기능을 대체하는 오픈소스 SEO 도구입니다.",
+          "keyPoints": [
+            "상용 SEO 플랫폼의 기능을 오픈소스로 제공"
+          ],
+          "whyItMatters": "SEO 분석 및 모니터링을 자체적으로 구축하고 제어할 수 있습니다.",
+          "url": "https://github.com/every-app/open-seo",
+          "sourceName": "GitHub Trending",
+          "engagement": 5829,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 72,
+          "topicId": "typescript-repos",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "every-appopen-seo-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-20T23:56:47.512Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "KnockOutEZ/wigolo (TypeScript)",
+          "titleKo": "Wigolo - AI 코딩 에이전트용 로컬 웹 플랫폼",
+          "summary": "API 키 없이 로컬 환경에서 검색, 페칭, 크롤링, 리서치를 MCP를 통해 수행하는 로컬 우선 웹 플랫폼입니다. 무료이며 공개 베타 버전으로 제공됩니다.",
+          "keyPoints": [
+            "클라우드나 API 키 없이 로컬에서 완전히 작동하는 AI 에이전트용 웹 환경",
+            "MCP 기반 검색, 페칭, 크롤링 기능 제공으로 쿼리당 비용 $0"
+          ],
+          "whyItMatters": "AI 코딩 에이전트의 웹 접근 능력을 프라이버시와 비용 효율성을 유지하면서 확장할 수 있습니다.",
+          "url": "https://github.com/KnockOutEZ/wigolo",
+          "sourceName": "GitHub Trending",
+          "engagement": 2520,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 70,
+          "topicId": "typescript-repos",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "knockoutezwigolo-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-20T23:56:47.513Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Shinjuku Station in 3D",
+          "titleKo": "신주쿠역 3D 모델",
+          "summary": "Three.js를 활용한 신주쿠역의 실시간 3D 인터랙티브 모델입니다.",
+          "keyPoints": [
+            "Three.js 기반 3D 지도 및 실내 네비게이션 구현"
+          ],
+          "whyItMatters": "3D 웹 환경과 실내 지도 구현에 대한 실제 사례를 제공합니다.",
+          "url": "https://satoshi7190.github.io/Shinjuku-indoor-threejs-demo/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 131,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 68,
+          "isTopicPrimary": true,
+          "slug": "shinjuku-station-in-3d",
+          "category": "tech",
+          "publishedAt": "2026-07-20T13:43:10.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Airport Simulator",
+          "titleKo": "공항 시뮬레이터",
+          "summary": "공항 운영을 시뮬레이션하는 웹 기반 애플리케이션입니다.",
+          "keyPoints": [
+            "공항 운영 시뮬레이션 게임"
+          ],
+          "whyItMatters": "",
+          "url": "https://airport.apunen.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 669,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 65,
+          "isTopicPrimary": true,
+          "slug": "airport-simulator",
+          "category": "tech",
+          "publishedAt": "2026-07-20T10:30:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: Immersive Gaussian Splat tour of grace cathedral, San Francisco",
+          "titleKo": "HN 공유: 샌프란시스코 그레이스 성당의 몰입형 가우시안 스플래팅 투어",
+          "summary": "3D 스캔 기술인 가우시안 스플래팅을 활용하여 샌프란시스코의 그레이스 성당을 인터랙티브하게 탐색할 수 있는 웹 경험을 구현했습니다. 웹 브라우저에서 직접 고품질의 3D 환경을 렌더링하는 기술적 성과를 보여줍니다.",
+          "keyPoints": [
+            "가우시안 스플래팅 기술을 웹에서 실시간으로 렌더링하여 고해상도 3D 공간을 구현",
+            "복잡한 실내 건축 공간을 효율적으로 표현하고 사용자가 자유롭게 탐색 가능하도록 설계"
+          ],
+          "whyItMatters": "웹 기반 3D 렌더링 기술의 성숙도를 보여주며, 건축 시각화, 문화유산 보존, 몰입형 콘텐츠 제작 등 다양한 분야에 적용 가능한 기술입니다.",
+          "url": "https://vincentwoo.com/3d/grace_cathedral/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 44,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 62,
+          "isTopicPrimary": true,
+          "slug": "show-hn-immersive-gaussian-splat-tour-of-grace-cathedral-san-francisco",
+          "category": "tech",
+          "publishedAt": "2026-07-20T20:10:44.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Corners Don't Look Like That: Regarding Screenspace Ambient Occlusion (2012)",
+          "titleKo": "코너는 그렇게 생기지 않았다: SSAO(스크린 스페이스 앰비언트 오클루전)에 대한 재고",
+          "summary": "게임 개발에서 널리 쓰이는 SSAO 기법은 방 모서리를 부자연스럽게 어둡게 렌더링하는 경우가 많은데, 저자는 실제 사진 데이터를 촬영·측정하여 현실의 코너가 그렇게까지 어둡지 않음을 보여줍니다. 어두워 보이는 코너들은 대부분 조명 근처의 소프트 섀도우, 구조물의 그림자, 마하 밴딩 같은 시각적 착시, 단축 효과 때문이며, 순수한 간접광 감쇄로 인한 어두워짐은 픽셀 단위로 측정하면 매우 미미했습니다. 저자는 SSAO가 이런 잘못된 직관을 알고리즘의 전제로 삼아 비현실적인 결과를 만들어내고 있다고 주장합니다.",
+          "keyPoints": [
+            "SSAO는 볼록 모서리 밝기 증가, 헤일로, 코너 과다 어둡기 등의 아티팩트를 만들어내는데, 저자는 이것이 '코너는 실제로 어둡다'는 잘못된 믿음에서 비롯됐다고 진단한다.",
+            "Canon 5D Mk II로 촬영한 실제 사진에서 경계를 가로지르는 픽셀 라인을 샘플링해 그래프로 분석한 결과, 시각적으로 느끼는 어두워짐보다 실제 픽셀 수치의 어두워짐은 훨씬 미미했다.",
+            "코너가 어두워 보이는 주요 원인은 조명 근처의 소프트 섀도우, 매입 조명 구조물의 그림자, 표면 밝기 대비에 따른 마하 밴딩 착시, 촬영 각도에 따른 단축 효과 등이며 순수 AO 효과는 상대적으로 작다.",
+            "한쪽 면을 가려서 밝기 변화가 사라지는지 확인하는 방법으로 마하 밴딩 여부를 검증할 수 있으며, 실제로 여러 코너에서 이 착시가 확인되었다.",
+            "저자는 자신이 그래픽스 연구자가 아니라 엄밀한 결론을 내리진 않지만, 더 나은 데이터로 반박한다면 기꺼이 링크하겠다는 열린 태도를 취한다."
+          ],
+          "whyItMatters": "직접적인 3D 렌더링 이슈지만, '그럴듯해 보이는 시각 효과를 실제 데이터로 검증하는 태도'는 UI의 그림자·조명 효과를 설계하는 프론트엔드 개발자에게도 시사점을 준다.",
+          "article": "# 코너는 그렇게 생기지 않았다: SSAO에 대한 재고\n\n게임 개발자들은 스크린 스페이스 앰비언트 오클루전(SSAO)을 지나치게 사랑합니다. 아마추어 개발자들은 볼록한 모서리 근처가 오히려 밝아지는 스크린샷을 올리고, 프로 개발자들이 만든 게임에서조차 난간 뒤 바닥 같은 곳에 이상한 헤일로와 흉한 아티팩트가 나타납니다. 이런 명백한 결함을 피한 게임이라도 SSAO를 적용하면 뭔가 어색해 보이는 경우가 많은데, 그중 가장 두드러지는 문제가 바로 \"방 모서리가 이상하게 어둡게 나온다\"는 것입니다.\n\n이 글의 저자는 이 현상이 사람들이 \"방의 코너는 실제로 어둡다\"는 잘못된 믿음을 가지고 있기 때문이라고 진단합니다. 그리고 그 믿음이 비현실적인 결과를 만들어내는 코드를 정당화하는 근거가 되어버렸다는 것입니다. 저자는 자신이 그래픽스 연구자가 아니라는 점을 분명히 하면서도, 실제 사진 데이터를 직접 수집해 SSAO가 가정하는 \"코너는 어둡다\"는 전제가 얼마나 현실과 다른지 보여줍니다.\n\n## SSAO 실패의 네 가지 원인 후보\n\n저자는 SSAO가 이런 식으로 어긋나는 원인을 네 가지 요인의 조합으로 추정합니다. 다만 본인이 그래픽스 연구자가 아니기 때문에 엄밀한 프레임워크를 세우고 이를 증명하는 일은 SSAO 논문을 쓰거나 실제로 SSAO를 게임에 탑재하는 사람들의 몫이라고 밝힙니다. 그래서 이 글의 논의는 과학적으로 완벽하거나 철저하지 않을 수 있습니다. 하지만 저자 본인의 실제 시각 경험이 SSAO로 렌더링된 결과물과 맞지 않았기 때문에, 이를 데이터로 뒷받침해 공유하고자 한 것이 이 글의 목적입니다.\n\n## 촬영 방법\n\n이 글에 사용된 모든 이미지는 렌더링이 아니라 실제 사진입니다. Canon 5D Mk II로 촬영했고, 노출 시간은 1/80초에서 1/8초 사이로 다양하게 설정했습니다. JPEG로 저장한 원본 대형 이미지는 Adobe Photoshop에서 가로세로 각각 약 4배씩 다운샘플링했습니다. 장노출 이미지에서 발생하는 크로마 노이즈 아티팩트를 줄이기 위해, 다운샘플링 전에 모든 이미지의 크로마 채널에 16픽셀 폭의 가우시안 블러를 적용했습니다. 참고로 아파트 천장은 벽보다 더 밝고 흰 색이라, 이를 조명 효과로 잘못 해석하지 않도록 주의해야 합니다.\n\n## 전형적인 SSAO 렌더링처럼 보이는 코너\n\n저자는 흔한 AO/SSAO 렌더링 결과물과 비슷하게 보이는 사진을 찾기 위해 아파트를 한참 뒤졌다고 합니다. 그런데 실제로 이 사진을 뜯어보면, SSAO가 가정하는 것과는 전혀 다른 원인들이 밝기 변화를 만들어내고 있었습니다.\n\n- 벽 (c)는 조명을 직접 볼 수 없지만, 벽 (d)는 조명에 상당히 노출되어 있습니다.\n- 벽 (d) 왼쪽 가장자리의 어두워짐은 AO(간접광/래디오시티 효과)가 아니라, 화면 왼쪽 위 바로 바깥에 있는 조명이 만드는 소프트 섀도우 때문입니다. 벽 (b)와 (c) 사이 코너가 그림자를 드리우는데, 조명에 매우 가까워서 부드럽고 넓게 퍼지는 그림자가 생긴 것입니다.\n- 벽 (d) 위쪽 가장자리가 어두운 것도 그림자 효과입니다. 조명이 매입형이라 이 부분에 도달하는 빛은 모두 매입 공간 내부에서 반사된 간접광인데, 매입부 테두리(lip)가 벽 상단이 그 빛을 받지 못하게 가리고 있습니다. (천장에 떨어지는 모든 빛은 벽과 바닥, 기타 물체에서 반사된 간접광입니다.)\n- 벽 (c)가 오른쪽 가장자리에 가까워지면서 어두워지는 현상, 천장 (a)가 벽 (d)와의 경계로 갈수록 어두워지는 현상은 간접광의 램버시안 내적(Lambertian dot product) 효과로 보입니다. 벽 (c)의 중앙 경계에 가까워질수록 밝은 벽 (d)가 시야에서 점점 더 옆으로(edge-on) 보이면서 어두워지는 것입니다. 이것이 AO가 원래 포착하려는 핵심 효과로 추정되지만, 여기서는 과장되어 나타납니다. 만약 소프트 섀도우 없이 벽 (d)가 더 균일하게 조명을 받았다면, 경계에 가까워져도 시야의 상당 부분이 밝은 표면으로 채워져 있었을 것입니다. 소프트 섀도우가 벽 (d)를 딱 알맞게 어둡게 만들었기 때문에 이 효과가 이만큼 두드러진 것입니다.\n- 마지막으로 벽 (c)와 천장 (a) 사이의 경계는 조명의 소프트 섀도우 영향을 받지 않아야 하는데도 양쪽에서 경계로 갈수록 어두워지는 것처럼 보입니다. 문제는 이것이 실제로 어두워지는 정도가 얼마나 되는지, 아니면 주변의 다른 조명 효과와의 대비에서 오는 심리적 착시인지를 구분해야 한다는 점입니다.\n\n## 색공간의 한계와 픽셀 그래프로 검증하기\n\n사진들은 sRGB로 촬영되었다고 하지만, 실제 결과를 보면 픽셀 값을 sRGB 커브에 통과시켜 선형(linear) 광량 값을 정확히 복원할 수 있다는 보장이 없습니다. 아마 더 복잡한 톤 매핑이 개입되어 있을 것으로 추정되며, 따라서 이 사진들이 현실을 얼마나 정확히 반영하는지는 확실히 알 수 없습니다. 다만 사진이 sRGB로 표시되고 있다고 가정한다면, 적어도 우리가 그 사진을 어떻게 지각하는지는 파악할 수 있고, 사진 속 수치가 실제로 어느 정도 어두워지는지와 그것이 얼마나 지각적 효과인지를 구분해낼 수 있습니다.\n\n경계를 가로지르는 직선 위의 픽셀들을 샘플링해 그래프로 그리면, 경계에 가까워질수록 양쪽 표면이 어떻게 어두워지는지 한 눈에 확인할 수 있습니다. (그래프 생성 코드는 Appendix A에 있습니다.)\n\n예를 들어 (c)와 (d) 사이 경계를 가로지르는 픽셀 라인(모든 채널에 대해 5x5 박스 필터로 평균낸 값)을 그래프로 그리면, 이는 sRGB 밝기 값의 그래프이지 선형 광량 값의 그래프가 아닙니다. 모든 그래프는 0을 기준으로 시작하므로 밝기의 비율은 베이스라인 위 높이의 비율로 대략 판단할 수 있고, 이를 대략적인 선형 광량 비율로 환산하려면 그 비율을 제곱하면 됩니다.\n\n이 그래프에서 왼쪽은 경계에 가까워질수록 조명이 더 빠르게 어두워지는 반면, 오른쪽은 소프트 섀도우를 가로지르기 때문에 훨씬 선형적인 증가를 보입니다. 경계 바로 지점에서는 뚜렷한 하강(dip)이 있는데, 이것이 조명 효과인지 아니면 코너가 실제로 더 지저분해서인지는 불명확합니다.\n\n(a)와 (d) 사이 경계도 비슷한 양상을 보입니다. 하지만 이론적으로 가장 간접광에 가까운, \"진짜 현실의 AO\" 효과와 유사한 (a)와 (c) 사이 경계를 보면, 경계로 갈수록 어두워지는 현상은 여전히 확인되지만 그 크기가 훨씬 줄어듭니다. 중앙 지점의 하강 현상도 나타나지 않습니다.\n\n저자는 이 비교에 주의가 필요하다고 밝힙니다. 이상적으로는 선분을 둘로 나누어 각각이 월드 스페이스에서 경계에 수직이 되도록 하고 단축(foreshortening) 효과를 보정해야 하는데, 실제로는 단일 직선을 사용했고 그래프도 커버하는 픽셀 수에 따라 자동 스케일링되어 일관성이 부족할 수 있습니다. 참고로 벽 (c)의 너비는 13.5인치이며, 그 위에 그려진 초록색 선분은 대략 4인치 정도로, 만약 경계에 완전히 수직이었다면 같은 밝기 범위를 3인치 만에 지났을 것으로 추정됩니다.\n\n## 여러 코너에서 반복 검증\n\n저자는 아파트 곳곳의 여러 코너를 대상으로 같은 방식의 검증을 반복합니다.\n\n**첫 번째 코너**: 벽과 천장 사이 픽셀을 보면, 천장은 경계에 가까워지면서 살짝 어두워지지만 벽은 오히려 밝아집니다. 노출 시간을 늘려 찍은 사진(거의 전적으로 간접광만 받는 상황)에서는 벽이 훨씬 덜 어두워지는 것으로 보였는데, 실제 수치를 확인해보니 예상보다 훨씬 평탄했습니다. 저자는 자신이 \"보고 있다\"고 느꼈던 어두워짐의 상당 부분이 실은 마하 밴딩(Mach banding, 인접 명도 차이로 인한 시각적 착시)일 가능성이 크다고 결론짓습니다. (다만 sRGB와 선형 광량의 차이를 고려하면 선형 광량 기준으로는 그래프보다 더 유의미하게 어두워질 수 있다는 점은 유의해야 합니다.) 넓은 앵글 샷에서도 마찬가지로, 육안으로 느끼는 것보다 실제 수치상의 어두워짐은 훨씬 미미했습니다.\n\n**냉장고 위 캐비닛 공간**: 대체로 간접광이 지배적인 공간인데, 왼쪽 벽과 천장은 각각 심하게, 상당히 단축되어 있어서 여기서 보이는 급격한 어두워짐은 실제 월드 스페이스에서는 훨씬 완만한 변화입니다. 뒤쪽 벽에서의 효과는 극히 미미하고(마하 밴드 효과가 훨씬 강함), 왼쪽 벽과 천장에서의 효과는 뚜렷하지만 이는 단축 효과로 강화된 결과입니다. 참고로 이 마하 밴드 효과는 다른 벽이 더 밝기 때문에 발생하는 것으로, 만약 뒤쪽 벽이 다른 벽보다 더 밝은 색이었다면 아마 전혀 나타나지 않았을 것입니다(위의 \"왼쪽 코너\" 사례처럼). 한쪽 면을 손으로 가려서 경계의 어두워짐 효과가 사라지는지 확인하면 이것이 마하 밴딩 효과인지 검증할 수 있는데, 뒤쪽 벽의 경우 실제로 그렇게 확인되었습니다. 3x3 박스 필터로도 동일하게 테스트했지만 결과는 5x5와 유사했습니다.\n\n**어두운 화장실**: 육안으로는 경계를 따라 확실히 어두워지는 것처럼 보이지만, 1/8초 노출로 확대 촬영해 수치를 확인하면 어두워짐이 거의 사라집니다. 어느 정도 어두워짐은 있지만 크지 않습니다. 원본 이미지에서 다시 수치를 뽑아 비교했을 때 두 그래프가 다소 다르게 보였는데, 이는 월드 스페이스에서 선분 길이가 다르기 때문일 수 있습니다. 물론 경계로 갈수록 밝기가 줄어드는 현상 중 일부는 직접광의 감쇄(fall-off) 때문일 것입니다. 하지만 그것을 넘어서서 SSAO가 시뮬레이션해야 할 \"추가적인\" 감쇄가 정말 존재하는지는 의문입니다.\n\n**컴퓨터 앞 코너**: 저자가 지금 이 글을 쓰고 있는 컴퓨터 앞에서 매일 마주하는 코너입니다. \"코너가 실제로 어떻게 생겼는지\" 궁금할 때 가장 먼저 살펴보는 대상이라고 밝히며, 답은 명확합니다—\"저질 AO 어둡기 효과와는 전혀 다르다\"는 것입니다. 주 조명은 왼쪽 멀리 있는 스탠드 조명이고, 오른쪽 벽이 그 조명을 마주하고 있어 더 밝습니다. 모니터 사이 경계 위쪽으로 왼쪽 벽이 뚜렷하게 어두워지는데, 이는 두 번째 조명이 만드는 그림자 때문입니다(경계 오른쪽 전체, 즉 아래에서 샘플링한 모든 선분이 이 두 번째 조명의 그림자 안에 있습니다). 경계 지점에서 나타나는 작은 피크는 조명 효과가 아니라 두 벽 사이 경계에 흰색 페인트가 살짝 비쳐 보이기 때문입니다. 이 코너에서는 기본적으로 코너-어둡기 효과가 거의 나타나지 않습니다.\n\n## 정리\n\n이 글이 실측 데이터를 통해 던지는 핵심 메시지는 명확합니다. **현실의 방 코너는 게임에서 SSAO가 그려내는 것만큼 어둡지 않다**는 것입니다. 저자가 관찰한 \"어두운 코너\"들은 대부분 다음 중 하나로 설명됩니다.\n\n- 조명 근처에서 발생하는 소프트 섀도우\n- 매입형 조명 등의 구조물이 만드는 그림자\n- 표면의 밝기 대비에서 오는 심리적 착시(마하 밴딩)\n- 카메라나 시야각에 따른 단축(foreshortening) 효과로 실제보다 급격해 보이는 변화\n\n반면 정말로 순수한 간접광의 램버시안 감쇄로 인한 어두워짐은 실측해보면 매우 미미한 수준이었고, 특히 사람이 시각적으로 \"느끼는\" 어두워짐의 정도는 실제 픽셀 수치가 보여주는 것보다 훨씬 과장되어 있었습니다. 즉 우리 눈과 뇌가 대비 효과로 코너를 실제보다 더 어둡게 인지하는 경향이 있는데, SSAO 알고리즘은 오히려 이 잘못된 직관을 \"정답\"으로 삼아 코너를 인위적으로 어둡게 만들고 있다는 것이 저자의 결론입니다.\n\n프론트엔드 개발자에게 3D 렌더링 디테일 자체는 직접적인 관심사가 아닐 수 있지만, 이 글이 보여주는 방법론—\"내가 만들고 있는 시각적 효과가 실제로 관찰 가능한 현실과 얼마나 일치하는가를 직접 측정해서 검증한다\"는 태도—는 UI/UX에서 그림자나 조명 효과(예: box-shadow, elevation 시스템)를 설계할 때도 참고할 만한 시사점을 줍니다. 그럴듯해 보이는 시각적 관습을 그대로 답습하기 전에, 그것이 실제로 무엇을 근사하려는 것인지 되짚어볼 필요가 있다는 교훈입니다.",
+          "url": "https://nothings.org/gamedev/ssao/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 142,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 58,
+          "isTopicPrimary": true,
+          "slug": "corners-dont-look-like-that-regarding-screenspace-ambient-occlusion-2012",
+          "fullContent": "Please, feel free to gather better data yourself and prove me wrong.\nIf you do so I'll link to it!\nGame developers are in love with screenspace ambient occlusion (SSAO). They're so in love\nwith it that they do all sorts of crazy things. Amateur developers post screenshots\nwhere convex corners get brighter near the corner. Professional developers release\ngames with bizarre\nhalos and ugly artifacts (look at the floor behind\nthe railing).\nEven when they avoid those flaws, games with SSAO often still look wrong. And\nan easy thing to pull out from it: corners of rooms look weirdly dark.\nI believe this is because people\nthink the corners of rooms actually are dark,\nand they've allowed this belief to let them write code that produces unrealistic\nresults.\nMore specifically, I attribute the failure of SSAO in these cases to some combination of four factors:\nI am not an active graphics researcher, so I'm not going to set up a framework\nand show where these things went wrong. That's the job of people publishing SSAO\npapers and shipping SSAO in games.\nFor the same reason, the following discussion is not the most scientific nor\nat all thorough. Perhaps collecting more data would suggest I am wrong. But\nmy personal visual experience doesn't match what people are rendering\nwith SSAO, so I wanted to share that experience; to which end I collected\nsome data.\nIn the following, everything is a photograph, not a rendering.\nPhotographs were taken using a Canon 5D Mk II, exported as JPEGs, using exposures\nranging from a 1/80 to 1/8 a second. The original large JPEGs were downsampled\nby a factor of about four in each dimension using Adobe Photoshop. All images had their\nchroma channels blurred with a 16-wide gaussian in Photoshop (before downsampling)\nto reduce chroma noise artifacts in the long exposure images.\nThe ceiling of the apartment is a lighter, whiter color than the walls, so don't attribute\nthat incorrectly to lighting.\nLet's start with a photograph that actually looks something like a common\nAO/SSAO rendering.\n(This image has been digitally brightened to make the effect more visible.\nHopefully the brightening was gamma-preserving.)\nI had to search my apartment quite a while to find a corner which looked like\na typical SSAO rendered image. The thing is, that's not really what's\ngoing on here. Wall (c) cannot see the light,\nbut wall (d) is quite exposed to it. The darkening on the left edge of\nthe wall (d) isn't primarily due to AO (i.e. due to interreflection/radiosity effects); it's\nmostly due to a soft shadow from the light, which is just off the screen to\nthe top left. The corner on the left, between wall (b) and wall (c),\nis casting a shadow, but it's very close to the light so\nit spreads out into a big soft shadow.\nThere are other edges that are getting darker as well, though. What about them?\nThe top edge of wall (d) is another shadow -- look at the top edge of\nthe bright wall. The light source is recessed, so all of the light here is\nactually reflected light from the recession, and the lip of that recession\ncauses the topmost parts of the wall to not receive that light. (All light\nfalling on the\nceiling is indirect, from the walls and floor and other objects in the room.)\nWhat about the darkening-towards-the-edge effect on wall (c) as it reaches\nthe right edge, or ceiling (a) as it reaches the edge along wall (d)? That appears to\nbe an indirect lighting effect caused primarily by the Lambertian dot product;\nas a point approaches the center edge on wall (c), the bright portions of wall (d)\nwall become more and more edge-on, and the point darkens. I guess this is the primary\nthing that AO is supposed to capture, but it's exaggerated here; if wall (d)\nwere lit more evenly (without the soft shadow), even as you approached the\nedge from the left you would still have a large portion of your \"view\" filled\nwith bright surface. Only because the soft shadow darkens wall (d)\nin the perfect way is the effect this significant.\nThere's still one edge left; the edge between wall (c) and ceiling (a). This\nedge also shows darkening as you approach the edge from either side,\nand shouldn't be affected by soft shadows from the light. The question is,\nhow much is it really darkening, and how much is just a psychological effect\nfrom the contrast with all the other lighting effects?\nIdeally, these photographs are in a known colorspace. The photographs claim\nto be in sRGB, but given the results I don't think it's true that if we take\nthe numbers, run them through the sRGB curve we get back linear light values\n(or clamped values); I think there's some more complex tone mapping going on.\nSo we can't really know to what degree these pictures reflect reality.\nBut we can at least understand how we're perceiving the pictures, since they're\nbeing displayed as (hopefully) sRGB. They may not reflect reality that well,\nbut we can at least determine the degree to which the numbers in the pictures\nactually are darkening, and the degree to which it's a perceptual effect we\nget.\nIf we just look at the numbers from a point on one side of the edge to a point on the other side,\nwe can see in a single graph how the surfaces on either side of the edge darken\nas they approach it.\nFor example, if we sample pixels on a line crossing the edge between (c) and (d)\nand then graph them, we get:\nThe code used to generate the above graph appears in Appendix A.\nNote that this is a graph of pixel values (actually 5x5 box filter averaged over all three channels),\nso this is a graph of sRGB brightness (or whatever it really is; I'll just say\nsRGB henceforth), not linear light values. All graphs are 0-based, so you can\njudge ratios of brightness values by the ratios of their height above the baseline. (You\ncan mentally square those ratios to get an approximate light-linear ratio.\nI'm begging off on doing light-linear graphs just because this is already way\nmore work than I should have ever done on something I'm never going to work on\nmyself.)\nOn the left we can see the lighting darkens more quickly as we approach the edge,\nwhereas the righthand side shows a much more linear climb (because it's traversing\nthrough the soft shadow, presumably). There's also a very pronounced dip at the very\nedge, but it's unclear what this is due to. (It might not even be a lighting effect;\nperhaps the corner is dirtier.)\nThe edge between (a) and (d) looks similar when graphed.\nBut let's look at the edge between (a) and (c), which is in theory less exaggerated,\nand more like a \"real world AO\" effect, in that it has the most-indirected lighting.\nThe graph here is from bottom-to-top.\nAgain we can see a clear darkening towards the edge, but the effect is significantly\nreduced in magnitude. There's no downward dip at the center.\nSome care must be exercised in comparing graphs. Ideally, the line segments would\nbe split in two and each half would be perpendicular to the edge in world space,\nand we would\naccount for foreshortening. Instead I'm using a single line which may foreshorten\ndifferently, and the graph is autoscaled to however many pixels are covered, which\nmay not always be consistent. In particular, the second line above definitely looks\nless perpendicular than the first, but I'm not sure how big an effect this is.\nBy the way, to help understand scale: wall (c) is 13.5 inches wide. So the green\nline segment on it (displayed in the left half of the graph) is probably around 4 inches long,\nand the same range of brightness\nit traverses in those 4 inches would probably only take 3 inches if the line were\nperpendicular to the edge.\nAgain, someone else who's actually working in this area should do it more properly.\nI just want to call attention to the issue.\nLet's take a look at three corners visible in the following image:\nI've taken separate photographs that are zoomed in for closer shots, which we'll\nuse to actually sample the edges.\nThe only truly direct light on this is from the left; the principal lighting appears to\nbe lighting from the same recessed lamp on the ceiling; I'm not sure how indirect it is.\nIn real life the area is moderately dark. (Note also that the image corners are darkened\ndue to camera lens vignetting due to the large zoom factor.)\nHere's what the pixels between the wall and the ceiling look like:\nThe ceiling darkens slightly as it approaches the edge, but the wall is still\nbrightening).\nHere's a longer exposure of this corner which is moderately lit although\nalmost entirely indirectly lit, as you can see from\nthe shadows above.\nThis doesn't really look to me like it's just brighter version of the above image;\nit seems like the walls darken a lot less significantly. Fortunately, we can check\nthe numbers.\nThese are much flatter than I expected; it looks like while there's some\ndarkening of the left wall, I guess a lot of the darkening I'm \"seeing\" is\nreally just Mach banding. (But don't forget the difference between sRGB\nand linear light, which means the linear light darkening is more significant\nthan the graph shows.)\nBut now let's go back to the long shot and measure the numbers there:\n(This last line is drawn top-to-bottom, right-to-left, so the brighter bulge on the left\nof the graph is due to the 5x5 sampling picking up the highlight on the light fixture.)\nAnd sure enough, the darkening is way less prominent here than I\nthink it is visually. I have no idea why it looks like it's a more\nsignificant darkening factor to me. Maybe going to light-linear\nwould make it clearer.\nThis space above the cabinet above the refrigerator seems\nto be predominantly indirectly lit. However, note that the\nleft wall and ceiling are severely foreshortened and\nsignificantly foreshortened respectively, so\nthe rapid darkening we see here is actually much more gradual\nin worldspace.\nAgain, the effect on the back wall is extremely mild (the mach\nband effect is much stronger), while the effect on the left wall\nand ceiling is very clear (although enchanced by the\nforeshortening). Note that the Mach band effect only happens\nbecause the other wall is brighter; if the back wall were painted\na brighter color than the other walls it probably wouldn't happen\nat all (as it didn't in the \"left corner\" above).\n(BTW, you can verify that things are Mach banding effects by covering\nup one side of the edge and seeing if the edge-darkening effect\ngoes away. This is definitely going on for me with the back wall.)\nBy the way, I\nalso tested graphing the output of a 3x3 box-filter isntead of 5x5, and the\nresults looked similar.\nHere we'll peek into a dark bathroom.\nThat sure looks like some darkening along the edges.\nZooming in, with a 1/8th of a second exposure, gives us:\nWhere'd the darkening go? We run the numbers:\nThere's some darkening going on, but it ain't much.\nOnce again, let's\ngo back to the original image and pull the numbers from\nthose and compare.\nThe first two seem a bit different, but this could\nbe due to the difference of the length of the line\nsegments in worldspace. Hmm.\nObviously some of the fall-off towards the edges\nwill be due to direct lighting fall-off. But is\nthere some more \"extra\" fall-off towards the edge\nthat we should simulate using SSAO?\nHere's a corner above where I'm typing this right now.\nThis is the first corner I look at when I'm sitting at my\ncomputer and I think \"what does a corner really look like?\"\nAnswer: not like crappy AO darkening!\nThe primary light is a floor lamp far to the left; because\nthe right wall is facing it the right wall is brighter.\nThere's an obvious darkening of the left wall above the\nboundary between the monitors; this is a shadow from a second\nlight (everything right of it, meaning all the lines sampled\nbelow, are in shadow from that second light).\nThe last line segment is being graphed bottom to top. The tiny peak\nat the edge is probably because the edge between the two walls sometimes\nhas white paint showing through, so it's not a lighting effect.\nNote that there is basically no corner-darkening effect. The ",
+          "category": "tech",
+          "publishedAt": "2026-07-20T15:07:31.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Using /grill-me for interviews?!",
+          "titleKo": "면접 도구로 변신한 AI 스킬, GrillMe",
+          "summary": "Matt Pocock이 만든 Claude Code 스킬 'GrillMe'가 기술 면접 도구로 활용되는 사례가 소개되었습니다. 이 스킬은 사용자가 만들려는 기능의 방향성과 필요성을 집요하게 검증하도록 설계되어, AI와의 협업에서 요구되는 전략적 사고와 명확한 의사소통 능력을 자연스럽게 이끌어냅니다. 한 면접관은 지원자에게 화상 면접 중 Claude Code에서 GrillMe를 사용해 코드베이스에 기능을 추가하게 함으로써 AI 협업 능력을 평가했습니다.",
+          "keyPoints": [
+            "GrillMe는 사용자가 만들려는 기능의 방향성을 명확히 설명하고, 그 필요성을 스스로 검증하도록 질문을 던지는 Claude Code 스킬입니다.",
+            "이 과정은 AI와 함께 일할 때 필요한 장기적 사고와 명확한 의사표현 능력을 훈련시킵니다.",
+            "실제 면접에서는 지원자가 화상 통화 중 Claude Code에서 GrillMe를 사용해 기존 코드베이스에 기능을 추가하는 과제를 수행하며, 면접관은 이를 통해 지원자의 AI 협업 방식과 전략적 사고를 평가할 수 있습니다.",
+            "Matt Pocock은 이 사례가 '사용자를 강화하면서도 높은 역량을 요구하는' 자신의 스킬 설계 철학을 잘 보여준다고 평가합니다.",
+            "사용법이 단순해 누구나 쉽게 접근할 수 있다는 점도 면접 도구로서의 강점입니다."
+          ],
+          "whyItMatters": "AI 도구를 단순히 코드 생성기로만 쓰는 것이 아니라, 전략적 사고와 명확한 커뮤니케이션 능력을 검증하는 수단으로 활용할 수 있다는 점에서, AI 시대 개발자 역량 평가 방식에 새로운 시사점을 줍니다.",
+          "article": "최근 Matt Pocock은 자신이 만든 Claude Code용 스킬 \"GrillMe\"가 예상치 못한 방식으로 활용되고 있다는 소식을 전했습니다. 누군가 이 스킬을 기술 면접 도구로 사용하고 있다는 제보를 받았는데, 실제로 들어보니 상당히 영리한 활용법이라는 생각이 들었다고 합니다. 이번 글에서는 GrillMe가 원래 어떤 목적으로 만들어졌는지, 그리고 이것이 왜 면접 도구로도 훌륭하게 기능하는지 살펴보겠습니다.\n\n## GrillMe란 무엇인가\n\nGrillMe는 Claude Code에서 사용할 수 있는 스킬로, 사용자에게 상당히 많은 것을 요구하도록 설계되었습니다. 어떤 기능을 만들려고 할 때, GrillMe는 사용자에게 자신이 어디로 가려는지 명확하게 설명하도록 요구합니다. 그리고 여러 질문으로 사용자를 \"그릴\"하듯 몰아붙이면서, 지금 만들려는 것이 정말 만들 필요가 있는지, 그리고 그 방향에 대한 직감이 올바른지를 검증하게 만듭니다.\n\n이런 특성 때문에 GrillMe는 AI와 함께 작업할 때 필요한 바로 그 전략적 사고를 훈련시키는 도구가 됩니다. AI를 잘 활용하려면 장기적인 관점에서 생각할 수 있어야 하고, 자신이 원하는 것을 명확하게 언어로 표현할 수 있어야 하는데, GrillMe는 이 과정을 강제로 거치게 만들기 때문입니다.\n\n## 면접 도구로서의 활용법\n\n제보를 준 사람은 실제 화상 면접에서 지원자에게 Claude Code 인스턴스 안에서 GrillMe를 사용하도록 하고, 기존 코드베이스에 새로운 기능을 추가하는 과제를 주었다고 합니다. 이 과정에서 면접관은 다음과 같은 것들을 자연스럽게 관찰할 수 있습니다.\n\n- 지원자가 AI와 함께 어떻게 사고하고 협업하는지\n- 자신이 만들려는 기능의 방향과 필요성을 얼마나 명확하게 설명할 수 있는지\n- 전략적으로 생각하는 능력이 있는지\n\n즉, GrillMe라는 스킬 자체가 지원자를 압박하며 검증 질문을 던져주기 때문에, 면접관이 별도로 정교한 질문지를 준비하지 않아도 지원자의 사고 과정이 자연스럽게 드러나게 됩니다.\n\n## 스킬 설계 철학과의 연결\n\nMatt Pocock은 이 사례가 자신이 스킬을 설계할 때 지향하는 방향과 정확히 맞아떨어진다고 이야기합니다. 그가 원하는 스킬의 모습은 사용자를 강력하게 만들어주는 동시에, 그 스킬이 제대로 작동하려면 사용자에게도 상당한 역량을 요구하는 것입니다. GrillMe가 바로 그런 스킬이기 때문에 면접 도구로도 훌륭하게 기능한다는 것입니다.\n\n또한 이 스킬은 진입장벽이 높지 않아서 누구나 어렵지 않게 사용할 수 있다는 점도 강조합니다. 복잡한 사용법을 익힐 필요 없이 바로 적용할 수 있으면서도, 그 안에서 드러나는 사고 과정의 깊이는 사람마다 크게 갈리는 셈입니다.\n\n## 정리\n\n- GrillMe는 원래 AI와 함께 기능을 개발할 때, 방향성을 명확히 하고 정말 필요한 것인지 스스로 검증하도록 만드는 Claude Code 스킬입니다.\n- 이 스킬은 사용자에게 장기적 사고와 명확한 의사표현을 요구하기 때문에, 기술 면접에서 지원자가 AI와 어떻게 협업하고 전략적으로 사고하는지를 평가하는 도구로도 활용될 수 있습니다.\n- 실제 사례에서는 지원자에게 화상 면접 중 Claude Code에서 GrillMe를 사용해 코드베이스에 기능을 추가하도록 하는 방식으로 활용되었습니다.\n- Matt Pocock은 이 사례를 \"사용자를 강하게 만들면서도 사용자에게 높은 역량을 요구하는\" 자신의 스킬 설계 철학과 일치하는 좋은 예시로 꼽았습니다.\n- 사용법 자체는 누구나 쉽게 익힐 수 있을 만큼 단순하다는 점도 이 도구가 면접에 적합한 이유 중 하나입니다.",
+          "url": "https://www.youtube.com/watch?v=5hYsBUMmr-I",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "typescript"
+          ],
+          "relevance": 62,
+          "isTopicPrimary": true,
+          "slug": "using-grill-me-for-interviews",
+          "fullContent": "Someone messaged me the other week and told me they were using GrillMe in a way that I had never considered before and I think is actually kind of genius. They were using it for technical interviews. So they would interview people, they would have them on a video call. They would get them to use Grillme in their claw code instance and basically get them to add a feature to a codebase. The thing about GrillMe is that it asks a lot of you, right? It asks you to clearly describe where you're going. It grills you with questions to ask whether you have the right uh instincts and whether your thing that you're building actually needs to exist. And so in that, it's quite a good skill for the exact strategic thing that you need when you're working with AI. You need the long-term mindset. You need to be able to really clearly describe what you want. This fits into how I want my skills to be used, which is they empower the user and they demand a lot of skill from the user in order to work best. And that makes Grill Me a really good interview tool because you get to actually assess how someone thinks with AI and works with AI, but also think strategically. And it's also simple enough that anyone can pick it up. So yeah, pretty cool use case and uh handy if you want to get better with AI,",
+          "category": "video",
+          "publishedAt": "2026-07-20T10:26:34+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Lighting My Porch With Vega #coding #programming #javascript #vega",
+          "titleKo": "React Native로 포치 조명 밝히기: Amazon Vega로 만든 태양계 앱",
+          "summary": "저자는 3D 프린팅한 행성 모형과 LED 조명을 대형 프로젝션 스크린과 연결하기 위해 Amazon Vega(Fire Stick용 React Native 플랫폼)를 활용했습니다. VS Code 확장과 로컬 시뮬레이터, CLI 도구 덕분에 개발이 예상보다 수월했고, WLED 컨트롤러를 fetch API로 제어하며 aria-label만으로 음성 명령 기능까지 손쉽게 구현했습니다. React/React Native 경험자에게 Vega가 TV 앱 개발의 낮은 진입장벽을 제공한다는 것이 핵심 메시지입니다.",
+          "keyPoints": [
+            "Amazon Vega는 React Native 기반 UI를 사용해 Fire Stick 앱을 만들 수 있는 플랫폼이다.",
+            "VS Code 확장과 로컬 시뮬레이터, CLI 스캐폴딩 도구로 별도 디바이스 없이 개발·디버깅이 가능하다.",
+            "WLED 컨트롤러 같은 외부 하드웨어도 표준 fetch API로 간단히 HTTP 제어할 수 있다.",
+            "aria-label을 추가하는 것만으로 Vega가 음성 인식과 press 이벤트 연동을 자동 처리해준다.",
+            "AI 코딩 에이전트도 React Native 기반이라 Vega 공식 문서만으로 충분히 활용 가능했다."
+          ],
+          "whyItMatters": "React/React Native 지식을 가진 프론트엔드 개발자라면 별도의 새로운 스택을 배우지 않고도 TV·대형 화면 애플리케이션과 IoT 하드웨어 제어까지 확장할 수 있음을 보여주는 사례입니다.",
+          "article": "천체 관측을 좋아하는 가족을 위해 포치(현관 테라스)에 3D 프린팅한 행성 모형을 설치하고 LED 조명을 연결해 꾸며온 개인 프로젝트에, 이번에는 Amazon의 Vega를 활용해 대형 스크린과 조명을 하나로 묶어본 경험을 공유하는 글입니다. React와 React Native에 익숙한 개발자라면 얼마나 쉽게 TV 앱 개발에 뛰어들 수 있는지가 이 글의 핵심입니다.\n\n## 프로젝트의 시작: 행성 모형과 LED, 그리고 빠진 연결고리\n\n집 포치 뒤편에 3D 프린터로 출력한 태양계 행성 모형들을 나란히 배치하고, 각각을 제어 가능한 LED로 밝혀놓았습니다. 영화를 볼 때 분위기를 살리기엔 충분했지만, 한 가지 아쉬운 점이 있었는데요. 이 행성 조명들과 영화를 트는 대형 프로젝션 스크린을 서로 연결할 방법이 없었다는 겁니다.\n\n## 왜 Amazon Vega였나\n\n이 문제를 해결하기 위해 찾은 것이 Fire Stick용 Amazon Vega였습니다. Vega는 UI를 React Native로 구축하는 플랫폼인데, 평소 React와 React Native에 익숙했던 만큼 자연스러운 선택이었습니다. 실제로 사용해보니 예상보다 훨씬 수월했다고 합니다.\n\n개발 환경도 잘 갖춰져 있었는데요.\n\n- VS Code용 Vega 확장 프로그램이 제공되고, 로컬 시뮬레이터가 내장되어 있어 디바이스 없이도 코드를 디버깅하기 편했습니다.\n- 프로젝트를 바로 시작할 수 있는 CLI 앱도 제공됩니다.\n- React Native 기반이다 보니 AI 코딩 에이전트들도 익숙하게 다뤄줬고, 세부적인 부분은 Vega 공식 문서를 참조시키는 것만으로 충분했습니다.\n\n## 만든 것: 태양계 지도와 조명 연동\n\n이렇게 완성한 앱은 손님이 놀러 왔을 때 화면에 태양계 지도를 띄우고, 각 행성에 대한 정보를 함께 보여줍니다. 리모컨의 D-pad로 지도를 돌아다니며 조명과 행성을 하나씩 탐색할 수 있죠.\n\nLED 조명 제어는 WLED 컨트롤러를 통해 이뤄지는데, Vega 앱에서 일반적인 `fetch`를 사용해 HTTP 명령을 WLED 컨트롤러로 바로 전송하는 방식입니다. 별도의 복잡한 네트워크 레이어 없이 표준 웹 API만으로 하드웨어 제어가 가능했던 셈입니다.\n\n## 화룡점정: 음성으로 행성 부르기\n\n마지막으로 완성도를 높이기 위해 사용자가 행성 이름을 말하면 화면과 조명에 해당 행성이 표시되도록 만들고 싶었습니다. 이 기능은 놀랍게도 `aria-label`을 추가하는 것만으로 구현됐는데요. Vega가 음성 인식 관련 처리를 알아서 담당하고, 이름이 호출되면 press 이벤트를 자동으로 보내줬습니다. \"Saturn\"이라고 말하면 바로 반응하는 모습이 프로젝트를 한층 더 매끄럽게 완성해줬습니다.\n\n## 정리\n\n- React와 React Native 경험이 있다면 Amazon Vega로 Fire Stick 앱을 만드는 진입장벽이 매우 낮습니다.\n- VS Code 확장, 로컬 시뮬레이터, CLI 스캐폴딩 도구 등 개발 편의 기능이 잘 갖춰져 있어 디바이스 없이도 개발과 디버깅이 가능합니다.\n- 하드웨어 제어(WLED 컨트롤러)도 표준 `fetch` API로 간단히 연동할 수 있어, 기존 웹 개발 지식을 그대로 활용할 수 있습니다.\n- `aria-label`만 추가하면 별도 음성 인식 로직 없이 음성 명령과 UI 이벤트를 연결할 수 있어, 접근성 속성이 곧 부가 기능으로 이어지는 구조가 인상적입니다.\n- 기존 React/React Native 스킬셋을 대형 화면(TV, 프로젝터) 애플리케이션으로 확장하고 싶은 개발자에게 Vega는 시도해볼 만한 선택지입니다.",
+          "url": "https://www.youtube.com/watch?v=55hdtzM8T98",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 58,
+          "isTopicPrimary": true,
+          "slug": "lighting-my-porch-with-vega-coding-programming-javascript-vega",
+          "fullContent": "My family's own to astronomy. So, I printed out all these 3D printable planets and I put them along the back of the porch and I lit them with controllable LEDs. It's really nice when we're watching movies, but I wanted a way to connect the planets with the big projection screen. So, I looked around and picked a Fire Stick with Amazon's Vega because it uses React Native for the UI and I'm pretty good with React and React Native. And I got to tell you, it was easier than I expected. There's a Vega extension for VS Code. It's got a local simulator that makes it really easy to debug the code, which is great. The L coding agents obviously love React Native. And so, I just pointed them at the Vega docs for the extra details. They've even got a CLI app to get your project started. So, now when folks come over, I can just pop up a map of the solar system with all the facts about each planet and they can navigate around the lights and the planets with the D-pad on the controller. And then to control the LEDs, I use a WLED controller and then just send the command to it with HTTP right out of the Vega app using just a regular fetch. But to kind of add that finishing touch, I wanted folks to be able to say the name of the planet and have it show up on the screen and also on the lights. And it was as easy as just adding aria labels and Vega just handled all the extra voice work and sent the press events when you use the name. Saturn. It's just so slick and it really brought that project to life. So, give Vega a shot. If you know React Native and React already, it's an easy way to get your application up on the big screen. Check out the link in the description for more information and thank you so much, Amazon, for sponsoring this video.",
+          "category": "video",
+          "publishedAt": "2026-07-02T18:22:02+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "React 2025 – Adding MDX",
+          "titleKo": "React 2025 - MDX 추가하기",
+          "summary": "제목만 있어 상세 내용을 파악하기 어렵습니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=TUnbglpVhiU",
+          "sourceName": "Lee Robinson",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 72,
+          "isTopicPrimary": true,
+          "slug": "react-2025-adding-mdx",
+          "category": "video",
+          "publishedAt": "2025-11-07T14:31:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "What is the dumb zone?",
+          "titleKo": "\"Dumb Zone\"이란 무엇인가?",
+          "summary": "제목만 있어 상세 내용을 파악하기 어렵습니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=sOd7svdu_1I",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "typescript",
+            "frontend"
+          ],
+          "relevance": 75,
+          "isTopicPrimary": true,
+          "slug": "what-is-the-dumb-zone",
+          "category": "video",
+          "publishedAt": "2026-07-20T10:17:29+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
