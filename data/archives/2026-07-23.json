@@ -1,0 +1,439 @@
+{
+  "date": "2026-07-23",
+  "intro": "안녕하세요! 프론트엔드 개발자 여러분, 오늘 뉴스레터입니다. 오늘은 React Server Components의 심각한 보안 취약점이 화두인데, CVSS 10.0 등급의 RCE 취약점과 그 이후 발견된 추가 취약점들로 긴급 패치가 이어지고 있습니다. 함께 Safari의 최신 기능 지원과 실용적인 개발 도구들도 주목할 만합니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Critical Security Vulnerability in React Server Components",
+          "titleKo": "React Server Components 치명적 보안 취약점 발견, 즉시 업데이트 필요 (CVE-2025-55182)",
+          "summary": "React 팀이 CVSS 10.0 등급의 인증 없는 원격 코드 실행(RCE) 취약점(CVE-2025-55182)을 공개했습니다. react-server-dom-webpack/parcel/turbopack 19.0~19.2.0 버전에 존재하며, Next.js·React Router·Waku·Redwood SDK 등 RSC 지원 프레임워크 전반이 영향을 받습니다. 각 프레임워크별 패치 버전과 업그레이드 방법이 안내되었으며, 이후 DoS와 소스 코드 노출 관련 추가 취약점도 함께 발견되어 패치가 이루어졌습니다.",
+          "keyPoints": [
+            "CVE-2025-55182(CVSS 10.0)는 React Server Function 페이로드 디코딩 결함을 악용한 인증 없는 원격 코드 실행 취약점이다.",
+            "react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack의 19.0~19.2.0 버전이 영향을 받으며, 각각 19.0.1/19.1.2/19.2.1로 수정됐다.",
+            "Next.js, React Router, Waku, Redwood SDK, @parcel/rsc, @vitejs/plugin-rsc 등 RSC 지원 프레임워크와 번들러가 모두 영향 범위에 포함된다.",
+            "Server Function 엔드포인트를 직접 구현하지 않아도 RSC를 지원하는 앱이면 취약할 수 있으므로 즉시 패치 버전으로 업그레이드해야 한다.",
+            "이후 DoS(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864)와 소스 코드 노출(CVE-2025-55183) 취약점도 추가로 확인되어 업데이트 안내가 갱신됐다."
+          ],
+          "whyItMatters": "React Server Components 기반 앱을 운영 중인 개발자라면 프레임워크 종류와 무관하게 즉시 버전 점검과 업그레이드가 필요한 최고 위험도(CVSS 10.0)의 보안 이슈입니다.",
+          "article": "React 팀이 2025년 12월 3일, React Server Components에서 발견된 치명적인 보안 취약점을 공개했습니다. 인증 절차 없이도 원격 코드 실행(RCE)이 가능한 심각한 결함으로, CVSS 최고 등급인 10.0을 받았습니다. React 및 관련 프레임워크를 사용 중이라면 이 글을 통해 영향 범위와 즉시 취해야 할 조치를 확인하시기 바랍니다.\n\n## 취약점 개요\n\n지난 11월 29일, 보안 연구자 Lachlan Davidson이 Meta Bug Bounty 프로그램을 통해 React의 보안 취약점을 신고했습니다. 이 취약점은 React Server Function 엔드포인트로 전송된 페이로드를 React가 디코딩하는 과정의 결함을 악용해, 인증되지 않은 공격자가 서버에서 임의의 코드를 실행할 수 있게 만듭니다.\n\nReact Server Functions는 클라이언트가 서버의 함수를 호출할 수 있게 해주는 기능입니다. React는 클라이언트에서의 요청을 HTTP 요청으로 변환해 서버로 전달하고, 서버는 이를 다시 함수 호출로 변환해 필요한 데이터를 클라이언트에 반환하는 구조로 동작합니다. 공격자는 악의적으로 조작한 HTTP 요청을 임의의 Server Function 엔드포인트로 보낼 수 있고, React가 이를 역직렬화하는 과정에서 서버 측 RCE가 발생합니다.\n\n주목할 점은, 앱에 Server Function 엔드포인트를 직접 구현하지 않았더라도 React Server Components를 지원하는 앱이라면 취약할 수 있다는 것입니다. 이 취약점은 **CVE-2025-55182**로 등록되었으며 **CVSS 10.0** (최고 위험도)를 받았습니다.\n\n## 영향받는 패키지와 버전\n\n다음 패키지의 **19.0, 19.1.0, 19.1.1, 19.2.0** 버전이 영향을 받습니다.\n\n- `react-server-dom-webpack`\n- `react-server-dom-parcel`\n- `react-server-dom-turbopack`\n\n수정 버전은 **19.0.1, 19.1.2, 19.2.1**로 배포되었습니다. 위 패키지를 사용 중이라면 즉시 수정 버전으로 업그레이드해야 합니다.\n\n반대로, 앱의 React 코드가 서버를 사용하지 않거나, React Server Components를 지원하는 프레임워크·번들러·번들러 플러그인을 사용하지 않는다면 이 취약점의 영향을 받지 않습니다.\n\n## 영향받는 프레임워크와 번들러\n\n일부 React 프레임워크와 번들러는 취약한 React 패키지에 의존하거나, 피어 의존성으로 포함하고 있었습니다. 다음 목록이 영향을 받습니다.\n\n- Next.js (`next`)\n- React Router (`react-router`)\n- Waku (`waku`)\n- `@parcel/rsc`\n- `@vitejs/plugin-rsc`\n- Redwood SDK (`rwsdk`)\n\nReact 팀은 다수의 호스팅 제공업체와 협력해 임시 완화 조치를 적용했지만, 이는 어디까지나 임시방편일 뿐 이를 근거로 업데이트를 미뤄서는 안 됩니다.\n\n## 즉시 조치 사항: 프레임워크별 업그레이드 가이드\n\n이후 추가로 발견된 취약점들을 반영해 업데이트 안내가 갱신되었습니다.\n\n- **서비스 거부(DoS) - High**: CVE-2025-55184, CVE-2025-67779 (CVSS 7.5)\n- **소스 코드 노출 - Medium**: CVE-2025-55183 (CVSS 5.3)\n- **서비스 거부(DoS) - High**: 2026년 1월 26일 추가된 CVE-2026-23864 (CVSS 7.5)\n\n### Next.js\n\n각 릴리스 라인의 최신 패치 버전으로 업그레이드해야 합니다.\n\n```\nnpm install next@14.2.35\nnpm install next@15.0.8\nnpm install next@15.1.12\nnpm install next@15.2.9\nnpm install next@15.3.9\nnpm install next@15.4.11\nnpm install next@15.5.10\nnpm install next@16.0.11\nnpm install next@16.1.5\nnpm install next@15.6.0-canary.60\nnpm install next@16.1.0-canary.19\n```\n\n패치 버전 목록: 15.0.8, 15.1.12, 15.2.9, 15.3.9, 15.4.10, 15.5.10, 15.6.0-canary.61, 16.0.11, 16.1.5\n\nNext.js 13.3 이상 (13.3.x, 13.4.x, 13.5.x)을 사용 중이라면 14.2.35로 업그레이드해야 합니다. `next@14.3.0-canary.77` 이후 캐너리 버전을 쓰고 있다면 안정된 14.x 최신 릴리스로 다운그레이드하세요.\n\n```\nnpm install next@14\n```\n\n최신 업데이트 안내는 Next.js 블로그를 참고하시기 바랍니다.\n\n### React Router\n\nReact Router의 unstable RSC API를 사용 중이라면, `package.json`에 아래 의존성이 있는지 확인하고 최신 버전으로 업그레이드해야 합니다.\n\n```\nnpm install react@latest\nnpm install react-dom@latest\nnpm install react-server-dom-parcel@latest\nnpm install react-server-dom-webpack@latest\nnpm install @vitejs/plugin-rsc@latest\n```\n\n### Expo\n\n완화 방법에 대한 자세한 내용은 expo.dev/changelog의 관련 글을 참고하시기 바랍니다.\n\n### Redwood SDK\n\n`rwsdk>=1.0.0-alpha.0` 버전 이상인지 확인하고, 최신 베타 버전으로 업그레이드합니다.\n\n```\nnpm install rwsdk@latest\n```\n\n`react-server-dom-webpack`도 최신 버전으로 업그레이드해야 합니다.\n\n```\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\n```\n\n자세한 마이그레이션 방법은 Redwood 공식 문서를 참고하세요.\n\n### Waku\n\n```\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest waku@latest\n```\n\n자세한 마이그레이션 방법은 Waku 공지를 참고하세요.\n\n### @vitejs/plugin-rsc\n\n```\nnpm install react@latest react-dom@latest @vitejs/plugin-rsc@latest\n```\n\n### react-server-dom-parcel\n\n```\nnpm install react@latest react-dom@latest react-server-dom-parcel@latest\n```\n\n### react-server-dom-turbopack\n\n```\nnpm install react@latest react-dom@latest react-server-dom-turbopack@latest\n```\n\n### react-server-dom-webpack\n\n```\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\n```\n\n### React Native\n\n모노레포가 아니고 `react-dom`을 사용하지 않는 React Native 사용자는 `package.json`에 React 버전이 고정되어 있으므로 추가 조치가 필요 없습니다.\n\n모노레포 환경에서 React Native를 사용 중이라면, 설치된 경우에 한해 다음 패키지들만 업데이트하면 됩니다.\n\n- `react-server-dom-webpack`\n- `react-server-dom-parcel`\n- `react-server-dom-turbopack`\n\n이는 보안 권고 사항을 완화하기 위한 필수 조치이며, `react`와 `react-dom`을 업데이트할 필요는 없으므로 React Native의 버전 불일치 오류가 발생하지 않습니다. 자세한 내용은 관련 이슈를 참고하시기 바랍니다.\n\n## 타임라인\n\n- **11월 29일**: Lachlan Davidson이 Meta Bug Bounty를 통해 보안 취약점을 신고\n- **11월 30일**: Meta 보안 연구팀이 취약점을 확인하고 React 팀과 함께 수정 작업 시작\n- **12월 1일**: 수정 버전 완성. React 팀이 영향받는 호스팅 업체 및 오픈소스 프로젝트와 협력해 수정 사항을 검증하고 완화 조치를 구현, 배포 시작\n- **12월 3일**: 수정 버전을 npm에 공개 배포하고 CVE-2025-55182로 공식 공개\n\nReact 팀은 이 취약점을 발견하고 신고했으며, 수정 작업에도 협력한 Lachlan Davidson에게 감사를 표했습니다.\n\n## 정리\n\n- React Server Components 관련 패키지(`react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack`)의 19.0~19.2.0 버전에 인증 없이도 원격 코드 실행이 가능한 CVE-2025-55182(CVSS 10.0) 취약점이 존재합니다.\n- Next.js, React Router, Waku, Redwood SDK, `@parcel/rsc`, `@vitejs/plugin-rsc` 등 RSC를 지원하는 주요 프레임워크·번들러가 모두 영향을 받으므로, 사용 중인 스택에 맞춰 즉시 패치 버전으로 업그레이드해야 합니다.\n- 서버를 사용하지 않거나 RSC를 지원하는 프레임워크/번들러를 쓰지 않는 앱은 영향을 받지 않지만, RSC를 쓰는 프로젝트라면 Server Function 엔드포인트를 직접 만들지 않았어도 취약할 수 있습니다.\n- 호스팅 업체의 임시 완화 조치는 어디까지나 보조 수단일 뿐이며, 반드시 각 프레임워크의 공식 안내에 따라 패치 버전으로 업그레이드해야 합니다.\n- 이후 추가로 발견된 DoS(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864)와 소스 코드 노출(CVE-2025-55183) 취약점도 함께 반영해 최신 패치를 적용해야 하며, 자세한 내용은 후속 블로그 글을 확인해야 합니다.",
+          "url": "https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 88,
+          "topicId": "rsc-security",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "critical-security-vulnerability-in-react-server-components",
+          "fullContent": "BlogCopy pageCopyCritical Security Vulnerability in React Server ComponentsDecember 3, 2025 by The React Team\nThere is an unauthenticated remote code execution vulnerability in React Server Components.We recommend upgrading immediately.\nOn November 29th, Lachlan Davidson reported a security vulnerability in React that allows unauthenticated remote code execution by exploiting a flaw in how React decodes payloads sent to React Server Function endpoints.\nEven if your app does not implement any React Server Function endpoints it may still be vulnerable if your app supports React Server Components.\nThis vulnerability was disclosed as CVE-2025-55182 and is rated CVSS 10.0.\nThe vulnerability is present in versions 19.0, 19.1.0, 19.1.1, and 19.2.0 of:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nImmediate Action Required\nA fix was introduced in versions 19.0.1, 19.1.2, and 19.2.1. If you are using any of the above packages please upgrade to any of the fixed versions immediately.\nIf your app’s React code does not use a server, your app is not affected by this vulnerability. If your app does not use a framework, bundler, or bundler plugin that supports React Server Components, your app is not affected by this vulnerability.\nAffected frameworks and bundlers\nSome React frameworks and bundlers depended on, had peer dependencies for, or included the vulnerable React packages. The following React frameworks & bundlers are affected: next, react-router, waku, @parcel/rsc, @vitejs/plugin-rsc, and rwsdk.\nSee the update instructions below for how to upgrade to these patches.\nHosting Provider Mitigations\nWe have worked with a number of hosting providers to apply temporary mitigations.\nYou should not depend on these to secure your app, and still update immediately.\nVulnerability overview\nReact Server Functions allow a client to call a function on a server. React provides integration points and tools that frameworks and bundlers use to help React code run on both the client and the server. React translates requests on the client into HTTP requests which are forwarded to a server. On the server, React translates the HTTP request into a function call and returns the needed data to the client.\nAn unauthenticated attacker could craft a malicious HTTP request to any Server Function endpoint that, when deserialized by React, achieves remote code execution on the server. Further details of the vulnerability will be provided after the rollout of the fix is complete.\nUpdate Instructions\nNoteThese instructions have been updated to include the new vulnerabilities:\nDenial of Service - High Severity: CVE-2025-55184 and CVE-2025-67779 (CVSS 7.5)\nSource Code Exposure - Medium Severity: CVE-2025-55183 (CVSS 5.3)\nDenial of Service - High Severity: January 26, 2026 CVE-2026-23864 (CVSS 7.5)\nSee the follow-up blog post for more info.Updated January 26, 2026.\nNext.js\nAll users should upgrade to the latest patched version in their release line:\nnpm install next@14.2.35 npm install next@15.0.8 npm install next@15.1.12 npm install next@15.2.9 npm install next@15.3.9 npm install next@15.4.11 npm install next@15.5.10 npm install next@16.0.11 npm install next@16.1.5 npm install next@15.6.0-canary.60 npm install next@16.1.0-canary.19\n15.0.8, 15.1.12, 15.2.9, 15.3.9, 15.4.10, 15.5.10, 15.6.0-canary.61, 16.0.11, 16.1.5\nIf you are on version 13.3 or later version of Next.js 13 (13.3.x, 13.4.x, or 13.5.x) please upgrade to version 14.2.35.\nIf you are on next@14.3.0-canary.77 or a later canary release, downgrade to the latest stable 14.x release:\nnpm install next@14\nSee the Next.js blog for the latest update instructions and the previous changelog for more info.\nReact Router\nIf you are using React Router’s unstable RSC APIs, you should upgrade the following package.json dependencies if they exist:\nnpm install react@latestnpm install react-dom@latestnpm install react-server-dom-parcel@latestnpm install react-server-dom-webpack@latestnpm install @vitejs/plugin-rsc@latest\nExpo\nTo learn more about mitigating, read the article on expo.dev/changelog.\nRedwood SDK\nEnsure you are on rwsdk>=1.0.0-alpha.0\nFor the latest beta version:\nnpm install rwsdk@latest\nUpgrade to the latest react-server-dom-webpack:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\nSee Redwood docs for more migration instructions.\nWaku\nUpgrade to the latest react-server-dom-webpack:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest waku@latest\nSee Waku announcement for more migration instructions.\n@vitejs/plugin-rsc\nUpgrade to the latest RSC plugin:\nnpm install react@latest react-dom@latest @vitejs/plugin-rsc@latest\nreact-server-dom-parcel\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-parcel@latest\nreact-server-dom-turbopack\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-turbopack@latest\nreact-server-dom-webpack\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\nReact Native\nFor React Native users not using a monorepo or react-dom, your react version should be pinned in your package.json, and there are no additional steps needed.\nIf you are using React Native in a monorepo, you should update only the impacted packages if they are installed:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nThis is required to mitigate the security advisory, but you do not need to update react and react-dom so this will not cause the version mismatch error in React Native.\nSee this issue for more information.\nTimeline\nNovember 29th: Lachlan Davidson reported the security vulnerability via Meta Bug Bounty.\nNovember 30th: Meta security researchers confirmed and began working with the React team on a fix.\nDecember 1st: A fix was created and the React team began working with affected hosting providers and open source projects to validate the fix, implement mitigations and roll out the fix\nDecember 3rd: The fix was published to npm and the publicly disclosed as CVE-2025-55182.\nAttribution\nThank you to Lachlan Davidson for discovering, reporting, and working to help fix this vulnerability.PreviousDenial of Service and Source Code Exposure in React Server ComponentsNextReact Conf 2025 Recap",
+          "category": "hot",
+          "publishedAt": "2025-12-03T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Denial of Service and Source Code Exposure in React Server Components",
+          "titleKo": "React Server Components에서 발견된 서비스 거부 및 소스 코드 노출 취약점",
+          "summary": "React2Shell RCE 취약점 패치를 검증하던 보안 연구자들이 React Server Components에서 서비스 거부(DoS) 취약점 3건과 소스 코드 노출 취약점 1건을 추가로 발견했습니다. 이전에 공지된 19.0.3, 19.1.4, 19.2.3 패치는 불완전했으므로 19.0.4, 19.1.5, 19.2.4로 재업데이트가 필요합니다. react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack 패키지와 next, react-router, waku 등 다수의 프레임워크가 영향을 받습니다.",
+          "keyPoints": [
+            "새로 공개된 취약점은 DoS 3건(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864, CVSS 7.5)과 소스 코드 노출 1건(CVE-2025-55183, CVSS 5.3)이며 RCE로는 이어지지 않습니다.",
+            "이전에 안내된 19.0.3, 19.1.4, 19.2.3 패치가 불완전했으므로, 이미 업데이트했더라도 19.0.4, 19.1.5, 19.2.4로 다시 업데이트해야 합니다.",
+            "DoS 취약점은 Server Function 엔드포인트에 조작된 HTTP 요청을 보내 무한 루프나 서버 크래시를 유발하며, 소스 코드 노출은 문자열화된 인자를 반환하는 Server Function을 통해 하드코딩된 비밀 값까지 유출될 수 있습니다.",
+            "next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, rwsdk 등 RSC를 지원하는 프레임워크·번들러 사용자는 즉시 업그레이드가 필요합니다.",
+            "서버를 사용하지 않는 순수 클라이언트 React 앱, RSC를 지원하지 않는 프레임워크를 쓰는 앱은 영향을 받지 않습니다."
+          ],
+          "whyItMatters": "RSC 기반 프레임워크(특히 Next.js, React Router)를 프로덕션에 사용 중인 개발자라면 서비스 중단과 민감 정보 유출로 직결될 수 있는 심각도 높은 보안 이슈이므로 즉각적인 버전 점검과 업그레이드가 필요합니다.",
+          "article": "# React Server Components에서 발견된 서비스 거부 및 소스 코드 노출 취약점\n\n지난주 공개된 React Server Components의 치명적인 RCE(원격 코드 실행) 취약점, 이른바 \"React2Shell\" 패치가 나오자마자 보안 연구자들이 이 패치를 우회할 수 있는지 검증하는 과정에서 두 건의 추가 취약점을 발견했습니다. 다행히 이번에 새로 발견된 취약점들은 RCE로 이어지지는 않으며, 기존 React2Shell 패치는 여전히 유효합니다. 하지만 심각도가 높은 만큼 즉시 업데이트가 필요한 사안이라 React 팀이 별도로 공지를 냈습니다.\n\n이번 글에서는 새로 공개된 CVE 내용과 영향 범위, 그리고 업데이트 방법을 정리합니다.\n\n## 새로 공개된 취약점\n\n이번에 공개된 취약점은 두 종류입니다.\n\n- **서비스 거부(DoS) - 심각도 High**: CVE-2025-55184, CVE-2025-67779, CVE-2026-23864 (CVSS 7.5)\n- **소스 코드 노출 - 심각도 Medium**: CVE-2025-55183 (CVSS 5.3)\n\n심각도를 고려하면 즉시 업그레이드하는 것이 좋습니다. 특히 주의할 점은, 지난번 공지에서 안내했던 패치 버전(19.0.3, 19.1.4, 19.2.3)이 불완전했다는 것입니다. 이미 이 버전들로 업데이트했더라도 다시 한번 업데이트해야 합니다.\n\n## 즉시 조치가 필요한 이유\n\n이번에 발견된 취약점들은 지난번 CVE-2025-55182와 동일한 패키지, 동일한 버전 범위에 존재합니다. 영향을 받는 버전은 다음과 같습니다.\n\n- 19.0.0, 19.0.1, 19.0.2, 19.0.3\n- 19.1.0, 19.1.1, 19.1.2, 19.1.3\n- 19.2.0, 19.2.1, 19.2.2, 19.2.3\n\n영향을 받는 패키지는 아래 세 가지입니다.\n\n- react-server-dom-webpack\n- react-server-dom-parcel\n- react-server-dom-turbopack\n\n수정 사항은 19.0.4, 19.1.5, 19.2.4 버전에 백포트되었습니다. 위 패키지를 사용 중이라면 즉시 이 버전들 중 하나로 업그레이드해야 합니다.\n\n기존과 마찬가지로, 앱의 React 코드가 서버를 사용하지 않는다면 이번 취약점의 영향을 받지 않습니다. 마찬가지로 React Server Components를 지원하는 프레임워크, 번들러, 번들러 플러그인을 사용하지 않는 앱도 안전합니다.\n\nReact 팀은 이런 상황이 드문 일이 아니라고 설명합니다. 치명적인 CVE가 공개되면 보안 연구자들은 관련 코드 경로를 집중적으로 파고들며 초기 완화책을 우회할 수 있는 변종 공격 기법을 찾아냅니다. 이는 JavaScript 생태계만의 이야기가 아니라 업계 전반에서 흔히 나타나는 패턴입니다. 예를 들어 Log4Shell 사태 이후에도 커뮤니티가 최초 패치를 검증하는 과정에서 추가 CVE들이 보고된 바 있습니다. 추가 공개가 번거롭게 느껴질 수 있지만, 오히려 이는 건강한 대응 사이클이 작동하고 있다는 신호이기도 합니다.\n\n## 영향받는 프레임워크 및 번들러\n\n일부 React 프레임워크와 번들러는 취약한 React 패키지에 직접 의존하거나, 피어 의존성으로 갖고 있거나, 내부에 포함하고 있습니다. 영향을 받는 프레임워크·번들러는 다음과 같습니다.\n\n- next\n- react-router\n- waku\n- @parcel/rsc\n- @vite/rsc-plugin\n- rwsdk\n\n업그레이드 절차는 지난 공지 글의 안내를 참고하면 됩니다.\n\n## 호스팅 제공업체의 임시 완화 조치\n\nReact 팀은 이번에도 여러 호스팅 제공업체와 협력해 임시 완화 조치를 적용했습니다. 다만 이는 어디까지나 임시방편이므로 이에 의존하지 말고 반드시 즉시 직접 업데이트해야 합니다.\n\n## React Native 사용자를 위한 안내\n\n모노레포를 사용하지 않거나 react-dom을 사용하지 않는 React Native 사용자라면, package.json에 React 버전이 고정되어 있을 것이므로 별도 조치가 필요 없습니다.\n\n모노레포 환경에서 React Native를 사용 중이라면, 아래 패키지가 설치되어 있는 경우에 한해 해당 패키지만 업데이트하면 됩니다.\n\n- react-server-dom-webpack\n- react-server-dom-parcel\n- react-server-dom-turbopack\n\n이는 보안 권고사항을 완화하기 위해 필요한 조치이며, react와 react-dom까지 업데이트할 필요는 없으므로 React Native에서 발생하는 버전 불일치 오류는 걱정하지 않아도 됩니다.\n\n## 취약점 상세: 다중 서비스 거부(DoS)\n\n**CVE**: CVE-2026-23864 | **Base Score**: 7.5 (High) | **날짜**: 2026년 1월 26일\n\n보안 연구자들은 React Server Components에 여전히 추가적인 DoS 취약점이 남아 있음을 발견했습니다. 이 취약점은 Server Function 엔드포인트로 특수하게 조작된 HTTP 요청을 보내는 방식으로 유발되며, 취약한 코드 경로와 애플리케이션 설정 및 코드에 따라 서버 크래시, out-of-memory 예외, 과도한 CPU 사용 등을 일으킬 수 있습니다.\n\n1월 26일 배포된 패치가 이 DoS 취약점들을 완화합니다.\n\n여기서 중요한 점은, CVE-2025-55184를 해결하기 위해 발표했던 원래의 수정이 불완전했다는 것입니다. 이 때문에 이전 버전들은 여전히 취약한 상태였고, 19.0.4, 19.1.5, 19.2.4 버전만이 안전합니다.\n\n## 취약점 상세: 서비스 거부(DoS)\n\n**CVE**: CVE-2025-55184, CVE-2025-67779 | **Base Score**: 7.5 (High)\n\n보안 연구자들은 임의의 Server Functions 엔드포인트에 악의적으로 조작된 HTTP 요청을 보내면, React가 이를 역직렬화하는 과정에서 무한 루프가 발생해 서버 프로세스가 멈추고 CPU를 소모하게 만들 수 있다는 사실을 발견했습니다. 앱이 별도의 React Server Function 엔드포인트를 구현하지 않았더라도, React Server Components를 지원하기만 한다면 여전히 취약할 수 있습니다.\n\n이는 공격자가 사용자의 서비스 접근을 차단하고, 서버 환경의 성능에 잠재적으로 영향을 줄 수 있는 공격 벡터가 됩니다. 이번에 배포된 패치는 무한 루프 발생을 막는 방식으로 이 문제를 완화합니다.\n\n## 취약점 상세: 소스 코드 노출\n\n**CVE**: CVE-2025-55183 | **Base Score**: 5.3 (Medium)\n\n한 보안 연구자는 취약한 Server Function에 악의적으로 조작된 HTTP 요청을 보내면 해당 Server Function의 소스 코드가 안전하지 않게 반환될 수 있다는 사실을 발견했습니다. 이 공격이 성립하려면 명시적으로든 암묵적으로든 문자열화된 인자를 노출하는 Server Function이 존재해야 합니다. 예를 들어 다음과 같은 코드입니다.\n\n```js\n'use server';\n\nexport async function serverFunction(name) {\n  const conn = db.createConnection('SECRET KEY');\n  const user = await conn.createUser(name);\n  return { id: user.id, message: `Hello, ${name}!` }\n}\n```\n\n공격자는 다음과 같은 형태로 정보를 유출시킬 수 있습니다.\n\n```\n0:{\"a\":\"$@1\",\"f\":\"\",\"b\":\"Wy43RxUKdxmr5iuBzJ1pN\"}\n1:{\"id\":\"tva1sfodwq\",\"message\":\"Hello, async function(a){console.log(\\\"serverFunction\\\");let b=i.createConnection(\\\"SECRET KEY\\\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!\"}\n```\n\n보시다시피 `db.createConnection('SECRET KEY')`처럼 소스 코드에 하드코딩된 비밀 값이 그대로 노출될 수 있습니다. 오늘 배포된 패치는 Server Function의 소스 코드가 문자열화되는 것을 막습니다.\n\n다만 몇 가지 주의할 점이 있습니다. 소스 코드에 하드코딩된 비밀은 노출될 수 있지만, `process.env.SECRET`처럼 런타임에 주입되는 비밀 값은 영향을 받지 않습니다. 또한 노출되는 코드의 범위는 해당 Server Function 내부 코드로 한정되지만, 번들러의 인라이닝 정도에 따라 다른 함수까지 포함될 수 있습니다. 따라서 항상 프로덕션 번들 기준으로 영향 범위를 검증해야 합니다.\n\n## 타임라인\n\n- **12월 3일**: Andrew MacPherson이 Vercel과 Meta Bug Bounty에 소스 코드 노출 문제를 제보\n- **12월 4일**: RyotaK이 Meta Bug Bounty에 초기 DoS 문제를 제보\n- **12월 6일**: React 팀이 두 문제를 모두 확인하고 조사 시작\n- **12월 7일**: 초기 수정안 작성, 새 패치 검증 및 계획 시작\n- **12월 8일**: 영향받는 호스팅 제공업체 및 오픈소스 프로젝트에 통보\n- **12월 10일**: 호스팅 제공업체 완화 조치 적용 및 패치 검증 완료\n- **12월 11일**: Shinsaku Nomura가 Meta Bug Bounty에 추가 DoS 문제 제보\n- **12월 11일**: 패치 배포 및 CVE-2025-55183, CVE-2025-55184로 공개\n- **12월 11일**: 내부적으로 누락된 DoS 케이스 발견, 패치 후 CVE-2025-67779로 공개\n- **1월 26일**: 추가 DoS 케이스 발견, 패치 후 CVE-2026-23864로 공개\n\n이번 보고 및 협업에 대해 소스 코드 노출 문제를 제보한 Andrew MacPherson(AndrewMohawk), DoS 취약점을 제보한 GMO Flatt Security의 RyotaK와 Bitforest의 Shinsaku Nomura, 그리고 추가 DoS 취약점을 제보한 Winfunc Research의 Mufeed VH, Joachim Viide, GMO Flatt Security의 RyotaK, Tencent Security YUNDING LAB의 Xiangwei Zhang에게 React 팀이 감사를 표했습니다.\n\n## 정리\n\n- 지난주 공개된 React2Shell(RCE) 취약점의 패치를 검증하던 중, DoS 취약점 3건(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864, CVSS 7.5)과 소스 코드 노출 취약점 1건(CVE-2025-55183, CVSS 5.3)이 추가로 발견됐습니다.\n- 지난번 공지했던 19.0.3, 19.1.4, 19.2.3 패치는 불완전했으므로, 이미 업데이트했더라도 19.0.4, 19.1.5, 19.2.4로 재업데이트가 필요합니다.\n- 영향받는 패키지는 react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack이며, next·react-router·waku·@parcel/rsc·@vite/rsc-plugin·rwsdk 등의 프레임워크에도 영향을 미칩니다.\n- DoS 취약점은 Server Function 엔드포인트에 조작된 요청을 보내 무한 루프나 서버 크래시를 유발하는 방식이며, 소스 코드 노출 취약점은 Server Function이 문자열화된 인자를 반환할 때 함수 소스 코드(하드코딩된 비밀 포함)가 유출될 수 있는 문제입니다.\n- React Server Components를 사용하지 않는 앱, 즉 서버 없이 동작하는 순수 클라이언트 React 앱은 이번 취약점들의 영향을 받지 않습니다.\n\nRSC를 프로덕션에서 사용 중이라면 이번 공지를 가볍게 넘기지 말고, 패키지 버전을 다시 한번 확인하고 19.0.4/19.1.5/19.2.4 이상으로 즉시 업그레이드할 것을 권장합니다.",
+          "url": "https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 87,
+          "topicId": "rsc-security",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "denial-of-service-and-source-code-exposure-in-react-server-components",
+          "fullContent": "BlogCopy pageCopyDenial of Service and Source Code Exposure in React Server ComponentsDecember 11, 2025 by The React Team\nUpdated January 26, 2026.\nSecurity researchers have found and disclosed two additional vulnerabilities in React Server Components while attempting to exploit the patches in last week’s critical vulnerability.These new vulnerabilities do not allow for Remote Code Execution. The patch for React2Shell remains effective at mitigating the Remote Code Execution exploit.\nThe new vulnerabilities are disclosed as:\nDenial of Service - High Severity: CVE-2025-55184, CVE-2025-67779, and CVE-2026-23864 (CVSS 7.5)\nSource Code Exposure - Medium Severity: CVE-2025-55183 (CVSS 5.3)\nWe recommend upgrading immediately due to the severity of the newly disclosed vulnerabilities.\nNoteThe patches published earlier are vulnerable. If you already updated for the previous vulnerabilities, you will need to update again.If you updated to 19.0.3, 19.1.4, and 19.2.3, these are incomplete, and you will need to update again.Please see the instructions in the previous post for upgrade steps.Updated January 26, 2026.\nFurther details of these vulnerabilities will be provided after the rollout of the fixes are complete.\nImmediate Action Required\nThese vulnerabilities are present in the same packages and versions as CVE-2025-55182.\nThis includes 19.0.0, 19.0.1, 19.0.2, 19.0.3, 19.1.0, 19.1.1, 19.1.2, 19.1.3, 19.2.0, 19.2.1, 19.2.2, and 19.2.3 of:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nFixes were backported to versions 19.0.4, 19.1.5, and 19.2.4. If you are using any of the above packages please upgrade to any of the fixed versions immediately.\nAs before, if your app’s React code does not use a server, your app is not affected by these vulnerabilities. If your app does not use a framework, bundler, or bundler plugin that supports React Server Components, your app is not affected by these vulnerabilities.\nNoteIt’s common for critical CVEs to uncover follow‑up vulnerabilities. When a critical vulnerability is disclosed, researchers scrutinize adjacent code paths looking for variant exploit techniques to test whether the initial mitigation can be bypassed.This pattern shows up across the industry, not just in JavaScript. For example, after Log4Shell, additional CVEs (1, 2) were reported as the community probed the original fix.Additional disclosures can be frustrating, but they are generally a sign of a healthy response cycle.\nAffected frameworks and bundlers\nSome React frameworks and bundlers depended on, had peer dependencies for, or included the vulnerable React packages. The following React frameworks & bundlers are affected: next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, and rwsdk.\nPlease see the instructions in the previous post for upgrade steps.\nHosting Provider Mitigations\nAs before, we have worked with a number of hosting providers to apply temporary mitigations.\nYou should not depend on these to secure your app, and still update immediately.\nReact Native\nFor React Native users not using a monorepo or react-dom, your react version should be pinned in your package.json, and there are no additional steps needed.\nIf you are using React Native in a monorepo, you should update only the impacted packages if they are installed:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nThis is required to mitigate the security advisories, but you do not need to update react and react-dom so this will not cause the version mismatch error in React Native.\nSee this issue for more information.\nHigh Severity: Multiple Denial of Service\nCVEs: CVE-2026-23864\nBase Score: 7.5 (High)\nDate: January 26, 2026\nSecurity researchers discovered additional DoS vulnerabilities still exist in React Server Components.\nThe vulnerabilities are triggered by sending specially crafted HTTP requests to Server Function endpoints, and could lead to server crashes, out-of-memory exceptions or excessive CPU usage; depending on the vulnerable code path being exercised, the application configuration and application code.\nThe patches published January 26th mitigate these DoS vulnerabilities.\nNoteAdditional fixes published The original fix addressing the DoS in CVE-2025-55184 was incomplete.This left previous versions vulnerable. Versions 19.0.4, 19.1.5, 19.2.4 are safe.Updated January 26, 2026.\nHigh Severity: Denial of Service\nCVEs: CVE-2025-55184 and CVE-2025-67779\nBase Score: 7.5 (High)\nSecurity researchers have discovered that a malicious HTTP request can be crafted and sent to any Server Functions endpoint that, when deserialized by React, can cause an infinite loop that hangs the server process and consumes CPU. Even if your app does not implement any React Server Function endpoints it may still be vulnerable if your app supports React Server Components.\nThis creates a vulnerability vector where an attacker may be able to deny users from accessing the product, and potentially have a performance impact on the server environment.\nThe patches published today mitigate by preventing the infinite loop.\nMedium Severity: Source Code Exposure\nCVE: CVE-2025-55183\nBase Score: 5.3 (Medium)\nA security researcher has discovered that a malicious HTTP request sent to a vulnerable Server Function may unsafely return the source code of any Server Function. Exploitation requires the existence of a Server Function which explicitly or implicitly exposes a stringified argument:\n'use server';export async function serverFunction(name) { const conn = db.createConnection('SECRET KEY'); const user = await conn.createUser(name); return { id: user.id, message: `Hello, ${name}!` }}\nAn attacker may be able to leak the following:\n0:{\"a\":\"$@1\",\"f\":\"\",\"b\":\"Wy43RxUKdxmr5iuBzJ1pN\"}1:{\"id\":\"tva1sfodwq\",\"message\":\"Hello, async function(a){console.log(\\\"serverFunction\\\");let b=i.createConnection(\\\"SECRET KEY\\\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!\"}\nThe patches published today prevent stringifying the Server Function source code.\nNoteOnly secrets in source code may be exposed. Secrets hardcoded in source code may be exposed, but runtime secrets such as process.env.SECRET are not affected.The scope of the exposed code is limited to the code inside the Server Function, which may include other functions depending on the amount of inlining your bundler provides.Always verify against production bundles.\nTimeline\nDecember 3rd: Leak reported to Vercel and Meta Bug Bounty by Andrew MacPherson.\nDecember 4th: Initial DoS reported to Meta Bug Bounty by RyotaK.\nDecember 6th: Both issues confirmed by the React team, and the team began investigating.\nDecember 7th: Initial fixes created and the React team began verifying and planning new patch.\nDecember 8th: Affected hosting providers and open source projects notified.\nDecember 10th: Hosting provider mitigations in place and patches verified.\nDecember 11th: Additional DoS reported to Meta Bug Bounty by Shinsaku Nomura.\nDecember 11th: Patches published and publicly disclosed as CVE-2025-55183 and CVE-2025-55184.\nDecember 11th: Missing DoS case found internally, patched and publicly disclosed as CVE-2025-67779.\nJanuary 26th: Additional DoS cases found, patched, and publicly disclosed as CVE-2026-23864.\nAttribution\nThank you to Andrew MacPherson (AndrewMohawk) for reporting the Source Code Exposure, RyotaK from GMO Flatt Security Inc and Shinsaku Nomura of Bitforest Co., Ltd. for reporting the Denial of Service vulnerabilities. Thank you to Mufeed VH from Winfunc Research, Joachim Viide, RyotaK from GMO Flatt Security Inc and Xiangwei Zhang of Tencent Security YUNDING LAB for reporting the additional DoS vulnerabilities.PreviousThe React Foundation: A New Home for React Hosted by the Linux FoundationNextCritical Security Vulnerability in React Server Components",
+          "category": "hot",
+          "publishedAt": "2025-12-11T00:00:00.000Z",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Safari Technology Preview 248 Released",
+          "titleKo": "Safari Technology Preview 248 릴리스: BigInt Math 지원과 CSP·뷰 트랜지션 버그 수정 대거 포함",
+          "summary": "WebKit 팀이 macOS Golden Gate와 Tahoe용 Safari Technology Preview 248을 공개했습니다. TC39 BigInt Math 제안 지원이 새로 추가됐고, CSS 뷰 트랜지션·스크롤 스냅·CSP·미디어 재생 등 전 영역에 걸쳐 수십 건의 버그가 수정됐습니다. Web Inspector에서는 private 클래스 필드 표시, cross-origin iframe 디버깅 개선 등 개발자 도구 편의성도 크게 향상됐습니다.",
+          "keyPoints": [
+            "TC39 BigInt Math 제안이 구현되어 BigInt.pow, BigInt.sqrt 등을 표준 API로 사용 가능",
+            "CSS view transition 도중 규칙 삽입, :target 기반 스크롤 스냅 우선순위 등 최신 CSS 기능의 엣지 케이스 다수 수정",
+            "CSP의 report-only frame-ancestors 리포팅 누락, nonce/hash/trusted-types 파싱 취약점 등 보안 관련 버그 여러 건 수정",
+            "Web Inspector에서 ES2022 private 필드 표시, symbolic breakpoint 확장, cross-origin iframe 디버깅 개선",
+            "gain map 이미지 색상 오류, MSE 재생/탐색 안정성, 특정 스트리밍 소스 재생 실패 등 미디어 파이프라인 버그 다수 해결"
+          ],
+          "whyItMatters": "Safari/WebKit 기반 브라우저를 지원하는 웹 서비스라면 CSP, 뷰 트랜지션, 스크롤 스냅, 미디어 재생 관련 수정 사항이 실제 프로덕션 이슈와 직결될 수 있어 확인이 필요합니다.",
+          "article": "# Safari Technology Preview 248 릴리스 노트 정리\n\nWebKit 팀이 macOS Golden Gate와 macOS Tahoe용 Safari Technology Preview 248을 공개했습니다. 이번 릴리스는 315567@main부터 316817@main까지의 WebKit 변경 사항을 포함하고 있는데요, 접근성부터 CSS, JavaScript, 보안, Web Inspector까지 다양한 영역에 걸쳐 수십 건의 버그 수정과 신규 기능이 담겼습니다. 프론트엔드 개발 실무에 영향을 줄 만한 주요 변경 사항들을 카테고리별로 살펴보겠습니다.\n\n## 접근성 & 폼\n\nVoiceOver가 `hidden=\"until-found\"` 속성으로 숨겨진 콘텐츠를 disclosure 위젯을 통해 드러냈을 때 해당 콘텐츠로 네비게이션하지 못하던 문제가 해결됐습니다. 또한 참조 대상 요소의 `aria-label`이 동적으로 바뀔 때 `aria-labelledby`가 갱신되지 않고 그대로 남아있던 stale 참조 버그도 수정됐습니다.\n\n폼 쪽에서는 가로 방향 텍스트 폼 컨트롤의 동심원형 inner-button 모서리 반경(corner radius)이 하단 inset을 무시하던 문제가 고쳐졌습니다.\n\n## CSS: 색상 보간과 스크롤 스냅\n\nCSS 관련해서는 신규 기능과 버그 수정이 모두 눈에 띕니다.\n\n**신규 기능**\n- 유사한 색공간(analogous color space) 간 보간 시 누락된 색상 컴포넌트를 전달(forwarding)하는 기능이 추가됐습니다.\n- CSS `progress()` 함수에 `no-clamp` 옵션이 지원됩니다.\n\n**주요 버그 수정**\n- 다양한 CSS at-rule을 직렬화(serialize)할 때 식별자를 이스케이프하지 않던 문제가 수정됐습니다.\n- `:last-child`를 비롯한 관련 선택자가 스타일 계산(style resolution) 밖의 파서 상태에 잘못 의존하던 문제가 고쳐졌습니다.\n- `<iframe>`의 `color-scheme`을 변경해도 임베드된 문서의 외형이 무효화(invalidate)되지 않던 버그가 수정됐습니다.\n- CSS 스크롤 스냅이 다른 정렬된 스냅 타겟보다 fragment 타겟(`:target`)의 스냅 영역을 우선하도록 재스냅 로직이 개선됐습니다.\n- `@layer` 문 뒤에 오는 `@import` 규칙을 CSS 프리로드 스캐너가 미리 로드하지 못하던 문제가 해결됐습니다.\n- `CSSViewTransitionRule`의 직렬화 문제가 수정됐습니다.\n- `MediaList.deleteMedium()`이 인자를 미디어 쿼리로 파싱해 일치하는 모든 쿼리를 제거하도록, `MediaList.appendMedium()`은 단일 미디어 쿼리로 파싱해 중복을 방지하도록 수정됐습니다.\n- flex column 컨테이너에 `stretch` 또는 `fit-content` preferred size를 가진 그리드 아이템의 최소 콘텐츠 기여도(minimum-content contribution) 계산 오류가 수정됐습니다.\n- view transition이 활성 상태일 때 CSS 규칙을 삽입하면 group 애니메이션이 최종 상태로 스냅되던 문제가 해결됐습니다.\n- CSS `var()`가 첫 번째 인자가 guaranteed-invalid 값으로 해석될 때만 fallback을 적용하도록 수정됐습니다.\n- 첫 렌더링 기회 전에 render-blocked 문서를 벗어나는 네비게이션이 `pagereveal`을 잘못 발생시키고 outbound cross-document view transition을 시작시키던 문제가 수정됐습니다.\n\n## 편집(Editing) & 렌더링\n\n편집 관련해서는 CSS transform이 적용된 DOM 요소의 드래그 이미지가 제대로 렌더링되지 않던 문제, iOS 받아쓰기(dictation)에서 발생하는 불투명한 DOM 변경(opaque mutation) 문제, 편집 가능한 표에서 삭제 시 빈 마지막 행이 남던 문제, 편집 가능한 콘텐츠에서 수직 캐럿 이동이 요청된 editable-type 파라미터를 무시하던 문제가 각각 수정됐습니다.\n\n렌더링 쪽에서는 `<body>` 배경이 바뀌어도 composited된 `<html>` 요소의 배경이 다시 그려지지 않던 문제, `overflow: auto`가 설정된 flex column 컨테이너에서 block-axis padding이 `scrollHeight` 계산에서 누락되던 회귀 버그, 정수에 가까운 intrinsic width를 가진 SVG를 임베드한 `<img>`가 예상보다 1 device pixel 좁게 렌더링되던 문제, `filter: drop-shadow()`가 적용된 요소의 자식이 리사이즈될 때 전체가 다시 그려지지 않던 문제가 수정됐습니다.\n\n## JavaScript: BigInt Math 지원\n\n이번 릴리스에서 가장 눈에 띄는 JavaScript 신규 기능은 **TC39 BigInt Math 제안**에 대한 지원입니다. `BigInt.pow`, `BigInt.sqrt`처럼 기존 `Math` 객체와 동등한 메서드들을 `BigInt`에서도 사용할 수 있게 됐습니다.\n\n## 이미지 & 미디어\n\n이미지 처리에서는 RGB gain map 이미지가 채널당 8비트로 디코딩되면서 색상이 틀어지고 밝기가 부정확하게 표시되던 회귀 버그가 수정됐고, HDR 이미지 디코딩 시 gain-map 타겟 픽셀 포맷을 파싱할 수 없는 경우 안전하게 폴백하도록 개선됐습니다.\n\n미디어 영역에서는 CSS transform으로 회전된 `<audio>`/`<video>` 컨트롤 렌더링 문제, iPhone 전체 화면 비디오에서 자막·클로즈드 캡션이 나타나지 않던 문제, `visibleRect`가 있는 ArrayBuffer 기반 YUV `VideoFrame`의 크로마 채널 오프셋 문제, 보안 카메라 등 특정 소스의 비디오 스트림 재생 실패 문제, 일시적인 기기 회전 시 캡처된 비디오 프레임의 방향이 잘못되던 문제가 수정됐습니다. 또한 Media Source Extensions의 버퍼링된 구간 간 gap tolerance를 완화해 재생 및 탐색(seek) 안정성을 개선했습니다.\n\n## 보안: CSP 관련 수정 다수\n\nContent Security Policy(CSP) 관련해서 여러 건의 수정이 이뤄졌습니다.\n\n- 일부 웹사이트가 표시되지 않고 콘솔에 CSP 오류가 기록되던 회귀 버그가 수정됐습니다.\n- 같은 페이지 내 네비게이션이 CSP 검사 대상으로 잘못 처리되던 문제가 고쳐졌습니다.\n- report-only 정책에서 `frame-ancestors` 위반이 리포트되지 않고 무시되던 문제가 수정됐습니다.\n- `nonce-source`, `hash-source` 값에서 닫는 따옴표 뒤에 오는 후행 문자를 거부하지 않던 파싱 문제, `trusted-types` 표현식에서 키워드와 와일드카드 뒤 후행 문자를 거부하지 않던 문제도 수정됐습니다.\n\n이 외에도 퍼센트 인코딩된 아르메니아어 경로 세그먼트 뒤에서 URL 경로 구분자가 `%2F`로 인코딩되던 네트워킹 버그, 백그라운드에서 일시 중단된 다른 페이지의 트랜잭션 때문에 IndexedDB 트랜잭션이 오랫동안 시작되지 못하던 스토리지 버그도 함께 수정됐습니다.\n\n## Web API 수정 사항\n\n- Async Clipboard API가 붙여넣기 접근 권한을 비동기적으로 요청하도록 수정됐습니다.\n- Digital Credentials API에서 플랫폼 취소나 알 수 없는 오류 발생 시 `AbortError`나 `UnknownError` 대신 `OperationError`를 반환하도록 수정됐고, 잘못된 오류 코드로 동기적으로 reject되던 문제도 수정되어 이제 올바른 오류로 태스크가 큐잉됩니다.\n- `KeyboardEvent.getModifierState(\"AltGraph\")`와 `MouseEvent.getModifierState(\"AltGraph\")`가 항상 `false`를 반환하던 문제가 수정됐습니다.\n- `Credential.type`이 digital credential에 대해 `\"digital-credential\"`이 아닌 `\"digital\"`을 반환하던 문제가 수정됐습니다.\n- `navigator.credentials.get()`을 중단(abort)했을 때 digital-credentials 문서 선택기가 화면에 멈춰 있던 문제가 수정됐습니다.\n- `FileReader.readAsText()`가 Blob의 MIME 타입에 있는 charset 파라미터를 무시하던 문제가 수정됐습니다.\n\n## Web Inspector: 디버깅 경험 개선\n\nWeb Inspector 쪽에서는 특히 많은 수정이 이뤄졌습니다.\n\n- 콘솔에서 객체 인스턴스를 검사할 때 ES2022 클래스의 private 필드, 메서드, 접근자(accessor)를 표시하도록 수정됐습니다.\n- symbolic breakpoint가 intrinsic 함수 및 `Array`, `Date`, `EventTarget`, `Worker` 같은 네이티브 생성자와 함께 작동하도록 수정됐습니다.\n- 세미콜론만 있는 줄에 설정한 JavaScript breakpoint가 트리거되지 않던 문제가 수정됐습니다.\n- 콘솔 REPL에서 `let`, `const`로 선언된 변수의 재정의를 허용하도록 수정됐습니다.\n- Timeline에서 `performance.mark()` 레코드의 타임스탬프를 내보내기/가져오기할 때 잘못된 값을 사용하던 문제가 수정됐습니다.\n- 파일에 매핑된 로컬 응답 오버라이드가 실제 인코딩이 아닌 Latin-1(ISO-8859-1)로 해석되던 문제가 수정됐습니다.\n- 모듈 임포트 시 MIME 타입 오류에 대한 스택 트레이스가 누락되던 문제가 수정됐습니다.\n- cross-origin iframe 내부 노드에 대해 Accessibility 사이드바가 비어있던 문제, 인라인 스타일 무효화가 cross-origin iframe에서 노드당 하나씩 명령을 보내는 대신 틱(tick)당 배치로 `DOM.getAttributes` 명령을 묶도록 개선된 점, DOM Storage 읽기/쓰기 명령이 cross-origin iframe에서 프레임 자체의 origin을 기준으로 해석되도록 수정된 점 등 cross-origin iframe 디버깅 관련 개선이 다수 포함됐습니다.\n- 그 외에도 breakpoint 위치가 Web Inspector를 닫았다 열면 원래 위치로 되돌아가던 문제, 색상 선택기가 선택한 색상을 강제로 Display P3로 변환하던 문제, `Network.setExtraHTTPHeaders`가 헤더를 누적하는 대신 이전에 설정된 헤더를 교체하도록 수정된 점 등 세부적인 개선이 이어졌습니다.\n\n## WebDriver & WebRTC\n\nWebDriver에는 지갑(wallet) 페이로드 시뮬레이션, 무기한 대기, 사용자 거부 처리를 포함한 **Digital Credentials API 지원**이 새로 추가됐습니다.\n\nWebRTC에서는 마이크 캡처가 활성 상태인 동안 WebProcess의 AudioSession이 유지되도록 수정됐고, `MediaStreamTrack`이 음소거된 상태에서 소스 측 변경이 발생했을 때 `configurationchange` 이벤트가 누락되던 문제가 수정되어 이제 음소거 해제 시점까지 이벤트가 지연 처리됩니다.\n\n## SVG 관련 다수 수정\n\nSVG 영역에서도 스펙 준수성을 높이는 수정이 여럿 이뤄졌습니다. SMIL 길이 애니메이션이 앞에 공백이 있는 등 유효하지 않은 `to`, `from`, `by` 값을 거부하도록 수정됐고, 곡선 `<textPath>`를 따라 복잡한 문자 체계(script)의 유니코드 텍스트가 올바르게 렌더링되지 않던 문제, `SVGLength.convertToSpecifiedUnits()`가 px에서 %, em, ex로 변환할 때 실패하던 문제, `<g>` 등 허용되지 않는 요소에 `cx`, `cy`, `r`, `rx`, `ry`, `x`, `y`, `width`, `height` 같은 SVG geometry presentation attribute가 잘못 적용되던 문제가 수정됐습니다. 또한 `<textPath>`에서 문자별 `rotate` 속성이 무시되던 문제도 고쳐져 이제 path의 접선 각도와 함께 조합됩니다. 이 외에 여러 SVG 스타일링 스펙 준수 실패 사례, `<marker>`의 `orient`와 `markerUnits`를 동적으로 변경해도 참조하는 요소가 다시 그려지지 않던 문제, SMIL number/integer-optional-integer/number-optional-number/path 애니메이션이 파싱 실패한 값에도 적용되던 문제가 수정됐습니다.\n\n## 정리\n\nSafari Technology Preview 248은 신규 기능보다는 광범위한 버그 수정에 초점을 맞춘 릴리스입니다. 실무에 바로 영향을 줄 만한 포인트를 정리하면 다음과 같습니다.\n\n- **BigInt Math**: `BigInt.pow`, `BigInt.sqrt` 등 TC39 BigInt Math 제안이 구현되어, 큰 정수 연산 시 별도 polyfill 없이 표준 Math 스타일 API를 쓸 수 있게 됐습니다.\n- **CSS 뷰 트랜지션·스크롤 스냅 안정화**: view transition 도중 CSS 규칙 삽입, `:target` 기반 스크롤 스냅 우선순위 등 최신 CSS 기능을 실제 서비스에 쓸 때 마주치던 엣지 케이스들이 다수 수정됐습니다.\n- **CSP 보안 강화**: report-only 정책의 `frame-ancestors` 리포팅 누락, nonce/hash/trusted-types 파싱 시 후행 문자 허용 등 보안에 실질적 영향을 줄 수 있는 CSP 버그가 여러 건 수정된 만큼, CSP를 적용 중인 서비스라면 확인해볼 가치가 있습니다.\n- **Web Inspector 디버깅 경험 개선**: private 클래스 필드 표시, symbolic breakpoint 확장, cross-origin iframe 디버깅 개선 등 개발자 도구의 디버깅 편의성이 크게 향상됐습니다.\n- **미디어·이미지 파이프라인 수정**: gain map 색상 오류, MSE 재생/탐색 안정성, 특정 스트리밍 소스 재생 실패 등 실제 서비스 운영 중 발견될 수 있는 미디어 버그들이 다수 해결됐습니다.\n\nSafari나 WebKit 기반 브라우저를 대상으로 서비스를 운영 중이라면, 특히 CSP·뷰 트랜지션·스크롤 스냅·미디어 재생 관련 항목은 실제 프로덕션 이슈와 맞닿아 있을 가능성이 높으니 눈여겨볼 만합니다.",
+          "url": "https://webkit.org/blog/18162/release-notes-for-safari-technology-preview-248/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 65,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 82,
+          "topicId": "safari-tech-preview",
+          "isTopicPrimary": true,
+          "slug": "safari-technology-preview-248-released",
+          "fullContent": "Release Notes for Safari Technology Preview 248\nJul 22, 2026\nby Jon Davis\nSafari Technology Preview Release 248 is now available for download for macOS Golden Gate and macOS Tahoe. If you already have Safari Technology Preview installed, you can update it in System Settings under General → Software Update.\nThis release includes WebKit changes between: 315567@main…316817@main.\nAccessibility\nResolved Issues\nFixed VoiceOver on Safari unable to navigate to content revealed by disclosure widgets using hidden=\"until-found\". (315964@main) (173228707)\nFixed stale aria-labelledby when the referenced element dynamically changes its aria-label. (316316@main) (180319221)\nCSS\nNew Features\nAdded support for forwarding missing color components when interpolating between analogous color spaces. (315569@main) (180239320)\nAdded support for the no-clamp option on the CSS progress() function. (315977@main) (180473472)\nResolved Issues\nFixed serialization of various CSS at-rules not escaping identifiers. (315795@main) (178750383)\nFixed :last-child and related selectors incorrectly gating on parser state outside of style resolution. (316495@main) (178879939)\nFixed changing the color-scheme of an <iframe> not invalidating the appearance of the embedded document. (316467@main) (179177141)\nFixed CSS scroll snap re-snap to prefer the fragment-targeted (:target) snap area over other aligned snap targets. (315880@main) (180108825)\nFixed the CSS preload scanner failing to preload @import rules that follow an @layer statement rule. (315576@main) (180170656)\nFixed serialization of CSSViewTransitionRule. (315614@main) (180170814)\nFixed MediaList.deleteMedium() to parse its argument as a media query and remove all matching queries. (315579@main) (180270019)\nFixed MediaList.appendMedium() to parse its argument as a single media query and suppress duplicates. (315594@main) (180291283)\nFixed grid items with stretch or fit-content preferred sizes computing incorrect minimum-content contributions when sizing tracks. (316296@main) (180748205)\nFixed inserting a CSS rule while a view transition is active causing the group animation to snap to its final state. (316436@main) (181100818)\nFixed CSS var() to only resolve its fallback when the first argument resolves to the guaranteed-invalid value. (316280@main) (181114298)\nFixed navigating away from a render-blocked document before its first rendering opportunity incorrectly firing pagereveal and starting an outbound cross-document view transition. (316446@main) (181191512)\nEditing\nResolved Issues\nFixed drag images of DOM elements with CSS transforms not rendering correctly. (316077@main) (99614217)\nFixed opaque DOM mutations coming from dictation on iOS. (316049@main) (163454428)\nFixed deletion in an editable table leaving an empty trailing table row behind. (315990@main) (180877315)\nFixed vertical caret movement in editable content ignoring the requested editable-type parameter. (316241@main) (181000174)\nForms\nResolved Issues\nFixed the concentric inner-button corner radius on horizontal text form controls incorrectly ignoring the bottom inset. (316022@main) (180869927)\nImages\nResolved Issues\nFixed a regression where RGB gain map images were decoded to 8 bits per channel, causing a color shift and incorrect brightness. (316069@main) (179152566)\nFixed handling of the gain-map target pixel format when decoding HDR images to fall back safely when the format cannot be parsed. (316405@main) (181180757)\nJavaScript\nNew Features\nAdded support for the TC39 BigInt Math proposal, exposing Math-equivalent methods on BigInt such as BigInt.pow and BigInt.sqrt. (315974@main) (152472996)\nMedia\nResolved Issues\nFixed <audio> and <video> controls rendering incorrectly when rotated via CSS transform. (315718@main) (37516619)\nFixed subtitles and closed captions not appearing in fullscreen video on iPhone. (315789@main) (175298523)\nFixed ArrayBuffer-backed YUV VideoFrame with a visibleRect rendering with offset chroma channels. (315742@main) (180202939)\nFixed video playback of streams from certain sources such as security cameras not working. (315774@main) (180411019)\nFixed transient device rotation resulting in captured video frames having the wrong orientation. (315821@main) (180429147)\nFixed Media Source Extensions playback and seek by loosening the gap tolerance between buffered ranges. (316146@main) (180439090)\nNavigation\nResolved Issues\nFixed a <meta http-equiv=\"refresh\"> to a URL differing only in fragment identifier being incorrectly treated as a page reload. (316001@main) (176933795)\nNetworking\nResolved Issues\nFixed URL path separators being encoded as %2F following a percent-encoded Armenian path segment. (315627@main) (180067095)\nRendering\nResolved Issues\nFixed the background of a composited <html> element not being repainted when the <body> background changed. (316415@main) (177975964)\nFixed a regression where block-axis padding on a flex column container with overflow: auto was excluded from scrollHeight. (315813@main) (179376053)\nFixed an issue where an <img> embedding an SVG with a near-integral intrinsic width rendered one device pixel narrower than expected. (315807@main) (180490343)\nFixed elements with filter: drop-shadow() not being fully repainted when a child is resized. (316450@main) (181284741)\nSVG\nResolved Issues\nFixed SVG SMIL length animations to reject invalid to, from, and by values such as those with leading whitespace. (315949@main) (118537155)\nFixed Unicode text with complex scripts not rendering correctly along a curved <textPath>. (316144@main) (120284006)\nFixed SVGLength.convertToSpecifiedUnits() failing when converting from px to %, em, or ex. (315953@main) (172056830)\nFixed SVG geometry presentation attributes like cx, cy, r, rx, ry, x, y, width, and height being incorrectly applied to elements such as <g> on which they are not permitted. (315946@main) (175672111)\nFixed an issue where the per-character rotate attribute was discarded on a <textPath>, so it now composes with the path tangent angle. (315786@main) (178044478)\nFixed several SVG styling spec-compliance failures. (316174@main) (181052042)\nFixed dynamic changes to orient and markerUnits on <marker> not repainting elements that reference it. (316350@main) (181106538)\nFixed SVG SMIL number, integer-optional-integer, number-optional-number, and path animations to not apply when their from, to, or by values fail to parse. (316468@main) (181308150)\nScrolling\nResolved Issues\nFixed CSS scroll snap points inside zero-sized elements not working correctly. (315948@main) (172863699)\nFixed CSS scroll snap re-snap to prefer a snap area that contains the focused or fragment-targeted element. (315927@main) (180707984)\nSecurity\nResolved Issues\nFixed a regression where some websites failed to display and logged Content Security Policy errors in the console. (316290@main) (179684592)\nFixed same-page navigations being incorrectly checked against Content Security Policy. (315759@main) (180342503)\nFixed Content Security Policy frame-ancestors violations in report-only policies being ignored instead of reported. (315753@main) (180447621)\nFixed Content Security Policy parsing to reject trailing characters after the closing quote on nonce-source and hash-source values. (316008@main) (180903857)\nFixed Content Security Policy trusted-types expressions to reject trailing characters after keywords and the wildcard. (316089@main) (180973793)\nStorage\nResolved Issues\nFixed an issue where IndexedDB transactions could be blocked for an extended period before starting when another page’s transaction was suspended in the background. (315609@main) (178769599)\nWeb API\nResolved Issues\nFixed the Async Clipboard API to request paste access asynchronously. (315997@main) (75969974)\nFixed Digital Credentials to surface OperationError for platform-cancellation and unknown errors instead of AbortError or UnknownError. (315973@main) (174308268)\nFixed Digital Credentials rejecting with the wrong error code and synchronously; rejections are now queued as a task with the correct error. (315895@main) (174895437)\nFixed KeyboardEvent.getModifierState(\"AltGraph\") and MouseEvent.getModifierState(\"AltGraph\") always returning false. (315804@main) (180597374)\nFixed Credential.type returning \"digital-credential\" instead of \"digital\" for digital credentials. (315891@main) (180618646)\nFixed aborting navigator.credentials.get() leaving the digital-credentials document picker stuck on screen. (316494@main) (180812397)\nFixed FileReader.readAsText() ignoring the charset parameter of the Blob‘s MIME type. (315996@main) (180890703)\nWeb Inspector\nResolved Issues\nFixed showing ES2022 class private fields, methods, and accessors when inspecting object instances in the Console. (316171@main) (88527162)\nFixed symbolic breakpoints in the debugger so they work with intrinsic functions. (315713@main) (99037335)\nFixed a JavaScript breakpoint on a line containing only a semicolon not being triggered. (316519@main) (126707973)\nFixed the Console REPL to allow redefinition of variables declared with let and const. (316523@main) (143140659)\nFixed the Timeline exporting and importing the wrong timestamp for performance.mark() records. (316073@main) (145226764)\nFixed local response overrides mapped to a file being interpreted as Latin-1 (ISO-8859-1) instead of their actual encoding. (316074@main) (149847746)\nFixed the Media Logging setting not persisting across page loads. (315758@main) (154766890)\nFixed symbolic breakpoints to work with native constructors such as Array, Date, EventTarget, and Worker. (316262@main) (157178256)\nFixed missing stack traces for MIME type errors when importing modules. (316529@main) (169396940)\nFixed the Accessibility sidebar being empty for nodes inside cross-origin iframes. (316399@main) (178562336)\nFixed inline style invalidation to batch DOM.getAttributes commands per tick in cross-origin iframes instead of issuing one command per node. (316487@main) (178830496)\nFixed DOM Storage read and write commands to resolve against the frame’s own origin in cross-origin iframes. (316501@main) (179249711)\nFixed a moved breakpoint reverting to its original location after closing and reopening Web Inspector. (315585@main) (180083858)\nFixed showing the formatted parameters string for prototype objects such as Map.prototype. (315599@main) (180298712)\nFixed missing formatted parameter strings for object shorthand methods and arrow functions. (315723@main) (180466459)\nFixed an unnecessary colon appearing in front of non-class function properties. (315731@main) (180476445)\nFixed a self-canceling ternary that produced an incorrect cross-axis direction in the flex overlay. (316429@main) (181198803)\nFixed the color picker force-converting picked colors to Display P3. (316419@main) (181201503)\nFixed Page.searchInResources silently omitting cache-backed resources from search results. (316421@main) (181202027)\nFixed duplicate invalid CSS declarations both incorrectly displaying as Active in the Styles sidebar. (316418@main) (181203080)\nFixed adopted constructable stylesheets being misclassified as User Agent stylesheets in cross-origin iframes. (316433@main) (181204768)\nFixed an unsigned underflow that caused the DOM agent to spuriously report power-efficient playback. (316443@main) (181205602)\nFixed Network.setExtraHTTPHeaders to replace previously set headers instead of accumulating them. (316444@main) (181282814)\nWebDriver\nNew Features\nAdded WebDriver support for the Digital Credentials API, including commands to simulate wallet payloads, indefinite waits, and user rejection. (316435@main) (168941907)\nWebRTC\nResolved Issues\nFixed the WebProcess AudioSession to remain active while microphone capture is live. (316394@main) (180505014)\nFixed the configurationchange event being dropped when a source-side change occurred while a MediaStreamTrack was muted; the event is now deferred until unmute. (316301@main) (180728609)",
+          "category": "tech",
+          "publishedAt": "2026-07-22T21:00:26.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Launch HN: Unlayer (YC W22) – Add email and document builders to your app",
+          "titleKo": "Launch HN: Unlayer (YC W22) – 앱에 이메일 및 문서 빌더 추가",
+          "summary": "Unlayer는 이메일, 페이지, 팝업, 문서 빌더를 앱에 임베드할 수 있는 비주얼 빌더 플랫폼입니다. React, Angular, Vue 컴포넌트를 제공하며 HTML, PDF, 이미지 등 다양한 포맷으로 내보내기를 지원합니다.",
+          "keyPoints": [
+            "이메일, 랜딩페이지, 팝업, 문서 등 4가지 빌더를 제공하며 반응형 디자인과 다중 클라이언트 호환성 지원",
+            "AI 워크플로우 기능으로 콘텐츠 생성, 개선, 개인화 자동화 가능",
+            "SDK, CLI, API를 통한 개발자 플랫폼으로 마케팅, CRM, ESP 등 다양한 서비스에 통합 가능"
+          ],
+          "whyItMatters": "이메일/문서 빌더 기능을 직접 구현하지 않고 표준화된 컴포넌트로 빠르게 제품에 통합할 수 있습니다.",
+          "url": "https://unlayer.com",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 43,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 68,
+          "isTopicPrimary": true,
+          "slug": "launch-hn-unlayer-yc-w22-add-email-and-document-builders-to-your-app",
+          "fullContent": "Visual BuildersEmail, page, popup, and document builders embedded inside your app.welcome.emailTemplatesCreate, manage, lock, and reuse branded templates across your product.AI WorkflowsHelp users generate, rewrite, improve, and personalize content.Make this more concise…Tighten copyAdd CTATranslateMedia & AssetsUpload, organize, and reuse images and files inside the builder.Export & GenerationExport content to HTML, PDF, image, plain text, and ZIP. Server-side or client-side.ZIPIMGPDFHTMLElementsReact, Angular, and Vue components that render to email, web, or PDF.<Component />EmailWebPDFDeveloper PlatformSDK, CLI, agent skills, events, and APIs to extend the platform.page.tsx1import { Editor } from '@unlayer/sdk'23<Editor4onLoad={load}5onSave={save}6/>Email Builder→Create responsive emails that render reliably across every email client: Gmail, Outlook, Apple Mail.Page Builder→Let users design landing pages, forms, and web content with sections, columns, and breakpoints.Document Builder→Create proposals, reports, and contracts with cover pages, sections, and export-ready PDFs.Popup Builder→Build conversion-focused popups, banners, and lead-capture experiences with triggers and rules.Marketing PlatformsEmail, landing pages, popups in one composer.CRM ToolsLet reps personalize outreach without leaving the deal.Email Service ProvidersWhite-label a builder your senders actually love.Website BuildersAdd a page composer that feels native to your product.Document Automation ToolsProposals, contracts, and reports, designed and exported.Internal ToolsStandardize how teams write, design, and send updates.White-Label PlatformsShip a creation experience under your brand, not ours.AI Content ProductsGive AI a canvas with structure, blocks, and export.",
+          "category": "tech",
+          "publishedAt": "2026-07-22T16:02:03.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "likec4/likec4 (TypeScript)",
+          "titleKo": "likec4/likec4 - 소프트웨어 아키텍처 시각화",
+          "summary": "코드로부터 항상 최신 상태의 라이브 다이어그램을 생성하여 소프트웨어 아키텍처를 시각화하고 협업할 수 있는 TypeScript 도구입니다.",
+          "keyPoints": [
+            "코드 기반의 아키텍처 다이어그램 자동 생성",
+            "실시간 협업 및 지속적 업데이트 지원"
+          ],
+          "whyItMatters": "아키텍처 문서를 코드와 동기화하여 항상 최신 상태를 유지할 수 있습니다.",
+          "url": "https://github.com/likec4/likec4",
+          "sourceName": "GitHub Trending",
+          "engagement": 4264,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 72,
+          "topicId": "ts-github-trending",
+          "isTopicPrimary": false,
+          "relatedCount": 6,
+          "slug": "likec4likec4-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-23T00:00:49.010Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "diegosouzapw/OmniRoute (TypeScript)",
+          "titleKo": "OmniRoute - 통합 AI 게이트웨이",
+          "summary": "268개 이상의 AI 제공자(50개 이상 무료)와 500개 이상의 모델을 하나의 엔드포인트로 통합하는 무료 MIT 라이선스 AI 게이트웨이로, 토큰 절감 및 자동 폴백 기능을 제공합니다.",
+          "keyPoints": [
+            "단일 엔드포인트로 268+ AI 제공자와 500+ 모델 접근 가능",
+            "토큰 사용량 15-95% 절감 압축 기술 제공",
+            "Claude, GPT, Gemini, DeepSeek 등 주요 모델 지원 및 자동 폴백"
+          ],
+          "whyItMatters": "여러 AI 모델을 통합 관리하면서 비용을 절감하고 안정성을 높일 수 있습니다.",
+          "url": "https://github.com/diegosouzapw/OmniRoute",
+          "sourceName": "GitHub Trending",
+          "engagement": 25214,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 68,
+          "topicId": "ts-github-trending",
+          "isTopicPrimary": false,
+          "relatedCount": 6,
+          "slug": "diegosouzapwomniroute-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-23T00:00:49.010Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Show HN: Bento - An entire PowerPoint in one HTML file (edit+view+data+collab)",
+          "titleKo": "Bento - 단일 HTML 파일로 만든 완전한 PowerPoint",
+          "summary": "편집, 보기, 데이터, 협업 기능을 하나의 HTML 파일로 구현한 프레젠테이션 도구입니다.",
+          "keyPoints": [
+            "단일 HTML 파일에서 완전한 프레젠테이션 기능 제공",
+            "실시간 협업 및 데이터 관리 지원"
+          ],
+          "whyItMatters": "웹 기반 경량 프레젠테이션 도구로 배포와 공유가 간편합니다.",
+          "url": "https://bento.page/slides/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 602,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 75,
+          "isTopicPrimary": true,
+          "slug": "show-hn-bento-an-entire-powerpoint-in-one-html-file-editviewdatacollab",
+          "category": "tech",
+          "publishedAt": "2026-07-22T15:19:23.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "jamiepine/voicebox (TypeScript)",
+          "titleKo": "voicebox - 오픈소스 AI 음성 스튜디오",
+          "summary": "음성 복제, 받아쓰기, 생성 기능을 제공하는 오픈소스 AI 음성 스튜디오입니다.",
+          "keyPoints": [
+            "음성 복제, 받아쓰기, 음성 생성 기능 통합",
+            "완전 오픈소스로 자유롭게 활용 가능"
+          ],
+          "whyItMatters": "음성 관련 AI 기능을 자유롭게 개발에 통합할 수 있습니다.",
+          "url": "https://github.com/jamiepine/voicebox",
+          "sourceName": "GitHub Trending",
+          "engagement": 45737,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 65,
+          "topicId": "ts-github-trending",
+          "isTopicPrimary": false,
+          "relatedCount": 6,
+          "slug": "jamiepinevoicebox-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-23T00:00:49.010Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "oblien/openship (TypeScript)",
+          "titleKo": "oblien/openship - 자체 호스팅 배포 플랫폼",
+          "summary": "자신의 서버에서 직접 호스팅 가능한 배포 플랫폼입니다.",
+          "keyPoints": [
+            "완전 자체 호스팅 가능한 배포 솔루션"
+          ],
+          "whyItMatters": "클라우드 서비스에 의존하지 않고 독립적인 배포 환경을 구축할 수 있습니다.",
+          "url": "https://github.com/oblien/openship",
+          "sourceName": "GitHub Trending",
+          "engagement": 7278,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript",
+            "backend"
+          ],
+          "relevance": 70,
+          "topicId": "ts-github-trending",
+          "isTopicPrimary": false,
+          "relatedCount": 6,
+          "slug": "oblienopenship-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-23T00:00:49.011Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "agegr/pi-web (TypeScript)",
+          "titleKo": "agegr/pi-web (TypeScript)",
+          "summary": "pi 코딩 에이전트를 위한 웹 UI 프로젝트입니다.",
+          "keyPoints": [
+            "TypeScript로 구현된 웹 인터페이스",
+            "AI 코딩 에이전트와의 상호작용을 위한 UI 제공"
+          ],
+          "url": "https://github.com/agegr/pi-web",
+          "sourceName": "GitHub Trending",
+          "engagement": 2060,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 62,
+          "topicId": "ts-github-trending",
+          "isTopicPrimary": false,
+          "relatedCount": 6,
+          "slug": "agegrpi-web-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-23T00:00:49.011Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Lighting My Porch With Vega #coding #programming #javascript #vega",
+          "titleKo": "React Native로 우리 집 현관을 스마트하게 밝히기: Amazon Vega 체험기",
+          "summary": "3D 프린팅한 행성 모형과 LED로 꾸민 현관 프로젝트를 대형 스크린과 연결하기 위해 Amazon의 Fire Stick용 앱 플랫폼 Vega를 사용한 경험을 다룹니다. Vega가 React Native 기반이라 기존 React 지식을 그대로 활용할 수 있었고, VS Code 확장·로컬 시뮬레이터·CLI 도구 덕분에 개발이 예상보다 쉬웠습니다. WLED 컨트롤러 제어는 일반 fetch로, 음성 인식은 aria-label만 추가하는 것으로 간단히 구현했습니다.",
+          "keyPoints": [
+            "Amazon Vega는 UI 레이어로 React Native를 사용해 기존 React/React Native 지식을 그대로 활용할 수 있다.",
+            "VS Code 확장에 로컬 시뮬레이터가 내장되어 있어 실기기 없이도 손쉽게 디버깅이 가능하다.",
+            "AI 코딩 에이전트가 React Native에 익숙하므로 Vega 공식 문서만 추가 참조시키면 활용도가 높다.",
+            "LED 하드웨어(WLED) 제어는 일반적인 fetch HTTP 요청으로 처리 가능하다.",
+            "컴포넌트에 aria-label만 추가하면 Vega가 음성 인식과 press 이벤트 처리를 자동으로 지원한다."
+          ],
+          "whyItMatters": "React/React Native 경험을 그대로 활용해 TV 및 대형 스크린 앱, 나아가 IoT 연동까지 확장할 수 있다는 점에서 프론트엔드 개발자의 기술 스택 활용 범위를 넓혀주는 사례입니다.",
+          "article": "# React Native로 우리 집 현관을 스마트하게 밝히기: Amazon Vega 체험기\n\n천문학에 관심이 많은 가족을 위해 3D 프린터로 행성 모형을 만들어 현관 뒤편에 줄지어 세워두고, 각 모형을 제어 가능한 LED로 밝혀둔 홈 프로젝트가 있습니다. 여기에 거실의 대형 프로젝션 스크린까지 연결해서 하나의 인터랙티브한 태양계 체험으로 만들고 싶었는데요, 이 과정에서 Amazon의 새로운 TV 앱 플랫폼인 Vega를 사용해본 경험을 정리해보겠습니다.\n\n## 왜 Vega를 선택했나\n\nFire Stick용 앱을 만들 방법을 찾다가 Amazon Vega를 선택한 이유는 간단합니다. Vega가 UI 레이어로 React Native를 사용하기 때문입니다. 이미 React와 React Native에 익숙한 개발자라면 별도의 새로운 프레임워크를 배울 필요 없이 바로 진입할 수 있다는 장점이 컸습니다. 실제로 사용해보니 예상했던 것보다 훨씬 쉬웠다고 합니다.\n\n## 개발 경험: VS Code 확장과 로컬 시뮬레이터\n\nVega는 VS Code용 확장 프로그램을 제공하는데, 여기에 로컬 시뮬레이터가 내장되어 있어서 실제 기기 없이도 코드를 디버깅하기가 매우 편했습니다. 또한 CLI 도구가 제공되어 프로젝트를 빠르게 초기 세팅할 수 있었고요.\n\nAI 코딩 에이전트를 활용할 때도 이점이 있었습니다. 코딩 에이전트들이 React Native 코드를 다루는 데 이미 익숙하기 때문에, Vega 고유의 세부사항만 별도로 학습시키면 되는 구조였습니다. 이를 위해 에이전트에게 Vega 공식 문서를 참조하도록 지정해주는 방식으로 작업을 진행했습니다.\n\n## 만들어진 결과물\n\n완성된 앱은 방문객들이 오면 태양계 지도를 화면에 띄우고, 각 행성에 대한 정보를 보여주는 형태로 동작합니다. 사용자는 리모컨의 D-패드로 화면 속 지도와 실제 현관에 놓인 행성 조명들을 함께 탐색할 수 있습니다.\n\nLED 제어는 WLED 컨트롤러를 사용했는데, Vega 앱에서 별도의 복잡한 브릿지 없이 일반적인 `fetch`로 HTTP 명령을 직접 보내는 방식으로 구현했습니다. React Native 개발에서 흔히 쓰는 네트워크 요청 패턴 그대로 하드웨어 제어까지 연결한 셈입니다.\n\n## 마무리: 음성 인식으로 완성도 높이기\n\n프로젝트의 완성도를 높이기 위해 마지막으로 추가한 기능은 음성 인식입니다. 사용자가 행성 이름을 말하면 화면과 조명에 해당 행성이 표시되도록 만들고 싶었는데, 이 작업은 놀랍도록 간단했습니다. 컴포넌트에 `aria-label`만 추가해주면 Vega가 음성 인식 관련 처리를 전부 알아서 처리하고, 사용자가 이름을 말했을 때 press 이벤트를 자동으로 보내주는 방식이었습니다. \"Saturn\"이라고 말하면 바로 반응하는 식인데, 이 기능 하나로 프로젝트가 한층 완성도 있게 느껴졌다고 합니다.\n\n## 정리\n\n- Amazon Vega는 UI 레이어로 React Native를 사용하는 TV 앱 플랫폼으로, React/React Native 경험이 있는 개발자라면 학습 곡선 없이 바로 시작할 수 있습니다.\n- VS Code 확장과 로컬 시뮬레이터, CLI 스캐폴딩 도구가 제공되어 개발 및 디버깅 환경이 잘 갖춰져 있습니다.\n- AI 코딩 에이전트가 이미 React Native에 익숙하기 때문에, Vega 공식 문서만 추가로 참조시키면 에이전트 활용도가 높습니다.\n- 하드웨어 연동(WLED LED 컨트롤러)도 일반적인 `fetch` API 호출로 간단히 처리할 수 있어, 웹 개발자에게 익숙한 방식 그대로 IoT 기기 제어까지 확장 가능합니다.\n- `aria-label`만 붙이면 Vega가 음성 인식과 press 이벤트 처리를 자동으로 지원해, 접근성 속성이 곧 음성 UX 구현으로 이어지는 점이 인상적입니다.",
+          "url": "https://www.youtube.com/watch?v=55hdtzM8T98",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 72,
+          "isTopicPrimary": true,
+          "slug": "lighting-my-porch-with-vega-coding-programming-javascript-vega",
+          "fullContent": "My family's own to astronomy. So, I printed out all these 3D printable planets and I put them along the back of the porch and I lit them with controllable LEDs. It's really nice when we're watching movies, but I wanted a way to connect the planets with the big projection screen. So, I looked around and picked a Fire Stick with Amazon's Vega because it uses React Native for the UI and I'm pretty good with React and React Native. And I got to tell you, it was easier than I expected. There's a Vega extension for VS Code. It's got a local simulator that makes it really easy to debug the code, which is great. The L coding agents obviously love React Native. And so, I just pointed them at the Vega docs for the extra details. They've even got a CLI app to get your project started. So, now when folks come over, I can just pop up a map of the solar system with all the facts about each planet and they can navigate around the lights and the planets with the D-pad on the controller. And then to control the LEDs, I use a WLED controller and then just send the command to it with HTTP right out of the Vega app using just a regular fetch. But to kind of add that finishing touch, I wanted folks to be able to say the name of the planet and have it show up on the screen and also on the lights. And it was as easy as just adding aria labels and Vega just handled all the extra voice work and sent the press events when you use the name. Saturn. It's just so slick and it really brought that project to life. So, give Vega a shot. If you know React Native and React already, it's an easy way to get your application up on the big screen. Check out the link in the description for more information and thank you so much, Amazon, for sponsoring this video.",
+          "category": "video",
+          "publishedAt": "2026-07-02T18:22:02+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Transition to and from display: none",
+          "titleKo": "display: none의 트랜지션 처리",
+          "summary": "CSS에서 display 속성 변경 시 트랜지션 효과를 적용하는 방법을 다룬 콘텐츠입니다.",
+          "keyPoints": [
+            "display: none 상태 전환 시 애니메이션 처리 기법"
+          ],
+          "whyItMatters": "display 속성 변경 시 시각적 전환 효과를 구현할 때 필요한 CSS 기술입니다.",
+          "url": "https://www.youtube.com/watch?v=KD3_l3S_D6M",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 78,
+          "isTopicPrimary": true,
+          "slug": "transition-to-and-from-display-none",
+          "category": "video",
+          "publishedAt": "2026-07-22T13:00:12+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "React 2025 – Adding MDX",
+          "titleKo": "React 2025 – MDX 추가",
+          "summary": "React 2025 버전에서 MDX 지원이 추가되는 내용입니다.",
+          "keyPoints": [
+            "React에서 MDX (Markdown + JSX) 통합 지원"
+          ],
+          "whyItMatters": "React 개발에서 마크다운과 컴포넌트를 함께 사용할 수 있어 문서 작성과 개발 효율이 향상됩니다.",
+          "url": "https://www.youtube.com/watch?v=TUnbglpVhiU",
+          "sourceName": "Lee Robinson",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 78,
+          "isTopicPrimary": true,
+          "slug": "react-2025-adding-mdx",
+          "category": "video",
+          "publishedAt": "2025-11-07T14:31:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "We've been cooking",
+          "titleKo": "We've been cooking",
+          "summary": "유튜브 콘텐츠로 제목만으로는 구체적인 내용을 파악하기 어렵습니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=9y8_QYiC9AM",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 68,
+          "isTopicPrimary": true,
+          "slug": "weve-been-cooking",
+          "category": "video",
+          "publishedAt": "2026-07-22T21:05:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "You need to read less code (hear me out)",
+          "titleKo": "더 적은 코드를 읽어야 한다 (잠깐, 들어봐)",
+          "summary": "본문이 제공되지 않아 정확한 내용 파악이 어렵습니다. 유튜브 영상으로 보아 코드 읽기의 효율성이나 불필요한 코드 최소화에 관한 주제로 추정됩니다.",
+          "keyPoints": [
+            "유튜브 영상 형식의 개발 주제 콘텐츠"
+          ],
+          "whyItMatters": "코드 품질과 생산성 개선에 대한 실질적 조언을 제공할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=434cG4g5KLE",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 65,
+          "isTopicPrimary": true,
+          "slug": "you-need-to-read-less-code-hear-me-out",
+          "category": "video",
+          "publishedAt": "2026-07-22T13:32:25+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
