@@ -1,0 +1,277 @@
+{
+  "date": "2026-07-28",
+  "intro": "안녕하세요! 오늘은 React Server Components의 심각한 보안 취약점들이 연달아 발견되면서 긴급 업데이트가 필수인 상황입니다. 동시에 프론트엔드 기술 스택의 다양화 추세가 눈에 띄는데, 일부 팀에서는 React 대신 HTMX 같은 경량 솔루션으로 복잡성을 줄이는 시도도 이어지고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Denial of Service and Source Code Exposure in React Server Components",
+          "titleKo": "React Server Components의 서비스 거부(DoS) 및 소스 코드 노출 취약점 추가 공개",
+          "summary": "React 팀은 지난주 공개된 치명적 RCE 취약점(React2Shell) 패치를 검증하는 과정에서 발견된 새로운 취약점들을 공개했습니다. DoS 취약점 3건(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864)과 소스 코드 노출 취약점 1건(CVE-2025-55183)이 확인되었으며, 이전 패치(19.0.3/19.1.4/19.2.3)가 불완전했던 것으로 드러나 재업데이트가 필요합니다. react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack 사용자는 19.0.4, 19.1.5, 19.2.4로 즉시 업그레이드해야 합니다.",
+          "keyPoints": [
+            "이전에 공개된 RCE 패치(19.0.3, 19.1.4, 19.2.3)가 불완전해, 이미 업데이트했더라도 19.0.4/19.1.5/19.2.4로 다시 업데이트해야 합니다.",
+            "DoS 취약점(CVSS 7.5)은 Server Function 엔드포인트에 조작된 HTTP 요청을 보내 무한 루프를 유발, 서버 크래시·OOM·CPU 과다 사용으로 이어질 수 있습니다.",
+            "소스 코드 노출 취약점(CVSS 5.3)은 인자를 문자열화해 반환하는 Server Function을 통해 하드코딩된 시크릿을 유출할 수 있으며, process.env 같은 런타임 시크릿은 영향받지 않습니다.",
+            "next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, rwsdk 등 RSC를 지원하는 프레임워크·번들러 사용자가 영향을 받습니다.",
+            "React Native는 모노레포 환경에서만 react-server-dom-* 패키지를 선택적으로 업데이트하면 되며, react/react-dom 버전은 그대로 두어도 됩니다."
+          ],
+          "whyItMatters": "RSC 기반 프레임워크를 사용하는 프로덕션 서비스라면 서버 다운타임과 시크릿 유출로 직결될 수 있는 문제이므로, 이전 패치 적용 여부와 무관하게 즉시 버전을 재확인하고 업그레이드해야 합니다.",
+          "article": "지난주 공개된 React Server Components의 치명적인 원격 코드 실행(RCE) 취약점—일명 React2Shell—패치가 나온 직후, 보안 연구자들이 그 패치 자체를 우회하려는 시도 과정에서 새로운 취약점 두 종류를 추가로 발견해 공개했습니다. 다행히 이번에 새로 발견된 취약점들은 원격 코드 실행으로는 이어지지 않으며, 지난주 공개된 RCE 패치는 여전히 유효합니다. 다만 서비스 거부(DoS)와 소스 코드 노출이라는 별도의 위험이 확인된 만큼, 이미 지난 패치를 적용했더라도 다시 한번 업데이트가 필요합니다.\n\n## 새로 공개된 취약점 요약\n\n이번에 공개된 취약점은 다음과 같습니다.\n\n- **Denial of Service (High, CVSS 7.5)**: CVE-2025-55184, CVE-2025-67779, CVE-2026-23864\n- **Source Code Exposure (Medium, CVSS 5.3)**: CVE-2025-55183\n\nReact 팀은 심각도를 고려해 즉시 업그레이드할 것을 권고하고 있습니다.\n\n중요한 점은, **이전에 공개했던 패치 자체에 취약점이 남아 있었다**는 것입니다. 이미 CVE-2025-55182(직전 RCE 취약점)에 대응해 업데이트를 했더라도, 즉 19.0.3, 19.1.4, 19.2.3 버전으로 업데이트했더라도 그 패치는 불완전했기 때문에 다시 업데이트해야 합니다.\n\n## 즉시 조치가 필요한 대상\n\n이번 취약점들은 지난주 CVE-2025-55182와 동일한 패키지와 버전 범위에 존재합니다. 영향을 받는 버전은 다음과 같습니다.\n\n- 19.0.0, 19.0.1, 19.0.2, 19.0.3\n- 19.1.0, 19.1.1, 19.1.2, 19.1.3\n- 19.2.0, 19.2.1, 19.2.2, 19.2.3\n\n영향을 받는 패키지는 다음 세 가지입니다.\n\n- react-server-dom-webpack\n- react-server-dom-parcel\n- react-server-dom-turbopack\n\n수정 사항은 19.0.4, 19.1.5, 19.2.4 버전으로 백포트되었습니다. 위 패키지를 사용 중이라면 즉시 수정된 버전으로 업그레이드해야 합니다.\n\n이전과 마찬가지로, 앱의 React 코드가 서버를 사용하지 않는다면 이번 취약점의 영향을 받지 않습니다. 또한 React Server Components를 지원하는 프레임워크, 번들러, 번들러 플러그인을 사용하지 않는다면 역시 영향받지 않습니다.\n\nReact 팀은 이런 후속 취약점 발견이 드문 일이 아니라고 설명합니다. 치명적인 CVE가 공개되면 연구자들이 인접한 코드 경로를 집중적으로 파고들어 초기 대응책을 우회할 수 있는 변형 공격 기법을 찾아내는 것이 업계 전반의 공통된 패턴이라는 것인데요. JavaScript 생태계뿐 아니라, 예를 들어 Log4Shell 이후에도 커뮤니티가 최초 패치를 검증하는 과정에서 추가 CVE들이 보고된 바 있습니다. 이런 추가 공개는 당장은 번거롭게 느껴질 수 있지만, 대체로 건강한 보안 대응 사이클이 작동하고 있다는 신호로 볼 수 있습니다.\n\n## 영향받는 프레임워크와 번들러\n\n일부 React 프레임워크와 번들러는 취약한 React 패키지에 의존하거나, 피어 디펜던시로 가지고 있거나, 아예 포함하고 있었습니다. 영향을 받는 프레임워크와 번들러는 다음과 같습니다.\n\n- next\n- react-router\n- waku\n- @parcel/rsc\n- @vite/rsc-plugin\n- rwsdk\n\n업그레이드 절차는 직전 공지(React2Shell 관련 포스트)의 안내를 참고하면 됩니다.\n\n## 호스팅 프로바이더의 임시 완화 조치\n\n이번에도 React 팀은 여러 호스팅 프로바이더와 협력해 임시 완화 조치를 적용했습니다. 다만 이는 어디까지나 임시방편이므로, 이 조치에 의존하지 말고 반드시 직접 즉시 업데이트해야 합니다.\n\n## React Native 사용자를 위한 안내\n\n모노레포를 사용하지 않거나 react-dom을 사용하지 않는 React Native 사용자라면, react 버전이 package.json에 고정(pin)되어 있을 것이므로 별도 조치가 필요하지 않습니다.\n\n반면 모노레포 환경에서 React Native를 사용 중이라면, 다음 패키지가 설치되어 있는 경우에 한해 해당 패키지만 업데이트하면 됩니다.\n\n- react-server-dom-webpack\n- react-server-dom-parcel\n- react-server-dom-turbopack\n\n이 조치는 보안 권고 사항을 완화하기 위해 필요하지만, react와 react-dom까지 업데이트할 필요는 없으므로 React Native에서 발생하는 버전 불일치 오류를 유발하지 않습니다. 자세한 내용은 관련 GitHub 이슈를 참고하면 됩니다.\n\n## High Severity: Denial of Service (다중 DoS)\n\n- **CVE**: CVE-2026-23864\n- **Base Score**: 7.5 (High)\n- **일자**: 2026년 1월 26일\n\n보안 연구자들은 React Server Components에 여전히 추가적인 DoS 취약점이 존재한다는 사실을 발견했습니다. 이 취약점들은 Server Function 엔드포인트로 특수하게 조작된 HTTP 요청을 보냄으로써 트리거되며, 취약한 코드 경로, 애플리케이션 구성, 애플리케이션 코드에 따라 서버 크래시, 메모리 부족(OOM) 예외, 과도한 CPU 사용으로 이어질 수 있습니다.\n\n1월 26일 공개된 패치가 이 DoS 취약점들을 완화합니다.\n\n특히 주목할 부분은, CVE-2025-55184를 해결하기 위한 최초 패치 자체가 불완전했다는 점입니다. 이로 인해 이전 버전들은 여전히 취약한 상태로 남아 있었고, 19.0.4, 19.1.5, 19.2.4 버전만이 안전합니다.\n\n## High Severity: Denial of Service\n\n- **CVE**: CVE-2025-55184, CVE-2025-67779\n- **Base Score**: 7.5 (High)\n\n보안 연구자들은 Server Functions 엔드포인트로 악의적으로 조작한 HTTP 요청을 보낼 경우, React가 이를 역직렬화(deserialize)하는 과정에서 무한 루프가 발생해 서버 프로세스가 멈추고 CPU를 계속 소비하게 만들 수 있다는 사실을 발견했습니다. 앱이 React Server Function 엔드포인트를 직접 구현하지 않았더라도, React Server Components를 지원한다면 여전히 취약할 수 있습니다.\n\n이는 공격자가 사용자들의 제품 접근을 차단하고, 서버 환경의 성능에 영향을 미칠 수 있는 공격 벡터입니다.\n\n당시 공개된 패치는 이 무한 루프 발생 자체를 차단함으로써 문제를 완화했습니다.\n\n## Medium Severity: Source Code Exposure\n\n- **CVE**: CVE-2025-55183\n- **Base Score**: 5.3 (Medium)\n\n보안 연구자는 취약한 Server Function에 악의적인 HTTP 요청을 보낼 경우, 해당 Server Function의 소스 코드가 안전하지 않게 반환될 수 있다는 사실을 발견했습니다. 이 공격이 성립하려면 명시적이든 암묵적이든 인자를 문자열화(stringify)해서 노출하는 Server Function이 존재해야 합니다. 예를 들면 다음과 같은 코드입니다.\n\n```js\n'use server';\n\nexport async function serverFunction(name) {\n  const conn = db.createConnection('SECRET KEY');\n  const user = await conn.createUser(name);\n  return { id: user.id, message: `Hello, ${name}!` }\n}\n```\n\n공격자는 다음과 같은 형태로 정보를 유출시킬 수 있습니다.\n\n```\n0:{\"a\":\"$@1\",\"f\":\"\",\"b\":\"Wy43RxUKdxmr5iuBzJ1pN\"}\n1:{\"id\":\"tva1sfodwq\",\"message\":\"Hello, async function(a){console.log(\\\"serverFunction\\\");let b=i.createConnection(\\\"SECRET KEY\\\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!\"}\n```\n\n보시다시피 응답 값 안에 `db.createConnection('SECRET KEY')`처럼 소스 코드에 하드코딩된 문자열이 그대로 노출되고 있습니다. 이번에 공개된 패치는 Server Function의 소스 코드가 문자열화되는 것 자체를 막습니다.\n\n다만 노출 범위에는 몇 가지 제한이 있습니다.\n\n- 노출될 수 있는 것은 **소스 코드에 하드코딩된 시크릿**뿐입니다. `process.env.SECRET`처럼 런타임에 주입되는 시크릿은 영향을 받지 않습니다.\n- 노출되는 코드 범위는 해당 Server Function 내부 코드로 제한되지만, 번들러의 인라이닝 정도에 따라 다른 함수의 코드까지 포함될 수 있습니다.\n- 따라서 실제 프로덕션 번들을 기준으로 직접 검증해보는 것이 안전합니다.\n\n## 타임라인\n\n- **12월 3일**: Andrew MacPherson이 소스 코드 노출 취약점을 Vercel과 Meta Bug Bounty에 제보\n- **12월 4일**: RyotaK이 최초 DoS 취약점을 Meta Bug Bounty에 제보\n- **12월 6일**: React 팀이 두 이슈를 모두 확인하고 조사 시작\n- **12월 7일**: 초기 패치 작성, 검증 및 새 패치 계획 시작\n- **12월 8일**: 영향받는 호스팅 프로바이더 및 오픈소스 프로젝트에 통지\n- **12월 10일**: 호스팅 프로바이더 완화 조치 적용 및 패치 검증 완료\n- **12월 11일**: Shinsaku Nomura가 추가 DoS를 Meta Bug Bounty에 제보\n- **12월 11일**: 패치 공개, CVE-2025-55183 및 CVE-2025-55184로 공식 공개\n- **12월 11일**: 내부적으로 누락된 DoS 케이스 발견, 패치 후 CVE-2025-67779로 공개\n- **1월 26일**: 추가 DoS 케이스 발견, 패치 후 CVE-2026-23864로 공개\n\n## 기여자\n\nSource Code Exposure를 제보한 Andrew MacPherson(AndrewMohawk), Denial of Service를 제보한 GMO Flatt Security Inc의 RyotaK, Bitforest Co., Ltd.의 Shinsaku Nomura에게 감사를 전합니다. 또한 추가 DoS 취약점을 제보한 Winfunc Research의 Mufeed VH, Joachim Viide, GMO Flatt Security Inc의 RyotaK, Tencent Security YUNDING LAB의 Xiangwei Zhang에게도 감사드립니다.\n\n## 정리\n\n- 지난주 발견된 RCE 취약점(React2Shell) 패치를 우회하려는 검증 과정에서 DoS 취약점 3건(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864)과 소스 코드 노출 취약점 1건(CVE-2025-55183)이 추가로 발견되었습니다.\n- **이전 패치(19.0.3, 19.1.4, 19.2.3)는 불완전했으므로, 이미 업데이트했더라도 반드시 19.0.4, 19.1.5, 19.2.4로 재업데이트해야 합니다.**\n- 영향받는 패키지는 react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack이며, next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, rwsdk 등의 프레임워크·번들러가 이 패키지를 사용합니다.\n- DoS 취약점은 Server Function 엔드포인트로 조작된 요청을 보내 무한 루프를 유발, 서버 크래시나 OOM, CPU 과다 사용을 일으킬 수 있습니다. 소스 코드 노출 취약점은 인자를 문자열화해 반환하는 Server Function을 통해 하드코딩된 시크릿이 유출될 수 있습니다(런타임 환경변수는 안전).\n- React Native 사용자는 모노레포 여부에 따라 조치가 다르므로, 모노레포 환경이라면 위 세 패키지만 선택적으로 업데이트하면 됩니다.\n- 서버에서 React를 사용하지 않거나 RSC를 지원하는 프레임워크/번들러를 쓰지 않는다면 이번 취약점의 영향을 받지 않습니다.",
+          "url": "https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 82,
+          "topicId": "react-rsc-security",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "denial-of-service-and-source-code-exposure-in-react-server-components",
+          "fullContent": "BlogCopy pageCopyDenial of Service and Source Code Exposure in React Server ComponentsDecember 11, 2025 by The React Team\nUpdated January 26, 2026.\nSecurity researchers have found and disclosed two additional vulnerabilities in React Server Components while attempting to exploit the patches in last week’s critical vulnerability.These new vulnerabilities do not allow for Remote Code Execution. The patch for React2Shell remains effective at mitigating the Remote Code Execution exploit.\nThe new vulnerabilities are disclosed as:\nDenial of Service - High Severity: CVE-2025-55184, CVE-2025-67779, and CVE-2026-23864 (CVSS 7.5)\nSource Code Exposure - Medium Severity: CVE-2025-55183 (CVSS 5.3)\nWe recommend upgrading immediately due to the severity of the newly disclosed vulnerabilities.\nNoteThe patches published earlier are vulnerable. If you already updated for the previous vulnerabilities, you will need to update again.If you updated to 19.0.3, 19.1.4, and 19.2.3, these are incomplete, and you will need to update again.Please see the instructions in the previous post for upgrade steps.Updated January 26, 2026.\nFurther details of these vulnerabilities will be provided after the rollout of the fixes are complete.\nImmediate Action Required\nThese vulnerabilities are present in the same packages and versions as CVE-2025-55182.\nThis includes 19.0.0, 19.0.1, 19.0.2, 19.0.3, 19.1.0, 19.1.1, 19.1.2, 19.1.3, 19.2.0, 19.2.1, 19.2.2, and 19.2.3 of:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nFixes were backported to versions 19.0.4, 19.1.5, and 19.2.4. If you are using any of the above packages please upgrade to any of the fixed versions immediately.\nAs before, if your app’s React code does not use a server, your app is not affected by these vulnerabilities. If your app does not use a framework, bundler, or bundler plugin that supports React Server Components, your app is not affected by these vulnerabilities.\nNoteIt’s common for critical CVEs to uncover follow‑up vulnerabilities. When a critical vulnerability is disclosed, researchers scrutinize adjacent code paths looking for variant exploit techniques to test whether the initial mitigation can be bypassed.This pattern shows up across the industry, not just in JavaScript. For example, after Log4Shell, additional CVEs (1, 2) were reported as the community probed the original fix.Additional disclosures can be frustrating, but they are generally a sign of a healthy response cycle.\nAffected frameworks and bundlers\nSome React frameworks and bundlers depended on, had peer dependencies for, or included the vulnerable React packages. The following React frameworks & bundlers are affected: next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, and rwsdk.\nPlease see the instructions in the previous post for upgrade steps.\nHosting Provider Mitigations\nAs before, we have worked with a number of hosting providers to apply temporary mitigations.\nYou should not depend on these to secure your app, and still update immediately.\nReact Native\nFor React Native users not using a monorepo or react-dom, your react version should be pinned in your package.json, and there are no additional steps needed.\nIf you are using React Native in a monorepo, you should update only the impacted packages if they are installed:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nThis is required to mitigate the security advisories, but you do not need to update react and react-dom so this will not cause the version mismatch error in React Native.\nSee this issue for more information.\nHigh Severity: Multiple Denial of Service\nCVEs: CVE-2026-23864\nBase Score: 7.5 (High)\nDate: January 26, 2026\nSecurity researchers discovered additional DoS vulnerabilities still exist in React Server Components.\nThe vulnerabilities are triggered by sending specially crafted HTTP requests to Server Function endpoints, and could lead to server crashes, out-of-memory exceptions or excessive CPU usage; depending on the vulnerable code path being exercised, the application configuration and application code.\nThe patches published January 26th mitigate these DoS vulnerabilities.\nNoteAdditional fixes published The original fix addressing the DoS in CVE-2025-55184 was incomplete.This left previous versions vulnerable. Versions 19.0.4, 19.1.5, 19.2.4 are safe.Updated January 26, 2026.\nHigh Severity: Denial of Service\nCVEs: CVE-2025-55184 and CVE-2025-67779\nBase Score: 7.5 (High)\nSecurity researchers have discovered that a malicious HTTP request can be crafted and sent to any Server Functions endpoint that, when deserialized by React, can cause an infinite loop that hangs the server process and consumes CPU. Even if your app does not implement any React Server Function endpoints it may still be vulnerable if your app supports React Server Components.\nThis creates a vulnerability vector where an attacker may be able to deny users from accessing the product, and potentially have a performance impact on the server environment.\nThe patches published today mitigate by preventing the infinite loop.\nMedium Severity: Source Code Exposure\nCVE: CVE-2025-55183\nBase Score: 5.3 (Medium)\nA security researcher has discovered that a malicious HTTP request sent to a vulnerable Server Function may unsafely return the source code of any Server Function. Exploitation requires the existence of a Server Function which explicitly or implicitly exposes a stringified argument:\n'use server';export async function serverFunction(name) { const conn = db.createConnection('SECRET KEY'); const user = await conn.createUser(name); return { id: user.id, message: `Hello, ${name}!` }}\nAn attacker may be able to leak the following:\n0:{\"a\":\"$@1\",\"f\":\"\",\"b\":\"Wy43RxUKdxmr5iuBzJ1pN\"}1:{\"id\":\"tva1sfodwq\",\"message\":\"Hello, async function(a){console.log(\\\"serverFunction\\\");let b=i.createConnection(\\\"SECRET KEY\\\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!\"}\nThe patches published today prevent stringifying the Server Function source code.\nNoteOnly secrets in source code may be exposed. Secrets hardcoded in source code may be exposed, but runtime secrets such as process.env.SECRET are not affected.The scope of the exposed code is limited to the code inside the Server Function, which may include other functions depending on the amount of inlining your bundler provides.Always verify against production bundles.\nTimeline\nDecember 3rd: Leak reported to Vercel and Meta Bug Bounty by Andrew MacPherson.\nDecember 4th: Initial DoS reported to Meta Bug Bounty by RyotaK.\nDecember 6th: Both issues confirmed by the React team, and the team began investigating.\nDecember 7th: Initial fixes created and the React team began verifying and planning new patch.\nDecember 8th: Affected hosting providers and open source projects notified.\nDecember 10th: Hosting provider mitigations in place and patches verified.\nDecember 11th: Additional DoS reported to Meta Bug Bounty by Shinsaku Nomura.\nDecember 11th: Patches published and publicly disclosed as CVE-2025-55183 and CVE-2025-55184.\nDecember 11th: Missing DoS case found internally, patched and publicly disclosed as CVE-2025-67779.\nJanuary 26th: Additional DoS cases found, patched, and publicly disclosed as CVE-2026-23864.\nAttribution\nThank you to Andrew MacPherson (AndrewMohawk) for reporting the Source Code Exposure, RyotaK from GMO Flatt Security Inc and Shinsaku Nomura of Bitforest Co., Ltd. for reporting the Denial of Service vulnerabilities. Thank you to Mufeed VH from Winfunc Research, Joachim Viide, RyotaK from GMO Flatt Security Inc and Xiangwei Zhang of Tencent Security YUNDING LAB for reporting the additional DoS vulnerabilities.PreviousThe React Foundation: A New Home for React Hosted by the Linux FoundationNextCritical Security Vulnerability in React Server Components",
+          "category": "hot",
+          "publishedAt": "2025-12-11T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Critical Security Vulnerability in React Server Components",
+          "titleKo": "React Server Components 치명적 보안 취약점(CVE-2025-55182) 발생, 즉시 업그레이드 필요",
+          "summary": "React 팀이 2025년 12월 3일, React Server Components 관련 패키지에서 CVSS 10.0의 인증 우회 원격 코드 실행 취약점(CVE-2025-55182)을 공개했습니다. react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack의 19.0~19.2.0 버전이 영향을 받으며, Next.js, React Router, Waku 등 주요 RSC 프레임워크도 모두 패치가 필요합니다. Server Function을 직접 구현하지 않아도 RSC를 지원하기만 하면 취약할 수 있어 즉각적인 업그레이드가 권고됩니다.",
+          "keyPoints": [
+            "React Server Function 페이로드 디코딩 결함으로 인증 없이 원격 코드 실행이 가능한 CVE-2025-55182(CVSS 10.0) 취약점이 발견되었습니다.",
+            "react-server-dom-webpack/parcel/turbopack의 19.0, 19.1.0, 19.1.1, 19.2.0 버전이 영향을 받으며, 19.0.1/19.1.2/19.2.1로 수정되었습니다.",
+            "Next.js, React Router, Waku, @parcel/rsc, @vitejs/plugin-rsc, rwsdk 등 RSC를 지원하는 프레임워크·번들러 전반이 영향을 받습니다.",
+            "이후 DoS 취약점 2건과 소스 코드 노출 취약점, 2026년 1월 추가 DoS 취약점까지 함께 확인되어 지속적인 패치 적용이 필요합니다.",
+            "호스팅 프로바이더의 임시 완화 조치에 의존하지 말고 반드시 패키지 자체를 최신 버전으로 업그레이드해야 합니다."
+          ],
+          "whyItMatters": "RSC를 사용하는 프로덕션 애플리케이션이라면 인증 없이 서버가 완전히 장악될 수 있는 최고 위험도의 취약점이므로, 프레임워크 종류와 무관하게 의존성 트리를 즉시 점검하고 패치해야 합니다.",
+          "article": "React Server Components를 사용하는 애플리케이션이라면 반드시 확인해야 할 심각한 보안 이슈가 발표되었습니다. React 팀은 2025년 12월 3일, 인증 없이도 원격 코드 실행(RCE)이 가능한 취약점을 공개하고 즉시 업그레이드를 권고했습니다. 이 글에서는 취약점의 원인과 영향 범위, 그리고 프레임워크별 대응 방법을 정리합니다.\n\n## 무엇이 문제인가\n\nReact Server Functions는 클라이언트가 서버의 함수를 호출할 수 있게 해주는 기능입니다. React는 클라이언트에서 발생한 요청을 HTTP 요청으로 변환해 서버로 전달하고, 서버는 이를 다시 함수 호출로 디코딩한 뒤 결과를 클라이언트로 돌려보내는 구조로 동작합니다.\n\n이번에 발견된 취약점은 바로 이 디코딩 과정에 있습니다. React가 Server Function 엔드포인트로 전달된 페이로드를 역직렬화하는 방식에 결함이 있어, 공격자가 악의적으로 조작한 HTTP 요청을 인증 절차 없이 보내는 것만으로 서버에서 임의 코드를 실행시킬 수 있습니다.\n\n더 심각한 점은 애플리케이션이 React Server Function을 직접 구현하지 않았더라도, React Server Components를 지원하기만 하면 취약할 수 있다는 것입니다. 이 취약점은 CVE-2025-55182로 등록되었고, CVSS 점수는 최고 등급인 10.0을 받았습니다.\n\n## 영향 받는 버전과 패키지\n\n다음 패키지의 19.0, 19.1.0, 19.1.1, 19.2.0 버전에 취약점이 존재합니다.\n\n- react-server-dom-webpack\n- react-server-dom-parcel\n- react-server-dom-turbopack\n\n수정본은 19.0.1, 19.1.2, 19.2.1 버전에 포함되어 배포되었습니다. 위 패키지를 사용 중이라면 즉시 수정된 버전으로 업그레이드해야 합니다.\n\n반대로 앱의 React 코드가 서버를 사용하지 않거나, React Server Components를 지원하는 프레임워크·번들러·번들러 플러그인을 쓰지 않는다면 이번 취약점의 영향을 받지 않습니다.\n\n## 영향 받는 프레임워크와 번들러\n\n취약한 React 패키지에 직접 의존하거나, peer dependency로 포함하거나, 번들에 함께 포함시켰던 프레임워크와 번들러는 다음과 같습니다.\n\n- Next.js\n- React Router\n- Waku\n- @parcel/rsc\n- @vitejs/plugin-rsc\n- rwsdk (Redwood SDK)\n\n각 프로젝트별 구체적인 업그레이드 방법은 아래에서 다룹니다.\n\n## 호스팅 프로바이더의 임시 완화 조치\n\nReact 팀은 여러 호스팅 프로바이더와 협력해 임시 완화 조치를 적용했다고 밝혔습니다. 다만 이는 어디까지나 임시방편이며, 이 조치에 의존하지 말고 반드시 즉시 업데이트해야 한다고 강조하고 있습니다.\n\n## 후속 취약점 추가 발견\n\n최초 공지 이후 업데이트 안내에는 다음 취약점들도 추가로 포함되었습니다.\n\n- 서비스 거부(DoS), 심각도 High: CVE-2025-55184, CVE-2025-67779 (CVSS 7.5)\n- 소스 코드 노출, 심각도 Medium: CVE-2025-55183 (CVSS 5.3)\n- 서비스 거부(DoS), 심각도 High: CVE-2026-23864 (CVSS 7.5, 2026년 1월 26일 공개)\n\n자세한 내용은 React 블로그의 후속 포스트에서 확인할 수 있습니다.\n\n## 프레임워크·번들러별 업데이트 방법\n\n### Next.js\n\n각 릴리스 라인의 최신 패치 버전으로 업그레이드해야 합니다.\n\n```\nnpm install next@14.2.35\nnpm install next@15.0.8\nnpm install next@15.1.12\nnpm install next@15.2.9\nnpm install next@15.3.9\nnpm install next@15.4.11\nnpm install next@15.5.10\nnpm install next@16.0.11\nnpm install next@16.1.5\nnpm install next@15.6.0-canary.60\nnpm install next@16.1.0-canary.19\n```\n\n권장되는 패치 버전은 15.0.8, 15.1.12, 15.2.9, 15.3.9, 15.4.10, 15.5.10, 15.6.0-canary.61, 16.0.11, 16.1.5입니다.\n\nNext.js 13.3 이상 버전(13.3.x, 13.4.x, 13.5.x)을 사용 중이라면 14.2.35로 업그레이드해야 합니다. 만약 `next@14.3.0-canary.77` 이후의 canary 릴리스를 사용하고 있다면, 최신 안정 버전인 14.x로 다운그레이드해야 합니다.\n\n```\nnpm install next@14\n```\n\n자세한 안내는 Next.js 블로그를 참고하시기 바랍니다.\n\n### React Router\n\nReact Router의 unstable RSC API를 사용 중이라면 package.json에 있는 다음 의존성들을 최신 버전으로 업그레이드해야 합니다.\n\n```\nnpm install react@latest\nnpm install react-dom@latest\nnpm install react-server-dom-parcel@latest\nnpm install react-server-dom-webpack@latest\nnpm install @vitejs/plugin-rsc@latest\n```\n\n### Expo\n\n완화 방법에 대한 자세한 내용은 expo.dev/changelog의 관련 글을 참고해야 합니다.\n\n### Redwood SDK\n\n`rwsdk>=1.0.0-alpha.0` 버전인지 확인하고, 최신 beta 버전으로 업그레이드합니다.\n\n```\nnpm install rwsdk@latest\n```\n\n이와 함께 react-server-dom-webpack도 최신 버전으로 올려야 합니다.\n\n```\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\n```\n\n자세한 마이그레이션 방법은 Redwood 공식 문서를 참고하시기 바랍니다.\n\n### Waku\n\n```\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest waku@latest\n```\n\n자세한 내용은 Waku의 공지를 참고합니다.\n\n### @vitejs/plugin-rsc\n\n```\nnpm install react@latest react-dom@latest @vitejs/plugin-rsc@latest\n```\n\n### react-server-dom-parcel / react-server-dom-turbopack / react-server-dom-webpack\n\n각 패키지를 사용 중이라면 react, react-dom과 함께 해당 패키지를 최신 버전으로 업데이트하면 됩니다.\n\n```\nnpm install react@latest react-dom@latest react-server-dom-parcel@latest\nnpm install react@latest react-dom@latest react-server-dom-turbopack@latest\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\n```\n\n### React Native\n\n모노레포 없이 react-dom도 사용하지 않는 일반적인 React Native 사용자라면 react 버전이 package.json에 고정되어 있을 것이므로 추가 조치가 필요 없습니다.\n\n모노레포 환경에서 React Native를 사용 중이라면, 다음 취약 패키지가 설치되어 있는 경우에 한해 해당 패키지만 업데이트하면 됩니다.\n\n- react-server-dom-webpack\n- react-server-dom-parcel\n- react-server-dom-turbopack\n\n이때 react나 react-dom 자체를 업데이트할 필요는 없으므로, React Native의 버전 불일치 에러가 발생하지 않습니다. 자세한 내용은 관련 GitHub 이슈에서 확인할 수 있습니다.\n\n## 타임라인\n\n- **11월 29일**: Lachlan Davidson이 Meta Bug Bounty 프로그램을 통해 취약점을 제보\n- **11월 30일**: Meta 보안 연구팀이 취약점을 확인하고 React 팀과 함께 수정 작업 시작\n- **12월 1일**: 수정본이 완성되었고, React 팀이 영향받는 호스팅 프로바이더 및 오픈소스 프로젝트와 함께 수정 사항 검증과 완화 조치, 롤아웃 작업을 진행\n- **12월 3일**: npm에 수정본이 배포되고 CVE-2025-55182로 공식 공개\n\n취약점을 발견하고 신고한 뒤 수정 작업에 협력해준 Lachlan Davidson에게 React 팀은 감사를 표했습니다.\n\n## 정리\n\n- React Server Components 관련 패키지(react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack)의 19.0, 19.1.0, 19.1.1, 19.2.0 버전에서 CVSS 10.0 등급의 인증 우회 원격 코드 실행 취약점(CVE-2025-55182)이 발견되었습니다.\n- Server Function 엔드포인트를 직접 구현하지 않았더라도 RSC를 지원하는 프레임워크·번들러를 쓴다면 영향을 받을 수 있습니다.\n- Next.js, React Router, Waku, @parcel/rsc, @vitejs/plugin-rsc, rwsdk 등 주요 RSC 지원 프레임워크가 모두 영향을 받으며, 각각 패치 버전이 배포되었으므로 즉시 업그레이드가 필요합니다.\n- 이후 DoS 취약점 2건(CVE-2025-55184, CVE-2025-67779)과 소스 코드 노출 취약점(CVE-2025-55183), 그리고 2026년 1월 추가된 DoS 취약점(CVE-2026-23864)까지 함께 발견되어 지속적인 패치 확인이 필요합니다.\n- 호스팅 프로바이더의 임시 완화 조치는 보조 수단일 뿐이므로, 반드시 패키지 자체를 최신 버전으로 업그레이드해야 합니다.\n\n실무에서는 RSC를 사용하는 프로젝트라면 위에서 안내한 프레임워크별 명령어로 즉시 패치 버전을 적용하고, 모노레포 환경에서는 react-server-dom-* 계열 패키지가 숨어있지 않은지 dependency tree를 확인하는 작업이 필요합니다.",
+          "url": "https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 85,
+          "topicId": "react-rsc-security",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "critical-security-vulnerability-in-react-server-components",
+          "fullContent": "BlogCopy pageCopyCritical Security Vulnerability in React Server ComponentsDecember 3, 2025 by The React Team\nThere is an unauthenticated remote code execution vulnerability in React Server Components.We recommend upgrading immediately.\nOn November 29th, Lachlan Davidson reported a security vulnerability in React that allows unauthenticated remote code execution by exploiting a flaw in how React decodes payloads sent to React Server Function endpoints.\nEven if your app does not implement any React Server Function endpoints it may still be vulnerable if your app supports React Server Components.\nThis vulnerability was disclosed as CVE-2025-55182 and is rated CVSS 10.0.\nThe vulnerability is present in versions 19.0, 19.1.0, 19.1.1, and 19.2.0 of:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nImmediate Action Required\nA fix was introduced in versions 19.0.1, 19.1.2, and 19.2.1. If you are using any of the above packages please upgrade to any of the fixed versions immediately.\nIf your app’s React code does not use a server, your app is not affected by this vulnerability. If your app does not use a framework, bundler, or bundler plugin that supports React Server Components, your app is not affected by this vulnerability.\nAffected frameworks and bundlers\nSome React frameworks and bundlers depended on, had peer dependencies for, or included the vulnerable React packages. The following React frameworks & bundlers are affected: next, react-router, waku, @parcel/rsc, @vitejs/plugin-rsc, and rwsdk.\nSee the update instructions below for how to upgrade to these patches.\nHosting Provider Mitigations\nWe have worked with a number of hosting providers to apply temporary mitigations.\nYou should not depend on these to secure your app, and still update immediately.\nVulnerability overview\nReact Server Functions allow a client to call a function on a server. React provides integration points and tools that frameworks and bundlers use to help React code run on both the client and the server. React translates requests on the client into HTTP requests which are forwarded to a server. On the server, React translates the HTTP request into a function call and returns the needed data to the client.\nAn unauthenticated attacker could craft a malicious HTTP request to any Server Function endpoint that, when deserialized by React, achieves remote code execution on the server. Further details of the vulnerability will be provided after the rollout of the fix is complete.\nUpdate Instructions\nNoteThese instructions have been updated to include the new vulnerabilities:\nDenial of Service - High Severity: CVE-2025-55184 and CVE-2025-67779 (CVSS 7.5)\nSource Code Exposure - Medium Severity: CVE-2025-55183 (CVSS 5.3)\nDenial of Service - High Severity: January 26, 2026 CVE-2026-23864 (CVSS 7.5)\nSee the follow-up blog post for more info.Updated January 26, 2026.\nNext.js\nAll users should upgrade to the latest patched version in their release line:\nnpm install next@14.2.35 npm install next@15.0.8 npm install next@15.1.12 npm install next@15.2.9 npm install next@15.3.9 npm install next@15.4.11 npm install next@15.5.10 npm install next@16.0.11 npm install next@16.1.5 npm install next@15.6.0-canary.60 npm install next@16.1.0-canary.19\n15.0.8, 15.1.12, 15.2.9, 15.3.9, 15.4.10, 15.5.10, 15.6.0-canary.61, 16.0.11, 16.1.5\nIf you are on version 13.3 or later version of Next.js 13 (13.3.x, 13.4.x, or 13.5.x) please upgrade to version 14.2.35.\nIf you are on next@14.3.0-canary.77 or a later canary release, downgrade to the latest stable 14.x release:\nnpm install next@14\nSee the Next.js blog for the latest update instructions and the previous changelog for more info.\nReact Router\nIf you are using React Router’s unstable RSC APIs, you should upgrade the following package.json dependencies if they exist:\nnpm install react@latestnpm install react-dom@latestnpm install react-server-dom-parcel@latestnpm install react-server-dom-webpack@latestnpm install @vitejs/plugin-rsc@latest\nExpo\nTo learn more about mitigating, read the article on expo.dev/changelog.\nRedwood SDK\nEnsure you are on rwsdk>=1.0.0-alpha.0\nFor the latest beta version:\nnpm install rwsdk@latest\nUpgrade to the latest react-server-dom-webpack:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\nSee Redwood docs for more migration instructions.\nWaku\nUpgrade to the latest react-server-dom-webpack:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest waku@latest\nSee Waku announcement for more migration instructions.\n@vitejs/plugin-rsc\nUpgrade to the latest RSC plugin:\nnpm install react@latest react-dom@latest @vitejs/plugin-rsc@latest\nreact-server-dom-parcel\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-parcel@latest\nreact-server-dom-turbopack\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-turbopack@latest\nreact-server-dom-webpack\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\nReact Native\nFor React Native users not using a monorepo or react-dom, your react version should be pinned in your package.json, and there are no additional steps needed.\nIf you are using React Native in a monorepo, you should update only the impacted packages if they are installed:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nThis is required to mitigate the security advisory, but you do not need to update react and react-dom so this will not cause the version mismatch error in React Native.\nSee this issue for more information.\nTimeline\nNovember 29th: Lachlan Davidson reported the security vulnerability via Meta Bug Bounty.\nNovember 30th: Meta security researchers confirmed and began working with the React team on a fix.\nDecember 1st: A fix was created and the React team began working with affected hosting providers and open source projects to validate the fix, implement mitigations and roll out the fix\nDecember 3rd: The fix was published to npm and the publicly disclosed as CVE-2025-55182.\nAttribution\nThank you to Lachlan Davidson for discovering, reporting, and working to help fix this vulnerability.PreviousDenial of Service and Source Code Exposure in React Server ComponentsNextReact Conf 2025 Recap",
+          "category": "hot",
+          "publishedAt": "2025-12-03T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Removing React.js from the codebase and adapting Htmx for UI interactivity (2023)",
+          "titleKo": "Misago 포럼, React.js를 걷어내고 HTMX로 갈아타다",
+          "summary": "오픈소스 포럼 소프트웨어 Misago는 Django 템플릿과 React.js 컴포넌트를 이중 구현하면서 커스터마이징 혼란, 번역 중복, JS 번들 비대화 같은 문제를 겪어왔습니다. 개발자는 완전한 SPA나 Next.js/Remix 도입 대신, 페이지 일부만 서버 렌더링 HTML로 교체하는 HTMX를 채택하기로 했습니다. 실제로 Account settings 페이지와 스레드 목록을 HTMX 기반으로 재작성한 결과 misago.js 번들이 615KB에서 530KB(gzip 124KB→99KB)로 줄어드는 성과를 확인했습니다.",
+          "keyPoints": [
+            "Misago는 같은 페이지를 Django 템플릿과 React.js 컴포넌트로 이중 구현하면서 커스터마이징 혼란, 번역 파일(django.po/djangojs.po) 중복, JSON 시리얼라이제이션 오버헤드 문제를 겪었습니다.",
+            "완전한 React SPA 전환이나 Next.js/Remix 같은 SSR 프레임워크 대신, 포럼 인터랙션이 페이지의 특정 영역에 국한된다는 특성을 살려 HTMX를 채택했습니다.",
+            "HTMX는 페이지의 일부를 '다이나믹 아일랜드'로 지정해 서버 렌더링 HTML로 부분 교체하는 방식으로, jQuery의 $.get('url', '#outlet')이나 Rails Turbolinks와 유사한 선언적 접근입니다.",
+            "관리자 패널은 재사용 가능한 Django 뷰 구조가 이미 효율적이라 SPA로 전환하지 않기로 했고, 마이그레이션은 네비바→스레드 목록→스레드 페이지 순으로 여러 릴리스에 걸쳐 점진적으로 진행됩니다.",
+            "Account settings 페이지 교체와 스레드 목록 재작성만으로 misago.js가 615KB(gzip 124KB)에서 530KB(gzip 99KB)로 줄어드는 실질적인 번들 크기 개선을 확인했습니다."
+          ],
+          "whyItMatters": "SPA 프레임워크가 모든 프로젝트에 최선은 아니며, 인터랙션이 페이지 일부에 국한된 서비스라면 HTMX 같은 가벼운 대안이 이중 구현과 번들 비대화 문제를 실질적으로 해결할 수 있다는 사례를 보여줍니다.",
+          "article": "# Misago 포럼 소프트웨어, React.js를 걷어내고 HTMX로 갈아타다\n\n오픈소스 포럼 소프트웨어 Misago의 개발자가 자신의 프로젝트에서 React.js를 걷어내고 HTMX로 전환하기로 한 결정을 공유했습니다. SPA 아키텍처가 낳은 이중 구현 문제, 번들 크기 문제를 실제 수치와 함께 짚어보고, 왜 최신 프레임워크(Next.js, Remix) 대신 HTMX라는 오래된 아이디어를 다시 꺼내 들었는지 설명하는 내용인데요. 포럼처럼 \"부분적으로만 인터랙티브한\" 페이지를 만들 때 React가 정말 최선의 선택인지 고민하는 개발자라면 참고할 만합니다.\n\n## 현재 구조와 문제점\n\nMisago가 지금까지 페이지를 렌더링하는 방식은 이렇습니다.\n\n1. `https://misago-project.org`에 접속하면 Django 뷰가 스레드 목록에 필요한 데이터를 모읍니다.\n2. Django 뷰는 스레드 목록이 담긴 완전한 HTML을 템플릿으로 렌더링합니다. 이때 같은 데이터를 담은 JSON도 함께 페이지에 심어둡니다. 하지만 폼이 비활성화되어 있어 이 시점엔 아무 인터랙션도 되지 않습니다.\n3. JavaScript가 다운로드됩니다.\n4. JavaScript가 실행되면서 페이지 body에 박혀 있던 JSON을 읽어, Django 템플릿이 그려놓은 HTML 대부분을 React.js 컴포넌트가 렌더링한 HTML로 갈아치웁니다. 그제서야 버튼이 활성화되고 타임스탬프 표기도 바뀝니다.\n\n문제는 이 과정에서 발생합니다.\n\n- **같은 페이지를 두 번 구현**해야 합니다. Django 템플릿 버전과 React.js 컴포넌트 버전이 따로 존재합니다.\n- HTML을 커스터마이징하려는 사람들이 혼란을 겪습니다. Django 템플릿을 고쳐서 확인해보면 잠깐 화면에 반영됐다가, React.js가 그 HTML을 다시 덮어써버리는 걸 뒤늦게 알게 됩니다.\n- 로그인 사용자와 게스트 모두 접근 가능한 뷰는 전부 Django 뷰+템플릿, React.js 라우트+컴포넌트로 이중 구현해야 합니다. 여기에 데이터를 가져오기 위한 API와 JSON 시리얼라이저까지 필요합니다.\n- React.js 앱에 데이터를 미리 구워 넣기 위한 JSON 시리얼라이제이션이 응답 생성 속도를 늦춥니다.\n- 번역 메시지의 상당수가 `django.po`와 `djangojs.po` 양쪽에 중복 존재합니다. JavaScript 번역 파일은 초기 다운로드 크기도 늘립니다.\n- JavaScript 양이 많아지면서 특히 오래되고 느린 모바일 기기에서 성능이 떨어집니다.\n- 플러그인 개발자가 페이지에 커스텀 HTML을 주입하려면 Django 템플릿과 React.js 컴포넌트를 둘 다 구현해야 하고, 이를 위해 `misago-docker`에 JavaScript 빌드 스텝까지 넣어야 합니다. 플러그인 개발자는 양쪽 스택을 모두 알아야 하는 부담을 지게 됩니다.\n\n## 검토했던 대안들\n\n이 문제를 해결하기 위해 두 가지 방향을 고려했습니다.\n\n1. Django 뷰와 템플릿을 아예 버리고, 검색엔진 봇을 달래기 위한 최소한의 버전만 남긴 뒤 API 구현과 React.js 앱에 집중하는 방향.\n2. Django를 API 전용으로 축소하고, Next.js나 Remix.run처럼 서버사이드 렌더링을 지원하는 JavaScript 프레임워크를 쓰는 방향.\n\n하지만 관점을 바꿔보면, 세상에는 여전히 서버에서 최대한 렌더링을 끝내고 클라이언트에서는 필요한 부분에만 약간의 JavaScript로 인터랙티브함을 더하는 방식의 포럼 소프트웨어가 많이 존재하고, 사람들은 이 방식에 충분히 만족하고 있습니다. 그리고 이 방식에는 위에서 나열한 문제들이 애초에 존재하지 않습니다.\n\n포럼 소프트웨어에는 인터랙션이 꽤 많지만, 사실 이 인터랙션들은 페이지의 특정 부분에만 국한되어 있습니다. 모더레이션 액션, 스레드 구독, 답글 작성, 최근 알림 확인, 투표 참여 같은 것들인데요. 이 모든 기능은 React.js 없이도 구현 가능하며, 실제로 \"전체 페이지 리로드는 무조건 피해야 한다\"는 통념이 자리잡기 전 수년간 그렇게 구현되어 왔습니다.\n\n## HTMX란 무엇인가\n\nHTMX는 HTML의 일부를 \"다이나믹 아일랜드\"로 지정해서, 사용자 인터랙션이 일어날 때 서버가 렌더링한 새 HTML로 그 부분만 교체할 수 있게 해주는 작은 라이브러리입니다.\n\n예를 들어 실제 스레드 목록은 이런 아일랜드 중 하나(꽤 큰 아일랜드)가 될 수 있습니다. Django 템플릿에 HTMX 몇 줄만 넣으면, 스레드 목록에서 카테고리를 변경할 때 선택된 카테고리의 새 스레드 목록 HTML만 Django에서 가져오고, 페이지의 나머지 부분(예를 들어 이미 로드된 네비바의 검색 결과)은 그대로 유지할 수 있습니다. 백엔드 코드는 요청이 HTMX에서 온 경우 전체 페이지 대신 해당 아일랜드의 HTML만 반환하도록 살짝 고치면 되고, 별도의 JSON 시리얼라이제이션이나 전용 JavaScript, React.js 코드는 필요 없습니다.\n\n한마디로 HTMX는 20년 전 jQuery로 하던 `$.get(\"url\", \"#outlet\")` 방식을 선언적으로 다시 구현한 것에 가깝습니다. Rails의 Turbolinks와도 비슷한 개념이죠. 개발자 본인도 \"이걸 지금 와서 다시 쓰게 될 줄은 몰랐다\"고 표현할 정도인데, 무한 스크롤이 싫거나 구조를 단순하게 유지하고 싶은 포럼 소프트웨어라면 이 방식이 답이라는 결론에 이르렀습니다.\n\n관련 논의는 GitHub 이슈 #1674에서 확인할 수 있습니다.\n\n## 관리자 패널은 그대로 둔다\n\n한 가지 특기할 점은, 관리자 패널(admin panel)은 SPA로 옮기지 않기로 했다는 겁니다. 현재 재사용 가능한 Django 뷰들이 작업의 90%를 처리해주고 있고, 관리자 패널에 새 페이지를 추가하려면 적절한 베이스 뷰를 골라 빈칸을 채우고, 폼 한두 개를 정의한 뒤 아주 기본적인 템플릿만 작성하면 됩니다. 나머지는 자동으로 처리되는 이 구조가 마음에 든다는 이유입니다.\n\n## 마이그레이션 계획과 과도기\n\nReact.js를 걷어내고 HTMX로 옮기는 작업은 결코 작지 않은 노력이 필요하지만, 여러 개의 작은 단계로 나눠 진행할 수 있습니다. 예를 들어 한 릴리스에서는 네비바를, 다음 릴리스에서는 스레드 목록을, 그다음엔 스레드 페이지를, 또 그다음엔 사용자 프로필을 HTMX로 옮기는 식입니다. 다만 플러그인, 권한 시스템, 새 파서 작업이 먼저 마무리되어야 하기 때문에 HTMX 마이그레이션은 2024년 하반기로 미뤄질 예정입니다. 이 시기에 맞춰 최신 Bootstrap으로도 옮기고 싶다는 계획도 밝혔는데, Bootstrap 팀이 준비 중인 변화들이 상당히 흥미롭다는 이유입니다.\n\n과도기에는 일부 영역이 React.js도, HTMX도 적용되지 않은 상태, 즉 사실상 \"멀티페이지 애플리케이션\"이 되는 구간이 생길 수밖에 없다는 점도 미리 짚었습니다. 예를 들어 사용자 옵션 페이지에서 링크를 클릭하거나 폼을 제출하면 전체 페이지가 다시 로드되는 식입니다. 다만 전체 페이지 리로드가 도저히 용납되지 않는 부분, 예를 들어 게시글 좋아요나 투표 같은 기능에는 임시 AJAX(혹은 바로 HTMX)를 적용할 계획입니다.\n\n## 실제 진행 상황과 번들 크기 변화\n\n전환 전, Misago 0.39 기준 JavaScript 번들 크기는 다음과 같았습니다.\n\n- `vendor.js`: 679KB (gzip 214KB)\n- `misago.js`: 615KB (gzip 124KB)\n- `django-i18n.js`: 102KB (gzip 25.4KB)\n\n여기에 지연 로딩되는 항목도 있습니다.\n\n- `hljs.js`: 144KB (gzip 49KB)\n- `zxcvbn.js`: 820KB (gzip 430KB)\n\n이 수치들을 기준선으로 삼아 React.js(그리고 다른 JS 의존성들)를 제거하면서 변화를 추적하겠다고 밝혔습니다.\n\n실제로 \"Forum options\" 페이지가 \"Account settings\" 페이지로 교체되었는데, 이 새 페이지는 전부 Django 뷰로 구현되었고 일부 페이지에서 동적 업데이트를 위해 HTMX를 사용합니다. 이 변경만으로 `misago.js`가 578KB(gzip 107KB)로 줄어, 기존 대비 37KB(gzip 17KB) 감소했습니다.\n\n이어서 스레드 목록도 거의 처음부터 다시 작성해 React.js 대신 Django 뷰와 HTMX로 구현했습니다. 그 결과 `misago.js`는 530KB(gzip 99KB)로 줄어, 48KB(gzip 8KB) 추가 감소를 기록했습니다.\n\n## 정리\n\n- Misago는 스레드 목록 페이지를 Django 템플릿과 React.js 컴포넌트로 이중 구현해왔고, 이 때문에 커스터마이징 혼란, 번역 파일 중복, JSON 시리얼라이제이션 오버헤드, JS 번들 비대화, 플러그인 개발 부담 등 여러 문제가 누적되어 왔습니다.\n- 완전한 SPA 전환이나 Next.js/Remix 같은 SSR 프레임워크 도입 대신, 인터랙션이 페이지의 특정 영역에만 국한된다는 포럼 소프트웨어의 특성을 살려 HTMX를 채택했습니다. HTMX는 필요한 부분(아일랜드)만 서버에서 새 HTML로 받아 교체하는 방식으로, 별도의 API/JSON 레이어 없이 Django 뷰만으로 인터랙티브함을 구현할 수 있게 해줍니다.\n- 관리자 패널은 재사용 가능한 Django 뷰 구조가 이미 효율적으로 작동하고 있어 SPA로 옮기지 않기로 했습니다.\n- 마이그레이션은 네비바, 스레드 목록, 스레드 페이지, 사용자 프로필 순으로 릴리스별로 점진적으로 진행되며, 과도기에는 일부 영역이 전체 페이지 리로드 방식(MPA)으로 동작하는 구간이 있을 수 있습니다.\n- 실제로 Account settings 페이지 교체와 스레드 목록 재작성만으로 `misago.js`가 615KB → 530KB(gzip 124KB → 99KB)로 줄었으며, 이는 React.js를 걷어내는 작업이 실질적인 번들 크기 개선으로 이어지고 있음을 보여줍니다.",
+          "url": "https://misago-project.org/t/removing-reactjs-from-the-codebase-and-adapting-htmx-for-ui-interactivity/1267/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 214,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 72,
+          "topicId": "react-alternatives",
+          "isTopicPrimary": true,
+          "slug": "removing-reactjs-from-the-codebase-and-adapting-htmx-for-ui-interactivity-2023",
+          "fullContent": "Here's how Misago works currently:\nYou request https://misago-project.org.\nDjango view gathers data to render list of threads.\nDjango view renders template that contains almost complete HTML with list of threads, but also includes a JSON with same data used to render this HTML. And there is no interactivity because forms are disabled.\nJavaScript downloads.\nJavaScript runs, reads JSON embedded in the page's body and replaces most of HTML rendered from Django templates with HTML from React.js components. Buttons become active, and timestamps in UI swap.\nThis approach has some problems:\nA lot of pages in Misago are implemented twice: as Django templates and React.js components.\nPeople who start customizing HTML get burned because they edit Django templates and see their changes flash for a second on a site before being replaced by React.js HTML which they didn't know they also need to customize.\nEvery view accessible to both users and guests needs to be done twice: as Django view with templates, and as React.js route with components. It also requires an API and JSON serializers to power data fetching.\nJSON serialization to pre-bake data for React.js app slows down response generation.\nA large part of translation messages is duplicated, living in both django.po and djangojs.po files. JavaScript translation files also increase the initial download size.\nLots of JavaScript can kill performance, especially on older and slower mobile devices.\nEnabling plugins to replace or inject custom HTML to the page requires for those plugins to implement both Django templates and React.js components. And Misago will need to implement a JavaScript build step as part of site build in misago-docker. Plugin devs need to know both.\nI've considered two solutions to this problem:\nDrop Django views and templates, only keep those in minimal versions to keep search engine bots happy. Focus on implementing an API and having all UI as React.js app.\nReduce Django to API and use JavaScript framework with serverside rendering, eg. Next.js or Remix.run.\nBut here's a thing: there's a lot of forum software out there that still does the old way of rendering as much as possible on the server and using some JavaScript on client to improve its interactivity here and there. And people are happy with that. And this approach has none of the above issues.\nInternet forum software has plenty of interactivity, but this interactivity is isolated to specific places on the page. Moderation actions, watching a thread, writing a reply, seeing last notifications, voting in a poll. All this stuff can be achieved without React.js and was achieved without it for years before we've decided that full page reload is something that needs to be avoided.\nNow, what's HTMX? HTMX is a tiny library that lets developers specify parts of HTML as dynamic islands that can be swapped by new server-rendered HTML on interaction. For example, list of actual threads is one such (large) island. With little bit of HTMX included in Django template, changing current category on threads list could pull new HTML from Django only for new threads list for selected category, while keeping rest of the page's HTMX (eg. already loaded search results in navbar) unchanged. Misago's backend code would only need to be changed to return only the HTML for this island when request comes from HTMX, instead of full page. There's no need to do any JSON serialization or write dedicated JavaScript or React.js.\nHTMX is declarative way of doing $.get(\"url\", \"#outlet\") we've did in jQuery 20 years ago. Or Rails Turbolinks. I can't believe I am writing this, but this is the way for forum software if you hate endless scrolling or want to keep things simple otherwise.\nGitHub issue: #1674\nI've also decided against moving the admin panel to SPA. Currently I have a bunch of reusable Django views that take care of 90% of work, and adding new page to admin requires one to pick right base view, fill in blanks, define one or few forms and write very basic templates for those. Rest happens automagically and I like it.\nThe effort required to move away from React.js and to HTMX will be a big one, but it can be done as multiple small steps. Eg. one release could move Navbar to HTMX, other threads list, next thread page, another user profiles, etc. etc. But plugins/permissions/new parser still have to happen first. So HTMX migration will have to wait until later 2024. I am fine with that becasue I would also want to move to latest Bootstrap, and those guys are cooking some crazy stuff in it.\nFor the record, JS sizes from Misago 0.39:\nvendor.js: 679kb, 214kb gzipped\nmisago.js: 615kb, 124kb gzipped\ndjango-i18n.js: 102kb, 25.4kb gzipped\nMisago JS also includes lazily loaded:\nhljs.js: 144kb, 49kb gzipped\nzxcvbn.js: 820kb, 430kb gzipped\nI plan to return to those numbers once I start removing React.js (and other JS dependencies) from Misago.\nI also need to give a warning that we will likely have a transition period where parts of Misago will have no React.js, but also no HTMX either, effectively making them \"multi-page application\". This may sound scary but it only means that clicking a link or submitting a form in, say, user options page will cause a full page reload. But I will still write a placeholder AJAX (or just use the HTMX) where full page reload will be absolutely unbearable, eg. for liking posts or voting in polls.\n\"Forum options\" page has been replaced with \"Account settings\". This new page is done fully with Django views, and uses HTMX on some pages for dynamic updates.\nJS size change:\nmisago.js: 578kb, 107kb gzipped (37kb/17kb less)\nThreads lists have been rewritten almost from scratch to use Django views and HTMX instead of React.js.\nJS size change:\nmisago.js: 530kb, 99kb gzipped (48kb/8kb less)",
+          "category": "hot",
+          "publishedAt": "2026-07-27T09:58:50.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "opengeos/GeoLibre (TypeScript)",
+          "titleKo": "opengeos/GeoLibre",
+          "summary": "지리공간 데이터를 시각화, 탐색, 분석할 수 있는 경량의 클라우드 네이티브 GIS 플랫폼으로, 웹 브라우저, 데스크톱, 모바일, Jupyter 노트북에서 실행 가능합니다.",
+          "keyPoints": [
+            "웹 브라우저, 데스크톱, 모바일, Jupyter 노트북 등 다양한 환경에서 실행 지원",
+            "경량의 클라우드 네이티브 아키텍처로 빠른 배포 가능",
+            "지리공간 데이터 시각화 및 분석 기능 제공"
+          ],
+          "whyItMatters": "GIS 작업을 위한 오픈소스 솔루션으로 데이터 과학자와 지리공간 개발자의 접근성을 크게 높입니다.",
+          "url": "https://github.com/opengeos/GeoLibre",
+          "sourceName": "GitHub Trending",
+          "engagement": 2656,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 58,
+          "isTopicPrimary": true,
+          "slug": "opengeosgeolibre-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-28T00:03:16.265Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "moeru-ai/airi (TypeScript)",
+          "titleKo": "moeru-ai/airi",
+          "summary": "실시간 음성 채팅과 게임 플레이가 가능한 자체 호스팅 AI 동반자로, 웹/macOS/Windows에서 지원됩니다.",
+          "keyPoints": [
+            "실시간 음성 채팅 기능을 포함한 AI 동반자 플랫폼",
+            "Minecraft, Factorio 등 게임 플레이 지원",
+            "사용자가 직접 호스팅할 수 있는 자체 관리형 솔루션"
+          ],
+          "whyItMatters": "로컬 호스팅 기반의 AI 상호작용 플랫폼으로 개인정보 보호와 완전한 제어가 가능합니다.",
+          "url": "https://github.com/moeru-ai/airi",
+          "sourceName": "GitHub Trending",
+          "engagement": 44006,
+          "contentType": "repo",
+          "labels": [
+            "ai",
+            "typescript"
+          ],
+          "relevance": 65,
+          "topicId": "ai-coding-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "moeru-aiairi-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-28T00:03:16.265Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "pbakaus/impeccable (JavaScript)",
+          "titleKo": "pbakaus/impeccable",
+          "summary": "AI 설계를 개선하기 위한 디자인 언어를 제공하는 프로젝트입니다.",
+          "keyPoints": [
+            "AI가 더 나은 설계 결과물을 만들도록 돕는 디자인 언어 프레임워크"
+          ],
+          "whyItMatters": "AI 기반 설계 도구의 품질을 높이는 표준화된 디자인 언어를 제공합니다.",
+          "url": "https://github.com/pbakaus/impeccable",
+          "sourceName": "GitHub Trending",
+          "engagement": 51516,
+          "contentType": "repo",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 68,
+          "isTopicPrimary": true,
+          "slug": "pbakausimpeccable-javascript",
+          "category": "tech",
+          "publishedAt": "2026-07-28T00:03:16.267Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "vudovn/ag-kit (TypeScript)",
+          "titleKo": "vudovn/ag-kit",
+          "summary": "본문 정보가 없어 상세 내용을 확인할 수 없습니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://github.com/vudovn/ag-kit",
+          "sourceName": "GitHub Trending",
+          "engagement": 7950,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 62,
+          "isTopicPrimary": true,
+          "slug": "vudovnag-kit-typescript",
+          "category": "tech",
+          "publishedAt": "2026-07-28T00:03:16.268Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "React 2025 – Adding MDX",
+          "titleKo": "React 2025 – MDX 추가하기",
+          "summary": "React 2025에서 MDX를 통합하는 방법을 다룬 영상입니다.",
+          "keyPoints": [
+            "React 프로젝트에서 MDX를 활용한 문서 작성 및 컴포넌트 통합"
+          ],
+          "whyItMatters": "MDX는 마크다운 내에서 React 컴포넌트를 직접 사용할 수 있어 문서화와 인터랙티브 콘텐츠 작성이 용이합니다.",
+          "url": "https://www.youtube.com/watch?v=TUnbglpVhiU",
+          "sourceName": "Lee Robinson",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 72,
+          "topicId": "react-2025",
+          "isTopicPrimary": true,
+          "slug": "react-2025-adding-mdx",
+          "category": "video",
+          "publishedAt": "2025-11-07T14:31:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Lighting My Porch With Vega #coding #programming #javascript #vega",
+          "titleKo": "Vega로 만든 나만의 태양계 포치 조명 프로젝트",
+          "summary": "3D 프린터로 만든 태양계 행성 조명을 대형 스크린과 연동하기 위해 Amazon Fire TV의 Vega 프레임워크를 활용한 개인 프로젝트 후기입니다. React Native 기반이라 기존 React 지식을 그대로 활용할 수 있었고, VS Code 확장의 로컬 시뮬레이터와 CLI 도구 덕분에 개발이 수월했습니다. WLED 컨트롤러 연동은 fetch API로, 음성 명령은 aria-label만 추가하면 Vega가 자동 처리해주는 점이 특히 인상적이었습니다.",
+          "keyPoints": [
+            "Amazon Vega는 React Native 기반 UI를 사용해 React/React Native 개발자가 쉽게 접근할 수 있다.",
+            "VS Code 확장의 로컬 시뮬레이터와 전용 CLI 도구로 디버깅과 프로젝트 초기 세팅이 편리하다.",
+            "React Native 생태계 덕분에 AI 코딩 에이전트를 활용한 개발도 자연스럽게 이어진다.",
+            "외부 하드웨어(WLED 컨트롤러) 제어는 표준 fetch API로 HTTP 요청만 보내면 충분하다.",
+            "aria-label을 추가하는 것만으로 Vega가 음성 인식과 press 이벤트 전달을 자동 처리해준다."
+          ],
+          "whyItMatters": "React/React Native 경험을 그대로 활용해 TV 화면이나 IoT 연동 같은 새로운 폼팩터의 앱을 빠르게 만들어볼 수 있다는 점에서, 프론트엔드 개발자의 기술 스택 활용 범위를 넓혀주는 사례입니다.",
+          "article": "# Vega로 만든 나만의 태양계 포치 조명 프로젝트\n\n천문학에 진심인 가족을 위해 3D 프린터로 태양계 행성 모형을 만들어 포치 뒤편에 쭉 늘어놓고, 각 행성마다 제어 가능한 LED로 조명을 달아준 적이 있습니다. 영화를 볼 때면 분위기가 정말 좋았는데요, 여기서 한 걸음 더 나아가 포치의 행성 조명들을 대형 프로젝션 스크린과 연동하고 싶어졌습니다. 이번 글에서는 Amazon의 Fire TV용 프레임워크인 **Vega**를 이용해 이 아이디어를 실제로 구현한 과정을 정리해봅니다.\n\n## 왜 Vega를 선택했나\n\n여러 옵션을 살펴보다가 Amazon Fire Stick의 Vega를 선택했습니다. 결정적인 이유는 Vega의 UI가 **React Native** 기반이라는 점이었는데요, React와 React Native에 이미 익숙했기 때문에 진입장벽이 낮을 것이라 판단했습니다. 그리고 실제로 써보니 예상보다 훨씬 수월했습니다.\n\n## 개발 환경과 도구\n\nVega는 개발 편의성을 위한 도구들을 잘 갖추고 있었습니다.\n\n- **VS Code 확장 프로그램** 제공: 로컬 시뮬레이터가 포함되어 있어 실기기 없이도 코드를 손쉽게 디버깅할 수 있었습니다.\n- **CLI 도구** 제공: 프로젝트를 빠르게 초기 세팅할 수 있는 CLI 앱이 있어 시작이 편했습니다.\n- **AI 코딩 에이전트와의 궁합**: React Native 기반이다 보니 AI 코딩 에이전트들이 코드 작성을 잘 도와줬고, 세부적인 부분이 필요할 때는 Vega 공식 문서를 에이전트에게 참조시켜 해결했습니다.\n\n## 실제 구현한 기능\n\n이렇게 구축한 환경 위에서 태양계 지도 화면을 만들었습니다. 화면에는 각 행성에 대한 정보가 함께 표시되고, 리모컨의 **D-pad**로 행성들 사이를 이동하며 탐색할 수 있게 했습니다. 손님이 놀러 오면 이 지도를 띄워놓고 각 행성의 정보를 보여줄 수 있게 된 거죠.\n\nLED 조명 제어는 **WLED 컨트롤러**를 사용했습니다. Vega 앱에서 평범한 `fetch`로 WLED 컨트롤러에 HTTP 명령을 바로 전송하는 방식으로, 별도의 복잡한 통신 계층 없이 간단하게 처리했습니다.\n\n## 음성 인식으로 마무리\n\n프로젝트를 한층 더 완성도 있게 만들기 위해 음성으로 행성 이름을 말하면 화면과 조명에 해당 행성이 반응하도록 구현하고 싶었습니다. 놀랍게도 이 기능은 각 요소에 **aria label**을 추가하는 것만으로 해결됐습니다. Vega가 음성 인식 처리를 전부 알아서 해주고, 사용자가 행성 이름을 말하면 그에 맞는 press 이벤트를 자동으로 보내주는 방식이었습니다. \"Saturn\"이라고 말하면 실제로 화면과 조명이 반응하는데, 이 디테일 하나가 프로젝트 전체를 훨씬 생동감 있게 만들어줬습니다.\n\n## 정리\n\n- Amazon의 Vega는 React Native 기반이라 React/React Native 경험이 있는 개발자라면 진입장벽이 매우 낮습니다.\n- VS Code 확장의 로컬 시뮬레이터, 전용 CLI 도구 덕분에 개발-디버깅 사이클이 빠르고 편합니다.\n- React Native 생태계 덕분에 AI 코딩 에이전트를 활용한 개발도 잘 맞아떨어집니다.\n- 외부 하드웨어 제어(WLED 컨트롤러)도 표준 `fetch` API로 간단히 HTTP 통신만 하면 되어 별도 SDK 학습 부담이 없습니다.\n- 접근성을 위해 넣는 `aria-label` 같은 표준 속성이 Vega에서는 음성 명령 인식과 바로 연결되어, 접근성 작업이 곧 부가 기능 구현으로 이어지는 점이 인상적입니다.\n- React/React Native를 다뤄본 개발자가 TV/거실 화면용 앱을 빠르게 만들어보고 싶다면 Vega를 시도해볼 만합니다.",
+          "url": "https://www.youtube.com/watch?v=55hdtzM8T98",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 55,
+          "isTopicPrimary": true,
+          "slug": "lighting-my-porch-with-vega-coding-programming-javascript-vega",
+          "fullContent": "My family's own to astronomy. So, I printed out all these 3D printable planets and I put them along the back of the porch and I lit them with controllable LEDs. It's really nice when we're watching movies, but I wanted a way to connect the planets with the big projection screen. So, I looked around and picked a Fire Stick with Amazon's Vega because it uses React Native for the UI and I'm pretty good with React and React Native. And I got to tell you, it was easier than I expected. There's a Vega extension for VS Code. It's got a local simulator that makes it really easy to debug the code, which is great. The L coding agents obviously love React Native. And so, I just pointed them at the Vega docs for the extra details. They've even got a CLI app to get your project started. So, now when folks come over, I can just pop up a map of the solar system with all the facts about each planet and they can navigate around the lights and the planets with the D-pad on the controller. And then to control the LEDs, I use a WLED controller and then just send the command to it with HTTP right out of the Vega app using just a regular fetch. But to kind of add that finishing touch, I wanted folks to be able to say the name of the planet and have it show up on the screen and also on the lights. And it was as easy as just adding aria labels and Vega just handled all the extra voice work and sent the press events when you use the name. Saturn. It's just so slick and it really brought that project to life. So, give Vega a shot. If you know React Native and React already, it's an easy way to get your application up on the big screen. Check out the link in the description for more information and thank you so much, Amazon, for sponsoring this video.",
+          "category": "video",
+          "publishedAt": "2026-07-02T18:22:02+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
