@@ -15,22 +15,21 @@ aliases: []
 ## 핵심 개념
 
 > [!abstract]
-> 실시간 음성 채팅과 게임 플레이가 가능한 자체 호스팅 AI 동반자로, 웹/macOS/Windows에서 지원됩니다.
+> 자체 호스팅 가능한 Grok 동반자로, 실시간 음성 채팅, Minecraft, Factorio 플레이를 지원하며 웹/macOS/Windows에서 실행됩니다.
 
 ## 상세 내용
 
-- 실시간 음성 채팅 기능을 포함한 AI 동반자 플랫폼
-- Minecraft, Factorio 등 게임 플레이 지원
-- 사용자가 직접 호스팅할 수 있는 자체 관리형 솔루션
+- 자체 호스팅 가능한 AI 컴패니언으로 실시간 음성 채팅 지원
+- Minecraft, Factorio 등 게임 플레이 가능하며 멀티 플랫폼 지원
 
 > [!tip] 왜 중요한가
-> 로컬 호스팅 기반의 AI 상호작용 플랫폼으로 개인정보 보호와 완전한 제어가 가능합니다.
+> 개인이 소유하고 제어할 수 있는 AI 어시스턴트 개발의 참고 사례입니다.
 
 ## 참고 자료
 
 - [원문 링크](https://github.com/moeru-ai/airi)
 - via GitHub Trending
-- engagement: 44006
+- engagement: 44736
 
 ## 관련 노트
 
