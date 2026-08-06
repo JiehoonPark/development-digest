@@ -1,0 +1,231 @@
+{
+  "date": "2026-08-06",
+  "intro": "안녕하세요! 오늘은 React 생태계의 보안 위기와 AI 코딩 에이전트의 진화가 주목할 만합니다. React Server Components에서 새로운 취약점들이 발견되어 긴급 업데이트가 필요하며, Meta AI의 Muse Code는 장기 코딩 작업 자동화의 새로운 가능성을 보여줍니다. 함께 오늘의 주요 소식을 살펴보겠습니다.",
+  "sections": [
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Denial of Service and Source Code Exposure in React Server Components",
+          "titleKo": "React Server Components, RCE 패치 이후 추가로 발견된 DoS 및 소스 코드 노출 취약점",
+          "summary": "지난주 공개된 React Server Components의 치명적 RCE 취약점(React2Shell) 패치를 검증하는 과정에서, 서비스 거부(DoS) 취약점 3건과 소스 코드 노출 취약점 1건이 추가로 발견되었습니다. 영향받는 패키지는 react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack이며 19.0.4, 19.1.5, 19.2.4로 즉시 업그레이드해야 합니다. 이전 패치(19.0.3/19.1.4/19.2.3)로 업데이트했더라도 불완전한 패치였으므로 재업데이트가 필요합니다.",
+          "keyPoints": [
+            "새로 발견된 취약점은 RCE로 이어지지 않으며, 이전 React2Shell 패치는 RCE 공격에 여전히 유효합니다.",
+            "DoS 취약점(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864)은 조작된 HTTP 요청이 Server Function 역직렬화 시 무한 루프를 유발해 서버 CPU를 소모시킵니다.",
+            "소스 코드 노출 취약점(CVE-2025-55183)은 인자를 문자열로 반환하는 Server Function을 통해 함수 소스 코드와 하드코딩된 시크릿이 유출될 수 있으나, 런타임 환경변수는 영향받지 않습니다.",
+            "영향받는 버전은 19.0.0~19.2.3이며 19.0.4, 19.1.5, 19.2.4로 즉시 업그레이드해야 하고, 이전 패치 적용자도 재업데이트가 필요합니다.",
+            "next, react-router, waku 등 RSC 지원 프레임워크와 번들러 사용자, React Native 모노레포 사용자도 영향을 받을 수 있어 확인이 필요합니다."
+          ],
+          "whyItMatters": "React Server Components를 사용하는 프로덕션 서비스라면 서버 크래시나 소스 코드·시크릿 유출로 이어질 수 있는 심각한 보안 이슈이므로, 프레임워크 종류와 관계없이 즉시 패키지 버전을 확인하고 업그레이드해야 합니다.",
+          "article": "React Server Components(RSC)를 둘러싼 보안 이슈가 다시 한번 불거졌습니다. 지난주 공개된 치명적인 원격 코드 실행(RCE) 취약점 \"React2Shell\"의 패치를 검증하던 보안 연구자들이, 그 패치 자체에서 새로운 취약점 두 종류를 추가로 찾아낸 것인데요. 이번 아티클에서는 React 팀이 공식 블로그를 통해 밝힌 서비스 거부(DoS) 취약점과 소스 코드 노출 취약점의 내용, 영향 범위, 그리고 대응 방법을 정리합니다.\n\n## 무엇이 문제인가\n\n이번에 새로 발견된 취약점은 RCE로 이어지지는 않습니다. 지난주 배포된 React2Shell 패치는 여전히 원격 코드 실행 공격을 막아내는 데 유효합니다. 다만 그 과정에서 다음 두 가지 취약점이 추가로 드러났습니다.\n\n- **서비스 거부(DoS) - 심각도 High**: CVE-2025-55184, CVE-2025-67779, CVE-2026-23864 (CVSS 7.5)\n- **소스 코드 노출 - 심각도 Medium**: CVE-2025-55183 (CVSS 5.3)\n\nReact 팀은 심각도를 고려해 즉시 업그레이드할 것을 권고하고 있습니다.\n\n특히 주의할 점은, 이전에 공개된 패치가 그 자체로 취약하다는 것입니다. 이미 이전 취약점 대응을 위해 업데이트했더라도 다시 업데이트가 필요합니다. 19.0.3, 19.1.4, 19.2.3으로 업데이트했다면 이 버전들 역시 불완전한 패치이므로 재업데이트가 필요합니다.\n\n## 영향받는 패키지와 버전\n\n이번 취약점들은 이전 CVE-2025-55182와 동일한 패키지·버전에 존재합니다. 영향받는 버전은 다음과 같습니다.\n\n```\n19.0.0, 19.0.1, 19.0.2, 19.0.3, 19.1.0, 19.1.1, 19.1.2, 19.1.3, 19.2.0, 19.2.1, 19.2.2, 19.2.3\n```\n\n영향받는 패키지는 다음 세 가지입니다.\n\n```\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\n```\n\n수정 사항은 19.0.4, 19.1.5, 19.2.4 버전에 백포트되었습니다. 위 패키지를 사용 중이라면 즉시 이 수정 버전 중 하나로 업그레이드해야 합니다.\n\n이전과 마찬가지로, 앱의 React 코드가 서버를 사용하지 않는다면 이번 취약점의 영향을 받지 않습니다. 또한 React Server Components를 지원하는 프레임워크, 번들러, 번들러 플러그인을 사용하지 않는다면 역시 영향받지 않습니다.\n\n영향을 받는 프레임워크와 번들러로는 next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, rwsdk가 있습니다. 이들 중 취약한 React 패키지에 의존하거나, 피어 디펜던시로 두고 있거나, 아예 포함하고 있는 경우가 해당됩니다.\n\nReact 팀은 이런 후속 취약점 발견이 업계에서 흔히 나타나는 패턴이라고 설명합니다. 심각한 취약점이 공개되면 연구자들이 인접한 코드 경로를 면밀히 살펴보며 최초 완화 조치를 우회할 수 있는 변형 공격 기법을 찾아 나서기 때문입니다. 이는 JavaScript 생태계만의 이야기가 아니라, Log4Shell 사태 이후에도 커뮤니티가 최초 패치를 검증하는 과정에서 추가 CVE들이 보고된 바 있다고 언급하며, 이러한 추가 공개가 당황스러울 수 있지만 대체로 건강한 대응 사이클의 신호라고 설명합니다.\n\n## 호스팅 프로바이더 및 React Native 대응\n\n이전과 마찬가지로 React 팀은 여러 호스팅 프로바이더와 협력해 임시 완화 조치를 적용했습니다. 다만 이 임시 조치에만 의존해서는 안 되며, 반드시 즉시 업데이트해야 합니다.\n\nReact Native 사용자의 경우, 모노레포나 react-dom을 사용하지 않는다면 package.json에 React 버전이 고정되어 있을 것이므로 추가 조치가 필요 없습니다.\n\n모노레포 환경에서 React Native를 사용 중이라면, 아래 패키지가 설치되어 있는 경우에만 해당 패키지를 업데이트하면 됩니다.\n\n```\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\n```\n\n이는 보안 권고 사항을 완화하기 위해 필요한 조치이며, react와 react-dom 자체를 업데이트할 필요는 없으므로 React Native에서 흔히 발생하는 버전 불일치 오류는 발생하지 않습니다.\n\n## 취약점 상세 내용\n\n### High Severity: Multiple Denial of Service (CVE-2026-23864, CVSS 7.5, 2026년 1월 26일 공개)\n\n보안 연구자들은 React Server Components에 여전히 추가적인 DoS 취약점이 남아 있음을 발견했습니다. 이 취약점은 특별히 조작된 HTTP 요청을 Server Function 엔드포인트로 전송함으로써 트리거되며, 취약한 코드 경로, 애플리케이션 설정, 애플리케이션 코드에 따라 서버 크래시, 메모리 부족 예외, 과도한 CPU 사용으로 이어질 수 있습니다.\n\n1월 26일 배포된 패치가 이 DoS 취약점들을 완화합니다. 특히 CVE-2025-55184를 해결하기 위해 최초 배포된 패치가 불완전했다는 점이 확인되었는데요. 이로 인해 이전 버전들이 여전히 취약한 상태로 남아 있었으며, 19.0.4, 19.1.5, 19.2.4 버전만이 안전합니다.\n\n### High Severity: Denial of Service (CVE-2025-55184, CVE-2025-67779, CVSS 7.5)\n\n보안 연구자들은 악의적으로 조작된 HTTP 요청을 어떤 Server Functions 엔드포인트로든 전송하면, React가 이를 역직렬화하는 과정에서 무한 루프가 발생해 서버 프로세스가 멈추고 CPU를 소모시킬 수 있다는 사실을 발견했습니다. 앱이 React Server Function 엔드포인트를 전혀 구현하지 않았더라도, React Server Components를 지원한다면 여전히 취약할 수 있습니다.\n\n이는 공격자가 사용자들의 서비스 접근을 차단하고 서버 환경의 성능에 영향을 미칠 수 있는 공격 벡터를 만듭니다. 해당 시점에 배포된 패치는 이 무한 루프 발생을 방지함으로써 문제를 완화합니다.\n\n### Medium Severity: Source Code Exposure (CVE-2025-55183, CVSS 5.3)\n\n한 보안 연구자는 취약한 Server Function에 악의적인 HTTP 요청을 보내면 해당 Server Function의 소스 코드가 안전하지 않게 반환될 수 있다는 사실을 발견했습니다. 이 공격이 성립하려면 문자열화된 인자를 명시적으로든 암묵적으로든 노출하는 Server Function이 존재해야 합니다. 예를 들어 다음과 같은 코드가 있다고 가정해봅니다.\n\n```js\n'use server';\nexport async function serverFunction(name) {\n  const conn = db.createConnection('SECRET KEY');\n  const user = await conn.createUser(name);\n  return { id: user.id, message: `Hello, ${name}!` }\n}\n```\n\n이 경우 공격자는 다음과 같은 응답을 통해 정보를 유출시킬 수 있습니다.\n\n```\n0:{\"a\":\"$@1\",\"f\":\"\",\"b\":\"Wy43RxUKdxmr5iuBzJ1pN\"}\n1:{\"id\":\"tva1sfodwq\",\"message\":\"Hello, async function(a){console.log(\\\"serverFunction\\\");let b=i.createConnection(\\\"SECRET KEY\\\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!\"}\n```\n\n보시다시피 응답 메시지 안에 함수 소스 코드 전체가 그대로 노출되며, 코드에 하드코딩된 \"SECRET KEY\" 문자열까지 함께 드러납니다. 해당 시점에 배포된 패치는 Server Function의 소스 코드를 문자열화하지 못하도록 막습니다.\n\n다만 이 취약점의 노출 범위에는 몇 가지 제약이 있습니다. 소스 코드에 하드코딩된 시크릿만 노출될 수 있으며, `process.env.SECRET`처럼 런타임에 주입되는 시크릿은 영향을 받지 않습니다. 또한 노출되는 코드 범위는 해당 Server Function 내부 코드에 한정되지만, 번들러의 인라인 처리 방식에 따라 다른 함수까지 포함될 수 있습니다. React 팀은 반드시 프로덕션 번들 기준으로 영향 범위를 검증할 것을 권고합니다.\n\n## 타임라인\n\n- **12월 3일**: Andrew MacPherson이 Vercel과 Meta Bug Bounty에 소스 코드 유출 취약점을 제보\n- **12월 4일**: RyotaK가 Meta Bug Bounty에 초기 DoS 취약점을 제보\n- **12월 6일**: React 팀이 두 이슈 모두 확인하고 조사 시작\n- **12월 7일**: 초기 패치 작성, 검증 및 새 패치 계획 시작\n- **12월 8일**: 영향받는 호스팅 프로바이더와 오픈소스 프로젝트에 통보\n- **12월 10일**: 호스팅 프로바이더 완화 조치 적용, 패치 검증 완료\n- **12월 11일**: Shinsaku Nomura가 Meta Bug Bounty에 추가 DoS 취약점 제보\n- **12월 11일**: 패치 배포 및 CVE-2025-55183, CVE-2025-55184로 공개\n- **12월 11일**: 내부적으로 누락된 DoS 케이스 발견, 패치 후 CVE-2025-67779로 공개\n- **1월 26일**: 추가 DoS 케이스 발견, 패치 후 CVE-2026-23864로 공개\n\n## 기여자\n\nSource Code Exposure를 제보한 Andrew MacPherson(AndrewMohawk), Denial of Service 취약점을 제보한 GMO Flatt Security Inc.의 RyotaK와 Bitforest Co., Ltd.의 Shinsaku Nomura에게 감사를 표합니다. 추가 DoS 취약점을 제보한 Winfunc Research의 Mufeed VH, Joachim Viide, GMO Flatt Security Inc.의 RyotaK, Tencent Security YUNDING LAB의 Xiangwei Zhang에게도 감사를 전합니다.\n\n## 정리\n\n- 지난주 공개된 RCE 취약점(React2Shell) 패치를 검증하는 과정에서, 그 패치 자체에 새로운 High/Medium 심각도 취약점 4건(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864, CVE-2025-55183)이 추가로 발견됐습니다.\n- 영향받는 패키지는 `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack`이며, 19.0.4·19.1.5·19.2.4 버전으로 즉시 업그레이드해야 합니다. 이전에 19.0.3/19.1.4/19.2.3으로 업데이트했더라도 불완전한 패치이므로 재업데이트가 필요합니다.\n- DoS 취약점은 조작된 HTTP 요청이 Server Function 역직렬화 과정에서 무한 루프를 유발해 서버를 마비시킬 수 있으며, Server Function을 직접 구현하지 않아도 RSC를 지원하는 앱이라면 영향을 받을 수 있습니다.\n- 소스 코드 노출 취약점은 인자를 문자열로 반환하는 Server Function이 있을 때 함수 소스 코드 전체(하드코딩된 시크릿 포함)가 유출될 수 있으며, 런타임 환경변수 시크릿은 영향받지 않습니다.\n- next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, rwsdk 등 RSC를 지원하는 프레임워크·번들러 사용자는 해당 프레임워크의 업그레이드 가이드를 따라 즉시 대응해야 하며, 호스팅 프로바이더의 임시 완화 조치에 안주하지 말고 근본적인 패키지 업그레이드를 진행해야 합니다.",
+          "url": "https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 88,
+          "isTopicPrimary": true,
+          "slug": "denial-of-service-and-source-code-exposure-in-react-server-components",
+          "fullContent": "BlogCopy pageCopyDenial of Service and Source Code Exposure in React Server ComponentsDecember 11, 2025 by The React Team\nUpdated January 26, 2026.\nSecurity researchers have found and disclosed two additional vulnerabilities in React Server Components while attempting to exploit the patches in last week’s critical vulnerability.These new vulnerabilities do not allow for Remote Code Execution. The patch for React2Shell remains effective at mitigating the Remote Code Execution exploit.\nThe new vulnerabilities are disclosed as:\nDenial of Service - High Severity: CVE-2025-55184, CVE-2025-67779, and CVE-2026-23864 (CVSS 7.5)\nSource Code Exposure - Medium Severity: CVE-2025-55183 (CVSS 5.3)\nWe recommend upgrading immediately due to the severity of the newly disclosed vulnerabilities.\nNoteThe patches published earlier are vulnerable. If you already updated for the previous vulnerabilities, you will need to update again.If you updated to 19.0.3, 19.1.4, and 19.2.3, these are incomplete, and you will need to update again.Please see the instructions in the previous post for upgrade steps.Updated January 26, 2026.\nFurther details of these vulnerabilities will be provided after the rollout of the fixes are complete.\nImmediate Action Required\nThese vulnerabilities are present in the same packages and versions as CVE-2025-55182.\nThis includes 19.0.0, 19.0.1, 19.0.2, 19.0.3, 19.1.0, 19.1.1, 19.1.2, 19.1.3, 19.2.0, 19.2.1, 19.2.2, and 19.2.3 of:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nFixes were backported to versions 19.0.4, 19.1.5, and 19.2.4. If you are using any of the above packages please upgrade to any of the fixed versions immediately.\nAs before, if your app’s React code does not use a server, your app is not affected by these vulnerabilities. If your app does not use a framework, bundler, or bundler plugin that supports React Server Components, your app is not affected by these vulnerabilities.\nNoteIt’s common for critical CVEs to uncover follow‑up vulnerabilities. When a critical vulnerability is disclosed, researchers scrutinize adjacent code paths looking for variant exploit techniques to test whether the initial mitigation can be bypassed.This pattern shows up across the industry, not just in JavaScript. For example, after Log4Shell, additional CVEs (1, 2) were reported as the community probed the original fix.Additional disclosures can be frustrating, but they are generally a sign of a healthy response cycle.\nAffected frameworks and bundlers\nSome React frameworks and bundlers depended on, had peer dependencies for, or included the vulnerable React packages. The following React frameworks & bundlers are affected: next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, and rwsdk.\nPlease see the instructions in the previous post for upgrade steps.\nHosting Provider Mitigations\nAs before, we have worked with a number of hosting providers to apply temporary mitigations.\nYou should not depend on these to secure your app, and still update immediately.\nReact Native\nFor React Native users not using a monorepo or react-dom, your react version should be pinned in your package.json, and there are no additional steps needed.\nIf you are using React Native in a monorepo, you should update only the impacted packages if they are installed:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nThis is required to mitigate the security advisories, but you do not need to update react and react-dom so this will not cause the version mismatch error in React Native.\nSee this issue for more information.\nHigh Severity: Multiple Denial of Service\nCVEs: CVE-2026-23864\nBase Score: 7.5 (High)\nDate: January 26, 2026\nSecurity researchers discovered additional DoS vulnerabilities still exist in React Server Components.\nThe vulnerabilities are triggered by sending specially crafted HTTP requests to Server Function endpoints, and could lead to server crashes, out-of-memory exceptions or excessive CPU usage; depending on the vulnerable code path being exercised, the application configuration and application code.\nThe patches published January 26th mitigate these DoS vulnerabilities.\nNoteAdditional fixes published The original fix addressing the DoS in CVE-2025-55184 was incomplete.This left previous versions vulnerable. Versions 19.0.4, 19.1.5, 19.2.4 are safe.Updated January 26, 2026.\nHigh Severity: Denial of Service\nCVEs: CVE-2025-55184 and CVE-2025-67779\nBase Score: 7.5 (High)\nSecurity researchers have discovered that a malicious HTTP request can be crafted and sent to any Server Functions endpoint that, when deserialized by React, can cause an infinite loop that hangs the server process and consumes CPU. Even if your app does not implement any React Server Function endpoints it may still be vulnerable if your app supports React Server Components.\nThis creates a vulnerability vector where an attacker may be able to deny users from accessing the product, and potentially have a performance impact on the server environment.\nThe patches published today mitigate by preventing the infinite loop.\nMedium Severity: Source Code Exposure\nCVE: CVE-2025-55183\nBase Score: 5.3 (Medium)\nA security researcher has discovered that a malicious HTTP request sent to a vulnerable Server Function may unsafely return the source code of any Server Function. Exploitation requires the existence of a Server Function which explicitly or implicitly exposes a stringified argument:\n'use server';export async function serverFunction(name) { const conn = db.createConnection('SECRET KEY'); const user = await conn.createUser(name); return { id: user.id, message: `Hello, ${name}!` }}\nAn attacker may be able to leak the following:\n0:{\"a\":\"$@1\",\"f\":\"\",\"b\":\"Wy43RxUKdxmr5iuBzJ1pN\"}1:{\"id\":\"tva1sfodwq\",\"message\":\"Hello, async function(a){console.log(\\\"serverFunction\\\");let b=i.createConnection(\\\"SECRET KEY\\\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!\"}\nThe patches published today prevent stringifying the Server Function source code.\nNoteOnly secrets in source code may be exposed. Secrets hardcoded in source code may be exposed, but runtime secrets such as process.env.SECRET are not affected.The scope of the exposed code is limited to the code inside the Server Function, which may include other functions depending on the amount of inlining your bundler provides.Always verify against production bundles.\nTimeline\nDecember 3rd: Leak reported to Vercel and Meta Bug Bounty by Andrew MacPherson.\nDecember 4th: Initial DoS reported to Meta Bug Bounty by RyotaK.\nDecember 6th: Both issues confirmed by the React team, and the team began investigating.\nDecember 7th: Initial fixes created and the React team began verifying and planning new patch.\nDecember 8th: Affected hosting providers and open source projects notified.\nDecember 10th: Hosting provider mitigations in place and patches verified.\nDecember 11th: Additional DoS reported to Meta Bug Bounty by Shinsaku Nomura.\nDecember 11th: Patches published and publicly disclosed as CVE-2025-55183 and CVE-2025-55184.\nDecember 11th: Missing DoS case found internally, patched and publicly disclosed as CVE-2025-67779.\nJanuary 26th: Additional DoS cases found, patched, and publicly disclosed as CVE-2026-23864.\nAttribution\nThank you to Andrew MacPherson (AndrewMohawk) for reporting the Source Code Exposure, RyotaK from GMO Flatt Security Inc and Shinsaku Nomura of Bitforest Co., Ltd. for reporting the Denial of Service vulnerabilities. Thank you to Mufeed VH from Winfunc Research, Joachim Viide, RyotaK from GMO Flatt Security Inc and Xiangwei Zhang of Tencent Security YUNDING LAB for reporting the additional DoS vulnerabilities.PreviousThe React Foundation: A New Home for React Hosted by the Linux FoundationNextCritical Security Vulnerability in React Server Components",
+          "category": "tech",
+          "publishedAt": "2025-12-11T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Muse Code and Muse Spark 1.2",
+          "titleKo": "Meta, 터미널 코딩 에이전트 'Muse Code'와 코딩 특화 모델 'Muse Spark 1.2' 공개",
+          "summary": "Meta AI가 터미널 기반 코딩 에이전트 Muse Code(베타)와 이를 구동하는 신규 모델 Muse Spark 1.2를 발표했습니다. Muse Code는 지속형 비동기 백그라운드 서브에이전트와 재생 가능한 이벤트 로그 런타임을 통해 크래시에도 안전하게 장기 작업을 수행하며, Muse Spark 1.2는 Muse Code와의 공동 학습과 자기개선 루프를 통해 장기 코딩 과제 처리 능력을 강화했습니다. GPU 커널 최적화 케이스 스터디에서는 서드파티 라이브러리 없이 1,000회 이상의 도구 호출로 베이스라인 대비 유의미한 성능 개선을 달성했습니다.",
+          "keyPoints": [
+            "Muse Code는 메인 에이전트 루프와 세션 내내 지속되는 비동기 백그라운드 서브에이전트를 결합해 중복 작업 없이 복잡한 엔지니어링 태스크를 처리합니다.",
+            "모든 모델 호출·도구 실행·승인·편집을 기록하는 로컬 이벤트 로그를 통해 재생 정확성과 재시작 안전성을 확보, 크래시 후에도 정확히 이어서 작업할 수 있습니다.",
+            "Muse Spark 1.2는 Muse Spark 1.1을 활용한 자기개선 루프와 Muse Code와의 공동 학습을 거쳐 복잡한 지시 이행과 장기 과제 수행 능력을 향상시켰습니다.",
+            "KDA·MLA GPU 커널 최적화 실험에서 서드파티 라이브러리 없이 1,000회 이상의 도구 호출을 통해 직접 Triton 커널을 설계하며 베이스라인 대비 상당한 성능 개선을 달성했습니다.",
+            "Muse Spark 1.2는 Muse Code와 Meta Model API를 통해 오늘부터 이용 가능하며, 글로벌 접근성 확대와 함께 향후 더 강력한 모델이 예고되어 있습니다."
+          ],
+          "whyItMatters": "지속형 서브에이전트와 크래시 복구 가능한 런타임 설계는 대규모 리팩터링이나 장기 프로젝트처럼 여러 단계를 거치는 실제 개발 워크플로우에 AI 에이전트를 안정적으로 투입할 수 있는 방향을 제시합니다.",
+          "article": "# Meta, 터미널 코딩 에이전트 'Muse Code'와 신규 모델 'Muse Spark 1.2' 공개\n\nMeta AI 리서치팀이 터미널 기반 코딩 에이전트 Muse Code(베타)와 이를 구동하는 최신 모델 Muse Spark 1.2를 공개했습니다. 이번 발표는 Meta가 프론티어 모델 경쟁에 본격적으로 뛰어들기 위한 다음 단계로, 앞으로 더 크고 강력한 모델들이 이어질 예정임을 시사합니다. 이 글에서는 Muse Code의 아키텍처적 특징과 Muse Spark 1.2의 학습 방식, 그리고 GPU 커널 최적화 사례를 통해 실제로 얼마나 강력한 코딩 능력을 보여주는지 살펴보겠습니다.\n\n## Muse Code: 지속형 서브에이전트를 활용하는 터미널 코딩 에이전트\n\nMuse Code는 macOS와 Linux에서 아래 명령어로 바로 설치할 수 있습니다.\n\n```\ncurl -fsSL https://dev.meta.ai/install.sh | bash\n```\n\nMuse Code는 대규모 저장소를 대상으로 복잡한 소프트웨어 엔지니어링 작업을 수행합니다. 변경 사항을 계획하고, 코드를 작성하고, 결과를 검증하는 전 과정을 처리하는데요, 특히 하나의 작업에 대해 여러 개의 지속형(persistent) 서브에이전트를 동시에 조율할 수 있다는 점이 특징입니다. 이를 통해 어려운 문제를 더 빠르고 정확하게, 사람의 개입을 줄이면서 해결합니다.\n\n### 비동기 백그라운드 에이전트\n\nMuse Code는 단순한 에이전트 루프에 더해, 메인 에이전트의 능력을 보강하는 일련의 비동기 백그라운드 에이전트를 함께 운용합니다. 이 특화된 백그라운드 에이전트들은 개별 작업마다 새로 생성되는 것이 아니라 세션 내내 활성 상태를 유지하는데요, 덕분에 중복된 정보 수집을 피할 수 있습니다. 이들은 스스로 다음 단계를 진행하고, 메인 에이전트에게 언제 결과를 보고할지도 자체적으로 판단합니다. 이러한 지속성 덕분에 여러 단계를 거치는 어려운 작업에서 지연 시간이 줄고, 사람이 일일이 방향을 잡아줄 필요도 줄어듭니다.\n\n### 런타임 설계: 재실행 가능한 이벤트 로그\n\nMuse Code는 로컬 이벤트 로그를 활용합니다. 모델 호출, 도구 실행, 승인, 편집 등 모든 이벤트가 이 로그에 순서대로 기록되는데요, 이 로그 하나가 시스템 전체의 단일 진실 공급원(single source of truth) 역할을 하기 때문에 런타임을 정확히 재생(replay-exact)할 수 있고, 크래시가 발생해도 안전하게 재시작(restart-safe)할 수 있습니다. 즉 오류로 세션이 중단되더라도 에이전트가 멈춘 지점에서 정확히 이어서 작업을 재개할 수 있다는 뜻입니다. 이 능력 덕분에 Muse Code는 장시간 실행되는 작업도 중간 실패에 흔들리지 않고 끝까지 수행할 수 있습니다.\n\n### 기본 제공 스킬\n\nMuse Code는 몇 가지 기본 스킬을 함께 제공합니다.\n\n- `/plan`: 작업을 승인 게이트가 걸린 계획으로 변환\n- `/grill`: 그 계획이 실제로 잘 작동하는지 스트레스 테스트\n- `/goal`: 지정된 목표를 향해 작업을 완수\n\n예시로, 사용자가 어떤 주택을 촬영한 fly-through 영상을 mp4 파일로 터미널에 입력하면, Muse Code가 이 영상을 해석해 시각적으로 풍부한 휴가용 주택 마케팅 및 예약 페이지를 생성해내는 데모가 소개되었습니다.\n\n## Muse Spark 1.2: 코딩에 특화된 모델 업데이트\n\nMuse Spark 1.2는 이전 버전인 Muse Spark 1.1을 코딩 중심으로 개선한 모델입니다. 코드 생성, 복잡한 디버깅, 코드베이스 이해, 엔드투엔드 개발자 워크플로우 전반에서 성능이 향상되었습니다. 이번 업데이트에서는 코딩 태스크에 투입되는 학습 연산량을 크게 늘리는 동시에 학습 환경의 다양성도 확장했습니다. 그러면서도 일반 에이전트(general agents) 영역에서의 기존 강점은 그대로 유지하고 있습니다. 자세한 평가 결과는 Meta의 공식 리포트에서 확인할 수 있습니다.\n\n### Muse Code와의 공동 학습\n\nMeta는 Muse Spark 1.2를 Muse Code와 함께 학습시켜, 두 시스템을 함께 사용할 때 최상의 성능과 사용성을 발휘하도록 만들었습니다. 학습 과정에는 거부 샘플링(rejection sampled) 방식의 하네스 트래젝토리, 목표(goal)·컨텍스트 압축(compaction)·서브에이전트 관련 레시피 최적화, 그리고 Muse Code 툴셋과의 하네스 호환성을 극대화하기 위한 통합 작업이 포함되었습니다.\n\n### 장기 과제(Long-Horizon) 대응\n\nMuse Spark 1.2는 저장소 전체 생성, 대규모 엔드투엔드 프로젝트, 자동 연구(auto-research)를 포함한 장기 코딩 작업에 대해 광범위하게 학습되었습니다. 계획(planning)을 통해 작업 순서를 정하고, 목표 조건화(goal conditioning)로 방향성을 유지하며, 컨텍스트 압축(context compaction)으로 작업을 지속하는 데 필요한 지식을 계속 보존합니다.\n\n### 자기개선(Self-Improvement) 루프\n\nMeta는 Muse Spark 1.1을 활용해 난이도 높은 코딩 환경과 지시 이행(instruction-following) 템플릿을 직접 생성했습니다. 그런 다음 이 모델이 후보 솔루션들이 요구 사항을 얼마나 잘 만족하는지 채점하도록 해, 확장 가능한 학습 데이터셋을 만들어냈습니다. 이런 자기개선 루프 덕분에 Muse Spark 1.2는 이전 모델보다 복잡한 지시 사항을 더 정밀하게 따르게 되었습니다.\n\n## 케이스 스터디: GPU 커널 최적화\n\nMeta는 Muse Spark 1.2가 1,000회 이상의 도구 호출(최대 24시간 소요)에 걸쳐 GPU 커널을 반복적으로 최적화하는 능력을 테스트했습니다. Muse Code의 에이전틱 코딩 환경을 활용해 모델이 직접 커널을 작성하고, 컴파일하고, 프로파일링하며, 주어진 베이스라인 대비 성능을 점진적으로 개선해나가는 방식입니다. 벤치마크는 NVIDIA Hopper GPU용 KDA와 MLA 커널을 대상으로 진행되었고, 에이전트는 제공된 베이스라인 구현 대비 상당한 성능 개선을 지속적으로 달성했습니다.\n\n**KDA 벤치마크**: 베이스라인은 KDA의 FLA Triton 구현이었습니다. 모델은 FLA 같은 서드파티 커널 라이브러리를 직접 임포트하는 것이 금지되었고, 대신 특화된 커널 최적화 지식을 적용해 Triton으로 알고리즘 자체를 구현해야 했습니다(기존 구현을 단순히 감싸는 방식은 불허). Muse Spark 1.2는 chunk-parallel 방식의 준비(preparation) 커널과 순차적인 청크 간(inter-chunk) 스캔을 결합했으며, 표준적인 퓨전·타일링 기법에 더해 청크 중간점에서 gated cumulative decay를 재중심화하는 등 KDA에 특화된 최적화를 적용했습니다.\n\n**MLA 벤치마크**: PyTorch 참조 구현을 기준으로, 배치 사이즈 1, 헤드 수 64, 시퀀스 길이 8192, 잠재 차원(latent dimension) 512 조건에서 성능을 비교했습니다. Muse Spark 1.2는 이 워크로드에 맞춰 2개의 커널로 구성된 Triton 파이프라인을 설계했고, 커널 퓨전과 타일링에 더해 공유 KV 잠재값(latent)을 K와 V 양쪽으로 재사용하는 MLA 특화 최적화를 적용했습니다.\n\n## 출시 현황\n\nMuse Spark 1.2는 오늘부터 Muse Code와 Meta Model API를 통해 사용할 수 있으며, 글로벌 접근성도 확대되었습니다. Meta는 새로운 하네스 기능과 더 강력한 모델을 포함해 추가 로드맵을 예고했습니다.\n\n## 정리\n\n- **Muse Code**는 단일 메인 에이전트 루프에 지속형 비동기 백그라운드 서브에이전트를 결합한 구조로, 세션 내내 상태를 유지하며 중복 작업 없이 복잡한 엔지니어링 태스크를 처리합니다.\n- 로컬 **이벤트 로그 기반 런타임**을 채택해 재생 정확성(replay-exact)과 재시작 안전성(restart-safe)을 확보했으며, 이는 장시간 실행되는 작업에서 크래시 복구를 가능하게 하는 핵심 설계입니다.\n- **Muse Spark 1.2**는 Muse Code와 공동 학습(co-training)되어 하네스 호환성을 극대화했고, 장기 과제 수행을 위해 계획·목표 조건화·컨텍스트 압축 기법을 폭넓게 학습했습니다.\n- 이전 모델(Muse Spark 1.1)을 활용해 난이도 높은 학습 환경과 채점 기준을 스스로 만들어내는 **자기개선 루프**를 통해 복잡한 지시 이행 능력을 끌어올렸습니다.\n- KDA·MLA GPU 커널 최적화 실험에서 1,000회 이상의 반복적 도구 호출로 서드파티 라이브러리 없이 직접 Triton 커널을 설계·개선하며 베이스라인 대비 유의미한 성능 향상을 보였다는 점은, 실제 프로덕션 수준의 저수준 최적화 작업에도 에이전트를 투입할 수 있는 가능성을 보여줍니다.\n\nMuse Code와 Muse Spark 1.2는 단순한 코드 자동완성을 넘어, 장시간·다단계 소프트웨어 엔지니어링 작업을 사람의 개입을 최소화하며 수행하는 방향으로 설계되었습니다. 프론트엔드 개발자 입장에서도 대규모 리팩터링이나 마이그레이션처럼 오랜 시간과 여러 단계를 요구하는 작업에 이런 지속형 에이전트 구조가 실질적인 생산성 향상을 가져다줄지 지켜볼 만합니다.",
+          "url": "https://research.meta.ai/blog/introducing-muse-code-and-muse-spark-1-2",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 143,
+          "contentType": "discussion",
+          "labels": [
+            "ai"
+          ],
+          "relevance": 55,
+          "isTopicPrimary": true,
+          "slug": "muse-code-and-muse-spark-12",
+          "fullContent": "We're excited to release Muse Code (beta), a terminal coding agent powered by Muse Spark 1.2, our newest model. This marks our next step toward the frontier, with larger and much more capable models on the way.\nInstall Muse Code on macOS or Linux:curl -fsSL https://dev.meta.ai/install.sh | bashCopy installation command\nMuse Code takes on complex software engineering tasks across large repositories: planning changes, writing code, and validating the results. It can coordinate multiple persistent subagents for each task, solving difficult problems faster, more accurately, and with less intervention.\nMuse Code\nAsync Background Agents\nMuse Code operates with a simple agent loop plus a set of async background agents to enhance the main agent's capability. These specialized background agents remain active throughout each session, rather than being spawned for individual tasks, helping avoid redundant information gathering. They carry out next steps and choose when to communicate back to the main agent. Their persistence reduces latency and the need for steering on difficult, multi-step tasks.\nPhoton SphereEmbervaultAvo LawnLoading demo\nRuntime Design\nMuse Code uses a local event log in which every model call, tool run, approval, and edit is appended. This single source of truth makes the runtime replay-exact and restart-safe: after a crash, the agent can resume precisely where it stopped. That ability lets Muse Code take on long-running tasks without being derailed by failures.\nBundled Skills\nMuse Code ships with several default skills. /plan turns a task into an approval-gated plan, /grill stress-tests that plan until it holds up, and /goal works toward successful completion of the specified objective.\nThe user inputs a fly-through video of a home into the terminal as an mp4 file. Muse Code\ninterprets the video and produces a visually rich vacation home marketing and booking page.\nMuse Spark 1.2\nMuse Spark 1.2 is a coding-focused update to Muse Spark 1.1, with improvements in code generation, complex debugging, codebase understanding, and end-to-end developer workflows. In Muse Spark 1.2, we significantly scaled up training compute on coding tasks while expanding training environment diversity. The model also maintains its strength in other key areas like general agents.\nCodingGeneral Agents\nFor more details about our evaluations, see our report.\nCo-Training With Muse Code\nWe co-trained Muse Spark 1.2 with Muse Code to ensure the model exhibits its best performance and coding usability when paired together. The training included rejection sampled harness trajectories and recipe optimizations for goals, compaction, and subagents, alongside the integration of the Muse Code toolset to maximize harness compatibility.\nLong-Horizon\nMuse Spark 1.2 was extensively trained on long-horizon coding tasks, including whole-repository generation, large end-to-end projects, and auto-research. It leverages planning to sequence work, goal conditioning to maintain direction, and context compaction to retain the knowledge needed to sustain progress.\nSelf-Improvement\nWe also used Muse Spark 1.1 to generate challenging coding environments and instruction-following templates. The model then graded candidate solutions on how well they satisfied those requirements, producing a scalable training dataset for Muse Spark 1.2. This self-improvement loop helped Muse Spark 1.2 follow complex instructions more precisely than its predecessor.\nCase Study: Kernel Optimization\nWe tested the model's ability to iteratively optimize GPU kernels over 1,000+ tool calls (up to 24 hours). Leveraging Muse Code's agentic coding environment, the model writes, compiles, profiles, and progressively improves kernel performance relative to a provided baseline implementation. We benchmarked on KDA and MLA kernels for NVIDIA Hopper GPUs. The agent continues to achieve substantial improvements over the provided baseline implementation.\nKDAMLAThe baseline is the FLA Triton implementation of KDA. Models were prohibited from importing third-party kernel libraries such as FLA directly; instead, they had to apply specialized kernel-optimization knowledge to implement the algorithm in Triton, rather than wrap existing implementations. Muse Spark 1.2 paired a chunk-parallel preparation kernel with a sequential inter-chunk scan, combining standard fusion and tiling with KDA-specific optimizations such as re-centering the gated cumulative decay at the chunk midpoint.We benchmark against a PyTorch reference implementation at batch size 1, number of heads 64, sequence length 8192, and latent dimension 512. Muse Spark 1.2 designed a two-kernel Triton pipeline for this workload, combining kernel fusion and tiling with MLA-specific optimizations such as reusing the shared KV latent as both K and V.\nAvailability\nMuse Spark 1.2 is available today in Muse Code and in Meta Model API with expanded global access. We have a lot on the horizon, including new harness features and more powerful models. We can’t wait to see what you build!\nGet started with Muse Code",
+          "category": "tech",
+          "publishedAt": "2026-08-05T19:15:52.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "vercel/next.js (JavaScript)",
+          "titleKo": "Next.js - React 프레임워크",
+          "summary": "Vercel에서 개발하는 React 기반 풀스택 프레임워크입니다. 서버사이드 렌더링, 정적 생성, API 라우팅 등을 지원합니다.",
+          "keyPoints": [
+            "React 애플리케이션을 위한 통합 프레임워크",
+            "SSR, SSG, ISR 등 다양한 렌더링 방식 지원"
+          ],
+          "whyItMatters": "현대적인 웹 애플리케이션 개발의 표준 도구로 성능과 개발 경험을 모두 제공합니다.",
+          "url": "https://github.com/vercel/next.js",
+          "sourceName": "GitHub Trending",
+          "engagement": 141538,
+          "contentType": "repo",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 95,
+          "isTopicPrimary": true,
+          "slug": "vercelnextjs-javascript",
+          "category": "tech",
+          "publishedAt": "2026-08-06T00:00:14.869Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "tailwindlabs/tailwindcss (TypeScript)",
+          "titleKo": "Tailwind CSS - 유틸리티 우선 CSS 프레임워크",
+          "summary": "Tailwind Labs에서 개발한 유틸리티 기반 CSS 프레임워크로, 빠른 UI 개발을 지원합니다. 클래스명을 통해 직접 스타일링하는 방식입니다.",
+          "keyPoints": [
+            "유틸리티 클래스 기반의 빠른 스타일링",
+            "TypeScript로 작성되어 타입 안정성 제공"
+          ],
+          "whyItMatters": "전통적인 CSS 작성 방식보다 빠르고 일관성 있는 디자인 시스템 구축을 가능하게 합니다.",
+          "url": "https://github.com/tailwindlabs/tailwindcss",
+          "sourceName": "GitHub Trending",
+          "engagement": 96842,
+          "contentType": "repo",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 92,
+          "isTopicPrimary": true,
+          "slug": "tailwindlabstailwindcss-typescript",
+          "category": "tech",
+          "publishedAt": "2026-08-06T00:00:14.870Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Lighting My Porch With Vega #coding #programming #javascript #vega",
+          "titleKo": "Amazon Vega로 포치 조명 만들기: React Native로 대형 화면 앱 뚝딱 만들기",
+          "summary": "Jack Herrington이 3D 프린팅한 태양계 행성 모형과 LED 조명을 Amazon Vega 기반 Fire Stick 앱으로 제어한 경험을 소개합니다. Vega가 React Native 기반이라 기존 React 지식을 그대로 활용할 수 있었고, VS Code 확장·로컬 시뮬레이터·CLI 도구 덕분에 개발이 예상보다 수월했다고 밝힙니다. WLED 컨트롤러 제어는 일반 fetch HTTP 요청으로, 음성 제어는 aria-label만 추가하면 Vega가 알아서 처리해준다는 점이 인상적입니다.",
+          "keyPoints": [
+            "Amazon Vega의 UI는 React Native 기반이라 기존 React/React Native 지식을 그대로 재사용할 수 있다.",
+            "VS Code 확장에 로컬 시뮬레이터가 포함돼 있어 실제 기기 없이도 디버깅이 가능하고, CLI로 프로젝트 초기 세팅도 간단하다.",
+            "React Native 생태계에 익숙한 LLM 코딩 에이전트를 활용해 Vega 공식 문서만 참고시켜도 개발을 빠르게 진행할 수 있었다.",
+            "LED 하드웨어 제어는 WLED 컨트롤러에 일반적인 fetch HTTP 요청을 보내는 방식으로 간단히 구현했다.",
+            "음성 제어 기능은 컴포넌트에 aria-label만 추가하면 되고, 음성 인식과 이벤트 처리는 Vega가 자동으로 담당한다."
+          ],
+          "whyItMatters": "React/React Native 경험이 있는 프론트엔드 개발자에게 Vega는 별도의 학습 곡선 없이 TV·프로젝션 화면 같은 대형 스크린 앱을 만들 수 있는 진입 장벽 낮은 플랫폼임을 보여줍니다.",
+          "article": "Jack Herrington이 자신의 집 포치(porch)에 태양계 행성 모형과 LED 조명을 설치하고, 이를 Amazon Vega 기반 Fire Stick 앱으로 제어한 경험을 공유합니다. React와 React Native에 익숙한 프론트엔드 개발자 입장에서 Vega가 얼마나 빠르게 프로토타입을 완성할 수 있게 해주는지, 그리고 음성 제어 같은 기능이 얼마나 손쉽게 추가되는지를 짧고 실용적으로 정리한 내용입니다.\n\n## 배경: 포치를 채운 태양계\n\nHerrington의 가족은 천문학 애호가입니다. 그래서 3D 프린터로 각 행성 모형을 출력해 포치 뒤쪽에 죽 늘어놓고, 제어 가능한 LED로 조명을 밝혔습니다. 영화를 볼 때 분위기를 살려주는 좋은 인테리어였지만, 여기서 한 걸음 더 나아가 이 행성 조명들을 거실의 대형 프로젝션 스크린과 연동하고 싶었다고 합니다.\n\n## 왜 Amazon Vega를 선택했나\n\n여러 옵션을 살펴본 끝에 Amazon의 Fire Stick과 Vega를 선택했는데, 이유는 단순합니다. Vega의 UI가 React Native로 만들어져 있고, 본인이 React와 React Native에 익숙했기 때문입니다. 실제로 사용해보니 예상보다 훨씬 수월했다고 밝히는데, 그 배경에는 다음과 같은 개발 편의 요소들이 있었습니다.\n\n- **VS Code 확장**: Vega 전용 VS Code 익스텐션이 제공되고, 로컬 시뮬레이터가 내장되어 있어 실제 기기 없이도 코드를 쉽게 디버깅할 수 있습니다.\n- **AI 코딩 에이전트와의 궁합**: React Native 기반이다 보니 LLM 코딩 에이전트들이 이미 잘 알고 있는 스택이었고, Vega 공식 문서를 참고 자료로 던져주는 것만으로 세부 구현을 척척 해결했다고 합니다.\n- **CLI 스캐폴딩 도구**: 프로젝트를 처음 시작할 때 사용할 수 있는 CLI 앱도 제공되어 초기 세팅이 간단했습니다.\n\n## 결과물: 리모컨과 음성으로 조작하는 태양계\n\n이렇게 만든 앱으로 손님들이 놀러 오면 화면에 태양계 지도를 띄우고, 각 행성에 대한 정보를 보여줄 수 있습니다. 리모컨의 D-pad로 지도를 탐색하며 포치의 실제 조명과 화면상의 행성을 함께 넘나들 수 있는 구조입니다.\n\nLED 제어는 WLED 컨트롤러를 이용했는데, Vega 앱에서 일반적인 `fetch`로 HTTP 요청을 바로 WLED 컨트롤러에 보내는 방식으로 구현했습니다. 별도의 복잡한 통신 계층 없이, 웹 개발에서 흔히 쓰는 방식 그대로 하드웨어를 제어한 셈입니다.\n\n## 화룡점정: 음성 제어\n\n프로젝트를 완성도 있게 마무리하기 위해 추가한 기능이 음성 제어입니다. 사용자가 행성 이름을 말하면 화면에 해당 행성이 표시되고 조명도 함께 반응하도록 만들고 싶었는데, 이를 구현하는 데 필요한 작업은 단지 `aria-label`을 컴포넌트에 붙이는 것뿐이었습니다. 나머지 음성 인식 처리와 press 이벤트 전달은 Vega가 알아서 처리해줬다고 합니다. 실제로 \"Saturn\"이라고 말하면 해당 행성이 화면과 조명 양쪽에서 반응하는 데모를 보여주며, 이 기능이 프로젝트 전체의 완성도를 크게 끌어올렸다고 언급합니다.\n\n## 정리\n\n- Amazon Vega는 UI 레이어가 React Native로 되어 있어, 기존 React/React Native 지식을 그대로 활용해 Fire TV용 앱을 만들 수 있습니다.\n- VS Code 확장과 로컬 시뮬레이터, CLI 스캐폴딩 도구 덕분에 개발 환경 세팅과 디버깅 부담이 적습니다.\n- React Native 생태계에 익숙한 LLM 코딩 에이전트를 그대로 활용할 수 있어, 공식 문서만 참고시켜도 개발 속도를 높일 수 있습니다.\n- 하드웨어 제어(LED 컨트롤러)도 일반적인 `fetch` HTTP 요청으로 간단히 연동 가능하며, 음성 제어 같은 고급 기능도 `aria-label`만 추가하면 Vega가 나머지를 처리해줍니다.\n- React/React Native 경험이 있는 개발자라면, Vega는 별도의 대형 화면용 앱(TV, 프로젝션 스크린 등)을 만드는 진입 장벽이 낮은 선택지가 될 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=55hdtzM8T98",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 62,
+          "isTopicPrimary": true,
+          "slug": "lighting-my-porch-with-vega-coding-programming-javascript-vega",
+          "fullContent": "My family's own to astronomy. So, I printed out all these 3D printable planets and I put them along the back of the porch and I lit them with controllable LEDs. It's really nice when we're watching movies, but I wanted a way to connect the planets with the big projection screen. So, I looked around and picked a Fire Stick with Amazon's Vega because it uses React Native for the UI and I'm pretty good with React and React Native. And I got to tell you, it was easier than I expected. There's a Vega extension for VS Code. It's got a local simulator that makes it really easy to debug the code, which is great. The L coding agents obviously love React Native. And so, I just pointed them at the Vega docs for the extra details. They've even got a CLI app to get your project started. So, now when folks come over, I can just pop up a map of the solar system with all the facts about each planet and they can navigate around the lights and the planets with the D-pad on the controller. And then to control the LEDs, I use a WLED controller and then just send the command to it with HTTP right out of the Vega app using just a regular fetch. But to kind of add that finishing touch, I wanted folks to be able to say the name of the planet and have it show up on the screen and also on the lights. And it was as easy as just adding aria labels and Vega just handled all the extra voice work and sent the press events when you use the name. Saturn. It's just so slick and it really brought that project to life. So, give Vega a shot. If you know React Native and React already, it's an easy way to get your application up on the big screen. Check out the link in the description for more information and thank you so much, Amazon, for sponsoring this video.",
+          "category": "video",
+          "publishedAt": "2026-07-02T18:22:02+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "React 2025 – Adding MDX",
+          "titleKo": "React 2025 – MDX 추가",
+          "summary": "본문 없이 제목과 링크만 있어 정확한 내용 파악이 어렵습니다.",
+          "keyPoints": [
+            "React 2025 버전에서 MDX 지원 추가 예정 (추정)"
+          ],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=TUnbglpVhiU",
+          "sourceName": "Lee Robinson",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 80,
+          "isTopicPrimary": true,
+          "slug": "react-2025-adding-mdx",
+          "category": "video",
+          "publishedAt": "2025-11-07T14:31:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "This library changes how JS and CSS work together",
+          "titleKo": "이 라이브러리는 JavaScript와 CSS의 협업 방식을 바꿉니다",
+          "summary": "본문 없이 제목만 있어 정확한 내용 파악이 어렵습니다.",
+          "keyPoints": [
+            "JS와 CSS 통합 방식의 혁신적 접근 (추정)"
+          ],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=fG6ToJJ9x_Y",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 78,
+          "isTopicPrimary": true,
+          "slug": "this-library-changes-how-js-and-css-work-together",
+          "category": "video",
+          "publishedAt": "2026-08-05T13:00:22+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "New Skills! v1.2 brings /wait-what, /writing-for-agents, and fixes /grill-me",
+          "titleKo": "New Skills! v1.2 - /wait-what, /writing-for-agents 추가 및 /grill-me 수정",
+          "summary": "본문 없이 제목만 있어 정확한 내용 파악이 어렵습니다.",
+          "keyPoints": [
+            "새로운 슬래시 커맨드 추가: /wait-what, /writing-for-agents",
+            "/grill-me 기능 개선"
+          ],
+          "whyItMatters": "",
+          "url": "https://www.youtube.com/watch?v=gaDdrDdczO4",
+          "sourceName": "Matt Pocock (TypeScript)",
+          "contentType": "video",
+          "labels": [
+            "typescript"
+          ],
+          "relevance": 72,
+          "isTopicPrimary": true,
+          "slug": "new-skills-v12-brings-wait-what-writing-for-agents-and-fixes-grill-me",
+          "category": "video",
+          "publishedAt": "2026-08-05T15:28:41+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
