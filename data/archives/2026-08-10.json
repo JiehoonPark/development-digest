@@ -1,0 +1,399 @@
+{
+  "date": "2026-08-10",
+  "intro": "안녕하세요! 오늘은 React 생태계를 흔든 심각한 보안 사건으로 시작합니다. React Server Components에서 발견된 CVSS 10.0 등급의 원격 코드 실행 취약점과 그 후속 DoS·소스코드 노출 취약점들이 긴급 패치되었으니 즉시 업데이트가 필수입니다. 한편 AI 에이전트와 자동화 도구들이 프론트엔드 개발 생태계에 빠르게 확산되고 있으며, 메타의 저비용 AI 코딩 솔루션도 주목할 가치가 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Critical Security Vulnerability in React Server Components",
+          "titleKo": "React Server Components에서 발견된 CVSS 10.0 치명적 보안 취약점, 즉시 업그레이드 필요",
+          "summary": "React Server Components를 지원하는 react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack 패키지에서 인증되지 않은 원격 코드 실행이 가능한 CVE-2025-55182(CVSS 10.0) 취약점이 발견됐습니다. Next.js, React Router, Waku 등 RSC 기반 프레임워크와 번들러가 연쇄적으로 영향을 받아 각각 패치 버전이 배포되었습니다. React 팀은 즉각적인 업그레이드를 권고했으며, 이후 DoS 및 소스 코드 노출 관련 추가 취약점도 발견되어 후속 조치가 이어졌습니다.",
+          "keyPoints": [
+            "React Server Function 엔드포인트로 전달되는 페이로드를 디코딩하는 과정의 결함으로 인증 없는 원격 코드 실행(RCE)이 가능한 CVE-2025-55182(CVSS 10.0) 취약점이 발견됐습니다.",
+            "react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack의 19.0~19.2.0 버전이 영향을 받으며, 19.0.1/19.1.2/19.2.1로 즉시 업그레이드해야 합니다.",
+            "Next.js, React Router, Waku, @parcel/rsc, @vitejs/plugin-rsc, rwsdk 등 RSC를 지원하는 프레임워크·번들러가 연쇄적으로 영향을 받아 각각 별도의 패치 버전이 배포됐습니다.",
+            "호스팅 제공업체의 임시 완화 조치는 근본 해결책이 아니므로 패키지 자체 업데이트가 필수입니다.",
+            "이후 DoS 취약점 2건(CVE-2025-55184, CVE-2025-67779)과 소스 코드 노출 취약점(CVE-2025-55183)이 추가로 발견되어 지속적인 패치 확인이 필요합니다."
+          ],
+          "whyItMatters": "RSC를 사용하는 Next.js 등 주요 프레임워크 프로젝트 대부분이 영향을 받는 최고 등급 보안 취약점이므로, 프로덕션 서비스를 운영하는 프론트엔드 개발자라면 사용 중인 프레임워크와 패키지 버전을 즉시 점검하고 패치를 적용해야 합니다.",
+          "article": "React 팀이 2025년 12월 3일, React Server Components에서 발견된 치명적인 보안 취약점을 공개하고 즉각적인 업그레이드를 권고했습니다. 인증되지 않은 공격자가 원격 코드 실행(RCE)을 할 수 있는 CVSS 10.0 등급의 심각한 취약점으로, React Server Components를 지원하는 프레임워크나 번들러를 사용 중이라면 Server Function을 직접 구현하지 않았더라도 영향을 받을 수 있습니다. 이 글에서는 취약점의 내용과 영향받는 패키지, 그리고 프레임워크별 업데이트 방법을 정리합니다.\n\n## 취약점 개요\n\n2025년 11월 29일, Lachlan Davidson이 Meta Bug Bounty 프로그램을 통해 React의 보안 취약점을 제보했습니다. 이 취약점은 React가 React Server Function 엔드포인트로 전달되는 페이로드를 디코딩하는 과정의 결함을 악용해 인증 없이 원격 코드 실행을 가능하게 합니다.\n\nReact Server Functions는 클라이언트가 서버의 함수를 호출할 수 있게 해주는 기능입니다. React는 클라이언트 코드와 서버 코드가 함께 동작할 수 있도록 프레임워크와 번들러가 활용하는 통합 지점과 도구를 제공하는데, 클라이언트의 요청을 HTTP 요청으로 변환해 서버로 전달하고, 서버에서는 이를 다시 함수 호출로 변환해 필요한 데이터를 클라이언트에 반환하는 구조입니다.\n\n문제는 인증되지 않은 공격자가 임의의 Server Function 엔드포인트에 악의적으로 조작된 HTTP 요청을 보낼 수 있고, React가 이를 역직렬화(deserialize)하는 과정에서 서버 측 원격 코드 실행이 발생한다는 점입니다. 이 취약점은 **CVE-2025-55182**로 등록되었으며, **CVSS 10.0**(최고 등급)이 부여되었습니다. 세부적인 취약점 동작 방식은 패치 배포가 완료된 이후 추가로 공개될 예정이라고 밝혔습니다.\n\n## 영향받는 패키지와 버전\n\n다음 세 패키지의 **19.0, 19.1.0, 19.1.1, 19.2.0** 버전이 이번 취약점의 영향을 받습니다.\n\n- `react-server-dom-webpack`\n- `react-server-dom-parcel`\n- `react-server-dom-turbopack`\n\n수정 사항은 **19.0.1, 19.1.2, 19.2.1** 버전에 반영되었습니다. 위 패키지 중 하나라도 사용 중이라면 즉시 수정된 버전으로 업그레이드해야 합니다.\n\n반대로, 앱의 React 코드가 서버를 사용하지 않는다면 이 취약점의 영향을 받지 않습니다. 마찬가지로 React Server Components를 지원하는 프레임워크·번들러·번들러 플러그인을 사용하지 않는 앱도 영향을 받지 않습니다.\n\n## 영향받는 프레임워크와 번들러\n\n일부 React 프레임워크와 번들러는 취약한 React 패키지에 직접 의존하거나, 피어 디펜던시로 참조하거나, 내장 형태로 포함하고 있었습니다. 영향을 받는 프레임워크·번들러는 다음과 같습니다.\n\n- `next`\n- `react-router`\n- `waku`\n- `@parcel/rsc`\n- `@vitejs/plugin-rsc`\n- `rwsdk`\n\n각 프로젝트별 구체적인 업데이트 방법은 아래 섹션을 참고하면 됩니다.\n\n## 호스팅 제공업체의 완화 조치\n\nReact 팀은 여러 호스팅 제공업체와 협력해 임시 완화 조치를 적용했습니다. 다만 이는 어디까지나 임시방편이므로, 이를 신뢰하고 업데이트를 미뤄서는 안 되며 반드시 즉시 패키지를 업데이트해야 합니다.\n\n## 프레임워크·패키지별 업데이트 방법\n\n이 안내는 이후 추가로 발견된 취약점들을 반영해 업데이트되었습니다.\n\n- 서비스 거부(DoS) - 심각도 High: CVE-2025-55184, CVE-2025-67779 (CVSS 7.5)\n- 소스 코드 노출 - 심각도 Medium: CVE-2025-55183 (CVSS 5.3)\n- 서비스 거부(DoS) - 심각도 High (2026년 1월 26일 추가): CVE-2026-23864 (CVSS 7.5)\n\n자세한 내용은 후속 블로그 포스트를 참고하기 바랍니다.\n\n### Next.js\n\n모든 사용자는 자신이 사용 중인 릴리스 라인의 최신 패치 버전으로 업그레이드해야 합니다.\n\n```\nnpm install next@14.2.35\nnpm install next@15.0.8\nnpm install next@15.1.12\nnpm install next@15.2.9\nnpm install next@15.3.9\nnpm install next@15.4.11\nnpm install next@15.5.10\nnpm install next@16.0.11\nnpm install next@16.1.5\nnpm install next@15.6.0-canary.60\nnpm install next@16.1.0-canary.19\n```\n\n패치가 적용된 버전은 15.0.8, 15.1.12, 15.2.9, 15.3.9, 15.4.10, 15.5.10, 15.6.0-canary.61, 16.0.11, 16.1.5입니다.\n\nNext.js 13.3 이상 버전(13.3.x, 13.4.x, 13.5.x)을 사용 중이라면 14.2.35로 업그레이드해야 합니다. `next@14.3.0-canary.77` 이후의 카나리 릴리스를 사용 중이라면 최신 안정 버전인 14.x로 다운그레이드하는 것이 권장됩니다.\n\n```\nnpm install next@14\n```\n\n최신 업데이트 안내와 이전 변경 이력은 Next.js 블로그를 참고하기 바랍니다.\n\n### React Router\n\nReact Router의 unstable RSC API를 사용 중이라면, package.json에 아래 의존성이 존재하는 경우 최신 버전으로 업그레이드해야 합니다.\n\n```\nnpm install react@latest\nnpm install react-dom@latest\nnpm install react-server-dom-parcel@latest\nnpm install react-server-dom-webpack@latest\nnpm install @vitejs/plugin-rsc@latest\n```\n\n### Expo\n\n완화 방법에 대한 자세한 내용은 expo.dev/changelog의 관련 문서를 참고하기 바랍니다.\n\n### Redwood SDK\n\n`rwsdk>=1.0.0-alpha.0` 버전을 사용 중인지 확인해야 합니다. 최신 베타 버전은 다음과 같이 설치합니다.\n\n```\nnpm install rwsdk@latest\n```\n\n`react-server-dom-webpack`도 최신 버전으로 함께 업그레이드해야 합니다.\n\n```\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\n```\n\n자세한 마이그레이션 방법은 Redwood 공식 문서를 참고하면 됩니다.\n\n### Waku\n\n`react-server-dom-webpack`을 최신 버전으로 업그레이드합니다.\n\n```\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest waku@latest\n```\n\n자세한 내용은 Waku 공지사항을 참고하기 바랍니다.\n\n### @vitejs/plugin-rsc\n\nRSC 플러그인을 최신 버전으로 업그레이드합니다.\n\n```\nnpm install react@latest react-dom@latest @vitejs/plugin-rsc@latest\n```\n\n### react-server-dom-parcel\n\n```\nnpm install react@latest react-dom@latest react-server-dom-parcel@latest\n```\n\n### react-server-dom-turbopack\n\n```\nnpm install react@latest react-dom@latest react-server-dom-turbopack@latest\n```\n\n### react-server-dom-webpack\n\n```\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\n```\n\n### React Native\n\n모노레포를 사용하지 않고 `react-dom`도 사용하지 않는 React Native 사용자라면, package.json에 React 버전이 고정(pin)되어 있을 것이므로 별도 조치가 필요하지 않습니다.\n\n모노레포 환경에서 React Native를 사용 중이라면, 아래 패키지가 설치되어 있는 경우 해당 패키지만 업데이트하면 됩니다.\n\n- `react-server-dom-webpack`\n- `react-server-dom-parcel`\n- `react-server-dom-turbopack`\n\n이는 보안 권고 사항을 완화하기 위해 필요한 조치이며, `react`와 `react-dom` 자체를 업데이트할 필요는 없으므로 React Native에서 흔히 발생하는 버전 불일치 오류는 발생하지 않습니다. 자세한 내용은 관련 GitHub 이슈를 참고하면 됩니다.\n\n## 타임라인\n\n- **11월 29일**: Lachlan Davidson이 Meta Bug Bounty를 통해 보안 취약점을 제보\n- **11월 30일**: Meta 보안 연구팀이 취약점을 확인하고 React 팀과 함께 수정 작업 시작\n- **12월 1일**: 수정본이 완성되고, React 팀이 영향받는 호스팅 제공업체 및 오픈소스 프로젝트와 협력해 수정 사항 검증, 완화 조치 적용, 배포를 진행\n- **12월 3일**: npm에 수정본 배포 및 CVE-2025-55182로 공개\n\nReact 팀은 취약점을 발견하고 제보한 뒤 수정 작업까지 협력해준 Lachlan Davidson에게 감사를 표했습니다.\n\n## 정리\n\n- React Server Function 엔드포인트로 전달되는 페이로드 디코딩 과정의 결함으로 인해, 인증 없이 원격 코드 실행이 가능한 CVSS 10.0 등급의 심각한 취약점(CVE-2025-55182)이 발견됐습니다.\n- `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack`의 19.0~19.2.0 버전이 영향을 받으며, 19.0.1/19.1.2/19.2.1로 수정되었습니다.\n- Next.js, React Router, Waku, @parcel/rsc, @vitejs/plugin-rsc, rwsdk 등 RSC를 지원하는 주요 프레임워크와 번들러가 연쇄적으로 영향을 받으므로, 각자 사용 중인 프레임워크의 패치 버전을 정확히 확인해 업그레이드해야 합니다.\n- 호스팅 제공업체의 임시 완화 조치는 근본적인 해결책이 아니므로, 반드시 패키지 자체를 업데이트해야 합니다.\n- 이후 서비스 거부(DoS) 취약점 2건과 소스 코드 노출 취약점 1건이 추가로 발견되어 후속 패치가 이어졌으므로, RSC 관련 패키지를 사용 중이라면 최신 안정 버전을 유지하는 것이 중요합니다.\n- React Server Components를 도입하지 않았거나 서버 없이 React를 사용하는 프로젝트는 이번 취약점의 영향을 받지 않습니다.",
+          "url": "https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 88,
+          "topicId": "react-security",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "critical-security-vulnerability-in-react-server-components",
+          "fullContent": "BlogCopy pageCopyCritical Security Vulnerability in React Server ComponentsDecember 3, 2025 by The React Team\nThere is an unauthenticated remote code execution vulnerability in React Server Components.We recommend upgrading immediately.\nOn November 29th, Lachlan Davidson reported a security vulnerability in React that allows unauthenticated remote code execution by exploiting a flaw in how React decodes payloads sent to React Server Function endpoints.\nEven if your app does not implement any React Server Function endpoints it may still be vulnerable if your app supports React Server Components.\nThis vulnerability was disclosed as CVE-2025-55182 and is rated CVSS 10.0.\nThe vulnerability is present in versions 19.0, 19.1.0, 19.1.1, and 19.2.0 of:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nImmediate Action Required\nA fix was introduced in versions 19.0.1, 19.1.2, and 19.2.1. If you are using any of the above packages please upgrade to any of the fixed versions immediately.\nIf your app’s React code does not use a server, your app is not affected by this vulnerability. If your app does not use a framework, bundler, or bundler plugin that supports React Server Components, your app is not affected by this vulnerability.\nAffected frameworks and bundlers\nSome React frameworks and bundlers depended on, had peer dependencies for, or included the vulnerable React packages. The following React frameworks & bundlers are affected: next, react-router, waku, @parcel/rsc, @vitejs/plugin-rsc, and rwsdk.\nSee the update instructions below for how to upgrade to these patches.\nHosting Provider Mitigations\nWe have worked with a number of hosting providers to apply temporary mitigations.\nYou should not depend on these to secure your app, and still update immediately.\nVulnerability overview\nReact Server Functions allow a client to call a function on a server. React provides integration points and tools that frameworks and bundlers use to help React code run on both the client and the server. React translates requests on the client into HTTP requests which are forwarded to a server. On the server, React translates the HTTP request into a function call and returns the needed data to the client.\nAn unauthenticated attacker could craft a malicious HTTP request to any Server Function endpoint that, when deserialized by React, achieves remote code execution on the server. Further details of the vulnerability will be provided after the rollout of the fix is complete.\nUpdate Instructions\nNoteThese instructions have been updated to include the new vulnerabilities:\nDenial of Service - High Severity: CVE-2025-55184 and CVE-2025-67779 (CVSS 7.5)\nSource Code Exposure - Medium Severity: CVE-2025-55183 (CVSS 5.3)\nDenial of Service - High Severity: January 26, 2026 CVE-2026-23864 (CVSS 7.5)\nSee the follow-up blog post for more info.Updated January 26, 2026.\nNext.js\nAll users should upgrade to the latest patched version in their release line:\nnpm install next@14.2.35 npm install next@15.0.8 npm install next@15.1.12 npm install next@15.2.9 npm install next@15.3.9 npm install next@15.4.11 npm install next@15.5.10 npm install next@16.0.11 npm install next@16.1.5 npm install next@15.6.0-canary.60 npm install next@16.1.0-canary.19\n15.0.8, 15.1.12, 15.2.9, 15.3.9, 15.4.10, 15.5.10, 15.6.0-canary.61, 16.0.11, 16.1.5\nIf you are on version 13.3 or later version of Next.js 13 (13.3.x, 13.4.x, or 13.5.x) please upgrade to version 14.2.35.\nIf you are on next@14.3.0-canary.77 or a later canary release, downgrade to the latest stable 14.x release:\nnpm install next@14\nSee the Next.js blog for the latest update instructions and the previous changelog for more info.\nReact Router\nIf you are using React Router’s unstable RSC APIs, you should upgrade the following package.json dependencies if they exist:\nnpm install react@latestnpm install react-dom@latestnpm install react-server-dom-parcel@latestnpm install react-server-dom-webpack@latestnpm install @vitejs/plugin-rsc@latest\nExpo\nTo learn more about mitigating, read the article on expo.dev/changelog.\nRedwood SDK\nEnsure you are on rwsdk>=1.0.0-alpha.0\nFor the latest beta version:\nnpm install rwsdk@latest\nUpgrade to the latest react-server-dom-webpack:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\nSee Redwood docs for more migration instructions.\nWaku\nUpgrade to the latest react-server-dom-webpack:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest waku@latest\nSee Waku announcement for more migration instructions.\n@vitejs/plugin-rsc\nUpgrade to the latest RSC plugin:\nnpm install react@latest react-dom@latest @vitejs/plugin-rsc@latest\nreact-server-dom-parcel\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-parcel@latest\nreact-server-dom-turbopack\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-turbopack@latest\nreact-server-dom-webpack\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\nReact Native\nFor React Native users not using a monorepo or react-dom, your react version should be pinned in your package.json, and there are no additional steps needed.\nIf you are using React Native in a monorepo, you should update only the impacted packages if they are installed:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nThis is required to mitigate the security advisory, but you do not need to update react and react-dom so this will not cause the version mismatch error in React Native.\nSee this issue for more information.\nTimeline\nNovember 29th: Lachlan Davidson reported the security vulnerability via Meta Bug Bounty.\nNovember 30th: Meta security researchers confirmed and began working with the React team on a fix.\nDecember 1st: A fix was created and the React team began working with affected hosting providers and open source projects to validate the fix, implement mitigations and roll out the fix\nDecember 3rd: The fix was published to npm and the publicly disclosed as CVE-2025-55182.\nAttribution\nThank you to Lachlan Davidson for discovering, reporting, and working to help fix this vulnerability.PreviousDenial of Service and Source Code Exposure in React Server ComponentsNextReact Conf 2025 Recap",
+          "category": "hot",
+          "publishedAt": "2025-12-03T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Denial of Service and Source Code Exposure in React Server Components",
+          "titleKo": "React Server Components의 서비스 거부 및 소스코드 노출 취약점",
+          "summary": "React 팀이 지난주 공개한 치명적 RCE 취약점 패치를 검증하는 과정에서 추가로 서비스 거부(DoS) 취약점 3건과 소스코드 노출 취약점 1건이 발견됐습니다. 영향받는 패키지는 react-server-dom-webpack/parcel/turbopack이며 19.0.4, 19.1.5, 19.2.4로 즉시 업그레이드가 필요합니다. 이전에 19.0.3/19.1.4/19.2.3으로 업데이트했더라도 불완전한 패치였으므로 재업데이트가 필수입니다.",
+          "keyPoints": [
+            "DoS 취약점 3건(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864, CVSS 7.5)은 조작된 HTTP 요청이 Server Functions 역직렬화 과정에서 무한 루프를 유발해 서버를 마비시킬 수 있습니다.",
+            "소스코드 노출 취약점(CVE-2025-55183, CVSS 5.3)은 인자를 문자열화해 반환하는 Server Function을 통해 하드코딩된 비밀 값을 유출시킬 수 있으며, 런타임 환경변수는 영향받지 않습니다.",
+            "영향받는 버전은 react-server-dom-webpack/parcel/turbopack의 19.0.0~19.2.3이며, 수정 버전은 19.0.4, 19.1.5, 19.2.4입니다.",
+            "next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, rwsdk 등 RSC를 지원하는 프레임워크·번들러 사용자가 영향을 받으며, 서버를 사용하지 않는 앱은 영향이 없습니다.",
+            "심각한 취약점 공개 후 인접 코드 경로에서 변종 취약점이 추가로 발견되는 것은 업계에서 흔한 패턴이며, 건강한 보안 대응 사이클의 신호로 볼 수 있습니다."
+          ],
+          "whyItMatters": "React Server Components를 사용하는 프레임워크(Next.js, React Router 등)를 운영 중인 프론트엔드 개발자라면, 이전 패치만으로는 안전하지 않으므로 즉시 최신 버전으로 재업그레이드해야 서비스 중단과 민감 정보 유출을 막을 수 있습니다.",
+          "article": "React 팀이 지난주 공개한 치명적인 원격 코드 실행(RCE) 취약점 React2Shell의 패치를 검증하는 과정에서, 보안 연구자들이 해당 패치 주변 코드를 파고들어 추가 취약점 두 건을 새로 찾아냈습니다. 이번에 공개된 취약점들은 RCE로는 이어지지 않지만, 서비스 거부(DoS)와 소스코드 노출이라는 별도의 위험을 안고 있어 React Server Components를 사용하는 프로젝트라면 다시 한 번 업그레이드가 필요합니다.\n\n## 이번에 공개된 취약점 개요\n\n새로 공개된 취약점은 다음과 같습니다.\n\n- **서비스 거부(DoS) - 심각도 High**: CVE-2025-55184, CVE-2025-67779, CVE-2026-23864 (CVSS 7.5)\n- **소스코드 노출 - 심각도 Medium**: CVE-2025-55183 (CVSS 5.3)\n\nReact 팀은 심각도를 고려해 즉시 업그레이드를 권고하고 있습니다. 특히 주의할 점은, 지난주에 배포된 패치(19.0.3, 19.1.4, 19.2.3)가 불완전했다는 것입니다. 이전 취약점(CVE-2025-55182) 대응을 위해 이미 업데이트를 했더라도, 다시 한 번 업데이트해야 합니다. 자세한 업그레이드 절차는 이전 게시글(Critical Security Vulnerability in React Server Components)의 안내를 따르면 됩니다.\n\n## 즉시 조치가 필요한 대상\n\n이번 취약점들은 이전에 발표된 CVE-2025-55182와 동일한 패키지·버전 범위에 존재합니다. 영향을 받는 버전은 다음 패키지의 19.0.0, 19.0.1, 19.0.2, 19.0.3, 19.1.0, 19.1.1, 19.1.2, 19.1.3, 19.2.0, 19.2.1, 19.2.2, 19.2.3입니다.\n\n- react-server-dom-webpack\n- react-server-dom-parcel\n- react-server-dom-turbopack\n\n수정 사항은 19.0.4, 19.1.5, 19.2.4 버전에 백포트되었습니다. 위 패키지를 사용 중이라면 즉시 이 수정 버전 중 하나로 업그레이드해야 합니다.\n\n이전과 마찬가지로, 앱의 React 코드가 서버를 사용하지 않는다면 이번 취약점의 영향을 받지 않습니다. 또한 React Server Components를 지원하는 프레임워크, 번들러, 번들러 플러그인을 사용하지 않는다면 마찬가지로 영향이 없습니다.\n\nReact 팀은 이런 후속 취약점 발견이 드문 일이 아니라는 점도 짚고 있습니다. 심각한 취약점이 공개되면 연구자들이 인접한 코드 경로를 집중적으로 조사하면서, 초기 패치가 우회 가능한지 변종 공격 기법을 테스트하기 때문입니다. 이는 JavaScript 생태계만의 현상이 아니라 업계 전반에서 반복되는 패턴으로, Log4Shell 사태 이후에도 커뮤니티가 원래 수정 사항을 검증하는 과정에서 추가 CVE들이 보고된 바 있습니다. 추가 공개가 다소 피곤하게 느껴질 수 있지만, 일반적으로는 건강한 대응 사이클의 신호로 볼 수 있다고 강조합니다.\n\n### 영향받는 프레임워크와 번들러\n\n일부 React 프레임워크와 번들러는 취약한 React 패키지에 직접 의존하거나, peer dependency로 포함하고 있었습니다. 영향을 받는 프레임워크와 번들러는 next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, rwsdk입니다.\n\n### 호스팅 제공업체의 임시 완화 조치\n\nReact 팀은 여러 호스팅 제공업체와 협력해 임시 완화 조치를 적용했습니다. 다만 이런 임시 조치에만 의존해서는 안 되며, 여전히 즉시 업데이트하는 것이 권장됩니다.\n\n### React Native 사용자\n\n모노레포를 사용하지 않고 react-dom도 쓰지 않는 React Native 사용자라면 package.json에 React 버전이 고정(pinned)되어 있을 것이므로 추가 조치가 필요 없습니다.\n\n모노레포 환경에서 React Native를 사용 중이라면, 다음 패키지가 설치되어 있는 경우에만 해당 패키지를 업데이트하면 됩니다.\n\n- react-server-dom-webpack\n- react-server-dom-parcel\n- react-server-dom-turbopack\n\n이 취약점을 완화하기 위해 필요한 조치이며, react와 react-dom 자체는 업데이트하지 않아도 되므로 React Native의 버전 불일치 오류가 발생하지 않습니다. 자세한 내용은 관련 GitHub 이슈를 참고하면 됩니다.\n\n## High Severity: 복수의 서비스 거부(DoS) 취약점\n\n**CVE**: CVE-2026-23864\n**Base Score**: 7.5 (High)\n**날짜**: 2026년 1월 26일\n\n보안 연구자들은 React Server Components에 여전히 존재하는 추가 DoS 취약점을 발견했습니다. 이 취약점은 Server Function 엔드포인트에 특수하게 조작된 HTTP 요청을 보내는 방식으로 유발되며, 취약한 코드 경로와 애플리케이션 설정·코드에 따라 서버 크래시, 메모리 부족 예외, 과도한 CPU 사용 등을 일으킬 수 있습니다.\n\n1월 26일 공개된 패치가 이 DoS 취약점들을 완화합니다.\n\n여기서 중요한 점은, CVE-2025-55184에 대응하기 위해 배포됐던 원래 수정 사항이 불완전했다는 것입니다. 이로 인해 이전 버전들은 여전히 취약한 상태로 남아 있었으며, 19.0.4, 19.1.5, 19.2.4 버전만이 안전합니다.\n\n## High Severity: 서비스 거부(DoS)\n\n**CVE**: CVE-2025-55184, CVE-2025-67779\n**Base Score**: 7.5 (High)\n\n보안 연구자들은 Server Functions 엔드포인트로 조작된 HTTP 요청을 보낼 경우, React가 이를 역직렬화(deserialize)하는 과정에서 무한 루프가 발생해 서버 프로세스가 멈추고 CPU를 계속 소모하게 되는 문제를 발견했습니다. 앱이 직접 React Server Function 엔드포인트를 구현하지 않더라도, React Server Components를 지원하기만 하면 여전히 취약할 수 있습니다.\n\n이 취약점은 공격자가 사용자의 제품 접근을 차단하거나, 서버 환경의 성능에 영향을 줄 수 있는 벡터를 만들어냅니다. 이번에 공개된 패치는 무한 루프 발생을 막아 이를 완화합니다.\n\n## Medium Severity: 소스코드 노출\n\n**CVE**: CVE-2025-55183\n**Base Score**: 5.3 (Medium)\n\n한 보안 연구자는 취약한 Server Function에 조작된 HTTP 요청을 보내면, React가 안전하지 않은 방식으로 해당 Server Function의 소스코드를 반환할 수 있다는 사실을 발견했습니다. 이 공격이 성립하려면, 인자를 문자열화(stringify)한 값을 명시적이든 암묵적이든 노출하는 Server Function이 존재해야 합니다.\n\n```\n'use server';\nexport async function serverFunction(name) {\n  const conn = db.createConnection('SECRET KEY');\n  const user = await conn.createUser(name);\n  return { id: user.id, message: `Hello, ${name}!` }\n}\n```\n\n이런 함수가 존재하면 공격자는 다음과 같은 형태로 정보를 유출시킬 수 있습니다.\n\n```\n0:{\"a\":\"$@1\",\"f\":\"\",\"b\":\"Wy43RxUKdxmr5iuBzJ1pN\"}\n1:{\"id\":\"tva1sfodwq\",\"message\":\"Hello, async function(a){console.log(\\\"serverFunction\\\");let b=i.createConnection(\\\"SECRET KEY\\\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!\"}\n```\n\n이번에 공개된 패치는 Server Function 소스코드가 문자열화되는 것을 방지합니다.\n\n여기서 노출 위험이 있는 것은 **소스코드에 하드코딩된 비밀 값**에 한정됩니다. `process.env.SECRET`처럼 런타임에 주입되는 비밀 값은 영향을 받지 않습니다. 노출 범위는 해당 Server Function 내부 코드로 제한되지만, 번들러의 인라이닝(inlining) 정도에 따라 다른 함수까지 포함될 수 있습니다. React 팀은 항상 프로덕션 번들을 기준으로 검증할 것을 권고하고 있습니다.\n\n## 타임라인\n\n- **12월 3일**: Andrew MacPherson이 Vercel과 Meta Bug Bounty에 소스코드 노출 취약점 신고\n- **12월 4일**: RyotaK가 Meta Bug Bounty에 초기 DoS 취약점 신고\n- **12월 6일**: React 팀이 두 이슈 모두 확인하고 조사 시작\n- **12월 7일**: 초기 패치 작성, 새로운 패치 검증 및 계획 시작\n- **12월 8일**: 영향받는 호스팅 제공업체와 오픈소스 프로젝트에 통지\n- **12월 10일**: 호스팅 제공업체 완화 조치 적용 및 패치 검증 완료\n- **12월 11일**: Shinsaku Nomura가 Meta Bug Bounty에 추가 DoS 취약점 신고\n- **12월 11일**: 패치 공개, CVE-2025-55183 및 CVE-2025-55184로 공개 발표\n- **12월 11일**: 내부적으로 누락된 DoS 케이스 발견, 패치 후 CVE-2025-67779로 공개\n- **1월 26일**: 추가 DoS 케이스 발견, 패치 후 CVE-2026-23864로 공개\n\n## 기여자\n\nSource Code Exposure를 신고한 Andrew MacPherson(AndrewMohawk), Denial of Service 취약점을 신고한 GMO Flatt Security Inc의 RyotaK와 Bitforest Co., Ltd.의 Shinsaku Nomura, 그리고 추가 DoS 취약점을 신고한 Winfunc Research의 Mufeed VH, Joachim Viide, GMO Flatt Security Inc의 RyotaK, Tencent Security YUNDING LAB의 Xiangwei Zhang에게 감사를 전합니다.\n\n## 정리\n\n- 지난주 공개된 치명적 RCE 취약점(React2Shell) 패치를 검증하는 과정에서, 추가로 DoS 취약점 3건(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864, CVSS 7.5)과 소스코드 노출 취약점 1건(CVE-2025-55183, CVSS 5.3)이 새로 발견됐습니다.\n- 영향받는 패키지는 react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack의 19.0.x, 19.1.x, 19.2.x 버전이며, 수정 버전은 19.0.4, 19.1.5, 19.2.4입니다. **이전에 19.0.3/19.1.4/19.2.3으로 업데이트했더라도 불완전한 패치이므로 재업데이트가 필수**입니다.\n- next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, rwsdk 등 RSC를 지원하는 프레임워크·번들러를 사용 중이라면 영향을 받을 수 있습니다. 서버를 사용하지 않는 React 앱이나 RSC를 지원하지 않는 환경은 영향이 없습니다.\n- DoS 취약점은 조작된 HTTP 요청이 Server Functions 엔드포인트에서 역직렬화될 때 무한 루프를 일으켜 서버를 마비시킬 수 있으며, 소스코드 노출 취약점은 인자를 문자열화해 반환하는 Server Function을 통해 소스코드에 하드코딩된 비밀 값을 유출시킬 수 있습니다(런타임 환경변수는 영향 없음).\n- React Native 사용자는 모노레포 여부에 따라 대응이 다르므로, 모노레포 환경에서 위 세 패키지가 설치되어 있는 경우에만 해당 패키지를 업데이트하면 됩니다.",
+          "url": "https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 85,
+          "topicId": "react-security",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "denial-of-service-and-source-code-exposure-in-react-server-components",
+          "fullContent": "BlogCopy pageCopyDenial of Service and Source Code Exposure in React Server ComponentsDecember 11, 2025 by The React Team\nUpdated January 26, 2026.\nSecurity researchers have found and disclosed two additional vulnerabilities in React Server Components while attempting to exploit the patches in last week’s critical vulnerability.These new vulnerabilities do not allow for Remote Code Execution. The patch for React2Shell remains effective at mitigating the Remote Code Execution exploit.\nThe new vulnerabilities are disclosed as:\nDenial of Service - High Severity: CVE-2025-55184, CVE-2025-67779, and CVE-2026-23864 (CVSS 7.5)\nSource Code Exposure - Medium Severity: CVE-2025-55183 (CVSS 5.3)\nWe recommend upgrading immediately due to the severity of the newly disclosed vulnerabilities.\nNoteThe patches published earlier are vulnerable. If you already updated for the previous vulnerabilities, you will need to update again.If you updated to 19.0.3, 19.1.4, and 19.2.3, these are incomplete, and you will need to update again.Please see the instructions in the previous post for upgrade steps.Updated January 26, 2026.\nFurther details of these vulnerabilities will be provided after the rollout of the fixes are complete.\nImmediate Action Required\nThese vulnerabilities are present in the same packages and versions as CVE-2025-55182.\nThis includes 19.0.0, 19.0.1, 19.0.2, 19.0.3, 19.1.0, 19.1.1, 19.1.2, 19.1.3, 19.2.0, 19.2.1, 19.2.2, and 19.2.3 of:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nFixes were backported to versions 19.0.4, 19.1.5, and 19.2.4. If you are using any of the above packages please upgrade to any of the fixed versions immediately.\nAs before, if your app’s React code does not use a server, your app is not affected by these vulnerabilities. If your app does not use a framework, bundler, or bundler plugin that supports React Server Components, your app is not affected by these vulnerabilities.\nNoteIt’s common for critical CVEs to uncover follow‑up vulnerabilities. When a critical vulnerability is disclosed, researchers scrutinize adjacent code paths looking for variant exploit techniques to test whether the initial mitigation can be bypassed.This pattern shows up across the industry, not just in JavaScript. For example, after Log4Shell, additional CVEs (1, 2) were reported as the community probed the original fix.Additional disclosures can be frustrating, but they are generally a sign of a healthy response cycle.\nAffected frameworks and bundlers\nSome React frameworks and bundlers depended on, had peer dependencies for, or included the vulnerable React packages. The following React frameworks & bundlers are affected: next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, and rwsdk.\nPlease see the instructions in the previous post for upgrade steps.\nHosting Provider Mitigations\nAs before, we have worked with a number of hosting providers to apply temporary mitigations.\nYou should not depend on these to secure your app, and still update immediately.\nReact Native\nFor React Native users not using a monorepo or react-dom, your react version should be pinned in your package.json, and there are no additional steps needed.\nIf you are using React Native in a monorepo, you should update only the impacted packages if they are installed:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nThis is required to mitigate the security advisories, but you do not need to update react and react-dom so this will not cause the version mismatch error in React Native.\nSee this issue for more information.\nHigh Severity: Multiple Denial of Service\nCVEs: CVE-2026-23864\nBase Score: 7.5 (High)\nDate: January 26, 2026\nSecurity researchers discovered additional DoS vulnerabilities still exist in React Server Components.\nThe vulnerabilities are triggered by sending specially crafted HTTP requests to Server Function endpoints, and could lead to server crashes, out-of-memory exceptions or excessive CPU usage; depending on the vulnerable code path being exercised, the application configuration and application code.\nThe patches published January 26th mitigate these DoS vulnerabilities.\nNoteAdditional fixes published The original fix addressing the DoS in CVE-2025-55184 was incomplete.This left previous versions vulnerable. Versions 19.0.4, 19.1.5, 19.2.4 are safe.Updated January 26, 2026.\nHigh Severity: Denial of Service\nCVEs: CVE-2025-55184 and CVE-2025-67779\nBase Score: 7.5 (High)\nSecurity researchers have discovered that a malicious HTTP request can be crafted and sent to any Server Functions endpoint that, when deserialized by React, can cause an infinite loop that hangs the server process and consumes CPU. Even if your app does not implement any React Server Function endpoints it may still be vulnerable if your app supports React Server Components.\nThis creates a vulnerability vector where an attacker may be able to deny users from accessing the product, and potentially have a performance impact on the server environment.\nThe patches published today mitigate by preventing the infinite loop.\nMedium Severity: Source Code Exposure\nCVE: CVE-2025-55183\nBase Score: 5.3 (Medium)\nA security researcher has discovered that a malicious HTTP request sent to a vulnerable Server Function may unsafely return the source code of any Server Function. Exploitation requires the existence of a Server Function which explicitly or implicitly exposes a stringified argument:\n'use server';export async function serverFunction(name) { const conn = db.createConnection('SECRET KEY'); const user = await conn.createUser(name); return { id: user.id, message: `Hello, ${name}!` }}\nAn attacker may be able to leak the following:\n0:{\"a\":\"$@1\",\"f\":\"\",\"b\":\"Wy43RxUKdxmr5iuBzJ1pN\"}1:{\"id\":\"tva1sfodwq\",\"message\":\"Hello, async function(a){console.log(\\\"serverFunction\\\");let b=i.createConnection(\\\"SECRET KEY\\\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!\"}\nThe patches published today prevent stringifying the Server Function source code.\nNoteOnly secrets in source code may be exposed. Secrets hardcoded in source code may be exposed, but runtime secrets such as process.env.SECRET are not affected.The scope of the exposed code is limited to the code inside the Server Function, which may include other functions depending on the amount of inlining your bundler provides.Always verify against production bundles.\nTimeline\nDecember 3rd: Leak reported to Vercel and Meta Bug Bounty by Andrew MacPherson.\nDecember 4th: Initial DoS reported to Meta Bug Bounty by RyotaK.\nDecember 6th: Both issues confirmed by the React team, and the team began investigating.\nDecember 7th: Initial fixes created and the React team began verifying and planning new patch.\nDecember 8th: Affected hosting providers and open source projects notified.\nDecember 10th: Hosting provider mitigations in place and patches verified.\nDecember 11th: Additional DoS reported to Meta Bug Bounty by Shinsaku Nomura.\nDecember 11th: Patches published and publicly disclosed as CVE-2025-55183 and CVE-2025-55184.\nDecember 11th: Missing DoS case found internally, patched and publicly disclosed as CVE-2025-67779.\nJanuary 26th: Additional DoS cases found, patched, and publicly disclosed as CVE-2026-23864.\nAttribution\nThank you to Andrew MacPherson (AndrewMohawk) for reporting the Source Code Exposure, RyotaK from GMO Flatt Security Inc and Shinsaku Nomura of Bitforest Co., Ltd. for reporting the Denial of Service vulnerabilities. Thank you to Mufeed VH from Winfunc Research, Joachim Viide, RyotaK from GMO Flatt Security Inc and Xiangwei Zhang of Tencent Security YUNDING LAB for reporting the additional DoS vulnerabilities.PreviousThe React Foundation: A New Home for React Hosted by the Linux FoundationNextCritical Security Vulnerability in React Server Components",
+          "category": "hot",
+          "publishedAt": "2025-12-11T00:00:00.000Z",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "paperclipai/paperclip (TypeScript)",
+          "titleKo": "paperclipai/paperclip",
+          "summary": "업무 환경에서 AI 에이전트를 관리하는 오픈소스 애플리케이션입니다.",
+          "keyPoints": [
+            "AI 에이전트 관리 플랫폼",
+            "TypeScript 기반 오픈소스"
+          ],
+          "whyItMatters": "팀 협업 환경에서 AI 에이전트의 배포와 모니터링을 효율적으로 관리할 수 있습니다.",
+          "url": "https://github.com/paperclipai/paperclip",
+          "sourceName": "GitHub Trending",
+          "engagement": 76446,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript",
+            "ai"
+          ],
+          "relevance": 70,
+          "topicId": "ai-agents-ts",
+          "isTopicPrimary": true,
+          "relatedCount": 2,
+          "slug": "paperclipaipaperclip-typescript",
+          "category": "tech",
+          "publishedAt": "2026-08-10T23:35:08.988Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "PrimeIntellect-ai/prime-agent (TypeScript)",
+          "titleKo": "PrimeIntellect-ai/prime-agent",
+          "summary": "코딩 워크플로우와 장시간 실행되는 자동화 작업을 위해 자기 개선 기능을 갖춘 RLM 에이전트입니다.",
+          "keyPoints": [
+            "자기 개선 RLM 에이전트 구현",
+            "장시간 자동화 작업 지원"
+          ],
+          "whyItMatters": "에이전트가 실행 중 학습하며 개선되어 복잡한 코딩 작업의 자동화 품질을 지속적으로 향상시킵니다.",
+          "url": "https://github.com/PrimeIntellect-ai/prime-agent",
+          "sourceName": "GitHub Trending",
+          "engagement": 13019,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "relevance": 60,
+          "topicId": "ai-agents-ts",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "primeintellect-aiprime-agent-typescript",
+          "category": "tech",
+          "publishedAt": "2026-08-10T23:35:08.988Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "danielmiessler/LifeOS (TypeScript)",
+          "titleKo": "LifeOS - 생활과 업무 상태 개선을 위한 Hill-climbing AI 프레임워크",
+          "summary": "danielmiessler가 개발한 TypeScript 기반의 LifeOS는 현재 상태에서 이상적인 상태로의 전환을 돕는 Hill-climbing 알고리즘 기반 AI 시스템입니다. 개인의 생활과 업무 영역에서 점진적인 개선을 추구하는 범용 AI 프레임워크입니다.",
+          "keyPoints": [
+            "Hill-climbing 알고리즘을 활용한 점진적 상태 개선 방식",
+            "생활(Life)과 업무(Work) 두 영역에 적용 가능한 범용 프레임워크"
+          ],
+          "whyItMatters": "개발자들이 AI를 활용하여 개인 및 업무 생산성을 체계적으로 개선하기 위한 실용적인 프레임워크를 제공합니다.",
+          "url": "https://github.com/danielmiessler/LifeOS",
+          "sourceName": "GitHub Trending",
+          "engagement": 17879,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "relevance": 60,
+          "topicId": "ai-agents-ts",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "danielmiesslerlifeos-typescript",
+          "category": "tech",
+          "publishedAt": "2026-08-10T23:35:08.989Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "addyosmani/agent-skills (JavaScript)",
+          "titleKo": "addyosmani/agent-skills",
+          "summary": "AI 코딩 에이전트를 위한 프로덕션 수준의 엔지니어링 스킬 모음입니다.",
+          "keyPoints": [
+            "AI 에이전트용 코딩 기술 라이브러리",
+            "프로덕션 환경 대비"
+          ],
+          "whyItMatters": "AI 코딩 어시스턴트의 신뢰성과 효율성을 높이는 검증된 엔지니어링 패턴을 제공합니다.",
+          "url": "https://github.com/addyosmani/agent-skills",
+          "sourceName": "GitHub Trending",
+          "engagement": 85721,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "ai"
+          ],
+          "relevance": 65,
+          "topicId": "ai-agents-js",
+          "isTopicPrimary": true,
+          "slug": "addyosmaniagent-skills-javascript",
+          "category": "tech",
+          "publishedAt": "2026-08-10T23:35:08.987Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "firecrawl/firecrawl (TypeScript)",
+          "titleKo": "firecrawl/firecrawl",
+          "summary": "웹 검색, 스크래핑, 상호작용을 대규모로 처리하는 Context API 플랫폼입니다.",
+          "keyPoints": [
+            "웹 데이터 수집 및 상호작용 API",
+            "대규모 처리 지원"
+          ],
+          "whyItMatters": "웹 스크래핑과 데이터 수집 작업을 체계적으로 처리할 수 있는 프로덕션 수준의 솔루션입니다.",
+          "url": "https://github.com/firecrawl/firecrawl",
+          "sourceName": "GitHub Trending",
+          "engagement": 165033,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 68,
+          "topicId": "web-scraping-tools",
+          "isTopicPrimary": true,
+          "slug": "firecrawlfirecrawl-typescript",
+          "category": "tech",
+          "publishedAt": "2026-08-10T23:35:08.990Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "LadybirdBrowser/ladybird (C++)",
+          "titleKo": "LadybirdBrowser/ladybird",
+          "summary": "완전히 독립적인 웹 브라우저를 C++로 개발하는 프로젝트입니다.",
+          "keyPoints": [
+            "독립적인 웹 브라우저 엔진 개발",
+            "C++ 기반의 저수준 구현"
+          ],
+          "whyItMatters": "기존 Chromium/Firefox 의존성 없이 새로운 브라우저 엔진을 구축하는 것은 웹 표준의 다양성과 혁신을 추진합니다.",
+          "url": "https://github.com/LadybirdBrowser/ladybird",
+          "sourceName": "GitHub Trending",
+          "engagement": 65244,
+          "contentType": "repo",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 72,
+          "topicId": "browser-engines",
+          "isTopicPrimary": true,
+          "slug": "ladybirdbrowserladybird-c",
+          "category": "tech",
+          "publishedAt": "2026-08-10T23:35:08.989Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "C++"
+          ]
+        },
+        {
+          "title": "pingdotgg/t3code (TypeScript)",
+          "titleKo": "pingdotgg/t3code",
+          "summary": "TypeScript 기반의 프로젝트로, 구체적인 내용은 저장소에서 확인 필요합니다.",
+          "keyPoints": [
+            "TypeScript로 작성된 코드 관련 도구 또는 라이브러리"
+          ],
+          "url": "https://github.com/pingdotgg/t3code",
+          "sourceName": "GitHub Trending",
+          "engagement": 18019,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript",
+            "ai"
+          ],
+          "relevance": 72,
+          "topicId": "ai-coding-tools",
+          "isTopicPrimary": true,
+          "relatedCount": 2,
+          "slug": "pingdotggt3code-typescript",
+          "category": "tech",
+          "publishedAt": "2026-08-10T23:35:08.991Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Meta's Claude Code clone is INSANELY cheap",
+          "titleKo": "메타의 클로드 코드 클론, 저렴해도 너무 저렴하다",
+          "summary": "메타가 Claude Code를 벤치마킹한 코딩 에이전트 'Muse Code'와 신규 모델 'Muse Spark 1.2'를 베타로 공개했습니다. 벤치마크 성적은 Sonnet·Opus에 근소하게 못 미치는 2~3위권이지만, 훈련 데이터 확보를 위해 만든 'Contributor 티어' 가격이 정가 대비 10~20배 저렴해 업계 최저 수준의 비용 효율을 보여줍니다. 메타 특유의 대규모 코드베이스 운영 노하우와 내부 데이터 라벨링 전략도 함께 다룹니다.",
+          "keyPoints": [
+            "Muse Code는 Claude Code를 벤치마킹한 터미널 기반 코딩 에이전트로, 세션 내내 컨텍스트를 유지하는 백그라운드 에이전트와 병렬 서브 에이전트 구조를 갖췄습니다.",
+            "Terminal Bench 2.1, DeepSWE, 메타 내부 벤치 모두에서 1위는 아니며 Sonnet·Opus에 근소하게 뒤처지는 2~3위 수준입니다.",
+            "정가는 입력 $1.25/출력 $4.25(100만 토큰)지만, 데이터 제공을 전제로 한 'Contributor 티어'는 입력 10센트/출력 20센트로 10~20배 저렴합니다.",
+            "Contributor 티어 기준 인텔리전스 인덱스 작업당 비용은 2~3센트로, DeepSeek V4 Flash 등과 비교해도 최저가 수준입니다.",
+            "메타는 Git 대신 자체 Mercurial 기반 툴링, PHP 대체용 Hack 언어 개발 등 대규모 코드베이스 운영 경험이 풍부해 이 분야에서 나름의 강점을 가질 수 있습니다."
+          ],
+          "whyItMatters": "코딩 에이전트를 도입하려는 개발자라면 성능뿐 아니라 데이터 제공 여부에 따라 파격적으로 달라지는 가격 구조를 이해해야 실제 비용 대비 효율을 제대로 판단할 수 있습니다.",
+          "article": "# 메타의 클로드 코드 클론, 저렴해도 너무 저렴하다\n\n메타(Meta)가 조용히 준비해오던 코딩 에이전트 'Muse Code'를 베타로 출시했습니다. React, React Native, PyTorch 같은 굵직한 오픈소스 프로젝트를 내놓으며 생태계에 크게 기여해온 메타가, 정작 AI 분야에서는 업계 최전선에서 한참 뒤처져 있다가 이번에 코딩 도구로 반격을 시도한 셈인데요. 벤치마크만 보면 어느 것 하나 1위를 차지하지 못한 모델이지만, 가격 정책을 뜯어보면 이야기가 완전히 달라집니다. 이 글에서는 Muse Code의 발표 내용과 벤치마크, 그리고 무엇보다 눈에 띄는 파격적인 가격 구조를 짚어봅니다.\n\n## 메타는 왜 지금 코딩 에이전트를 내놓는가\n\n메타는 소셜 미디어 사업과 별개로 소프트웨어 생태계에 대한 기여만큼은 꽤 진심인 회사입니다. React와 React Native는 웹과 모바일 생태계 성장에 필수적인 역할을 했고, AR/VR 쪽에서도 상당한 존재감을 보여줬죠. AI에서도 오픈웨이트 모델 라인인 Llama로 초반 흐름을 주도했고, 지금도 'Llama'라는 이름 자체가 오픈웨이트 모델의 대명사처럼 쓰일 정도입니다.\n\n문제는 그 이후입니다. 업계 전체가 메타보다 훨씬 빠르게 앞서 나갔고, 메타는 이를 만회하기 위해 'Muse'라는 이름의 모델 라인을 조용히 개발해왔습니다. 지금까지는 간단한 웹 인터페이스로만 체험할 수 있었지만, 이번에 코드 작업에 특화된 도구와 모델을 함께 준비해 정식으로 공개했습니다. 저커버그가 트위터에 직접 발표한 내용에 따르면, Muse Code는 Claude Code를 벤치마킹한 터미널 기반 코딩 에이전트이며, 새로운 코딩 특화 모델인 Muse Spark 1.2로 구동됩니다.\n\n흥미로운 점은, 메타가 내부적으로는 실제로 대규모 코드베이스를 다루는 데 상당한 노하우를 축적한 회사라는 사실입니다. 메타는 Git이 자사 규모에는 너무 느리다는 이유로 Mercurial 위에 자체 커스텀 도구 체계를 구축했고, 이는 이후 stacked PR/stacked diff 같은 워크플로가 업계 전반에 퍼지는 계기가 되었습니다. 메타 출신 개발자들이 이직 후 가장 그리워하는 것 중 하나가 바로 이 내부 툴링이라고 할 정도죠. 구글 같은 회사가 거대한 모노레포를 유지하면서도 관련 툴링 팀을 오히려 축소하는 것과 달리, 메타는 필요하면 언어 자체를 새로 만드는 쪽을 택해왔습니다. PHP를 대체하기 위해 Hack을 만든 것이 대표적인 예입니다. 코드베이스가 너무 거대해지면, 코드베이스를 다시 짜는 것보다 그 밑단의 언어를 새로 만드는 게 오히려 더 쉬운 선택이 되는 거죠. 이런 사고방식 덕분에 메타는 대규모 코드베이스에 AI 도구를 접목하는 이 새로운 흐름에서 나름의 강점을 가질 수 있는 위치에 있습니다. 실제로 메타는 최근 내부적으로 Opus나 Sonnet 같은 모델을 상당히 많이 활용해온 것으로 알려져 있습니다.\n\n## 벤치마크: 1등은 없지만 나쁘지 않다\n\n메타가 공개한 벤치마크에서 눈에 띄는 첫 번째 지점은, 비교 대상으로 자사의 Fable이나 다른 라인이 아니라 오직 Opus와 Sonnet만 올려놨다는 점입니다.\n\n- **Terminal Bench 2.1**: Sonnet을 근소하게 앞섰지만 Opus 4.5에는 살짝 뒤처짐. Muse Spark 1.1 대비 1.2로 넘어오면서 큰 폭으로 상승했는데, 사실 1.1은 사실상 일반에 거의 공개되지 않은 모델이었기 때문에 이번 1.2가 실질적인 첫 공개 버전에 가깝습니다.\n- **DeepSWE**: Grok 4.5보다 근소하게 높은 점수를 기록했습니다. Grok 4.5가 실사용 경험 자체는 상당히 만족스러운 모델이었다는 점을 감안하면 나쁘지 않은 결과지만, 여전히 Sonnet과 Opus, 그리고 그 위의 Sonnet/Fable 라인에는 크게 못 미칩니다.\n- **메타 내부 코딩 벤치**: 2위를 기록했고 Muse Spark는 근소한 차이로 3위. 다만 이 벤치마크에는 Sonnet과 Gemini 3.0 Flash가 유독 가까운 점수로 붙어 있어, 벤치마크 설계 자체의 신뢰도에 의문이 남습니다.\n\n발표 직후 커뮤니티 노트가 달렸는데 \"메타는 이번에도 AI에서 여전히 꼴찌\"라는 내용이었습니다. 실제로는 애플이 더 뒤처져 있고, 구글 Gemini와 비슷한 수준이라는 점에서 다소 과장된 지적이었습니다.\n\n## Muse Code의 기능: 백그라운드 에이전트와 병렬 서브 에이전트\n\n저커버그의 발표에 따르면 Muse Code는 세션 내내 살아있는 전용 백그라운드 에이전트를 운영해, 작업마다 처음부터 컨텍스트를 다시 쌓는 대신 시간이 지날수록 컨텍스트를 누적시킵니다. 작업 규모가 커지면 격리된 워크트리에서 여러 서브 에이전트가 병렬로 뻗어나가며 작업하고, 사용자의 실제 작업 사본은 건드리지 않습니다. 테스트 사례로는 게임의 6가지 기능을 동시에 충돌 없이 빌드했다고 소개했습니다.\n\n또 다른 예시로는 Nvidia Hopper 아키텍처를 대상으로 한 커널 최적화 작업에 Muse Spark 1.2를 투입해 24시간 동안 1,000회의 툴 호출을 실행시켰더니, 초반 탐색 단계를 훌쩍 넘어선 시점까지도 계속해서 유의미한 개선점을 찾아냈다고 합니다. (참고로 메타가 구글에서 TPU를 빌리고, 구글은 그 돈으로 다시 Nvidia GPU를 사들이는 순환구조를 언급하며, 결국 저커버그도 여전히 Nvidia에 묶여 있는 셈이라는 지적도 곁들여졌습니다.)\n\n안정성 측면에서는 모델 호출, 툴 실행, 편집이 실행되기 전에 로컬 이벤트 로그에 먼저 기록되도록 설계되어, 작업 도중 크래시가 나도 로그를 기준으로 정확히 중단된 지점부터 재개할 수 있다고 합니다. 작업 손실이나 재요청 없이 이어갈 수 있다는 점을 강조했습니다.\n\n## 진짜 이야기는 가격표에 있다\n\n발표문에는 \"Muse Code는 시작하기 쉽고 비용도 저렴하다\"며, 원 라인 설치 후 'Contributor 티어'로 바로 시작할 수 있다고 적혀 있습니다. 이 Contributor 티어가 이번 발표의 핵심입니다.\n\n정가 기준 Muse Spark 1.2의 토큰 가격은 다음과 같습니다.\n\n- 입력: 100만 토큰당 $1.25\n- 캐시된 입력: 100만 토큰당 15센트\n- 출력: 100만 토큰당 $4.25\n\n여기까지는 그다지 특별할 게 없는 가격입니다. 그런데 Contributor 티어로 들어가면 얘기가 완전히 달라집니다.\n\n- 입력: 100만 토큰당 10센트\n- 출력: 100만 토큰당 20센트\n- 캐시된 입력: 100만 토큰당 0.2센트\n\n정가 대비 **10배에서 20배** 저렴한 가격입니다. 사실상 무료로 배포하는 셈인데, 이유는 명확합니다. 메타가 훈련 데이터를 절실하게 필요로 하고 있기 때문입니다. Contributor 티어로 모델을 쓴다는 것은 곧 그 사용 데이터를 메타에 넘겨준다는 의미와 다르지 않습니다.\n\nArtificial Analysis의 인텔리전스 인덱스에 따르면, Muse Spark 1.2는 54점을 기록해 4개월 만에 나온 세 번째 릴리즈치고는 상당히 가파른 성장세를 보였습니다 (1.1 대비 +3점, 4월에 나온 1.0 대비 +11점). 이는 미국 랩 중 SpaceX와 함께 공동 3위에 해당하는 수준이며, GPT-5.5·Grok 4.5와 사실상 동급, Opus 4.5·Sonnet 4.5·Kimi K2에는 근소하게 뒤처지는 위치입니다. (중국 랩들이 K2 등으로 얼마나 빠르게 따라잡았는지를 이제는 굳이 명시해야 할 정도라는 점도 짚을 만합니다.)\n\n인텔리전스 대비 비용 효율로 보면, 정가 기준으로도 인텔리전스 인덱스 작업 하나당 40센트로 상당히 비용 효율적인 축에 속합니다. 그런데 이 수치조차 Contributor 티어 가격이 아니라 정가를 기준으로 계산된 것입니다. 앞서 계산한 10~20배 가격 차이를 그대로 적용하면, Contributor 티어 기준으로는 작업당 2~3센트 수준까지 떨어지는데, 이는 DeepSeek V4 Flash나 Sonnet 4.5 Haiku급 저가 모델과 비교해도 손색없는, 어쩌면 현재 시장에서 가장 저렴한 축에 속하는 가격입니다.\n\n## 그 밖의 지표들\n\n- **환각(hallucination) 관련 지표**: 모델 점수가 18점에서 22점으로 상승했고, 환각률은 10포인트 하락, 시도율(attempt rate)은 82%에서 67%로 감소했습니다. 이는 모델이 모르는 것을 모른다고 인정하는 능력(모른다고 말하는 빈도)이 개선됐다는 뜻인데, 실사용 경험상으로는 체감이 잘 안 된다는 반응도 있었습니다.\n- **과학적 추론(scientific reasoning)**: 큰 변화 없음.\n- **GDPval**: 이전보다 개선됐지만, 이 벤치마크 자체에 대한 신뢰도는 여전히 낮게 평가됩니다.\n\n한편, Muse는 메타 직원들이 Anthropic 모델 등을 사용하며 남긴 작업 데이터로 상당 부분 훈련된 것으로 알려져 있습니다. 메타 직원의 최대 50%가 데이터 라벨링이나 관련 관리 업무로 재배치되었다는 이야기도 나올 정도입니다. 이와 관련해 커뮤니티에서는 \"Muse Spark는 메타 직원들의 화면 녹화 데이터로 훈련되어서, Anthropic 입사 지원서 쓰는 데 최고의 모델이다\"라는 농담 섞인 트윗이 화제가 되기도 했습니다.\n\n## 정리\n\n- 메타는 Claude Code를 벤치마킹한 코딩 에이전트 'Muse Code'와 신규 모델 'Muse Spark 1.2'를 베타로 공개했습니다.\n- 벤치마크 순위 자체는 Terminal Bench 2.1, DeepSWE, 메타 내부 벤치 모두 Sonnet·Opus에 근소하게 못 미치는 2~3위권으로, 1위 모델은 아닙니다.\n- 하지만 진짜 승부수는 가격입니다. 정가는 입력 $1.25/출력 $4.25(100만 토큰 기준)지만, 'Contributor 티어'는 입력 10센트/출력 20센트로 정가 대비 10~20배 저렴하며, 이는 사용자 데이터를 훈련용으로 제공하는 대가입니다.\n- Contributor 티어 기준 인텔리전스 인덱스 작업당 비용은 2~3센트 수준으로, 현재 시장에서 가장 저렴한 축에 속하는 모델이 됩니다.\n- 실무 적용 관점에서는, 데이터를 메타에 넘기는 것을 감수할 수 있다면 Muse Code는 단기적으로 매우 비용 효율적인 선택지가 될 수 있습니다. 다만 모델 성능 자체는 최상위권이 아니므로, 복잡도가 높은 작업에는 여전히 Sonnet/Opus급 모델이 유리할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=-Gj0-EIyx6g",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai"
+          ],
+          "relevance": 55,
+          "topicId": "ai-coding-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 2,
+          "slug": "metas-claude-code-clone-is-insanely-cheap",
+          "fullContent": "I have something I'm a bit ashamed to admit. I'm a pretty big fan of Meta. Not of things like Facebook, like no, gross. Not my thing at all. But when it comes to their actual software contributions and things they do for the ecosystem, I found them to be pretty solid, if not great. Projects like React and React Native were essential to the growth of the web and to an extent mobile as well, and are genuinely incredible things that they've put out there for free for people to use however they want. Their contributions to the AR and VR ecosystem were all things that I enjoyed heavily at the time because I'm a big VR nerd. And when they started getting into AI, they did that similarly well with their focus on openweight models with the llama line. To this day, llama is still used almost like a generic term for openweight models. And it's crazy how far the llama models went, but it's even crazier how far the entire industry has moved ahead of meta. They've been trying to correct course for a while with this hidden quietly worked on line of models called Muse. And historically, they've not been accessible beyond their little web interface to try it out. But apparently, they've been trying to make it ready for code. Not just the model, but the tools around it as well. And now they're finally ready to release. Zuckerberg just announced on Twitter, by the way, that Muse Code is out in beta today. This is their clone of Claude Code and it's powered by Muse Spark 1.2, which is their new coding focused model. It's been a while since I've seen a lab publish benchmark numbers where they're not in first place in anything, but that doesn't mean it's a bad model. As you guys probably saw in my video about Gro 4.5, there is still a lot of value in wellpriced, fast, useful models. And with Meta's focus on using every model for everything lately and collecting all the data they get as a result, it's actually going to be pretty interesting to see how well this performs. So, I'm going to go through this with y'all together. I'm going to try it live. I'm going to read through what they have to say. I'm going to see what others are doing with it, get a feel for the price and the weird quirks as well. And I just had to sign into my terminal with Facebook. So, I'm feeling a little gross. This is going to be a journey and I hope you enjoy it with me. But first, a quick break for today's sponsor. There's a lot of code review bots around nowadays and they're pretty good at reading the code, but I've noticed that running cloud code and codecs on my machine tends to be better simply because the models can actually run things and verify the changes. Wouldn't it be great if those review bots had the ability to actually verify changes on a real computer? Reptile thought so, and that's why they introduced T-Rex. It's a new sandbox that can actually run your code and verify the changes rather than just reading the syntax and hoping it's good. If you've ever added an element to your UI and had it overlap something that was obvious when you ran it that the code review bots missed, that's what this is for. Because the models can actually click through and test things, and it can even respond with screenshots of the things it finds along the way. Their website lists a bunch of realworld open source projects that have had bugs prevented through T-Rex. Even companies like Work OS are finding real bugs. For example, this code that seems like a totally safe filter, but has a really rough edge case that you'll only find when you run it on real data. If you've debug in the last 3 months, you owe it to your team to check out soyv.link/gretile. So, let's start with what Zuckerberg had to say about their most recent release. Releasing Muse Code in beta today. It's a terminal coding agent that takes on complex software engineering tasks across large repos, lining changes, writing code, validating the results. It's powered by Muse Spark 1.2, which is a coding focused model update. This is going to be an interesting one because a lot of the other legacy companies like uh I don't know Microsoft and Google don't necessarily have the best stack internally, whereas Facebook has done some incredible things with their internal tech. They didn't use git because it was too slow for the scale they were moving at. So they built their own custom everything on top of Mercurial and it's really powerful to the point where people have been trying to copy their workflows with things like stacked PRs and stacked diffs. I know a lot of people who used to work at Meta and left and just missed all of that tooling that made it so much easier to work in these gigantic projects that are met scale. Other companies like Google also have gigantic monor repos, but they are less focused on fixing them. In fact, they've went as far as laying off the teams that built the tooling to make them usable. Meta's always done the opposite where they'll rewrite a language if they have to, like they rewrote PHP and hack in order to try and make their code bases work better. Since Meta's code bases are so huge, it's often easier to rewrite the language that's underneath them than it is to rewrite the codebase itself on a better language. And that type of thinking is, at least it was unique to Meta for a long time. And I think it kind of positions them well to dive into this world of using models and tools to work with your code bases at that scale. And that's why they've been using models like Fable and Opus so heavily recently. So, it's interesting to see what they're cooking here. They shared some benches here. And the first notable thing is that they're not putting Fable or Soul in these lists. They're only putting Opus and 56 Terra in, which is a choice. In Terminal Bench 2.1, they slightly beat out Terra and are slightly behind Opus 5. There also a big jump from US Spark 1.1 to 1.2. 1.1 was barely available to the public. 1.2 2 is now actually out and the pricing is really interesting which we'll show in a little bit. Deep SWE which is one of the benchmarks I prefer. It did pretty well here getting a slightly higher score than Grock 4.5 which is nuts because I actually found Grock 45 to be a very pleasant to use model but it's still lagging behind Terra and Opus which means it's far behind models like Soul and Fable. And then Meta's internal coding bench, it came in second place in with Muse Spark being much closer in third. And if this model is as far off as other benches showed, I think their internal bench might not be the best. They also in their internal bench have Terra in Gemini 36 Flash suspiciously close. So, we shall see as we go. Oh god, they're already getting community noted. Community note: Meta is still dead last in AI with this release. Okay, maybe not. Apple is, but they're behind just as much as Google Gemini is. That's not a thing you need to put in a community note, nerds. Anyways, according to Zuck, Muse Code runs specialized background agents that stay active your whole session. So, they build up context over time instead of starting from scratch on every task. Interesting. When a job is big enough, it fans out the separate sub agents working in parallel in isolated work trees. Your working copies never touched. In testing, we had it build six features for a game simultaneously with no collisions. Huh, very interesting. Again, big codebase stuff. We pointed Muse Spark 1.2 at a kernel optimization task and let it run. a thousand tool calls over 24 hours on Nvidia Hopper. It kept finding substantial improvements well beyond the initial exploration phase. This is also kind of funny to me because Meta rented a bunch of TPUs from Google. They're one of the few companies to actually buy and rack hardware from Google and then Google went and rented a bunch of GPUs from Nvidia, all from XAI and SpaceX. So Google is reselling their shitty chips to Meta so they can use the money to go buy better chips from Nvidia through XAI. And now apparently Zuckerberg is still stuck on Nvidia. Auditable by design, every model call, tool run, and edit has a local event log before it executes. If it crashes mid task, it picks up exactly where it left off from that log. No lost work and no reprompting. Pricing. It's easy and low cost to get started. Install Muse Code with one line and you can start on our contributor tier. Contributor tier is an interesting piece we'll talk about in a second. Musepark 2 is our next step as we push towards Front Tier with larger, more capable models on the way. Install it, use it, and tell us what you think. Well, the first thing I think is that when you Google search Muse Spark, you get all of these old articles about 1.1. This old developer page. Okay, this one has 1.2 on it now, but it was actually kind of hard and annoying to find this initially. Here's the part I was looking for, though. The price. $1.25 per mill in, 15 cents for cashed 1 mil in, and 425 per mill out. Not great pricing until you realize I was hiding something from you. The contributor price tier. This tier is 10 cents per mill in and 20 cents per mill out with 0.2 cents per cached input token. That is a 10 to 20x price gap. They're effectively giving out the contributor version for free because they need training data so goddamn badly. Meta's released Muse Spark 1.2. It's their third release in four months and it scores a 54 on the intelligence index, significantly improving agentic knowledge war capabilities over prior releases, putting meta next to SpaceX in a tie for third place amongst US labs. Crazy they have to specify this now because the Chinese labs have caught up so much, especially with K3. Muse Spark 1.2 lands at a 54, up three points from 1.1 and 11 points from Muse Spark 1.0 which came out in April. That's a pretty big jump. Like if we're just looking at the trajectory of what meta right here, that's a lot of improvement in not a whole lot of time. It's effectively tied with GBT 55 and Gro 4.5 narrowly behind current frontier models like Opus 5, Fable 5, and 56 Soul as well as Kimmy K3. It's among the most costefficient models at its intelligence level. It's 40 cents per intelligence index task at Meta's unchanged $125 and $425 per million token pricing. They don't mention I I was right when I was reading that earlier. They are not measuring the prices based on the contributor tier. They are measuring them based on the normal pricing that they would charge actually. So if we go back to the pricing chart here, it's about a 10 to 20x difference in price, which means Muspark 1.2 on the contributor tier is actually the cheapest model currently here because it would be 2 to 3 cents per task, which is comparable to V4 flash as well as 56 Luna. Very interesting. This model, especially if you're down to like let Meta have your data, could be a really good value for the short term. Amnition's absention rates have increased. The model score rose from an 18 to a 22 and the hallucination rate fell 10 points. The attempt rates dropped from 82 to 67. This is this bench is measuring how likely is the model to lie when it doesn't know something and it's much less likely now even though for my experience that is not the case. Scientific reasoning results remain largely unchanged. does much better at GDP val, but I still don't love that bench. Good analysis. We can work with that. Muse is trained heavily on data from people using models like anthropic models internally, and all of the work they do. I've heard numbers as high as 50% of staff at Meta have been moved over to some type of data labeling or like management tasks in order to help them train smarter models. And one of the results here is this wonderful tweet from Luke. Muse Spark is trained on the screen recordings of Meta employees, which makes it best-in-class at applying for jobs at Anthropic. Absolute banger. I want to go through other numbers that matter before showing off the code that I can write with Muse. I already have it working in the background and it's surprisingly fast. We'll talk about that in a sec, but first I want to look at the numbers from artificial analysis. As you can see here, Muse Spark 1.2 falls right between Kimmy K3 and Gro 4.5. I will say it's a little bit embarrassing to release a closedweight model as a lab that has billions of dollars like Meta does and have it be behind an openweight model that came out much before it. That is a little embarrassing. But also, if it's really fast and cheap and reliable, these numbers don't mean everything cuz I can tell you confidently that Opus 5, despite being at the front of this list and tricking me into thinking it was a great model, ended up all being Copus because I hate using Opus 5. Now, it once I started merging the code it wrote, I realized how bad it was cuz I had to have Fable and 56 Soul come in and clean up the mess. Not great. But again, Kimmy K3 actually felt quite usable, as did Grock 4.5. But Opus at the front doesn't feel usable for real code work at all. But what I really want to see is output tokens. How did they do here? Interesting. Okay, so Muse Sparks runs did about 30k tokens per task compared to about 36k for fable 5 and compared to about 17k for 56 soul. So it's not quite as inefficient as anthropic models, but it is far from the efficiency that we see from models like the GPT line or Gro 4.5. Very interesting. Definitely puts it in a weird different spot. Like this model isn't just another openweight model tuned or something like this really is a new model and it should feel quite different especially when you look at the speed that this model has too. I don't think they have recent speed numbers yet on artificial analysis but they do have them on open router. Open router is an easy way to use pretty much every model and they track the throughput and speeds that users are actually seeing when they use the models through open router and they're seeing an average of 191 tokens per second which is absolutely nuts. For reference 56 soul is only at about 30 tokens per second. So that is a gigantic improvement like 5x plus absolute best case with soul is 134 TPS but realistically speaking the p50s in the 40s to 50s on openai's official infra and the 50s for Azure at best. To compare Muse Spark gets 316 TPS at its best and 162 at its P50. That is pretty nuts and I feel the result coding with it already. Man, that cerebrous deployment of 56 soul can't come fast enough. It was supposed to already be out, so I'm not sure what happened there. No one's given me any info, sadly. Then we get to cost and Muse Spark is performing absurdly well here at 40 cents per task on average through the artificial analysis intelligence index. That's still more expensive than V4 flash is, as well as 56 Luna on max, but it's a lot cheaper than other things. Even Mistro medium is more expensive. And Kimmy K3 is more than twice the cost for similar work. And I'm assuming this is",
+          "category": "video",
+          "publishedAt": "2026-08-07T08:04:57+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Lighting My Porch With Vega #coding #programming #javascript #vega",
+          "titleKo": "React Native로 우리 집 포치를 우주로 만들기: Amazon Vega 사용기",
+          "summary": "프론트엔드 개발자 Jack Herrington이 3D 프린팅 행성과 LED로 꾸민 포치 조명을 Amazon Vega(Fire TV SDK)와 연동한 사이드 프로젝트를 소개합니다. Vega가 React Native 기반이라 기존 React 지식을 그대로 활용할 수 있었고, VS Code 확장·로컬 시뮬레이터·CLI 도구 덕분에 개발이 예상보다 훨씬 쉬웠다고 밝힙니다. WLED 컨트롤러 제어는 fetch API로, 음성 명령 처리는 aria-label 추가만으로 구현했습니다.",
+          "keyPoints": [
+            "Amazon Vega는 React Native 기반 UI를 사용하는 Fire TV용 SDK로, 기존 React/React Native 경험을 그대로 활용 가능",
+            "VS Code 확장, 로컬 시뮬레이터, CLI 스타터 등 개발 도구가 잘 갖춰져 있어 초기 개발 진입 장벽이 낮음",
+            "AI 코딩 에이전트가 React Native를 잘 다루기 때문에 Vega 고유 문서만 참조시키면 개발 속도가 빨라짐",
+            "WLED 컨트롤러 같은 외부 하드웨어 제어는 표준 fetch API로 HTTP 명령을 보내는 것만으로 충분",
+            "aria-label을 추가하는 것만으로 Vega가 음성 인식 및 press 이벤트 변환을 자동 처리해 음성 제어 UI 구현 가능"
+          ],
+          "whyItMatters": "React/React Native 지식만으로 TV 앱과 스마트홈 하드웨어까지 연동할 수 있다는 점에서, 프론트엔드 개발자의 기술 스택이 웹을 넘어 더 넓은 디바이스 영역으로 확장될 수 있음을 보여줍니다.",
+          "article": "# React Native로 우리 집 포치를 우주로 만들기: Amazon Vega 사용기\n\n집에서 만든 사이드 프로젝트가 실제 제품 홍보로 이어지는 경우는 흔치 않은데요, 프론트엔드 개발자이자 기술 유튜버인 Jack Herrington이 자신의 포치(현관 앞 테라스) 조명 프로젝트를 Amazon의 새로운 TV 플랫폼 SDK인 Vega로 완성한 이야기를 짧게 공유했습니다. React와 React Native에 익숙한 개발자라면 얼마나 빠르게 스마트 디스플레이 애플리케이션을 만들 수 있는지 보여주는 사례입니다.\n\n## 프로젝트의 시작: 3D 프린팅 행성과 포치 조명\n\nHerrington의 가족은 천문학에 관심이 많다고 합니다. 그래서 3D 프린터로 여러 행성 모형을 출력해 포치 뒤쪽 벽면을 따라 배치하고, 각 행성을 제어 가능한 LED로 조명했습니다. 영화를 볼 때 분위기를 살려주는 용도였는데, 여기서 한 걸음 더 나가 이 행성 조명들을 포치의 대형 프로젝션 스크린과 연동하고 싶었다고 합니다.\n\n## 왜 Amazon Vega를 선택했나\n\n여러 옵션을 살펴본 끝에 Herrington은 Amazon Fire Stick과 Vega 조합을 선택했습니다. 결정적인 이유는 Vega의 UI가 React Native 기반이라는 점이었습니다. 이미 React와 React Native에 익숙했던 그에게는 기존 지식을 그대로 활용할 수 있는 선택이었죠.\n\n실제로 사용해본 결과는 예상보다 훨씬 쉬웠다고 합니다. 개발 경험 측면에서 다음과 같은 점들이 도움이 됐습니다.\n\n- **VS Code용 Vega 확장**: 코드 작성 환경을 그대로 이용할 수 있음\n- **로컬 시뮬레이터**: 실제 기기 없이도 코드를 손쉽게 디버깅 가능\n- **CLI 도구**: 프로젝트를 빠르게 초기화할 수 있는 스타터 제공\n\n또한 AI 코딩 에이전트들이 React Native를 잘 다루는 만큼, Vega 고유의 세부 사항이 필요할 때는 에이전트에게 Vega 공식 문서를 참조하도록 지시하는 것만으로 충분했다고 언급합니다.\n\n## 실제 구현: 태양계 지도와 D-패드 내비게이션\n\n이렇게 구축한 애플리케이션은 손님들이 방문했을 때 태양계 지도를 화면에 띄우고, 각 행성에 대한 정보를 보여줍니다. 사용자는 리모컨의 D-패드로 행성들과 조명 사이를 자유롭게 이동하며 탐색할 수 있습니다.\n\nLED 제어는 WLED 컨트롤러를 통해 이루어지는데, Vega 애플리케이션 안에서 일반적인 `fetch`를 사용해 HTTP 명령을 직접 WLED 컨트롤러로 전송하는 방식입니다. 별도의 미들웨어나 복잡한 통신 계층 없이, 웹 개발자에게 익숙한 표준 API로 하드웨어 제어까지 연결한 셈입니다.\n\n## 마무리 손질: 음성으로 행성 이름 부르기\n\n프로젝트를 한층 더 완성도 있게 만들기 위해 Herrington은 사용자가 행성 이름을 말하면 화면과 조명에 해당 행성이 표시되는 기능을 추가했습니다. 놀랍게도 이 작업은 각 요소에 `aria-label`을 추가하는 것만으로 끝났다고 합니다. Vega가 나머지 음성 인식 처리를 전부 담당해, 사용자가 이름을 말하면(예: \"Saturn\") 이를 press 이벤트로 변환해 전달해줬기 때문입니다. 접근성을 위한 표준 속성이 음성 제어 기능으로 그대로 확장된 셈이죠.\n\n## 정리\n\n- Amazon Vega는 React Native 기반 UI를 사용하는 Fire TV용 SDK로, 기존 React/React Native 경험을 그대로 활용할 수 있습니다.\n- VS Code 확장, 로컬 시뮬레이터, CLI 스타터 등 개발 편의 도구가 갖춰져 있어 진입 장벽이 낮고, AI 코딩 에이전트와의 조합도 자연스럽게 작동합니다.\n- 외부 하드웨어(WLED 컨트롤러) 제어는 표준 `fetch` API로 HTTP 요청을 보내는 것만으로 충분히 구현 가능합니다.\n- `aria-label` 같은 접근성 속성이 Vega에서는 음성 명령 처리와 자동으로 연동되어, 별도의 음성 인식 로직 없이 음성 제어 UI를 구현할 수 있습니다.\n- React/React Native 지식이 있는 프론트엔드 개발자라면, 별다른 러닝커브 없이 TV 큰 화면용 애플리케이션을 빠르게 만들어볼 수 있는 좋은 선택지입니다.",
+          "url": "https://www.youtube.com/watch?v=55hdtzM8T98",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 70,
+          "topicId": "data-visualization",
+          "isTopicPrimary": true,
+          "slug": "lighting-my-porch-with-vega-coding-programming-javascript-vega",
+          "fullContent": "My family's own to astronomy. So, I printed out all these 3D printable planets and I put them along the back of the porch and I lit them with controllable LEDs. It's really nice when we're watching movies, but I wanted a way to connect the planets with the big projection screen. So, I looked around and picked a Fire Stick with Amazon's Vega because it uses React Native for the UI and I'm pretty good with React and React Native. And I got to tell you, it was easier than I expected. There's a Vega extension for VS Code. It's got a local simulator that makes it really easy to debug the code, which is great. The L coding agents obviously love React Native. And so, I just pointed them at the Vega docs for the extra details. They've even got a CLI app to get your project started. So, now when folks come over, I can just pop up a map of the solar system with all the facts about each planet and they can navigate around the lights and the planets with the D-pad on the controller. And then to control the LEDs, I use a WLED controller and then just send the command to it with HTTP right out of the Vega app using just a regular fetch. But to kind of add that finishing touch, I wanted folks to be able to say the name of the planet and have it show up on the screen and also on the lights. And it was as easy as just adding aria labels and Vega just handled all the extra voice work and sent the press events when you use the name. Saturn. It's just so slick and it really brought that project to life. So, give Vega a shot. If you know React Native and React already, it's an easy way to get your application up on the big screen. Check out the link in the description for more information and thank you so much, Amazon, for sponsoring this video.",
+          "category": "video",
+          "publishedAt": "2026-07-02T18:22:02+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "React 2025 – Adding MDX",
+          "titleKo": "React 2025 – MDX 추가",
+          "summary": "React 2025 버전에서 MDX 지원이 추가되는 내용을 다룬 영상입니다.",
+          "keyPoints": [
+            "React 2025에서 MDX 통합 지원"
+          ],
+          "whyItMatters": "MDX는 마크다운과 React 컴포넌트를 결합한 강력한 도구로, 문서화와 인터랙티브 콘텐츠 작성이 더욱 용이해집니다.",
+          "url": "https://www.youtube.com/watch?v=TUnbglpVhiU",
+          "sourceName": "Lee Robinson",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 78,
+          "topicId": "react-mdx",
+          "isTopicPrimary": true,
+          "slug": "react-2025-adding-mdx",
+          "category": "video",
+          "publishedAt": "2025-11-07T14:31:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "A Better Way to Build Software with AI (Full Tutorial &amp; Workflow)",
+          "titleKo": "AI로 소프트웨어를 더 잘 빌드하는 방법 (완전한 튜토리얼 및 워크플로우)",
+          "summary": "AI를 활용한 소프트웨어 개발 과정을 체계적으로 설명하는 튜토리얼 영상입니다.",
+          "keyPoints": [
+            "AI 기반 개발 워크플로우 실전 가이드"
+          ],
+          "whyItMatters": "AI 도구를 개발 프로세스에 효과적으로 통합하는 실제 방법과 모범 사례를 배울 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=L4g6GGLzAyo",
+          "sourceName": "Traversy Media",
+          "contentType": "video",
+          "labels": [
+            "frontend",
+            "ai"
+          ],
+          "relevance": 65,
+          "topicId": "ai-coding-workflow",
+          "isTopicPrimary": true,
+          "slug": "a-better-way-to-build-software-with-ai-full-tutorial-amp-workflow",
+          "category": "video",
+          "publishedAt": "2026-08-10T15:30:13+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
