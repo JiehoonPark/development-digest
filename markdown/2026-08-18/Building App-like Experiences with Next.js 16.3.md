@@ -1,0 +1,291 @@
+---
+title: "Building App-like Experiences with Next.js 16.3"
+tags: [dev-digest, tech, nextjs]
+type: study
+tech:
+  - nextjs
+level: ""
+created: 2026-08-18
+aliases: []
+---
+
+## 핵심 개념
+
+> [!abstract]
+> Next.js 16.3에서는 Cache Components와 Partial Prefetching을 기반으로 한 Instant Navigations가 도입되었습니다. Cache Components는 라우트가 즉시 보여줄 수 있는 UI를 미리 준비해두고, Partial Prefetching은 그 UI를 사용자가 클릭하기 전에 브라우저로 미리 가져다 놓습니다. 이 둘의 조합은 Server Components의 이점을 그대로 유지하면서도 SPA(싱글 페이지 애플리케이션)에서 기대하는 수준의 반응성 있는 내비게이션을 제공합니다.
+
+## 아티클
+
+Next.js 16.3에서는 Cache Components와 Partial Prefetching을 기반으로 한 **Instant Navigations**가 도입되었습니다. Cache Components는 라우트가 즉시 보여줄 수 있는 UI를 미리 준비해두고, Partial Prefetching은 그 UI를 사용자가 클릭하기 전에 브라우저로 미리 가져다 놓습니다. 이 둘의 조합은 Server Components의 이점을 그대로 유지하면서도 SPA(싱글 페이지 애플리케이션)에서 기대하는 수준의 반응성 있는 내비게이션을 제공합니다.
+
+이번 글에서는 음악 플레이어 Next Beats, 소셜 피드 Drop, 캘린더 Flow, 팀 채팅 Huddle 등 네 개의 데모 앱을 통해 이 기능들이 실제로 어떻게 조합되는지 살펴보겠습니다.
+
+## 즉각적인 내비게이션
+
+Instant Navigations를 적용하면 페이지를 클릭하는 순간 다음 화면이 바로 나타나 SPA와 같은 사용 경험을 제공합니다.
+
+Next Beats에서는 트랙이나 플레이리스트를 선택하는 즉시 로딩 폴백이 나타나는 것을 확인할 수 있습니다. 페이지는 여전히 서버에서 렌더링되지만, Cache Components 덕분에 정적/캐시된/폴백 UI로 구성된 프리렌더 셸이 초기에 준비되고, 동적 콘텐츠는 Suspense를 통해 스트리밍됩니다.
+
+Partial Prefetching은 화면에 보이는 `<Link>` 컴포넌트에 대해 클릭 전에 이 셸을 미리 가져오며, 같은 라우트로 향하는 링크들끼리는 하나의 셸을 재사용합니다. 그 결과 서버가 나머지 작업을 마무리하는 동안 브라우저는 미리 가져온 UI를 즉시 보여줄 수 있습니다.
+
+Next Beats는 `next.config.ts`에서 두 기능을 함께 활성화합니다.
+
+```ts
+// next.config.ts
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
+  cacheComponents: true,
+  partialPrefetching: true,
+};
+
+export default nextConfig;
+```
+
+클릭 시점에 이미 준비된 UI를 갖추도록 라우트를 구성하는 방법은 Instant Navigations 가이드를 참고하시고, 아직 Cache Components를 사용하지 않는 프로젝트라면 Cache Components 마이그레이션 가이드를 따르거나 코딩 에이전트에 adoption Skill을 넘겨주시면 됩니다.
+
+## 내비게이션 간 캐싱
+
+로딩 폴백은 첫 방문을 반응성 있게 만들어줍니다. Cache Components를 사용하면 페이지 뒤에 있는 데이터가 내비게이션 간에도 유지되어, 재방문 시에는 이 폴백조차 건너뛸 수 있습니다.
+
+Drop에서는 Home과 Profile의 첫 방문과 마지막에 다시 방문했을 때를 비교해볼 수 있습니다.
+
+데이터 조회 함수를 `'use cache'`로 표시하면 Next.js는 매 렌더링마다 데이터 소스에 쿼리하는 대신 결과를 재사용합니다. 캐시된 함수의 인자는 캐시 키의 일부가 되며, `cacheLife`로 결과가 신선한 상태로 유지되는 시간을 조정할 수 있습니다.
+
+브라우저 또한 프리페치되었거나 방문한 라우트의 페이로드를 캐시합니다. 페이로드가 신선한 상태로 유지되는 동안에는 재방문 시 추가 서버 요청 없이 이를 재사용할 수 있습니다.
+
+Drop에서는 포스트 ID가 캐시 키의 일부가 되고, 조회 함수에는 이후 뮤테이션이 만료시킬 수 있는 태그가 추가됩니다.
+
+```ts
+// features/drop/drop-queries.ts
+import { cacheLife, cacheTag } from 'next/cache';
+
+async function getDrop(id: string) {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('drops', `drop-${id}`);
+  const row = await prisma.drop.findUnique({ where: { id } });
+  if (!row) notFound();
+  return toDrop(row);
+}
+```
+
+캐시된 데이터가 어떻게 재사용되고 재검증되는지에 대해서는 Next.js 캐싱 문서를 참고하시기 바랍니다.
+
+## URL별 콘텐츠 프리페칭
+
+캐싱은 재방문 속도를 높여주지만, Partial Prefetching을 사용하면 첫 방문조차도 더 많은 콘텐츠가 이미 준비된 채로 도착할 수 있습니다.
+
+다시 Next Beats로 돌아가서, 두 번째 클릭 세트에서는 추천 목록이 로딩되는 동안에도 트랙 헤더가 이미 표시되어 있는 것을 확인할 수 있습니다.
+
+기본적으로 화면에 보이는 `<Link>`는 목적지 라우트당 하나의 App Shell을 프리페치하며, 이는 같은 라우트로 가는 링크들끼리 공유됩니다. 정적 콘텐츠와 캐시된 콘텐츠는 이 셸의 일부가 될 수 있는 반면, 동적이거나 URL에 의존하는 콘텐츠는 내비게이션 이후에 스트리밍됩니다.
+
+특정 링크가 클릭 전에 params, searchParams, 또는 전체 URL까지 미리 해석하도록 하려면 `prefetch={true}`를 추가하면 됩니다. `'use cache'`로 표시된 URL 종속적인 조회는 이 링크의 프리페치에 포함될 수 있으므로, 상품 페이지나 상세 페이지가 콘텐츠를 이미 준비한 채 도착하게 됩니다.
+
+`prefetch={true}`가 설정된 링크는 뷰포트에 들어오는 즉시 서버를 호출할 수 있으므로, 콘텐츠를 미리 준비해두는 것이 요청 비용을 감수할 만한 곳에만 사용하는 것이 좋습니다. Next Beats의 트랙 링크는 이 옵션을 적용하고 있습니다.
+
+```tsx
+import Link from 'next/link';
+
+<Link href={`/track/${track.id}`} prefetch={true}>
+  {track.title}
+</Link>;
+```
+
+기본 동작과 사용자 의도 기반 패턴은 프리페칭 가이드에서, URL별 콘텐츠에 대한 프리페칭 최적화와 `prefetch={true}`의 트레이드오프는 관련 문서에서 확인할 수 있습니다. 기존 앱을 업데이트하려면 Partial Prefetching 적용 가이드를 따르거나 코딩 에이전트에 adoption Skill을 맡기시면 됩니다.
+
+## 클라이언트 사이드 인터랙티비티 추가
+
+빠른 페이지라도 반응성 있는 컨트롤은 여전히 필요합니다. Client Components를 사용하면 데이터 페칭은 서버에 두면서도 페이지의 상호작용 부분은 즉시 반응하도록 만들 수 있습니다.
+
+Next Beats에서는 플레이어가 재생, 일시정지, 스킵을 할 때 재생 버튼, 현재 재생 바, 트랙 컨트롤이 서로 어긋나지 않고 동기화되는 것을 볼 수 있습니다.
+
+상호작용이 필요한 모듈은 `'use client'`로 표시합니다. 이 모듈 안의 컴포넌트는 state, 이벤트 핸들러, 브라우저 API를 사용할 수 있고, 나머지 라우트는 서버 렌더링을 유지하며 더 적은 자바스크립트만 전송하게 됩니다.
+
+공유 상태는 컨텍스트 프로바이더에 두고 훅을 통해 읽을 수 있으며, 이렇게 하면 트리 전반에 걸친 상호작용 요소들이 동기화된 상태를 유지합니다. 프로바이더를 공유 레이아웃에 배치하면 라우트가 바뀌어도 마운트된 상태를 유지하고, 그 자식들은 여전히 Server Components로 남을 수 있습니다.
+
+Next Beats의 공유 레이아웃은 라우트 콘텐츠와 지속되는 컨트롤을 모두 프로바이더로 감쌉니다.
+
+```tsx
+// app/(app)/layout.tsx
+import { NowPlayingBar } from '@/components/now-playing-bar';
+import { PlayerProvider } from '@/providers/player-provider';
+
+export default function AppLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <PlayerProvider>
+      {/* ...navigation... */}
+      <main>{children}</main>
+      <NowPlayingBar />
+    </PlayerProvider>
+  );
+}
+```
+
+앱 전체를 브라우저로 옮기지 않고도 상호작용 아일랜드를 추가하는 방법은 Server Components와 Client Components 결합 가이드에서 확인할 수 있습니다.
+
+## 뮤테이션 이후 재검증
+
+상호작용 컨트롤이 서버 데이터를 변경하면, 그 데이터를 보여주는 캐시된 뷰들도 동기화된 상태를 유지해야 합니다. 데이터는 캐시된 상태를 유지하면서도 변경 사항을 여러 페이지에서 즉시 확인할 수 있습니다.
+
+Drop에서는 Home에서 리포스트를 추가하면 Profile에 그것이 나타나고, 제거하면 사라지는 것을 확인할 수 있습니다.
+
+`'use cache'` 조회에 `cacheTag`로 태그를 달고, Server Action에서 `updateTag`를 호출해 해당 태그를 만료시킵니다. Action이 실행되는 동안 현재 페이지는 로컬 피드백을 보여줄 수 있습니다.
+
+태그가 지정된 데이터에 대한 다음 요청은 새로운 결과를 가져옵니다. Partial Prefetching을 사용하면 `<Link prefetch={true}>`가 클릭 전에 이 업데이트를 미리 가져올 수 있어, 내비게이션 시점에 이미 새로운 콘텐츠가 준비되어 있습니다.
+
+만료시켜야 할 태그는 변경된 데이터가 어디에 나타나는지에 따라 달라집니다. Drop에서는 리포스트를 토글하면 drop 자체와 로그인한 사용자의 프로필이 모두 변경되므로, Action은 쓰기 작업 후 두 태그를 모두 만료시킵니다.
+
+```ts
+// features/drop/drop-actions.ts
+'use server';
+
+import { updateTag } from 'next/cache';
+import { verifyAuth } from '@/features/user/user-queries';
+
+export async function toggleRepost(dropId: string) {
+  const me = await verifyAuth();
+  // ...create or delete the repost in the database...
+  updateTag(`drop-${dropId}`);
+  updateTag(`user-drops-${me}`);
+  // ...expire other affected views...
+  return { ok: true as const };
+}
+```
+
+뮤테이션 이후 캐시된 데이터를 신선하게 유지하는 재검증 방식에 대해 더 자세히 알아보실 수 있습니다.
+
+## 연결 끊김 처리
+
+앱다운 경험이라면 일시적인 연결 끊김에도 살아남아야 합니다. 연결이 세션 도중 끊기더라도 앱은 이를 견뎌내고 재연결 시 다시 이어갈 수 있습니다.
+
+Next Beats에서는 오프라인 상태에서 트랙과 플레이리스트를 열었을 때 무엇이 남아있는지, 그리고 재연결 후 미완료된 플레이리스트가 어떻게 복구되는지를 확인할 수 있습니다.
+
+오프라인 재시도(offline retry)가 활성화되면, 실패한 소프트 내비게이션, React Server Component 페치, 프리페치, Server Action은 에러를 던지는 대신 대기 상태로 남아 있다가 자동으로 재시도됩니다. `useOffline` 훅을 사용하면 대기하는 동안 재연결 중임을 알리는 바를 보여줄 수 있습니다.
+
+App Shell이 이미 프리페치되어 있으므로, 소프트 내비게이션은 그 프리페치에 포함된 데이터와 함께 셸을 계속 렌더링할 수 있습니다.
+
+Next Beats는 Cache Components, Partial Prefetching과 함께 오프라인 재시도를 활성화합니다.
+
+```ts
+// next.config.ts
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
+  cacheComponents: true,
+  partialPrefetching: true,
+  experimental: {
+    useOffline: true,
+  },
+};
+
+export default nextConfig;
+```
+
+지원되는 요청 종류, 재시도 동작, 재연결 피드백에 대해서는 연결 끊김 처리 가이드를 참고하시기 바랍니다.
+
+## Suspense를 활용한 스트리밍
+
+무엇이 캐시되고 프리페치되었는지에 따라 라우트의 각 섹션은 서로 다른 시점에 준비될 수 있습니다. Suspense를 사용하면 이 섹션들이 드러나는 방식을 제어해 페이지가 빠르게 로드되면서도(LCP) 레이아웃이 안정적으로 유지되도록(CLS) 만들 수 있습니다.
+
+Drop에서는 긴 포스트와 짧은 포스트 아래에서 답글이 어떻게 나타나는지를 비교해볼 수 있습니다.
+
+콘텐츠의 크기를 로드되기 전까지 알 수 없는 경우가 있습니다. 이를 별개의 경계로 나누면 각각 독립적으로 해결되면서, 도착하는 순서에 따라 서로를 밀어내는 문제가 생길 수 있습니다.
+
+대신 경계를 중첩시킬 수 있습니다. 이렇게 하면 작업 자체는 여전히 병렬로 실행되지만, 중첩된 경계는 상위 경계가 자리를 잡을 때까지 섹션을 보여주는 것을 기다립니다. 그 결과 페이지는 작업을 지연시키지 않으면서도 위에서 아래로 순서대로 안정됩니다.
+
+Drop의 포스트 라우트는 답글을 포스트를 감싸는 경계 안쪽에 배치합니다.
+
+```tsx
+// app/drop/[id]/page.tsx
+import { Suspense } from 'react';
+
+<Suspense fallback={<DropDetailSkeleton />}>
+  {params.then(({ id }) => (
+    <>
+      <DropDetail id={id} />
+      <Suspense fallback={<RepliesSkeleton />}>
+        <Replies id={id} />
+      </Suspense>
+    </>
+  ))}
+</Suspense>;
+```
+
+Suspense로 콘텐츠를 드러내는 다양한 방법은 스트리밍 가이드에서 확인할 수 있습니다.
+
+## 낙관적 업데이트
+
+스트리밍은 데이터 로딩 중에도 내비게이션을 반응성 있게 유지해주지만, 뮤테이션의 경우에는 transitions와 optimistic updates 같은 React 기능을 사용해 네트워크 속도와 무관하게 즉시 피드백을 보여줄 수 있습니다.
+
+Next Beats에서는 각 저장 작업이 완료되기 전에 플레이리스트와 즐겨찾기가 먼저 바뀌는 모습, 그리고 변경이 거부되었을 때의 처리 방식을 확인할 수 있습니다.
+
+`useTransition`은 Server Action과 그로 인한 서버 업데이트를 하나의 대기 중인 작업으로 추적합니다. `startTransition` 안에서 Action을 시작하면 업데이트가 같은 transition 안에 유지됩니다.
+
+이 transition 안에서 `useOptimistic`으로 낙관적 값을 설정하면 즉시 렌더링할 수 있습니다. Action이 실패하면 React는 마지막으로 확인된 값으로 되돌리며, 이때 에러 토스트를 보여줄 수 있습니다.
+
+Next Beats의 즐겨찾기 버튼은 Server Action을 호출하기 전에 낙관적 값을 먼저 적용합니다.
+
+```tsx
+// features/track/components/track-interactions.tsx
+'use client';
+
+import { useOptimistic, useTransition } from 'react';
+import { toggleFavorite } from '@/features/track/track-actions';
+
+export function FavoriteButton({ trackId, isFavorite }: FavoriteButtonProps) {
+  const [, startTransition] = useTransition();
+  const [optimisticFavorite, setOptimisticFavorite] = useOptimistic(isFavorite);
+
+  function handleToggle() {
+    startTransition(async () => {
+      setOptimisticFavorite(!optimisticFavorite);
+      await toggleFavorite(trackId);
+    });
+  }
+
+  return (
+    <button aria-pressed={optimisticFavorite} onClick={handleToggle}>
+      Favorite
+    </button>
+  );
+}
+```
+
+transitions, optimistic updates, Server Actions을 함께 다루는 방법은 인터랙티브 앱 가이드에서 확인할 수 있습니다.
+
+## 복잡한 앱 구성하기
+
+온디맨드로 또는 사용자별로 데이터를 페칭한다고 해서 반드시 내비게이션이 막히거나 끝없는 스피너를 봐야 하는 것은 아닙니다. 앞서 살펴본 패턴들은 조합되어, 서버에서 렌더링과 데이터 페칭을 계속 수행하면서도 즉시 반응하는 복잡한 애플리케이션을 만들어냅니다.
+
+캘린더 앱 Flow에서는 뷰를 전환할 때 콘텐츠가 이미 준비된 상태로 즉시 내비게이션이 이루어지고, 로그인한 사용자가 캘린더를 생성하거나 이벤트를 편집할 때 화면이 즉시 업데이트되는 것을 확인할 수 있습니다.
+
+Server Components는 로그인한 사용자를 검증하고 데이터를 인가하며, Client Components는 상호작용을 담당합니다. 클라이언트 프로바이더는 Client Components 간의 상호작용 상태를 공유하면서도, 서버 렌더링되는 자식 컴포넌트들은 계속해서 서버에서 사용자의 데이터를 페칭하고 렌더링할 수 있습니다.
+
+## 정리
+
+Next.js 16.3은 Cache Components와 Partial Prefetching을 축으로 SPA 수준의 반응성을 Server Components 기반 아키텍처에서 구현할 수 있게 해줍니다.
+
+- **Instant Navigations**: `cacheComponents`와 `partialPrefetching`을 함께 켜면, 정적/캐시/폴백 UI로 구성된 셸이 미리 프리렌더되고 링크가 뷰포트에 보일 때 미리 가져와져, 클릭 즉시 화면이 전환됩니다.
+- **캐싱과 재검증**: `'use cache'`, `cacheLife`, `cacheTag`, `updateTag`를 조합하면 데이터를 재방문 간에도 신선하게 유지하면서, 뮤테이션 발생 시 관련된 캐시만 정확히 만료시켜 최신 상태를 보장할 수 있습니다.
+- **URL별 프리페칭**: `prefetch={true}`를 사용하면 params나 searchParams에 의존하는 콘텐츠까지 클릭 전에 미리 가져올 수 있지만, 뷰포트 진입 시 서버 요청이 발생하므로 필요한 곳에만 선별적으로 적용해야 합니다.
+- **클라이언트 인터랙티비티와 낙관적 업데이트**: `'use client'`로 표시한 상호작용 아일랜드, 공유 레이아웃의 컨텍스트 프로바이더, 그리고 `useTransition`/`useOptimistic`을 조합하면 네트워크 지연과 무관하게 즉각적인 피드백을 줄 수 있습니다.
+- **안정적인 스트리밍과 오프라인 대응**: Suspense 경계를 중첩시켜 레이아웃 흔들림 없이 콘텐츠를 순서대로 드러내고, 오프라인 재시도 기능으로 연결이 끊겨도 세션을 이어갈 수 있습니다.
+
+실무에서는 먼저 Cache Components 마이그레이션 가이드나 코딩 에이전트용 adoption Skill을 통해 기존 프로젝트를 점진적으로 전환한 뒤, 트래픽이 몰리는 상세 페이지 등 우선순위가 높은 링크부터 `prefetch={true}`를 적용해보는 것이 합리적인 출발점이 될 것입니다.
+
+```json
+{
+  "titleKo": "Next.js 16.3으로 구현하는 앱다운 사용자 경험",
+  "summary": "Next.js 16.3은 Cache Components와 Partial Prefetching을 기반으로 한 Instant Navigations를 통해 SPA 수준의 반응성을 Server Components 아키텍처에서 구현합니다. Next Beats, Drop, Flow, Huddle 등 데모 앱을 통해 캐싱, URL별 프리페칭, 클라이언트 인터랙티비티, 낙관적 업데이트, Suspense 스트리밍, 오프라인 재시도 패턴을 실제 코드로 보여줍니다. 이 기능들은 개별적으로도, 서로 조합해서도 사용할 수 있어 복잡한 앱에서도 즉각적인 반응성과 서버 렌더링의 이점을 동시에 확보할 수 있습니다.",
+  "keyPoints": [
+    "cacheComponents와 partialPrefetching을 next.config.ts에서 함께 활성화하면 클릭
+
+## 참고 자료
+
+- [원문 링크](https://nextjs.org/blog/building-app-like-experiences-with-nextjs-16-3)
+- via Next.js Blog
+
+## 관련 노트
+
+- [[2026-08-18|2026-08-18 Dev Digest]]
