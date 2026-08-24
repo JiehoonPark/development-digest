@@ -1,0 +1,334 @@
+{
+  "date": "2026-08-24",
+  "intro": "안녕하세요! 오늘은 웹 기술의 경계를 확장하는 흥미로운 소식들이 가득합니다. 샌프란시스코 전체를 3D 오픈월드 게임으로 구현한 프로젝트와 실제 지리 데이터를 브라우저에서 처리하는 기술이 주목받고 있으며, AI 에이전트와 개발자 도구 생태계도 빠르게 진화하고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "The entire city of San Francisco as a video game",
+          "titleKo": "브라우저에서 즐기는 샌프란시스코 통째로 오픈월드 게임",
+          "summary": "sf.thijs.gg에서 공개된 이 데모는 샌프란시스코 도시 전체를 브라우저 기반 3D 오픈월드 게임으로 구현했습니다. 줌 레벨별 타일 스트리밍으로 실제 지형을 실시간 로드하며, 텔레포트·도보·차량·글라이더 등 다양한 이동 수단과 디버그 HUD, 자원·생명력 시스템 같은 게임적 요소까지 갖췄습니다. 해커뉴스 인기 글로 소개되며 대규모 실제 지리 데이터를 웹에서 다루는 기술적 접근으로 주목받았습니다.",
+          "keyPoints": [
+            "샌프란시스코 전체를 실제 지형 데이터 기반으로 브라우저에서 탐험 가능한 3D 오픈월드로 구현",
+            "Z20~Z15 줌 레벨의 타일 스트리밍 시스템으로 플레이어 주변 지형을 실시간 로드 및 조립",
+            "클릭 텔레포트, 도보/차량/글라이더 이동, 1인칭·3인칭 카메라 전환 등 다양한 탐험 조작 지원",
+            "디버그 로그 복사, 로드 범위 조절 등 개발자용 HUD 도구와 함께 자원·생명력 시스템 같은 게임 요소 포함"
+          ],
+          "whyItMatters": "실제 지리 규모의 방대한 데이터를 타일 단위 LOD 스트리밍으로 브라우저에서 끊김 없이 렌더링하는 구조는 웹 기반 대규모 3D 콘텐츠를 설계하는 프론트엔드 개발자에게 좋은 참고 사례가 됩니다.",
+          "article": "샌프란시스코라는 도시 전체를 실제 지형 데이터 그대로 브라우저에서 탐험할 수 있게 만든 프로젝트가 해커뉴스 인기 글에 올라 화제가 됐습니다. `sf.thijs.gg`에서 공개된 이 데모는 설치 없이 웹페이지에 접속하는 것만으로 샌프란시스코 시내 곳곳을 걸어 다니거나 차를 몰고, 심지어 글라이더를 타고 하늘을 날아다닐 수 있는 3D 오픈월드를 구현했습니다. 화면 곳곳에 노출된 디버그 HUD 텍스트만 봐도 이 프로젝트가 얼마나 방대한 지형 데이터를 실시간으로 스트리밍하며 처리하고 있는지 짐작할 수 있는데요, 이번 글에서는 페이지에 드러난 UI 요소들을 통해 이 게임이 어떤 방식으로 도시 하나를 통째로 브라우저 위에 올려놓았는지 살펴보겠습니다.\n\n## 도시 전체를 타일 단위로 스트리밍하기\n\n접속 화면에는 \"SAN FRANCISCO -- THE GAME\"이라는 타이틀과 함께 \"CITY ONLINE\", \"READY TO EXPLORE\" 같은 상태 문구가 뜨고, 로딩이 끝나면 \"Neighborhood ready 100% - The streets around you are ready\"라는 메시지로 현재 위치 주변 거리가 완전히 로드되었음을 알려줍니다.\n\n이 게임의 핵심은 HUD 좌측에 표시되는 \"G · TILE STREAM\" 패널에 있습니다. 여기서는 `IDLE`, `CENTER`, `WAITING FOR TILE STATE` 같은 스트리밍 상태와 함께 `Z20`, `Z17`, `Z16`, `Z15`라는 줌 레벨이 나열되고, `GROUND FILE`, `FULL COLUMN READY`, `VISIBLE CORNERS LOADING` 같은 항목들이 실시간으로 갱신됩니다. 이는 일반적인 지도 서비스(Google Maps, Mapbox 등)에서 쓰이는 타일 시스템처럼, 플레이어의 위치를 중심으로 여러 줌 레벨의 지형 타일을 순차적으로 불러오고 조립해 도시 전체를 끊김 없이 렌더링하는 구조임을 보여줍니다. \"FILL = CURRENT OWNER\"라는 표기는 각 타일이 어떤 로딩 프로세스가 소유(처리)하고 있는지를 색상으로 구분해서 디버깅할 수 있게 만든 장치로 보입니다.\n\n## 원하는 위치로 즉시 이동하는 텔레포트\n\n지도 규모의 실제 도시를 걸어서 탐험하려면 이동 시간이 만만치 않을 텐데, 이 게임은 \"CLICK TO TELEPORT\" 기능을 제공해 클릭 한 번으로 원하는 지점으로 순간이동할 수 있게 했습니다. 화면 상단에는 나침반(N·E·S·W)과 현재 방위각(000°)이 표시되어, 도시 규모의 오픈월드에서도 플레이어가 자신의 위치와 방향을 놓치지 않도록 돕습니다.\n\n## 세 가지 이동 수단: 도보, 차량, 글라이더\n\n조작 안내에는 `WASD move · mouse look · Space jump · Shift run · C camera · H glider`라는 문구가 명시되어 있어, 기본적으로 WASD와 마우스로 시점을 조작하고 스페이스로 점프, 시프트로 달리기를 하는 표준 FPS류 조작 체계를 따르고 있음을 알 수 있습니다. 여기에 더해 `V`키로 차량(`VEHICLE`) 모드, `H`키로 글라이더(`GLIDER`) 모드로 전환할 수 있고, 각 모드에서 속도(`SPEED`)와 줌(`ZOOM`) 조절, 시프트로 스프린트/차량 탈출 등 세부 조작이 가능합니다. `C`키를 눌러 1인칭과 3인칭(`THIRD PERSON`) 카메라를 전환할 수도 있습니다.\n\n## 디버깅과 게임적 요소들\n\nHUD에는 개발자를 위한 도구도 노출되어 있습니다. `R`키로 리셋, `L RANGE 470m`으로 로드 거리 범위 조절, `COPY DEBUG LOG` 버튼으로 디버그 로그를 복사하는 기능 등이 그 예입니다. `P · WORLD SAFE`, `N · LIFE OFF` 같은 토글은 각각 월드 안전 모드와 생명력(라이프) 시스템의 온오프를 제어하는 것으로 보이며, 화면 하단에는 `WOOD 0 · STONE 0 · METAL 0`이라는 자원 카운터가 있어 단순한 관광 시뮬레이션을 넘어 채집·생존 게임 요소가 결합되어 있음을 시사합니다.\n\n## 정리\n\n- 이 프로젝트는 샌프란시스코라는 실제 도시 전체를 브라우저에서 실행되는 3D 오픈월드 게임으로 재구성한 데모입니다.\n- 줌 레벨(Z20~Z15)별 타일 스트리밍 시스템을 통해 플레이어 주변 지형을 실시간으로 로드·조립하며, HUD의 디버그 패널로 타일 상태와 로딩 진행률을 확인할 수 있습니다.\n- 클릭 한 번으로 이동하는 텔레포트, 도보·차량·글라이더 세 가지 이동 수단, 1인칭/3인칭 카메라 전환 등 대규모 오픈월드 탐험에 특화된 조작 체계를 갖췄습니다.\n- 나무·돌·금속 같은 자원 카운터와 라이프(생명력) 토글의 존재는 단순 지형 시각화를 넘어 게임적 재미 요소까지 염두에 둔 설계임을 보여줍니다.\n- 프론트엔드/웹 개발자 입장에서는 실제 지리 데이터를 타일 단위로 스트리밍하며 끊김 없는 대규모 3D 월드를 브라우저에서 구현한 사례로서, LOD(Level of Detail) 및 타일 로딩 전략을 참고할 만한 프로젝트입니다.",
+          "url": "https://sf.thijs.gg/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 299,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 65,
+          "topicId": "sf-video-game",
+          "isTopicPrimary": true,
+          "slug": "the-entire-city-of-san-francisco-as-a-video-game",
+          "fullContent": "Copyright © 2026 Apple Inc. All rights reserved.Terms & Conditions\nSAN FRANCISCO -- THE GAMECITY ONLINEREADY TO EXPLORE\nCLICK TO TELEPORT\nNESWN · 000°\nG · TILE STREAMIDLECENTER · WAITING FOR TILE STATEFILL = CURRENT OWNER Z20 Z17 Z16 Z15GROUND FILE FULL COLUMN READY VISIBLE CORNERS LOADING\nC · THIRD PERSON\nR · RESET\n− SPEED\n+ SPEED\n− DIST\n+ DIST\nV · WALK\nP · WORLD SAFE\nN · LIFE OFF\nL RANGE 470 m\nCOPY DEBUG LOG\nWOOD 0STONE 0METAL 0\nSAN FRANCISCOL · DETAIL MODE\nSAN FRANCISCO\nNEIGHBORHOOD READY100%The streets around you are ready.\nWASD move · mouse look · Space jump · Shift run · C camera · H glider\nWASD\nCCAMERAHGLIDER−+SPEED↑↓ZOOMSHIFTSPRINT / EXITVVEHICLE\nCCAMERAHGLIDER+FASTER⇧SPRINTVCAR−SLOWER\nLoading\nWelcome to San Francisco\nRetry\nLoading",
+          "category": "hot",
+          "publishedAt": "2026-08-24T17:05:38.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: A techno machine in one HTML file, with verifiable renders",
+          "titleKo": "Show HN: 한 개의 HTML 파일로 만든 테크노 머신(검증 가능한 렌더링 포함)",
+          "summary": "단일 HTML 파일로 구현된 테크노 머신 프로젝트입니다.",
+          "keyPoints": [
+            "모든 기능이 하나의 HTML 파일에 포함됨",
+            "검증 가능한 렌더링 지원"
+          ],
+          "url": "https://ssx360.github.io/rack-02/?src=hn",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 149,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 72,
+          "isTopicPrimary": true,
+          "slug": "show-hn-a-techno-machine-in-one-html-file-with-verifiable-renders",
+          "category": "hot",
+          "publishedAt": "2026-08-24T13:17:11.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "PostHog/posthog (Python)",
+          "titleKo": "PostHog - 자율주행 제품 구축을 위한 플랫폼",
+          "summary": "PostHog는 AI 옵저버빌리티, 분석, 세션 재생, 플래그, 실험, 에러 트래킹, 로그 등의 개발자 도구를 제공하는 플랫폼입니다. 에이전트가 문제를 진단하고 기회를 발굴하는 데 필요한 모든 컨텍스트를 캡처합니다.",
+          "keyPoints": [
+            "AI 옵저버빌리티와 분석, 세션 재생, 플래그, 실험 등 통합 도구 제공",
+            "자율주행 제품(AI 에이전트) 구축에 초점"
+          ],
+          "whyItMatters": "개발자는 제품 성능과 사용자 행동에 대한 종합적인 관찰 도구로 빠른 문제 해결과 최적화가 가능합니다.",
+          "url": "https://github.com/PostHog/posthog",
+          "sourceName": "GitHub Trending",
+          "engagement": 38977,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "backend",
+            "devops"
+          ],
+          "relevance": 68,
+          "isTopicPrimary": true,
+          "slug": "posthogposthog-python",
+          "category": "tech",
+          "publishedAt": "2026-08-24T23:22:16.775Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "Python"
+          ]
+        },
+        {
+          "title": "makeplane/plane (TypeScript)",
+          "titleKo": "Plane - Jira, Linear, Monday, ClickUp의 오픈소스 대안",
+          "summary": "Plane은 작업, 스프린트, 문서, 이슈 분류를 관리하는 현대적 오픈소스 프로젝트 관리 플랫폼입니다. Jira, Linear, Monday, ClickUp 같은 유료 도구의 대안으로 제공됩니다.",
+          "keyPoints": [
+            "Jira, Linear, Monday, ClickUp 등 기존 프로젝트 관리 도구의 오픈소스 대안",
+            "작업, 스프린트, 문서, 이슈 분류 기능을 통합 제공"
+          ],
+          "whyItMatters": "팀 규모나 예산 제약이 있는 조직에서 엔터프라이즈급 프로젝트 관리 기능을 무료로 사용할 수 있습니다.",
+          "url": "https://github.com/makeplane/plane",
+          "sourceName": "GitHub Trending",
+          "engagement": 57902,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 75,
+          "isTopicPrimary": true,
+          "slug": "makeplaneplane-typescript",
+          "category": "tech",
+          "publishedAt": "2026-08-24T23:22:16.773Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "apache/maka (TypeScript)",
+          "titleKo": "Apache Maka - 로컬 우선 AI 에이전트 워크스페이스",
+          "summary": "Apache Maka는 모델 메시지, 도구 호출, 결과, 권한 결정, 종료 이벤트를 추가 전용 로그로 기록하는 로컬 우선 AI 에이전트 워크스페이스입니다.",
+          "keyPoints": [
+            "로컬 우선 설계로 프라이버시 보호",
+            "모든 에이전트 상호작용을 추가 전용 로그로 기록"
+          ],
+          "whyItMatters": "개발자가 AI 에이전트의 동작을 투명하게 추적하고 제어할 수 있으며, 데이터 프라이버시를 보장합니다.",
+          "url": "https://github.com/apache/maka",
+          "sourceName": "GitHub Trending",
+          "engagement": 2878,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "backend"
+          ],
+          "relevance": 65,
+          "isTopicPrimary": true,
+          "slug": "apachemaka-typescript",
+          "category": "tech",
+          "publishedAt": "2026-08-24T23:22:16.775Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "Show HN: GlassBox – what the browser reveals, and how identifiable you are",
+          "titleKo": "GlassBox - 브라우저가 드러내는 정보와 식별 가능성",
+          "summary": "GlassBox는 브라우저 및 세션에서 나온 JSON 리포트를 분석하여 같은 기기, 엔진 계열, 브라우저 여부를 판단하는 도구입니다. 크로스 브라우저 트래킹의 작동 원리를 시연합니다.",
+          "keyPoints": [
+            "JSON 리포트를 통해 기기/엔진/브라우저 일치 여부 판정",
+            "크로스 브라우저 트래커의 동작 방식을 실제로 보여줌"
+          ],
+          "whyItMatters": "개발자가 브라우저 핑거프린팅과 온라인 추적 기법을 이해하는 데 도움이 됩니다.",
+          "url": "https://glassbox.codecanary.org",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 85,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 70,
+          "isTopicPrimary": true,
+          "slug": "show-hn-glassbox-what-the-browser-reveals-and-how-identifiable-you-are",
+          "fullContent": "Paste a JSON report from another browser or session (Copy JSON report → paste here). GlassBox scores each tier and tells you whether it's the same machine, same engine family, or same browser — the way a real cross-browser tracker links you.",
+          "category": "tech",
+          "publishedAt": "2026-08-24T16:15:10.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "tashfeenahmed/freellmapi (TypeScript)",
+          "titleKo": "FreeeLLMAPI - 34개 무료 LLM 제공자를 하나의 엔드포인트로",
+          "summary": "FreeeLLMAPI는 월 74억 개의 토큰, 34개 무료 LLM 제공자의 635개 모델 엔드포인트를 하나의 /v1 엔드포인트 뒤에 통합합니다. 스마트 라우팅, 자동 페일오버, 암호화된 키 관리 기능이 있습니다.",
+          "keyPoints": [
+            "34개 무료 LLM 제공자의 모델을 단일 OpenAI 호환 엔드포인트로 제공",
+            "스마트 라우팅, 자동 페일오버, 암호화된 키 보안 제공"
+          ],
+          "whyItMatters": "개발자가 여러 LLM 제공자를 관리하는 복잡성 없이 다양한 모델에 접근할 수 있습니다.",
+          "url": "https://github.com/tashfeenahmed/freellmapi",
+          "sourceName": "GitHub Trending",
+          "engagement": 19752,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "backend",
+            "ai"
+          ],
+          "relevance": 60,
+          "isTopicPrimary": true,
+          "slug": "tashfeenahmedfreellmapi-typescript",
+          "category": "tech",
+          "publishedAt": "2026-08-24T23:22:16.776Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "openclaw/openclaw (TypeScript)",
+          "titleKo": "OpenClaw - 개인용 AI 어시스턴트",
+          "summary": "OpenClaw는 모든 OS와 플랫폼에서 실행 가능한 개인용 AI 어시스턴트입니다.",
+          "keyPoints": [
+            "다중 OS 및 플랫폼 지원",
+            "개인용 AI 어시스턴트로 설계됨"
+          ],
+          "url": "https://github.com/openclaw/openclaw",
+          "sourceName": "GitHub Trending",
+          "engagement": 387427,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "frontend"
+          ],
+          "relevance": 72,
+          "isTopicPrimary": true,
+          "slug": "openclawopenclaw-typescript",
+          "category": "tech",
+          "publishedAt": "2026-08-24T23:22:16.776Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "iCloud+ Hide My Email addresses will remain on icloud.com",
+          "titleKo": "Sign in with Apple 릴레이 이메일 도메인 변경, Hide My Email은 유지",
+          "summary": "애플이 Sign in with Apple의 릴레이 이메일 발급 도메인을 privaterelay.appleid.com에서 private.icloud.com으로 변경한다고 발표했습니다. 기존 주소는 계속 유효하며 메일 포워딩도 중단 없이 유지됩니다. 커뮤니티 피드백에 따라 iCloud+ Hide My Email 주소는 기존대로 icloud.com을 계속 사용합니다. Sign in with Apple을 도입한 개발자는 계정 시스템과 이메일 검증 로직, 화이트리스트에 새 도메인을 추가해야 합니다.",
+          "keyPoints": [
+            "올해 하반기부터 Sign in with Apple 신규 릴레이 이메일은 private.icloud.com 도메인으로 발급됩니다.",
+            "기존 privaterelay.appleid.com 주소는 계속 작동하며 메일 포워딩도 중단되지 않습니다.",
+            "iCloud+ Hide My Email 주소는 이번 변경 대상이 아니며 icloud.com을 그대로 유지합니다.",
+            "개발자는 계정 시스템, 이메일 검증 로직, 화이트리스트가 새 도메인과 기존 도메인 모두를 허용하도록 업데이트해야 합니다."
+          ],
+          "whyItMatters": "Sign in with Apple을 지원하는 서비스라면 이메일 검증 로직이나 도메인 화이트리스트에 새 도메인을 추가하지 않을 경우 신규 사용자의 가입·인증 메일 수신이 실패할 수 있어, 배포 전 반드시 점검이 필요합니다.",
+          "article": "애플이 Sign in with Apple에서 발급하는 릴레이 이메일 주소의 도메인을 변경한다고 발표했습니다. 로그인/회원가입 로직에서 이메일 검증이나 화이트리스트를 다루는 프론트엔드·백엔드 개발자라면 반드시 확인해야 할 변경사항인데요, 원문은 짧지만 실무에 바로 영향을 주는 내용이라 핵심만 정리해봤습니다.\n\n## 무엇이 바뀌나\n\n애플은 2026년 8월 24일자 공지를 통해 Sign in with Apple의 이메일 릴레이 서비스 도메인을 변경한다고 밝혔습니다.\n\n- 기존: `privaterelay.appleid.com`\n- 신규: `private.icloud.com`\n\n올해 하반기부터 Sign in with Apple로 새로 발급되는 주소는 `private.icloud.com` 도메인을 사용하게 됩니다. 다만 기존에 `privaterelay.appleid.com`으로 발급된 주소는 그대로 유지되며, 메일 포워딩도 중단 없이 계속 동작합니다. 즉, 기존 사용자에게는 아무런 영향이 없고, 앞으로 새로 생성되는 계정에만 새 도메인이 적용되는 구조입니다.\n\n## Hide My Email 주소는 그대로 icloud.com 유지\n\n애플은 커뮤니티 피드백을 반영해 iCloud+의 Hide My Email 주소는 기존대로 `icloud.com` 도메인을 계속 사용하기로 결정했다고 밝혔습니다. 이는 애초 계획을 일부 수정한 결과로 보이는데, 원문에는 구체적으로 어떤 변경안이 검토되었다가 철회됐는지는 명시되어 있지 않습니다. 결론적으로 이번 도메인 변경은 Sign in with Apple의 릴레이 이메일에만 적용되고, Hide My Email 기능에는 영향을 주지 않습니다.\n\n## 개발자가 해야 할 일\n\nSign in with Apple을 사용하는 앱이나 웹사이트를 운영 중이라면 다음 항목들을 점검해야 합니다.\n\n- **계정 시스템**: 신규 도메인으로 가입하는 사용자를 정상적으로 처리할 수 있는지 확인\n- **이메일 검증 로직**: 이메일 형식 검증이나 도메인 기반 필터링 로직이 `private.icloud.com`을 차단하지 않는지 확인\n- **화이트리스트(allowlist)**: 발신 도메인을 화이트리스트로 관리하는 메일 시스템, 스팸 필터, 서드파티 이메일 서비스 설정에 새 도메인을 추가\n\n핵심은 기존 `privaterelay.appleid.com`을 제거하는 것이 아니라, **두 도메인을 모두 허용하도록 확장**하는 것입니다. 기존 사용자 주소는 계속 살아있기 때문에 하나라도 빠뜨리면 신규 또는 기존 사용자 중 일부가 로그인이나 인증 메일 수신에 실패할 수 있습니다.\n\n## 정리\n\n- Sign in with Apple의 릴레이 이메일 발급 도메인이 `privaterelay.appleid.com`에서 `private.icloud.com`으로 변경되지만, 기존 주소는 계속 유효합니다.\n- iCloud+ Hide My Email은 이번 변경 대상이 아니며 `icloud.com` 도메인을 그대로 사용합니다.\n- Sign in with Apple을 도입한 서비스는 이메일 검증 로직과 화이트리스트에 `private.icloud.com`을 추가해, 기존 도메인과 신규 도메인을 모두 지원하도록 업데이트해야 합니다.\n- 배포 전 회원가입/로그인 플로우에서 두 도메인 모두로 테스트 계정을 만들어 실제 인증 메일이 정상 수신되는지 확인해보는 것이 안전합니다.",
+          "url": "https://developer.apple.com/news/?id=1ptvdtcm",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 103,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 58,
+          "isTopicPrimary": true,
+          "slug": "icloud-hide-my-email-addresses-will-remain-on-icloudcom",
+          "fullContent": "Update: New domain for Sign in with Apple\nAugust 24, 2026\nStarting later this year, new Sign in with Apple addresses, previously issued on privaterelay.appleid.com, will be issued on private.icloud.com. Existing addresses on privaterelay.appleid.com will continue to work and forward mail to users without interruption.After further consideration and reviewing community feedback, iCloud+ Hide My Email addresses will remain on icloud.com. What you need to do Developers with apps or websites that use Sign in with Apple should ensure that their account systems, email validation logic, and allowlists accept addresses on the new private.icloud.com domain in addition to the existing privaterelay.appleid.com domain.Learn more about Sign in with Apple Communicating using the Private Email Relay Service",
+          "category": "insight",
+          "publishedAt": "2026-08-24T22:13:40.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Terminals Might Slow You Down Now",
+          "titleKo": "터미널, 이제는 우리의 작업 방식에 맞지 않는 도구일지도 모른다",
+          "summary": "Theo(t3.gg)는 13살 때부터 터미널을 주력 작업 공간으로 써온 개발자지만, 오늘날의 멀티태스킹 개발 환경에는 터미널의 구조가 더 이상 맞지 않는다고 주장합니다. 세 개 이상의 작업을 동시에 진행할 때 패널과 단축키로 만든 멘탈 모델이 작업 수가 늘어나면 쉽게 무너진다는 점을 지적합니다.",
+          "keyPoints": [
+            "터미널은 전통적으로 초기 학습 비용은 있지만 익숙해지면 정신적 부담이 적은 도구로 여겨졌습니다.",
+            "세 개 이상의 작업을 동시에 진행하면 어떤 패널/단축키가 무엇을 가리키는지 추적하는 일이 번거로워집니다.",
+            "사용자는 패널마다 역할을 부여하며 나름의 멘탈 모델을 만들지만, 작업이 6개 이상으로 늘어나면 이 모델이 통째로 무너집니다.",
+            "결국 터미널이라는 도구의 형태 자체가 오늘날 개발자들이 처리하는 복합적인 작업 흐름에는 맞지 않는다는 문제 제기입니다."
+          ],
+          "whyItMatters": "여러 작업을 동시에 처리하는 것이 일상이 된 프론트엔드 개발자에게, 익숙하다고 믿어온 터미널 기반 워크플로우가 실제로는 확장성의 한계를 가지고 있다는 점을 다시 생각해볼 계기를 줍니다.",
+          "article": "터미널은 오랫동안 개발자에게 가장 친숙하고 효율적인 작업 공간으로 여겨져 왔습니다. Theo(t3.gg)는 13살 때부터 터미널 안에서 코드를 실행하고, 작업하고, 감사(auditing)하며 일상적인 개발 업무를 처리해왔다고 말합니다. 하지만 그런 오랜 애정에도 불구하고, 그는 이제 터미널이 오늘날 우리가 하는 작업의 형태에 더 이상 맞지 않는다고 주장합니다. 이 글에서는 그 근거를 짚어보겠습니다.\n\n## 터미널이 가진 전통적인 트레이드오프\n\n역사적으로 터미널은 다른 도구들에 비해 정신적 부담(mental overhead)이 적고, 대신 초기 학습 비용(upfront cost)이 조금 더 드는 선택지였습니다. 즉, 처음 배우고 익숙해지는 데는 품이 좀 들지만, 일단 익숙해지고 나면 머릿속으로 복잡하게 생각할 필요 없이 빠르게 작업할 수 있는 도구였다는 뜻입니다. 이런 트레이드오프 덕분에 터미널은 오랫동안 개발자들 사이에서 \"한 번 익히면 최고의 효율을 주는 도구\"로 자리 잡아왔습니다.\n\n## 동시에 여러 작업을 할 때 무너지는 멘탈 모델\n\n문제는 한 번에 하나의 작업만 하는 게 아니라, 세 개 이상의 작업을 동시에 진행할 때 발생합니다. 이런 상황에서는 무엇이 어디에 있는지 계속 추적하는 일 자체가 상당히 번거로워집니다. 어떤 단축키가 어떤 패널로 연결되는지 일일이 기억해야 하고, 그러다 보면 자연스럽게 머릿속에 나름의 시스템을 만들게 됩니다.\n\n예를 들면 이런 식입니다.\n\n- 이 세 개의 패널은 이 세 가지 작업을 위한 것\n- 네 번째 패널은 별도의 다른 작업을 위한 것\n- 다섯 번째 패널은 \"그때그때 아무거나 쓰는\" 유연한 패널\n\n이렇게 각 패널에 역할을 부여하며 나름의 질서를 만들어가지만, 문제는 여섯 번째 작업이 등장하는 순간입니다. 애써 만들어놓은 멘탈 모델 전체가 그 자리에서 무너져 버립니다. 패널 다섯 개까지는 그럭저럭 관리가 되던 시스템이, 여섯 번째 작업이 끼어드는 순간 더 이상 유지되지 않는 것이죠.\n\n## 정리\n\n- 터미널은 학습 비용은 있지만 익숙해지면 정신적 부담이 적은 도구로 오랫동안 여겨져 왔습니다.\n- 하지만 오늘날 개발자들은 흔히 세 개 이상의 작업을 동시에 처리하며, 이런 멀티태스킹 환경에서는 터미널의 패널/단축키 기반 구조가 한계를 드러냅니다.\n- 사용자는 각 패널에 역할을 부여하며 나름의 멘탈 모델을 구축하지만, 작업 개수가 늘어나면(예: 여섯 번째 작업) 이 모델 자체가 붕괴됩니다.\n- 결국 터미널이라는 도구의 \"형태(shape)\" 자체가 오늘날의 복합적인 작업 방식에는 더 이상 맞지 않는다는 것이 핵심 문제 제기입니다.",
+          "url": "https://www.youtube.com/watch?v=sreUeVtkSPo",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "frontend",
+            "devops"
+          ],
+          "relevance": 68,
+          "isTopicPrimary": true,
+          "slug": "terminals-might-slow-you-down-now",
+          "fullContent": "Since I was 13, I've spent most of my time running, working, auditing, and doing my day-to-day stuff inside of my terminal. But at the same time, they're just not the right shape for the things that we do today. And it's time to stop pretending they are. Historically, terminals have been the option that is less mental overhead and slightly more upfront cost. When you're working on three plus things at a time, and keeping track of what is where is even more annoying. You have to remember which hot key goes to which thing. And then you start building systems in your head for these three panels are for these three things. This fourth panel is for this thing. This fifth panel is the flex panel. I use it for whatever. But then you end up with a sixth task and your whole model breaks",
+          "category": "video",
+          "publishedAt": "2026-08-24T23:00:14+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Claude Code on Mobile Is Horrible",
+          "titleKo": "모바일에서의 Claude Code는 형편없다",
+          "summary": "제목만 있어 구체적인 내용을 파악하기 어렵습니다.",
+          "keyPoints": [
+            "Claude Code의 모바일 환경 사용성에 대한 비판"
+          ],
+          "url": "https://www.youtube.com/watch?v=TcUpZUx-O84",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "ai",
+            "frontend"
+          ],
+          "relevance": 58,
+          "isTopicPrimary": true,
+          "slug": "claude-code-on-mobile-is-horrible",
+          "category": "video",
+          "publishedAt": "2026-08-22T00:00:15+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
