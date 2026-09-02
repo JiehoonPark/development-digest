@@ -1,0 +1,266 @@
+{
+  "date": "2026-09-02",
+  "intro": "안녕하세요! 오늘 프론트엔드 개발 뉴스레터입니다. React Server Components에서 발견된 연쇄 치명적 보안 취약점(RCE, DoS, 소스 코드 노출)이 가장 긴급한 이슈로 떠올랐으며, 즉시 패치 업그레이드가 필수적입니다. 이 외에도 CSS 혁신과 모바일 브라우저 기능 강화 등 다양한 소식들이 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Critical Security Vulnerability in React Server Components",
+          "titleKo": "React Server Components 치명적 보안 취약점(CVSS 10.0) 발견, 즉시 업그레이드 필요",
+          "summary": "React 팀이 React Server Components에서 인증 없이 원격 코드 실행이 가능한 치명적 취약점(CVE-2025-55182, CVSS 10.0)을 공개했습니다. react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack의 19.0~19.2.0 버전이 영향을 받으며, Next.js, React Router, Waku, Redwood SDK 등 주요 프레임워크도 함께 영향을 받습니다. Server Function 엔드포인트를 직접 구현하지 않았어도 RSC를 지원하기만 하면 취약할 수 있어, 관련 패키지를 즉시 패치 버전으로 업그레이드해야 합니다.",
+          "keyPoints": [
+            "CVE-2025-55182(CVSS 10.0)는 React가 Server Function 엔드포인트 페이로드를 역직렬화하는 과정의 결함을 악용해 인증 없이 원격 코드 실행이 가능한 취약점입니다.",
+            "react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack의 19.0, 19.1.0, 19.1.1, 19.2.0 버전이 영향을 받으며, 각각 19.0.1, 19.1.2, 19.2.1로 패치되었습니다.",
+            "Next.js, React Router, Waku, Redwood SDK, @parcel/rsc, @vitejs/plugin-rsc 등 RSC를 지원하는 프레임워크·번들러 사용자는 각 프로젝트의 안내에 따라 즉시 업그레이드해야 합니다.",
+            "호스팅 프로바이더의 임시 완화 조치는 보조 수단일 뿐이며, 패키지 업데이트가 근본적인 해결책입니다.",
+            "이후 DoS(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864) 및 소스 코드 노출(CVE-2025-55183) 취약점이 추가로 발견되어 최신 패치 버전 반영이 필요합니다."
+          ],
+          "whyItMatters": "React Server Components를 사용하는 모든 프로덕션 서비스가 인증 없는 원격 코드 실행 위험에 노출될 수 있는 최고 등급 심각도의 보안 이슈이므로, 프레임워크 및 관련 패키지 버전을 즉시 점검하고 업그레이드해야 합니다.",
+          "article": "React 팀이 2025년 12월 3일, React Server Components에서 발견된 치명적인 보안 취약점을 공개하고 즉각적인 업그레이드를 권고했습니다. 인증 없이도 원격 코드 실행(RCE)이 가능한 심각한 결함으로, CVSS 최고 등급인 10.0점을 받았습니다. React Server Components를 사용하는 프레임워크나 번들러를 쓰고 있다면 반드시 확인하고 조치해야 할 사안입니다.\n\n## 취약점 개요\n\n이번 취약점은 지난 11월 29일 Lachlan Davidson이 Meta Bug Bounty를 통해 제보한 것으로, React가 Server Function 엔드포인트로 전송된 페이로드를 디코딩하는 과정의 결함을 악용하면 인증되지 않은 공격자가 원격 코드 실행을 할 수 있는 문제입니다.\n\n주목할 점은 앱에서 React Server Function 엔드포인트를 직접 구현하지 않았더라도, React Server Components를 지원하기만 하면 취약할 수 있다는 것입니다. React Server Functions는 클라이언트가 서버의 함수를 호출할 수 있게 해주는 기능인데, React가 클라이언트의 요청을 HTTP 요청으로 변환해 서버로 전달하고, 서버는 이를 다시 함수 호출로 역직렬화(deserialize)해 처리합니다. 공격자는 이 역직렬화 과정을 노려 악의적으로 조작한 HTTP 요청을 Server Function 엔드포인트로 보내는 것만으로 서버에서 임의 코드를 실행시킬 수 있습니다.\n\n이 취약점은 CVE-2025-55182로 등록되었으며, 세부 기술 내용은 수정 사항이 충분히 배포된 이후 추가로 공개될 예정이라고 밝혔습니다.\n\n## 영향받는 버전과 패키지\n\n다음 세 패키지의 19.0, 19.1.0, 19.1.1, 19.2.0 버전이 영향을 받습니다.\n\n- `react-server-dom-webpack`\n- `react-server-dom-parcel`\n- `react-server-dom-turbopack`\n\n수정 사항은 19.0.1, 19.1.2, 19.2.1 버전에 반영되었으므로, 위 패키지를 사용 중이라면 즉시 해당 수정 버전으로 업그레이드해야 합니다.\n\n반대로 앱의 React 코드가 서버를 전혀 사용하지 않거나, React Server Components를 지원하는 프레임워크·번들러·번들러 플러그인을 쓰지 않는다면 이번 취약점의 영향을 받지 않습니다.\n\n## 영향받는 프레임워크와 번들러\n\n일부 React 프레임워크와 번들러는 취약한 React 패키지를 의존성이나 피어 의존성으로 포함하고 있었습니다. 다음 프레임워크·번들러가 영향을 받습니다.\n\n- Next.js\n- React Router\n- Waku\n- `@parcel/rsc`\n- `@vitejs/plugin-rsc`\n- Redwood SDK (rwsdk)\n\n각 프로젝트별 구체적인 업그레이드 방법은 아래에 정리했습니다.\n\n## 호스팅 프로바이더의 임시 완화 조치\n\nReact 팀은 여러 호스팅 프로바이더와 협력해 임시 완화 조치를 적용했다고 밝혔습니다. 다만 이런 임시 조치에 의존해서는 안 되며, 반드시 즉시 패키지를 업데이트할 것을 강조하고 있습니다.\n\n## 프로젝트별 업데이트 방법\n\n원문에는 이후 추가로 발견된 취약점들에 대한 안내도 함께 포함되어 있습니다. 서비스 거부(DoS) 관련 고위험(High) 등급의 CVE-2025-55184 및 CVE-2025-67779(CVSS 7.5), 소스 코드 노출 관련 중간(Medium) 등급의 CVE-2025-55183(CVSS 5.3), 그리고 2026년 1월 26일 추가된 DoS 취약점 CVE-2026-23864(CVSS 7.5)가 그것입니다. 아래 업데이트 안내는 이들 취약점까지 반영해 갱신된 내용입니다.\n\n**Next.js**\n\n각자의 릴리스 라인에서 최신 패치 버전으로 업그레이드해야 합니다.\n\n```\nnpm install next@14.2.35\nnpm install next@15.0.8\nnpm install next@15.1.12\nnpm install next@15.2.9\nnpm install next@15.3.9\nnpm install next@15.4.11\nnpm install next@15.5.10\nnpm install next@16.0.11\nnpm install next@16.1.5\nnpm install next@15.6.0-canary.60\nnpm install next@16.1.0-canary.19\n```\n\nNext.js 13.3 이상 버전(13.3.x, 13.4.x, 13.5.x)을 사용 중이라면 14.2.35로 업그레이드해야 합니다. `next@14.3.0-canary.77` 이후의 canary 버전을 쓰고 있다면 안정 버전인 14.x 최신판으로 다운그레이드해야 합니다.\n\n```\nnpm install next@14\n```\n\n가장 최신 정보는 Next.js 블로그를 참고하는 것이 좋습니다.\n\n**React Router**\n\nReact Router의 unstable RSC API를 사용 중이라면 아래 의존성들을 최신 버전으로 업그레이드해야 합니다.\n\n```\nnpm install react@latest\nnpm install react-dom@latest\nnpm install react-server-dom-parcel@latest\nnpm install react-server-dom-webpack@latest\nnpm install @vitejs/plugin-rsc@latest\n```\n\n**Expo**\n\nexpo.dev의 changelog 문서를 참고해 완화 방법을 확인해야 합니다.\n\n**Redwood SDK**\n\n`rwsdk>=1.0.0-alpha.0` 버전인지 확인하고, 최신 beta 버전으로 업그레이드합니다.\n\n```\nnpm install rwsdk@latest\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\n```\n\n**Waku**\n\n```\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest waku@latest\n```\n\n**@vitejs/plugin-rsc**\n\n```\nnpm install react@latest react-dom@latest @vitejs/plugin-rsc@latest\n```\n\n**react-server-dom-parcel / react-server-dom-turbopack / react-server-dom-webpack**\n\n각 패키지를 사용하는 경우 아래와 같이 최신 버전으로 업데이트합니다.\n\n```\nnpm install react@latest react-dom@latest react-server-dom-parcel@latest\nnpm install react@latest react-dom@latest react-server-dom-turbopack@latest\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\n```\n\n**React Native**\n\n모노레포를 사용하지 않고 `react-dom`도 쓰지 않는다면, `package.json`에 React 버전이 고정되어 있을 것이므로 별도 조치가 필요 없습니다. 반면 모노레포 환경에서 React Native를 사용 중이라면, 설치되어 있는 경우에 한해 `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack` 패키지만 업데이트하면 됩니다. 이때 `react`, `react-dom` 자체를 업데이트할 필요는 없으므로 React Native 특유의 버전 불일치 오류가 발생하지 않습니다.\n\n## 타임라인\n\n- **11월 29일**: Lachlan Davidson이 Meta Bug Bounty를 통해 취약점 제보\n- **11월 30일**: Meta 보안 연구팀이 취약점을 확인하고 React 팀과 함께 수정 작업 착수\n- **12월 1일**: 수정 사항 완성, React 팀이 영향받는 호스팅 프로바이더 및 오픈소스 프로젝트와 협력해 수정 사항 검증 및 완화 조치 적용\n- **12월 3일**: npm에 수정 버전 배포, CVE-2025-55182로 공개 공표\n\n## 정리\n\n- React Server Components를 지원하는 프레임워크나 번들러를 사용하고 있다면, 이번 취약점(CVE-2025-55182, CVSS 10.0)의 영향을 받을 가능성이 높습니다. Server Function 엔드포인트를 직접 구현하지 않았더라도 예외가 아닙니다.\n- 영향받는 패키지는 `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack`의 19.0~19.2.0 버전이며, 각각 19.0.1, 19.1.2, 19.2.1로 패치되었습니다.\n- Next.js, React Router, Waku, Redwood SDK, `@parcel/rsc`, `@vitejs/plugin-rsc` 등 주요 프레임워크·번들러가 영향을 받으므로, 자신이 사용 중인 프로젝트의 릴리스 노트와 업데이트 안내를 확인해 즉시 패치해야 합니다.\n- 호스팅 프로바이더의 임시 완화 조치가 있더라도 이는 근본적인 해결책이 아니며, 패키지 업데이트를 최우선으로 진행해야 합니다.\n- 이후 추가로 발견된 DoS(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864) 및 소스 코드 노출(CVE-2025-55183) 취약점까지 함께 반영된 최신 버전으로 업그레이드하는 것이 안전합니다.",
+          "url": "https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 85,
+          "topicId": "react-rsc-security",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "critical-security-vulnerability-in-react-server-components",
+          "fullContent": "BlogCopy pageCopyCritical Security Vulnerability in React Server ComponentsDecember 3, 2025 by The React Team\nThere is an unauthenticated remote code execution vulnerability in React Server Components.We recommend upgrading immediately.\nOn November 29th, Lachlan Davidson reported a security vulnerability in React that allows unauthenticated remote code execution by exploiting a flaw in how React decodes payloads sent to React Server Function endpoints.\nEven if your app does not implement any React Server Function endpoints it may still be vulnerable if your app supports React Server Components.\nThis vulnerability was disclosed as CVE-2025-55182 and is rated CVSS 10.0.\nThe vulnerability is present in versions 19.0, 19.1.0, 19.1.1, and 19.2.0 of:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nImmediate Action Required\nA fix was introduced in versions 19.0.1, 19.1.2, and 19.2.1. If you are using any of the above packages please upgrade to any of the fixed versions immediately.\nIf your app’s React code does not use a server, your app is not affected by this vulnerability. If your app does not use a framework, bundler, or bundler plugin that supports React Server Components, your app is not affected by this vulnerability.\nAffected frameworks and bundlers\nSome React frameworks and bundlers depended on, had peer dependencies for, or included the vulnerable React packages. The following React frameworks & bundlers are affected: next, react-router, waku, @parcel/rsc, @vitejs/plugin-rsc, and rwsdk.\nSee the update instructions below for how to upgrade to these patches.\nHosting Provider Mitigations\nWe have worked with a number of hosting providers to apply temporary mitigations.\nYou should not depend on these to secure your app, and still update immediately.\nVulnerability overview\nReact Server Functions allow a client to call a function on a server. React provides integration points and tools that frameworks and bundlers use to help React code run on both the client and the server. React translates requests on the client into HTTP requests which are forwarded to a server. On the server, React translates the HTTP request into a function call and returns the needed data to the client.\nAn unauthenticated attacker could craft a malicious HTTP request to any Server Function endpoint that, when deserialized by React, achieves remote code execution on the server. Further details of the vulnerability will be provided after the rollout of the fix is complete.\nUpdate Instructions\nNoteThese instructions have been updated to include the new vulnerabilities:\nDenial of Service - High Severity: CVE-2025-55184 and CVE-2025-67779 (CVSS 7.5)\nSource Code Exposure - Medium Severity: CVE-2025-55183 (CVSS 5.3)\nDenial of Service - High Severity: January 26, 2026 CVE-2026-23864 (CVSS 7.5)\nSee the follow-up blog post for more info.Updated January 26, 2026.\nNext.js\nAll users should upgrade to the latest patched version in their release line:\nnpm install next@14.2.35 npm install next@15.0.8 npm install next@15.1.12 npm install next@15.2.9 npm install next@15.3.9 npm install next@15.4.11 npm install next@15.5.10 npm install next@16.0.11 npm install next@16.1.5 npm install next@15.6.0-canary.60 npm install next@16.1.0-canary.19\n15.0.8, 15.1.12, 15.2.9, 15.3.9, 15.4.10, 15.5.10, 15.6.0-canary.61, 16.0.11, 16.1.5\nIf you are on version 13.3 or later version of Next.js 13 (13.3.x, 13.4.x, or 13.5.x) please upgrade to version 14.2.35.\nIf you are on next@14.3.0-canary.77 or a later canary release, downgrade to the latest stable 14.x release:\nnpm install next@14\nSee the Next.js blog for the latest update instructions and the previous changelog for more info.\nReact Router\nIf you are using React Router’s unstable RSC APIs, you should upgrade the following package.json dependencies if they exist:\nnpm install react@latestnpm install react-dom@latestnpm install react-server-dom-parcel@latestnpm install react-server-dom-webpack@latestnpm install @vitejs/plugin-rsc@latest\nExpo\nTo learn more about mitigating, read the article on expo.dev/changelog.\nRedwood SDK\nEnsure you are on rwsdk>=1.0.0-alpha.0\nFor the latest beta version:\nnpm install rwsdk@latest\nUpgrade to the latest react-server-dom-webpack:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\nSee Redwood docs for more migration instructions.\nWaku\nUpgrade to the latest react-server-dom-webpack:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest waku@latest\nSee Waku announcement for more migration instructions.\n@vitejs/plugin-rsc\nUpgrade to the latest RSC plugin:\nnpm install react@latest react-dom@latest @vitejs/plugin-rsc@latest\nreact-server-dom-parcel\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-parcel@latest\nreact-server-dom-turbopack\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-turbopack@latest\nreact-server-dom-webpack\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\nReact Native\nFor React Native users not using a monorepo or react-dom, your react version should be pinned in your package.json, and there are no additional steps needed.\nIf you are using React Native in a monorepo, you should update only the impacted packages if they are installed:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nThis is required to mitigate the security advisory, but you do not need to update react and react-dom so this will not cause the version mismatch error in React Native.\nSee this issue for more information.\nTimeline\nNovember 29th: Lachlan Davidson reported the security vulnerability via Meta Bug Bounty.\nNovember 30th: Meta security researchers confirmed and began working with the React team on a fix.\nDecember 1st: A fix was created and the React team began working with affected hosting providers and open source projects to validate the fix, implement mitigations and roll out the fix\nDecember 3rd: The fix was published to npm and the publicly disclosed as CVE-2025-55182.\nAttribution\nThank you to Lachlan Davidson for discovering, reporting, and working to help fix this vulnerability.PreviousDenial of Service and Source Code Exposure in React Server ComponentsNextReact Conf 2025 Recap",
+          "category": "hot",
+          "publishedAt": "2025-12-03T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Denial of Service and Source Code Exposure in React Server Components",
+          "titleKo": "React Server Components 후속 취약점: 서비스 거부(DoS)와 소스 코드 노출 대응 안내",
+          "summary": "React 팀은 지난주 공개된 React2Shell(RCE) 취약점의 패치 검증 과정에서 새로 발견된 서비스 거부(DoS) 취약점 3건(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864)과 소스 코드 노출 취약점 1건(CVE-2025-55183)을 공개했습니다. 이전에 19.0.3, 19.1.4, 19.2.3으로 업데이트했더라도 패치가 불완전하므로 19.0.4, 19.1.5, 19.2.4로 재업데이트가 필요합니다. 영향 대상은 react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack이며, next·react-router·waku 등 관련 프레임워크도 함께 영향을 받습니다.",
+          "keyPoints": [
+            "새로 공개된 취약점은 DoS(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864, CVSS 7.5)와 소스 코드 노출(CVE-2025-55183, CVSS 5.3)이며 RCE로는 이어지지 않는다.",
+            "이전 패치(19.0.3, 19.1.4, 19.2.3)는 불완전했으므로 19.0.4, 19.1.5, 19.2.4로 반드시 재업데이트해야 한다.",
+            "악성 HTTP 요청이 Server Function 역직렬화 과정에서 무한 루프를 유발해 서버가 멈추거나 CPU를 과도하게 소모할 수 있다.",
+            "인자를 그대로 반환하는 Server Function이 있으면 하드코딩된 비밀 값과 함수 소스 코드가 함께 노출될 수 있으며, process.env 같은 런타임 비밀 값은 영향받지 않는다.",
+            "next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, rwsdk 등 RSC를 지원하는 프레임워크·번들러 사용자는 모두 업그레이드 대상이다."
+          ],
+          "whyItMatters": "React Server Components를 사용하는 프로덕션 서비스라면 서버 가용성과 소스 코드 기밀성에 직접적인 영향을 받으므로, 프레임워크 버전을 즉시 점검하고 Server Function 코드에 하드코딩된 비밀 값이 없는지 확인해야 합니다.",
+          "article": "지난주 React Server Components에서 발견된 심각한 취약점(React2Shell로 불리는 원격 코드 실행 취약점)에 대한 패치가 배포된 직후, 보안 연구자들이 해당 패치를 우회하려는 시도 과정에서 두 개의 추가 취약점을 발견해 공개했습니다. 다행히 이번에 새로 발견된 취약점들은 원격 코드 실행(RCE)으로 이어지지는 않으며, 지난주 배포된 React2Shell 패치는 여전히 RCE 익스플로잇을 효과적으로 막고 있습니다. 다만 서비스 거부(DoS)와 소스 코드 노출이라는 별개의 위험이 확인된 만큼, React 팀은 즉각적인 업그레이드를 권고하고 있습니다.\n\n## 새로 공개된 취약점 개요\n\n이번에 공개된 취약점은 다음과 같습니다.\n\n- **서비스 거부(DoS) - 심각도 높음**: CVE-2025-55184, CVE-2025-67779, CVE-2026-23864 (CVSS 7.5)\n- **소스 코드 노출 - 심각도 중간**: CVE-2025-55183 (CVSS 5.3)\n\n주의할 점은, 이전에 공개된 패치 자체에 결함이 있었다는 것입니다. 이전 취약점 대응으로 이미 업데이트를 진행했더라도 다시 업데이트해야 합니다. 특히 19.0.3, 19.1.4, 19.2.3으로 업데이트했다면 이 버전들은 불완전한 패치이므로 재업데이트가 필요합니다. 세부적인 업그레이드 절차는 이전 공지 글을 참고하면 됩니다.\n\n## 즉시 조치가 필요한 이유\n\n이번 취약점들은 앞서 공개된 CVE-2025-55182와 동일한 패키지 및 버전에 존재합니다. 영향을 받는 버전은 다음과 같습니다.\n\n- 19.0.0, 19.0.1, 19.0.2, 19.0.3\n- 19.1.0, 19.1.1, 19.1.2, 19.1.3\n- 19.2.0, 19.2.1, 19.2.2, 19.2.3\n\n영향을 받는 패키지는 다음과 같습니다.\n\n- react-server-dom-webpack\n- react-server-dom-parcel\n- react-server-dom-turbopack\n\n수정된 버전은 19.0.4, 19.1.5, 19.2.4로 백포트되었습니다. 위 패키지를 사용 중이라면 즉시 이 수정 버전 중 하나로 업그레이드해야 합니다.\n\n이전과 마찬가지로, 앱의 React 코드가 서버를 사용하지 않는다면 이번 취약점의 영향을 받지 않습니다. 마찬가지로 React Server Components를 지원하는 프레임워크, 번들러, 번들러 플러그인을 사용하지 않는 앱도 영향을 받지 않습니다.\n\nReact 팀은 이런 후속 취약점 공개가 특별히 이례적인 일은 아니라고 설명합니다. 심각한 취약점(critical CVE)이 공개되면 연구자들이 인접한 코드 경로를 면밀히 살펴보며 초기 완화 조치가 우회 가능한지 다양한 변형 공격 기법을 시험해보는 것이 일반적이라는 것입니다. 이런 패턴은 JavaScript 생태계에 국한되지 않고 업계 전반에서 나타나는데요, 예를 들어 Log4Shell 사태 이후에도 커뮤니티가 최초 수정본을 검증하는 과정에서 추가 CVE들이 보고된 바 있습니다. 추가 공개가 다소 당혹스러울 수는 있지만, 이는 대체로 대응 체계가 건강하게 작동하고 있다는 신호로 볼 수 있습니다.\n\n## 영향받는 프레임워크와 번들러\n\n일부 React 프레임워크와 번들러는 취약한 React 패키지에 직접 의존하거나, peer dependency로 가지고 있거나, 내부에 포함하고 있었습니다. 영향을 받는 프레임워크 및 번들러는 다음과 같습니다.\n\n- next\n- react-router\n- waku\n- @parcel/rsc\n- @vite/rsc-plugin\n- rwsdk\n\n업그레이드 절차는 이전 공지 글을 참고하면 됩니다.\n\n## 호스팅 제공업체의 완화 조치\n\n이전과 마찬가지로 React 팀은 여러 호스팅 제공업체와 협력해 임시 완화 조치를 적용했습니다. 다만 이 임시 조치에 의존해서는 안 되며, 반드시 즉시 패키지를 업데이트해야 합니다.\n\n## React Native 사용자를 위한 안내\n\n모노레포를 사용하지 않거나 react-dom을 사용하지 않는 React Native 사용자라면, package.json에서 React 버전이 고정(pin)되어 있을 것이므로 별도 조치가 필요하지 않습니다.\n\n모노레포 환경에서 React Native를 사용하고 있다면, 다음 패키지가 설치되어 있는 경우에만 해당 패키지만 업데이트하면 됩니다.\n\n- react-server-dom-webpack\n- react-server-dom-parcel\n- react-server-dom-turbopack\n\n이는 보안 권고 사항을 완화하기 위해 필요한 조치이며, react와 react-dom 자체는 업데이트할 필요가 없으므로 React Native에서 발생하는 버전 불일치 오류가 생기지 않습니다. 자세한 내용은 관련 GitHub 이슈를 참고하면 됩니다.\n\n## 심각도 높음: 다중 서비스 거부(DoS) 취약점\n\n- **CVE**: CVE-2026-23864\n- **Base Score**: 7.5 (High)\n- **날짜**: 2026년 1월 26일\n\n보안 연구자들은 React Server Components에 여전히 추가적인 DoS 취약점이 존재한다는 사실을 발견했습니다. 이 취약점은 특별히 조작된 HTTP 요청을 Server Function 엔드포인트로 전송해 트리거되며, 취약한 코드 경로, 애플리케이션 구성, 애플리케이션 코드에 따라 서버 크래시, 메모리 부족 예외, 과도한 CPU 사용률로 이어질 수 있습니다.\n\n1월 26일 배포된 패치가 이 DoS 취약점을 완화합니다. 주목할 점은, CVE-2025-55184의 DoS 취약점을 수정하기 위해 배포했던 원래 패치가 불완전했다는 것입니다. 이로 인해 이전 버전들은 여전히 취약한 상태로 남아 있었으며, 19.0.4, 19.1.5, 19.2.4 버전이 안전한 버전입니다.\n\n## 심각도 높음: 서비스 거부 취약점\n\n- **CVE**: CVE-2025-55184, CVE-2025-67779\n- **Base Score**: 7.5 (High)\n\n보안 연구자들은 악의적으로 조작된 HTTP 요청을 임의의 Server Functions 엔드포인트로 전송했을 때, React가 이를 역직렬화(deserialize)하는 과정에서 무한 루프가 발생해 서버 프로세스가 멈추고 CPU를 소모하게 만들 수 있다는 사실을 발견했습니다. 앱이 어떤 React Server Function 엔드포인트도 구현하지 않았더라도, React Server Components를 지원하기만 하면 여전히 취약할 수 있습니다.\n\n이는 공격자가 사용자의 제품 접근을 차단하고, 서버 환경 성능에도 영향을 미칠 수 있는 공격 벡터를 만들어냅니다. 해당 패치는 무한 루프 발생을 방지하는 방식으로 이 문제를 완화합니다.\n\n## 심각도 중간: 소스 코드 노출 취약점\n\n- **CVE**: CVE-2025-55183\n- **Base Score**: 5.3 (Medium)\n\n한 보안 연구자는 취약한 Server Function에 악의적인 HTTP 요청을 전송하면, 안전하지 않은 방식으로 해당 Server Function의 소스 코드가 반환될 수 있다는 사실을 발견했습니다. 이 취약점을 악용하려면 명시적으로든 암묵적으로든 문자열화된(stringified) 인자를 노출하는 Server Function이 존재해야 합니다.\n\n```\n'use server';export async function serverFunction(name) { const conn = db.createConnection('SECRET KEY'); const user = await conn.createUser(name); return { id: user.id, message: `Hello, ${name}!` }}\n```\n\n공격자는 다음과 같은 형태로 정보를 유출시킬 수 있습니다.\n\n```\n0:{\"a\":\"$@1\",\"f\":\"\",\"b\":\"Wy43RxUKdxmr5iuBzJ1pN\"}1:{\"id\":\"tva1sfodwq\",\"message\":\"Hello, async function(a){console.log(\"serverFunction\");let b=i.createConnection(\"SECRET KEY\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!\"}\n```\n\n오늘 배포된 패치는 Server Function 소스 코드가 문자열화되는 것을 원천적으로 차단합니다.\n\n여기서 중요한 점은, 노출될 수 있는 것은 소스 코드에 하드코딩된 비밀 값(secret)뿐이라는 것입니다. `process.env.SECRET`처럼 런타임에 주입되는 비밀 값은 영향을 받지 않습니다. 또한 노출 범위는 해당 Server Function 내부 코드에 한정되지만, 번들러의 인라이닝(inlining) 수준에 따라 다른 함수의 코드까지 포함될 수 있습니다. 따라서 반드시 프로덕션 번들을 기준으로 검증해야 합니다.\n\n## 공개 타임라인\n\n- **12월 3일**: Andrew MacPherson이 Vercel과 Meta Bug Bounty에 소스 코드 노출 취약점을 신고\n- **12월 4일**: RyotaK이 Meta Bug Bounty에 초기 DoS 취약점을 신고\n- **12월 6일**: React 팀이 두 이슈를 모두 확인하고 조사에 착수\n- **12월 7일**: 초기 패치 작성 및 검증·새 패치 계획 시작\n- **12월 8일**: 영향을 받는 호스팅 제공업체와 오픈소스 프로젝트에 통보\n- **12월 10일**: 호스팅 제공업체 완화 조치 적용 및 패치 검증 완료\n- **12월 11일**: Shinsaku Nomura이 Meta Bug Bounty에 추가 DoS 취약점 신고\n- **12월 11일**: 패치 배포 및 CVE-2025-55183, CVE-2025-55184로 공개\n- **12월 11일**: 누락된 DoS 케이스를 내부에서 발견해 패치하고 CVE-2025-67779로 공개\n- **1월 26일**: 추가 DoS 케이스를 발견해 패치하고 CVE-2026-23864로 공개\n\n## 기여자 감사\n\n소스 코드 노출 취약점을 신고해준 Andrew MacPherson(AndrewMohawk), 서비스 거부 취약점을 신고해준 GMO Flatt Security Inc.의 RyotaK, Bitforest Co., Ltd.의 Shinsaku Nomura에게 감사를 전합니다. 또한 추가 DoS 취약점을 신고해준 Winfunc Research의 Mufeed VH, Joachim Viide, GMO Flatt Security Inc.의 RyotaK, Tencent Security YUNDING LAB의 Xiangwei Zhang에게도 감사드립니다.\n\n## 정리\n\n이번 공지는 지난주 발견된 React2Shell(RCE) 취약점의 패치 과정에서 파생된 후속 이슈들을 다룹니다. RCE로 이어지지는 않지만, 서비스 거부(DoS)와 소스 코드 노출이라는 별도의 위험이 확인된 만큼 실무 대응 관점에서 다음을 확인해야 합니다.\n\n- react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack을 사용 중이라면 19.0.4, 19.1.5, 19.2.4 중 하나로 즉시 업그레이드해야 합니다.\n- 이전에 19.0.3, 19.1.4, 19.2.3으로 업데이트했더라도 이는 불완전한 패치이므로 반드시 재업데이트가 필요합니다.\n- next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, rwsdk 등 영향받는 프레임워크·번들러를 사용 중이라면 각 프로젝트의 업그레이드 가이드를 따라야 합니다.\n- Server Function이 인자를 그대로 반환하거나 로그에 남기는 패턴이 있다면, 하드코딩된 비밀 값이 소스 코드와 함께 노출될 위험이 있었으므로 코드를 점검하고 비밀 값은 반드시 환경 변수 등 런타임 주입 방식으로 관리해야 합니다.\n- 호스팅 제공업체의 임시 완화 조치는 어디까지나 보조 수단일 뿐, 패키지 업데이트를 대체할 수 없습니다.",
+          "url": "https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 82,
+          "topicId": "react-rsc-security",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "denial-of-service-and-source-code-exposure-in-react-server-components",
+          "fullContent": "BlogCopy pageCopyDenial of Service and Source Code Exposure in React Server ComponentsDecember 11, 2025 by The React Team\nUpdated January 26, 2026.\nSecurity researchers have found and disclosed two additional vulnerabilities in React Server Components while attempting to exploit the patches in last week’s critical vulnerability.These new vulnerabilities do not allow for Remote Code Execution. The patch for React2Shell remains effective at mitigating the Remote Code Execution exploit.\nThe new vulnerabilities are disclosed as:\nDenial of Service - High Severity: CVE-2025-55184, CVE-2025-67779, and CVE-2026-23864 (CVSS 7.5)\nSource Code Exposure - Medium Severity: CVE-2025-55183 (CVSS 5.3)\nWe recommend upgrading immediately due to the severity of the newly disclosed vulnerabilities.\nNoteThe patches published earlier are vulnerable. If you already updated for the previous vulnerabilities, you will need to update again.If you updated to 19.0.3, 19.1.4, and 19.2.3, these are incomplete, and you will need to update again.Please see the instructions in the previous post for upgrade steps.Updated January 26, 2026.\nFurther details of these vulnerabilities will be provided after the rollout of the fixes are complete.\nImmediate Action Required\nThese vulnerabilities are present in the same packages and versions as CVE-2025-55182.\nThis includes 19.0.0, 19.0.1, 19.0.2, 19.0.3, 19.1.0, 19.1.1, 19.1.2, 19.1.3, 19.2.0, 19.2.1, 19.2.2, and 19.2.3 of:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nFixes were backported to versions 19.0.4, 19.1.5, and 19.2.4. If you are using any of the above packages please upgrade to any of the fixed versions immediately.\nAs before, if your app’s React code does not use a server, your app is not affected by these vulnerabilities. If your app does not use a framework, bundler, or bundler plugin that supports React Server Components, your app is not affected by these vulnerabilities.\nNoteIt’s common for critical CVEs to uncover follow‑up vulnerabilities. When a critical vulnerability is disclosed, researchers scrutinize adjacent code paths looking for variant exploit techniques to test whether the initial mitigation can be bypassed.This pattern shows up across the industry, not just in JavaScript. For example, after Log4Shell, additional CVEs (1, 2) were reported as the community probed the original fix.Additional disclosures can be frustrating, but they are generally a sign of a healthy response cycle.\nAffected frameworks and bundlers\nSome React frameworks and bundlers depended on, had peer dependencies for, or included the vulnerable React packages. The following React frameworks & bundlers are affected: next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, and rwsdk.\nPlease see the instructions in the previous post for upgrade steps.\nHosting Provider Mitigations\nAs before, we have worked with a number of hosting providers to apply temporary mitigations.\nYou should not depend on these to secure your app, and still update immediately.\nReact Native\nFor React Native users not using a monorepo or react-dom, your react version should be pinned in your package.json, and there are no additional steps needed.\nIf you are using React Native in a monorepo, you should update only the impacted packages if they are installed:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nThis is required to mitigate the security advisories, but you do not need to update react and react-dom so this will not cause the version mismatch error in React Native.\nSee this issue for more information.\nHigh Severity: Multiple Denial of Service\nCVEs: CVE-2026-23864\nBase Score: 7.5 (High)\nDate: January 26, 2026\nSecurity researchers discovered additional DoS vulnerabilities still exist in React Server Components.\nThe vulnerabilities are triggered by sending specially crafted HTTP requests to Server Function endpoints, and could lead to server crashes, out-of-memory exceptions or excessive CPU usage; depending on the vulnerable code path being exercised, the application configuration and application code.\nThe patches published January 26th mitigate these DoS vulnerabilities.\nNoteAdditional fixes published The original fix addressing the DoS in CVE-2025-55184 was incomplete.This left previous versions vulnerable. Versions 19.0.4, 19.1.5, 19.2.4 are safe.Updated January 26, 2026.\nHigh Severity: Denial of Service\nCVEs: CVE-2025-55184 and CVE-2025-67779\nBase Score: 7.5 (High)\nSecurity researchers have discovered that a malicious HTTP request can be crafted and sent to any Server Functions endpoint that, when deserialized by React, can cause an infinite loop that hangs the server process and consumes CPU. Even if your app does not implement any React Server Function endpoints it may still be vulnerable if your app supports React Server Components.\nThis creates a vulnerability vector where an attacker may be able to deny users from accessing the product, and potentially have a performance impact on the server environment.\nThe patches published today mitigate by preventing the infinite loop.\nMedium Severity: Source Code Exposure\nCVE: CVE-2025-55183\nBase Score: 5.3 (Medium)\nA security researcher has discovered that a malicious HTTP request sent to a vulnerable Server Function may unsafely return the source code of any Server Function. Exploitation requires the existence of a Server Function which explicitly or implicitly exposes a stringified argument:\n'use server';export async function serverFunction(name) { const conn = db.createConnection('SECRET KEY'); const user = await conn.createUser(name); return { id: user.id, message: `Hello, ${name}!` }}\nAn attacker may be able to leak the following:\n0:{\"a\":\"$@1\",\"f\":\"\",\"b\":\"Wy43RxUKdxmr5iuBzJ1pN\"}1:{\"id\":\"tva1sfodwq\",\"message\":\"Hello, async function(a){console.log(\\\"serverFunction\\\");let b=i.createConnection(\\\"SECRET KEY\\\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!\"}\nThe patches published today prevent stringifying the Server Function source code.\nNoteOnly secrets in source code may be exposed. Secrets hardcoded in source code may be exposed, but runtime secrets such as process.env.SECRET are not affected.The scope of the exposed code is limited to the code inside the Server Function, which may include other functions depending on the amount of inlining your bundler provides.Always verify against production bundles.\nTimeline\nDecember 3rd: Leak reported to Vercel and Meta Bug Bounty by Andrew MacPherson.\nDecember 4th: Initial DoS reported to Meta Bug Bounty by RyotaK.\nDecember 6th: Both issues confirmed by the React team, and the team began investigating.\nDecember 7th: Initial fixes created and the React team began verifying and planning new patch.\nDecember 8th: Affected hosting providers and open source projects notified.\nDecember 10th: Hosting provider mitigations in place and patches verified.\nDecember 11th: Additional DoS reported to Meta Bug Bounty by Shinsaku Nomura.\nDecember 11th: Patches published and publicly disclosed as CVE-2025-55183 and CVE-2025-55184.\nDecember 11th: Missing DoS case found internally, patched and publicly disclosed as CVE-2025-67779.\nJanuary 26th: Additional DoS cases found, patched, and publicly disclosed as CVE-2026-23864.\nAttribution\nThank you to Andrew MacPherson (AndrewMohawk) for reporting the Source Code Exposure, RyotaK from GMO Flatt Security Inc and Shinsaku Nomura of Bitforest Co., Ltd. for reporting the Denial of Service vulnerabilities. Thank you to Mufeed VH from Winfunc Research, Joachim Viide, RyotaK from GMO Flatt Security Inc and Xiangwei Zhang of Tencent Security YUNDING LAB for reporting the additional DoS vulnerabilities.PreviousThe React Foundation: A New Home for React Hosted by the Linux FoundationNextCritical Security Vulnerability in React Server Components",
+          "category": "hot",
+          "publishedAt": "2025-12-11T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Introducing Ad Blocker for Firefox on iOS",
+          "titleKo": "Firefox iOS용 광고 차단기 소개",
+          "summary": "Mozilla가 iOS용 Firefox에 광고 차단 기능을 출시했습니다. 모바일 환경에서 사용자 경험과 개인정보 보호를 강화하는 기능입니다.",
+          "keyPoints": [
+            "iOS 플랫폼에서 Firefox 브라우저의 광고 차단 기능 추가",
+            "모바일 환경에서 개인정보 보호 및 사용자 경험 개선"
+          ],
+          "whyItMatters": "웹 개발자는 모바일 환경에서의 광고 차단 기술 트렌드를 이해하고 이에 대응한 웹 구성을 고려할 필요가 있습니다.",
+          "url": "https://blog.mozilla.org/en/firefox/ad-blocker-on-ios/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 288,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 62,
+          "topicId": "firefox-news",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "introducing-ad-blocker-for-firefox-on-ios",
+          "category": "hot",
+          "publishedAt": "2026-09-01T13:46:49.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Hang on to Your Firefox",
+          "titleKo": "Firefox를 지켜내기",
+          "summary": "Firefox 브라우저의 중요성과 유지에 대한 내용으로 예상됩니다.",
+          "keyPoints": [
+            "본문 없이 제목만 제공되어 구체적인 내용을 단정할 수 없습니다."
+          ],
+          "url": "https://www.newsonaut.com/articles/hang-on-to-your-firefox",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 356,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 65,
+          "topicId": "firefox-news",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "hang-on-to-your-firefox",
+          "category": "hot",
+          "publishedAt": "2026-09-01T20:30:51.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Ambient CSS v3 – Blender meets CSS",
+          "titleKo": "Ambient CSS v3 – Blender와 CSS의 만남",
+          "summary": "Ambient CSS v3는 Blender의 디자인 철학을 CSS에 적용한 새로운 버전입니다. 3D 디자인 도구의 개념을 웹 스타일링에 통합하여 더욱 직관적인 개발 경험을 제공합니다.",
+          "keyPoints": [
+            "Blender의 인터페이스 및 워크플로우 개념을 CSS 프레임워크에 적용",
+            "시각적이고 직관적인 스타일 편집 환경 제공"
+          ],
+          "whyItMatters": "CSS 작업의 효율성과 직관성을 높일 수 있는 새로운 접근 방식을 제시합니다.",
+          "url": "https://ambientcss.vercel.app/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 191,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 78,
+          "isTopicPrimary": true,
+          "slug": "ambient-css-v3-blender-meets-css",
+          "category": "tech",
+          "publishedAt": "2026-09-01T15:35:11.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: Weedout – Safari extension that hides YouTube AI-labeled videos",
+          "titleKo": "Weedout: 유튜브의 AI 라벨 영상만 조용히 걸러내는 Safari 확장 프로그램",
+          "summary": "Weedout은 유튜브가 공식적으로 붙이는 'Made with AI' 배지를 기준으로 AI 생성 영상을 홈, 검색, Shorts 등 모든 영역에서 걷어내는 macOS용 Safari 확장 프로그램입니다. 자체 AI 판별 알고리즘 없이 유튜브의 공개 배지 메타데이터만 신뢰하기 때문에 오탐이 없지만, 라벨이 붙지 않은 AI 영상은 걸러내지 못합니다. Mac App Store에서 1.99달러 일회성 결제로 제공되며 계정이나 트래킹 없이 전적으로 로컬에서 동작합니다.",
+          "keyPoints": [
+            "유튜브의 'Made with AI' 공식 배지 메타데이터만을 근거로 영상을 필터링해 오탐 가능성을 원천 차단",
+            "홈, 검색, 관련 영상, 재생목록, Shorts 선반 전 영역에서 AI 라벨 영상을 자동 제거하며 Shorts 자동 스킵 옵션도 제공",
+            "Dim 모드로 영상을 완전 삭제 대신 흐리게 표시해 사용자가 필터링 정확도를 직접 검증할 수 있게 설계",
+            "라벨링되지 않은 AI 생성 영상(unlabeled slop)은 현재 탐지 범위 밖이라는 명확한 한계 존재",
+            "계정·서버 통신·데이터 수집 없이 로컬에서만 동작하며 Mac App Store에서 1.99달러 일회성 구매로 제공"
+          ],
+          "whyItMatters": "플랫폼이 이미 제공하는 신호를 재활용해 사용자 경험을 개선하는 실용적 확장 설계와, 완벽한 탐지보다 신뢰 가능한 범위 내 정확도를 우선하는 제품 철학을 엿볼 수 있어 프론트엔드/브라우저 확장 개발자에게 참고가 됩니다.",
+          "article": "Safari와 macOS 생태계에서 유튜브를 보다 보면 최근 부쩍 늘어난 \"Made with AI\" 라벨이 붙은 영상들이 피드 곳곳에 섞여 나오는 걸 느끼셨을 텐데요. Hacker News에 올라온 Weedout이라는 사이드 프로젝트는 이런 AI 생성 영상을 유튜브 피드에서 아예 걷어내 버리는 macOS용 Safari 확장 프로그램입니다. 어떤 방식으로 동작하고 무엇을 필터링하는지 살펴보겠습니다.\n\n## 무엇을 하는 도구인가\n\nWeedout은 유튜브가 스스로 붙이는 \"Made with AI\" 공개 배지를 기준으로, 해당 영상을 홈 피드, 검색 결과, 관련 영상, 재생목록, Shorts 선반(shelf)에서 조용히 제거합니다. 별도의 차단 화면이나 경고 팝업 같은 건 없습니다. 그냥 스크롤하기 전에 이미 사라져 있는 방식입니다. 제작자는 이를 \"잡초(weed)를 뽑는다\"는 컨셉으로 표현하고 있는데, 실제 피드에서는 영상 하나가 사라지는 데 약 0.5초 정도 걸리고, 한 번 캐싱된 영상은 애초에 화면에 나타나지도 않는다고 설명합니다.\n\n주요 기능은 다음과 같습니다.\n\n- 홈, 검색, 관련 영상, 재생목록, Shorts 선반에서 AI 라벨이 붙은 영상 필터링\n- Shorts 플레이어 내에서 AI 라벨 영상을 자동으로 건너뛰기 (옵션)\n- \"Dim 모드\"를 켜면 영상을 완전히 제거하지 않고 흐릿하게 표시만 해서, 확장이 실제로 잘 걸러내고 있는지 신뢰하기 전에 직접 검증 가능\n- 계정 생성이나 트래킹, 데이터 수집이 전혀 없고 모든 처리는 로컬 Mac에서 실행\n\n## 탐지 방식과 한계\n\nWeedout이 영상을 걸러내는 기준은 오직 유튜브가 직접 붙이는 \"Made with AI\" 공식 공개 배지입니다. 즉, 자체적인 AI 판별 알고리즘이나 휴리스틱을 돌려서 \"이건 AI 같다\"고 추측하는 방식이 아니라, 유튜브 플랫폼이 이미 라벨링해 둔 메타데이터를 그대로 신뢰하고 활용하는 구조입니다. 이 덕분에 오탐(false accusation)이 발생할 여지가 없다는 게 제작자의 설명입니다.\n\n반대로 이는 명확한 한계이기도 합니다. 유튜브가 라벨을 붙이지 않은 AI 생성 영상, 이른바 라벨링되지 않은 \"슬롭(unlabeled slop)\"은 현재 탐지 범위 밖입니다. 제작자는 이 부분을 \"지금은 범위 밖(for now)\"이라고 표현하며, 향후 개선 여지를 열어두고 있습니다.\n\n## 배포 형태와 가격\n\nWeedout은 Mac App Store를 통해 배포되며 1.99달러의 일회성 구매 방식입니다. 구독 모델이 아니라 한 번 결제하면 계속 쓸 수 있는 구조이고, macOS 13 이상을 요구합니다. 계정 로그인이나 서버 통신 없이 전적으로 로컬에서 동작한다는 점이 프라이버시 측면에서 눈에 띄는 부분입니다.\n\n버그 제보나 놓친 AI 영상이 있다면 이메일(masteranza@gmail.com)로 제보를 받고 있으며, 탐지 관련 문의라면 해당 영상 링크를 함께 보내달라고 안내하고 있습니다.\n\n## 정리\n\nWeedout은 거창한 AI 판별 엔진을 만드는 대신, 유튜브가 이미 제공하는 \"Made with AI\" 배지 메타데이터를 활용해 간단하고 확실하게 AI 생성 영상을 걸러내는 실용적인 접근을 택한 도구입니다.\n\n- 핵심은 자체 AI 탐지가 아니라 유튜브의 공식 공개 배지를 신뢰하는 방식이라 오탐이 없지만, 라벨링되지 않은 AI 영상은 걸러내지 못하는 한계가 있습니다.\n- Dim 모드처럼 필터링 결과를 실제로 제거하기 전에 검증할 수 있는 옵션을 제공해, 사용자가 확장의 동작을 신뢰할 수 있게 설계했습니다.\n- 계정·트래킹·서버 통신이 전혀 없이 로컬에서만 동작하는 구조는, 최근 브라우저 확장 프로그램의 프라이버시 이슈에 민감한 개발자들에게 참고할 만한 설계 방향입니다.\n- 1.99달러 일회성 결제, macOS 13+ 요구사항이라는 단순한 배포 방식도 소규모 사이드 프로젝트의 수익화 모델로 눈여겨볼 만합니다.\n\n프론트엔드 개발자 입장에서는 플랫폼(유튜브)이 이미 노출하는 신호(메타데이터)를 영리하게 재활용해 사용자 경험을 개선하는 브라우저 확장 설계 패턴, 그리고 \"완벽한 탐지\"보다 \"확실한 탐지 범위 안에서 신뢰 가능한 결과\"를 우선하는 제품 철학을 참고할 만합니다.",
+          "url": "https://masteranza.github.io/weedout/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 42,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 68,
+          "isTopicPrimary": true,
+          "slug": "show-hn-weedout-safari-extension-that-hides-youtube-ai-labeled-videos",
+          "fullContent": "Videos YouTube labels “Made with AI” — quietly pulled\nfrom your feed, search, related videos and Shorts before you scroll past them.\nNo blocking screens, no drama. The weeds are just gone.\nGET WEEDOUT — $1.99 ON THE MAC APP STORE\nOne-time purchase · No subscription · macOS 13+\nFIELD CAM\n12:07\nAI0:58\n8:41\nAI0:12\n24:59\nSimulated. On a real feed a weed is gone in about half a second — cached ones never sprout at all.\nWHAT IT DOES\nFilters AI-labeled videos out of home, search, related, playlists and Shorts shelves\nAuto-skips AI-labeled Shorts in the Shorts player (optional)\nDim mode wilts weeds in place instead of removing them, so you can verify before you trust it\nNo accounts, no tracking, no data collection — everything runs on your Mac\nDetection relies on YouTube’s own “Made with AI” disclosure badge — no guessing,\nno heuristics, no false accusations. Unlabeled slop is out of scope (for now).\nSUPPORT\nQuestions, bug reports, or a weed that slipped through?\nEmail masteranza@gmail.com — include the video link if it’s about detection.",
+          "category": "tech",
+          "publishedAt": "2026-09-01T22:06:57.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "averygan/reclip (HTML)",
+          "titleKo": "averygan/reclip",
+          "summary": "거의 모든 웹사이트에서 영상을 다운로드할 수 있는 가벼운 자체 호스팅 미디어 다운로더입니다. 깔끔한 웹 UI를 제공합니다.",
+          "keyPoints": [
+            "다양한 웹사이트에서 영상 다운로드 지원",
+            "자체 호스팅 가능한 경량 솔루션과 깔끔한 사용자 인터페이스 제공"
+          ],
+          "whyItMatters": "오픈소스 미디어 다운로더로 자체 호스팅 서비스 구축이나 비슷한 도구 개발 시 참고할 수 있습니다.",
+          "url": "https://github.com/averygan/reclip",
+          "sourceName": "GitHub Trending",
+          "engagement": 7648,
+          "contentType": "repo",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 58,
+          "isTopicPrimary": true,
+          "slug": "averyganreclip-html",
+          "category": "tech",
+          "publishedAt": "2026-09-02T00:51:36.435Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "HTML"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "React 2025 – Adding MDX",
+          "titleKo": "React 2025 – MDX 추가하기",
+          "summary": "React 2025에서 MDX 지원을 추가하는 방법을 다룹니다. 마크다운과 JSX를 함께 사용할 수 있게 하는 기능에 대한 설명입니다.",
+          "keyPoints": [
+            "React 2025 버전에서 MDX 통합 방법 설명"
+          ],
+          "whyItMatters": "마크다운으로 문서를 작성하면서 동시에 React 컴포넌트를 활용할 수 있어 개발 생산성이 증가합니다.",
+          "url": "https://www.youtube.com/watch?v=TUnbglpVhiU",
+          "sourceName": "Lee Robinson",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 75,
+          "topicId": "react-mdx",
+          "isTopicPrimary": true,
+          "slug": "react-2025-adding-mdx",
+          "category": "video",
+          "publishedAt": "2025-11-07T14:31:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Lighting My Porch With Vega #coding #programming #javascript #vega",
+          "titleKo": "Vega로 현관 조명하기",
+          "summary": "JavaScript와 Vega를 활용하여 현관 조명을 제어하는 프로젝트에 대한 영상입니다.",
+          "keyPoints": [
+            "JavaScript와 Vega 라이브러리를 활용한 실제 프로젝트 사례"
+          ],
+          "whyItMatters": "데이터 시각화 및 제어 라이브러리인 Vega의 실제 응용 사례를 학습할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=55hdtzM8T98",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 62,
+          "isTopicPrimary": true,
+          "slug": "lighting-my-porch-with-vega-coding-programming-javascript-vega",
+          "category": "video",
+          "publishedAt": "2026-07-02T18:22:02+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
