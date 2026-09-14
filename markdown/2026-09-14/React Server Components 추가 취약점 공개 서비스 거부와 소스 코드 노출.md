@@ -1,0 +1,157 @@
+---
+title: "React Server Components 추가 취약점 공개: 서비스 거부와 소스 코드 노출"
+tags: [dev-digest, tech, react, webpack]
+type: study
+tech:
+  - react
+  - webpack
+level: ""
+created: 2026-09-14
+aliases: []
+---
+
+> [!info] 원문
+> [Denial of Service and Source Code Exposure in React Server Components](https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components) · React Blog
+
+## 핵심 개념
+
+> [!abstract]
+> React 팀이 지난주 공개한 React2Shell RCE 패치를 검증하던 중 발견된 두 가지 추가 취약점을 공개했습니다. 서비스 거부(DoS) 취약점 3건(CVSS 7.5)과 소스 코드 노출 취약점 1건(CVSS 5.3)이 새로 확인됐으며, 이전에 배포한 패치(19.0.3, 19.1.4, 19.2.3)가 불완전했던 것으로 드러나 19.0.4, 19.1.5, 19.2.4로 재업데이트가 필요합니다. react-server-dom-webpack/parcel/turbopack과 이를 사용하는 next, react-router, waku 등 프레임워크가 영향을 받습니다.
+
+## 아티클
+
+React 팀이 지난주 공개한 치명적인 RCE 취약점(React2Shell) 패치를 검증하던 보안 연구자들이, 그 패치 코드를 파고들다가 두 가지 추가 취약점을 새로 발견해 공개했습니다. 이번에 발견된 취약점들은 원격 코드 실행(RCE)으로 이어지지는 않지만, 서버를 마비시키거나 서버 함수의 소스 코드를 노출시킬 수 있는 심각한 문제입니다. React Server Components를 사용하는 프로젝트라면 반드시 확인하고 즉시 업데이트해야 합니다.
+
+## 새로 공개된 취약점
+
+이번에 공개된 취약점은 다음과 같습니다.
+
+- **서비스 거부(DoS) - High 등급**: CVE-2025-55184, CVE-2025-67779, CVE-2026-23864 (CVSS 7.5)
+- **소스 코드 노출 - Medium 등급**: CVE-2025-55183 (CVSS 5.3)
+
+중요한 점은, 지난주 공개했던 패치 버전(19.0.3, 19.1.4, 19.2.3)이 **불완전**했다는 사실입니다. 이전 취약점 대응을 위해 이미 업데이트를 마쳤더라도, 이번 새 패치로 다시 한번 업데이트해야 합니다.
+
+## 즉시 조치가 필요한 이유
+
+이번 취약점들은 지난주 공개된 CVE-2025-55182와 동일한 패키지·버전에 존재합니다. 영향을 받는 버전은 다음과 같습니다.
+
+- 19.0.0, 19.0.1, 19.0.2, 19.0.3
+- 19.1.0, 19.1.1, 19.1.2, 19.1.3
+- 19.2.0, 19.2.1, 19.2.2, 19.2.3
+
+영향을 받는 패키지는 다음 세 가지입니다.
+
+- react-server-dom-webpack
+- react-server-dom-parcel
+- react-server-dom-turbopack
+
+패치는 19.0.4, 19.1.5, 19.2.4 버전에 백포트됐습니다. 위 패키지를 사용 중이라면 즉시 해당 버전으로 업그레이드해야 합니다.
+
+이전과 마찬가지로, 앱의 React 코드가 서버를 사용하지 않는다면 이번 취약점의 영향을 받지 않습니다. 또한 React Server Components를 지원하는 프레임워크, 번들러, 번들러 플러그인을 사용하지 않는다면 마찬가지로 영향이 없습니다.
+
+React 팀은 이런 상황이 업계 전반에서 흔하게 일어나는 패턴이라고 설명합니다. 치명적인 취약점이 공개되면 연구자들이 인접 코드 경로를 집중적으로 분석하면서 초기 완화 조치를 우회할 수 있는 변형 공격 기법을 찾아내곤 합니다. Log4Shell 사태 이후에도 커뮤니티가 원래 패치를 검증하는 과정에서 추가 CVE들이 보고된 것과 같은 맥락입니다. 후속 공개가 번거롭게 느껴질 수 있지만, 일반적으로는 건강한 대응 사이클이 작동하고 있다는 신호이기도 합니다.
+
+## 영향받는 프레임워크와 번들러
+
+일부 React 프레임워크와 번들러는 취약한 React 패키지에 의존하거나, 피어 의존성으로 가지고 있거나, 아예 패키지 자체를 포함하고 있었습니다. 다음 프레임워크와 번들러가 영향을 받습니다.
+
+- next
+- react-router
+- waku
+- @parcel/rsc
+- @vite/rsc-plugin
+- rwsdk
+
+업그레이드 절차는 이전 게시글에 안내된 내용을 참고하면 됩니다.
+
+## 호스팅 프로바이더의 임시 완화 조치와 React Native
+
+이전과 마찬가지로 React 팀은 여러 호스팅 프로바이더와 협업해 임시 완화 조치를 적용해두었습니다. 다만 이는 임시방편일 뿐이므로, 이 조치에 의존하지 말고 반드시 직접 업데이트해야 합니다.
+
+React Native를 모노레포 없이, 또는 react-dom 없이 사용하는 경우에는 package.json에 React 버전이 고정되어 있을 것이므로 별도 조치가 필요하지 않습니다.
+
+반면 React Native를 모노레포 환경에서 사용 중이라면, 다음 패키지가 설치되어 있는지 확인하고 해당 패키지만 업데이트하면 됩니다.
+
+- react-server-dom-webpack
+- react-server-dom-parcel
+- react-server-dom-turbopack
+
+이 업데이트는 보안 권고 대응을 위해 필요하지만, react와 react-dom까지 업데이트할 필요는 없습니다. 따라서 React Native에서 흔히 발생하는 버전 불일치 에러는 발생하지 않습니다.
+
+## 취약점 상세
+
+### 다중 서비스 거부(DoS) - High (CVSS 7.5)
+
+**CVE-2026-23864**, 2026년 1월 26일 공개.
+
+보안 연구자들이 React Server Components에 여전히 존재하는 추가 DoS 취약점을 발견했습니다. 이 취약점은 Server Function 엔드포인트로 특수하게 조작된 HTTP 요청을 보내는 방식으로 트리거되며, 취약한 코드 경로, 애플리케이션 설정, 애플리케이션 코드에 따라 서버 크래시, 메모리 부족(OOM) 예외, 과도한 CPU 사용으로 이어질 수 있습니다.
+
+1월 26일 공개된 패치가 이 DoS 취약점들을 완화합니다. 특히 원래 CVE-2025-55184를 해결하기 위해 배포됐던 패치가 불완전했다는 사실이 드러났습니다. 이는 이전 버전들을 여전히 취약한 상태로 남겨두었으며, 19.0.4, 19.1.5, 19.2.4 버전만이 안전합니다.
+
+### 서비스 거부(DoS) - High (CVSS 7.5)
+
+**CVE-2025-55184**, **CVE-2025-67779**.
+
+보안 연구자들은 임의의 Server Functions 엔드포인트로 전송되는 악성 HTTP 요청을 조작할 수 있고, React가 이를 역직렬화하는 과정에서 무한 루프가 발생해 서버 프로세스를 정지시키고 CPU를 소모시킬 수 있다는 사실을 발견했습니다. 애플리케이션이 React Server Function 엔드포인트를 전혀 구현하지 않았더라도, React Server Components를 지원하기만 한다면 여전히 취약할 수 있습니다.
+
+이는 공격자가 사용자의 제품 접근을 차단하고, 서버 환경의 성능에도 영향을 줄 수 있는 공격 벡터를 만들어냅니다. 이번에 배포된 패치는 무한 루프 발생 자체를 막는 방식으로 이를 완화합니다.
+
+### 소스 코드 노출 - Medium (CVSS 5.3)
+
+**CVE-2025-55183**.
+
+한 보안 연구자는 취약한 Server Function에 전송된 악성 HTTP 요청이 해당 함수의 소스 코드를 안전하지 않게 반환할 수 있다는 사실을 발견했습니다. 이 공격이 성립하려면 대상 Server Function이 명시적으로든 암묵적으로든 문자열화된 인자를 노출해야 합니다. 예를 들어 다음과 같은 함수가 있다고 해보겠습니다.
+
+```javascript
+'use server';
+
+export async function serverFunction(name) {
+  const conn = db.createConnection('SECRET KEY');
+  const user = await conn.createUser(name);
+  return { id: user.id, message: `Hello, ${name}!` }
+}
+```
+
+이런 경우 공격자는 아래와 같은 응답을 통해 정보를 유출시킬 수 있습니다.
+
+```
+0:{"a":"$@1","f":"","b":"Wy43RxUKdxmr5iuBzJ1pN"}
+1:{"id":"tva1sfodwq","message":"Hello, async function(a){console.log(\"serverFunction\");let b=i.createConnection(\"SECRET KEY\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!"}
+```
+
+message 필드 안에 함수 소스 코드 전체가 문자열로 노출되면서, 하드코딩된 `"SECRET KEY"` 같은 값까지 함께 유출되는 걸 확인할 수 있습니다. 이번 패치는 Server Function 소스 코드가 문자열화되는 경로 자체를 차단합니다.
+
+여기서 유의할 점은, 노출될 수 있는 것은 **소스 코드에 하드코딩된 비밀 값**뿐이라는 겁니다. `process.env.SECRET` 같은 런타임 환경 변수는 이 취약점의 영향을 받지 않습니다. 또한 노출 범위는 해당 Server Function 내부 코드로 한정되지만, 번들러의 인라이닝 방식에 따라 다른 함수 코드까지 포함될 수도 있으니, 실제 프로덕션 번들을 기준으로 반드시 직접 검증해봐야 합니다.
+
+## 타임라인
+
+- **12월 3일**: Andrew MacPherson이 Vercel과 Meta Bug Bounty에 소스 코드 노출 취약점 제보
+- **12월 4일**: RyotaK가 Meta Bug Bounty에 초기 DoS 취약점 제보
+- **12월 6일**: React 팀이 두 이슈 모두 확인, 조사 착수
+- **12월 7일**: 초기 패치 작성, 검증 및 새 패치 계획 시작
+- **12월 8일**: 영향받는 호스팅 프로바이더 및 오픈소스 프로젝트에 통보
+- **12월 10일**: 호스팅 프로바이더 완화 조치 적용, 패치 검증 완료
+- **12월 11일**: Shinsaku Nomura가 Meta Bug Bounty에 추가 DoS 제보
+- **12월 11일**: 패치 공개, CVE-2025-55183과 CVE-2025-55184로 공식 공개
+- **12월 11일**: 내부적으로 누락된 DoS 케이스 발견, 패치 및 CVE-2025-67779로 공개
+- **1월 26일**: 추가 DoS 케이스 발견, 패치 및 CVE-2026-23864로 공개
+
+React 팀은 소스 코드 노출 취약점을 제보한 Andrew MacPherson(AndrewMohawk), DoS 취약점을 제보한 GMO Flatt Security Inc의 RyotaK와 Bitforest Co., Ltd.의 Shinsaku Nomura, 그리고 추가 DoS 취약점을 제보한 Winfunc Research의 Mufeed VH, Joachim Viide, GMO Flatt Security Inc의 RyotaK, Tencent Security YUNDING LAB의 Xiangwei Zhang에게 감사를 표했습니다.
+
+## 정리
+
+- 이번 사건은 지난주 공개된 React2Shell RCE 취약점 패치를 검증하는 과정에서 발견된 후속 취약점들로, RCE로는 이어지지 않지만 DoS와 소스 코드 노출이라는 실질적 위협을 가지고 있습니다.
+- 이전 패치(19.0.3, 19.1.4, 19.2.3)는 불완전했으므로, 이미 업데이트했더라도 반드시 19.0.4, 19.1.5, 19.2.4로 다시 업데이트해야 합니다.
+- 영향을 받는 패키지는 react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack이며, next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, rwsdk 등 이를 사용하는 프레임워크·번들러도 함께 영향을 받습니다.
+- Server Function이 문자열화된 인자를 반환하는 패턴을 쓰고 있다면, 소스 코드에 하드코딩된 비밀 값이 없는지 다시 한번 점검해야 합니다. 런타임 환경 변수는 안전하지만, 코드에 박아둔 키나 시크릿은 이번 취약점으로 노출될 수 있었습니다.
+- React Native 사용자는 모노레포 환경이 아니라면 별도 조치가 필요 없지만, 모노레포에서는 영향받는 패키지만 선택적으로 업데이트하면 되고 react/react-dom까지 함께 올릴 필요는 없습니다.
+- 치명적인 CVE 이후 후속 취약점이 발견되는 것은 업계 전반에서 반복되는 패턴이며, 오히려 건강한 보안 대응 사이클의 일부로 볼 수 있습니다. RSC를 사용하는 프로젝트라면 이런 후속 공지에도 계속 주의를 기울일 필요가 있습니다.
+
+## 참고 자료
+
+- [원문 링크](https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components)
+- via React Blog
+
+## 관련 노트
+
+- [[2026-09-14|2026-09-14 Dev Digest]]
