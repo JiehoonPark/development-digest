@@ -1,0 +1,162 @@
+---
+title: "RSC for Astro Developers"
+tags: [dev-digest, tech, react, astro]
+type: study
+tech:
+  - react
+  - astro
+level: ""
+created: 2026-09-18
+aliases: []
+---
+
+## 핵심 개념
+
+> [!abstract]
+> Astro와 React Server Components(RSC)는 얼핏 보면 전혀 다른 기술처럼 보이지만, 그 밑바탕에 깔린 멘탈 모델은 놀랍도록 비슷합니다. Dan Abramov는 이 글에서 Astro를 이미 알고 있는 개발자라면 RSC의 핵심 개념 중 80%는 이미 이해하고 있는 셈이라고 말합니다. 두 기술을 나란히 놓고 비교하면서, RSC가 Astro의 한계를 어떻게 넘어서는지, 그리고 그 대가로 무엇을 치러야 하는지 정리해보겠습니다.
+
+## 아티클
+
+Astro와 React Server Components(RSC)는 얼핏 보면 전혀 다른 기술처럼 보이지만, 그 밑바탕에 깔린 멘탈 모델은 놀랍도록 비슷합니다. Dan Abramov는 이 글에서 Astro를 이미 알고 있는 개발자라면 RSC의 핵심 개념 중 80%는 이미 이해하고 있는 셈이라고 말합니다. 두 기술을 나란히 놓고 비교하면서, RSC가 Astro의 한계를 어떻게 넘어서는지, 그리고 그 대가로 무엇을 치러야 하는지 정리해보겠습니다.
+
+## Astro의 두 가지 세계
+
+Astro에는 근본적으로 두 가지 개념이 존재합니다.
+
+**Astro Components**는 `.astro` 확장자를 가진 파일로, 오직 서버 또는 빌드 시점에만 실행됩니다. 즉 이 코드는 클라이언트로 절대 전송되지 않습니다. 그래서 파일시스템을 읽거나, 내부 서비스를 호출하거나, 데이터베이스에 접근하는 등 클라이언트 코드가 할 수 없는 일들을 할 수 있습니다. 다만 HTML이 기본적으로 제공하는 것이나 직접 작성한 `<script>` 외에는 인터랙티브한 동작을 할 수 없습니다. Astro Component는 다른 Astro Component를 렌더링하거나, Client Island를 렌더링할 수 있습니다.
+
+**Client Islands**는 React, Vue 등으로 작성된 컴포넌트로, 우리가 흔히 아는 프런트엔드 코드입니다. 인터랙티브한 부분을 여기서 담당합니다. Client Island는 같은 프레임워크의 방식대로 다른 컴포넌트를 렌더링할 수 있습니다. 하지만 Client Island에서 Astro Component를 렌더링할 수는 없습니다—이미 Astro의 실행 시점은 지나버렸기 때문에 애초에 말이 안 되는 거죠.
+
+다음은 `PostPreview.astro`라는 Astro Component가 `LikeButton`이라는 Island를 렌더링하는 예시입니다.
+
+```astro
+---
+import { readFile } from 'fs/promises';
+import { LikeButton } from './LikeButton';
+const { slug } = Astro.props;
+const title = await readFile(`./posts/${slug}/title.txt`, 'utf8');
+---
+<article>
+<h1>{title}</h1>
+<LikeButton client:load />
+</article>
+```
+
+```jsx
+import { useState } from 'react';
+export function LikeButton() {
+  const [liked, setLiked] = useState(false);
+  return (
+    <button onClick={() => setLiked(!liked)}>
+      {liked ? '❤️' : '🤍'} Like
+    </button>
+  );
+}
+```
+
+Astro Component와 Client Island는 서로 완전히 다른 "세계"에서 살아가며, 데이터는 오직 위에서 아래로만 흐릅니다. 모든 전처리는 Astro Component에서 일어나고, 인터랙티브한 부분은 Client Island에게 "넘겨주는" 구조입니다.
+
+## RSC로 옮겨 쓰면
+
+이제 React Server Components를 살펴보겠습니다. RSC에서는 이 두 가지가 각각 Server Component와 Client Component라고 불립니다. 위의 Astro Component를 RSC로 그대로 옮기면 이렇게 됩니다.
+
+```jsx
+import { readFile } from 'fs/promises';
+import { LikeButton } from './LikeButton';
+
+async function PostPreview({ slug }) {
+  const title = await readFile(`./posts/${slug}/title.txt`, 'utf8');
+  return (
+    <article>
+      <h1>{title}</h1>
+      <LikeButton />
+    </article>
+  );
+}
+```
+
+```jsx
+'use client';
+import { useState } from 'react';
+export function LikeButton() {
+  const [liked, setLiked] = useState(false);
+  return (
+    <button onClick={() => setLiked(!liked)}>
+      {liked ? '❤️' : '🤍'} Like
+    </button>
+  );
+}
+```
+
+두 방식의 멘탈 모델은 정말 놀랄 만큼 비슷합니다. Astro를 안다면 이미 RSC 멘탈 모델의 80%를 갖춘 셈입니다. (설령 RSC가 별로 좋은 아이디어가 아니라고 생각하더라도, Astro는 배워볼 가치가 있습니다.)
+
+## 문법적으로 다른 점들
+
+몇 가지 눈에 띄는 문법적 차이가 있습니다.
+
+Astro Component와 달리 React Server Component는 그냥 평범한 JavaScript 함수입니다. "단일 파일" 형태가 아니고, props는 `Astro.props`가 아니라 함수 인자로 전달되며, 별도의 "템플릿" 영역도 없습니다.
+
+Astro에서는 `.astro` 파일로 작성함으로써 Astro Component와 Client Island 사이의 경계를 만듭니다. Client Island를 import하는 순간 더 이상 `.astro` 파일 안에 있지 않게 되고, 그렇게 Astro 세계를 "떠나게" 됩니다. RSC에서는 같은 목적을 `'use client'` 지시어로 달성합니다. `'use client'` 지시어는 서버 세계가 "끝나는" 지점을 표시하며, 두 세계 사이의 문 역할을 합니다.
+
+Astro에는 `client:load` 같은 지시어가 있어서 Island를 정적 HTML로 취급할지, 클라이언트에서 하이드레이션할지를 선택할 수 있습니다. RSC는 이런 구분을 사용자 코드에 노출하지 않습니다. React 입장에서 보면, 원래 인터랙티브하게 작성된 컴포넌트에서 그 인터랙티브함을 제거하는 건 이상한 일이니까요. 만약 컴포넌트가 정말로 인터랙티브함이 필요 없다면, 그냥 `'use client'`를 지우면 됩니다. 그러면 서버 세계에서 import했을 때 자동으로 서버 전용으로 남게 됩니다.
+
+## 가장 흥미로운 차이: 경계의 성격
+
+여기서 흥미로운 지점이 나옵니다. Astro에서는 `.astro` 파일과 Client Island가 문법 자체가 다르기 때문에 두 세계 사이에 명확하고 뚜렷한 시각적 경계가 생깁니다. 같은 컴포넌트가 맥락에 따라 Astro Component가 되기도 하고 Client Island가 되기도 하는 일은 없습니다—둘은 서로 다른 문법을 가진, 확실히 구별되는 존재입니다.
+
+하지만 RSC에서는 "Astro에 해당하는 부분"도 그냥 React일 뿐입니다. 그래서 클라이언트 전용 기능이나 서버 전용 기능을 전혀 쓰지 않는 컴포넌트가 있다면, 그 컴포넌트는 양쪽 역할을 모두 할 수 있습니다.
+
+예를 들어 자체적으로 파싱을 수행하는 `<Markdown />` 컴포넌트를 생각해보세요. State 같은 클라이언트 기능도, DB 조회 같은 서버 기능도 사용하지 않으므로 어느 쪽에서든 import할 수 있습니다. 서버 세계에서 import하면 "Astro Component"처럼 동작하고, 클라이언트 세계에서 import하면 "Client Island"처럼 동작합니다. 이건 새로운 개념이 아니라, 그냥 함수를 import하는 방식이 원래 그렇게 동작하는 것뿐입니다!
+
+RSC에서는 서버 세계에서 import한 것은 서버 세계에서 실행되고, 클라이언트 세계에서 import한 것은 클라이언트 세계에서 실행되며, 어느 쪽에서도 지원되지 않는 코드(클라이언트에서의 DB 접근, 서버에서의 `useState` 등)는 빌드 에러를 발생시켜 `'use client'`로 "문을 새로 뚫도록" 강제합니다.
+
+이건 축복이자 저주입니다.
+
+## 저주이자 축복
+
+저주인 이유는 RSC를 다루는 법을 배우는 게 상당히 직관적이지 않기 때문입니다. 계속 "지금 내가 어느 세계에 있는지"를 신경 써야 합니다. 사실 그건 중요하지 않고, 항상 지역적으로 추론할 수 있다는 사실을 받아들이려면 연습이 필요합니다. DB 같은 서버 기능은 그게 필요한 파일에서 쓰고, State 같은 클라이언트 기능은 그게 필요한 파일에서 쓰면서, 뭔가 잘못됐을 때는 빌드 타임 검사가 에러를 던져줄 거라 믿으면 됩니다. 그다음 모듈 스택 트레이스를 보고 "새로운 문"을 어디에 뚫을지 결정하는 거죠.
+
+이건 저주이지만 동시에 축복이기도 합니다. 양쪽 모두에서 React를 그대로 쓰기 때문에, RSC 모델은 Astro를 쓰다 보면 맞닥뜨릴 수 있는 몇 가지 한계를 해결합니다.
+
+**첫째, 정적/동적 전환의 마찰이 사라집니다.** Astro Component를 잔뜩 작성해놓고 나중에 그 UI를 Client Island로 옮겨야 한다는 걸 깨닫는 경우(문법을 바꿔야 함), 혹은 동적인 UI도 같은 걸 써야 해서 코드를 중복 작성해야 하는 경우가 생길 수 있습니다. RSC에서는 공통 부분을 추출해서 양쪽에서 import하면 됩니다. 각 UI 조각마다 "이건 대체로 정적일 거야" 혹은 "이건 대체로 동적일 거야"라고 미리 판단할 필요성이 줄어듭니다. `'use client'`를 추가하거나 제거하고, import 체인을 위아래로 옮기는 일이 별다른 마찰 없이 가능하기 때문입니다. 어디에 "문을 뚫을지"는 여전히 결정해야 하지만, 앞뒤로 "변환"하는 과정은 필요 없습니다.
+
+**둘째, 중첩된 인터랙티브 UI가 자연스럽게 합성됩니다.** Astro에서는 Client Island 안에 Astro Component를 중첩할 수 있지만, 그 안에 다시 Client Island가 들어가면 프레임워크(예: React) 입장에서는 별개의 루트로 취급됩니다. 그래서 Astro Island 사이에서는 React나 Vue의 context를 전달할 수 없는 등, 인터랙티브한 동작의 중첩이 클라이언트 앱만큼 자연스럽게 합성되지 않습니다. RSC에서는 이게 문제가 되지 않습니다—UI 전체가 내부적으로 하나의 React 트리이기 때문입니다. Client context provider를 Server 서브트리 위에 두고, 그 아래 어디에서든 여러 Client 컴포넌트가 그 context를 읽을 수 있습니다. RSC는 프랙탈처럼 중첩되는 island 구조입니다.
+
+**셋째, 페이지 전환이 SPA처럼 느껴집니다.** Astro Component는 결국 HTML만 만들어냅니다. 그래서 Astro 사이트에서 링크를 클릭하면 브라우저가 페이지를 완전히 새로고침해야 합니다. 이 정도 UX로 충분하다면 문제없습니다. View Transitions와 직접 짠 로직으로 개선할 수도 있지만, 근본적으로는 페이지의 HTML 자체가 교체됩니다. 만약 nav chrome의 상태—React state든 input이나 스크롤 위치 같은 DOM 상태든—를 계속 유지하는 SPA 같은 네비게이션을 원한다면, RSC가 그 빈틈을 메워줍니다. RSC는 React 트리를 JSON과 비슷한 포맷으로 표현하는데, 이 포맷은 첫 렌더링에서는 HTML로 변환되지만, 네비게이션 시에는 JSON으로 다시 가져올 수도 있습니다. 즉 RSC는 MPA 방식으로 사고하면서도 SPA처럼 느껴지게 해줍니다.
+
+**넷째, 서버 부분을 그 자리에서 새로고침할 수 있습니다.** 실제로 서버를 운영하는 경우(제 블로그처럼 빌드 시점에만 RSC를 돌리는 게 아니라), RSC는 언제든 화면을 "새로고침"해서 최신 서버 props를 이미 존재하는 클라이언트 상태 트리 안으로 흘려보낼 수 있습니다. 예를 들어 어떤 Astro Component가 상호작용에 반응해서 새로고침되어야 한다면, 전체 페이지 새로고침을 하거나 로직을 Client Island로 옮기는 것 중 하나를 선택해야 합니다. RSC에서는 그냥 서버로부터 최신 JSX를 요청해서 트리에 병합하면 됩니다.
+
+## 근본적인 차이: 출력 포맷
+
+Astro의 근본적인 출력 포맷은 HTML입니다. 프런트엔드 프레임워크는 HTML 자체를 다루는 게 아니라 HTML로 초기화될 수 있는 상태 기반 DOM을 다루기 때문에, Astro는 "한 번의 전달(one-time handoff)" 모델을 따릅니다. 이 방식은 배우기 쉽다는 장점이 있지만, 서버 기능은 "첫 렌더링"(HTML로의 변환)에 필요한 만큼으로만 제한되고, 인터랙티브한 부분은 대부분 개발자가 알아서 처리해야 합니다. 인터랙티브한 요소를 점점 더 많이 추가하다 보면 Astro 모델의 한계에 부딪히게 되고, 결국 더 많은 로직을 SPA 스타일의, 그러나 고립된 Island로 옮기게 될 수도 있습니다.
+
+RSC의 근본적인 출력 포맷은 React 트리입니다(HTML로 변환될 수도 있고, JSON으로 (재)요청될 수도 있습니다). RSC는 양쪽 모두 React를 쓰고 두 세계 사이에 시각적 구분이 없기 때문에 다루는 법을 배우기가 더 어렵습니다. 대신 일단 경계를 옮기는 감각을 익히고 나면 그 경계가 매우 유연해져서, 뭔가가 예상보다 더 정적이거나 동적으로 변했을 때 코드를 "Astro 안으로" 옮기거나 "다시 Island로" 옮겨야 하는 문제 자체가 해결됩니다. 또한 UI가 읽기 전용이든, mutation에 반응해서 다시 데이터를 가져와야 하든, "데이터를 UI로 매핑한다"는 동일한 멘탈 모델을 계속 유지할 수 있습니다. 서버 부분은 트리 깊숙이까지 파고들며 클라이언트 부분과 서로 엮여 있습니다.
+
+또한 양쪽 모두 React이기 때문에, 모든 React 기능이 처음부터 끝까지 통합되어 있습니다. 예를 들어 클라이언트의 `<Suspense>` 선언적 로딩 상태는 서버에서 오는 비동기 데이터, 클라이언트가 로드하는 JS와 CSS, 폰트와 이미지(합리적인 타임아웃과 함께), 심지어 View Transitions까지 "알아서" 기다려줍니다. React에서는 모든 기능이 서버와 클라이언트 조각을 임의로 중첩하고, 합성하고, 그 자리에서 새로고침할 수 있도록 설계되어 있습니다. 결국 하나의 트리인 셈입니다. 단점이라면 RSC를 받아들인다는 건 곧 React를 받아들인다는 뜻이라는 점입니다. RSC는 풀스택 React입니다.
+
+## Astro는 프레임워크, RSC는 표준
+
+마지막으로 짚고 넘어갈 부분은, Astro는 프레임워크지만 RSC 자체는 더 낮은 수준의 개념이라는 점입니다. RSC는 프레임워크를 위한 빌딩 블록, 혹은 프레임워크가 구현할 수 있는 하나의 표준에 가깝습니다. 현재 공식적으로 RSC를 구현한 것은 Next.js App Router(프레임워크)와 Parcel RSC(프레임워크가 아님) 두 가지입니다.
+
+저자 개인적으로는 RSC의 개발자 경험이 아직 다소 거칠다고 생각하지만, 그럼에도 배워볼 가치가 있다고 말합니다. RSC에는 흥미로운 아이디어들이 담겨 있기 때문입니다.
+
+그리고 만약 Astro를 한 번도 써본 적이 없다면 한번 시도해보길 권합니다. RSC가 너무 어렵게 느껴진다면, Astro가 같은 아이디어로 향하는 더 부드러운 진입로가 되어줄 수 있습니다. 반대로 클라이언트 사이드 React만 써봤다면, Astro가 여러분이 미처 깨닫지 못했던 문제들을 해결해줄지도 모릅니다.
+
+## 정리
+
+- Astro의 Astro Component/Client Island 구조와 RSC의 Server Component/Client Component 구조는 멘탈 모델이 거의 동일합니다. 데이터는 서버에서 클라이언트로 한 방향으로 흐르며, 서버 전용 기능과 클라이언트 전용 기능이 명확히 분리됩니다.
+- 가장 큰 차이는 "경계의 성격"입니다. Astro는 `.astro` 파일 문법 자체로 두 세계를 시각적으로 구분하지만, RSC는 `'use client'` 지시어 하나로 문을 열고 닫을 뿐 근본적으로 둘 다 "그냥 React"입니다. 그래서 서버/클라이언트 기능을 쓰지 않는 컴포넌트는 어느 쪽에서 import하느냐에 따라 역할이 자연스럽게 결정됩니다.
+- 이런 유연함 덕분에 RSC는 Astro의 몇 가지 실질적 한계—정적/동적 전환 시의 코드 재작성 부담, island 간 context 전달 불가, 페이지 전환 시 풀 리로드, 서버 부분의 제자리 새로고침 불가—를 해결합니다. 대신 "지금 내가 어느 세계에 있는지" 계속 신경 써야 하는 학습 곡선이라는 대가를 치릅니다.
+- Astro는 출력이 HTML인 "한 번의 전달" 모델이라 배우기 쉽지만 확장에 한계가 있고, RSC는 출력이 React 트리(HTML/JSON 겸용)라서 Suspense, View Transitions 같은 React 기능이 서버·클라이언트 경계를 넘어 통합적으로 동작합니다.
+- Astro는 완결된 프레임워크지만 RSC는 그 자체로 표준/빌딩 블록에 가까우며, 현재 Next.js App Router와 Parcel RSC가 이를 구현하고 있습니다. RSC를 채택한다는 것은 곧 React 생태계 전체를 받아들인다는 의미입니다.
+
+프런트엔드 개발자라면 Astro의 아일랜드 아키텍
+
+## 참고 자료
+
+- [원문 링크](https://overreacted.io/rsc-for-astro-developers/)
+- via Dan Abramov (overreacted)
+
+## 관련 노트
+
+- [[2026-09-18|2026-09-18 Dev Digest]]
