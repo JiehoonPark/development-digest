@@ -1,0 +1,306 @@
+{
+  "date": "2026-09-28",
+  "intro": "안녕하세요! 오늘은 React Server Components의 심각한 보안 취약점이 계속 발견되고 있어 긴급 업데이트가 필수입니다. 동시에 AI 에이전트 시대에 맞춘 개발 도구들과 CSS의 진화로 JavaScript 의존도를 낮출 수 있는 기술들이 주목받고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Critical Security Vulnerability in React Server Components",
+          "titleKo": "React Server Components에서 발견된 치명적 보안 취약점(CVE-2025-55182)과 대응 방법",
+          "summary": "React Server Components의 역직렬화 로직에서 CVSS 10.0 등급의 인증 없는 원격 코드 실행 취약점이 발견되어 CVE-2025-55182로 공개되었습니다. react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack의 19.0~19.2.0 버전이 영향을 받으며, Next.js·React Router·Waku 등 주요 프레임워크도 함께 영향을 받습니다. React 팀은 19.0.1, 19.1.2, 19.2.1 등 수정 버전을 즉시 배포했고, 이후 추가로 발견된 DoS 및 소스 코드 노출 취약점에 대한 패치 정보까지 함께 안내했습니다.",
+          "keyPoints": [
+            "React Server Function 페이로드 역직렬화 과정의 결함으로 인증 없이 서버에서 임의 코드를 실행할 수 있는 CVSS 10.0 취약점(CVE-2025-55182)이 발견되었습니다.",
+            "Server Function 엔드포인트를 직접 구현하지 않아도 React Server Components를 지원하는 환경이면 영향을 받을 수 있습니다.",
+            "react-server-dom-webpack/parcel/turbopack의 19.0.1, 19.1.2, 19.2.1 버전에서 수정되었으며, Next.js·React Router·Waku·Redwood SDK 등도 각각 패치된 버전으로 업그레이드해야 합니다.",
+            "이후 추가로 DoS 취약점(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864)과 소스 코드 노출 취약점(CVE-2025-55183)도 발견되어 후속 패치가 이어졌습니다.",
+            "호스팅 제공업체의 임시 완화 조치는 보완책일 뿐이므로 패키지 업그레이드가 필수입니다."
+          ],
+          "whyItMatters": "React Server Components를 사용하는 프로덕션 서비스라면 인증 없이 서버가 완전히 장악될 수 있는 최고 등급 취약점이므로, Next.js 등 사용 중인 프레임워크의 패치 버전을 즉시 확인하고 적용해야 합니다.",
+          "article": "React 팀이 2025년 12월 3일, React Server Components에서 발견된 심각한 보안 취약점을 공개하고 즉각적인 업그레이드를 권고했습니다. CVSS 10.0 만점 등급을 받은 이번 취약점은 인증 없이도 서버에서 임의 코드를 실행할 수 있는 원격 코드 실행(RCE) 취약점으로, Next.js를 비롯한 주요 React 프레임워크와 번들러 다수가 영향을 받습니다. 아래에서 취약점의 원리, 영향 범위, 그리고 프레임워크별 업데이트 방법을 정리합니다.\n\n## 취약점 개요\n\nReact Server Functions는 클라이언트가 서버의 함수를 직접 호출할 수 있게 해주는 기능입니다. 이를 위해 React는 클라이언트 요청을 HTTP 요청으로 변환해 서버로 전달하고, 서버에서는 이 HTTP 요청을 다시 함수 호출로 역직렬화(deserialize)한 뒤 결과 데이터를 클라이언트에 돌려줍니다.\n\n문제는 이 역직렬화 과정에 있었습니다. 인증되지 않은 공격자가 악의적으로 조작한 HTTP 요청을 Server Function 엔드포인트로 보내면, React가 이 페이로드를 디코딩하는 과정에서 결함이 발생해 서버에서 임의 코드가 실행될 수 있었습니다. React 팀은 패치 배포가 완전히 끝난 뒤 취약점의 세부 기술 내용을 추가로 공개하겠다고 밝혔습니다.\n\n주목할 점은, 앱이 Server Function 엔드포인트를 직접 구현하지 않았더라도 React Server Components를 지원하기만 하면 취약할 수 있다는 것입니다. 이 취약점은 **CVE-2025-55182**로 등록되었으며 CVSS 점수는 **10.0**(최고 등급)입니다.\n\n## 영향받는 버전과 패키지\n\n다음 패키지의 19.0, 19.1.0, 19.1.1, 19.2.0 버전에 취약점이 존재합니다.\n\n- `react-server-dom-webpack`\n- `react-server-dom-parcel`\n- `react-server-dom-turbopack`\n\n수정 패치는 각각 **19.0.1, 19.1.2, 19.2.1** 버전에 반영되었습니다. 위 패키지를 사용 중이라면 즉시 수정 버전으로 업그레이드해야 합니다.\n\n반대로 말하면, 앱의 React 코드가 서버를 사용하지 않거나, React Server Components를 지원하는 프레임워크·번들러·번들러 플러그인을 전혀 사용하지 않는다면 이 취약점의 영향을 받지 않습니다.\n\n## 영향받는 프레임워크와 번들러\n\n일부 React 프레임워크와 번들러는 취약한 패키지에 의존하거나, 이를 피어 의존성(peer dependency)으로 갖고 있거나, 아예 내장하고 있었습니다. 영향을 받는 프레임워크·번들러는 다음과 같습니다.\n\n- Next.js\n- React Router\n- Waku\n- `@parcel/rsc`\n- `@vitejs/plugin-rsc`\n- Redwood SDK (rwsdk)\n\nReact 팀은 여러 호스팅 제공업체와 협력해 임시 완화 조치를 적용해두었지만, 이는 어디까지나 임시방편이며 앱을 안전하게 지키기 위해서는 반드시 즉시 업데이트해야 한다고 강조했습니다.\n\n## 프레임워크별 업데이트 방법\n\n이 안내는 이후 추가로 발견된 취약점까지 포함해 갱신된 내용입니다.\n\n- Denial of Service (High, CVSS 7.5): CVE-2025-55184, CVE-2025-67779\n- Source Code Exposure (Medium, CVSS 5.3): CVE-2025-55183\n- Denial of Service (High, CVSS 7.5, 2026년 1월 26일 추가): CVE-2026-23864\n\n자세한 내용은 후속 블로그 포스트에서 확인할 수 있습니다.\n\n### Next.js\n\n각 릴리스 라인별로 최신 패치 버전으로 업그레이드해야 합니다.\n\n```\nnpm install next@14.2.35 npm install next@15.0.8 npm install next@15.1.12 npm install next@15.2.9 npm install next@15.3.9 npm install next@15.4.11 npm install next@15.5.10 npm install next@16.0.11 npm install next@16.1.5 npm install next@15.6.0-canary.60 npm install next@16.1.0-canary.19\n```\n\n패치 버전 목록: 15.0.8, 15.1.12, 15.2.9, 15.3.9, 15.4.10, 15.5.10, 15.6.0-canary.61, 16.0.11, 16.1.5\n\nNext.js 13.3 이상 (13.3.x, 13.4.x, 13.5.x) 사용자는 14.2.35로 업그레이드해야 합니다. `next@14.3.0-canary.77` 이후 캔버리 버전을 사용 중이라면 최신 안정 버전인 14.x로 다운그레이드해야 합니다.\n\n```\nnpm install next@14\n```\n\n최신 업데이트 안내는 Next.js 블로그를 참고하시기 바랍니다.\n\n### React Router\n\nReact Router의 unstable RSC API를 사용 중이라면 `package.json`의 아래 의존성들을 최신 버전으로 업그레이드해야 합니다.\n\n```\nnpm install react@latest\nnpm install react-dom@latest\nnpm install react-server-dom-parcel@latest\nnpm install react-server-dom-webpack@latest\nnpm install @vitejs/plugin-rsc@latest\n```\n\n### Expo\n\n완화 방법에 대한 자세한 내용은 expo.dev의 changelog 문서를 참고해야 합니다.\n\n### Redwood SDK\n\n`rwsdk>=1.0.0-alpha.0` 이상인지 확인해야 합니다. 최신 베타 버전은 다음과 같이 설치합니다.\n\n```\nnpm install rwsdk@latest\n```\n\n`react-server-dom-webpack`도 최신 버전으로 업그레이드해야 합니다.\n\n```\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\n```\n\n자세한 마이그레이션 방법은 Redwood 공식 문서를 참고하시기 바랍니다.\n\n### Waku\n\n```\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest waku@latest\n```\n\n자세한 내용은 Waku 공지사항을 참고하시기 바랍니다.\n\n### @vitejs/plugin-rsc\n\n```\nnpm install react@latest react-dom@latest @vitejs/plugin-rsc@latest\n```\n\n### react-server-dom-parcel\n\n```\nnpm install react@latest react-dom@latest react-server-dom-parcel@latest\n```\n\n### react-server-dom-turbopack\n\n```\nnpm install react@latest react-dom@latest react-server-dom-turbopack@latest\n```\n\n### react-server-dom-webpack\n\n```\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\n```\n\n### React Native\n\n모노레포를 사용하지 않고 `react-dom`도 사용하지 않는 React Native 사용자라면, `package.json`에 react 버전이 고정되어 있을 것이므로 별도 조치가 필요 없습니다.\n\n모노레포 환경에서 React Native를 사용 중이라면, 아래 패키지가 설치되어 있는 경우에만 해당 패키지만 업데이트하면 됩니다.\n\n- `react-server-dom-webpack`\n- `react-server-dom-parcel`\n- `react-server-dom-turbopack`\n\n보안 권고 사항을 완화하기 위해서는 이 조치로 충분하며, `react`와 `react-dom`까지 함께 업데이트할 필요는 없습니다. 따라서 React Native에서 흔히 발생하는 버전 불일치 오류도 발생하지 않습니다. 자세한 내용은 관련 이슈에서 확인할 수 있습니다.\n\n## 타임라인\n\n- **11월 29일**: Lachlan Davidson이 Meta Bug Bounty 프로그램을 통해 취약점을 최초 보고\n- **11월 30일**: Meta 보안 연구팀이 취약점을 확인하고 React 팀과 함께 수정 작업 시작\n- **12월 1일**: 수정 패치 완성. React 팀이 영향받는 호스팅 제공업체 및 오픈소스 프로젝트와 협력해 패치 검증, 완화 조치 적용, 배포 작업 진행\n- **12월 3일**: npm에 패치가 배포되고 CVE-2025-55182로 공개\n\nReact 팀은 이 취약점을 발견하고 보고했으며 수정 작업에도 협력한 Lachlan Davidson에게 감사를 표했습니다.\n\n## 정리\n\n- React Server Components를 지원하는 `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack`의 19.0, 19.1.0, 19.1.1, 19.2.0 버전에 CVSS 10.0의 인증 없는 원격 코드 실행 취약점(CVE-2025-55182)이 존재합니다.\n- Server Function 엔드포인트를 직접 만들지 않았어도 React Server Components 자체를 지원하는 환경이라면 영향을 받을 수 있으므로, \"우리는 서버 함수를 안 쓰니까 안전하다\"고 안심할 수 없습니다.\n- Next.js, React Router, Waku, `@parcel/rsc`, `@vitejs/plugin-rsc`, Redwood SDK(rwsdk) 등 주요 프레임워크·번들러가 모두 영향을 받으므로, 해당 스택을 쓰고 있다면 위에 정리된 프레임워크별 명령어로 즉시 업데이트해야 합니다.\n- 이후 추가로 발견된 DoS 취약점(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864)과 소스 코드 노출 취약점(CVE-2025-55183)까지 함께 안내되었으므로, 단순히 12월 3일 시점 최신 버전이 아니라 각 릴리스 라인의 최신 패치 버전으로 맞추는 것이 중요합니다.\n- 호스팅 제공업체 차원의 임시 완화 조치가 있더라도 이는 보완책일 뿐이며, 패키지 자체를 수정 버전으로 업그레이드하는 것이 근본적인 해결책입니다.",
+          "url": "https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 90,
+          "topicId": "react-server-components-security",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "critical-security-vulnerability-in-react-server-components",
+          "fullContent": "BlogCopy pageCopyCritical Security Vulnerability in React Server ComponentsDecember 3, 2025 by The React Team\nThere is an unauthenticated remote code execution vulnerability in React Server Components.We recommend upgrading immediately.\nOn November 29th, Lachlan Davidson reported a security vulnerability in React that allows unauthenticated remote code execution by exploiting a flaw in how React decodes payloads sent to React Server Function endpoints.\nEven if your app does not implement any React Server Function endpoints it may still be vulnerable if your app supports React Server Components.\nThis vulnerability was disclosed as CVE-2025-55182 and is rated CVSS 10.0.\nThe vulnerability is present in versions 19.0, 19.1.0, 19.1.1, and 19.2.0 of:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nImmediate Action Required\nA fix was introduced in versions 19.0.1, 19.1.2, and 19.2.1. If you are using any of the above packages please upgrade to any of the fixed versions immediately.\nIf your app’s React code does not use a server, your app is not affected by this vulnerability. If your app does not use a framework, bundler, or bundler plugin that supports React Server Components, your app is not affected by this vulnerability.\nAffected frameworks and bundlers\nSome React frameworks and bundlers depended on, had peer dependencies for, or included the vulnerable React packages. The following React frameworks & bundlers are affected: next, react-router, waku, @parcel/rsc, @vitejs/plugin-rsc, and rwsdk.\nSee the update instructions below for how to upgrade to these patches.\nHosting Provider Mitigations\nWe have worked with a number of hosting providers to apply temporary mitigations.\nYou should not depend on these to secure your app, and still update immediately.\nVulnerability overview\nReact Server Functions allow a client to call a function on a server. React provides integration points and tools that frameworks and bundlers use to help React code run on both the client and the server. React translates requests on the client into HTTP requests which are forwarded to a server. On the server, React translates the HTTP request into a function call and returns the needed data to the client.\nAn unauthenticated attacker could craft a malicious HTTP request to any Server Function endpoint that, when deserialized by React, achieves remote code execution on the server. Further details of the vulnerability will be provided after the rollout of the fix is complete.\nUpdate Instructions\nNoteThese instructions have been updated to include the new vulnerabilities:\nDenial of Service - High Severity: CVE-2025-55184 and CVE-2025-67779 (CVSS 7.5)\nSource Code Exposure - Medium Severity: CVE-2025-55183 (CVSS 5.3)\nDenial of Service - High Severity: January 26, 2026 CVE-2026-23864 (CVSS 7.5)\nSee the follow-up blog post for more info.Updated January 26, 2026.\nNext.js\nAll users should upgrade to the latest patched version in their release line:\nnpm install next@14.2.35 npm install next@15.0.8 npm install next@15.1.12 npm install next@15.2.9 npm install next@15.3.9 npm install next@15.4.11 npm install next@15.5.10 npm install next@16.0.11 npm install next@16.1.5 npm install next@15.6.0-canary.60 npm install next@16.1.0-canary.19\n15.0.8, 15.1.12, 15.2.9, 15.3.9, 15.4.10, 15.5.10, 15.6.0-canary.61, 16.0.11, 16.1.5\nIf you are on version 13.3 or later version of Next.js 13 (13.3.x, 13.4.x, or 13.5.x) please upgrade to version 14.2.35.\nIf you are on next@14.3.0-canary.77 or a later canary release, downgrade to the latest stable 14.x release:\nnpm install next@14\nSee the Next.js blog for the latest update instructions and the previous changelog for more info.\nReact Router\nIf you are using React Router’s unstable RSC APIs, you should upgrade the following package.json dependencies if they exist:\nnpm install react@latestnpm install react-dom@latestnpm install react-server-dom-parcel@latestnpm install react-server-dom-webpack@latestnpm install @vitejs/plugin-rsc@latest\nExpo\nTo learn more about mitigating, read the article on expo.dev/changelog.\nRedwood SDK\nEnsure you are on rwsdk>=1.0.0-alpha.0\nFor the latest beta version:\nnpm install rwsdk@latest\nUpgrade to the latest react-server-dom-webpack:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\nSee Redwood docs for more migration instructions.\nWaku\nUpgrade to the latest react-server-dom-webpack:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest waku@latest\nSee Waku announcement for more migration instructions.\n@vitejs/plugin-rsc\nUpgrade to the latest RSC plugin:\nnpm install react@latest react-dom@latest @vitejs/plugin-rsc@latest\nreact-server-dom-parcel\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-parcel@latest\nreact-server-dom-turbopack\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-turbopack@latest\nreact-server-dom-webpack\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\nReact Native\nFor React Native users not using a monorepo or react-dom, your react version should be pinned in your package.json, and there are no additional steps needed.\nIf you are using React Native in a monorepo, you should update only the impacted packages if they are installed:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nThis is required to mitigate the security advisory, but you do not need to update react and react-dom so this will not cause the version mismatch error in React Native.\nSee this issue for more information.\nTimeline\nNovember 29th: Lachlan Davidson reported the security vulnerability via Meta Bug Bounty.\nNovember 30th: Meta security researchers confirmed and began working with the React team on a fix.\nDecember 1st: A fix was created and the React team began working with affected hosting providers and open source projects to validate the fix, implement mitigations and roll out the fix\nDecember 3rd: The fix was published to npm and the publicly disclosed as CVE-2025-55182.\nAttribution\nThank you to Lachlan Davidson for discovering, reporting, and working to help fix this vulnerability.PreviousDenial of Service and Source Code Exposure in React Server ComponentsNextReact Conf 2025 Recap",
+          "category": "hot",
+          "publishedAt": "2025-12-03T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Denial of Service and Source Code Exposure in React Server Components",
+          "titleKo": "React Server Components의 서비스 거부 및 소스 코드 노출 취약점 - 이전 패치도 불완전했다",
+          "summary": "지난주 발표된 React2Shell RCE 취약점 패치를 검증하던 중, RCE는 아니지만 심각도 High인 DoS 취약점 3건과 Medium 등급 소스 코드 노출 취약점 1건이 추가로 발견되었습니다. 특히 앞서 배포된 19.0.3, 19.1.4, 19.2.3 패치 자체가 불완전했던 것으로 확인되어, 해당 버전으로 이미 업데이트했더라도 19.0.4/19.1.5/19.2.4로 재업데이트가 필요합니다. Next.js, react-router 등 RSC를 지원하는 주요 프레임워크와 번들러도 영향을 받습니다.",
+          "keyPoints": [
+            "DoS 취약점 3건(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864, CVSS 7.5)과 소스 코드 노출 취약점 1건(CVE-2025-55183, CVSS 5.3)이 새로 공개됨",
+            "이전 패치 버전인 19.0.3, 19.1.4, 19.2.3은 불완전하며, 안전한 버전은 19.0.4, 19.1.5, 19.2.4",
+            "react-server-dom-webpack/parcel/turbopack 패키지와 Next.js, react-router, waku, @parcel/rsc, @vite/rsc-plugin, rwsdk 등이 영향을 받음",
+            "DoS는 조작된 HTTP 요청 역직렬화 시 무한 루프를 유발해 서버를 마비시키고, 소스 코드 노출은 Server Function 인자가 문자열화될 때 하드코딩된 시크릿까지 노출시킬 수 있음",
+            "React Native는 모노레포가 아니면 조치 불필요하며, 모노레포라면 영향받는 react-server-dom-* 패키지만 업데이트하면 됨"
+          ],
+          "whyItMatters": "RSC를 사용하는 Next.js, react-router 등 프레임워크 기반 서비스라면 이전 보안 패치를 적용했더라도 추가 업데이트 없이는 여전히 취약할 수 있으므로, 버전과 패치 이력을 반드시 재확인해야 합니다.",
+          "article": "React Server Components(RSC)를 사용하는 애플리케이션이라면 반드시 확인해야 할 보안 공지가 또 나왔습니다. 지난주 공개된 치명적인 취약점(React2Shell로 불리는 RCE 취약점)에 대한 패치를 연구자들이 검증하는 과정에서, 추가로 두 가지 취약점이 새롭게 발견되어 공개되었습니다. React 팀이 발표한 이번 공지는 발견 이후에도 계속 업데이트되며 패치가 보강되었는데, 그 전체 내용을 정리해보겠습니다.\n\n## 무엇이 발견되었나\n\n새로 발견된 취약점은 원격 코드 실행(RCE)으로는 이어지지 않습니다. 즉 앞서 배포된 React2Shell 패치는 RCE 익스플로잇을 막는 데는 여전히 유효합니다. 하지만 다음 두 종류의 취약점이 추가로 확인되었습니다.\n\n- **서비스 거부(DoS) - 심각도 High**: CVE-2025-55184, CVE-2025-67779, CVE-2026-23864 (CVSS 7.5)\n- **소스 코드 노출 - 심각도 Medium**: CVE-2025-55183 (CVSS 5.3)\n\nReact 팀은 이번 취약점들의 심각도를 고려해 즉시 업그레이드할 것을 권고하고 있습니다.\n\n특히 주의해야 할 부분은, **이전에 배포됐던 패치 자체에 결함이 있었다**는 점입니다. 만약 이미 19.0.3, 19.1.4, 19.2.3 버전으로 업데이트했다면 이 패치들은 불완전하기 때문에 반드시 다시 업데이트해야 합니다.\n\n## 즉시 조치가 필요한 대상\n\n이번 취약점들은 이전 CVE-2025-55182와 동일한 패키지·버전 범위에 존재합니다. 영향을 받는 버전은 다음과 같습니다.\n\n- `react-server-dom-webpack`\n- `react-server-dom-parcel`\n- `react-server-dom-turbopack`\n\n위 패키지들의 19.0.0 ~ 19.0.3, 19.1.0 ~ 19.1.3, 19.2.0 ~ 19.2.3 버전이 모두 해당됩니다. 수정 사항은 19.0.4, 19.1.5, 19.2.4 버전으로 백포트되었으므로, 위 패키지를 사용 중이라면 해당 버전들 중 하나로 즉시 업그레이드해야 합니다.\n\n이전 공지와 마찬가지로, 앱의 React 코드가 서버를 사용하지 않는다면 이번 취약점의 영향을 받지 않습니다. 마찬가지로 React Server Components를 지원하는 프레임워크·번들러·번들러 플러그인을 사용하지 않는다면 역시 영향이 없습니다.\n\nReact 팀은 이런 후속 취약점 발견이 드문 일이 아니라고 설명합니다. 치명적인 취약점이 공개되면 연구자들이 인접한 코드 경로를 집중적으로 살펴보면서 초기 완화 조치를 우회할 수 있는 변형 익스플로잇을 찾아내려 하기 때문인데요, 이는 JavaScript 생태계에 국한된 현상이 아니라 업계 전반에서 나타나는 패턴이라고 언급합니다. 실제로 Log4Shell 사태 이후에도 커뮤니티가 최초 패치를 검증하는 과정에서 추가 CVE들이 보고된 바 있습니다. 이런 추가 공개는 당혹스러울 수 있지만, 일반적으로는 대응 체계가 건강하게 작동하고 있다는 신호로 봐야 한다는 것이 React 팀의 설명입니다.\n\n## 영향을 받는 프레임워크와 번들러\n\n일부 React 프레임워크와 번들러는 취약한 React 패키지에 직접 의존하거나, peer dependency로 두거나, 내부적으로 포함하고 있었습니다. 영향을 받는 프레임워크·번들러는 다음과 같습니다.\n\n- Next.js\n- react-router\n- waku\n- @parcel/rsc\n- @vite/rsc-plugin\n- rwsdk\n\n업그레이드 방법은 이전 공지 글의 안내를 따르면 됩니다.\n\n## 호스팅 프로바이더 완화 조치와 React Native 대응\n\nReact 팀은 여러 호스팅 프로바이더와 협력해 임시 완화 조치를 적용했다고 밝혔습니다. 다만 이 임시 조치에 의존해서는 안 되며, 반드시 즉시 업데이트를 진행해야 합니다.\n\nReact Native 사용자의 경우 대응이 조금 다릅니다. 모노레포를 사용하지 않거나 `react-dom`을 사용하지 않는다면, `package.json`에 React 버전이 고정(pinned)되어 있을 것이므로 추가 조치가 필요 없습니다.\n\n반면 모노레포 환경에서 React Native를 사용한다면, 다음 패키지가 설치되어 있는 경우에 한해 해당 패키지만 업데이트하면 됩니다.\n\n- `react-server-dom-webpack`\n- `react-server-dom-parcel`\n- `react-server-dom-turbopack`\n\n이 조치만으로 보안 권고사항을 충족할 수 있으며, `react`와 `react-dom`까지 업데이트할 필요는 없기 때문에 React Native에서 흔히 발생하는 버전 불일치 오류는 발생하지 않습니다.\n\n## High Severity: 다중 서비스 거부 (CVE-2026-23864)\n\n- **CVSS 기본 점수**: 7.5 (High)\n- **날짜**: 2026년 1월 26일\n\n보안 연구자들은 React Server Components에 여전히 추가적인 DoS 취약점이 남아있다는 사실을 발견했습니다. 이 취약점은 Server Function 엔드포인트로 특수하게 조작된 HTTP 요청을 전송함으로써 트리거되며, 취약한 코드 경로와 애플리케이션 구성·코드에 따라 서버 크래시, 메모리 부족(OOM) 예외, 과도한 CPU 사용률로 이어질 수 있습니다.\n\n1월 26일 배포된 패치가 이 DoS 취약점들을 완화합니다. 여기서 중요한 사실은, 앞서 CVE-2025-55184를 해결하기 위해 배포됐던 최초 패치가 불완전했다는 점입니다. 즉 그 이전 버전들은 여전히 취약한 상태였으며, 19.0.4, 19.1.5, 19.2.4 버전만이 안전합니다.\n\n## High Severity: 서비스 거부 (CVE-2025-55184, CVE-2025-67779)\n\n- **CVSS 기본 점수**: 7.5 (High)\n\n연구자들은 Server Functions 엔드포인트로 조작된 HTTP 요청을 전송하면, React가 이를 역직렬화(deserialize)하는 과정에서 무한 루프가 발생해 서버 프로세스가 멈추고 CPU를 계속 소모하게 만들 수 있다는 사실을 발견했습니다. 주목할 점은, 앱이 직접 Server Function 엔드포인트를 구현하지 않았더라도 React Server Components를 지원하기만 한다면 여전히 취약할 수 있다는 것입니다.\n\n이는 공격자가 사용자의 서비스 접근을 막고, 서버 환경 전반의 성능에도 영향을 줄 수 있는 공격 벡터를 만들어냅니다. 공개 당시 배포된 패치는 이 무한 루프 자체를 막는 방식으로 문제를 완화했습니다.\n\n## Medium Severity: 소스 코드 노출 (CVE-2025-55183)\n\n- **CVSS 기본 점수**: 5.3 (Medium)\n\n한 보안 연구자는 취약한 Server Function에 악의적인 HTTP 요청을 보내면 해당 Server Function의 소스 코드가 안전하지 않게 반환될 수 있다는 사실을 발견했습니다. 다만 이 공격이 성립하려면, 문자열화된 인자를 명시적 혹은 암묵적으로 노출하는 Server Function이 존재해야 합니다. 예를 들어 다음과 같은 코드입니다.\n\n```js\n'use server';\n\nexport async function serverFunction(name) {\n  const conn = db.createConnection('SECRET KEY');\n  const user = await conn.createUser(name);\n  return { id: user.id, message: `Hello, ${name}!` }\n}\n```\n\n공격자는 다음과 같은 형태로 정보를 탈취할 수 있습니다.\n\n```\n0:{\"a\":\"$@1\",\"f\":\"\",\"b\":\"Wy43RxUKdxmr5iuBzJ1pN\"}\n1:{\"id\":\"tva1sfodwq\",\"message\":\"Hello, async function(a){console.log(\\\"serverFunction\\\");let b=i.createConnection(\\\"SECRET KEY\\\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!\"}\n```\n\n보시다시피 응답 안에 `SECRET KEY`라는 하드코딩된 문자열을 포함한 함수 소스 코드 전체가 그대로 노출되고 있습니다. 이번에 배포된 패치는 Server Function의 소스 코드가 문자열화되어 응답에 포함되는 것을 원천 차단합니다.\n\nReact 팀은 몇 가지 유의사항도 함께 안내했습니다. 이 취약점으로 노출될 수 있는 것은 소스 코드 안에 하드코딩된 시크릿(secret)에 한정되며, `process.env.SECRET`처럼 런타임에 주입되는 시크릿은 영향을 받지 않습니다. 또한 노출 범위는 해당 Server Function 내부 코드로 제한되지만, 번들러의 인라이닝(inlining) 방식에 따라 다른 함수 코드까지 포함될 수 있으므로 반드시 프로덕션 번들을 기준으로 검증해야 한다고 강조합니다.\n\n## 타임라인\n\n- **12월 3일**: Andrew MacPherson이 Vercel과 Meta Bug Bounty에 소스 코드 노출 취약점 제보\n- **12월 4일**: RyotaK가 Meta Bug Bounty에 초기 DoS 취약점 제보\n- **12월 6일**: React 팀이 두 이슈 모두 확인, 조사 착수\n- **12월 7일**: 초기 패치 작성 및 검증·신규 패치 계획 시작\n- **12월 8일**: 영향받는 호스팅 프로바이더 및 오픈소스 프로젝트에 통지\n- **12월 10일**: 호스팅 프로바이더 완화 조치 적용 및 패치 검증 완료\n- **12월 11일**: Shinsaku Nomura가 Meta Bug Bounty에 추가 DoS 취약점 제보\n- **12월 11일**: 패치 배포 및 CVE-2025-55183, CVE-2025-55184로 공개\n- **12월 11일**: 내부적으로 누락된 DoS 케이스 발견, 패치 후 CVE-2025-67779로 공개\n- **1월 26일**: 추가 DoS 케이스 발견, 패치 후 CVE-2026-23864로 공개\n\n## 기여자 안내\n\nReact 팀은 소스 코드 노출 취약점을 제보한 Andrew MacPherson(AndrewMohawk), DoS 취약점을 제보한 GMO Flatt Security Inc.의 RyotaK, Bitforest Co., Ltd.의 Shinsaku Nomura에게 감사를 표했습니다. 또한 추가 DoS 취약점을 제보한 Winfunc Research의 Mufeed VH, Joachim Viide, GMO Flatt Security Inc.의 RyotaK, Tencent Security YUNDING LAB의 Xiangwei Zhang에게도 감사 인사를 전했습니다.\n\n## 정리\n\n- 지난주 공개된 React2Shell RCE 패치를 검증하던 중, RCE는 아니지만 심각도 High인 DoS 취약점 3건(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864)과 Medium 등급 소스 코드 노출 취약점 1건(CVE-2025-55183)이 추가로 발견되었습니다.\n- **가장 중요한 실무 포인트는, 앞서 배포됐던 19.0.3 / 19.1.4 / 19.2.3 패치가 불완전했다는 사실**입니다. 이미 이 버전들로 업데이트했더라도 19.0.4, 19.1.5, 19.2.4로 다시 업데이트해야 합니다.\n- 영향 범위는 `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack` 패키지이며, Next.js, react-router, waku, @parcel/rsc, @vite/rsc-plugin, rwsdk 등 RSC를 지원하는 프레임워크·번들러도 함께 영향을 받습니다.\n- 소스 코드 노출 취약점은 Server Function이 인자를 문자열 형태로 응답에 포함시킬 때 발생하며, 소스 코드에 하드코딩된 시크릿이 노출될 수 있으므로 시크릿은 항상 `process.env`와 같은 런타임 값으로 관리하는 것이 안전합니다.\n- RSC를 사용하지 않는 앱, 즉 서버를 사용하지 않거나 RSC를 지원하는 프레임워크/번들러를 쓰지 않는 앱은 이번 취약점의 영향을 받지 않습니다. 호스팅 프로바이더의 임시 완화 조치는 근본 대책이 아니므로, 반드시 패키지 버전을 직접 업데이트해야 합니다.",
+          "url": "https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 88,
+          "topicId": "react-server-components-security",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "denial-of-service-and-source-code-exposure-in-react-server-components",
+          "fullContent": "BlogCopy pageCopyDenial of Service and Source Code Exposure in React Server ComponentsDecember 11, 2025 by The React Team\nUpdated January 26, 2026.\nSecurity researchers have found and disclosed two additional vulnerabilities in React Server Components while attempting to exploit the patches in last week’s critical vulnerability.These new vulnerabilities do not allow for Remote Code Execution. The patch for React2Shell remains effective at mitigating the Remote Code Execution exploit.\nThe new vulnerabilities are disclosed as:\nDenial of Service - High Severity: CVE-2025-55184, CVE-2025-67779, and CVE-2026-23864 (CVSS 7.5)\nSource Code Exposure - Medium Severity: CVE-2025-55183 (CVSS 5.3)\nWe recommend upgrading immediately due to the severity of the newly disclosed vulnerabilities.\nNoteThe patches published earlier are vulnerable. If you already updated for the previous vulnerabilities, you will need to update again.If you updated to 19.0.3, 19.1.4, and 19.2.3, these are incomplete, and you will need to update again.Please see the instructions in the previous post for upgrade steps.Updated January 26, 2026.\nFurther details of these vulnerabilities will be provided after the rollout of the fixes are complete.\nImmediate Action Required\nThese vulnerabilities are present in the same packages and versions as CVE-2025-55182.\nThis includes 19.0.0, 19.0.1, 19.0.2, 19.0.3, 19.1.0, 19.1.1, 19.1.2, 19.1.3, 19.2.0, 19.2.1, 19.2.2, and 19.2.3 of:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nFixes were backported to versions 19.0.4, 19.1.5, and 19.2.4. If you are using any of the above packages please upgrade to any of the fixed versions immediately.\nAs before, if your app’s React code does not use a server, your app is not affected by these vulnerabilities. If your app does not use a framework, bundler, or bundler plugin that supports React Server Components, your app is not affected by these vulnerabilities.\nNoteIt’s common for critical CVEs to uncover follow‑up vulnerabilities. When a critical vulnerability is disclosed, researchers scrutinize adjacent code paths looking for variant exploit techniques to test whether the initial mitigation can be bypassed.This pattern shows up across the industry, not just in JavaScript. For example, after Log4Shell, additional CVEs (1, 2) were reported as the community probed the original fix.Additional disclosures can be frustrating, but they are generally a sign of a healthy response cycle.\nAffected frameworks and bundlers\nSome React frameworks and bundlers depended on, had peer dependencies for, or included the vulnerable React packages. The following React frameworks & bundlers are affected: next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, and rwsdk.\nPlease see the instructions in the previous post for upgrade steps.\nHosting Provider Mitigations\nAs before, we have worked with a number of hosting providers to apply temporary mitigations.\nYou should not depend on these to secure your app, and still update immediately.\nReact Native\nFor React Native users not using a monorepo or react-dom, your react version should be pinned in your package.json, and there are no additional steps needed.\nIf you are using React Native in a monorepo, you should update only the impacted packages if they are installed:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nThis is required to mitigate the security advisories, but you do not need to update react and react-dom so this will not cause the version mismatch error in React Native.\nSee this issue for more information.\nHigh Severity: Multiple Denial of Service\nCVEs: CVE-2026-23864\nBase Score: 7.5 (High)\nDate: January 26, 2026\nSecurity researchers discovered additional DoS vulnerabilities still exist in React Server Components.\nThe vulnerabilities are triggered by sending specially crafted HTTP requests to Server Function endpoints, and could lead to server crashes, out-of-memory exceptions or excessive CPU usage; depending on the vulnerable code path being exercised, the application configuration and application code.\nThe patches published January 26th mitigate these DoS vulnerabilities.\nNoteAdditional fixes published The original fix addressing the DoS in CVE-2025-55184 was incomplete.This left previous versions vulnerable. Versions 19.0.4, 19.1.5, 19.2.4 are safe.Updated January 26, 2026.\nHigh Severity: Denial of Service\nCVEs: CVE-2025-55184 and CVE-2025-67779\nBase Score: 7.5 (High)\nSecurity researchers have discovered that a malicious HTTP request can be crafted and sent to any Server Functions endpoint that, when deserialized by React, can cause an infinite loop that hangs the server process and consumes CPU. Even if your app does not implement any React Server Function endpoints it may still be vulnerable if your app supports React Server Components.\nThis creates a vulnerability vector where an attacker may be able to deny users from accessing the product, and potentially have a performance impact on the server environment.\nThe patches published today mitigate by preventing the infinite loop.\nMedium Severity: Source Code Exposure\nCVE: CVE-2025-55183\nBase Score: 5.3 (Medium)\nA security researcher has discovered that a malicious HTTP request sent to a vulnerable Server Function may unsafely return the source code of any Server Function. Exploitation requires the existence of a Server Function which explicitly or implicitly exposes a stringified argument:\n'use server';export async function serverFunction(name) { const conn = db.createConnection('SECRET KEY'); const user = await conn.createUser(name); return { id: user.id, message: `Hello, ${name}!` }}\nAn attacker may be able to leak the following:\n0:{\"a\":\"$@1\",\"f\":\"\",\"b\":\"Wy43RxUKdxmr5iuBzJ1pN\"}1:{\"id\":\"tva1sfodwq\",\"message\":\"Hello, async function(a){console.log(\\\"serverFunction\\\");let b=i.createConnection(\\\"SECRET KEY\\\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!\"}\nThe patches published today prevent stringifying the Server Function source code.\nNoteOnly secrets in source code may be exposed. Secrets hardcoded in source code may be exposed, but runtime secrets such as process.env.SECRET are not affected.The scope of the exposed code is limited to the code inside the Server Function, which may include other functions depending on the amount of inlining your bundler provides.Always verify against production bundles.\nTimeline\nDecember 3rd: Leak reported to Vercel and Meta Bug Bounty by Andrew MacPherson.\nDecember 4th: Initial DoS reported to Meta Bug Bounty by RyotaK.\nDecember 6th: Both issues confirmed by the React team, and the team began investigating.\nDecember 7th: Initial fixes created and the React team began verifying and planning new patch.\nDecember 8th: Affected hosting providers and open source projects notified.\nDecember 10th: Hosting provider mitigations in place and patches verified.\nDecember 11th: Additional DoS reported to Meta Bug Bounty by Shinsaku Nomura.\nDecember 11th: Patches published and publicly disclosed as CVE-2025-55183 and CVE-2025-55184.\nDecember 11th: Missing DoS case found internally, patched and publicly disclosed as CVE-2025-67779.\nJanuary 26th: Additional DoS cases found, patched, and publicly disclosed as CVE-2026-23864.\nAttribution\nThank you to Andrew MacPherson (AndrewMohawk) for reporting the Source Code Exposure, RyotaK from GMO Flatt Security Inc and Shinsaku Nomura of Bitforest Co., Ltd. for reporting the Denial of Service vulnerabilities. Thank you to Mufeed VH from Winfunc Research, Joachim Viide, RyotaK from GMO Flatt Security Inc and Xiangwei Zhang of Tencent Security YUNDING LAB for reporting the additional DoS vulnerabilities.PreviousThe React Foundation: A New Home for React Hosted by the Linux FoundationNextCritical Security Vulnerability in React Server Components",
+          "category": "hot",
+          "publishedAt": "2025-12-11T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Show HN: Lofi Cities – Pixel-art city nights with browser-generated lofi",
+          "titleKo": "Show HN: 브라우저에서 실시간으로 로파이 음악을 생성하는 픽셀아트 도시 앱, Lofi Cities",
+          "summary": "Lofi Cities는 480×270 픽셀아트 도시 야경 애니메이션과 Web Audio API로 실시간 합성되는 로파이 음악을 결합한 무료 웹앱입니다. 파리, 도쿄, 뉴욕 등 16개 도시를 배경으로 jazzhop, ambient, bossa 등 9가지 음악 스타일을 조합할 수 있고, 계정·쿠키 없이 로컬 스토리지 기반의 익명 실시간 채팅/접속자 표시 기능까지 갖췄습니다. PWA 오프라인 지원과 OBS 브라우저 소스 연동을 제공하며, 광고판 임대와 영상 루프 판매(Gumroad)로 수익화하면서 웹 서비스 자체는 무료로 유지합니다.",
+          "keyPoints": [
+            "음악은 샘플/녹음 없이 Web Audio API로 코드, 드럼, 베이스, 멜로디를 실시간 합성하기 때문에 스트림이 고갈되지 않으며, jazzhop·piano·ambient·bossa·synth·house·guitar·sad·medieval 등 9가지 스타일과 chill/upbeat 무드, 밴드 구성 옵션을 조합 가능합니다.",
+            "계정과 쿠키 없이 로컬 스토리지의 랜덤 ID만으로 실시간 접속자 수, 익명 두 단어 닉네임 채팅, 리액션, 종이 초롱 같은 소셜 기능을 구현했고, 서버는 25시간(ID)/1시간(채팅) TTL로 데이터를 최소 보관합니다.",
+            "한 번 온라인으로 로드하면 오프라인에서도 도시 씬과 음악이 모두 브라우저에서 생성되어 그대로 동작하며, PWA 설치와 Picture-in-Picture 미니 플레이어를 지원합니다.",
+            "OBS 브라우저 소스에 '?obs' 쿼리와 '&weather=' 파라미터를 붙여 UI 없이 음악 자동재생, 도시/날씨 원격 제어가 가능해 스트리머 워크플로우를 겨냥했습니다.",
+            "웹 서비스 자체는 완전 무료로 유지하되, 씬 내 광고판 임대와 오디오 없는 4분 길이 60fps 영상 루프 Gumroad 판매로 별도 수익 구조를 분리했습니다."
+          ],
+          "whyItMatters": "미디어 파일 없이 브라우저만으로 무한한 음악을 실시간 생성하고, 계정 없이 프라이버시를 지키면서도 실시간 소셜 기능을 구현한 사례로, Web Audio API와 로컬 스토리지 기반 아키텍처 설계에 관심 있는 프론트엔드 개발자에게 좋은 참고가 됩니다.",
+          "article": "# Show HN: 브라우저에서 실시간으로 로파이 음악을 생성하는 픽셀아트 도시 앱\n\nHacker News Top에 올라온 [Lofi Cities](https://loficities.com/)는 픽셀아트로 그린 도시 야경 애니메이션과, 브라우저에서 실시간으로 작곡되는 로파이 음악을 결합한 무료 웹앱입니다. 흔히 보는 \"로파이 스트리밍 라디오\"와 다른 점은 음악이 미리 녹음된 샘플이 아니라 Web Audio API로 그 자리에서 합성된다는 것인데요. 설치도, 계정도, 팝업도 없이 스터디/작업용 배경으로 쓸 수 있게 만든 이 프로젝트의 구조를 기술적인 관점에서 살펴보겠습니다.\n\n## 4분 루프의 픽셀아트 씬\n\n각 도시는 480×270 해상도의 픽셀 애니메이션으로, 4분마다 이음매 없이 루프됩니다. 파리의 아연 지붕 아래 화가의 다락방, 도쿄의 네온사인과 벚꽃, 브루클린 다리 옆의 눈 내리는 밤, 템스강의 안개와 웨스트민스터, 리우의 코파카바나 발코니 등 총 16개 도시가 제공됩니다(파리, 도쿄, 뉴욕, 런던, 리우데자네이루, 이스탄불, 홍콩, 시드니, 샌프란시스코, 함부르크, 암스테르담, 두바이, 마드리드, 로마, 프라하, 뮌헨). 각 씬마다 고유한 날씨, 랜드마크, 도시 소음이 붙어 있어 단순한 배경 이미지가 아니라 하나의 \"장소\"처럼 느껴지도록 설계되어 있습니다.\n\n## Web Audio API로 실시간 작곡하기\n\n이 프로젝트의 핵심은 음악이 샘플이나 녹음본 없이 전부 실시간 합성된다는 점입니다. 트랙마다 다음 요소들을 그 자리에서 생성합니다.\n\n- 코드 진행(chord progression)\n- 드럼 그루브\n- 베이스 라인\n- (종종) 멜로디\n- 테이프 워블과 바이닐 크랙클 같은 텍스처 이펙트\n\n이렇게 만들어지기 때문에 스트림이 절대 고갈되지 않습니다. **Vibe 패널**에서 스타일을 고를 수 있는데, 제공되는 프리셋은 다음과 같습니다.\n\n- **jazzhop** (기본값): 로즈 전자피아노, 재지한 코드, 68~88 BPM의 스윙 붐뱁 비트\n- **piano**: 나른한 펠트 피아노 + 부드러운 드럼\n- **ambient**: 거의 비트가 없는 느린 웜 패드 (수면/딥포커스용)\n- **bossa**: 나일론 기타 + 보사노바 그루브\n- **synth**: 80년대 시티팝 신스\n- **house**: 소프트한 four-on-the-floor 킥의 로파이 딥하우스\n- **guitar**: 나른한 비트 위 핑거피킹 클린 일렉기타\n- **sad**: 느린 마이너 코드 + 외로운 뮤트 트럼펫\n- **medieval**: 류트와 리코더 + 손드럼\n\n스타일 전환은 즉시 반영되지 않고 다음 트랙부터 적용됩니다. 여기에 더해 무드(chill: 더 느리고 어둡게 / upbeat: 더 빠르고 밝게)와 밴드 구성(풀 밴드 / 드럼 없이 / 코드만)까지 조합할 수 있어, 실질적으로 상당히 많은 변주를 만들어낼 수 있는 구조입니다.\n\n트랙 제목은 현재 화면의 도시에서 영감을 받아 지어지고, 별도의 앰비언스 레이어가 그 도시의 소리(비, 교통, 종소리 등)를 음악 아래 믹싱합니다. **Up next** 목록으로 다음 곡을 미리 보고 바로 재생할 수 있고, 음악과 도시 소리는 각각 독립된 볼륨 슬라이더를 가지며, 도시 소리 믹서는 한 단계 더 들어가 소리 종류별(비, 교통, 종소리 등) 슬라이더를 제공합니다. 이 설정은 같은 소리를 가진 다른 도시에도 그대로 이어집니다. **Weather 칩(W)**을 누르면 비/눈/낙엽/맑음을 어느 도시에나 적용할 수 있고, 도시 소리와 트랙 제목도 여기에 맞춰 따라갑니다.\n\n## 인터랙션과 실시간 소셜 기능\n\n키보드 단축키가 상당히 풍부하게 설계되어 있습니다.\n\n- `F`: 전체화면\n- `H`: UI 숨기기\n- `P`: 미니 플레이어 (Picture-in-Picture로 다른 앱 위에 씬을 띄움, 지원 브라우저 한정)\n- `V`: Vibe 변경\n- `C`: Tour(도시 자동 전환) 토글\n- `W`: 날씨 변경\n- `T`: 타이머\n- `L`: 종이 초롱 띄우기\n- `Enter`: 채팅\n- `S`: 스크린샷 저장\n- `/`: 도시 선택기\n\n컨트롤은 마우스가 멈추면 자동으로 페이드아웃됩니다. **Tour** 기능은 5/10/15/30분마다 다음 도시로 넘어가거나, \"night\" 모드로 설정하면 현지시각 새벽 1시에 가장 가까운 도시를 자동으로 보여주며 시드니에서 샌프란시스코로 서쪽으로 이동합니다. 파리·함부르크·암스테르담처럼 같은 시간대 도시는 서로 순번을 바꿔가며 노출됩니다.\n\n흥미로운 부분은 익명 기반의 실시간 소셜 레이어입니다. 도시 이름 아래 알약 모양 인디케이터에 \"23 here now · 5 in Tokyo · 480 today · 12,345 all time\" 같은 형태로 실시간 접속자, 현재 도시 접속자, 오늘 방문자, 누적 방문자를 보여줍니다. 같은 도시에 있는 사람들과는 하트/노트/별/달 아이콘으로 반응을 남기거나(Together 버튼, `G`), 씬을 탭해 아이콘을 띄우거나, 종이 초롱(`L`)을 날려 약 1분간 도시 위에 떠 있게 할 수 있습니다. 이 초롱은 모두에게 같은 위치에서 보이고, 떠 있는 동안 새로 들어온 사람에게도 보입니다. 채팅은 80자 이내, 링크 불가, \"sleepy fox\" 같은 랜덤 두 단어 닉네임으로 이루어집니다.\n\n## 프라이버시 설계\n\n계정도 쿠키도 없습니다. 브라우저의 로컬 스토리지(쿠키 아님)에 랜덤 ID를 저장해 같은 브라우저의 여러 탭을 한 사람으로 카운트하고, 서버는 마지막 방문 후 약 25시간이 지나면 이 ID를 잊습니다. 다른 사람에게는 오직 두 단어 닉네임만 보입니다. 누적 방문자 수는 단일 숫자로만 집계되어 누가 언제 방문했는지는 서버가 알 수 없는 구조입니다. \"오늘\" 기준은 클라이언트가 서버에 전달하는 로컬 자정 기준이며, 이 정보 역시 세션 종료 시 사라집니다. 서버가 유지하는 건 공중에 떠 있는 초롱과 도시별 최근 30개 채팅 메시지(최대 1시간) 정도입니다. Do Not Track을 보내는 브라우저는 통계 집계에서 제외됩니다(단 실시간 접속자 수에는 익명으로 카운트됨).\n\n## PWA, 오프라인, OBS 연동\n\n한 번 온라인 상태에서 열어두면 이후 오프라인에서도 동작합니다. 도시 씬과 음악 모두 브라우저에서 생성되는 것이라 별도의 미디어 파일을 스트리밍할 필요가 없기 때문인데요. 브라우저의 \"설치\" 또는 \"홈 화면에 추가\" 옵션으로 앱처럼 설치할 수도 있습니다.\n\n방송 도구용 연동도 지원합니다. OBS의 브라우저 소스를 1920×1080으로 설정하고 도시 페이지 주소 뒤에 `?obs`를 붙이면(예: `https://loficities.com/tokyo/?obs`), UI가 자동으로 숨겨지고 음악이 바로 재생됩니다. \"Control audio via OBS\"를 체크하면 오디오를 믹스에 포함시킬 수 있고, 화살표 키로 도시 전환, `N`으로 트랙 스킵, `W`로 날씨 변경, 혹은 URL에 `&weather=snow` 같은 쿼리를 추가해 제어할 수 있습니다.\n\n모바일 세로 화면에서는 랜드마크와 광고판이 항상 보이도록 배치되고, 씬을 좌우로 드래그해 둘러보거나 끝까지 스와이프하면 다음 도시로 전환됩니다.\n\n## 비즈니스 모델: 광고판과 영상 판매\n\n무료 웹 서비스지만 두 가지 수익화 지점이 있습니다.\n\n1. **광고판 임대**: 각 도시 씬에는 렌트 가능한 광고판이 있고, 비어 있는 동안은 가상의 지역 광고가 걸립니다. 원하는 브랜드는 짧은 폼(tally.so)을 통해 신청하면 같은 픽셀아트 스타일로 손으로 그려서 넣어줍니다.\n2. **영상 루프 판매**: Gumroad를 통해 16개 도시 전체를 AI 보조로 제작한 4분 길이, 1920×1080, 60fps MP4 루프(오디오 없음)로 구매할 수 있습니다. 개인 사용 및 유튜브/라이브스트림 배경(수익화 콘텐츠 포함)으로 사용 가능하며, 제품 페이지에 명시된 대로 Lofi Cities 크레딧 표기가 조건입니다. 사이트에서 실제로 들리는 음악과 도시 소리는 이 다운로드에는 포함되지 않습니다.\n\n제작자는 Safa Elmali이며, Buy Me a Coffee로 후원을 받고 있고 X(트위터)를 통해 신규 도시 요청을 받습니다. 실제로 초기 6개 도시 이후 홍콩, 시드니, 샌프란시스코, 함부르크, 암스테르담이 추가되었고, 이어서 두바이, 마드리드, 로마, 프라하, 뮌헨이 합류하며 지속적으로 라인업이 늘고 있습니다.\n\n## 정리\n\nLofi Cities는 겉으로 보면 흔한 \"로파이 배경음악 사이트\"처럼 보이지만, 몇 가지 지점에서 프론트엔드 엔지니어링 관점의 재미있는 포인트가 있습니다.\n\n- **오디오 합성의 완전한 클라이언트 사이드화**: 미디어 파일 스트리밍 없이 Web Audio API만으로 코드/드럼/베이스/멜로디를 실시간 생성해, 무한한 트랙과 오프라인 동작을 동시에 확보한 구조입니다.\n- **프라이버시 우선 실시간 기능**: 계정·쿠키 없이 로컬 스토리지의 랜덤 ID와 서버 측 TTL(25시간, 1시간 등)만으로 실시간 접속자 수, 채팅, 리액션 같은 소셜 기능을 구현했습니다. 익명성과 상호작용을 동시에 만족시키려는 설계가 눈에 띕니다.\n- **PWA + OBS 연동을 통한 배포 다변화**: 오프라인 캐싱, 홈 화면 설치, PIP 미니 플레이어, OBS 브라우저 소스 파라미터(`?obs`, `&weather=`)까지 지원해 스트리머·크리에이터 워크플로우까지 겨냥하고 있습니다.\n- **수익화와 무료 서비스의 분리**: 핵심 웹 경험은 완전 무료로 유지하면서, 광고판 삽입과 오디오 없는 영상 루프 판매(Gumroad)로 별도 수익원을 분리한 구조는 사이드 프로젝트를 지속 가능하게 만드는 참고할 만한 모델입니다.\n\n프론트엔드 개발자 입장에서는 \"브라우저에서 무엇을, 어디까지 실시간 생성할 수 있는가\"를 실험해보는 좋은 레퍼런스로 볼 만한 프로젝트입니다.",
+          "url": "https://loficities.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 167,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 65,
+          "topicId": "lofi-cities-interactive-experience",
+          "isTopicPrimary": true,
+          "slug": "show-hn-lofi-cities-pixel-art-city-nights-with-browser-generated-lofi",
+          "fullContent": "Lofi Cities is a free web app that pairs animated pixel-art city nights with endless lofi music generated live in your browser. Pick a city and let it run: every scene is a 480×270 pixel animation that loops seamlessly every four minutes, with its own weather, landmarks and city sounds, while new lofi tracks are composed on the fly.\nThere is nothing to install, no account and no pop-ups. It works on computers, phones and tablets, and makes a calm background for studying, working or winding down.\nEvery city has a billboard for rent, with a made-up local ad on it until a business takes it. Put your business on one ↗\nA painter's attic under the zinc roofs, rain on the window and the Eiffel Tower sparkling far off.\nNeon signs, cherry blossoms and wet asphalt, with Tokyo Tower glowing and a train crossing the viaduct.\nA snowy winter night by the Brooklyn Bridge, with the Manhattan skyline across the East River.\nFog and drizzle on the Thames, with Parliament, the London Eye and a Victorian pub on the South Bank.\nA balcony above Copacabana, with Christ the Redeemer, Sugarloaf and fireworks over the bay.\nA rooftop tea garden facing the historic peninsula, with ferries and gulls on the Bosphorus.\nA crowded Kowloon rooftop facing the Hong Kong Island skyline, with ferries, a red-sailed junk and a light show on the harbour.\nA harbourside park under a blooming jacaranda, looking across to the Opera House and the Harbour Bridge.\nFog pouring through the Golden Gate, seen from a steep Russian Hill street with a cable car and painted Victorians.\nWind-driven rain over HafenCity, with the Elbphilharmonie, the Speicherstadt and container cranes across the Elbe.\nA mild spring night on a canal quay, with the Westerkerk tower, gabled houses, a houseboat and a bulb-lit bridge.\nA mild winter night on a café terrace by the Burj Lake, with the Burj Khalifa, the dancing fountain, a lit souk and moonlit dunes beyond.\nA warm June night on a wrought-iron balcony above the fork of Gran Vía and Calle de Alcalá, facing the floodlit Metrópolis and a rooftop neon for churros.\nA warm August night in a cobbled Monti lane running down to the floodlit Colosseum, with a trattoria and shooting stars.\nA mild June night on the Old Town embankment, with Prague Castle lit gold above Charles Bridge, swans on the Vltava and a red tram rattling past.\nA snowy December night at the Christmas market on Marienplatz, with the Neues Rathaus, the Frauenkirche domes and a giant lit tree.\nEvery track is composed on the spot with the Web Audio API: a chord progression, a drum groove, a bass line and often a melody, finished with tape wobble and vinyl crackle. Everything is synthesized in real time, with no samples or recordings, so the stream never runs out.\nThe Vibe panel picks the style: jazzhop (the default: a Rhodes, jazzy chords and a swung boom-bap beat at 68 to 88 BPM), piano (a sleepy felt piano with soft drums), ambient (slow warm pads with barely a beat, for sleep and deep focus), bossa (nylon guitar over a bossa nova groove), synth (80s city-pop synths), house (lofi deep house on a soft four-on-the-floor kick), guitar (a clean electric guitar, fingerpicked over a lazy beat), sad (slow minor chords and a lonely muted trumpet) or medieval (a lute and a recorder over hand drums). A new style starts with the next track.\nIt also sets the mood, chill (slower and darker) or upbeat (faster and brighter), and plays the full band, no drums, or the chords only.\nTrack titles are inspired by the city on screen, and a separate ambience layer mixes that city's sounds under the music. The Up next list shows the coming tracks so you can pick one to play right away, and music and city sounds each have their own volume slider. The city sounds mixer goes further, with a slider for each sound of the city: turn the rain up, the traffic off or the bells down, and the setting carries over to every city with that sound.\nThe Weather chip (W) brings rain, snow, autumn leaves or a clear night to any city, and the city sounds and track titles follow it: rain brings the sound of rain in, snow a hush of wind.\nHow the music on Lofi Cities is made\nA free website at loficities.com that shows animated pixel-art city nights (Paris, Tokyo, New York, London, Rio de Janeiro, Istanbul, Hong Kong, Sydney, San Francisco, Hamburg, Amsterdam, Dubai, Madrid, Rome, Prague and Munich) with endless lofi music composed live in your browser, plus each city's ambient sounds.\nYes. It runs entirely in your browser, with no download, no account and no pop-ups.\nIt is generated in your browser while you listen. Chords, drums, bass and melody are synthesized with the Web Audio API, without samples or recordings, so every track is new and the music never runs out. The Vibe button (or V) picks the style (jazzhop, lofi piano, ambient, bossa nova, synth city pop, lofi house, chill guitar, sad lofi or medieval lofi), makes it chill or upbeat, and plays the full band, no drums, or the chords only.\nBrowsers block sound until you interact with a page. Click, tap or press any key and the music starts; the play button pauses and resumes it.\nThat is what it is made for. Press F for fullscreen and H to hide the interface, or P for the mini player: a picture-in-picture window that keeps the scene floating over your other apps (on a computer, in browsers that support it). The controls also fade out on their own when you stop moving the mouse.\nYes. The Tour chip next to the city picker (or the C key) moves on to the next city every 5, 10, 15 or 30 minutes, or follows the night: it shows whichever city is closest to 1 am local time, moving west from Sydney to San Francisco as the hours pass. Cities on the same clock, like Paris, Hamburg and Amsterdam, take turns.\nYes. The Weather chip next to the Tour chip (or the W key) brings rain, snow, falling autumn leaves or a clear night to any city, or goes back to the weather the city was drawn with: winter snow in New York, autumn in London and Hamburg, spring blossom in Tokyo and Sydney. The city sounds follow it, so rain brings the sound of rain in, and your pick stays for the next visit.\nThe glowing pill under the city name shows it, for example \"23 here now · 5 in Tokyo · 480 today · 12,345 all time\": people with Lofi Cities open right now, how many of them are on your city, browsers that came by today, since midnight where you are, and every browser that has come by since the launch. When nobody else is on, it shows the rest (\"480 here today · 12,345 all time\"). The city picker (/) shows how many people are in each city right now. You can say hello to the people on your city too: pick a heart, note, star or moon with the Together button in the player (or G), then tap the scene to float it up from that spot on everyone's screen there, or release a paper lantern (L) that rises over the city for about a minute, in the same place for everyone, including people who arrive while it is in the air. The Chat button beside it (or Enter) lets you talk with the people on your city: short messages of up to 80 characters, without links, under a random two-word name such as \"sleepy fox\" that stays the same for your browser. The smiley button beside the text box adds emoji, and so does typing a colon and a name, such as :coffee: for a cup of coffee. There are no accounts: a random id in your browser's local storage (not a cookie) makes your tabs count as one person, the server forgets it about 25 hours after your last visit, and other people only ever see your two-word name. The all-time count is a single number: your browser notes once that it was counted, and the server keeps no list of who. Your page also tells it when your day began, so \"today\" starts at your midnight, and that is forgotten when you leave. Besides that it keeps the lanterns still in the air and each city's last 30 messages, for an hour at most. You can hide anyone's messages on your screen; when a few people hide the same person, their messages go for everyone and they can't chat for an hour.\nYes. Press T or the clock button. The focus timer runs 25 minutes of focus and 5 of break (or 50 and 10) on repeat, with a soft chime at each break and a bell to call you back. The sleep timer fades the music and city sounds out after 15 to 90 minutes, then pauses.\nYes. Add a Browser source set to 1920×1080 with a city page's address followed by ?obs, for example https://loficities.com/tokyo/?obs. The interface stays hidden and the music starts on its own; tick Control audio via OBS to bring it into your mix. Interact with the source to switch city with the arrow keys, skip a track with N or change the weather with W, or add &weather=snow (rain, leaves or clear) to the address.\nYes. In portrait orientation every city's landmark and billboard stay in view, you can drag the scene sideways to look around it, and swiping past its end switches city. All controls work with touch.\nYes. Open it once while online and it keeps working without a connection, every city and the music included, since both are generated in your browser. You can also install it as an app with your browser's Install or Add to Home Screen option (on iPhone and iPad: Share, then Add to Home Screen).\nYes. The save button in the player (the down arrow) saves the current frame as a 1080p PNG, and S does the same with a keyboard.\nYes. Every city has a billboard for rent, where your café, shop, studio or brand can be drawn in pixel art. Fill in the short form at tally.so/r/rj7bY5 to get in touch.\nLofi Cities is made by Safa Elmali. You can support it on Buy Me a Coffee using the coffee link at the top right.\nYes. Send your idea to Safa Elmali on X at https://x.com/SafaElmali (Request a city, at the end of the city picker, or the X link at the top right of the site). New cities are added over time: Hong Kong, Sydney, San Francisco, Hamburg and Amsterdam joined the first six, then Dubai, Madrid, Rome, Prague and Munich.\nYes. Get the 16-city collection on Gumroad through the Get video loops link or the save menu. Each AI-assisted video is a four-minute 1920×1080 MP4 loop at 60 fps, without audio. Personal use and video or livestream backgrounds, including monetized content, are allowed with the Lofi Cities credit specified on the product page. The music and city sounds you hear on this site are not included in the downloads. The website stays free.\nNo. There is no sign-in and no cookies. Anonymous usage statistics, such as which cities are viewed, are collected without cookies, and browsers that send Do Not Track are left out of them (the live count still counts the tab, anonymously). Your settings (such as the last city, volumes and vibe) and anonymous random ids for the statistics and the live count are kept in your browser's local storage instead.\nPut your café, shop, studio or brand on the billboard in Paris: drawn by hand in the same pixel-art style, and glowing in the scene while people study, work and unwind to the music.\nA short form: your business, the city you want and how to reach you.",
+          "category": "hot",
+          "publishedAt": "2026-09-27T18:44:30.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "dream-num/univer (TypeScript)",
+          "titleKo": "dream-num/univer",
+          "summary": "스프레드시트, 문서, 슬라이드, 캔버스, 관계형 테이블, PDF를 하나의 런타임에서 지원하는 AI 에이전트용 오피스 플랫폼입니다.",
+          "keyPoints": [
+            "다양한 오피스 포맷(Sheets, Docs, Slides, Canvas, Tables, PDF)을 단일 환경에서 통합",
+            "AI 에이전트 작업에 최적화된 통합 런타임 제공"
+          ],
+          "whyItMatters": "AI 에이전트가 여러 문서 형식을 일관되게 처리하고 상호작용할 수 있는 기반을 제공합니다.",
+          "url": "https://github.com/dream-num/univer",
+          "sourceName": "GitHub Trending",
+          "engagement": 20267,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 70,
+          "isTopicPrimary": true,
+          "slug": "dream-numuniver-typescript",
+          "category": "tech",
+          "publishedAt": "2026-09-28T01:26:18.129Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "paperclipai/paperclip (TypeScript)",
+          "titleKo": "paperclipai/paperclip",
+          "summary": "업무에서 에이전트를 관리하기 위한 오픈소스 애플리케이션입니다.",
+          "keyPoints": [
+            "AI 에이전트의 중앙 집중식 관리 플랫폼",
+            "TypeScript 기반으로 구축된 오픈소스 프로젝트"
+          ],
+          "whyItMatters": "AI 에이전트 워크플로우를 체계적으로 관리하고 모니터링할 수 있는 도구입니다.",
+          "url": "https://github.com/paperclipai/paperclip",
+          "sourceName": "GitHub Trending",
+          "engagement": 89964,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 72,
+          "topicId": "paperclip-ui-framework",
+          "isTopicPrimary": true,
+          "slug": "paperclipaipaperclip-typescript",
+          "category": "tech",
+          "publishedAt": "2026-09-28T01:26:18.126Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "mvschwarz/openrig (TypeScript)",
+          "titleKo": "mvschwarz/openrig",
+          "summary": "Claude Code와 Codex를 하나의 시스템으로 함께 실행하는 멀티 에이전트 프레임워크입니다.",
+          "keyPoints": [
+            "여러 AI 에이전트를 조합하여 통합 실행 가능",
+            "Claude와 OpenAI Codex의 강점을 동시에 활용"
+          ],
+          "whyItMatters": "서로 다른 AI 모델의 장점을 결합하여 더 강력한 코드 생성 및 분석 능력을 구현할 수 있습니다.",
+          "url": "https://github.com/mvschwarz/openrig",
+          "sourceName": "GitHub Trending",
+          "engagement": 993,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 58,
+          "isTopicPrimary": true,
+          "slug": "mvschwarzopenrig-typescript",
+          "category": "tech",
+          "publishedAt": "2026-09-28T01:26:18.129Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "vercel-labs/scriptc (TypeScript)",
+          "titleKo": "vercel-labs/scriptc",
+          "summary": "TypeScript 코드를 네이티브 코드로 컴파일하는 도구입니다.",
+          "keyPoints": [
+            "TypeScript-to-Native 컴파일러 구현",
+            "Vercel Labs에서 개발 중인 실험적 프로젝트"
+          ],
+          "whyItMatters": "TypeScript의 생산성과 네이티브 성능을 함께 얻을 수 있는 가능성을 제시합니다.",
+          "url": "https://github.com/vercel-labs/scriptc",
+          "sourceName": "GitHub Trending",
+          "engagement": 5410,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 68,
+          "isTopicPrimary": true,
+          "slug": "vercel-labsscriptc-typescript",
+          "category": "tech",
+          "publishedAt": "2026-09-28T01:26:18.128Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Use these CSS features instead of JavaScript",
+          "titleKo": "JavaScript 대신 이 CSS 기능들을 사용하세요",
+          "summary": "JavaScript로 구현하던 기능들을 CSS만으로 처리할 수 있는 방법을 소개하는 영상입니다.",
+          "keyPoints": [
+            "CSS의 최신 기능으로 동적 스타일링 구현 가능",
+            "JavaScript 의존성 감소로 성능 개선 및 코드 간결화"
+          ],
+          "whyItMatters": "웹 개발에서 불필요한 JS 복잡도를 줄이고 CSS의 표준 기능을 효과적으로 활용할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=qu1jE41O_8o",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 78,
+          "topicId": "css-alternatives-javascript",
+          "isTopicPrimary": true,
+          "slug": "use-these-css-features-instead-of-javascript",
+          "category": "video",
+          "publishedAt": "2026-09-23T13:00:33+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "React 2025 – Adding MDX",
+          "titleKo": "React 2025 – MDX 추가",
+          "summary": "React 2025 버전에 MDX 지원을 추가하는 내용을 다루는 영상입니다.",
+          "keyPoints": [
+            "React에서 Markdown과 JSX를 함께 사용 가능",
+            "마크다운 기반 컨텐츠와 인터랙티브 컴포넌트 통합"
+          ],
+          "whyItMatters": "문서화와 동적 UI를 더 효율적으로 작성하고 관리할 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=TUnbglpVhiU",
+          "sourceName": "Lee Robinson",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 74,
+          "topicId": "react-2025-mdx",
+          "isTopicPrimary": true,
+          "slug": "react-2025-adding-mdx",
+          "category": "video",
+          "publishedAt": "2025-11-07T14:31:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Lighting My Porch With Vega #coding #programming #javascript #vega",
+          "titleKo": "Amazon Vega로 만든 나만의 태양계 포치 조명 프로젝트",
+          "summary": "천문학을 좋아하는 가족을 위해 3D 프린팅한 행성 모형에 LED 조명을 달고, React Native 기반의 Amazon Vega(Fire TV 플랫폼)로 이를 프로젝션 스크린과 연동한 DIY 프로젝트 후기입니다. VS Code 확장과 로컬 시뮬레이터, CLI 도구로 개발 경험이 쾌적했고, WLED 컨트롤러를 fetch로 제어하며 aria label만으로 음성 명령까지 구현한 과정을 다룹니다.",
+          "keyPoints": [
+            "Amazon Vega는 UI가 React Native 기반이라 기존 React/React Native 지식을 그대로 활용할 수 있다.",
+            "VS Code 확장과 로컬 시뮬레이터 덕분에 실기기 없이도 손쉽게 디버깅할 수 있고, CLI로 프로젝트를 빠르게 시작할 수 있다.",
+            "WLED 컨트롤러 같은 외부 하드웨어도 표준 fetch를 이용한 HTTP 요청만으로 제어 가능하다.",
+            "컴포넌트에 aria label만 추가하면 Vega가 음성 인식과 press 이벤트 매핑을 자동으로 처리해준다.",
+            "AI 코딩 에이전트에게 Vega 공식 문서를 참고시키는 것만으로 React Native 기반 개발을 수월하게 진행할 수 있었다."
+          ],
+          "whyItMatters": "React/React Native 경험이 있는 프론트엔드 개발자라면 별도의 학습 곡선 없이 TV 빅스크린 앱이나 IoT 연동 프로젝트를 빠르게 구현해볼 수 있다는 실전 사례를 보여줍니다.",
+          "article": "# Amazon Vega로 만든 나만의 태양계 포치 조명 프로젝트\n\n천문학에 진심인 우리 가족을 위해, 3D 프린터로 뽑은 행성 모형들을 포치 뒤편에 쭉 늘어놓고 제어 가능한 LED로 조명을 달아봤습니다. 영화를 볼 때 분위기를 살려주는 용도였는데, 여기서 한 걸음 더 나아가 이 행성 조명들을 프로젝션 스크린과 연동하고 싶어졌습니다. 이번 글에서는 React Native 기반의 Amazon Fire TV 플랫폼 Vega를 활용해 이 아이디어를 실제로 구현한 과정을 정리해봅니다.\n\n## 왜 Amazon Vega를 선택했나\n\n여러 옵션을 찾아보다가 Fire Stick과 Amazon Vega 조합을 선택했습니다. 이유는 단순합니다. Vega의 UI가 React Native로 만들어지기 때문인데요. 평소 React와 React Native에 익숙했던 터라 진입 장벽이 낮을 거라 판단했고, 실제로 작업해보니 예상보다 훨씬 수월했습니다.\n\n## 개발 경험: VS Code 확장과 로컬 시뮬레이터\n\nVega는 VS Code용 확장을 제공합니다. 여기에 로컬 시뮬레이터까지 포함되어 있어서 실제 Fire TV 기기 없이도 코드를 디버깅하기가 매우 편했습니다. 또한 프로젝트를 빠르게 시작할 수 있는 CLI 도구도 마련되어 있어서, 초기 세팅 단계에서 헤맬 일이 거의 없었습니다.\n\n여기에 더해, React Native 기반이다 보니 AI 코딩 에이전트들과의 궁합도 좋았습니다. Vega 공식 문서를 참고 자료로 제공하는 것만으로 세부적인 부분까지 수월하게 코딩을 진행할 수 있었습니다.\n\n## 실제 구현: 태양계 지도와 D-패드 네비게이션\n\n이렇게 완성한 앱은 손님들이 놀러 왔을 때 태양계 지도를 화면에 띄우고, 각 행성에 대한 정보를 함께 보여줍니다. 리모컨의 D-패드를 이용해 화면 속 지도와 실제 포치의 조명 사이를 자유롭게 오가며 탐색할 수 있습니다.\n\nLED 제어는 WLED 컨트롤러를 사용했습니다. Vega 앱에서 별도의 특수한 통신 방식 없이, 일반적인 `fetch`로 HTTP 요청을 보내는 것만으로 LED를 직접 제어할 수 있었습니다.\n\n## 마무리: 음성 인식으로 완성도 높이기\n\n프로젝트의 화룡점정은 음성 명령이었습니다. 사용자가 행성 이름을 말하면 화면과 조명에 해당 행성이 표시되도록 만들고 싶었는데, 이 작업이 놀라울 정도로 간단했습니다. 컴포넌트에 `aria label`만 추가해주면, 나머지 음성 인식 처리는 Vega가 알아서 다 해줬습니다. 사용자가 \"Saturn\"이라고 말하면 Vega가 이를 인식해 해당하는 press 이벤트를 자동으로 발생시켜주는 방식입니다. 별도의 음성 인식 로직을 짜지 않아도 되니 결과물의 완성도가 한층 올라갔습니다.\n\n## 정리\n\n- **선택 이유**: Amazon Vega는 UI 레이어가 React Native로 구성되어 있어, 기존 React/React Native 경험을 그대로 활용할 수 있습니다.\n- **개발 툴체인**: VS Code 확장과 로컬 시뮬레이터 덕분에 실기기 없이도 빠른 반복 개발과 디버깅이 가능하며, CLI로 프로젝트를 손쉽게 초기화할 수 있습니다.\n- **외부 연동**: 별도의 특수 API 없이 표준 `fetch`로 HTTP 통신을 하면 되기 때문에, WLED 같은 외부 하드웨어 컨트롤러 연동도 어렵지 않습니다.\n- **음성 인터페이스**: `aria label`만 붙이면 Vega가 음성 인식과 이벤트 매핑을 자동으로 처리해줘서, 접근성 속성을 조금만 신경 써도 음성 제어 기능을 손쉽게 추가할 수 있습니다.\n- React나 React Native를 이미 다뤄본 개발자라면, Vega는 TV 화면(빅스크린) 앱을 만드는 데 있어 학습 곡선이 낮은 선택지가 될 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=55hdtzM8T98",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 64,
+          "isTopicPrimary": true,
+          "slug": "lighting-my-porch-with-vega-coding-programming-javascript-vega",
+          "fullContent": "My family's own to astronomy. So, I printed out all these 3D printable planets and I put them along the back of the porch and I lit them with controllable LEDs. It's really nice when we're watching movies, but I wanted a way to connect the planets with the big projection screen. So, I looked around and picked a Fire Stick with Amazon's Vega because it uses React Native for the UI and I'm pretty good with React and React Native. And I got to tell you, it was easier than I expected. There's a Vega extension for VS Code. It's got a local simulator that makes it really easy to debug the code, which is great. The L coding agents obviously love React Native. And so, I just pointed them at the Vega docs for the extra details. They've even got a CLI app to get your project started. So, now when folks come over, I can just pop up a map of the solar system with all the facts about each planet and they can navigate around the lights and the planets with the D-pad on the controller. And then to control the LEDs, I use a WLED controller and then just send the command to it with HTTP right out of the Vega app using just a regular fetch. But to kind of add that finishing touch, I wanted folks to be able to say the name of the planet and have it show up on the screen and also on the lights. And it was as easy as just adding aria labels and Vega just handled all the extra voice work and sent the press events when you use the name. Saturn. It's just so slick and it really brought that project to life. So, give Vega a shot. If you know React Native and React already, it's an easy way to get your application up on the big screen. Check out the link in the description for more information and thank you so much, Amazon, for sponsoring this video.",
+          "category": "video",
+          "publishedAt": "2026-07-02T18:22:02+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
