@@ -1,0 +1,218 @@
+---
+title: "React Compiler v1.0"
+tags: [dev-digest, hot, react]
+type: study
+tech:
+  - react
+level: ""
+created: 2026-09-29
+aliases: []
+---
+
+## 핵심 개념
+
+> [!abstract]
+> React Compiler가 드디어 정식 버전(1.0)으로 출시되었습니다. 지난해 베타 버전 공개 이후 커뮤니티의 다양한 피드백을 반영해 개선을 거듭했고, Meta 내부의 대규모 프로덕션 앱에서 충분히 검증을 마쳤습니다. 이번 글에서는 React Compiler 1.0이 무엇을 담고 있는지, 어떻게 도입하면 되는지, 그리고 실제 프로덕션에서 어떤 성과를 냈는지 정리해보겠습니다.
+
+## 아티클
+
+React Compiler가 드디어 정식 버전(1.0)으로 출시되었습니다. 지난해 베타 버전 공개 이후 커뮤니티의 다양한 피드백을 반영해 개선을 거듭했고, Meta 내부의 대규모 프로덕션 앱에서 충분히 검증을 마쳤습니다. 이번 글에서는 React Compiler 1.0이 무엇을 담고 있는지, 어떻게 도입하면 되는지, 그리고 실제 프로덕션에서 어떤 성과를 냈는지 정리해보겠습니다.
+
+## React Compiler란 무엇인가
+
+React Compiler는 자동 메모이제이션을 통해 React 앱을 최적화하는 빌드타임 도구입니다. React와 React Native 양쪽 모두에서 동작하며, 코드를 다시 작성할 필요 없이 컴포넌트와 훅을 자동으로 최적화해줍니다. Meta의 주요 앱들에서 이미 실전 검증을 거쳤고, 이제 프로덕션에 투입해도 충분한 수준에 도달했습니다.
+
+Sanity Studio와 Wakelet의 사례 연구에서도 컴파일러 도입 효과가 확인된 바 있으며, React 팀은 이번 정식 출시를 계기로 더 많은 사용자들이 이 혜택을 누리길 기대하고 있습니다.
+
+## 거의 10년에 걸친 개발 여정
+
+이번 릴리스는 단순한 기능 하나가 아니라, 거의 10년에 걸친 방대하고 복잡한 엔지니어링 노력의 결실입니다. React 팀의 컴파일러 탐구는 2017년 Prepack 프로젝트에서 시작되었습니다. 이 프로젝트 자체는 결국 종료되었지만, 여기서 얻은 교훈은 이후 Hooks의 설계에 큰 영향을 미쳤습니다. 실제로 Hooks는 처음부터 미래의 컴파일러를 염두에 두고 설계된 것입니다.
+
+2021년, Xuan Huang이 새로운 접근 방식의 React Compiler 첫 버전을 시연했습니다. 이 첫 버전은 이후 전면 재작성되었지만, 이 프로토타입 덕분에 팀은 "이 문제가 풀 수 있는 문제"라는 확신을 얻었고, 대안적인 컴파일러 아키텍처가 원하는 수준의 정밀한 메모이제이션 특성을 제공할 수 있다는 것을 배웠습니다.
+
+이후 Joe Savona, Sathya Gunasekaran, Mofei Zhang, Lauren Tan이 첫 번째 전면 재작성을 주도하며, 컴파일러 아키텍처를 CFG(Control Flow Graph) 기반의 HIR(High-Level Intermediate Representation)로 옮겼습니다. 이 전환 덕분에 훨씬 정밀한 분석과 타입 추론까지 컴파일러 내부에서 가능해졌습니다. 이후로도 컴파일러의 상당 부분이 여러 차례 재작성되었고, 매번 이전 시도에서 얻은 교훈이 다음 설계에 반영되었습니다.
+
+## 컴파일러는 어떻게 동작하는가
+
+React Compiler는 자동 메모이제이션을 통해 컴포넌트와 훅을 최적화하는 최적화 컴파일러입니다. 현재는 Babel 플러그인으로 구현되어 있지만, 실질적으로는 Babel과 크게 결합되어 있지 않습니다. Babel이 제공하는 AST(Abstract Syntax Tree)를 자체적인 HIR로 낮춘 뒤, 여러 컴파일 단계를 거치며 React 코드의 데이터 흐름과 변경 가능성(mutability)을 세밀하게 분석합니다.
+
+이런 분석 덕분에 컴파일러는 렌더링에 사용되는 값들을 매우 세밀하게 메모이제이션할 수 있고, 심지어 조건부로 메모이제이션하는 것도 가능합니다. 이는 수동으로 useMemo/useCallback을 작성해서는 구현할 수 없는 영역입니다. 다음 예시를 보시죠.
+
+```jsx
+import { use } from 'react';
+
+export default function ThemeProvider(props) {
+  if (!props.children) {
+    return null;
+  }
+
+  const theme = mergeTheme(props.theme, use(ThemeContext));
+  return (
+    <ThemeContext value={theme}>
+      {props.children}
+    </ThemeContext>
+  );
+}
+```
+
+이 예시는 React Compiler Playground에서 직접 확인할 수 있습니다.
+
+자동 메모이제이션 외에도, React Compiler는 코드에 대한 검증(validation) 단계를 함께 수행합니다. 이 검증 단계는 Rules of React를 코드화한 것으로, 컴파일러가 파악한 데이터 흐름과 변경 가능성 정보를 활용해 Rules of React를 위반하는 지점에 대한 진단(diagnostics)을 제공합니다. 이 진단은 코드에 숨어 있던 잠재적 버그를 드러내는 경우가 많으며, 주로 eslint-plugin-react-hooks를 통해 노출됩니다.
+
+컴파일러가 코드를 어떻게 최적화하는지 더 깊이 알고 싶다면 Playground를 방문해보시길 권합니다.
+
+## 오늘부터 React Compiler 사용하기
+
+설치는 간단합니다.
+
+```bash
+npm install --save-dev --save-exact babel-plugin-react-compiler@latest
+```
+
+```bash
+pnpm add --save-dev --save-exact babel-plugin-react-compiler@latest
+```
+
+```bash
+yarn add --dev --exact babel-plugin-react-compiler@latest
+```
+
+정식 릴리스를 준비하면서 React 팀은 컴파일러를 프로젝트에 더 쉽게 도입할 수 있도록 개선했고, 메모이제이션을 생성하는 방식에도 최적화를 추가했습니다. 이제 React Compiler는 옵셔널 체이닝(optional chain)과 배열 인덱스도 의존성으로 지원합니다. 이런 개선 덕분에 불필요한 리렌더링이 줄고 UI 반응성이 높아지는 동시에, 개발자는 계속해서 관용적인 선언형 코드를 작성할 수 있습니다.
+
+자세한 사용법은 공식 문서에서 확인할 수 있습니다.
+
+## 프로덕션에서 확인한 실제 성과
+
+React Compiler는 이미 Meta Quest Store 같은 앱에 적용되어 있습니다. 초기 로딩과 페이지 간 이동이 최대 12% 개선되었고, 일부 인터랙션은 2.5배 이상 빨라졌습니다. 이런 개선 효과에도 불구하고 메모리 사용량은 중립적으로 유지되었습니다. 물론 앱마다 결과는 다를 수 있지만, React 팀은 각자의 앱에서 직접 컴파일러를 실험해볼 것을 권장하고 있습니다.
+
+## 하위 호환성
+
+베타 발표 당시 안내한 대로, React Compiler는 React 17 이상과 호환됩니다. 아직 React 19로 넘어가지 않았다면, 컴파일러 설정에서 최소 타겟 버전을 지정하고 react-compiler-runtime을 의존성으로 추가하는 방식으로 컴파일러를 사용할 수 있습니다. 자세한 내용은 문서에서 확인할 수 있습니다.
+
+## 컴파일러 기반 린팅으로 Rules of React 강제하기
+
+React Compiler에는 Rules of React를 위반하는 코드를 찾아내는 ESLint 규칙이 포함되어 있습니다. 이 린트 규칙은 컴파일러 자체가 설치되어 있지 않아도 동작하기 때문에, eslint-plugin-react-hooks를 업그레이드하는 데 아무런 리스크가 없습니다. React 팀은 모든 사용자에게 오늘 바로 업그레이드할 것을 권장합니다.
+
+만약 이미 eslint-plugin-react-compiler를 설치해서 쓰고 있다면, 이제 이것을 제거하고 eslint-plugin-react-hooks@latest를 사용하면 됩니다. 이 개선에 기여해준 @michaelfaith에게 감사를 전합니다.
+
+설치 방법:
+
+```bash
+npm install --save-dev eslint-plugin-react-hooks@latest
+```
+
+```bash
+pnpm add --save-dev eslint-plugin-react-hooks@latest
+```
+
+```bash
+yarn add --dev eslint-plugin-react-hooks@latest
+```
+
+Flat config 예시:
+
+```js
+import reactHooks from 'eslint-plugin-react-hooks';
+import { defineConfig } from 'eslint/config';
+
+export default defineConfig([
+  reactHooks.configs.flat.recommended,
+]);
+```
+
+레거시 config 예시:
+
+```json
+{ "extends": ["plugin:react-hooks/recommended"] }
+```
+
+React Compiler 규칙을 활성화하려면 recommended 프리셋 사용을 권장합니다. 자세한 사용법은 README를 참고하세요. React Conf에서 소개된 몇 가지 규칙 예시는 다음과 같습니다.
+
+- **set-state-in-render**: 렌더링 중 setState를 호출해 렌더 루프를 유발하는 패턴을 감지
+- **set-state-in-effect**: 이펙트 내부의 무거운 작업을 플래그로 표시
+- **refs**: 렌더링 중 안전하지 않은 ref 접근을 방지
+
+## useMemo, useCallback, React.memo는 이제 어떻게 해야 할까
+
+기본적으로 React Compiler는 자체 분석과 휴리스틱을 바탕으로 코드를 메모이제이션합니다. 대부분의 경우 이 메모이제이션은 개발자가 직접 작성한 것만큼, 혹은 그 이상으로 정밀합니다. 게다가 앞서 언급했듯, 컴파일러는 early return 이후처럼 useMemo/useCallback으로는 불가능한 지점에서도 메모이제이션을 적용할 수 있습니다.
+
+다만 일부 경우에는 개발자가 메모이제이션에 더 세밀한 제어권을 가져야 할 수 있습니다. useMemo와 useCallback은 React Compiler와 함께 쓰일 때도 "이스케이프 해치(escape hatch)"로서, 어떤 값을 메모이제이션할지 직접 제어하는 용도로 계속 사용할 수 있습니다. 대표적인 사례는 메모이제이션된 값을 이펙트의 의존성으로 사용해, 의미 있는 변화가 없는데도 이펙트가 반복적으로 실행되지 않도록 보장하는 경우입니다.
+
+- **새 코드**: 메모이제이션은 컴파일러에 맡기고, 정밀한 제어가 필요할 때만 useMemo/useCallback을 사용하는 것을 권장합니다.
+- **기존 코드**: 기존에 적용된 메모이제이션은 그대로 두거나(제거하면 컴파일 결과물이 달라질 수 있음), 제거하기 전에 충분히 테스트할 것을 권장합니다.
+
+## 새 앱은 React Compiler와 함께 시작하기
+
+React 팀은 Expo, Vite, Next.js 팀과 협력해 새 앱을 만들 때부터 컴파일러가 기본으로 켜지도록 했습니다.
+
+Expo SDK 54 이상에서는 컴파일러가 기본으로 활성화되어 있어, 새 앱을 만들면 처음부터 컴파일러의 혜택을 누릴 수 있습니다.
+
+```bash
+npx create-expo-app@latest
+```
+
+Vite와 Next.js 사용자는 create-vite와 create-next-app에서 컴파일러가 활성화된 템플릿을 선택할 수 있습니다.
+
+```bash
+npm create vite@latest
+```
+
+```bash
+npx create-next-app@latest
+```
+
+## 기존 앱에 점진적으로 도입하기
+
+이미 운영 중인 애플리케이션을 유지보수하고 있다면, 원하는 속도로 컴파일러를 롤아웃할 수 있습니다. React 팀은 게이팅 전략, 호환성 체크, 롤아웃 도구 등을 다루는 단계별 점진적 도입 가이드를 공개했으니, 이를 참고하면 확신을 갖고 컴파일러를 도입할 수 있습니다.
+
+## swc 지원 (실험적)
+
+React Compiler는 Babel, Vite, Rsbuild 등 여러 빌드 도구에 설치할 수 있습니다. 여기에 더해, React 팀은 swc 팀의 Kang Dongyoon(@kdy1dev)과 협업하여 React Compiler를 swc 플러그인 형태로도 지원하는 작업을 진행하고 있습니다. 아직 완전히 끝나지는 않았지만, Next.js 앱에서 React Compiler를 활성화했을 때의 빌드 성능은 이미 상당히 개선되었습니다.
+
+가장 좋은 빌드 성능을 얻으려면 Next.js 15.3.1 이상 사용을 권장합니다.
+
+Vite 사용자는 계속해서 vite-plugin-react를 통해 컴파일러를 Babel 플러그인으로 추가하는 방식으로 사용할 수 있습니다. React 팀은 oxc 팀과도 협력해 컴파일러 지원을 추가하는 작업을 진행 중입니다. rolldown이 정식 출시되어 Vite에 통합되고 oxc의 React Compiler 지원이 추가되면, 마이그레이션 방법에 대한 문서를 업데이트할 예정입니다.
+
+## React Compiler 업그레이드할 때 주의할 점
+
+React Compiler는 자동 적용되는 메모이제이션이 엄격하게 성능 목적으로만 사용될 때 가장 잘 동작합니다. 향후 버전에서는 메모이제이션 적용 방식이 달라질 수 있으며, 예를 들어 더 세밀하고 정밀해질 수 있습니다.
+
+다만 프로덕트 코드가 때때로 JavaScript 정적 분석만으로는 항상 감지되지 않는 방식으로 Rules of React를 위반할 수 있기 때문에, 메모이제이션 방식이 바뀌면 가끔 예상치 못한 결과가 발생할 수 있습니다. 예를 들어, 이전에 메모이제이션되었던 값이 컴포넌트 트리 어딘가의 useEffect 의존성으로 사용되고 있었다면, 이 값의 메모이제이션 방식이나 여부가 바뀌면서 해당 useEffect가 과도하게 혹은 부족하게 실행될 수 있습니다. React 팀은 useEffect를 오직 동기화(synchronization) 목적으로만 사용할 것을 권장하지만, 실제 코드베이스에는 특정 값의 변경에만 반응해야 하는 등 다른 용도로 쓰이는 useEffect가 존재할 수 있습니다.
+
+즉, 드물게는 메모이제이션 변경이 예상치 못한 동작을 유발할 수 있습니다. 이런 이유로 Rules of React를 준수하고, 앱에 대한 지속적인 E2E 테스트를 갖춰두는 것을 권장합니다. 이렇게 하면 컴파일러를 확신을 갖고 업그레이드할 수 있고, 문제를 일으킬 수 있는 Rules of React 위반 사항도 미리 발견할 수 있습니다.
+
+만약 테스트 커버리지가 충분하지 않다면, SemVer 범위(예: `^1.0.0`)가 아니라 정확한 버전(예: `1.0.0`)으로 컴파일러 버전을 고정할 것을 권장합니다. 업그레이드 시 npm/pnpm은 `--save-exact` 플래그를, yarn은 `--exact` 플래그를 사용하면 됩니다. 이후 컴파일러 업그레이드는 수동으로 진행하면서, 앱이 여전히 예상대로 동작하는지 꼼꼼히 확인하는 것이 좋습니다.
+
+## 정리
+
+React Compiler는 거의 10년에 걸친 React 팀의 컴파일러 연구가 마침내 결실을 맺은 결과물입니다. Prepack의 실패와 Hooks 설계, CFG 기반 HIR로의 전환이라는 긴 여정을 거쳐 이제 1.0 정식 버전으로 프로덕션에 투입할 수 있게 되었습니다.
+
+핵심을 정리하면 다음과 같습니다.
+
+- **자동 메모이제이션**: 코드 재작성 없이 컴포넌트와 훅을 분석해 데이터 흐름과 mutability를 기반으로 세밀하고 조건부적인 메모이제이션까지 적용한다.
+- **실제 성과 검증**: Meta Quest Store에서 초기 로딩·페이지 이동 최대 12% 개선, 일부 인터랙션 2.5배 이상 개선, 메모리 사용량은 중립 유지.
+- **린트 규칙 통합**: eslint-plugin-react-compiler는 이제 필요 없고, eslint-plugin-react-hooks@latest 하나로 컴파일러 설치 없이도 Rules of React 위반을 잡아낼 수 있다.
+- **점진적 도입 가능**: 새 프로젝트는 Expo SDK 54+, Vite/Next.js 템플릿으로 처음부터 켜서 시작하고, 기존 프로젝트는 공식 가이드를 따라 단계적으로 롤아웃하면 된다.
+- **업그레이드 시 주의**: 메모이제이션 변경이 useEffect 등에 예상치 못한 영향을 줄 수 있으므로, E2E 테스트가 부족하다면 버전을 정확히 고정하고 수동으로 업그레이드하는 것이 안전하다.
+
+이제는 React Compiler 도입을 미룰 이유보다 시도해볼 이유가 더 많아진 시점입니다. 새 프로젝트라면 템플릿 차원에서 바로 켜서 시작하고, 기존 프로젝트라면 린트 규칙부터 먼저 적용해보면서 점진적으로 컴파일러 도입을 검토해보는 것을 추천합니다.
+
+```json
+{
+  "titleKo": "React Compiler 1.0 정식 출시: 자동 메모이제이션이 표준이 되는 시대",
+  "summary": "React 팀이 거의 10년간의 개발 끝에 React Compiler 1.0을 정식 출시했습니다. 코드 재작성 없이 데이터 흐름과 mutability 분석을 통해 컴포넌트와 훅을 자동으로 메모이제이션하며, Meta Quest Store에서는 로딩 속도 최대 12% 개선과 일부 인터랙션 2.5배 향상을 기록했습니다. eslint-plugin-react-hooks에 컴파일러 기반 린트 규칙이 통합되었고, Expo·Vite·Next.js에서 새 프로젝트 생성 시 바로 활성화할 수 있으며, 기존 앱을 위한 점진적 도입 가이드도 함께 공개되었습니다.",
+  "keyPoints": [
+    "React Compiler는 Babel AST를 자체 HIR로 변환해 데이터 흐름과 mutability를 분석, early return 이후처럼 수동 메모이제이션이 불가능한 지점까지 조건부로 메모이제이션할 수 있다.",
+    "Meta Quest Store 프로덕션 적용 결과 초기 로딩·페이지 이동 최대 12% 개선, 특정 인터랙션 2.5배 이상 향상, 메모리 사용량은 변화 없음을 확인했다.",
+    "eslint-plugin-react-compiler는 폐기되고 eslint-plugin-react-hooks@latest로 통합되어, 컴파일러 설치 여부와 무관하게 set-state-in-render, set-state-in-effect, refs 등 Rules of React 위반을 린트로 잡아낼 수 있다.",
+    "React 17 이상과 호환되며, Expo SDK 54+는 기본 활성화, Vite·Next.js는 템플릿 선택으로 새 프로젝트에 바로 적용 가능하고, 기존 프로젝트는 공식 점진적 도입 가이드를 따르면 된다.",
+    "메모이제이션 변경이 useEffect 의존성 등에 예상치 못한 영향을 줄 수
+
+## 참고 자료
+
+- [원문 링크](https://react.dev/blog/2025/10/07/react-compiler-1)
+- via React Blog
+
+## 관련 노트
+
+- [[2026-09-29|2026-09-29 Dev Digest]]
