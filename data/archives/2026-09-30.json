@@ -1,0 +1,437 @@
+{
+  "date": "2026-09-30",
+  "intro": "안녕하세요! 오늘은 React Server Components의 심각한 보안 위기와 AI 에이전트 플랫폼의 부상이 주목됩니다. CVSS 10.0급 RCE 취약점에서 시작된 일련의 보안 이슈들이 연쇄적으로 발견되고 있으며, 동시에 기업용 AI 오피스 플랫폼과 에이전트 관리 도구들이 차례로 공개되고 있습니다.",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "Critical Security Vulnerability in React Server Components",
+          "titleKo": "React Server Components 치명적 보안 취약점(CVSS 10.0) 발생, 즉시 업그레이드 필요",
+          "summary": "React Server Function 엔드포인트의 페이로드 디코딩 로직에서 인증 없이 원격 코드 실행이 가능한 CVSS 10.0급 취약점(CVE-2025-55182)이 발견되었습니다. react-server-dom-webpack/parcel/turbopack의 19.0~19.2.0 버전이 영향을 받으며, Next.js, React Router, Waku, Redwood SDK 등 RSC를 지원하는 주요 프레임워크도 모두 대상입니다. React 팀은 19.0.1, 19.1.2, 19.2.1로의 즉시 업그레이드를 권고했으며, 이후 추가로 발견된 DoS 및 소스 코드 노출 취약점도 함께 패치되었습니다.",
+          "keyPoints": [
+            "Server Function 엔드포인트로 전달되는 페이로드를 React가 역직렬화하는 과정의 결함으로 인증 없는 원격 코드 실행이 가능했습니다 (CVE-2025-55182, CVSS 10.0).",
+            "react-server-dom-webpack, react-server-dom-parcel, react-server-dom-turbopack의 19.0/19.1.0/19.1.1/19.2.0 버전이 영향을 받으며, 19.0.1/19.1.2/19.2.1로 즉시 업그레이드해야 합니다.",
+            "Next.js, React Router, Waku, Redwood SDK, @parcel/rsc, @vitejs/plugin-rsc 등 RSC 기반 프레임워크와 번들러도 모두 영향을 받으므로 프레임워크별 패치 버전 안내를 따라야 합니다.",
+            "서버를 쓰지 않거나 RSC를 지원하는 프레임워크·번들러를 쓰지 않는 앱은 영향을 받지 않으며, 호스팅 제공업체의 임시 완화 조치는 근본 대책이 아니므로 반드시 패키지 업그레이드가 필요합니다.",
+            "이후 DoS(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864)와 소스 코드 노출(CVE-2025-55183) 취약점도 추가로 확인되어 함께 패치되었습니다."
+          ],
+          "whyItMatters": "RSC 기반 프레임워크(Next.js 등)를 운영 중인 서비스라면 인증 없는 RCE로 서버가 완전히 장악될 수 있는 최고 등급 취약점이므로, 사용 중인 버전을 즉시 점검하고 패치하는 것이 프로덕션 안정성에 직결됩니다.",
+          "article": "React 팀이 2025년 12월 3일, React Server Components에 존재하는 치명적인 보안 취약점을 공개하고 즉각적인 업그레이드를 권고했습니다. CVSS 10.0 만점 등급을 받은 이 취약점은 인증 없이도 서버에서 임의 코드를 실행할 수 있는 수준의 심각한 문제로, React Server Function을 사용하지 않더라도 React Server Components를 지원하는 프레임워크나 번들러를 쓰고 있다면 영향을 받을 수 있습니다.\n\n## 무엇이 문제였나\n\n11월 29일, Lachlan Davidson이라는 연구자가 Meta Bug Bounty 프로그램을 통해 React의 보안 취약점을 제보했습니다. 문제는 React가 Server Function 엔드포인트로 전달된 페이로드를 디코딩하는 과정에 있었는데요, 공격자가 인증 절차 없이도 악의적으로 조작한 HTTP 요청을 Server Function 엔드포인트로 보내면, React가 이를 역직렬화(deserialize)하는 시점에 서버에서 원격 코드 실행(RCE)이 가능해지는 구조였습니다.\n\nReact Server Functions는 클라이언트가 서버의 함수를 호출할 수 있게 해주는 기능입니다. React는 클라이언트의 요청을 HTTP 요청으로 변환해 서버로 전달하고, 서버에서는 이를 다시 함수 호출로 변환해 필요한 데이터를 클라이언트에 돌려주는 방식으로 동작합니다. 이 변환·해석 과정에서 결함이 있었던 셈입니다. 취약점의 구체적인 기술적 세부사항은 패치 롤아웃이 완료된 이후 추가로 공개하기로 했습니다.\n\n이 취약점은 CVE-2025-55182로 등록되었고, CVSS 점수는 최고치인 10.0입니다.\n\n## 영향 범위\n\n다음 패키지의 19.0, 19.1.0, 19.1.1, 19.2.0 버전에 취약점이 존재합니다.\n\n- `react-server-dom-webpack`\n- `react-server-dom-parcel`\n- `react-server-dom-turbopack`\n\n수정 패치는 19.0.1, 19.1.2, 19.2.1 버전에 반영되었습니다. 위 패키지를 사용 중이라면 즉시 수정된 버전으로 업그레이드해야 합니다.\n\n반대로, 앱의 React 코드가 서버를 전혀 사용하지 않거나 React Server Components를 지원하는 프레임워크·번들러·번들러 플러그인을 사용하지 않는다면 이번 취약점의 영향을 받지 않습니다.\n\n영향을 받는 프레임워크와 번들러는 다음과 같습니다. 이들은 취약한 React 패키지에 직접 의존하거나, peer dependency로 두거나, 내부적으로 포함하고 있었습니다.\n\n- `next`\n- `react-router`\n- `waku`\n- `@parcel/rsc`\n- `@vitejs/plugin-rsc`\n- `rwsdk`\n\nReact 팀은 여러 호스팅 제공업체와 협력해 임시 완화 조치(mitigation)를 적용했다고 밝혔습니다. 다만 이 임시 조치에 의존해서는 안 되며, 반드시 직접 최신 버전으로 업그레이드해야 한다고 강조했습니다.\n\n## 프레임워크별 업그레이드 방법\n\n**Next.js**\n릴리스 라인별로 다음 패치 버전으로 업그레이드해야 합니다.\n\n```\nnpm install next@14.2.35\nnpm install next@15.0.8\nnpm install next@15.1.12\nnpm install next@15.2.9\nnpm install next@15.3.9\nnpm install next@15.4.11\nnpm install next@15.5.10\nnpm install next@16.0.11\nnpm install next@16.1.5\nnpm install next@15.6.0-canary.60\nnpm install next@16.1.0-canary.19\n```\n\nNext.js 13의 13.3.x, 13.4.x, 13.5.x 버전을 사용 중이라면 14.2.35로 올려야 하고, `next@14.3.0-canary.77` 이후의 canary 버전을 쓰고 있다면 최신 안정 버전인 14.x로 다운그레이드해야 합니다.\n\n```\nnpm install next@14\n```\n\n**React Router**\nunstable RSC API를 사용 중이라면 다음 의존성들을 최신으로 올려야 합니다.\n\n```\nnpm install react@latest\nnpm install react-dom@latest\nnpm install react-server-dom-parcel@latest\nnpm install react-server-dom-webpack@latest\nnpm install @vitejs/plugin-rsc@latest\n```\n\n**Redwood SDK**\n`rwsdk>=1.0.0-alpha.0` 이상인지 확인하고, 최신 베타로 업데이트합니다.\n\n```\nnpm install rwsdk@latest\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\n```\n\n**Waku**\n\n```\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest waku@latest\n```\n\n**@vitejs/plugin-rsc**\n\n```\nnpm install react@latest react-dom@latest @vitejs/plugin-rsc@latest\n```\n\n**개별 react-server-dom-* 패키지**\n프레임워크 없이 직접 사용 중이라면 각각 최신 버전으로 올리면 됩니다.\n\n```\nnpm install react@latest react-dom@latest react-server-dom-parcel@latest\nnpm install react@latest react-dom@latest react-server-dom-turbopack@latest\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\n```\n\n**React Native**\n모노레포를 쓰지 않고 `react-dom`도 사용하지 않는다면 package.json에 React 버전이 고정되어 있을 것이므로 추가 조치가 필요 없습니다. 모노레포 환경에서 `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack` 패키지를 설치해 사용 중이라면 해당 패키지만 업데이트하면 됩니다. `react`와 `react-dom`까지 함께 올릴 필요는 없으며, 이렇게 해도 React Native의 버전 불일치 오류는 발생하지 않습니다.\n\n## 이후 추가로 확인된 취약점\n\n이 글은 이후 새로 발견된 취약점들을 반영해 업데이트되었습니다.\n\n- **서비스 거부(DoS) - 심각도 High**: CVE-2025-55184, CVE-2025-67779 (CVSS 7.5)\n- **소스 코드 노출 - 심각도 Medium**: CVE-2025-55183 (CVSS 5.3)\n- **서비스 거부(DoS) - 심각도 High**: 2026년 1월 26일 추가된 CVE-2026-23864 (CVSS 7.5)\n\n자세한 내용은 React 블로그의 후속 포스트에서 다루고 있습니다.\n\n## 타임라인\n\n- **11월 29일**: Lachlan Davidson이 Meta Bug Bounty를 통해 취약점 제보\n- **11월 30일**: Meta 보안 연구팀이 취약점을 확인하고 React 팀과 함께 수정 작업 착수\n- **12월 1일**: 패치가 완성되었고, React 팀이 영향을 받는 호스팅 제공업체 및 오픈소스 프로젝트와 협력해 패치 검증, 완화 조치 적용, 롤아웃 시작\n- **12월 3일**: 패치가 npm에 게시되고 CVE-2025-55182로 공개 등록\n\nReact 팀은 이 취약점을 발견하고 제보한 Lachlan Davidson에게 감사를 표했습니다.\n\n## 정리\n\n- React Server Function 엔드포인트로 전달되는 페이로드의 디코딩 로직에서 발견된 결함으로, 인증 없이 서버에서 임의 코드가 실행될 수 있는 CVSS 10.0급 심각한 취약점입니다.\n- `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack`의 19.0, 19.1.0, 19.1.1, 19.2.0 버전이 대상이며, 19.0.1 / 19.1.2 / 19.2.1로 즉시 업그레이드해야 합니다.\n- Next.js, React Router, Waku, Redwood SDK, `@parcel/rsc`, `@vitejs/plugin-rsc` 등 RSC를 지원하는 주요 프레임워크·번들러가 모두 영향을 받으므로, 사용 중인 프레임워크별 안내에 따라 정확한 버전으로 업데이트해야 합니다.\n- 호스팅 제공업체의 임시 완화 조치는 어디까지나 임시방편이며, 이에 의존하지 말고 반드시 패키지 자체를 업그레이드해야 합니다.\n- 이후 서비스 거부(DoS) 및 소스 코드 노출과 관련된 추가 취약점들도 확인되었으므로, RSC를 사용하는 프로젝트라면 관련 후속 공지를 지속적으로 확인하고 최신 패치 상태를 유지하는 것이 중요합니다.",
+          "url": "https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 85,
+          "topicId": "react-rsc-security",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "critical-security-vulnerability-in-react-server-components",
+          "fullContent": "BlogCopy pageCopyCritical Security Vulnerability in React Server ComponentsDecember 3, 2025 by The React Team\nThere is an unauthenticated remote code execution vulnerability in React Server Components.We recommend upgrading immediately.\nOn November 29th, Lachlan Davidson reported a security vulnerability in React that allows unauthenticated remote code execution by exploiting a flaw in how React decodes payloads sent to React Server Function endpoints.\nEven if your app does not implement any React Server Function endpoints it may still be vulnerable if your app supports React Server Components.\nThis vulnerability was disclosed as CVE-2025-55182 and is rated CVSS 10.0.\nThe vulnerability is present in versions 19.0, 19.1.0, 19.1.1, and 19.2.0 of:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nImmediate Action Required\nA fix was introduced in versions 19.0.1, 19.1.2, and 19.2.1. If you are using any of the above packages please upgrade to any of the fixed versions immediately.\nIf your app’s React code does not use a server, your app is not affected by this vulnerability. If your app does not use a framework, bundler, or bundler plugin that supports React Server Components, your app is not affected by this vulnerability.\nAffected frameworks and bundlers\nSome React frameworks and bundlers depended on, had peer dependencies for, or included the vulnerable React packages. The following React frameworks & bundlers are affected: next, react-router, waku, @parcel/rsc, @vitejs/plugin-rsc, and rwsdk.\nSee the update instructions below for how to upgrade to these patches.\nHosting Provider Mitigations\nWe have worked with a number of hosting providers to apply temporary mitigations.\nYou should not depend on these to secure your app, and still update immediately.\nVulnerability overview\nReact Server Functions allow a client to call a function on a server. React provides integration points and tools that frameworks and bundlers use to help React code run on both the client and the server. React translates requests on the client into HTTP requests which are forwarded to a server. On the server, React translates the HTTP request into a function call and returns the needed data to the client.\nAn unauthenticated attacker could craft a malicious HTTP request to any Server Function endpoint that, when deserialized by React, achieves remote code execution on the server. Further details of the vulnerability will be provided after the rollout of the fix is complete.\nUpdate Instructions\nNoteThese instructions have been updated to include the new vulnerabilities:\nDenial of Service - High Severity: CVE-2025-55184 and CVE-2025-67779 (CVSS 7.5)\nSource Code Exposure - Medium Severity: CVE-2025-55183 (CVSS 5.3)\nDenial of Service - High Severity: January 26, 2026 CVE-2026-23864 (CVSS 7.5)\nSee the follow-up blog post for more info.Updated January 26, 2026.\nNext.js\nAll users should upgrade to the latest patched version in their release line:\nnpm install next@14.2.35 npm install next@15.0.8 npm install next@15.1.12 npm install next@15.2.9 npm install next@15.3.9 npm install next@15.4.11 npm install next@15.5.10 npm install next@16.0.11 npm install next@16.1.5 npm install next@15.6.0-canary.60 npm install next@16.1.0-canary.19\n15.0.8, 15.1.12, 15.2.9, 15.3.9, 15.4.10, 15.5.10, 15.6.0-canary.61, 16.0.11, 16.1.5\nIf you are on version 13.3 or later version of Next.js 13 (13.3.x, 13.4.x, or 13.5.x) please upgrade to version 14.2.35.\nIf you are on next@14.3.0-canary.77 or a later canary release, downgrade to the latest stable 14.x release:\nnpm install next@14\nSee the Next.js blog for the latest update instructions and the previous changelog for more info.\nReact Router\nIf you are using React Router’s unstable RSC APIs, you should upgrade the following package.json dependencies if they exist:\nnpm install react@latestnpm install react-dom@latestnpm install react-server-dom-parcel@latestnpm install react-server-dom-webpack@latestnpm install @vitejs/plugin-rsc@latest\nExpo\nTo learn more about mitigating, read the article on expo.dev/changelog.\nRedwood SDK\nEnsure you are on rwsdk>=1.0.0-alpha.0\nFor the latest beta version:\nnpm install rwsdk@latest\nUpgrade to the latest react-server-dom-webpack:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\nSee Redwood docs for more migration instructions.\nWaku\nUpgrade to the latest react-server-dom-webpack:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest waku@latest\nSee Waku announcement for more migration instructions.\n@vitejs/plugin-rsc\nUpgrade to the latest RSC plugin:\nnpm install react@latest react-dom@latest @vitejs/plugin-rsc@latest\nreact-server-dom-parcel\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-parcel@latest\nreact-server-dom-turbopack\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-turbopack@latest\nreact-server-dom-webpack\nUpdate to the latest version:\nnpm install react@latest react-dom@latest react-server-dom-webpack@latest\nReact Native\nFor React Native users not using a monorepo or react-dom, your react version should be pinned in your package.json, and there are no additional steps needed.\nIf you are using React Native in a monorepo, you should update only the impacted packages if they are installed:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nThis is required to mitigate the security advisory, but you do not need to update react and react-dom so this will not cause the version mismatch error in React Native.\nSee this issue for more information.\nTimeline\nNovember 29th: Lachlan Davidson reported the security vulnerability via Meta Bug Bounty.\nNovember 30th: Meta security researchers confirmed and began working with the React team on a fix.\nDecember 1st: A fix was created and the React team began working with affected hosting providers and open source projects to validate the fix, implement mitigations and roll out the fix\nDecember 3rd: The fix was published to npm and the publicly disclosed as CVE-2025-55182.\nAttribution\nThank you to Lachlan Davidson for discovering, reporting, and working to help fix this vulnerability.PreviousDenial of Service and Source Code Exposure in React Server ComponentsNextReact Conf 2025 Recap",
+          "category": "hot",
+          "publishedAt": "2025-12-03T00:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Denial of Service and Source Code Exposure in React Server Components",
+          "titleKo": "React Server Components의 서비스 거부 및 소스 코드 노출 취약점",
+          "summary": "React 팀은 지난주 공개된 치명적 RCE 취약점(React2Shell) 패치를 검증하는 과정에서 새로운 DoS 취약점 3건(CVSS 7.5)과 소스 코드 노출 취약점 1건(CVSS 5.3)을 추가로 발견해 공개했습니다. 기존 패치였던 19.0.3, 19.1.4, 19.2.3도 불완전했던 것으로 드러나 19.0.4, 19.1.5, 19.2.4로 재업데이트가 필요합니다. react-server-dom-webpack/parcel/turbopack 패키지 사용자와 next, react-router 등 RSC 지원 프레임워크 사용자는 즉시 업그레이드해야 합니다.",
+          "keyPoints": [
+            "새로 공개된 취약점은 DoS 3건(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864, CVSS 7.5)과 소스 코드 노출 1건(CVE-2025-55183, CVSS 5.3)이며, RCE로는 이어지지 않는다.",
+            "이전 패치 버전(19.0.3, 19.1.4, 19.2.3)도 불완전했으므로 이미 업데이트했더라도 19.0.4, 19.1.5, 19.2.4로 재업데이트가 필요하다.",
+            "DoS 취약점은 Server Function 엔드포인트에 조작된 HTTP 요청을 보내 무한 루프를 유발, 서버를 마비시키거나 CPU를 과도하게 소모시킨다.",
+            "소스 코드 노출 취약점은 Server Function이 인자를 문자열화해 응답에 포함시킬 때, 하드코딩된 비밀 값을 포함한 함수 소스 코드가 그대로 유출될 수 있다.",
+            "next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, rwsdk 등 RSC를 지원하는 프레임워크·번들러 사용자는 반드시 영향 여부를 확인하고 업그레이드해야 한다."
+          ],
+          "whyItMatters": "RSC를 사용하는 Next.js, React Router 등 프레임워크 기반 서비스를 운영 중인 프론트엔드 개발자라면 서버 다운과 시크릿 유출로 직결되는 이번 취약점을 즉시 확인하고 패치해야 합니다.",
+          "article": "React 팀이 지난주 공개한 치명적 보안 취약점(React2Shell)의 패치를 검증하는 과정에서, 보안 연구자들이 관련 코드 경로를 추가로 조사하다가 새로운 취약점 두 종류를 발견했습니다. 이번 취약점들은 원격 코드 실행(RCE)으로 이어지지는 않지만, 서비스 거부(DoS)와 소스 코드 노출이라는 심각한 문제를 안고 있어 React 팀이 즉시 업데이트를 권고했습니다. 이 글에서는 새로 공개된 취약점의 내용과 영향 범위, 그리고 대응 방법을 정리합니다.\n\n## 무슨 일이 있었나\n\n지난주 공개된 React2Shell 취약점(RCE)에 대한 패치는 여전히 유효합니다. 다만 그 패치를 우회할 수 있는지 검증하던 과정에서 연구자들이 다음과 같은 새로운 취약점을 발견해 공개했습니다.\n\n- **서비스 거부(DoS) - 심각도 High**: CVE-2025-55184, CVE-2025-67779, CVE-2026-23864 (CVSS 7.5)\n- **소스 코드 노출 - 심각도 Medium**: CVE-2025-55183 (CVSS 5.3)\n\nReact 팀은 심각도를 고려해 즉시 업그레이드할 것을 권장하고 있습니다.\n\n> **주의**: 이전에 배포된 패치 자체에도 취약점이 있었습니다. 이미 이전 취약점 대응을 위해 업데이트했더라도 다시 업데이트해야 합니다. 19.0.3, 19.1.4, 19.2.3으로 업데이트했다면 이는 불완전한 패치이므로 재업데이트가 필요합니다. (2026년 1월 26일 업데이트)\n\n## 즉시 조치가 필요한 패키지와 버전\n\n이번 취약점들은 앞서 공개된 CVE-2025-55182와 동일한 패키지, 동일한 버전에 존재합니다. 영향받는 버전은 다음과 같습니다.\n\n- 19.0.0, 19.0.1, 19.0.2, 19.0.3\n- 19.1.0, 19.1.1, 19.1.2, 19.1.3\n- 19.2.0, 19.2.1, 19.2.2, 19.2.3\n\n영향받는 패키지는 아래 세 가지입니다.\n\n- `react-server-dom-webpack`\n- `react-server-dom-parcel`\n- `react-server-dom-turbopack`\n\n수정 사항은 19.0.4, 19.1.5, 19.2.4 버전에 백포트되었습니다. 위 패키지를 사용하고 있다면 즉시 수정된 버전으로 업그레이드해야 합니다.\n\n이전과 마찬가지로, 앱의 React 코드가 서버를 사용하지 않는다면 이번 취약점의 영향을 받지 않습니다. 마찬가지로 React Server Components를 지원하는 프레임워크, 번들러, 번들러 플러그인을 사용하지 않는 앱도 영향을 받지 않습니다.\n\nReact 팀은 이런 후속 취약점 발견이 업계에서 흔한 패턴이라고 설명합니다. 치명적 취약점이 공개되면 연구자들이 인접한 코드 경로를 집중적으로 파고들어 초기 패치가 우회 가능한지 검증하기 때문인데요, 이는 자바스크립트 생태계만의 특수한 상황이 아니라 Log4Shell 사태 이후에도 추가 CVE가 잇따라 보고된 것처럼 업계 전반에서 나타나는 현상이라고 덧붙였습니다. 이런 추가 공개가 당장은 번거롭게 느껴질 수 있지만, 대체로 건강한 대응 사이클이 작동하고 있다는 신호로 볼 수 있습니다.\n\n## 영향받는 프레임워크와 번들러\n\n일부 React 프레임워크와 번들러는 취약한 React 패키지에 의존하거나, peer dependency로 포함하거나, 자체적으로 포함하고 있었습니다. 영향받는 프레임워크와 번들러는 다음과 같습니다.\n\n- `next`\n- `react-router`\n- `waku`\n- `@parcel/rsc`\n- `@vite/rsc-plugin`\n- `rwsdk`\n\n업그레이드 절차는 이전 게시글의 안내를 참고하면 됩니다.\n\n## 호스팅 제공업체의 임시 완화 조치\n\n이전과 마찬가지로 React 팀은 여러 호스팅 제공업체와 협력해 임시 완화 조치를 적용했습니다. 다만 이런 임시 조치에 의존해서는 안 되며, 반드시 즉시 업데이트해야 합니다.\n\n## React Native 사용자 안내\n\nReact Native를 모노레포 없이 사용하거나 `react-dom`을 사용하지 않는 경우, React 버전이 `package.json`에 고정되어 있을 것이므로 추가 조치가 필요 없습니다.\n\nReact Native를 모노레포 환경에서 사용 중이라면, 다음 패키지가 설치되어 있는지 확인하고 해당 패키지만 업데이트하면 됩니다.\n\n- `react-server-dom-webpack`\n- `react-server-dom-parcel`\n- `react-server-dom-turbopack`\n\n이 조치만으로 보안 권고 사항을 완화할 수 있으며, `react`와 `react-dom`까지 업데이트할 필요는 없으므로 React Native의 버전 불일치 오류가 발생하지 않습니다.\n\n## 취약점 상세 내용\n\n### High Severity: 다수의 서비스 거부(DoS) 취약점\n\n**CVE**: CVE-2026-23864 (Base Score 7.5, High) — 2026년 1월 26일 공개\n\n보안 연구자들이 React Server Components에 여전히 남아있던 추가 DoS 취약점을 발견했습니다. 이 취약점은 Server Function 엔드포인트로 특별히 조작된 HTTP 요청을 보냄으로써 트리거되며, 취약한 코드 경로와 애플리케이션 설정, 애플리케이션 코드에 따라 서버 크래시, 메모리 부족(OOM) 예외, 과도한 CPU 사용으로 이어질 수 있습니다. 1월 26일 배포된 패치가 이 DoS 취약점을 완화합니다.\n\n> **주의**: CVE-2025-55184에 대한 최초 수정은 불완전했습니다. 이로 인해 이전 버전들은 여전히 취약한 상태였으며, 19.0.4, 19.1.5, 19.2.4 버전만이 안전합니다.\n\n### High Severity: 서비스 거부(DoS)\n\n**CVE**: CVE-2025-55184, CVE-2025-67779 (Base Score 7.5, High)\n\n보안 연구자들은 Server Functions 엔드포인트로 악의적인 HTTP 요청을 보내면, React가 이를 역직렬화할 때 무한 루프에 빠져 서버 프로세스가 멈추고 CPU를 계속 소모하게 만들 수 있다는 사실을 발견했습니다. 앱이 별도의 React Server Function 엔드포인트를 구현하지 않았더라도, React Server Components를 지원하기만 하면 여전히 취약할 수 있습니다.\n\n이는 공격자가 사용자의 서비스 접근을 차단하고, 서버 환경의 성능에도 영향을 줄 수 있는 취약점 벡터를 만듭니다. 이번에 배포된 패치는 이 무한 루프를 방지함으로써 문제를 완화합니다.\n\n### Medium Severity: 소스 코드 노출\n\n**CVE**: CVE-2025-55183 (Base Score 5.3, Medium)\n\n한 보안 연구자는 취약한 Server Function에 악의적인 HTTP 요청을 보내면, 해당 Server Function의 소스 코드가 안전하지 않게 그대로 반환될 수 있다는 사실을 발견했습니다. 이 취약점을 악용하려면 문자열화된 인자를 명시적 또는 암묵적으로 노출하는 Server Function이 존재해야 합니다. 예를 들어 다음과 같은 코드입니다.\n\n```js\n'use server';\n\nexport async function serverFunction(name) {\n  const conn = db.createConnection('SECRET KEY');\n  const user = await conn.createUser(name);\n\n  return { id: user.id, message: `Hello, ${name}!` }\n}\n```\n\n공격자는 다음과 같은 형태로 정보를 유출시킬 수 있습니다.\n\n```\n0:{\"a\":\"$@1\",\"f\":\"\",\"b\":\"Wy43RxUKdxmr5iuBzJ1pN\"}\n1:{\"id\":\"tva1sfodwq\",\"message\":\"Hello, async function(a){console.log(\\\"serverFunction\\\");let b=i.createConnection(\\\"SECRET KEY\\\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!\"}\n```\n\n보시다시피 응답 안에 함수 소스 코드가 문자열 그대로 포함되어 있고, 그 안에 하드코딩된 `\"SECRET KEY\"` 문자열까지 노출되는 것을 확인할 수 있습니다. 오늘 배포된 패치는 Server Function의 소스 코드를 문자열화하는 동작 자체를 막습니다.\n\n> **주의**: 노출되는 것은 소스 코드에 하드코딩된 비밀 정보에 한정됩니다. `process.env.SECRET`처럼 런타임에 주입되는 비밀 값은 영향을 받지 않습니다. 노출 범위는 해당 Server Function 내부 코드로 한정되지만, 번들러의 인라이닝 정도에 따라 다른 함수까지 포함될 수 있으므로 반드시 프로덕션 번들을 대상으로 검증해야 합니다.\n\n## 타임라인\n\n- **12월 3일**: Andrew MacPherson이 Vercel과 Meta Bug Bounty에 소스 코드 노출 취약점 신고\n- **12월 4일**: RyotaK이 Meta Bug Bounty에 초기 DoS 취약점 신고\n- **12월 6일**: React 팀이 두 이슈 모두 확인하고 조사 시작\n- **12월 7일**: 초기 패치 작성, 검증 및 새 패치 계획 수립\n- **12월 8일**: 영향받는 호스팅 제공업체와 오픈소스 프로젝트에 통보\n- **12월 10일**: 호스팅 제공업체 완화 조치 적용 및 패치 검증 완료\n- **12월 11일**: Shinsaku Nomura가 Meta Bug Bounty에 추가 DoS 취약점 신고\n- **12월 11일**: 패치 배포 및 CVE-2025-55183, CVE-2025-55184로 공개\n- **12월 11일**: 내부적으로 누락된 DoS 케이스 발견, 패치 후 CVE-2025-67779로 공개\n- **1월 26일**: 추가 DoS 케이스 발견, 패치 후 CVE-2026-23864로 공개\n\n이번 대응 과정에서 소스 코드 노출 취약점을 신고한 Andrew MacPherson(AndrewMohawk), DoS 취약점을 신고한 GMO Flatt Security Inc의 RyotaK와 Bitforest Co., Ltd.의 Shinsaku Nomura, 그리고 추가 DoS 취약점을 신고한 Winfunc Research의 Mufeed VH, Joachim Viide, GMO Flatt Security Inc의 RyotaK, Tencent Security YUNDING LAB의 Xiangwei Zhang에게 React 팀은 감사를 표했습니다.\n\n## 정리\n\n- 지난주 공개된 React2Shell(RCE) 취약점 패치 자체는 여전히 유효하지만, 그 패치를 검증하던 과정에서 DoS 취약점 3건(CVE-2025-55184, CVE-2025-67779, CVE-2026-23864, CVSS 7.5)과 소스 코드 노출 취약점 1건(CVE-2025-55183, CVSS 5.3)이 추가로 발견됐습니다.\n- 이전에 이미 19.0.3, 19.1.4, 19.2.3으로 업데이트했더라도 그 패치는 불완전하므로, `react-server-dom-webpack`, `react-server-dom-parcel`, `react-server-dom-turbopack`을 19.0.4, 19.1.5, 19.2.4 이상으로 다시 업데이트해야 합니다.\n- next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, rwsdk 등 RSC를 지원하는 프레임워크·번들러를 사용 중이라면 해당 취약점의 영향을 받을 수 있으니 반드시 업그레이드 여부를 확인해야 합니다.\n- Server 코드를 전혀 사용하지 않는 앱, 또는 RSC를 지원하지 않는 프레임워크·번들러를 쓰는 앱은 영향을 받지 않습니다.\n- 소스 코드 노출 취약점은 Server Function이 인자를 문자열 형태로 응답에 포함시킬 때 하드코딩된 비밀 값까지 유출될 수 있다는 점에서, `process.env` 등 런타임 값으로 비밀 정보를 관리하는 습관이 중요하다는 것을 다시 한번 보여줍니다.",
+          "url": "https://react.dev/blog/2025/12/11/denial-of-service-and-source-code-exposure-in-react-server-components",
+          "sourceName": "React Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 82,
+          "topicId": "react-rsc-security",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "denial-of-service-and-source-code-exposure-in-react-server-components",
+          "fullContent": "BlogCopy pageCopyDenial of Service and Source Code Exposure in React Server ComponentsDecember 11, 2025 by The React Team\nUpdated January 26, 2026.\nSecurity researchers have found and disclosed two additional vulnerabilities in React Server Components while attempting to exploit the patches in last week’s critical vulnerability.These new vulnerabilities do not allow for Remote Code Execution. The patch for React2Shell remains effective at mitigating the Remote Code Execution exploit.\nThe new vulnerabilities are disclosed as:\nDenial of Service - High Severity: CVE-2025-55184, CVE-2025-67779, and CVE-2026-23864 (CVSS 7.5)\nSource Code Exposure - Medium Severity: CVE-2025-55183 (CVSS 5.3)\nWe recommend upgrading immediately due to the severity of the newly disclosed vulnerabilities.\nNoteThe patches published earlier are vulnerable. If you already updated for the previous vulnerabilities, you will need to update again.If you updated to 19.0.3, 19.1.4, and 19.2.3, these are incomplete, and you will need to update again.Please see the instructions in the previous post for upgrade steps.Updated January 26, 2026.\nFurther details of these vulnerabilities will be provided after the rollout of the fixes are complete.\nImmediate Action Required\nThese vulnerabilities are present in the same packages and versions as CVE-2025-55182.\nThis includes 19.0.0, 19.0.1, 19.0.2, 19.0.3, 19.1.0, 19.1.1, 19.1.2, 19.1.3, 19.2.0, 19.2.1, 19.2.2, and 19.2.3 of:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nFixes were backported to versions 19.0.4, 19.1.5, and 19.2.4. If you are using any of the above packages please upgrade to any of the fixed versions immediately.\nAs before, if your app’s React code does not use a server, your app is not affected by these vulnerabilities. If your app does not use a framework, bundler, or bundler plugin that supports React Server Components, your app is not affected by these vulnerabilities.\nNoteIt’s common for critical CVEs to uncover follow‑up vulnerabilities. When a critical vulnerability is disclosed, researchers scrutinize adjacent code paths looking for variant exploit techniques to test whether the initial mitigation can be bypassed.This pattern shows up across the industry, not just in JavaScript. For example, after Log4Shell, additional CVEs (1, 2) were reported as the community probed the original fix.Additional disclosures can be frustrating, but they are generally a sign of a healthy response cycle.\nAffected frameworks and bundlers\nSome React frameworks and bundlers depended on, had peer dependencies for, or included the vulnerable React packages. The following React frameworks & bundlers are affected: next, react-router, waku, @parcel/rsc, @vite/rsc-plugin, and rwsdk.\nPlease see the instructions in the previous post for upgrade steps.\nHosting Provider Mitigations\nAs before, we have worked with a number of hosting providers to apply temporary mitigations.\nYou should not depend on these to secure your app, and still update immediately.\nReact Native\nFor React Native users not using a monorepo or react-dom, your react version should be pinned in your package.json, and there are no additional steps needed.\nIf you are using React Native in a monorepo, you should update only the impacted packages if they are installed:\nreact-server-dom-webpack\nreact-server-dom-parcel\nreact-server-dom-turbopack\nThis is required to mitigate the security advisories, but you do not need to update react and react-dom so this will not cause the version mismatch error in React Native.\nSee this issue for more information.\nHigh Severity: Multiple Denial of Service\nCVEs: CVE-2026-23864\nBase Score: 7.5 (High)\nDate: January 26, 2026\nSecurity researchers discovered additional DoS vulnerabilities still exist in React Server Components.\nThe vulnerabilities are triggered by sending specially crafted HTTP requests to Server Function endpoints, and could lead to server crashes, out-of-memory exceptions or excessive CPU usage; depending on the vulnerable code path being exercised, the application configuration and application code.\nThe patches published January 26th mitigate these DoS vulnerabilities.\nNoteAdditional fixes published The original fix addressing the DoS in CVE-2025-55184 was incomplete.This left previous versions vulnerable. Versions 19.0.4, 19.1.5, 19.2.4 are safe.Updated January 26, 2026.\nHigh Severity: Denial of Service\nCVEs: CVE-2025-55184 and CVE-2025-67779\nBase Score: 7.5 (High)\nSecurity researchers have discovered that a malicious HTTP request can be crafted and sent to any Server Functions endpoint that, when deserialized by React, can cause an infinite loop that hangs the server process and consumes CPU. Even if your app does not implement any React Server Function endpoints it may still be vulnerable if your app supports React Server Components.\nThis creates a vulnerability vector where an attacker may be able to deny users from accessing the product, and potentially have a performance impact on the server environment.\nThe patches published today mitigate by preventing the infinite loop.\nMedium Severity: Source Code Exposure\nCVE: CVE-2025-55183\nBase Score: 5.3 (Medium)\nA security researcher has discovered that a malicious HTTP request sent to a vulnerable Server Function may unsafely return the source code of any Server Function. Exploitation requires the existence of a Server Function which explicitly or implicitly exposes a stringified argument:\n'use server';export async function serverFunction(name) { const conn = db.createConnection('SECRET KEY'); const user = await conn.createUser(name); return { id: user.id, message: `Hello, ${name}!` }}\nAn attacker may be able to leak the following:\n0:{\"a\":\"$@1\",\"f\":\"\",\"b\":\"Wy43RxUKdxmr5iuBzJ1pN\"}1:{\"id\":\"tva1sfodwq\",\"message\":\"Hello, async function(a){console.log(\\\"serverFunction\\\");let b=i.createConnection(\\\"SECRET KEY\\\");return{id:(await b.createUser(a)).id,message:`Hello, ${a}!`}}!\"}\nThe patches published today prevent stringifying the Server Function source code.\nNoteOnly secrets in source code may be exposed. Secrets hardcoded in source code may be exposed, but runtime secrets such as process.env.SECRET are not affected.The scope of the exposed code is limited to the code inside the Server Function, which may include other functions depending on the amount of inlining your bundler provides.Always verify against production bundles.\nTimeline\nDecember 3rd: Leak reported to Vercel and Meta Bug Bounty by Andrew MacPherson.\nDecember 4th: Initial DoS reported to Meta Bug Bounty by RyotaK.\nDecember 6th: Both issues confirmed by the React team, and the team began investigating.\nDecember 7th: Initial fixes created and the React team began verifying and planning new patch.\nDecember 8th: Affected hosting providers and open source projects notified.\nDecember 10th: Hosting provider mitigations in place and patches verified.\nDecember 11th: Additional DoS reported to Meta Bug Bounty by Shinsaku Nomura.\nDecember 11th: Patches published and publicly disclosed as CVE-2025-55183 and CVE-2025-55184.\nDecember 11th: Missing DoS case found internally, patched and publicly disclosed as CVE-2025-67779.\nJanuary 26th: Additional DoS cases found, patched, and publicly disclosed as CVE-2026-23864.\nAttribution\nThank you to Andrew MacPherson (AndrewMohawk) for reporting the Source Code Exposure, RyotaK from GMO Flatt Security Inc and Shinsaku Nomura of Bitforest Co., Ltd. for reporting the Denial of Service vulnerabilities. Thank you to Mufeed VH from Winfunc Research, Joachim Viide, RyotaK from GMO Flatt Security Inc and Xiangwei Zhang of Tencent Security YUNDING LAB for reporting the additional DoS vulnerabilities.PreviousThe React Foundation: A New Home for React Hosted by the Linux FoundationNextCritical Security Vulnerability in React Server Components",
+          "category": "hot",
+          "publishedAt": "2025-12-11T00:00:00.000Z",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "dream-num/univer (TypeScript)",
+          "titleKo": "dream-num/univer (TypeScript)",
+          "summary": "Univer는 스프레드시트, 문서, 슬라이드, 캔버스, 테이블, PDF를 하나의 런타임에서 제공하는 AI 에이전트를 위한 Office 통합 플랫폼입니다.",
+          "keyPoints": [
+            "스프레드시트부터 PDF까지 다양한 문서 포맷을 단일 런타임으로 통합",
+            "AI 에이전트를 위한 전문 개발 도구"
+          ],
+          "whyItMatters": "AI 기반 자동화 시스템 구축 시 다양한 문서 유형을 효율적으로 다룰 수 있는 기반 제공",
+          "url": "https://github.com/dream-num/univer",
+          "sourceName": "GitHub Trending",
+          "engagement": 21882,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 73,
+          "topicId": "typescript-ui-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "dream-numuniver-typescript",
+          "category": "tech",
+          "publishedAt": "2026-09-30T01:52:10.852Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "paperclipai/paperclip (TypeScript)",
+          "titleKo": "paperclipai/paperclip (TypeScript)",
+          "summary": "Paperclip은 업무에서 에이전트를 관리하기 위한 오픈소스 애플리케이션입니다.",
+          "keyPoints": [
+            "에이전트 관리를 위한 전문 오픈소스 도구"
+          ],
+          "whyItMatters": "AI 에이전트 기반 업무 자동화 시스템 구축 및 관리의 표준화 가능",
+          "url": "https://github.com/paperclipai/paperclip",
+          "sourceName": "GitHub Trending",
+          "engagement": 94503,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 72,
+          "topicId": "typescript-ui-tools",
+          "isTopicPrimary": true,
+          "relatedCount": 3,
+          "slug": "paperclipaipaperclip-typescript",
+          "category": "tech",
+          "publishedAt": "2026-09-30T01:52:10.850Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "mvschwarz/openrig (TypeScript)",
+          "titleKo": "mvschwarz/openrig (TypeScript)",
+          "summary": "OpenRig는 Claude와 Codex를 하나의 시스템으로 실행하는 다중 에이전트 하네스입니다.",
+          "keyPoints": [
+            "여러 AI 모델(Claude, Codex)을 통합하여 단일 시스템으로 운영",
+            "멀티 에이전트 아키텍처 구현"
+          ],
+          "whyItMatters": "다양한 AI 모델의 장점을 결합한 더 강력한 자동화 시스템 구축 가능",
+          "url": "https://github.com/mvschwarz/openrig",
+          "sourceName": "GitHub Trending",
+          "engagement": 2460,
+          "contentType": "repo",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 70,
+          "topicId": "typescript-ui-tools",
+          "isTopicPrimary": false,
+          "relatedCount": 3,
+          "slug": "mvschwarzopenrig-typescript",
+          "category": "tech",
+          "publishedAt": "2026-09-30T01:52:10.851Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "averygan/reclip (HTML)",
+          "titleKo": "averygan/reclip - 경량 자체 호스팅 미디어 다운로더",
+          "summary": "거의 모든 웹사이트에서 비디오를 다운로드할 수 있는 자체 호스팅 가능한 미디어 다운로더 도구입니다. 간결한 웹 UI를 제공하며 경량으로 설계되었습니다.",
+          "keyPoints": [
+            "다양한 웹사이트에서 비디오 다운로드 지원",
+            "자체 호스팅 가능한 구조로 개인 서버에서 운영 가능",
+            "깔끔한 웹 인터페이스 제공"
+          ],
+          "whyItMatters": "개인이 미디어 다운로드 서비스를 직접 구축하고 운영할 수 있는 오픈소스 솔루션을 제공합니다.",
+          "url": "https://github.com/averygan/reclip",
+          "sourceName": "GitHub Trending",
+          "engagement": 10153,
+          "contentType": "repo",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 68,
+          "isTopicPrimary": true,
+          "slug": "averyganreclip-html",
+          "category": "tech",
+          "publishedAt": "2026-09-30T01:52:10.851Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "HTML"
+          ]
+        },
+        {
+          "title": "Show HN: Real-time Solar System with 526k asteroids and all tracked satellites",
+          "titleKo": "실시간 태양계 - 526,000개 소행성과 모든 추적 위성 포함",
+          "summary": "526,000개의 소행성과 현재 추적 중인 모든 위성을 실시간으로 시각화하는 웹 기반 태양계 모델입니다.",
+          "keyPoints": [
+            "526,000개의 소행성 데이터를 포함한 대규모 천체 데이터 시각화",
+            "실시간 위성 추적 정보 표시",
+            "웹 브라우저에서 인터랙티브한 태양계 탐색 가능"
+          ],
+          "whyItMatters": "대규모 천문 데이터를 웹에서 효율적으로 처리하고 실시간 시각화하는 기술 사례를 보여줍니다.",
+          "url": "https://space.bl2.net/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 110,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 66,
+          "isTopicPrimary": true,
+          "slug": "show-hn-real-time-solar-system-with-526k-asteroids-and-all-tracked-satellites",
+          "category": "tech",
+          "publishedAt": "2026-09-29T19:08:01.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: A working 3D model of an Enigma machine",
+          "titleKo": "Show HN: 작동하는 3D 에니그마 머신 모델",
+          "summary": "역사적 암호화 기계인 에니그마 머신을 3D로 모델링하여 실제 작동하도록 구현한 프로젝트입니다.",
+          "keyPoints": [
+            "에니그마 머신의 완전한 3D 구현 및 작동"
+          ],
+          "whyItMatters": "웹 기술로 역사적 기계의 복잡한 동작을 시뮬레이션할 수 있음을 보여주는 사례",
+          "url": "https://enigma.design",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 34,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 70,
+          "isTopicPrimary": true,
+          "slug": "show-hn-a-working-3d-model-of-an-enigma-machine",
+          "category": "tech",
+          "publishedAt": "2026-09-29T17:15:56.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Phyllotaxis: An audio-reactive LED display",
+          "titleKo": "필로탁시스: 오디오에 반응하는 LED 디스플레이 만들기",
+          "summary": "해바라기 씨앗 배열에서 볼 수 있는 필로탁시스 패턴을 Processing 코드로 구현한 뒤, CadQuery와 3D 프린팅으로 물리적 LED 매트릭스를 제작하고 STM32와 I2S 마이크로 오디오 반응 기능까지 더한 메이커 프로젝트입니다. 첫 버전의 임시 배선 문제를 해결하기 위해 PCB 설계를 독학하고, 두 번째 버전에서는 5중 대칭 구조와 ESP32·Rust 펌웨어로 발전시켜 Recurse Center에 상시 설치물로 남겼습니다. 코드에서 시작한 수학적 패턴이 실제 하드웨어 아트워크로 확장되는 전 과정을 담고 있습니다.",
+          "keyPoints": [
+            "필로탁시스 패턴은 원 위의 점을 황금비(1.618...)의 배수만큼 회전시키는 단순한 코드로 구현되며, Voronoi 테셀레이션으로 셀 구조를 만들었습니다.",
+            "CadQuery로 셀 형상을 3D 모델로 변환하고 FreeCAD로 후처리해 3D 프린트한 뒤, 89개의 네오픽셀 LED를 셀마다 배치하고 반투명 뽕나무 종이로 마감했습니다.",
+            "STM32 보드의 부동소수점·DSP 성능을 활용해 룩업 테이블 기반 LED 셰이더 코드와 INMP441 마이크+CMSIS 기반 실시간 FFT 오디오 분석을 구현했습니다.",
+            "버전 2에서는 임시 배선 대신 PCB 백플레이트를 도입하고 5중 대칭 설계로 제작 효율을 높였으며, ESP32와 Rust 펌웨어로 전환해 와이파이 연결과 웹어셈블리 기반 사용자 커스터마이징을 지원했습니다.",
+            "네오픽셀 손 납땜과 종이 페이스플레이트의 내구성 문제 등 물리적 제작 과정의 어려움이 소프트웨어 설계만큼이나 프로젝트 완성도를 좌우했습니다."
+          ],
+          "whyItMatters": "좌표 기반 룩업 테이블로 렌더링 로직을 하드웨어와 분리하는 셰이더식 접근은, 캔버스나 WebGL 등 화면 렌더링을 다루는 프론트엔드 개발자에게도 재사용 가능한 사고방식을 제공합니다.",
+          "article": "자연에는 코드로 재현하고 싶어지는 패턴들이 있습니다. 해바라기나 다육식물 가운데에서 볼 수 있는 이중 나선 구조, 이른바 '필로탁시스(phyllotaxis)'도 그중 하나인데요. 이 글은 한 메이커가 이 수학적 패턴을 코드로 구현하는 데서 출발해, 실제로 만질 수 있는 오디오 반응형 LED 디스플레이로 완성해가는 과정을 담고 있습니다. Processing 스케치로 시작한 프로젝트가 CadQuery를 이용한 3D 모델링, STM32 기반 LED 드라이버, FFT 오디오 분석, 그리고 결국 PCB 설계와 Rust 펌웨어까지 이어지는 여정을 순서대로 살펴보겠습니다.\n\n## 필로탁시스 패턴을 코드로 그려보기\n\n필로탁시스는 원 위의 점들을 방사형으로 배치하되, 각 점을 황금비의 배수만큼씩 회전시켜 얻는 패턴입니다. 놀라울 만큼 단순한 코드로 구현할 수 있는데요.\n\n```\n// Inner and outer are throw-away,\n// just for spacing the cells that are used\nfloat[][] points = new float[numCells + numOuter + numInner][2];\nfloat outerRadius = width / 2;\nfinal int total = numCells + numInner + numOuter;\nfor (int i = 0; i < total; i++)\n{\nfloat f = i / float(total);\nfloat a = i * 1.6180339887;\nfloat distance = f * outerRadius;\nfloat x = -cos(a * TWO_PI) * distance;\nfloat y = sin(a * TWO_PI) * distance;\npoints[i][0] = x;\npoints[i][1] = y;\n}\n```\n\n원의 반지름 위에 놓인 일련의 점들을 골든 레이쇼(1.6180339887)의 증가하는 배수만큼 회전시키는 것이 핵심입니다. 이렇게 얻은 점 구름은 이미 해바라기와 매우 흡사한 모양을 이루고요, 여기에 Voronoi 테셀레이션을 적용하면 씨앗 꼬투리 같은 독특한 형태가 만들어집니다.\n\n## 디지털 패턴을 물리적 오브젝트로\n\n이 패턴을 한동안 가지고 놀던 저자는 문득 이런 생각을 떠올립니다. \"이걸 실제 물건으로 만들고, 각 셀마다 RGB 어드레서블 LED를 하나씩 넣으면 어떨까?\" 일종의 셀룰러 LED 매트릭스인 셈이죠. 고등학교 시절 사각형 네오픽셀 매트릭스를 만들어본 경험이 있었던 그는, 다음 프로젝트로 좀 더 흥미로운 형태를 찾고 있었다고 합니다.\n\nProcessing 스케치에서 셀 경계 데이터를 추출한 뒤, CadQuery 라이브러리를 사용하는 파이썬 스케치로 옮겨와 실제 물리적 형상을 만드는 코드를 작성했습니다.\n\n```\n# Create the negative space of a single cell\n# shrunk with a negative offset-2d\ncell_shape = (cq.Workplane(\"XY\")\n.polyline(vertices)\n.close()\n.offset2D(-wall_thickness/2, kind='intersection')\n.extrude(total_height)\n.translate((0, 0, base_height)))\n# Cut it out of the total to create a shell with walls\ntotal_shape = total_shape.cut(cell_shape)\n# Cut the shape of the hole to fit the LED in the center of the cell\ntotal_shape = total_shape.cut(\nled_hole.rotate((0, 0, 0), (0, 0, 1), math.degrees(angle))\n.translate((centerX, centerY, 0)))\n```\n\n전체 Voronoi 셀을 합친 볼륨을 만든 다음, 각 셀을 살짝 줄인 형상을 빼내 벽이 있는 셸(shell) 구조를 만들고, 각 셀 중앙에는 LED가 들어갈 구멍을 뚫는 방식입니다. 이 작업을 모든 셀에 반복하면 완성된 노란색 형상을 얻게 됩니다. 이때 3D 프린터 베드에 맞도록 전체 형상을 대략 균등한 네 개의 조각으로 나눴다고 합니다.\n\nSTEP 파일로 내보낸 뒤 FreeCAD에서 나사 구멍을 추가하고, 그 아래 종이를 붙일 수 있도록 얇은 '페이스플레이트' 버전을 만드는 후처리 작업을 거쳤습니다. 얇은 버전 아래에 종이를 잘라 붙이고, 나사 구멍을 이용해 셀 벽에 나사로 고정하는 방식입니다. 빛을 잘 확산시키면서도 유기적이고 재미있는 느낌을 주는 반투명 종이를 찾다가 뽕나무 종이(mulberry paper)의 아름다운 섬유 질감에 반해 이를 사용했다고 합니다.\n\n## LED 배선과 셰이더 스타일 패턴 코드\n\n89개의 LED를 손으로 납땜하는 작업은 다소 지루했지만, 어느 순간 몰입 상태(flow)에 들어가 오히려 편안했다고 회고합니다. 이렇게 완성한 회로를 여분으로 가지고 있던 STM32 블랙필(blackpill) 보드에 연결하고, SPI를 이용한 간단한 네오픽셀 드라이버를 직접 작성했습니다. 기본적인 테스트 패턴만으로도 이미 근사한 결과물이 나왔죠.\n\n이어서 Processing 스타일의 '셰이더' 코드를 LED용으로 작성할 수 있는 간단한 스케치 프레임워크를 구축했습니다. 모든 LED의 위치를 단위원 위의 부동소수점 좌표로 미리 계산해둔 룩업 테이블을 이용해, 마치 프래그먼트 셰이더처럼 느껴지는 코드를 쓸 수 있게 되었는데요.\n\n```\nvoid radial_spirals(LEDBuffer leds) {\nfor (int i = 0; i < NUM_LEDS; i++) { // iterate every cell\n// Get LED position from LUT\nfloat x = led_positions[i][0];\nfloat y = led_positions[i][1];\n// Polar coordinates\nfloat r = sqrtf(x*x + y*y);\nfloat theta = atan2f(y, x); // Angle in radians [-π, π]\n// Spiral pattern: combine angle and radius\nfloat spiral = sinf(theta * 2.0f + r * 5.0f - seconds * 2.0f);\nfloat brightness = (spiral + 1.0f) * 0.5f;\nuint8_t level = (uint8_t)(brightness * 255.0f);\nleds[i] = rgb(level, 0, 0);\n}\n}\n```\n\n이런 식으로 여러 패턴을 실험하던 중, 중심에서 바깥으로 밝기가 맥동하듯 퍼져나가는 사인파 패턴이 가장 마음에 들었다고 합니다. 이 방사형 패턴은 이후 오디오 반응 스케치의 핵심 기능으로 쓰이게 됩니다.\n\n## 오디오 반응 기능 추가하기\n\n미리 정해진 패턴만 재생하는 대신, 방 안의 소리에 실시간으로 반응한다면 훨씬 생동감 있지 않을까 하는 생각으로 오디오 반응 기능을 추가하기로 합니다. 마침 LED를 구동하던 STM32 보드가 부동소수점 연산과 ARM DSP 명령어를 지원했기 때문에, 보드 자체에서 푸리에 변환과 오디오 분석을 수행할 수 있었습니다.\n\n디지털 I2S 마이크인 INMP441을 브레드보드 회로에 추가했는데, 디지털 신호를 출력하는 마이크라 아날로그 노이즈 걱정 없이 쉽게 배선할 수 있었다고 합니다. ARM CMSIS 라이브러리를 활용해 오디오 신호를 처리하고 분석했으며, 오토게인 컨트롤과 멀티밴드 분할을 통해 서로 다른 주파수 대역의 에너지를 분석하는 기반을 마련했습니다.\n\n전역 타이머와 복잡한 상태값이 뒤섞인, 다소 어수선한 스케치였지만 많은 튜닝을 거쳐 완성한 오디오 반응 프로그램은 지금까지도 보드에서 구동되는 기본 로직으로 남아 있습니다. Jon Hopkins의 'Neon Pattern Drum'을 재생했을 때 이 디스플레이가 비로소 살아 움직이는 듯한 느낌을 받았다고 합니다.\n\n## 마무리 작업\n\n이제 남은 건 몇 가지 디테일뿐이었습니다. 좀 더 견고한 마운트 표면이 필요했는데, 대나무 도마를 원형으로 라우팅해 사용했더니 천연 대나무 결이 유기적인 종이 질감과 잘 어우러졌습니다.\n\n초기에는 컨트롤러 MCU와 마이크를 퍼프보드(perfboard)에 조립해 기타 페달 스위치가 달린 3D 프린트 박스에 넣었는데, 배선이 어수선해서 박스를 움직일 때마다 노이즈로 인한 LED 깜빡임이 발생했습니다. 이를 계기로 PCB 설계를 직접 배우기로 결심했고, 블랙필 보드와 마이크, 버튼을 장착하고 5V 신호를 제대로 뽑아내기 위한 로직 레벨 시프터 자리까지 마련한 제대로 된 PCB로 전환했습니다. 결과는 만족스러웠고, 이 정도 복잡도라면 PCB 제작이 예상보다 어렵지 않았다고 합니다.\n\n## 두 번째 버전 제작\n\n2026년 새해맞이 파티에서 이 작품을 선보였는데 반응이 좋았고, 친구들 중 몇몇은 자기도 하나 갖고 싶다고 말할 정도였습니다. 이에 힘입어 더 조립하기 쉽고 견고한 두 번째 버전 제작에 나섰습니다. 마침 PCB 설계를 갓 배운 참이라, LED를 고정하는 3D 프린트 판 대신 PCB를 백플레이트로 사용하는 방식으로 전환하기로 했습니다. PCB는 보통 5개 단위 배치로 주문하기 때문에, 형태를 조금 손봐서 5중 대칭(5-fold symmetry)을 적용했습니다. 이렇게 하면 서로 다른 네 조각을 3D 프린트하는 대신, 동일한 PCB 다섯 장을 주문해 링 형태로 조립할 수 있게 됩니다.\n\n그런데 네오픽셀 LED를 인두로 손 납땜하는 작업이 생각보다 훨씬 더 악몽이었습니다. 개별 네오픽셀의 패드가 LED 아래에 숨어 있어서, 원래는 인두가 아니라 PCB 전체를 가열하는 방식으로 납땜하도록 설계되어 있었기 때문입니다. 결국 프로젝트는 잠시 중단됩니다.\n\n2026년 여름, Recurse Center 프로그래밍 리트리트에 이 프로젝트 부품들을 챙겨갔고, 그곳에서 만난 한 친구가 열풍기(hot air) 납땜 스테이션 다루는 데 훨씬 능숙했던 덕분에 모든 납땜 작업을 마칠 수 있었습니다. 이어서 PCB에 클립처럼 끼워 나사로 조립할 수 있는 새로운 셀 벽을 설계하고 3D 프린트했습니다.\n\nRecurse 배치 기간 동안 새 버전을 완성한 뒤, 저자는 이 작품을 Recurse Center에 설치물로 남기기로 결정합니다. 이를 위해 컨트롤러를 ESP32로 교체해 그곳 와이파이 네트워크에 연결할 수 있게 했고, 펌웨어도 Rust로 새로 작성했습니다. 이제 컨트롤러는 로컬 웹사이트를 서빙하며, Recurse Center 참가자들이 작은 웹어셈블리 백엔드와 최소한의 API를 통해 자신만의 스케치와 게임을 업로드할 수 있게 되었습니다.\n\n## 다음 단계는?\n\n저자는 아직 이 프로젝트에 완전히 만족하지 못하고 있습니다. 많은 사람들이 즐거워해준 만큼, 최소한 친구들에게 선물할 정도로는 더 만들어보고 싶고 나아가 판매까지도 고려하고 있지만, 지금까지의 제작 과정이 결코 이상적이지는 않았다고 말합니다. 두 버전 모두 납땜이 각기 다른 이유로 지루한 작업이었고, 종이를 부착하는 과정도 까다로운 데다 종이 자체가 부서지기 쉬워 파손 시 수리도 어렵습니다.\n\n앞으로 실험해볼 만한 개선 아이디어로는 손 납땜하기 더 쉬운 다른 종류의 LED 사용, PCB 어셈블리 방식 도입, 종이를 보호할 투명 아크릴 레이어 테스트, 자석을 이용한 종이 페이스플레이트 부착 등을 꼽고 있습니다. 지금은 프로젝트에 잠시 휴식을 주되, 때가 되면 버전 3으로 이어갈 계획입니다.\n\n## 정리\n\n이 프로젝트는 순수 수학적 패턴(황금비 기반 필로탁시스)이 코드 → 3D 모델 → 실제 하드웨어 → 오디오 반응 인터랙티브 아트로 확장되는 전 과정을 보여줍니다. 핵심 포인트를 정리하면 다음과 같습니다.\n\n- 필로탁시스 패턴은 원 위의 점들을 황금비(1.618...)의 배수만큼 회전시키는 몇 줄 안 되는 코드로 구현 가능하며, Voronoi 테셀레이션을 적용하면 자연스러운 셀 구조를 얻을 수 있습니다.\n- CadQuery로 2D 셀 데이터를 3D 프린트 가능한 물리적 셸 구조로 변환하고, FreeCAD에서 나사 구멍과 페이스플레이트를 후처리하는 워크플로우를 사용했습니다.\n- STM32 보드의 부동소수점 연산과 ARM DSP 명령어를 활용해 룩업 테이블 기반의 '셰이더 스타일' LED 패턴 코드와, INMP441 I2S 마이크 + ARM CMSIS 기반의 실시간 오디오 분석(FFT, 오토게인, 멀티밴드 분석)을 구현했습니다.\n- 버전이 거듭될수록 임시 배선에서 정식 PCB 설계로, STM32에서 ESP32(Rust 펌웨어)로 전환하며 안정성과 확장성(와이파이 연결, 웹어셈블리 기반 사용자 업로드)을 개선해나갔습니다.\n- 네오픽셀 손 납땜, 종이 페이스플레이트의 내구성 등 실제 제작 과정에서 부딪힌 물리적 제약이 소프트웨어 설계 못지않게 프로젝트 완성도에 큰 영향을 미쳤다는 점이 인상적입니다.\n\n프론트엔드 개발자 입장에서도 \"코드로 표현한 패턴을 셰이더처럼 일반화된 함수로 추상화하고, 이를 다른 출력 장치(화면이 아닌 물리적 LED)에 재사용한다\"는 접근 방식은 눈여겨볼 만합니다. 좌표계와 룩업 테이블을 이용해 렌더링 로직을 하드웨어와 분리하는 패턴은 캔버스나 WebGL 셰이더 코드를 다룰 때도 그대로 적용할 수 있는 아이디어입니다.",
+          "url": "https://jagi.studio/posts/phyllotaxis/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 260,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 65,
+          "isTopicPrimary": true,
+          "slug": "phyllotaxis-an-audio-reactive-led-display",
+          "fullContent": "I’ve been fascinated by understanding patterns that appear in nature, through code. Communing with the inherent emergent patterns that exist in the universe.\nThe phyllotaxis is one such pattern, the expanding double-spiral shape that appears in the center of sunflowers, succulents, other plants. It’s surprisingly simple code:\n// Inner and outer are throw-away,\n// just for spacing the cells that are used\nfloat[][] points = new float[numCells + numOuter + numInner][2];\nfloat outerRadius = width / 2;\nfinal int total = numCells + numInner + numOuter;\nfor (int i = 0; i < total; i++)\n{\nfloat f = i / float(total);\nfloat a = i * 1.6180339887;\nfloat distance = f * outerRadius;\nfloat x = -cos(a * TWO_PI) * distance;\nfloat y = sin(a * TWO_PI) * distance;\npoints[i][0] = x;\npoints[i][1] = y;\n}\nTake a number of linear points on a radial line of a circle, and rotate each one by an increasing multiple of the golden ratio.\nYou get a neat point cloud out of this that already looks very much like a sunflower. Voronoi tessellating it looks quite interesting and seed-pod-like:\nThe shape emerges when plotting the points\nVoronoi tessellation result\nAfter experimenting with this for a while, I had the idea: what if I made it a physical object and put an RGB addressable LED in each cell? A kind of cellular LED matrix. I had built a rectangular neopixel matrix in high school, but I’d been waiting to find a more interesting shape for the next one.\nFrom digital to physical\nI exported the cell edge data from my processing sketch, and imported it into a python sketch using the CadQuery library.\nWrote some code to build physical geometry out of the data:\n# Create the negative space of a single cell\n# shrunk with a negative offset-2d\ncell_shape = (cq.Workplane(\"XY\")\n.polyline(vertices)\n.close()\n.offset2D(-wall_thickness/2, kind='intersection')\n.extrude(total_height)\n.translate((0, 0, base_height)))\n# Cut it out of the total to create a shell with walls\ntotal_shape = total_shape.cut(cell_shape)\n# Cut the shape of the hole to fit the LED in the center of the cell\ntotal_shape = total_shape.cut(\nled_hole.rotate((0, 0, 0), (0, 0, 1), math.degrees(angle))\n.translate((centerX, centerY, 0)))\nThis snippet, after constructing the total volume of all merged voronoi cells, subtracts the shrunk volume of each individual cell from the total, and then carves an LED-sized hole in each. Doing this for all cells yields the yellow shape below. I also split the geometry into four roughly equal quadrants at this point, each of which would fit on my 3D printer bed.\nI exported the STEP files and did some post processing in FreeCAD, adding screw holes, building a thin version of it that acted as a ‘faceplate’ with paper under it. I cut and glued paper to the bottom of the thin version, and used the screw holes to screw it into the cell walls.\nThe CadQuery models for each quadrant\nFaceplate model, transformed in FreeCAD from the CadQuery output\nI 3D printed the shapes, and found some translucent paper that diffuses light well and looks organic and playful with light shining through it. I love the look of this mulberry paper, with such beautiful organic fibers.\nSoldering 89 LEDs is kinda tedious. But I found my way into the flow state and it became relaxing. I hooked it up to a spare STM32 blackpill board I had lying around, and wrote a little neopixel driver using SPI. It was already cool with some basic test patterns.\nI built a simple sketch framework, letting me write processing-style ‘shader’ code for the LEDs. Using a look-up table with the floating point position for every LED as if it was on the unit circle, I could easily write code like this, which feels like a fragment shader:\nvoid radial_spirals(LEDBuffer leds) {\nfor (int i = 0; i < NUM_LEDS; i++) { // iterate every cell\n// Get LED position from LUT\nfloat x = led_positions[i][0];\nfloat y = led_positions[i][1];\n// Polar coordinates\nfloat r = sqrtf(x*x + y*y);\nfloat theta = atan2f(y, x); // Angle in radians [-π, π]\n// Spiral pattern: combine angle and radius\nfloat spiral = sinf(theta * 2.0f + r * 5.0f - seconds * 2.0f);\nfloat brightness = (spiral + 1.0f) * 0.5f;\nuint8_t level = (uint8_t)(brightness * 255.0f);\nleds[i] = rgb(level, 0, 0);\n}\n}\nPretty nifty.\nI very quickly discovered this radial pattern that I enjoyed the most, a pulsating sine wave modulating brightness outward from the center. This ended up being what I used for the primary feature of the audio-reactive sketch I did later.\nAdding audio\nWouldn’t it be cool if it could react dynamically to the sounds in the room, rather than just displaying predefined patterns? I wanted it to feel alive and dynamic.\nThe STM32 board driving it had floating point support and ARM DSP instructions, so I could run the fourier transform and do audio analysis. I added a digital I2S mic, the INMP441, to my breadboard circuit driving the thing.\nSince it outputs a digital signal, it’s easy to wire up with no risk of analog noise. The ARM CMSIS library came in handy to process the audio signal and do some analysis. With some auto-gain control and multiband splitting to analyze energy at different frequencies, I had a good foundation to write some code that reacted to audio in dynamic ways.\nA lot of tuning and a very chaotic sketch with a lot of global timers and messy state produced this audio-reactive program, which is still the basis of what runs on the board to this day. It came alive listening to Jon Hopkins’ Neon Pattern Drum.\nTidying up\nJust a few details left. It needs a sturdier surface to mount it to. I found a bamboo cutting board and routed it into a circle; the natural bamboo wood grain complements the organic paper so well.\nI had assembled the controller MCU and mic into a perfboard, and stuffed it into a 3D printed box with a guitar pedal switch on it. But the electronics were janky and prone to noise that would cause the LEDs to flicker when the box moved. I decided to learn how to build PCBs, and switched to a proper PCB mounting the blackpill board and mic and a button, and a proper spot for a logic-level shifter to get a good 5V signal out of the microcontroller. It worked well, and making PCBs was a bit easier than I expected, at least for this level of complexity.\nThe initial enclosure with a very messy perfboard hidden inside\nThe blank PCB I designed, before I soldered all the components onto it\nBuilding the second version\nI showed it off at a New Year’s party ringing in 2026, and people seemed to like it; some friends even told me that they wanted one. I got inspired to build a second version, which would hopefully be easier to assemble and would be more sturdy. Since I had just learnt PCB design, I decided to try and switch from a 3D printed plate to mount the LEDs on, to using PCBs as a backplate. I tweaked the shape a bit and added 5-fold symmetry, since PCBs are ordered in batches of 5; rather than four unique pieces that I’d 3D print, I’d order five of the same PCB, and assemble them into a ring.\nIt turns out that hand soldering neopixel LEDs with a soldering iron is even more of a nightmare, as the pads for individual neopixels sit underneath them; they’re intended to be soldered using a method that heats up the PCB rather than an iron. The project went on hiatus for a bit.\nI brought the project parts with me when I attended a programming retreat at Recurse Center in the summer of 2026, and a friend I met there was much more handy with a hot air soldering station than I am. We managed to finish all the soldering, and I designed and 3D printed new cell walls to clip onto the PCBs and screw them together.\nAfter finishing the new version during my Recurse batch, I decided to leave it at Recurse Center as an installation. I switched to an ESP32, so it can be on the wifi network there, and rewrote the firmware in Rust. The controller serves a local website where RC attendees can upload sketches and games to it using a tiny webassembly backend and minimal API.\nWhat’s next?\nI’m still not fully satisfied with this project.\nEnough people have expressed enjoyment over it that I’d love to be able to make more of them, at the very least to gift to friends if not to sell more broadly. But the process has not been ideal; soldering has been tedious both times for different reasons. The process of attaching the paper is tricky, and the paper itself is fragile and difficult to repair if it breaks. I have some ideas for improvements that merit experimenting with: different types of LEDs which are easier to hand solder, using PCB assembly, testing out a layer of clear acrylic to protect the paper with, attaching the paper face plates with magnets.. So many things to test out in the future.\nFor now, the project deserves a break, but when the time is right it’ll be onto version 3!",
+          "category": "tech",
+          "publishedAt": "2026-09-28T16:18:57.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "How our vibe coded website looks like a designer made it",
+          "titleKo": "Vibe 코딩한 웹사이트가 디자이너가 만든 것처럼 보이는 방법",
+          "summary": "Vibe 방식으로 개발한 웹사이트가 전문 디자이너의 결과물처럼 보일 수 있도록 하는 방법론을 다룹니다.",
+          "keyPoints": [
+            "비정형 개발 방식에서도 높은 수준의 디자인 품질 달성 가능"
+          ],
+          "whyItMatters": "개발자도 충분한 UI/UX 수준의 웹사이트 구현 가능",
+          "url": "https://railcode.dev/blog/vibe-coded-website",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 63,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 72,
+          "isTopicPrimary": true,
+          "slug": "how-our-vibe-coded-website-looks-like-a-designer-made-it",
+          "category": "insight",
+          "publishedAt": "2026-09-29T22:59:28.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "Lighting My Porch With Vega #coding #programming #javascript #vega",
+          "titleKo": "Amazon Vega로 포치 조명 만들기: React Native 개발자의 홈 프로젝트",
+          "summary": "Jack Herrington이 3D 프린터로 만든 행성 모형 조명을 대형 프로젝션 스크린과 연동하기 위해 Amazon의 Fire TV 플랫폼 Vega를 사용한 경험을 소개합니다. Vega가 React Native 기반이라는 점 덕분에 VS Code 확장, 로컬 시뮬레이터, CLI 도구를 활용해 빠르게 개발할 수 있었고, WLED 컨트롤러를 fetch로 제어하고 aria 레이블만으로 음성 제어까지 구현했습니다. React/React Native 지식을 그대로 활용해 TV용 앱을 손쉽게 만들 수 있음을 보여주는 개인 프로젝트 사례입니다.",
+          "keyPoints": [
+            "Amazon Vega는 Fire TV UI를 React Native로 구축하므로 기존 React 지식을 그대로 활용할 수 있다.",
+            "VS Code 확장과 로컬 시뮬레이터, CLI 스캐폴딩 도구로 개발 환경 구성과 디버깅이 쉬웠다.",
+            "React Native 기반 덕분에 AI 코딩 에이전트 활용이 용이했고 공식 문서만으로 세부 구현이 가능했다.",
+            "WLED 컨트롤러 제어는 표준 fetch로 HTTP 요청을 보내는 것만으로 충분했다.",
+            "aria 레이블만 추가하면 Vega가 음성 인식과 press 이벤트 전달을 자동으로 처리해준다."
+          ],
+          "whyItMatters": "React/React Native에 익숙한 프론트엔드 개발자가 별도의 학습 없이 TV·스마트홈 기기용 애플리케이션을 빠르게 만들 수 있는 실용적인 사례를 제공한다.",
+          "article": "천체 관측을 좋아하는 가족을 위해 3D 프린터로 행성 모형을 만들고 포치 뒤편에 LED로 조명을 넣어 꾸민 개인 프로젝트를 소개하는 영상입니다. 영화를 볼 때 이 조명 장식과 대형 프로젝션 스크린을 연결하고 싶었던 저자가 어떤 기술로 이를 구현했는지, 그리고 그 과정이 왜 예상보다 훨씬 쉬웠는지를 짧게 정리해봅니다.\n\n## 프로젝트의 시작: 행성 조명과 스크린을 연결하기\n\n저자의 가족은 천체 관측에 관심이 많아서, 3D 프린터로 출력한 행성 모형들을 포치 뒤쪽에 나란히 배치하고 제어 가능한 LED로 조명을 넣었습니다. 영화를 볼 때 분위기를 살려주는 요소였는데, 여기서 한 걸음 더 나가 이 행성 조명들을 대형 프로젝션 스크린과 연동시키고 싶었습니다. 즉, 스크린에서 특정 행성을 선택하면 실제 조명도 반응하는 식의 인터랙티브한 경험을 만들고자 한 것입니다.\n\n## 왜 Amazon Vega를 선택했나\n\n이 문제를 해결하기 위해 저자는 Amazon Fire Stick과 Vega를 선택했습니다. 결정적인 이유는 Vega가 UI 구현에 React Native를 사용한다는 점이었는데요. 이미 React와 React Native에 익숙한 개발자였기 때문에 진입 장벽이 낮았고, 실제로 작업해보니 예상보다 훨씬 쉬웠다고 밝히고 있습니다.\n\n개발 편의성 면에서도 여러 장점이 있었습니다.\n\n- VS Code용 Vega 확장 프로그램이 제공되어 개발 환경 구성이 간단했습니다.\n- 로컬 시뮬레이터가 내장되어 있어 디바이스 없이도 코드를 디버깅하기 쉬웠습니다.\n- CLI 앱을 통해 프로젝트를 빠르게 시작할 수 있었습니다.\n- React Native 기반이라 AI 코딩 에이전트들이 관련 코드를 잘 이해했고, Vega 공식 문서를 참고 자료로 넘겨주는 것만으로 세부 구현을 처리할 수 있었습니다.\n\n## 실제 구현: 태양계 지도와 LED 제어\n\n결과적으로 완성된 애플리케이션은 손님이 집에 방문했을 때, 태양계 지도를 화면에 띄우고 각 행성에 대한 정보를 보여주는 형태로 동작합니다. 리모컨의 D-패드를 이용해 지도 위에서 행성들과 조명 사이를 자유롭게 이동하며 탐색할 수 있습니다.\n\n실제 LED 제어는 WLED 컨트롤러를 통해 이뤄집니다. Vega 앱에서 일반적인 `fetch`를 사용해 HTTP 요청을 WLED 컨트롤러에 직접 보내는 방식으로, 별도의 복잡한 통신 계층 없이 간단하게 하드웨어를 제어할 수 있었습니다.\n\n## 마지막 완성도: 음성 인식으로 행성 호출하기\n\n프로젝트를 한층 더 완성도 있게 만들기 위해 저자는 음성으로 행성 이름을 말하면 화면과 조명에 해당 행성이 표시되는 기능을 추가했습니다. 놀랍게도 이 기능은 각 요소에 aria 레이블만 추가하면 되는 수준이었는데요. Vega가 음성 인식 처리를 전부 알아서 담당하고, 사용자가 행성 이름(예: \"Saturn\")을 말하면 해당 레이블에 대한 press 이벤트를 자동으로 전달해주는 구조였습니다. 별도의 음성 인식 로직을 작성할 필요 없이 접근성을 위한 표준 속성만으로 음성 제어 기능을 구현할 수 있었다는 점이 인상적입니다.\n\n## 정리\n\n이 프로젝트는 React/React Native에 익숙한 프론트엔드 개발자가 IoT·스마트홈 성격의 개인 프로젝트를 얼마나 빠르게 구현할 수 있는지를 잘 보여주는 사례입니다.\n\n- Amazon Vega는 Fire TV 계열 기기의 UI를 React Native로 구축하도록 지원하며, 기존 React/React Native 지식을 그대로 활용할 수 있습니다.\n- VS Code 확장과 로컬 시뮬레이터, CLI 스캐폴딩 도구 덕분에 개발 환경 구성과 디버깅이 수월했습니다.\n- React Native 기반이라는 특성 덕분에 AI 코딩 에이전트의 도움을 받기도 쉬웠고, 공식 문서만 참고 자료로 제공하면 세부 구현을 맡길 수 있었습니다.\n- 하드웨어 제어는 표준 `fetch`를 이용한 HTTP 요청만으로 충분했고, 음성 제어는 aria 레이블 추가만으로 별도 구현 없이 지원되었습니다.\n- React Native 경험이 있는 개발자라면 Vega를 통해 큰 화면(TV, 프로젝션 스크린) 기반의 애플리케이션을 손쉽게 만들어볼 수 있습니다.",
+          "url": "https://www.youtube.com/watch?v=55hdtzM8T98",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 74,
+          "isTopicPrimary": true,
+          "slug": "lighting-my-porch-with-vega-coding-programming-javascript-vega",
+          "fullContent": "My family's own to astronomy. So, I printed out all these 3D printable planets and I put them along the back of the porch and I lit them with controllable LEDs. It's really nice when we're watching movies, but I wanted a way to connect the planets with the big projection screen. So, I looked around and picked a Fire Stick with Amazon's Vega because it uses React Native for the UI and I'm pretty good with React and React Native. And I got to tell you, it was easier than I expected. There's a Vega extension for VS Code. It's got a local simulator that makes it really easy to debug the code, which is great. The L coding agents obviously love React Native. And so, I just pointed them at the Vega docs for the extra details. They've even got a CLI app to get your project started. So, now when folks come over, I can just pop up a map of the solar system with all the facts about each planet and they can navigate around the lights and the planets with the D-pad on the controller. And then to control the LEDs, I use a WLED controller and then just send the command to it with HTTP right out of the Vega app using just a regular fetch. But to kind of add that finishing touch, I wanted folks to be able to say the name of the planet and have it show up on the screen and also on the lights. And it was as easy as just adding aria labels and Vega just handled all the extra voice work and sent the press events when you use the name. Saturn. It's just so slick and it really brought that project to life. So, give Vega a shot. If you know React Native and React already, it's an easy way to get your application up on the big screen. Check out the link in the description for more information and thank you so much, Amazon, for sponsoring this video.",
+          "category": "video",
+          "publishedAt": "2026-07-02T18:22:02+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Use these CSS features instead of JavaScript",
+          "titleKo": "JavaScript 대신 사용할 CSS 기능들",
+          "summary": "JavaScript 없이 CSS만으로 구현 가능한 기능들을 소개하는 동영상으로, 웹 개발에서 CSS의 활용 범위 확대를 다룹니다.",
+          "keyPoints": [
+            "CSS로 구현 가능한 기능 학습",
+            "JavaScript 의존도 감소로 성능 개선"
+          ],
+          "whyItMatters": "CSS 현대화 기능 활용으로 더 간단하고 효율적인 코드 작성 가능",
+          "url": "https://www.youtube.com/watch?v=qu1jE41O_8o",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 78,
+          "isTopicPrimary": true,
+          "slug": "use-these-css-features-instead-of-javascript",
+          "category": "video",
+          "publishedAt": "2026-09-23T13:00:33+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Vinext 1.0 - A New Alternative to Next.js",
+          "titleKo": "Vinext 1.0 - Next.js의 새로운 대안",
+          "summary": "Next.js를 대체할 수 있는 새로운 프레임워크 Vinext 1.0이 출시되었습니다.",
+          "keyPoints": [
+            "Next.js 대안으로서의 Vinext 프레임워크 등장"
+          ],
+          "whyItMatters": "풀스택 프레임워크 선택지 확대로 프로젝트 요구사항에 맞춘 도구 선택 가능",
+          "url": "https://www.youtube.com/watch?v=eFFH_4aD6Ig",
+          "sourceName": "James Q Quick",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 75,
+          "topicId": "nextjs-alternatives",
+          "isTopicPrimary": true,
+          "slug": "vinext-10-a-new-alternative-to-nextjs",
+          "category": "video",
+          "publishedAt": "2026-09-29T14:12:13+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "React 2025 – Adding MDX",
+          "titleKo": "React 2025 – MDX 추가",
+          "summary": "React 2025에서 MDX 기능 추가에 대한 내용으로 추정되나, 동영상 미리보기만 있어 구체적 내용은 확인 필요합니다.",
+          "keyPoints": [],
+          "whyItMatters": "React 생태계의 최신 업데이트 동향 파악",
+          "url": "https://www.youtube.com/watch?v=TUnbglpVhiU",
+          "sourceName": "Lee Robinson",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 80,
+          "topicId": "react-mdx-ecosystem",
+          "isTopicPrimary": true,
+          "slug": "react-2025-adding-mdx",
+          "category": "video",
+          "publishedAt": "2025-11-07T14:31:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "OpenAI fights back",
+          "summary": "앤트로픽이 지난주 Opus 5.5를 내놓으며 업계를 뒤흔들자, OpenAI는 GPT6 Soul과 GPT6 Luna를 서둘러 출시했습니다. 하지만 두 모델 모두 인상적이지 않았고, 별다른 반응을 이끌어내지 못했습니다. 그런데 여기서 끝이 아니었습니다. 필자가 우연히 얼리 액세스로 미리 사용해본 세 번째 모델, GPT 6.1 Soul이 등장했고, 이 모델이 지금까지의 흐름을 완전히 뒤집어놓았습니다. 저렴하면서도 강력하고, 심지어 Astra보다도 낫다는 평가가 나올 정도입니다. 이 글에서는 GPT 6.1 Soul의 벤치마크 성능, 파격적",
+          "keyPoints": [],
+          "article": "앤트로픽이 지난주 Opus 5.5를 내놓으며 업계를 뒤흔들자, OpenAI는 GPT6 Soul과 GPT6 Luna를 서둘러 출시했습니다. 하지만 두 모델 모두 인상적이지 않았고, 별다른 반응을 이끌어내지 못했습니다. 그런데 여기서 끝이 아니었습니다. 필자가 우연히 얼리 액세스로 미리 사용해본 세 번째 모델, GPT 6.1 Soul이 등장했고, 이 모델이 지금까지의 흐름을 완전히 뒤집어놓았습니다. 저렴하면서도 강력하고, 심지어 Astra보다도 낫다는 평가가 나올 정도입니다. 이 글에서는 GPT 6.1 Soul의 벤치마크 성능, 파격적인 가격 정책, 그리고 그 이면에 숨은 출시 배경을 정리해봅니다.\n\n(참고로 필자는 얼리 액세스 권한을 받았지만 어떤 형태로든 대가를 받지 않았고, OpenAI는 콘텐츠 내용에는 개입하지 않았습니다. 다만 공개 시점만큼은 모델 출시 전까지 기다려달라는 요청을 받았습니다.)\n\n## 벤치마크: 사실상 역대 최고 점수\n\n필자는 Terminal Bench를 직접 돌려봤는데, 벤치마크 환경 자체가 워낙 무거워서 세 번을 실행하고 나서야 제대로 된 결과를 얻을 수 있었다고 합니다. low, high, X-high, max 난이도로 테스트했고 medium은 초기에 빠뜨렸으며, max 실행은 8시간 이상 걸리는 탓에 여전히 진행 중이라 일부 점수는 X-high 결과로 임시 대체해둔 상태입니다. H100 GPU가 필요한 태스크 3개는 아예 벤치마크에서 제외했다고 밝혔습니다.\n\n이런 한계에도 불구하고 결과는 명확했습니다. GPT 6.1 Soul은 Terminal Bench에서 사실상 역대 최고 점수를 기록했습니다. DeepSWE 벤치마크에서는 조금 특이한 패턴을 보였는데, X-high와 max 난이도에서는 점수가 오히려 떨어지고 low와 high에서는 점수가 유지되는 모습이었습니다. 그런데 이 low/high 점수가 Opus 5.5가 max 난이도에서 낸 점수와 비슷했다는 점이 핵심입니다. 문제는 비용인데, 로그 스케일 그래프로 보면 차이가 확연합니다.\n\n- GPT 6.1 Soul (low): 약 $0.21\n- Astra (low): $1.46\n- Opus 5.5 (max, 동일 점수): $14.65\n\n즉 DeepSWE에서 Opus와 동일한 점수를 내면서 비용은 73배나 저렴했다는 이야기입니다. 물론 DeepSWE 하나로 모델의 실전 코딩 능력을 온전히 판단할 수는 없지만, 이 정도 비용 차이는 무시하기 어려운 수준입니다.\n\n## 정체를 알 수 없는 출시 타이밍\n\nGPT6 Soul이 지난주 화요일에 나왔는데, 이번 GPT 6.1 Soul도 화요일에 출시됩니다. 딱 일주일 간격입니다. 필자는 이 타이밍이 의미심장하다고 봅니다. 원래 6.1 Soul은 애초에 \"6.1 Soul\"이라는 이름으로 나올 예정이 아니었을 가능성이 높다는 것입니다.\n\n근거는 몇 가지입니다. 첫째, 6.1은 GPT6 대비 확연히 더 똑똑해서 단순한 마이너 업데이트로 보기 어렵습니다. 둘째, 초당 토큰 생성 속도(TPS)가 눈에 띄게 느려졌는데, 이는 보통 모델 크기가 커졌다는 신호입니다. 즉 겉으로는 마이너 버전업처럼 보이지만 실제로는 근본적으로 다른, 더 큰 모델일 가능성이 있다는 뜻입니다.\n\n여기에 결정적인 단서가 하나 더 있습니다. OpenAI의 Tibo가 모델 출시 직전에 올린 트윗인데, 핵심은 두 가지입니다. 하나는 $200짜리 Pro 구독제가 다시 돌아온다는 것이고, 더 중요한 건 구독 내 사용량 계산 방식을 바꾼다는 내용입니다. 계산해보면 기존 $200 Pro 플랜 대비 API 환산 사용량이 절반으로 줄어드는 셈입니다.\n\n왜 하필 지금, 그것도 Opus 5.5가 워낙 뛰어나서 앤트로픽의 $200 Claude Code 플랜이 압도적인 가성비로 화제인 시점에 이런 조치를 취할까요? 필자의 추론은 이렇습니다. 새 모델의 마진이 예전만큼 좋지 않아서 보조금(subsidize)을 예전 수준으로 유지할 여력이 줄었다는 것입니다. 참고로 기존 $200 Claude Code 플랜에서는 한 달에 약 8,000~9,000달러어치 사용량을, $200 Codex 플랜에서는 12,000달러 이상의 사용량을 제공받을 수 있었습니다. 필자가 직접 계산해본 결과 Astra 쪽 사용량 한도도 약 8,000달러 수준으로 소폭 줄어든 것으로 보입니다.\n\n## 파격적인 가격, 그리고 캐시 읽기 할인\n\nGPT 6.1 Soul의 정가는 입력 토큰 100만 개당 $2, 출력 토큰 100만 개당 $10입니다. 이는 출시 당시 GPT 5.6 Soul보다 훨씬 저렴하고, 할인 적용 후 5.6 Soul 가격의 절반이며, GPT6 Soul과는 동일한 가격입니다. Astra와 비교하면 1/5 수준입니다.\n\n하지만 진짜 이야기는 캐시 읽기(cache read) 가격에 있습니다. 이 모델의 캐시 읽기 가격은 100만 토큰당 10센트인데, OpenAI가 캐시 읽기 가격을 바꾼 건 이번이 처음입니다. 지금까지는 항상 일반 읽기 가격의 정확히 10%였는데(즉 90% 할인), 이번에는 그 절반인 5%(95% 할인)로 더 낮췄습니다. 실전 에이전트 워크로드에서는 캐시 읽기 비중이 압도적으로 크다는 점을 감안하면, 이는 실사용 비용을 대폭 낮추는 조치입니다.\n\n이런 가격 인하는 자연스럽게 마진 축소로 이어집니다. 업계에서는 OpenAI의 마진율이 최대 95%에 달한다는 소문이 있습니다. 즉 $10을 받으면 실제 비용은 $0.50 수준이라는 것인데, 모델 훈련에 들어가는 막대한 비용을 생각하면 납득이 갑니다. 동시에 이 정도 마진이면 가격을 조정할 여유도 충분합니다. 만약 새 모델에서도 기존 구독 보조금 수준을 그대로 유지한다면, 구독료보다 실제 컴퓨팅(전기세에 비유한 표현) 비용이 더 커질 수 있다는 것이 필자의 추정입니다. 그래서 구독 사용량 계산 방식을 바꿀 수밖에 없었다는 논리입니다.\n\n실전 코드 작업 비용으로 보면 차이는 더 직관적입니다. 필자가 실제로 돌려본 결과, GPT 6.1 Soul의 가장 비쌌던 실행이 태스크당 약 $1.38이었던 반면, Opus 5.5의 가장 저렴했던 실행은 $5.12였습니다. 즉 가장 저렴한 Opus와 가장 비싼 Soul 사이에도 4~5배의 비용 격차가 존재합니다.\n\n## GPT6 특유의 \"똑똑한데 멍청한\" 문제, 해결됐나\n\nGPT6 Astra에 대해 필자가 가장 답답해했던 부분은 지능이 부족해서가 아니었습니다. 오히려 여러 면에서 앤트로픽의 최고 모델들보다 더 똑똑했습니다. 문제는 따로 있었습니다. Astra는 똑똑하면서 동시에 멍청했습니다. 잘 작동하다가도 갑자기 올해 본 것 중 가장 멍청한 실수를 저지르는 패턴이 반복됐고, 심지어 일부 소규모 오픈웨이트 모델보다도 못한 순간이 있었습니다. 잘할 때는 놀라울 정도로 잘하지만, 이런 스파이크성 오류 때문에 결국 실사용에서는 손을 뗄 수밖에 없었습니다. 그 결과 필자는 Codex 구독을 컴퓨터 사용(computer use) 용도로만 쓰고, 일상적인 코드 작업은 Fable 5.1과 Opus 5.5에 의존하게 됐다고 합니다.\n\n그렇다면 GPT 6.1 Soul은 이 스파이크성 문제를 해결했을까요? 필자의 답은 \"완전히는 아니지만, 대체로 그렇다\"였습니다. 이전만큼 극단적인 오류 패턴은 줄어들었고, 전반적인 신뢰도가 개선됐다는 취지의 평가로 이어집니다.\n\n## 정리\n\n- Anthropic의 Opus 5.5 출시 이후 OpenAI가 서둘러 내놓은 GPT6 Soul/Luna는 큰 반응을 얻지 못했지만, 뒤이어 나온 GPT 6.1 Soul은 Terminal Bench에서 사실상 역대 최고 점수를, DeepSWE에서는 Opus 5.5와 동급 점수를 73배 저렴한 비용으로 달성했습니다.\n- 출시 간격(1주일), 지능 향상 폭, 느려진 토큰 생성 속도를 종합하면 6.1 Soul은 단순한 스냅샷 업데이트가 아니라 근본적으로 다른(더 큰) 모델일 가능성이 높습니다.\n- 가격은 입력 $2/출력 $10 (100만 토큰당)로 책정됐고, 특히 캐시 읽기 가격을 사상 처음으로 절반(95% 할인)까지 낮춰 실전 에이전트 워크로드 비용을 크게 절감했습니다. 이는 OpenAI가 마진을 일부 포기하면서까지 가격 경쟁력을 확보하려는 신호로 해석됩니다.\n- 동시에 $200 구독 플랜의 사용량 계산 방식을 변경해 API 환산 가치가 절반으로 줄었는데, 이는 새 모델의 낮아진 마진과 맞물려 보조금 여력이 줄었기 때문으로 추정됩니다.\n- GPT6 계열의 고질적 문제였던 \"똑똑하지만 간헐적으로",
+          "url": "https://www.youtube.com/watch?v=vu8X3YroB-w",
+          "sourceName": "Theo (t3.gg)",
+          "contentType": "video",
+          "labels": [
+            "frontend",
+            "ai"
+          ],
+          "relevance": 68,
+          "isTopicPrimary": true,
+          "slug": "openai-fights-back",
+          "fullContent": "They're back. Okay, let me catch you guys up quick. Last week, Anthropic dropped a new model, Opus 5.5, and it was unbelievably good. It was so unbelievably good that OpenAI rushed out two model drops, GPT6 Soul and GPT6 Luna. You might have noticed I didn't do a video on those models. There's a reason. They weren't that good. I was not particularly impressed with either of them and didn't really have much to say. But there was one other model I happened to get early access to that is now available for all. That model is called GPT 6.1 Soul. And this model made it very, very hard to film that Sonnet 5.5 video because I knew something was coming. Something surprisingly cheap, surprisingly capable, and most surprisingly, better than Astra. So yeah, I got a lot to say about this one. I'm filming this at 2 in the morning, right after filming my Sonnet 5.5 videos. So, pardon me for stumbling over a few words here and there. I'm doing my best to get this out as reasonably quickly as possible because I want to have some coverage and I'll be real. It is also quite fun to cover these things before they are out so you are getting my true honest take and not the distilled version of what everyone else is saying. I'm sure this model is going to cause some pretty crazy waves. So, uh it will be nice to have my take out initially separately first. As always, I feel obligated to remind you I do have early access, but I'm not being paid in any way, shape, or form. OpenAI has no influence over what and how I say things, just when. They've politely asked me to wait until the model is out to talk about it, which makes a lot of sense. But I have to wait for one other thing first. Today's sponsor. In order to build good software with agents, you need to get feedback. And let's be real, they're getting a lot of that feedback from our CI. That's why we've all been seeing our CI bills skyrocket. And also why we've been getting more and more frustrated with GitHub actions. Today's sponsor is depot and they're here to solve all of this and more. Not only can they make your CI up to 10 times faster, as well as your Docker builds up to 40 times faster, especially when they're downloading cache, they're also cheaper and they give better feedback for your agents. All this is possible due to depot metal. They're running their own bare metal with AMD epic processors that are way faster than what you get from traditional CI providers like of course GitHub actions. If you want it to be a drop in replacement, it absolutely can be, but APIs are so much better that you should probably use those instead. They enable parallelization and most importantly resilience when GitHub inevitably goes down randomly for no good reason. We've had our releases get blocked because we weren't using depot. And I'm so thankful that I've been moving more and more stuff over. For example, when Ben moved pick thing over to bun, we immediately had some CI failures. Normally, this would be obscure piles of text that our agents pars through for us. But when we use depot, it becomes way easier to see. They'll even analyze the failures and give suggestions which make it much simpler to get this feedback back to our agents. This is especially useful when you tell your agents that you can use depot because they'll no longer have to push changes and wait for that to trigger a build. They can just run the CLI to trigger the exact same CI that you'd be triggering through GitHub instead. No longer do you have to file PRs with broken code just to get feedback to your agents. They could just run a tool instead. Your agents will also get way better breakdowns of what is taking so long in your actual CI runs so that you can figure out how to improve them and make them faster and more reliable. You and your agents deserve faster Docker, faster build times, faster CI, better results, and ideally a cheaper price. Get all of that and more at swive.link/devo. Let's talk about this model a bit because it is not quite what I expected and it's probably not what you guys expected either, especially when you consider that GPT6 soul just came out like a week ago. It'll be around a 1 week gap from 6.0 soul to 6.1 soul. I also want to disclose the numbers I'm currently showing on my screen are unlikely to be exactly accurate because I am running Terminal Bench for myself. In the first two times I ran it, I screwed things up. The third one seems to be doing much better. I didn't run it on medium initially, so there's a miss there. But low, high, XH high, and max, although the max run is incomplete, so I'm currently back filling scores from X high for the ones that Max either got wrong or in a previous run or didn't do yet because it takes like eight plus hours and some of these tasks. I this bench is nuts. It's I'm more skeptical of benchmarks than ever now that I've been running a lot more of them myself in order to get the coverage I want to give here. For what it is worth, Terminal Bench 4 is state-of-the-art score here. As is deep SWE, although this one's weirder because it goes down on X high and max and stays even on low and high. But those even low and high scores are scoring around what Astra did on high. The difference being it's doing it for comically cheaper. Switch over to the log scale, you'll see what I mean. This model on low costs 21 versus Astra on low costing $1.46 and Opus 5.5 on max getting the same score for $14.65. While I will gladly admit that Deep Su is far from a perfect measure of how good a model is at day-to-day code work, the fact that 61 Soul is scoring the same as Opus and is also 73x cheaper is at least worth noticing. Here's where I'm going to say some of the things that I probably shouldn't. Considering that GBT6 Soul came out last week on Tuesday and this model's coming out this week on Tuesday, I think it's reasonable to infer that 6.1 Soul was not meant to be 6.1 Soul. There are things I'm not supposed to say, and I'm definitely walking a thin line here by sharing it. So, uh, I hope this proves I'm not paid off by Open AI because I'm about to give you guys info that I Yeah, just let let me get through this. First and foremost, 6.1 is significantly smarter than GPT6, thereby indicating this isn't just a one bump. There is something fundamentally different here. Next point is that it has meaningfully slower tokens per second. That tends to indicate the model is bigger. Hard to know for sure. Seems like this model might be different. Most importantly, we have Tibo's tweet. What am I referring to there? Well, right before I started filming, Tibo dropped quite a wall of text. The thing I want to emphasize here is first off that the pro $200 subscription is back. But more importantly, but more importantly is this sentence. They are changing how they calculate the usage in the sub. In effect, if you do the math, it will net out at half the dollar in API spend compared to the old pro $200 plan. Why in the world would they do this? especially right now where there's allegedly an internal code red because Opus 5.5 is so unbelievably good and has made the $200 quad code sub such an unbelievable value. The only reason in the world Tibo would post this right now is uh I don't know, maybe a new model is coming where their margins aren't as good. So, the ability to subsidize has gone down because remember you can get $8 to $9,000 of usage in a month on the $200 Cloud Code plan and you can get over 12 grand on the $200 codeex plan. I did actually run a lot of numbers before this and the amount you could get on Astra did go down slightly closer to like eight grand or so. Hard to know for sure because they differ for everyone everywhere and it's hard to log all of this stuff, but from my math roughly 9 grand a month of usage. And that's where the price for this model comes in. This model is $2 per million input tokens and $10 per million out. This makes it way cheaper than 5.6 Soul was at launch. Half the price of 5.6 Soul after discounts and the same price as GPT6 Soul. 1/5 the price of Astra. However, this is not the whole story cuz cash reads matter. And the cash read price for this model is going to be 10 cents per mill in. That's a big deal. OpenAI has not changed cash read price as far as I know ever before. It's always been exactly 10% of the normal read price. That makes it a 90% discount and now it's a 95% discount. That means they cut the cache read cost in half, massively reducing the cost for real world agentic use, which to be clear is what we're using these for most of the time. So this makes the model absurdly cheap for doing realworld code work. That also means that they are almost certainly cutting into their margins. Historically, these margins are rumored to be as high as 95%. Like for every $10 you spend, they only have to spend 50. And as crazy as that sounds, it makes a lot of sense. especially when you consider how expensive it is to make and train these models. But that also gives them wiggle room to change things around a bit, which appears to be what's happening here. That also means that if they were to keep subsidizing the same level that they were on the subscriptions that your electricity cost for your sub would be more than you're paying. So, I get why they have to change this. They've kind of just left the details out there for us to uh reverse engineer. So, uh take this as you will. 6.1 coming so fast seems to indicate it is not just a new snapshot of GPT6. So let's talk more about this model. As I was showing earlier seems really good at Terminal Bench. Every time we refresh the numbers change because new runs come in and it looks like Max failed some things that X high passed which is why it just dropped a bit. But again pretty much all of these even high and X high are scoring higher than anything else ever has. And this is for me running this benchmark on random VMs on my network. So, uh, not the best suite to test against. I also had to drop three particular tasks from it because they expected an H100 to work against, which I make decent money. I don't make H100 money, okay? But none of this is real world code work. So, let's talk a bit about that. Obviously, we'll have all the fun things like fish slop near the end, so stay tuned for that. But, I just want to fixate a bit on the costs here because the most expensive run with 6.1 soul for me was about $1.38 per task. And the cheapest run with Opus 5.5 was $512. That's a four to 5x gap from the cheapest Opus to the most expensive soul. So, at this point, I would imagine you are hoping and praying this model is good and that it can actually replace Opus 5.5 for day-to-day work. And I promise we'll get some good answers to that in a bit. But first, we need to talk a bit about model behaviors here because this model is a part of the GPT6 family, which means it has uh the behaviors that are worth talking about. I know I cite this diagram a lot, but there's a reason for it. The thing that made me so frustrated with GBD6 Astra wasn't that it was less intelligent than the best models from Anthropic, because it was more intelligent than the best models from Anthropic, and I would argue in many ways still is. But there is a problem. It is also dumb. It is smart and dumb at the same time. GB6 Astra would just randomly spike into the dumbest [ __ ] I've seen a model do this year. Even worse than like some of the small openweight models I play with. It's still so deeply frustrating that Astra does this because on the other end when it does well, it's unbelievable. But these spikes got to the point where I effectively churned. I was only using my codec subs for computer use and I ended up just leaning on to Fable 5.1 and obviously now Opus 5.5 for almost all of my day-to-day work. So, have they addressed the spikiness? Has GBD 6.1 Soul fixed the problems that I was so frustrated about with Astra? I would say mostly, not entirely, but for the most part, yeah, this is a much better model. Its peaks are not as high. This is not the incredible revolutionary 3D capabilities that we saw with Astra. In fact, I would put it slightly below 5.5 opus in most of those types of things. It is not as good at computer use as Astra, although it is close enough to the point where I have been happy using it for all of my day-to-day work. I actually had 6.1 Soul go through all of my emails and find invoices that I had forgotten to pay or was behind on, mostly like investing stuff, and set up new tabs in Chrome for every investment I needed to wire, fill out all the details for me, and just leave me to hit send. It didn't get a single thing wrong, and called out additional stuff that I absolutely would have missed if I was doing this work myself. So, I'm literally trusting this model to wire money for me. It's trustworthy enough for that. And honestly, I don't know if I would have trusted Astra with that due to the spikiness. 6.1 Soul much, much less spiky. From what I've heard from the other testers, they seem to agree with this analysis. I know for a fact that Julius and Ben, who have also been testing, have had a much better experience with this than Astra in terms of the spikiness. Julius called the model incredible. Ben called it incredibly boring. And I think that's the best place you can be for a model drop like this. But as I had mentioned before, its peaks are not as impressive. While it does quality work the majority of the time, there are some tasks that are just at the edge of its capability that it will start to do weirder stuff on. For the most part, it's fine. But I I'm still reaching for Opus a decent bit. We'll talk more about the comparison later. I do default to this model for a bunch of stuff, though. First off, as I mentioned before, computer use. I can't wait for Ultraast to be like an actual thing you can use with OpenAI models because when it is, this model is going to be crazy on it because it can already figure out how to navigate computer use totally fine. If it can suddenly do it six times faster, it's going to be unbelievably fun. Still not quite as good as Astro, but more than good enough that for the price difference, I wouldn't even think twice about it. But as I mentioned before, there are certain things I would still occasionally use Astra for that I am more than happy to use Soul for. One of those things is deep code reviews. I have still found OpenAI models and the like Rottweiler nature where they'll dig into a problem and shake it and tear it to pieces until they find every single thing wrong with it. I find 6.1 soul to be incredibly capable in this particular way. So, as you can probably guess, I had 6.1 Soul do some deep audits on orchestrator v2 and other parts of my real world code bases. In my orchestrator v2 audit, it performed nearly identically to Astra. I do believe it was slightly higher a score. Okay, not in this analysis, but in my other analysis, it did actually score very, v",
+          "category": "video",
+          "publishedAt": "2026-09-29T17:44:20+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
