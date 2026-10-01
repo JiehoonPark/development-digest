@@ -1,0 +1,350 @@
+{
+  "date": "2026-10-01",
+  "intro": "안녕하세요! 오늘은 프론트엔드 생태계의 보안과 성능 최적화가 화제입니다. Next.js의 중대 보안 패치와 Netlify의 혁신적인 엣지 함수 성능 개선이 주목받고 있으며, CSS와 AI 기술을 활용한 새로운 개발 패러다임들이 빠르게 확산되고 있습니다.",
+  "sections": [
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "September 2026 Security Release",
+          "titleKo": "2026년 9월 Next.js 보안 릴리스: SSRF와 캐시 포이즈닝 등 7건 취약점 패치",
+          "summary": "Next.js가 v16.3.8(Active LTS)과 v15.5.27(Maintenance LTS)을 통해 이미지 최적화 SSRF, SSG/ISR 캐시 포이즈닝, 메타데이터 이미지 라우트 정보 노출, use cache/Draft Mode 캐시 누출, 개발 서버 MCP 엔드포인트 노출 등 총 7건의 보안 취약점을 수정했습니다. 셀프 호스팅 환경과 Cache Components, Draft Mode를 사용하는 프로젝트가 특히 영향을 받을 수 있습니다. Vercel 배포 환경은 일부 취약점(캐시 포이즈닝)의 영향을 받지 않습니다.",
+          "keyPoints": [
+            "images.remotePatterns를 설정한 애플리케이션은 이미지 최적화 과정의 SSRF 취약점(CVE-2026-94483, High)에 노출될 수 있습니다.",
+            "셀프 호스팅된 Pages Router의 SSG/ISR 페이지는 캐시 엔트리가 다른 라우트 콘텐츠로 뒤바뀌는 캐시 포이즈닝 취약점의 영향을 받으며, Vercel 배포는 영향이 없습니다.",
+            "root-level catch-all과 SSG/ISR을 함께 쓰면 단 한 번의 조작된 요청으로 공유 캐시가 오염되어 콘텐츠 혼입과 지속적 DoS로 이어질 수 있습니다.",
+            "Cache Components/experimental.useCache와 Draft Mode를 함께 사용하면, 대기 중인 use cache 채움을 통해 미공개 콘텐츠가 인증 없이 일반 방문자에게 영구적으로 노출될 수 있습니다.",
+            "next dev의 MCP 엔드포인트는 출처 검증 없이 프로젝트 경로, 소스 코드, 라우트 목록 등을 노출할 수 있으나 프로덕션 배포는 영향을 받지 않습니다."
+          ],
+          "whyItMatters": "이번 패치는 이미지 최적화, 캐싱, Draft Mode, 메타데이터 라우트 등 Next.js의 핵심 기능 전반에 걸친 취약점을 다루므로, 해당 기능을 사용하는 모든 프로덕션 서비스는 영향 범위를 확인하고 즉시 업그레이드해야 합니다.",
+          "article": "지난주 Next.js 팀은 예정된 보안 패치를 발표하면서, 치명적(critical) 취약점 1건과 심각도 높은(high) 취약점 1건에 대한 수정은 업스트림 의존성 지연으로 인해 늦춰진다고 공지한 바 있습니다. 이번 포스트는 그 후속 조치로, 해당 취약점들을 포함한 총 7건의 보안 이슈를 수정한 v16.3.8(Active LTS)과 v15.5.27(Maintenance LTS) 릴리스를 안내합니다. Next.js를 사용 중이라면 아래 내용을 확인하고 가능한 한 빨리 패치하는 것을 권장합니다.\n\n## 패치 방법\n\n```bash\nnpm install next@15.5.27 # for 15.5\nnpm install next@16.3.8 # for 16.3\n```\n\n## 수정된 취약점 상세\n\n### 이미지 최적화 과정의 SSRF (심각도: 높음)\n**CVE-2026-94483 / GHSA-cjq9-62q9-8jv4**\n\n공격자가 제어할 수 있는, allow-list에 등록된 원격 URL을 통해 이미지 최적화 과정에서 서버 측 요청 위조(SSRF)가 발생할 수 있습니다. 예를 들어 사설 IP 대역으로의 요청을 유도하는 식입니다. 다만 `images.remotePatterns`를 설정하지 않은 애플리케이션이라면 이 문제의 영향을 받지 않습니다.\n\n### 셀프 호스팅 환경의 SSG/ISR 페이지 캐시 포이즈닝 (심각도: 중간)\n**CVE-2026-94543 / GHSA-4jqv-mc3x-m676**\n\nPages Router 기반으로 SSG나 ISR을 사용하는 셀프 호스팅 Next.js 애플리케이션에서, 특정 페이지의 캐시 엔트리가 전혀 다른 라우트의 콘텐츠로 뒤바뀔 수 있습니다. 이 경우 캐시가 재검증(revalidate)되기 전까지 모든 방문자에게 잘못된 콘텐츠가 노출됩니다. Vercel에 배포된 애플리케이션은 이 문제의 영향을 받지 않습니다.\n\n### Root-level catch-all 라우트를 통한 SSG/ISR 캐시 포이즈닝 (심각도: 중간)\n**CVE-2026-94484 / GHSA-mcj8-r9mp-w47p**\n\n루트 레벨 catch-all 페이지와 SSG 또는 ISR 라우트를 함께 사용하는 Next.js 애플리케이션은, 인증되지 않은 사용자가 보낸 단 하나의 조작된 요청만으로 공유 응답 캐시가 오염될 수 있습니다. 이는 사용자 간 콘텐츠가 뒤섞이는 문제뿐 아니라 지속적인 서비스 거부(DoS)로 이어질 수 있습니다.\n\n### App Router 메타데이터 이미지 라우트의 dynamicParams 우회로 인한 정보 노출 (심각도: 중간)\n**CVE-2026-94485 / GHSA-f87g-xv8r-7p7x**\n\nwebpack으로 빌드된 App Router 애플리케이션에서 `opengraph-image`, `twitter-image` 같은 메타데이터 이미지 라우트가 `dynamicParams` 라우트 세그먼트 옵션을 무시하는 문제입니다. 공격자는 `generateStaticParams()`에서 의도적으로 제외된 동적 세그먼트에 대해서도 메타데이터 이미지 URL을 요청할 수 있습니다. Turbopack으로 빌드한 애플리케이션은 영향을 받지 않습니다.\n\n### 중첩된 'use cache' 함수에서 root param 값이 다른 사용자 간 누출 (심각도: 중간)\n**GHSA-h694-7cp9-m8p3**\n\nCache Components가 활성화된 환경에서, root param을 읽는 다른 `'use cache'` 함수를 호출하는 `'use cache'` 함수의 캐시 키 계산에 오류가 있습니다. 감싸고 있는(enclosing) 함수의 캐시 키가 해당 root param을 누락하기 때문에, 한 root param 값에 대해 생성된 콘텐츠가 다른 값의 요청에 서빙될 수 있습니다. 이는 페이지가 프리렌더링되든 동적으로 렌더링되든 동일하게 발생합니다. 다만 어떤 값이 누출되는지는 공격자가 제어할 수 없습니다.\n\n### Draft Mode 콘텐츠가 use cache의 대기 중인 채움(pending fill)을 통해 일반 응답에 누출 (심각도: 중간)\n**CVE-2026-94544 / GHSA-3w37-wq28-93x7**\n\n동일한 캐시 키에 대한 대기 중인 `use cache` 채움(fill)이, Draft Mode 요청인지 일반 요청인지 구분 없이 여러 요청 간에 공유되는 문제입니다. 편집자의 Draft Mode 요청과 시점이 겹치는 일반 요청은 아무런 인증 없이 미공개(unpublished) 콘텐츠를 받게 됩니다. 만약 이 요청이 페이지를 프리렌더링하는 상황이라면, 미공개 콘텐츠가 생성된 페이지에 영구적으로 박제되어 페이지가 재검증될 때까지 모든 후속 방문자에게 서빙될 수 있습니다. Cache Components(또는 experimental.useCache)를 활성화하고, 캐시된 함수가 draft 여부에 따라 다른 콘텐츠를 반환하는 Draft Mode 프리뷰를 제공하는 사이트가 영향을 받습니다.\n\n### 개발 서버의 MCP(Model Context Protocol) 엔드포인트를 통한 정보 노출 (심각도: 낮음)\n**CVE-2026-94486 / GHSA-39w2-rjm5-chcv**\n\n`next dev`로 구동되는 개발 서버가 노출하는 MCP 엔드포인트가 요청의 출처 사이트를 검증하지 않는 문제입니다. 개발자가 방문한 악성 웹사이트가 이 엔드포인트를 통해 프로젝트의 디스크 상 경로, 에러 리포트에 포함된 소스 코드 조각, 라우트 목록, 개발 로그 등 민감한 개발 정보를 읽어갈 수 있습니다. `next dev`로 실행 중인 애플리케이션만 영향을 받으며, 프로덕션 배포본은 이 엔드포인트를 서빙하지 않으므로 영향이 없습니다.\n\n## Next.js의 보안 프로그램\n\nNext.js 팀은 Vercel의 Open Source Bug Bounty 프로그램을 통해 다수의 보안 연구자들과 협력하여 Next.js를 비롯한 오픈소스 프레임워크들의 보안을 강화하고 있습니다. 해당 프로그램에 기여하고 싶다면 참여를 권장하며, 보안 프로그램이나 취약점 관리와 관련된 문의사항은 security@vercel.com으로 보낼 수 있습니다.\n\n## 정리\n\n이번 릴리스는 이미지 최적화의 SSRF부터 SSG/ISR 캐시 포이즈닝, 메타데이터 이미지 라우트의 정보 노출, `use cache`와 Draft Mode 관련 캐시 누출, 개발 서버의 MCP 엔드포인트 노출까지 총 7건의 취약점을 다룹니다.\n\n- 셀프 호스팅 중이고 Pages Router의 SSG/ISR을 사용한다면 캐시 포이즈닝 이슈(CVE-2026-94543)를 특히 주의해야 합니다. Vercel 배포는 영향을 받지 않습니다.\n- `images.remotePatterns`를 설정한 프로젝트는 SSRF 취약점(CVE-2026-94483) 대상이므로 즉시 패치가 필요합니다.\n- Cache Components나 `experimental.useCache`를 쓰면서 Draft Mode 프리뷰를 운영한다면, 미공개 콘텐츠가 프리렌더링된 페이지에 영구적으로 박히는 CVE-2026-94544를 꼭 확인하세요.\n- webpack 빌드 환경에서 `opengraph-image`/`twitter-image` 같은 메타데이터 라우트를 쓴다면 CVE-2026-94485 대상이며, Turbopack으로 전환하거나 패치하면 됩니다.\n- 영향 범위와 관계없이 `npm install next@15.5.27` 또는 `npm install next@16.3.8`로 업그레이드하는 것이 가장 확실한 대응입니다.",
+          "url": "https://nextjs.org/blog/september-2026-security-release",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 82,
+          "topicId": "nextjs-security",
+          "isTopicPrimary": true,
+          "slug": "september-2026-security-release",
+          "fullContent": "Back to BlogWednesday, September 30th 2026SecuritySeptember 2026 Security ReleasePosted byJosh Story@joshcstoryKarim Rahal@karimpwnzSebastian Silbermann@sebsilbermannLast week we announced an upcoming security release for Next.js. A fix for one critical vulnerability and one high severity vulnerability was postponed due to upstream dependency delays.\nUpdates are now available in v16.3.8 (Active LTS) and v15.5.27 (Maintenance LTS) to address these issues. Please patch your Next.js dependencies to maintain the security of your applications.\nTerminalnpm install next@15.5.27 # for 15.5\nnpm install next@16.3.8 # for 16.3\nImpact\nServer-Side Request Forgery in Image Optimization (High Severity)\nCVE-2026-94483 / GHSA-cjq9-62q9-8jv4\nAn attacker-controlled, allow-listed remote URL can lead to Server-Side Request Forgery (for example to private IP ranges) during Image Optimization. If no images.remotePatterns are configured, your application is not affected.\nCache poisoning of SSG and ISR pages in self-hosted Next.js applications (Medium Severity)\nCVE-2026-94543 / GHSA-4jqv-mc3x-m676\nSelf-hosted Next.js applications that use the Pages Router with statically generated (SSG) or incrementally regenerated (ISR) pages can have a page's cache entry replaced with content from a different route, causing the affected page to serve wrong content to every visitor until the entry is revalidated. Applications deployed on Vercel are not affected.\nCache poisoning in Next.js SSG/ISR rendering leads to cross-user content substitution and persistent denial of service (Medium Severity)\nCVE-2026-94484 / GHSA-mcj8-r9mp-w47p\nNext.js applications that use a root-level catch-all page together with statically generated or Incremental Static Regeneration routes can have their shared response cache poisoned by a single unauthenticated crafted request.\nInformation disclosure in Next.js App Router metadata image routes via dynamicParams bypass (Medium Severity)\nCVE-2026-94485 / GHSA-f87g-xv8r-7p7x\nIn Next.js App Router applications built with webpack, metadata image routes such as opengraph-image and twitter-image ignore the dynamicParams route segment option. An attacker can request metadata image URLs for dynamic segments that were deliberately excluded from generateStaticParams(). Applications built with Turbopack are not affected.\nCache leak across root param values in nested 'use cache' functions (Medium Severity)\nGHSA-h694-7cp9-m8p3\nWith Cache Components enabled, a 'use cache' function that calls another 'use cache' function that reads a root param can be keyed incorrectly: the enclosing function's cache key omits that root param, so content produced for one root param value can be served for a different value, whether the page is prerendered or rendered dynamically. What values are leaked cannot be attacker controlled.\nPending use cache fill can leak Draft Mode content into regular responses and persisted pages (Medium Severity)\nCVE-2026-94544 / GHSA-3w37-wq28-93x7\nPending use cache fills are shared across requests for the same key without distinguishing Draft Mode requests from regular requests. A regular request that overlaps an editor's Draft Mode request receives unpublished content without any authentication; if that request prerenders a page, the unpublished content can be persisted into the generated page and served to all later visitors until the page is revalidated. Sites are affected if they enable Cache Components (or experimental.useCache) and serve Draft Mode previews whose cached functions return draft-dependent content.\nInformation disclosure in the Next.js development server's Model Context Protocol endpoint (Low Severity)\nCVE-2026-94486 / GHSA-39w2-rjm5-chcv\nThe Next.js development server (next dev) exposes a Model Context Protocol endpoint that does not verify which website a request originates from, allowing a malicious website visited by the developer to read sensitive development data, including the project's location on disk, source code snippets from error reports, the route inventory, and development logs. Only applications run with next dev are affected. Production deployments do not serve this endpoint.\nOur security program\nWe work with a talented set of researchers to secure Next.js and other open source frameworks through Vercel's Open Source Bug Bounty. Anyone interested in contributing to the security of eligible frameworks is encouraged to participate there.\nAny questions or concerns regarding our security programs or vulnerability management can be sent to security@vercel.com.",
+          "category": "tech",
+          "publishedAt": "2026-09-30T18:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "5x faster Edge Functions: V8 isolates to Firecracker MicroVMs",
+          "titleKo": "V8 isolate에서 Firecracker MicroVM으로: Netlify Edge Functions 5배 빨라진 이유",
+          "summary": "Netlify가 매일 10억 건씩 실행되는 Edge Functions의 인프라를 외부 호스팅 실행 서비스에서 자체 네트워크 내 Firecracker MicroVM 기반으로 전면 재구축했습니다. Unikraft와의 협업으로 웜 인보케이션 지연 시간이 25–40ms에서 5–6ms로 중앙값 기준 약 5배 단축됐고, p99 지연도 47.4% 개선됐습니다. 요청이 엣지 노드에서 스펙으로 변환되어 랑데부 해싱으로 컴퓨트 노드에 라우팅되고, 스냅샷 복원 방식의 MicroVM에서 실행되는 전체 경로를 상세히 다룹니다. 이번 전환은 개발 경험은 그대로 유지하면서 npm 패키지 정식 지원, 연산 한도 완화 등 향후 기능 확장의 발판이 됩니다.",
+          "keyPoints": [
+            "웜 인보케이션 지연 시간이 25–40ms에서 5–6ms(p50)로, p99는 47.4% 개선되어 중앙값 기준 약 5배 빨라짐",
+            "요청마다 런타임·플랫폼·함수 이미지를 명시한 머신 스펙을 작성하고 해시로 서비스 ID를 생성해, 서로 다른 배포가 MicroVM을 절대 공유하지 않는 강한 격리를 구현",
+            "랑데부 해싱으로 같은 서비스를 같은 컴퓨트 노드에 고정해 캐시 적중과 웜 상태를 유지하되, 트래픽 쏠림 시 고정성을 완화해 핫스팟 방지",
+            "Firecracker MicroVM은 1ms 이내 생성, p99 2ms 부팅을 달성했으며 EROFS 이미지 메모리 맵핑과 스냅샷 복원으로 콜드 스타트 비용 최소화(전체 요청의 1.2%, 평균 9ms)",
+            "코드 변경 없이 동일한 가격으로 전환 완료되었고, npm 패키지 정식 지원과 CPU/메모리/코드 크기 제한 완화 등 후속 개선의 토대 마련"
+          ],
+          "whyItMatters": "엣지 함수에서 작업하는 프론트엔드 개발자라면, 실행 환경의 격리 수준과 콜드/웜 스타트 특성이 곧 npm 패키지 제약이나 CPU·메모리 제한 같은 실제 개발 경험으로 이어진다는 점에서 이번 아키텍처 변화가 향후 플랫폼 제약 완화의 신호로 중요합니다.",
+          "article": "Netlify는 매일 약 10억 건의 Edge Function을 실행합니다. Sunweb의 개인화 페이지부터 Loto-Québec의 쿠키 기반 트래픽 라우팅까지, 수십만 개 사이트가 개인화·라우팅·인증 등 다양한 용도로 이 기능을 쓰고 있는데요. 이 모든 요청은 고객의 트래픽 규모에 맞춰 확장되는 완전한 JavaScript 런타임 위에서 동작합니다.\n\n문제는 지연 시간입니다. 초당 수만, 많게는 수십만 건의 엣지 함수를 처리하려면 요청을 받고, 올바르게 라우팅하고, 컴퓨팅 자원을 할당하고, 플랫폼 코드와 고객 코드를 부팅하는 과정이 전부 밀리초 단위에서 끝나야 합니다. 지난 몇 달간 Netlify 팀은 Unikraft 팀과 긴밀히 협업해 Edge Functions의 기반 인프라를 통째로 다시 만들었습니다. 기존에는 요청이 외부에 호스팅된 실행 서비스로 나갔다 돌아왔지만, 이제는 자체 엣지 네트워크 안의 MicroVM에서 직접 실행됩니다. 그 결과 중앙값 기준으로 약 5배 빨라졌고, 보안과 안정성도 함께 개선됐습니다. 물론 URL import, npm 패키지, Node 내장 모듈, netlify.toml 설정, 로컬 개발 등 기존 사용 방식은 전혀 바뀌지 않았습니다. 이 글에서는 새 아키텍처가 어떻게 동작하는지, 그리고 대규모 트래픽을 낮은 오버헤드로 처리하는 컴퓨트 플랫폼을 만들며 얻은 교훈을 정리합니다.\n\n## 숫자로 보는 성과\n\n엣지 함수는 사이트 앞단에서 매칭되는 모든 요청에 대해 실행됩니다. 이 함수가 걸리는 시간은 고스란히 고객이 기다리는 시간이기 때문에, 밀리초 단위 차이가 다른 어떤 시스템보다도 민감하게 작용합니다.\n\n컴퓨트 노드로 라우팅 → MicroVM 진입 → 함수 실행 → 응답 헤더 생성까지 이어지는 '웜 인보케이션(warm invocation)'의 비용은 다음과 같이 개선됐습니다.\n\n- 중앙값(p50) 기준 ~5–6ms (기존 인프라의 25–40ms 대비 대폭 단축)\n- p99 인보케이션 47.4% 개선\n- 99.998% 가용성\n- 엣지 함수 로그 전달 속도 5배 향상\n\n콜드 인보케이션도 언급할 만합니다. 특정 리전에 처음 들어온 요청이라 컴퓨트 노드가 관련 이미지를 미리 가지고 있지 않은 경우인데, 전체 요청의 약 1.2%에서 발생하며 평균 9ms 정도가 소요됩니다.\n\n## 요청 처리 흐름\n\n하나의 요청이 들어와서 응답이 나가기까지의 경로를 순서대로 따라가 보겠습니다. 요청은 엣지 노드에 도착해 스펙(specification)으로 변환되고, 컴퓨트 노드로 라우팅된 뒤, 이미 존재하거나(웜) 새로 생성해야 하는(콜드) MicroVM으로 전달됩니다.\n\n### 엣지 노드 도착\n\n모든 요청은 클라이언트와 가장 가까운 Netlify 엣지 노드에 도착합니다. 이 노드는 TLS 연결을 종료하고, 요청 경로를 해당 배포의 Edge Functions 라우트와 대조합니다.\n\n매칭되는 라우트가 없으면 요청은 평소처럼 캐시를 거쳐 오리진으로 흘러갑니다. 매칭이 되면, 바로 이 지점이 예전에는 요청이 네트워크를 벗어나던 구간이었습니다. 기존 인프라에서는 요청이 인터넷을 거쳐 나가 엣지 함수를 실행하고 다시 돌아와야 했지만, 새 컴퓨트 플랫폼에서는 요청이 자사 네트워크 내부의 컴퓨트 노드로 바로 전달됩니다.\n\n### 엣지 노드가 스펙을 작성한다\n\n요청이 어디로든 가기 전에, 엣지 노드는 함수를 실행할 머신에 대한 스펙을 먼저 작성합니다. 이 스펙에는 런타임, 플랫폼 이미지, 엣지 함수 이미지라는 세 가지 이미지 이름이 명시되고, CPU·메모리·커넥션 제한도 함께 설정됩니다.\n\n이 스펙은 모든 요청과 함께 이동합니다. 스펙의 해시값과 사이트별 정보를 조합해 서비스 ID를 생성하는데, 덕분에 서로 다른 코드나 환경변수를 가진 두 배포는 각각 다른 서비스로 취급되어 절대 같은 MicroVM을 공유하지 않습니다.\n\n이 격리는 발생해서는 안 되는 장애 상황에서 특히 중요합니다. 잠재적으로 손상된 배포가 있더라도 별도의 MicroVM에서 실행되기 때문에, 런타임을 탈출하더라도 다른 고객이나 컴퓨트 계층 자체를 오염시킬 수 없습니다. V8 isolate는 이름과 달리 이 수준의 격리를 제공하지 못한다는 점도 짚어둘 만합니다.\n\n### 엣지 함수를 실행할 컴퓨트 노드 선택\n\n컴퓨트 노드가 머신 스펙과 서비스 ID가 담긴 요청을 받으면, 먼저 해당 ID의 서비스가 이미 존재하는지 확인합니다. 존재하면 그 서비스로 요청을 넘겨 MicroVM으로 보냅니다. 서비스는 같은 사이트의 Edge Functions에 여러 MicroVM을 연결할 수 있게 해주고, MicroVM을 언제 스케일 인/아웃할지도 설정할 수 있게 해줍니다. 예를 들어 하나의 MicroVM이 처리할 수 있는 요청 수를 제한해 두고 그 수를 넘기면 종료시키는 식으로, MicroVM이 무한정 떠 있는 상황을 방지합니다. 동일한 파라미터를 이용해 기존 MicroVM이 종료되기 전에 미리 새 MicroVM을 띄워둘 시점도 판단합니다.\n\n해당 사이트의 서비스가 컴퓨트 노드에 아직 없다면 새로 생성하고, 머신 스펙에 명시된 이미지들이 디스크에 있는지 확인합니다. 없는 이미지가 있으면 엣지 노드에서 가져와 디스크에 기록합니다. 이 방식 덕분에 해당 리전에서 실제로 트래픽을 받고 있는 엣지 함수 이미지만 가져오면 됩니다.\n\n각 리전에는 컴퓨트 노드 그룹이 있고, 엣지 노드는 랑데부 해싱(rendezvous hashing)으로 서비스가 실행될 노드를 선택합니다. 같은 서비스는 항상 같은 노드로 가게 되는데, 이것이 MicroVM을 웜 상태로 유지하고 코드를 디스크와 캐시에 남겨두는 핵심 메커니즘입니다. 이런 고정성(stickiness)이 일종의 캐싱 전략인 셈인데요, 만약 요청을 스웜 전체에 골고루 분산시킨다면 오히려 콜드 스타트가 더 많이 발생하게 됩니다.\n\n다만 특정 함수의 모든 요청을 같은 컴퓨트 노드로 보내는 것이 빠른 경로이기는 해도, 바로 이 지점에서 핫스팟이 생길 수 있다는 점도 유의해야 합니다. 한 리전 트래픽의 큰 비중을 차지하는 서비스가 단일 노드에 고정되면, 같은 노드의 다른 서비스들을 희생시키며 노드를 포화시키게 됩니다.\n\n이를 완화하기 위해 특정 임계값을 넘으면 고정성을 완화해 서비스를 여러 노드로 분산시킵니다. 이렇게 하면 한 고객의 갑작스러운 트래픽 스파이크를 흡수하면서도, 같은 노드로 해싱된 다른 서비스에 영향을 주지 않을 수 있습니다.\n\n노드가 최종 선택되면 해당 함수의 코드를 끌어옵니다. 이전에 그 함수를 서빙한 적 있는 노드라면 이미 코드를 갖고 있고, 처음 보는 노드라면 한 번만 가져와 캐싱하므로 그 비용은 최초 요청 한 번만 부담하면 됩니다.\n\n### MicroVM 기동\n\n각 함수는 자신만의 Firecracker MicroVM 안에서 실행됩니다. 이 MicroVM은 1밀리초 이내에 생성되고 p99 기준 약 2ms 안에 시작되는데, 완전한 운영체제가 아니라 경량화된 Linux 환경만 띄우기 때문입니다. 엣지 함수의 파일들은 압축되지 않은 EROFS 이미지로 마운트된 뒤 메모리 맵핑되므로, VM은 번들 전체를 로드하지 않고 실제로 사용하는 부분만 읽습니다.\n\nMicroVM이 부팅되고 JavaScript 서버가 포트를 리스닝하기 시작하면, 그 시점의 MicroVM 스냅샷을 찍어둡니다. 엣지 함수가 호출되지 않는 동안에는 이를 실행하던 MicroVM이 유휴 상태로 남아있는 대신 0으로 스케일 다운됩니다. 다음에 다시 호출되면 이 스냅샷에서 새 MicroVM을 기동합니다. 스냅샷 역시 메모리 맵핑되어 있어서, VM은 스냅샷 전체를 메모리로 다시 읽어들일 때까지 기다리지 않고도 실행을 시작할 수 있습니다.\n\nVM의 전체 생명주기 — 부팅, 스냅샷, 복원, 스케일 투 제로 — 는 Unikraft 제품이 담당하는 영역입니다. Netlify는 마이그레이션 전 과정에서 Unikraft 팀과 긴밀히 협업하며 이 기능이 자사의 요청 규모와 트래픽 패턴에서도 안정적으로 동작하도록 검증했습니다.\n\n### 실행과 응답 처리\n\n이 프로젝트를 수년간 운영해 오면서 성능 최적화와 디버깅 역량을 높이기 위한 여러 교훈을 쌓아왔습니다. 대규모 운영 중에는 가상 스위치의 포트 고갈부터 DNS 문제까지 온갖 이슈를 겪었는데요(놀랍게도 DNS 문제가 아닌 경우도 있었다고 합니다).\n\n이번 아키텍처에서는 컴퓨트 노드가 로컬 DNS 리졸버를 운영하도록 했습니다. 수집하는 메트릭도 확장해서 부팅 시간, 첫 포트가 열리기까지 걸린 시간, 사용자 코드 시작 시간 등을 기록하고 있습니다. 또한 컴퓨트 노드를 신속하게 재라우팅하거나 폐기할 수 있도록 여러 단계의 서킷 브레이커도 마련해 두었습니다.\n\n여기까지가 전체 경로이고, 웜 인스턴스 기준으로 약 6ms가 추가됩니다. 이 과정 중 어느 것도 Netlify 네트워크를 벗어나지 않으며, 요청 전체 사이클을 자사가 직접 통제합니다. 위에서 설명한 모든 과정이 요청 도착과 응답 반환 사이에서 일어납니다.\n\n## 복원력 있는 컴퓨트 인프라 설계\n\n이런 시스템을 구축할 때는 두 가지를 동시에 최적화해야 합니다. 최종 사용자 경험과 롤아웃 복원력입니다. 변경 사항을 빠르게 배포할 수 있어야 하는 동시에, 그만큼 빠르게 롤백할 수 있는 능력도 갖춰야 합니다.\n\n컴퓨트 노드는 Unikraft가 배포한 베이스 이미지를 기반으로, 필요한 패키지 세트를 설치해서 구성됩니다. 이 노드들은 몇 가지 이유로 엣지 노드와 별도로 빌드됩니다. 엣지 노드를 가볍고 빠르게 유지할 수 있고, 컴퓨트 노드에는 다른 인스턴스 타입을 사용할 수 있으며, 두 노드를 독립적으로 스케일링할 수 있기 때문입니다.\n\n컨트롤 플레인은 어떤 컴퓨트 노드가 존재하고 그 중 어느 것이 정상인지를 추적하며, 엣지 노드들은 이 목록을 주기적으로 폴링합니다. 배포 역시 이 컨트롤 플레인이 주도하는데, 새 플릿이 기존 플릿과 함께 기동되어 규모를 맞춘 뒤, 정상 상태가 확인되어야만 트래픽을 넘겨받습니다.\n\n이 컴퓨트 인프라를 구축하는 과정 전반에서 Unikraft 팀과의 긴밀한 협업이 필수적이었습니다. 마이그레이션 내내 정확성 테스트, 대량 요청 처리, Netlify 플랫폼 전용 기능 구축 등을 함께 진행했습니다.\n\n## 지금 가능해진 것들\n\n이번 재구축은 단순한 속도 개선 이상의 의미를 갖습니다. 앞으로 계속 쌓아 올릴 수 있는, 그리고 더 많은 통제권을 가진 기반을 마련한 것인데요. 가장 좋은 점은 이미 지금 이 순간 프로덕션 트래픽을 처리하고 있다는 사실입니다. 가격은 동일하고, 마이그레이션 단계도 없으며, 어떤 프로젝트에서도 바꿀 게 없습니다.\n\n컴퓨트를 직접 운영한다는 것은 Edge Functions의 한계를 스스로 끌어올릴 수 있다는 뜻이기도 합니다. 이번 재구축으로 다음 세 가지가 실현 가능해졌습니다.\n\n- **npm 패키지 지원의 정식 출시**: npm 패키지는 현재 베타로 엣지 함수에서 동작하지만, 네이티브 바이너리나 런타임 중 파일 import 관련 제약이 있습니다. 실제 파일시스템을 가진 진짜 VM 환경에서는 이런 제약의 대부분이 사라집니다.\n- **연산 한도 재검토의 여지**: 요청당 CPU 50ms, 메모리 512MB, 압축 코드 20MB라는 기존 문서화된 제한은 isolate 기반 실행 모델에서 비롯된 것이었습니다.\n- **자사 네트워크 내부에서의 컴퓨트**: 인터넷을 거쳐 제3자에게 도달하는 대신 네트워크 경로 자체를 통제할 수 있어야 가능했던 기능들을, 이제 직접 구축할 수 있게 됐습니다.\n\nNetlify는 이전에는 손댈 수 없었던 한계와 미흡한 부분들을 지금 작업 중이라고 밝히며, 앞으로의 변화를 예고하고 있습니다.\n\n## 정리\n\n- Netlify는 Edge Functions의 실행 환경을 외부 호스팅 서비스에서 자체 엣지 네트워크 안의 Firecracker MicroVM으로 전면 교체했습니다. Unikraft와의 협업을 통해 완성된 이번 작업으로 웜 인보케이션 지연 시간이 25–40ms에서 5–6ms로, 중앙값 기준 약 5배 개선됐습니다.\n- 핵심은 요청마다 작성되는 '머신 스펙'과 이를 바탕으로 한 서비스 ID 해시입니다. 서로 다른 배포는 절대 같은 MicroVM을 공유하지 않아 V8 isolate보다 강한 격리를 제공합니다.\n- 랑데부 해싱으로 같은 서비스를 같은 컴퓨트 노드에 고정시켜 캐시 적중률과 웜 상태를 유지하되, 트래픽이 몰리면 고정성을 완화해 핫스팟을 방지하는 균형 잡힌 설계를 적용했습니다.\n- MicroVM은 1ms 이내 생성, p99 기준 2ms 부팅을 달성했으며, EROFS 이미지의 메모리 맵핑과 스냅샷 복원 기법으로 콜드 스타트 비용을 최소화했습니다.\n- 이번 인프라 전환은 개발자가 코드나 설정을 전혀 바꾸지 않아도 적용되며, 동시에 npm 패키지 정식 지원, 연산 한도 재검토, 네트워크 경로 직접 제어 등 기존에는 불가능했던 기능 확장의 토대를 마련했습니다.",
+          "url": "https://www.netlify.com/blog/edge-functions-firecracker-microvms/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 118,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "devops"
+          ],
+          "relevance": 72,
+          "topicId": "edge-functions-netlify",
+          "isTopicPrimary": true,
+          "slug": "5x-faster-edge-functions-v8-isolates-to-firecracker-microvms",
+          "fullContent": "About a billion Edge Functions run on Netlify every day — Sunweb personalizing pages, Loto-Québec routing traffic on a cookie check, and hundreds of thousands of other sites doing everything from personalization to routing to auth. All of it runs on a full JavaScript runtime that scales with our customers’ traffic.\nThis poses a significant technical challenge, as we strive to make the latency as low as possible. To run tens, sometimes hundreds of thousands, of edge functions per second, we need to process each request, route it correctly, allocate compute capacity, and boot both our platform code and the customer’s code. All of that has to happen within milliseconds.\nOver the past several months, our team has rebuilt the infrastructure behind Edge Functions, working closely with the team at Unikraft, who wrote about the experience from their side. In the past, requests went out to a hosted execution service. Today, they run on MicroVMs inside our own edge network — roughly 5x faster at the median. That shift also improves security and reliability, and opens up more possibilities for running complex compute at the edge.\nThis doesn’t change how Edge Functions are written or used — URL imports, npm packages, Node built-ins, netlify.toml declarations, local development — all of it works exactly as it did before. It’s now faster and more resilient. In this article we’d like to share more about the new architecture and our learnings on building a new compute platform that’s able to serve high volume at a low performance overhead.\nThe numbers, first\nAn edge function runs in front of a site, on every request that matches it. The time it takes is time a customer spends waiting, so milliseconds here count for more than they do almost anywhere else.\nA warm invocation — routing to a compute node, entering a MicroVM, running the function, producing response headers — now costs:\n~5–6ms at median (p50), down from 25–40ms on our previous infrastructure\n47.4% faster p99 invocations\n99.998% availability\n5x faster edge function log delivery\nA cold invocation is worth stating too. When a request arrives in a region that no compute node has seen before, it needs to fetch the relevant images before it’s able to run anything. This happens on about 1.2% of invocations and takes about 9ms on average.\nWhat happens during request time\nWhat follows is the path a single request takes, in order: it arrives at the edge node, it’s turned into a specification, is routed to a compute node, and then handed off to a MicroVM that may or may not already exist based on whether it’s a cold or warm invocation.\nRequest arrives at the edge node\nEvery request lands on the Netlify edge node closest to the client. The node terminates the TLS connection and checks the request path against the Edge Functions’ routes for that deploy.\nIf nothing matches, the request carries on to the cache and onto the origin as usual. If a route does match, this is the point where the request used to leave our network. With our old infrastructure it went out over the internet, ran the edge function, and came back to us to pass on. With the new compute platform, the request is forwarded to a compute node within our network.\nCreating an Edge Function service\nWhen the compute node receives the request with the machine specification and the service ID, it first checks to see if a service with that ID already exists. If it does, it forwards the request into the service for it to send into the MicroVM. A service lets us have multiple MicroVMs associated with the same site’s Edge Functions, and allows us to configure parameters for when to scale MicroVMs in and out. For example, we configure each service to only allow a fixed number of requests to be handled by a MicroVM before we shut it down, to avoid MicroVMs running indefinitely. We use the same parameters to know when to eagerly boot up another MicroVM in anticipation of one shutting down.\nIf a service for the site’s edge functions doesn’t already exist on the compute node, one is created, and we check to see if we have all the images in the machine specification on disk. If any are missing, they’re fetched from the edge node and written to disk. This approach means we only fetch the edge function images that are receiving traffic in that region.\nThe edge node writes a spec\nBefore the request goes anywhere, the edge node writes a specification for the machine that will run a function. The spec names three images: the runtime, our platform image, and the edge function image. It also sets the CPU, memory, and connection limits.\nThe spec travels with the request, on every request. Its hash and site-specific information is computed to become a service ID. This allows for isolation, since two deploys with different code or different environment variables are different services, and they never share a MicroVM.\nThis isolation matters most for failures we don’t want to be possible. A potentially compromised deploy runs in a separate MicroVM, and even if it escapes the runtime, it cannot poison other customers or the compute layer itself. V8 isolates, no matter their name, do not provide this level of isolation.\nChoosing a compute node to run an edge function\nEach region has a group of compute nodes. The edge node picks one for the service using rendezvous hashing: the same service lands on the same node every time, which is what keeps a MicroVM warm and the code already on disk and in cache once it’s been read. This stickiness gives us a caching strategy. If we spread requests evenly across the swarm, we’d end up with a higher level of cold starts.\nIt’s important to remember that while sending every request for a function to the same compute node is the fast path, it’s also how a hot spot forms — where one busy function competes for resources with everything else on that box. A service taking a large share of a region’s traffic pinned to a single node will saturate the node at the expense of other services.\nWe balance this by relaxing the stickiness. Over a certain threshold, we spread the service across a slice of nodes. This lets us absorb sudden spikes in traffic from a single customer without affecting other services that hashed to the same node.\nFinally, once a node is chosen, it pulls in the function’s code. A compute node that has served the function before already has it. A node seeing it for the first time fetches it once and caches it, so only the first request pays that cost.\nStarting the MicroVM\nEach function runs in its own Firecracker MicroVM. These are created in under a millisecond and start in about 2ms at p99, because the VM starts a stripped-down Linux environment rather than a full operating system. The edge function’s files are mounted as an uncompressed EROFS image and then memory-mapped, so the VM reads only the parts of the bundle it actually uses instead of loading all of it.\nWhen the MicroVM boots up and the JavaScript server begins to listen on a port, we take a snapshot of the MicroVM. When the edge function isn’t being invoked, the MicroVMs running it scale to zero instead of sitting idle. The next time it’s invoked, we start a new MicroVM from that snapshot. The snapshot is memory-mapped, so the VM can start executing without waiting for the entire snapshot to be read back into memory.\nThe lifecycle of the VM — boot, snapshot, restore, and scale to zero — is the work of Unikraft’s product. We worked closely with them throughout the migration to make sure it holds up under our request volume and traffic patterns.\nRunning and response handling\nAfter operating this project for several years, we already had learnings we incorporated to maximize performance and the ability to debug. At scale, we’ve run into all kinds of issues, from running out of ports on virtual switches to DNS (we were surprised, but it wasn’t always DNS).\nIn this iteration, we made sure compute nodes run local DNS resolvers. We’ve also expanded the metrics we collect, recording things like boot time, time to first port open, and time to start user code. There are also several circuit breakers in place to ensure prompt rerouting and decommissioning of compute nodes.\nThat’s the whole path, and on a warm instance it adds about 6ms. None of it leaves our network, and we’re in control of the whole request cycle. Everything above happens between the request arriving and the response going back out.\nDesigning resilient compute infrastructure\nWhen you build a system like the one described above, you’re optimizing for two things at once: the end-user experience and rollout resiliency. We need to be able to roll out changes quickly but balance that with the ability to roll back just as quickly.\nThe compute nodes are built from a base image published by Unikraft and install a set of packages. These nodes are built separately from our edge nodes for a couple of reasons: it keeps our edge nodes lightweight and fast, it lets us use different instance types for our compute nodes, and it lets us scale these nodes independently.\nA control plane keeps track of which compute nodes exist and which are healthy, and the edge nodes poll it for that list. It’s also what drives a deploy — a new fleet comes up alongside the running one, scales to match it, and takes over traffic only once it’s healthy.\nBuilding the compute infrastructure has required close collaboration with the Unikraft team. Throughout the migration, we’ve worked with them on testing correctness, handling large volumes of requests, and building capabilities specific to our platform.\nIt’s live\nThe work to rebuild our edge compute architecture is more than just a speed boost. It’s a faster foundation we can keep building on and have more control over. The best part is that it’s already serving your production traffic today, at the same pricing, with no migration step and nothing to change in any project.\nRunning the compute ourselves means the ceiling on Edge Functions is ours to raise. Three things this makes tractable that weren’t before:\nnpm package support, out of beta. npm packages work in edge functions today, in beta, with caveats around native binaries and importing files at runtime. A real VM with a real filesystem removes most of the reasons those caveats exist.\nRoom to revisit the operation limits. The documented limits of 50ms of CPU per request, 512MB of memory, and 20MB of compressed code came from the isolate-based execution model.\nCompute inside our own network. Anything that depends on controlling the network path, instead of reaching a third party across the internet, is now something we can build.\nWe’re not done here. The limits and rough edges we couldn’t touch before are the ones we’re working on now, so stay tuned. Opinions & Insights September 22, 2026 How we built Git storage for millions of Netlify projects Philippe Serhal Tools & Services September 10, 2026 Cursor Origin repositories build, preview, and deploy on Netlify Gehrig Kunz Opinions & Insights September 2, 2026 Build with Netlify came to Atlanta Tania Chakraborty",
+          "category": "tech",
+          "publishedAt": "2026-09-30T18:17:45.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "SDF vs. MSDF vs. Slug: GPU Text Rendering",
+          "titleKo": "SDF vs. MSDF vs. Slug: GPU 텍스트 렌더링",
+          "summary": "GPU를 활용한 텍스트 렌더링의 세 가지 방식(SDF, MSDF, Slug)을 비교 분석합니다.",
+          "keyPoints": [
+            "SDF, MSDF, Slug 각 방식의 성능 및 품질 차이 설명",
+            "GPU 텍스트 렌더링 최적화 기법에 대한 기술적 심화 분석"
+          ],
+          "whyItMatters": "고성능 그래픽 애플리케이션이나 게임 개발 시 텍스트 렌더링 최적화는 필수적입니다.",
+          "url": "https://alphapixeldev.com/sdf-vs-msdf-vs-slug-vs-rive-gpu-text-rendering/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 132,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 75,
+          "isTopicPrimary": true,
+          "slug": "sdf-vs-msdf-vs-slug-gpu-text-rendering",
+          "category": "tech",
+          "publishedAt": "2026-09-30T13:50:50.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "heygen-com/hyperframes (TypeScript)",
+          "titleKo": "heygen-com/hyperframes",
+          "summary": "HTML을 작성하면 동영상으로 렌더링하는 TypeScript 라이브러리로, AI 에이전트 용도로 설계되었습니다.",
+          "keyPoints": [
+            "HTML 기반의 간단한 방식으로 동영상 콘텐츠 생성 가능",
+            "AI 에이전트 통합을 염두에 둔 설계"
+          ],
+          "whyItMatters": "AI 기반 자동화 및 동영상 생성 워크플로우 개선에 유용합니다.",
+          "url": "https://github.com/heygen-com/hyperframes",
+          "sourceName": "GitHub Trending",
+          "engagement": 54754,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "frontend"
+          ],
+          "relevance": 68,
+          "isTopicPrimary": true,
+          "slug": "heygen-comhyperframes-typescript",
+          "category": "tech",
+          "publishedAt": "2026-10-01T01:49:58.057Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "DietrichGebert/ponytail (JavaScript)",
+          "titleKo": "DietrichGebert/ponytail",
+          "summary": "AI 에이전트가 게으른 시니어 개발자처럼 최소한의 코드만 작성하도록 유도하는 JavaScript 라이브러리입니다.",
+          "keyPoints": [
+            "불필요한 코드 작성을 줄이고 효율성을 추구하는 AI 프롬프팅 라이브러리",
+            "코드 생성의 품질과 간결성을 동시에 추구"
+          ],
+          "whyItMatters": "AI 기반 코드 생성 도구의 효율성을 개선하는 데 참고할 수 있습니다.",
+          "url": "https://github.com/DietrichGebert/ponytail",
+          "sourceName": "GitHub Trending",
+          "engagement": 149222,
+          "contentType": "repo",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 65,
+          "isTopicPrimary": true,
+          "slug": "dietrichgebertponytail-javascript",
+          "category": "tech",
+          "publishedAt": "2026-10-01T01:49:58.055Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        },
+        {
+          "title": "openclaw/openclaw (TypeScript)",
+          "titleKo": "openclaw/openclaw",
+          "summary": "모든 OS와 플랫폼에서 작동하는 TypeScript 기반의 AI 에이전트 프로젝트입니다.",
+          "keyPoints": [
+            "크로스 플랫폼 호환성으로 광범위한 환경 지원",
+            "'로브스터 방식(The lobster way)'이라는 독특한 철학을 가진 AI 에이전트"
+          ],
+          "whyItMatters": "범용 AI 에이전트 개발 및 멀티 플랫폼 배포 전략 수립에 참고할 수 있습니다.",
+          "url": "https://github.com/openclaw/openclaw",
+          "sourceName": "GitHub Trending",
+          "engagement": 390993,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "relevance": 58,
+          "isTopicPrimary": true,
+          "slug": "openclawopenclaw-typescript",
+          "category": "tech",
+          "publishedAt": "2026-10-01T01:49:58.056Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "byoungd/up (JavaScript)",
+          "titleKo": "byoungd/up",
+          "summary": "본문 정보가 제한적이며, 제목과 미리보기 텍스트로 볼 때 인생 진로, AI 학습, 영어 학습 등에 관한 가이드로 추정됩니다.",
+          "keyPoints": [],
+          "whyItMatters": "",
+          "url": "https://github.com/byoungd/up",
+          "sourceName": "GitHub Trending",
+          "engagement": 66403,
+          "contentType": "repo",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 62,
+          "isTopicPrimary": true,
+          "slug": "byoungdup-javascript",
+          "category": "tech",
+          "publishedAt": "2026-10-01T01:49:58.058Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "JavaScript"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "56k.rip – the 1996 dial-up internet experience",
+          "titleKo": "56k.rip – 1996년 다이얼업 인터넷 경험",
+          "summary": "1990년대 다이얼업 모뎀 시대의 인터넷 경험을 재현하는 프로젝트입니다.",
+          "keyPoints": [
+            "느린 네트워크 환경의 웹 체험을 시뮬레이션",
+            "웹 성능 최적화 및 저대역폭 환경 개발의 중요성 상기"
+          ],
+          "whyItMatters": "성능 최적화와 다양한 네트워크 환경 지원의 중요성을 상기시킵니다.",
+          "url": "https://56k.rip/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 51,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 58,
+          "isTopicPrimary": true,
+          "slug": "56krip-the-1996-dial-up-internet-experience",
+          "category": "insight",
+          "publishedAt": "2026-09-30T22:08:50.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "video",
+      "items": [
+        {
+          "title": "CSS animations to bring your site to life",
+          "titleKo": "details/summary와 최신 CSS로 만드는 카드 펼침 애니메이션",
+          "summary": "Kevin Powell이 자신의 포트폴리오 사이트에서 사용한, GSAP 없이 순수 CSS만으로 만든 카드 펼침 애니메이션을 분석합니다. details/summary 구조에 ::details-content 의사 요소, content-visibility, transition-behavior: allow-discrete, interpolate-size를 조합해 자연스러운 열고 닫힘 애니메이션을 구현하고, 커스텀 프로퍼티 기반 인덱스로 내부 요소를 순차적으로 등장시키는 stagger 효과까지 다룹니다.",
+          "keyPoints": [
+            "details/summary는 summary에 phrasing content(span), 바깥에는 flow content(div)만 허용되며, 같은 name 값을 주면 배타적 아코디언 동작을 공짜로 얻을 수 있다.",
+            "::details-content 의사 요소로 summary를 제외한 콘텐츠를 선택해 block-size를 0↔auto로 전환시키면 펼침 애니메이션을 만들 수 있다.",
+            "브라우저가 기본 적용하는 content-visibility의 이산적 전환 때문에 닫을 때 애니메이션이 깨지는데, transition-behavior: allow-discrete로 해결한다.",
+            "interpolate-size: allow-keywords를 루트에 선언해야 auto 크기 값 간 전환이 가능하지만 현재 Chromium 계열에서만 지원되는 점진적 개선 기능이다.",
+            "자식 요소에 --index 커스텀 프로퍼티를 매겨 transition-delay를 계산하면 콘텐츠가 순차적으로 나타나는 stagger 효과를 만들 수 있다."
+          ],
+          "whyItMatters": "GSAP 같은 외부 라이브러리 없이도 최신 CSS 기능만으로 세련된 UI 애니메이션을 구현할 수 있음을 보여주며, content-visibility·allow-discrete·interpolate-size 같은 신규 CSS 명세를 실무에 적용하는 구체적인 패턴을 제시한다는 점에서 프론트엔드 개발자에게 유용합니다.",
+          "article": "Kevin Powell이 몇 달 전 GSAP으로 화려한 애니메이션 사이트를 만드는 영상을 공개했는데, 그 중 유독 설명하지 않고 넘어간 부분이 하나 있었습니다. 바로 정보를 펼쳐 보여주는 두 개의 카드였는데요, GSAP 같은 라이브러리 없이 순수 CSS만으로 구현했기 때문에 따로 영상으로 다룰 가치가 있다고 판단했다고 합니다. 이 글에서는 `<details>`/`<summary>` 태그를 기반으로 한 카드 UI에 `::details-content` 의사 요소, `content-visibility`, `transition-behavior: allow-discrete`, `interpolate-size` 같은 비교적 최신 CSS 기능을 조합해 부드러운 펼침 애니메이션과 내부 요소의 순차 등장(stagger) 효과를 만드는 과정을 정리합니다.\n\n## details/summary로 의미 있는 구조 잡기\n\n카드를 만들 때 가장 먼저 선택한 건 `<details>`와 `<summary>` 조합이었습니다. 이미지와 기본 정보는 늘 보이는 부분(summary)에, 추가 통계 정보는 펼쳤을 때 나오는 부분(details content)에 넣는 식으로 역할을 나누면 딱 맞아떨어진다고 생각했기 때문입니다. 게다가 클릭으로 열고 닫는 동작을 별도의 JS 없이 브라우저 기본 기능으로 처리할 수 있다는 것도 장점입니다.\n\n```html\n<details name=\"driver-card\">\n  <summary>\n    <img src=\"driver.jpg\" alt=\"\" />\n    <span class=\"stat\">\n      <span class=\"value\">44</span>\n      <span class=\"label\">Wins</span>\n    </span>\n    <!-- 반복되는 통계 항목들 -->\n  </summary>\n  <div class=\"extra-info\">\n    <!-- 펼쳤을 때 보이는 추가 정보 -->\n  </div>\n</details>\n```\n\n여기서 한 가지 주의할 점이 있는데, `<summary>` 내부에는 `flow content`가 아니라 `phrasing content`(텍스트류 콘텐츠)만 허용된다는 점입니다. 처음엔 `<div>`로 구성했는데 실제로는 동작은 했지만, 명세상 허용된 자식 요소를 쓰고 싶어서 전부 `<span>`으로 바꿨습니다. 반면 `<summary>` 바깥, `<details>` 안쪽에 있는 콘텐츠는 평범한 flow content라서 `<div>`를 자유롭게 써도 됩니다.\n\n또 하나 눈여겨볼 기능은 `name` 속성입니다. 여러 `<details>` 요소에 같은 `name` 값을 주면 그중 하나만 열리는 아코디언 동작을 공짜로 얻을 수 있습니다(점진적 개선으로 쓰기 좋습니다). 어느 한쪽에서 `name`을 빼면 둘 다 동시에 열리도록 바꿀 수 있고, 이건 전적으로 설계 선택의 문제입니다.\n\n## 레이아웃: flex와 grid 조합\n\n카드 레이아웃 자체는 복잡하지 않습니다. `<details>`에 `display: flex; flex-direction: column;`을 줘서 `<summary>`가 `flex: 1`로 남는 공간을 채우도록 했고, `<summary>` 자체도 `display: flex`로 만들어 이미지와 통계 영역이 가로로 4개 열로 배치되도록 했습니다. 펼쳐지는 영역의 통계들은 `display: grid`(혹은 flex도 무방)로 나란히 배치했습니다. 이 레이아웃은 기본적인 뼈대일 뿐이고, 포인트는 그 다음 단계인 애니메이션입니다.\n\n## ::details-content로 펼침/접힘 애니메이션 만들기\n\n`<details>`를 펼치고 닫을 때 부드럽게 애니메이션을 주려면 `<summary>`를 제외한 나머지 콘텐츠만 따로 선택할 수 있어야 합니다. 이때 쓰는 게 `::details-content` 의사 요소입니다(아직 모든 브라우저 엔진에 들어간 건 아니므로 영상 설명란에 지원 현황 링크를 걸어뒀다고 합니다). `::details-content`는 shadow DOM처럼 동작하는 웹 컴포넌트 내부 구조와 비슷하게, `<summary>`를 뺀 나머지 전체를 가리킵니다.\n\n```css\ndetails::details-content {\n  block-size: 0;\n  overflow: hidden;\n}\n\ndetails[open]::details-content {\n  block-size: auto;\n}\n```\n\n닫혀 있을 때는 `block-size: 0`, 열려 있을 때는 `block-size: auto`로 두고 `overflow: hidden`으로 내용이 삐져나오지 않게 잡아줍니다. 여기에 `transition: block-size 1s;`를 추가하면 애니메이션이 될 것 같지만, 실제로는 한쪽 방향(펼칠 때)만 애니메이션이 걸리고 닫을 때는 즉시 사라져 버립니다.\n\n## content-visibility 문제와 allow-discrete\n\n이 비대칭 동작의 원인은 `::details-content`에 브라우저가 기본으로 적용하는 `content-visibility: hidden`과 `display: block` 스타일 때문입니다. 개발자 도구로 확인해보면 `<details>`가 닫힐 때 `content-visibility`가 `hidden`으로 바뀌면서 콘텐츠가 사실상 `display: none`처럼 DOM에서 사라지는 걸 볼 수 있습니다. 이런 이산적(discrete) 속성은 전환 과정 없이 즉시 값이 바뀌기 때문에 트랜지션이 걸리지 않습니다.\n\n이를 해결하는 게 `transition-behavior: allow-discrete`입니다. 이 값은 원래 순간적으로 바뀌는 이산 속성도 트랜지션 타이밍을 따라가도록 허용해줍니다.\n\n```css\ndetails::details-content {\n  block-size: 0;\n  overflow: hidden;\n  transition: block-size 1s, content-visibility 1s;\n  transition-behavior: allow-discrete;\n}\n```\n\n`block-size`뿐 아니라 `content-visibility`도 함께 전환 목록에 넣고 `allow-discrete`를 지정하면, 닫힐 때도 1초 동안 기다렸다가 전환이 일어나면서 양방향 모두 매끄럽게 애니메이션이 적용됩니다.\n\n## interpolate-size로 auto 값까지 전환하기\n\n여기서 하나 더 필요한 설정이 있습니다. `auto` 같은 고유 크기 값으로의 전환을 가능하게 해주는 `interpolate-size` 속성입니다.\n\n```css\nhtml {\n  interpolate-size: allow-keywords;\n}\n```\n\n`html`이나 루트 요소에 한 번만 선언해두면 하위 요소 전체에 상속되어, `auto`를 포함한 다양한 intrinsic 크기 값 간의 트랜지션이 가능해집니다. 다만 주의할 점은 이 속성이 현재 Chromium 계열 브라우저에서만 동작한다는 것입니다. 점진적 개선으로 쓰기에는 충분하다고 판단해서 계속 사용하겠다고 밝혔지만, 호환성이 더 중요하다면 CSS 그리드 트릭으로 비슷한 효과를 내는 방법도 있다며(별도 영상으로 소개된 방법) 선택지를 제시합니다.\n\n## 내부 요소를 순차적으로 등장시키기\n\n전체 콘텐츠 영역을 하나의 덩어리로 슬라이드시키는 것도 나쁘지 않지만, 통계 항목 하나하나가 약간의 시차를 두고 올라오면서 나타나면 훨씬 세련돼 보입니다. 이를 위해 각 통계 항목에 인덱스 값을 커스텀 프로퍼티로 넣어뒀습니다. Astro로 만든 사이트라 반복문에서 자동으로 인덱스를 매길 수 있었고, 실제로는 `<i>` 요소에 인라인 스타일로 인덱스를 심는 방식을 썼습니다.\n\n```html\n<span class=\"stat\" style=\"--index: 0\">...</span>\n<span class=\"stat\" style=\"--index: 1\">...</span>\n<span class=\"stat\" style=\"--index: 2\">...</span>\n```\n\n```css\n.stat .value,\n.stat .label {\n  opacity: 0;\n  translate: 0 40%;\n  transition: translate 1s, opacity 1s;\n  transition-delay: calc(var(--index) * 0.05s);\n}\n\ndetails[open] .stat .value,\ndetails[open] .stat .label {\n  opacity: 1;\n  translate: 0 0;\n}\n```\n\n애니메이션을 구성할 때는 늘 `opacity`를 맨 마지막에, 가장 간단한 값으로 설정해 두고 나머지(translate 등)가 먼저 제대로 동작하는지 확인하는 순서로 작업했습니다. translate 값을 퍼센트로 주면 통계 항목마다 높이가 달라서 이동 거리도 조금씩 달라지는데, 오히려 이게 더 자연스럽고 재미있는 움직임을 만들어준다고 설명합니다. 또한 트랜지션 지속시간은 커스텀 프로퍼티로 따로 빼거나, 여러 속성을 한 번에 같은 시간으로 묶어서 지정하면 나중에 값을 바꿀 때 여러 곳을 수정할 필요가 없어 유지보수가 편해진다고 조언합니다.\n\n참고로 이번 예제에서는 인덱스를 수동으로 넣었지만, 최근 CSS에 추가된 `sibling-index()` / `sibling-count()` 함수를 쓰면 이런 수작업 없이도 형제 요소의 순번과 개수를 CSS만으로 알아낼 수 있다고 언급하며, 관련 내용은 별도 영상으로 다룬다고 안내합니다.\n\n## 정리\n\n- `<details>`/`<summary>`는 접근성과 기본 토글 동작을 공짜로 얻을 수 있는 좋은 구조이며, `summary` 안에는 phrasing content(span 등)만, 바깥에는 flow content(div 등)를 자유롭게 쓸 수 있습니다. 같은 `name` 값을 공유시키면 배타적 아코디언 동작도 가능합니다.\n- `::details-content` 의사 요소로 `<summary>`를 제외한 콘텐츠만 선택해 `block-size`를 `0`과 `auto` 사이로 전환시키면 펼침/접힘 애니메이션을 만들 수 있지만, 브라우저가 기본 적용하는 `content-visibility`의 이산적 전환 때문에 한쪽 방향만 동작하는 문제가 생깁니다.\n- `transition-behavior: allow-discrete`를 `content-visibility`와 함께 트랜지션에 포함시키면 양방향 모두 자연스럽게 애니메이션됩니다. 여기에 `interpolate-size: allow-keywords`를 루트 요소에 선언해야 `auto` 값으로의 전환이 가능해지는데, 이 속성은 현재 Chromium 계열에서만 지원되므로 점진적 개선으로 활용해야 합니다.\n- 내부 요소에 `--index` 커스텀 프로퍼티를 매겨 `transition-delay`를 계산식으로 걸어주면 콘텐츠가 한 덩어리가 아니라 항목별로 순차적으로 나타나는 stagger 효과를 만들 수 있으며, `opacity`는 항상 마지막에 다루는 것이 디버깅에 유리합니다.\n- 최신 함수인 `sibling-index()` / `sibling-count()`를 활용하면 인덱스를 수동으로 심지 않고도 CSS만으로 형제 순서 기반 애니메이션을 구현할 수 있어, 추후 이 패턴을 더 단순화할 여지가 있습니다.",
+          "url": "https://www.youtube.com/watch?v=ZSNiSdB8Ens",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 78,
+          "isTopicPrimary": true,
+          "slug": "css-animations-to-bring-your-site-to-life",
+          "fullContent": "مرحبًا يا صديقي. منذ بضعة أشهر، فكرت في إنشاء هذا الموقع الذي نراه هنا، والذي أعتقد أنه يبدو جيدًا للغاية . استعرضت الكثير من الأشياء الممتعة التي يمكننا القيام بها، وفي كل ذلك كنت أستخدم GSAP، لكن هناك شيء واحد في ذلك الفيديو لم أتطرق إليه، وهو هاتان البطاقتان الموجودتان هنا. والسبب في عدم شرحي لكيفية القيام بذلك، وهي طريقة عرض معلومات بحركة بسيطة، هو أن الأمر كله يعتمد على CSS فقط، وأردت استكشاف كيفية القيام بذلك في فيديو اليوم. إذن، دعونا نلقي نظرة على ما قمت به هنا. وأول شيء هو أنني قمت بإعداد كل هذا باستخدام وسم details summary . اعتقدت أنها طريقة ذكية للقيام بذلك لأنني تخيلت أن هذه هي التفاصيل، أليس كذلك؟ الصورة بالإضافة إلى المعلومات هناك، ثم لدينا الملخص الذي يظهر في الأسفل، وهو المعلومات الإضافية المتعلقة بذلك. بدا الأمر منطقيًا بالنسبة لي وهو تفاعل مجاني، وهو ما وجدته جيدًا جدًا. هناك بضعة أشياء مهمة قمت بإعدادها داخل الملخص الخاص بي. لدي صورتي ثم قمت بإعداد كل شيء هنا كعناصر span. في البداية قمت بذلك كعناصر divs، لكنني أدركت بعد ذلك أنه داخل summary يمكنك فقط الحصول على محتوى تدفق. كان الأمر يعمل عندما كانت divs، لكنني أردت فقط، كما تعلم، وضع عناصر فرعية يُسمح بوجودها هناك، لذا فهي تعمل مع spans. ونعم، هذا يعمل ويمكننا أن نرى أن الجزء الموجود في الأسفل يظهر. هذه مجرد إحصائيات السائق الخاصة بي. داخل تفاصيل الـ details نفسها ، إذا لم تكن داخل الـ summary، يمكنك وضع divs وأي شيء تريده. إنه مجرد محتوى عادي. قلت محتوى تدفق. محتوى التدفق سيكون divs. العنصر الموجود في الـ summary هو مجرد أشياء تشبه المحتوى المتعلق بالنص، ولا أستطيع تذكر المصطلح التقني لها في الوقت الحالي. لكن الأمر لا يهم كثيرًا. ما يهم هو أننا قمنا بإعدادها بشكل صحيح. الشيء الآخر هنا هو أنك ستلاحظ أن واحدة فقط أو الأخرى تفتح في وقت معين. سيكون هذا نوعًا من التحسين التدريجي، لكن ذلك يحدث لأن كلاهما يشترك في نفس الاسم. لذا، إذا كان لعنصري details نفس الاسم ، فلا يمكن فتح سوى واحد منهما في نفس الوقت. إذا قمت بإزالة الاسم من أحدهما، فيمكنني فتح كليهما في نفس الوقت. يعود الأمر إليك وما إذا كنت تعتقد أن هذا شيء جيد أم لا. رائع. الشيء الآخر هو أن تخطيطي معطل قليلاً الآن، لذا أردت فقط المرور على البطاقة نفسها. إذن، هذا هو عنصر التفاصيل. لقد قمت بإضافة خاصية display flex عليه. والسبب الكامل لوضعي display flex هناك هو أنني أردت جعل الملخص ينمو. لذا، تسمح له flex one بالنمو لملء تلك المساحة، وهو كما تعلم، display flex مع اتجاه flex عمودي، حتى أتمكن من استخدام خاصية النمو هناك. وقمت أيضاً بإضافة display flex على الملخص، ولهذا السبب لدينا الأعمدة الأربعة التي تظهر هناك. والشيء الأخير هنا وبسرعة، لقد استخدمت display grid. ربما يمكنك استخدام flex هنا في الأسفل أيضاً. أي شيء سينجح فقط لجعل الإحصائيات تظهر بجانب بعضها البعض. نعم، لقد نجح ذلك بشكل جيد ومناسب. لكن كما تعلم، هذا مجرد تنسيق أساسي. أفترض أن ليس الجميع يعيد إنشاء ما قمت به بالضبط هنا، ولكن بمجرد أن نعرف كيف يمكننا إضافة حركات وجعل هذا يبدو أكثر إثارة للاهتمام. لكنني أردت أن أريك الإعداد الأساسي لكل ذلك. إذن، بعد الانتهاء من ذلك، دعنا نتعمق ونرى كيف يمكننا البدء في تحريك كل هذا. إذن، أول شيء فعلته دعنا ننزل إلى هنا. سنبدأ من جديد. وصولاً إلى هنا وسأقوم بعمل بطاقة السائق الخاصة بي. مرة أخرى، هذا هو عنصر التفاصيل نفسه، أليس كذلك؟ لذا، يمكننا أيضاً القيام بذلك لعنصر التفاصيل الخاص بنا. وعلى هذا، سأحدد محتوى التفاصيل الخاص بي. ومحتوى التفاصيل هنا هو شيء مدعوم بشكل جيد. إنه ليس في جميع محركات المتصفحات في الوقت الحالي. على الأقل، سأضع روابط للمتصفحات لاستخدامها في الوصف، حتى تتمكن من التحقق من حالتها الحالية أثناء مشاهدة هذا. لكن ما يسمح لنا هذا بالقيام به، إذا نظرنا هنا، عندما يكون لديك عنصر تفاصيل، يمكننا اختيار الملخص، ولكن لدينا كل هذا المحتوى الآخر الذي قد ترغب في اختياره. وأنا لا أريد اختيار إحصائيات السائق. لقد وضعت div هنا ووضعت كل شيء آخر بداخله. ولكن هناك في الواقع بعض القيود حول مجرد اختيار ذلك الـ div مقابل اختيار المحتوى الذي يحصل عليه، إنه يشبه أشياء shadow DOM التي تحدث هنا بأسلوب مكونات الويب المدمجة. تتيح لنا محتويات التفاصيل تحديد كل ما ليس ملخصاً. وما يمكننا فعله الآن هو تعيين حجم الكتلة ليصبح صفراً. والسبب في ذلك هو أنني أريد تحريكه ليظهر تدريجياً، أليس كذلك؟ الآن، إذا نقرت عليها، فلن أتمكن من رؤيتها. لنفترض أننا ضبطناه على 10 بكسل أو شيء من هذا القبيل. حيث يمكنك الآن رؤية شيء صغير يظهر في الأسفل. دعنا نجرب 50 بكسل، لا أدري. أتمنى أن تكون قد وصلت الفكرة. وعندما أنقر، يبدو أنه يظهر ويختفي. لأن لدينا مساحة محتوى محجوزة بداخلها. نعم، يمكننا رؤية كليهما يظهران هناك. لست متأكداً إن كنا بحاجة لذلك لأنني أرى أن لدي خاصية إخفاء الفائض في مكان ما، لكنني سأضيف خاصية إخفاء الفائض هنا. مم. يمكننا التجربة بدونها لنرى ما سيحدث، لكنني أعتقد أنني سأبقيها هنا. خاصية إخفاء الفائض، فقط لأنك قد لا تملك واحدة في مكان آخر. أعتقد أن هذا أكثر منطقية لأغراض تعليمية. ومجدداً، حجم الكتلة الخاص بي، وهو نفس الارتفاع، هو مجرد المتغير المنطقي. سأضع القيمة صفراً هناك. الآن، كيف نجعلها مرئية لاحقاً؟ للقيام بذلك، يمكننا استخدام تفاصيل، أولاً نريد تحديد حالة الفتح هنا. إذن، إذا كانت التفاصيل مفتوحة، وكما قلت، لا أستخدم عنصر التفاصيل عادةً. كنت سأستخدمه كبطاقة تشغيل، لكن في هذا الدرس يمكننا القيام به بهذه الطريقة ليكون أكثر عمومية. سأجعل محتوى التفاصيل يأخذ حجم كتلة تلقائي، وهذا أمر رائع. أليس كذلك؟ الآن، إذا نقرت عليه، عدنا إلى السلوك الذي كان لدينا من قبل. السبب في رغبتي للقيام بكل هذا هو الانتقال بين الحالتين. لذا، للقيام بذلك سنقوم بإضافة انتقال لحجم الكتلة. والمزعج هنا أنني لا أعتقد أن الأمر سينجح. سنجرب انتقالاً لمدة ثانية واحدة على حجم الكتلة. أوه. هل نجح الأمر؟ آه، نعم. إنه يعمل في اتجاه واحد، وليس في الاتجاه الآخر. آه، وهو أمر غريب بعض الشيء أنه يفعل ذلك. لكن السبب في حدوث ذلك هو أن لدينا شيئاً يسمى \"رؤية المحتوى\"(content visibility). وهذا شيء يتعلق تحديداً بعنصر ملخص التفاصيل (detail summary). إذا كنت لا تستخدم هذا مع ملخص التفاصيل، وتفعل ذلك بطريقة مختلفة، فقد لا تحتاج إلى هذه الخطوة الإضافية. لكن \"رؤية المحتوى\"، يمكنك النظر في أدوات المطور الخاصة بك وستجدها إذا كنت تتساءل كيف سأعرف ذلك؟ دعنا نلقي نظرة عليها قبل أن أطلب منك القيام بذلك. نحن الآن في CodePen. لدينا بعض عناصر iframe هنا. لكن ستلاحظ، تذكر أنني قلت إن هناك أشياء مثل shadow DOM. نحن نقوم بعمل مكونات ويب هنا. عندما نتعمق في هذه الأمور، أريد فقط أن أقوم بالتكبير. لذا نحن في مثل...لدينا shadow root هنا. ويمكنك أن ترى أن لدينا ملخص التفاصيل الخاص بي، ومحتوى التفاصيل الذي يحتوي على pseudo. يا إلهي، CodePen يستمر في التحديث تلقائياً. والذي إذا نظرنا إليه هنا، يخبرك بالفعل عن pseudo محتوى التفاصيل الذي كنا نتحدث عنه. وهناك يمكنك رؤية نمط مضمن لـ content visibility: hidden مع display: block. إذن \"رؤية المحتوى\" هذه مهمة جداً وهي مرتبطة بكون المحتوى مرئياً أم لا، بشكل واضح تماماً. وعندما نفتح ونغلق ذلك ، يمكنك الرؤية الآن، دعنا نثبت هذا على الجانب حتى نتمكن من رؤية هذا يحدث في الوقت الفعلي. هنا حيث لدينا display: block، إذا نقرت عليه مرة أخرى، نجد أن content visibility تتحول إلى hidden ثم يتم إزالة تلك الخاصية. ولهذا السبب عندما أغلقه، تتحول رؤية المحتوى إلى hidden. لذا فإن ذلك الشيء يختفي بشكل أساسي. إنه يشبه إلى حد ما القيام بـ display: none. إنه يختفي فقط من الـ DOM. لذا فهو لا ينتقل عند إغلاقه. ولكي نتمكن من الانتقال عند إغلاقه، نحتاج إلى إضافة شيء آخر. أدركت أيضاً أنني تخطيت شيئاً لجعل هذا يعمل مع auto، لذا سأشرح ذلك بعد ثانية أيضاً. أو لا، لن أفعل...نعم، سأشرح ذلك بعد ثانية أيضاً. سنبدأ بهذا، وهو القيام بـ transition-behavior: allow-discrete. وهذا شيء يسمح للأشياء التي تكون عادةً رسوماً متحركة متقطعة بالانتقال بسلاسة. وهذه واحدة من تلك الحالات التي كانت فيها \"رؤية المحتوى\" تتغير بشكل فوري. وأنا لا أريد أن تتغير بشكل فوري عندما نغلقها. نريد منه أن ينتظر ثانية واحدة قبل حدوث التبديل. وهذا في الأساس هو ما يسمح لهذا بالعمل. وهذا يعني ببساطة أن بإمكاني الانتقال إلى هنا وتغيير ليس فقط حجم الكتلة، بل أيضاً ظهور المحتوى خلال ثانية واحدة. والآن بعد أن قمت بتغيير كليهما، يجب أن يعمل في كلا الاتجاهين. بالطبع، هو لا يعمل لأن لدي خطأ مطبعي في كلمة \"visibility\". هذا ينبغي أن يحل المشكلة. الآن إذا أتينا وألقينا نظرة، يجب أن يفتح. ها قد نجحنا. سلس وأنيق وانسيابي. الشيء الآخر الذي ذكرته هو أنني أخفيته في مكان ما. إنه ليس في ملف CSS هذا. إنه موجود في أنماط الأساسية التي لدي، وأظن أنه في الجذر (root). ها هو ذا. خاصية interpolate-size مع السماح بالكلمات المفتاحية. دعني فقط أنقل ذلك إلى هذا الملف. أقترح وضع هذا إما على عنصر HTML أو الجذر، أينما تريد. تسمح خاصية interpolate-size بقبول الكلمات المفتاحية، مما يمكننا من الانتقال إلى ارتفاعات تلقائية (auto) أو أحجام ذاتية أخرى. وهذا اختياري. تقوم بتفعيله على HTML الخاص بك وسيتم توريثه لكل شيء آخر من هناك. لذا، تحتاج فقط إلى تعريفه في أعلى ملفك وفجأة سيعمل كل شيء. هناك عيب واحد في هذا. كل شيء آخر عرضته في هذا الفيديو مدعوم على الأقل في جميع محركات المتصفحات. هذه الخاصية حالياً تعمل فقط على متصفحات كروميوم. أعتقد أنها تشكل تحسيناً تدريجياً جيداً. قد ينزعج البعض من ذلك أحياناً، لكنني سأترك لك حرية تقرير موقفك من هذا. إذا كنت لا ترغب في القيام بذلك بهذه الطريقة، سأضع رابطاً لفيديو في الوصف. إنه يوضح كيف يمكنك فعلياً استخدام الشبكة (grid) لمحاكاة هذا السلوك في الوقت الحالي. وسيعمل بشكل جيد جداً أيضاً. لكن نعم، نحن نملكها الآن. يمكن أن يكون تحسيناً تدريجياً. لذا سأستمر في استخدامه بهذه الطريقة. آخر شيء هو أنه على الرغم من أنني أحب هذا كثيراً، أجد أن تحريك العناصر بشكل فردي بدلاً من جعلها تنزلق ككتلة واحدة أمر جيد، لكن إضافة القليل من اللمسات الجمالية دائماً ما يكون أفضل. تلك اللمسات الصغيرة هي ما نحتاج إلى إضافته في عالم اليوم المليء بالذكاء الاصطناعي، وأعتقد أنها حقاً تميز الأشياء قليلاً. وبسرعة كبيرة في هذا الصدد، أريد أن أعلمكم أن هذا الفيديو مقدم لكم من خلال دورتي \"CSS Demystified\". سواء كنت تقوم بالكثير من كتابة الأوامر (prompting) هذه الأيام أو ما زلت تكتب الكود بالطريقة القديمة، وهو أمر أراه رائعاً. لكن، أياً كانت الطريقة التي تقرر بها إنجاز الأمور ، فمن المهم حقاً فهم أساسيات كيفية عمل CSS. كمية المشاكل التي رأيت الناس يواجهونها مع التنسيقات (layouts) عندما لا يفهمون كل شيء، خاصة في عالم اليوم حيث لا يفهم الجميع الكود الذي تخرجه الأدوات التي يستخدمونها لإنشاء الكود. هذا يؤدي إلى مشكلات قد يكون تصحيحها صعباً للغاية. قد يؤدي ذلك إلى مشاكل في الأداء وأشياء أخرى كثيرة. وفي دورتي \"CSS Demystified\"، الأمر لا يتعلق فقط بتعلم بناء جملة CSS، بل بفهم سبب عمل CSS بالطريقة التي تعمل بها وكيف يمكننا العمل مع المتصفح لكتابة كود CSS أقل يكون أكثر قابلية للصيانة وأسهل في الفهم وكل هذا القبيل. إذا كنت ترغب في معرفة المزيد عنها، يوجد رابط في الوصف أدناه. ومع ذلك، دعونا نضيف تلك الرسوم المتحركة اللطيفة التي تساعدنا مجدداً في نقل موقعنا من شيء يبدو مقبولاً إلى شيء يميزه قليلاً. وبالنسبة لهذا، سأقوم بشيء واحد أعتقد أننا سنقتصر فيه على متصفح كروم فقط. إذن، سأعتمد على دعم المتصفح. كان بإمكاني استخدام sibling index و sibling count لهذه العناصر. لكنني وضعت هذه، استخدمت العنصر i مع النمط هنا بشكل أساسي لأن هذا موقع مبني بـ Astro. لذا، تمكنت من جعل النظام يقوم بالحلقة التكرارية وتنفيذ ذلك لي عندما قمت به في Astro. ولكنني أضع نمطاً مضمناً للعنصر i هنا. سأضع رابطاً لفيديو آخر أستعرض فيه كيف يجعل sibling index الأمر بحيث لا نضطر للقيام بذلك بعد الآن. لقد تحدثت تحديداً عن تجنب الحاجة للقيام بهذا الأمر. لذا، سيكون ذلك الفيديو مرتبطاً في الوصف أيضاً. لكن دعونا نتعمق ونرى كيف يمكننا الاستفادة من معرفة العدد. ربما سأعرض كلا الخيارين في هذا الفيديو أيضاً. إذن ما أريد القيام به هو التقاط هذه الأشياء ، ربما نريد التعامل مع العنصر بالكامل. أحاول تذكر ما قمت به في الأصل. بالنسبة لهذه، نعم، لدينا القيمة (value) والتسمية ( label) اللذان كانا لدي هنا. لذا دعونا ندخل وننشئ بعض المحددات ( selectors) لهذين العنصرين هناك. وبعد ذلك، عندما تقوم بهذا، أجعل الشفافية (opacity) صفراً لأنني أريد التلاشي للظهور، ولكن دائماً اجعل الشفافية في النهاية حتى تتأكد من أن كل شيء آخر يعمل. الشفافية هي أسهل شيء يمكن القيام به، أليس كذلك؟ لذا سأقوم بإجراء إزاحة (translate) هنا بقيمة صفر و 40%، وأي مقدار آخر لا يهم. أنا فقط أدفعها للأسفل قليلاً. ثم أريد إجراء انتقال (transition) للإزاحة. سنقوم أيضاً بتغيير الشفافية في النهاية، لذا سأضعها هنا. هنا في الأعلى عندما قمت بعمل انتقالاتي، وضعت التوقيت لكليهما. أجد ذلك أسهل في الواقع. بادئ ذي بدء، أحب القيام بذلك كخاصية مخصصة، ولكن جعل مدة الانتقال كخاصية واحدة أمر جيد، خاصة إذا كنت لا تعرف المدة التي تريدها حقاً لأنك حينها لن تضطر لتحديثها في عدة أماكن . أنت فقط تحدد المدة هنا. مرة أخرى، يمكن للخاصية المخصصة حل ذلك. والآن إذا قمنا بذلك، فهي تبدو مزاحة للأسفل قليلاً، أليس كذلك؟ لنقم بتكبيرها قليلاً فقط الآن حتى نتمكن من رؤية مكان وجودها. يمكننا رؤية أنها تزحف للأسفل. وهي تزحف للأسفل بمقادير مختلفة لأن النقاط أكبر من الأخرى وقد تم تنفيذها بالنسب المئوية. قد ترغب في إزاحتها للأسفل بنفس المقدار تماماً. ولكن بسبب هذا أجد الأمر أكثر إثارة للاهتمام لأنها تتحرك بسرعات مختلفة قليلاً. مرة أخرى، نبدأ بإضافة بعض هذه اللمسات الإضافية هناك. لذا أحب استخدام النسبة المئوية في هذه الحالة. ثم نحتاج إلى الانتقال إلى الوقت الذي يتم فيه فتح التفاصيل مرة أخرى. ربما سأستخدم بطاقة السائق هنا لأنها تشبه إحصائيات السائق. الأمر محدد جداً لما أقوم به هنا. لذا يمكنك استخدام بضع طرق مختلفة. سأستخدم التداخل (nesting) هنا فقط لجلب كليهما. أعتقد أن هذا أسهل قليلاً. لذا، عندما يتم فتح بطاقة السائق الخاصة بي، يمكنني الحصول على القيمة والتسمية، ويمكننا القول فقط في الوقت الحالي أن الإزاحة ستكون صفر وصفر. ودعونا نرى ما سيحدث. إنها تنتقل بالفعل. المشكلة في الانتقال هي أنها تحدث جميعاً في وقت واحد، وهي تنزلق للأعلى بالفعل. لذا، نحن لا نرى ذلك الانتقال يظهر حقاً. لذا، الشيء التالي الذي سنقوم به هو تأخير الانتقال ( transition delay). وهنا سأقوم بعملية الحساب (calc)، ويمكننا القول، في الواقع للحساب دعنا نفعل ذلك بهذه الطريقة لجعلها أسهل قليلاً في القراءة. سنقوم بعملية حسابية هنا ثم ننتقل إلى سطر جديد، حيث يمكنني تحديد المتغير الخاص بي مضروباً في مقدار الوقت المختار. والآن إذا ألقينا نظرة هناك، يمكننا رؤية أنها جميعاً تظهر من تلقاء نفسها. يبدو أن ذلك العنصر لم يستجب كما ينبغي. لنجرب ذلك مرة أخرى. ها قد نجح الأمر. إنه يعمل الآن. أعتقد أنني عرفت المشكلة هناك. لكن يمكننا رؤية أنها جميعاً تظهر قليلاً. نريد أيضاً ضبط الشفافية لهذه العناصر، كما ذكرت سابقاً. لقد وضعناها بالفعل هناك. إذاً، إذا ضبطنا الشفافية على 0، ثم قمنا بتحريك هذا العنصر، فمن الواضح أنه سيحتاج إلى الوصول لشفافية 1، وبذلك يمكننا جعل الأمر أكثر إثارة للاهتمام. نحن نواجه مشكلة حيث أضطر إلى فتحه وإغلاقه. ها قد نجح الأمر. لقد حدث ذلك أخيراً. وقد لا تلاحظون ذلك. إنه أمر دقيق للغاية. لكن مجدداً، لأنني أستخدم نسبة مئوية هنا، يبدو الأمر وكأن هناك ت فاوتاً زمنياً مختلفاً قليلاً بين المعلومتين، رغم أن التفاوت في الواقع هو نفسه. وهو ما يجعله يبدو أفضل قليلاً بالنسبة لي. توجد تلك المشكلة الأخيرة التي رأيناها، وهي أنني عندما أنقر هنا في المرة الأولى، أوه، يبدو أنها تعمل الآن. لِنقم بتحديث هذه النافذة. في المرة الأولى التي أقوم فيها بذلك، نعم، في المرة الأولى لا تظهر الرسوم المتحركة. يحدث ذلك فقط بمجرد إغلاقها ثم فتحها مرة أخرى، وهو أمر غريب حقاً. بصراحة ، لم أكن أتوقع ذلك. لكن أعتقد أن جزءاً من السبب هو أن هذه العناصر لا توجد فعلياً في نموذج DOM عندما لا تكون البطاقة مفتوحة. لذا، سآخذ هاتين القيمتين الموجودتين هنا وسأقوم بإضافة نمط بدائي لهما. وسأقوم بلصقهما. وهذا يعني أنه عند دخولها أول مرة، حسناً، هي موجودة في DOM، ولكن عند إنشائها لأول مرة في الصفحة، وعند النقر عليها لأول مرة، ستستخدم هذه الأنماط الموجودة هنا. ها قد نجح الأمر. ولنقم بتحديث الصفحة للتأكد من أنها تعمل بالفعل في المرة الأولى. آه، ها هي ذي. وأشعر أنها تحدث في كل مرة، وأرى أن هذا رائع ومرضٍ حقاً. وعند الإغلاق، تختفي جميعها في نفس الوقت، وهو ما أجده أكثر منطقية. لكن، إذا أردت، يمكنك إضافة تأخير انتقالي هنا أيضًا. وأعتقد أن أي شيء تختار القيام به، سيبدو رائعًا جدًا. ولكن في هذه الحالة، أعتقد أنه يبدو جيدًا كما هو. ومع ذلك، أود تذكيركم ببرنامج CSS Demystified، في حال كنتم مهتمين به. وإذا لم تكونوا كذلك، فهناك الفيديوهات التي ذكرتها في الروابط أدناه، وقد وضعت أحدها على الشاشة الآن. وبهذا، أود أن أتوجه بجزيل الشكر لداعمي الرائع جوني، وكذلك لكل داعمي القناة الآخرين على دعمهم المست",
+          "category": "video",
+          "publishedAt": "2026-09-30T13:00:09+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Use these CSS features instead of JavaScript",
+          "titleKo": "JavaScript 대신 사용할 수 있는 CSS 기능들",
+          "summary": "JavaScript 없이도 CSS로 구현 가능한 기능들을 소개하는 영상입니다.",
+          "keyPoints": [
+            "CSS만으로 동적 효과와 인터랙션을 처리할 수 있는 방법 제시",
+            "불필요한 JavaScript 의존도를 줄여 성능 개선 가능"
+          ],
+          "whyItMatters": "웹 성능 최적화와 유지보수성 향상을 위해 CSS의 가능성을 이해하는 것이 중요합니다.",
+          "url": "https://www.youtube.com/watch?v=qu1jE41O_8o",
+          "sourceName": "Kevin Powell (CSS)",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 85,
+          "isTopicPrimary": true,
+          "slug": "use-these-css-features-instead-of-javascript",
+          "category": "video",
+          "publishedAt": "2026-09-23T13:00:33+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "React 2025 – Adding MDX",
+          "titleKo": "React 2025 – MDX 추가",
+          "summary": "React 2025 버전에서 MDX 지원이 추가되는 내용으로 추정됩니다.",
+          "keyPoints": [
+            "React와 MDX의 통합으로 더 강력한 문서 및 콘텐츠 작성 경험 제공"
+          ],
+          "whyItMatters": "React 생태계의 발전 방향을 파악하는 데 도움이 됩니다.",
+          "url": "https://www.youtube.com/watch?v=TUnbglpVhiU",
+          "sourceName": "Lee Robinson",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 80,
+          "isTopicPrimary": true,
+          "slug": "react-2025-adding-mdx",
+          "category": "video",
+          "publishedAt": "2025-11-07T14:31:58+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        },
+        {
+          "title": "Lighting My Porch With Vega #coding #programming #javascript #vega",
+          "titleKo": "Amazon Vega로 포치 행성 조명 프로젝트 만들기 - React Native 개발자의 TV 앱 도전기",
+          "summary": "React/React Native에 익숙한 개발자가 Amazon의 Fire TV 플랫폼 Vega를 이용해 3D 프린팅한 행성 모형과 LED 조명을 프로젝션 스크린과 연동하는 홈 프로젝트를 소개합니다. VS Code 확장과 로컬 시뮬레이터, CLI 도구 덕분에 개발 경험이 예상보다 훨씬 수월했고, fetch만으로 LED 하드웨어를 제어하고 aria-label만으로 음성 제어 기능까지 구현할 수 있었다는 경험을 공유합니다.",
+          "keyPoints": [
+            "Vega는 UI를 React Native로 구축하므로 React/React Native 경험자는 빠르게 적응 가능",
+            "VS Code 확장의 로컬 시뮬레이터로 실제 기기 없이도 디버깅이 용이하며, 프로젝트 초기화용 CLI도 제공됨",
+            "코딩 에이전트가 React Native에 익숙해 Vega 공식 문서만 참고시켜도 개발 보조가 수월함",
+            "WLED LED 컨트롤러 제어는 표준 fetch API로 HTTP 요청을 보내는 수준으로 간단하게 구현",
+            "aria-label만 추가하면 Vega가 음성 인식과 press 이벤트 처리를 자동으로 수행"
+          ],
+          "whyItMatters": "React/React Native 지식을 그대로 활용해 TV 플랫폼용 애플리케이션을 빠르게 만들 수 있다는 점에서, 웹/모바일 개발자가 새로운 플랫폼으로 확장할 때의 진입 장벽을 보여주는 사례입니다.",
+          "article": "가족이 천문학에 진심인 집이라, 3D 프린터로 출력한 행성 모형들을 포치 뒤편에 쭉 늘어놓고 제어 가능한 LED로 조명을 밝혀두었습니다. 영화를 볼 때 분위기는 좋았지만, 이 행성 조명들을 커다란 프로젝션 스크린과 연결하고 싶다는 아이디어가 떠올랐는데요. 그래서 찾아낸 것이 바로 Amazon의 Fire Stick과 Vega였습니다. Vega는 UI를 React Native로 구축하기 때문에 평소 React와 React Native에 익숙한 입장에서는 더할 나위 없는 선택이었습니다.\n\n## Vega로 개발을 시작하다\n\n실제로 써보니 예상보다 훨씬 수월했습니다. VS Code용 Vega 확장이 따로 있고, 여기에 로컬 시뮬레이터까지 포함되어 있어서 코드를 디버깅하기가 정말 편했습니다. 디바이스 없이도 로컬에서 바로 돌려보면서 작업할 수 있다는 점이 특히 좋았고요.\n\n또한 요즘 많이 쓰는 코딩 에이전트들도 React Native를 워낙 잘 다루기 때문에, Vega 공식 문서 링크만 던져주면 세부적인 내용까지 알아서 참고해 작업을 도와줬습니다. 프로젝트를 처음 시작할 때 쓸 수 있는 CLI 앱도 제공되어서 초기 세팅 과정 자체가 간단했습니다.\n\n## 완성된 기능들\n\n이렇게 만든 결과물로, 집에 손님이 오면 태양계 지도를 화면에 띄우고 각 행성에 대한 정보를 보여줄 수 있게 됐습니다. 리모컨의 D-패드로 지도를 돌아다니며 행성들과 조명을 하나씩 살펴볼 수도 있고요.\n\nLED 제어는 WLED 컨트롤러를 이용했는데, Vega 앱에서 일반적인 `fetch`로 HTTP 요청을 바로 보내는 방식으로 구현했습니다. 별도의 복잡한 통신 레이어 없이 표준 웹 API 그대로 LED 하드웨어를 제어할 수 있었던 셈입니다.\n\n마지막 화룡점정은 음성 제어였습니다. 사람들이 행성 이름을 말하면 화면과 조명에 해당 행성이 표시되도록 하고 싶었는데, 이 부분도 놀랍도록 간단했습니다. 그냥 `aria-label`을 추가해주기만 하면 Vega가 음성 인식 관련 처리를 전부 알아서 해주고, 이름이 호출되면 press 이벤트를 발생시켜 줬습니다. \"토성\"이라고 말하면 바로 반응하는 식인데, 이 디테일 하나로 프로젝트 전체가 훨씬 생동감 있게 느껴졌습니다.\n\n## 정리\n\n- 천문학을 좋아하는 가족을 위해 3D 프린팅한 행성 모형과 LED 조명을 포치에 설치하고, 이를 Amazon Vega 기반 Fire Stick 앱과 연동해 큰 스크린에서 태양계를 탐색할 수 있는 프로젝트를 만들었습니다.\n- Vega는 UI 레이어로 React Native를 사용하기 때문에 React/React Native 경험이 있다면 빠르게 적응할 수 있고, VS Code 확장과 로컬 시뮬레이터, 프로젝트 초기화용 CLI까지 개발 편의 도구가 잘 갖춰져 있습니다.\n- 코딩 에이전트들도 React Native 생태계에 익숙해서 Vega 공식 문서만 참고시키면 추가 개발 작업을 수월하게 도와줄 수 있었습니다.\n- LED 하드웨어(WLED) 제어는 표준 `fetch` API로 HTTP 요청을 보내는 수준으로 간단하게 구현했고, 음성 명령 기능도 `aria-label`만 추가하면 Vega가 음성 인식과 이벤트 처리를 전담해줬습니다.\n- 결론적으로 React와 React Native를 이미 알고 있는 개발자라면, Vega는 TV 화면 기반 애플리케이션을 빠르게 만들어볼 수 있는 진입 장벽이 낮은 선택지입니다.",
+          "url": "https://www.youtube.com/watch?v=55hdtzM8T98",
+          "sourceName": "Jack Herrington",
+          "contentType": "video",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 68,
+          "isTopicPrimary": true,
+          "slug": "lighting-my-porch-with-vega-coding-programming-javascript-vega",
+          "fullContent": "My family's own to astronomy. So, I printed out all these 3D printable planets and I put them along the back of the porch and I lit them with controllable LEDs. It's really nice when we're watching movies, but I wanted a way to connect the planets with the big projection screen. So, I looked around and picked a Fire Stick with Amazon's Vega because it uses React Native for the UI and I'm pretty good with React and React Native. And I got to tell you, it was easier than I expected. There's a Vega extension for VS Code. It's got a local simulator that makes it really easy to debug the code, which is great. The L coding agents obviously love React Native. And so, I just pointed them at the Vega docs for the extra details. They've even got a CLI app to get your project started. So, now when folks come over, I can just pop up a map of the solar system with all the facts about each planet and they can navigate around the lights and the planets with the D-pad on the controller. And then to control the LEDs, I use a WLED controller and then just send the command to it with HTTP right out of the Vega app using just a regular fetch. But to kind of add that finishing touch, I wanted folks to be able to say the name of the planet and have it show up on the screen and also on the lights. And it was as easy as just adding aria labels and Vega just handled all the extra voice work and sent the press events when you use the name. Saturn. It's just so slick and it really brought that project to life. So, give Vega a shot. If you know React Native and React already, it's an easy way to get your application up on the big screen. Check out the link in the description for more information and thank you so much, Amazon, for sponsoring this video.",
+          "category": "video",
+          "publishedAt": "2026-07-02T18:22:02+00:00",
+          "language": "en",
+          "tags": [
+            "youtube"
+          ]
+        }
+      ]
+    }
+  ]
+}
