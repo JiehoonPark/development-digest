@@ -64,8 +64,13 @@ export function buildArchiveData(
   };
 }
 
+/** 발행본 JSON 이 저장되는 폴더. CI 는 실행 전에 gh-pages 에서 이 폴더를 복원한다. */
+export function getArchiveDir(): string {
+  return join(__dirname, "../../data/archives");
+}
+
 export function saveArchive(archive: ArchiveData): string {
-  const archiveDir = join(__dirname, "../../data/archives");
+  const archiveDir = getArchiveDir();
   mkdirSync(archiveDir, { recursive: true });
 
   const filePath = join(archiveDir, `${archive.date}.json`);

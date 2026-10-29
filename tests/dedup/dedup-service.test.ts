@@ -1,20 +1,5 @@
 import { describe, it, expect } from "vitest";
-import type { CollectedItem } from "../../src/collectors/types.js";
-
-// URL 정규화 함수만 단위 테스트 (DB 의존 없이)
-function normalizeUrl(url: string): string {
-  try {
-    const u = new URL(url);
-    u.hash = "";
-    u.searchParams.delete("utm_source");
-    u.searchParams.delete("utm_medium");
-    u.searchParams.delete("utm_campaign");
-    u.searchParams.delete("ref");
-    return u.toString().replace(/\/+$/, "");
-  } catch {
-    return url;
-  }
-}
+import { normalizeUrl } from "../../src/dedup/normalize-url.js";
 
 describe("normalizeUrl", () => {
   it("UTM 파라미터를 제거한다", () => {

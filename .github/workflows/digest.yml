@@ -62,13 +62,18 @@ jobs:
             echo "YT_COOKIES 미설정 — 쿠키 없이 시도"
           fi
 
+      # GitHub Actions 캐시는 같은 키로 다시 저장되지 않는다(immutable).
+      # 고정 키를 쓰면 첫 DB 가 계속 복원돼 발송 이력(seen_urls)이 사라지고 같은 기사가 매일 반복된다.
+      # → 복원은 접두사로 가장 최근 것을, 저장은 실행마다 새 키로 한다. 기존 고정 키도 복원 후보로 둔다.
+      # dry-run 도 실제와 같은 이력으로 미리보기 하도록 복원은 하되, 저장은 하지 않는다.
       - name: Restore SQLite cache
-        uses: actions/cache@v4
+        uses: actions/cache/restore@v4
         with:
           path: data/dev-digest.db
-          key: digest-db-${{ github.ref_name }}
+          key: digest-db-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
-            digest-db-
+            digest-db-${{ github.ref_name }}-
+            digest-db-${{ github.ref_name }}
 
       - name: Cache Next.js build
         uses: actions/cache@v4
@@ -95,6 +100,14 @@ jobs:
           SITE_BASE_URL: ${{ secrets.SITE_BASE_URL || 'https://jiehoonpark.github.io/development-digest/' }}
           LOG_LEVEL: info
         run: npx tsx src/index.ts
+
+      # 발송 후 단계가 실패해도 발송 이력은 남겨야 재실행 때 같은 기사를 다시 보내지 않는다.
+      - name: Save SQLite state
+        if: always() && !cancelled() && github.event.inputs.dry_run != 'true' && hashFiles('data/dev-digest.db') != ''
+        uses: actions/cache/save@v4
+        with:
+          path: data/dev-digest.db
+          key: digest-db-${{ github.ref_name }}-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Upload digest HTML (dry run)
         if: github.event.inputs.dry_run == 'true'

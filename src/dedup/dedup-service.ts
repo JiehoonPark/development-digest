@@ -6,16 +6,23 @@ import {
 } from "../db/repositories/recent-titles.js";
 import { createChildLogger } from "../utils/logger.js";
 import type { CollectedItem } from "../collectors/types.js";
+import { normalizeUrl } from "./normalize-url.js";
+import { emptyPublishedHistory, type PublishedHistory } from "./published-history.js";
 
 const log = createChildLogger("dedup");
 
 /**
- * 2단계 중복 제거:
- *   1. 정규화 URL 기반 (같은 소스에서 재노출되는 경우)
+ * 3단계 중복 제거:
+ *   1. 정규화 URL 기반 — 같은 실행 내 중복 + SQLite seen_urls(30일)
  *   2. 정규화 제목 기반 — 최근 3일 이내 이미 다룬 제목은 제외
  *      (React Blog → HN → Reddit 처럼 여러 출처에 같은 스토리가 올라오는 경우)
+ *   3. 이전 발행본(아카이브) 기반 — 이미 실린 URL·제목은 제외.
+ *      CI 에서 SQLite 캐시가 유실·고착돼도 같은 기사가 매일 반복되지 않게 하는 안전망.
  */
-export function dedup(items: CollectedItem[]): CollectedItem[] {
+export function dedup(
+  items: CollectedItem[],
+  publishedHistory: PublishedHistory = emptyPublishedHistory()
+): CollectedItem[] {
   const allTitleKeys = items.map((item) => normalizeTitleKey(item.title));
   const recentTitleKeys = getRecentTitleKeys(allTitleKeys);
 
@@ -25,10 +32,18 @@ export function dedup(items: CollectedItem[]): CollectedItem[] {
 
   let droppedByUrl = 0;
   let droppedByTitle = 0;
+  let droppedByArchive = 0;
 
   for (const item of items) {
     const normalizedUrl = normalizeUrl(item.url);
     const titleKey = normalizeTitleKey(item.title);
+
+    const isAlreadyPublished =
+      publishedHistory.urls.has(normalizedUrl) || publishedHistory.titleKeys.has(titleKey);
+    if (isAlreadyPublished) {
+      droppedByArchive++;
+      continue;
+    }
 
     if (seenUrls.has(normalizedUrl) || isUrlSeen(normalizedUrl)) {
       droppedByUrl++;
@@ -46,7 +61,7 @@ export function dedup(items: CollectedItem[]): CollectedItem[] {
   }
 
   log.info(
-    { before: items.length, after: result.length, droppedByUrl, droppedByTitle },
+    { before: items.length, after: result.length, droppedByArchive, droppedByUrl, droppedByTitle },
     "중복 제거 완료"
   );
 
@@ -87,18 +102,4 @@ export function markTitlesSeenInDigest(titles: string[]): void {
 export function markAsSeen(items: CollectedItem[]): void {
   markUrlsSeen(items);
   markTitlesSeenInDigest(items.map((item) => item.title));
-}
-
-function normalizeUrl(url: string): string {
-  try {
-    const u = new URL(url);
-    u.hash = "";
-    u.searchParams.delete("utm_source");
-    u.searchParams.delete("utm_medium");
-    u.searchParams.delete("utm_campaign");
-    u.searchParams.delete("ref");
-    return u.toString().replace(/\/+$/, "");
-  } catch {
-    return url;
-  }
 }

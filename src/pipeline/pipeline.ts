@@ -3,6 +3,8 @@ import { allSources } from "../../config/sources/index.js";
 import { createCollector } from "../collectors/index.js";
 import type { CollectedItem, CollectorResult } from "../collectors/types.js";
 import { dedup, markUrlsSeen, markTitlesSeenInDigest } from "../dedup/dedup-service.js";
+import { splitByFreshness, MAX_ITEM_AGE_DAYS } from "../dedup/freshness.js";
+import { loadPublishedHistory } from "../dedup/published-history.js";
 import { prioritize } from "../prioritizer/prioritizer.js";
 import { classifyItems, composeDigest } from "../summarizer/batch-processor.js";
 import { enrichWithContent } from "../extractors/content-enricher.js";
@@ -12,7 +14,7 @@ import { initDb, cleanExpiredUrls, closeDb } from "../db/database.js";
 import { cleanExpiredTitles } from "../db/repositories/recent-titles.js";
 import { recordSuccess, recordFailure } from "../db/repositories/source-health.js";
 import { saveDigestHistory } from "../db/repositories/digest-history.js";
-import { buildArchiveData, saveArchive } from "../data/digest-archiver.js";
+import { buildArchiveData, saveArchive, getArchiveDir } from "../data/digest-archiver.js";
 import { generateMarkdown } from "../markdown/markdown-generator.js";
 import { runStep } from "./step-runner.js";
 import { createChildLogger } from "../utils/logger.js";
@@ -63,10 +65,27 @@ export async function runPipeline(): Promise<void> {
       return;
     }
 
-    // 3. 중복 제거
+    // 3. 중복 제거 — 오래된 글 제외 → 이전 발행본·DB 이력 기준 중복 제외
     const uniqueItems = await runStep("중복 제거", async () => {
-      return dedup(allItems);
+      const { fresh, stale } = splitByFreshness(allItems);
+      log.info(
+        { before: allItems.length, droppedAsStale: stale.length, maxAgeDays: MAX_ITEM_AGE_DAYS },
+        "오래된 글 제외"
+      );
+
+      const publishedHistory = loadPublishedHistory(getArchiveDir());
+      log.info(
+        { archiveCount: publishedHistory.archiveCount, publishedUrlCount: publishedHistory.urls.size },
+        "이전 발행본 이력 로드"
+      );
+
+      return dedup(fresh, publishedHistory);
     });
+
+    if (uniqueItems.length === 0) {
+      log.warn("새로운 항목이 없습니다. 같은 기사를 다시 보내지 않고 종료합니다.");
+      return;
+    }
 
     // 4. 우선순위
     const prioritized = await runStep("우선순위 정렬", async () => {
@@ -77,6 +96,11 @@ export async function runPipeline(): Promise<void> {
     const selected = await runStep("AI 분류·선별", async () => {
       return classifyItems(prioritized);
     });
+
+    if (selected.length === 0) {
+      log.warn("관련도 기준을 넘는 새 기사가 없습니다. 빈 뉴스레터를 보내지 않고 종료합니다.");
+      return;
+    }
 
     // 6. 본문 추출 (선별된 아이템만)
     const enriched = await runStep("본문 추출", async () => {
