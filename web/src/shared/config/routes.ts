@@ -5,7 +5,11 @@
  */
 
 export const ROUTES = {
+  /** 하루 1편 심층 글 홈 */
   home: "/",
+  post: (slug: string) => `/posts/${slug}/`,
+  /** 기존 기사 나열형 다이제스트의 최신호 */
+  digestToday: "/digest/",
   archive: "/archive/",
   sources: "/sources/",
   settings: "/settings/",

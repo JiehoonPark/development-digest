@@ -1,10 +1,9 @@
 import { notFound } from "next/navigation";
 
-import { countArchiveItems, getArchive } from "@/entities/archive";
+import { countArchiveItems, getArchive, listVisibleItems } from "@/entities/archive";
 import { ArticleBlock } from "@/entities/article";
 import { FilterPills } from "@/features/filter-by-label";
-import { Callout, PageContainer, PageCover } from "@/shared/ui";
-import type { ArchiveData, ArchiveItem } from "@/shared/config";
+import { PageContainer, PageCover } from "@/shared/ui";
 import { ROUTES } from "@/shared/config";
 import { TopbarAuto } from "@/widgets/topbar";
 
@@ -22,7 +21,7 @@ export function DailyDigestView({ year, month, day }: DailyDigestViewProps) {
   if (!archive) notFound();
 
   const total = countArchiveItems(archive);
-  const items = flattenArchive(archive);
+  const items = listVisibleItems(archive);
 
   return (
     <>
@@ -39,7 +38,6 @@ export function DailyDigestView({ year, month, day }: DailyDigestViewProps) {
           title={`FE 데일리 리포트 — ${archive.date}`}
           subtitle={`${total}개 아티클`}
         />
-        <Callout emoji="✨">{archive.intro}</Callout>
         <FilterPills />
         <div className={styles.list}>
           {items.map((item) => (
@@ -49,15 +47,4 @@ export function DailyDigestView({ year, month, day }: DailyDigestViewProps) {
       </PageContainer>
     </>
   );
-}
-
-function flattenArchive(archive: ArchiveData): ArchiveItem[] {
-  const ORDER: Record<string, number> = { hot: 0, tech: 1, insight: 2, video: 3 };
-  const sections = [...archive.sections].sort(
-    (a, b) => (ORDER[a.category] ?? 99) - (ORDER[b.category] ?? 99)
-  );
-  // 클러스터 secondary 제외 — primary 의 "관련 N건" 배지로 건수만 노출
-  return sections
-    .flatMap((s) => s.items)
-    .filter((item) => !(item.topicId && !item.isTopicPrimary));
 }

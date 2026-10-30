@@ -37,7 +37,6 @@ export function ArchiveView() {
               <th scope="col">날짜</th>
               <th scope="col">아티클</th>
               <th scope="col">섹션</th>
-              <th scope="col">인트로</th>
             </tr>
           </thead>
           <tbody>
@@ -56,9 +55,6 @@ export function ArchiveView() {
                   </td>
                   <td>{total}개</td>
                   <td>{archive.sections.length}개</td>
-                  <td style={{ maxWidth: 360, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {archive.intro}
-                  </td>
                 </tr>
               );
             })}

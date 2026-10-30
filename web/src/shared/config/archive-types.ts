@@ -38,6 +38,5 @@ export interface ArchiveSection {
 
 export interface ArchiveData {
   date: string;
-  intro: string;
   sections: ArchiveSection[];
 }

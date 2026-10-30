@@ -1,0 +1,77 @@
+{
+  "slug": "2026-10-29-cursor-agent-sdk",
+  "date": "2026-10-29",
+  "title": "PR 리뷰 봇을 코드로 만든다 — Cursor Agent SDK 정리",
+  "dek": "Bugbot을 만든 프레임워크가 공개됐습니다. 프롬프트는 Markdown, 도구는 TypeScript 함수. 우리 팀 리뷰 규칙을 봇으로 만들 때 무엇이 필요한지 정리했습니다.",
+  "tags": [
+    "AI 에이전트",
+    "코드 리뷰"
+  ],
+  "readingMinutes": 6,
+  "cover": {
+    "src": "/covers/2026-10-29-cursor-agent-sdk.jpg",
+    "alt": "흰색 클레이 로봇 팔이 컨베이어 위 문서에 주황색 체크 도장을 찍는 일러스트"
+  },
+  "tldr": [
+    "Cursor가 사내 에이전트(Bugbot, Security Reviewer, Rollouts)를 만든 프레임워크를 **Agent SDK**로 정식 공개[1]",
+    "프롬프트는 Markdown, 도구는 TypeScript 함수 — 에이전트를 일반 코드처럼 리뷰·버전 관리[1]",
+    "`agent-sdk deploy` 한 번으로 Cursor 인프라에 배포하거나, Node 프로세스 하나로 자체 호스팅[1]"
+  ],
+  "body": "## 무엇이 공개됐나\n\nCursor는 PR 리뷰, 컴플라이언스 점검, 장애 대응처럼 반복되는 일을 처리하는 에이전트를 직접 만들어 써 왔습니다. 이번에 그 내부 프레임워크를 Agent SDK라는 이름으로 공개했습니다.[1]\n\n출발점은 \"쓸모 있는 에이전트는 팀이 일하는 방식에 맞춰져 있어야 한다\"는 문제의식입니다. 지금까지는 다른 팀의 워크플로에 맞춰 만든 제품을 쓰거나 처음부터 직접 만드는 수밖에 없었다는 거죠.[1] Agent SDK는 에이전트를 제품 설정이 아니라 **코드 프로젝트**로 다룹니다.\n\n![Agent SDK 에이전트의 구성과 배포 경로](/figures/agent-sdk-flow.svg \"그림 1 · 에이전트 프로젝트의 구성과 배포 경로 (원문 [1]을 바탕으로 도식화)\")\n\n## 코드로 보면\n\n에이전트는 `defineAgent`로 정의합니다. 아래는 원문이 시작 예제로 보여 준 코드의 일부입니다.[1]\n\n```ts\nimport { defineAgent } from \"@cursor/agent-sdk\";\n\nexport default defineAgent({\n  name: \"Robo\",\n  model: {\n    id: \"composer-2.5\",\n    params: [{ id: \"effort\", value: \"high\" }],\n  },\n});\n// 로컬 playground에서 evals 실행 → agent-sdk deploy\n```\n\n프로젝트 안의 파일 하나하나가 에이전트가 아는 것 또는 할 수 있는 일을 나타냅니다. 프롬프트는 Markdown으로, 도구는 TypeScript 함수로 작성하기 때문에 나머지 코드와 같은 버전 관리·리뷰 절차를 거칠 수 있습니다.[1]\n\n## 기존 방식과 무엇이 다른가\n\n| | 완성형 리뷰 봇 | Agent SDK |\n| --- | --- | --- |\n| 리뷰 기준 | 제품이 정한 규칙 | 팀 정책을 코드로 작성 |\n| 변경 관리 | 대시보드 설정 | PR로 리뷰·버전 관리 |\n| 검증 | 운영하며 확인 | evals·이벤트 리플레이 내장 |\n| 실행 위치 | 벤더 인프라 | Cursor 또는 자체 컨테이너 |\n\nPR 리뷰를 예로 들면, GitHub·GitLab·Bitbucket의 PR 이벤트에 반응해 변경 위험도를 평가하고, 맞는 팀에 리뷰를 배정하고, 정책을 통과한 변경은 승인까지 할 수 있습니다.[1]\n\n## 실제로 어떻게 쓰였나\n\nCursor 내부의 한 팀은 쌓아 둔 \"교훈 노트\"를 근거로 모든 PR을 검사하는 `kb-reviewer`를 하루 만에 만들었습니다. 기록과 어긋나는 변경을 찾으면 근거가 된 노트를 함께 인용해 표시합니다.[1]\n\n> 내장된 evals 덕분에 새 아이디어를 빠르게 반복하고 기존 기능을 안정적으로 최적화할 수 있다. — Michael Gyarmathy, PGA America[1]\n\n## 배포는 두 가지\n\n프로젝트 폴더에서 `agent-sdk deploy`를 실행하면 빌드 후 URL을 받아 Cursor 인프라에서 실행됩니다. 자체 인프라를 쓰려면 에이전트가 Node 프로세스 하나로 돌기 때문에 컨테이너로 묶어 배포하면 됩니다.[1]\n",
+  "actions": [
+    "코드 리뷰에서 반복해서 지적하는 규칙 3개를 문서로 정리한다 (예: 접근성 속성 누락, 번들 크기 증가)",
+    "그 규칙을 프롬프트 초안으로 옮기고, 과거 PR 몇 개로 evals를 구성한다",
+    "자동 승인은 끄고 \"코멘트만 남기기\"로 시작한다"
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "Introducing the Agent SDK",
+      "publisher": "Cursor",
+      "url": "https://cursor.com/blog/agent-sdk",
+      "publishedAt": "2026-10-28",
+      "image": "/figures/og-cursor-agent-sdk.jpg"
+    },
+    {
+      "id": 2,
+      "title": "Upcoming Next.js November Security Release",
+      "publisher": "Next.js",
+      "url": "https://nextjs.org/blog/upcoming-nextjs-security-release-november-2026",
+      "publishedAt": "2026-10-27"
+    },
+    {
+      "id": 3,
+      "title": "Ship less JavaScript in Next.js with your AI agent",
+      "publisher": "Next.js",
+      "url": "https://nextjs.org/blog/ship-less-javascript-with-ai",
+      "publishedAt": "2026-10-28"
+    },
+    {
+      "id": 4,
+      "title": "Stop using min-width in your media queries",
+      "publisher": "Kevin Powell (YouTube)",
+      "url": "https://www.youtube.com/watch?v=zS_K-bfpQfk",
+      "publishedAt": "2026-10-28"
+    }
+  ],
+  "briefs": [
+    {
+      "label": "보안",
+      "title": "Next.js 11월 정기 보안 릴리스, 11월 3일 예정",
+      "note": "nextjs.org · 세부 내용은 릴리스 당일 공개",
+      "sourceId": 2
+    },
+    {
+      "label": "도구",
+      "title": "Next.js 번들 줄이기 — next-bundle-optimizer 에이전트 스킬, 새 Bundle Analyzer",
+      "note": "nextjs.org · 10월 28일",
+      "sourceId": 3
+    },
+    {
+      "label": "후속",
+      "title": "min-width 대신 미디어 쿼리 범위 문법 쓰기",
+      "note": "Kevin Powell · YouTube · 10/28 글 「767.98px은 이제 그만」의 원본 영상",
+      "sourceId": 4
+    }
+  ]
+}

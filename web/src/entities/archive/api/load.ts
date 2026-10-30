@@ -16,7 +16,3 @@ export function getArchive(date: string): ArchiveData | null {
 export function getLatestArchive(): ArchiveData | null {
   return loadLatestArchive();
 }
-
-export function countArchiveItems(archive: ArchiveData): number {
-  return archive.sections.reduce((acc, s) => acc + s.items.length, 0);
-}
