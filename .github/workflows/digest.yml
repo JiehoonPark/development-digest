@@ -24,7 +24,8 @@ concurrency:
 jobs:
   digest:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # 심층 글 작성(Opus)·사실 검증·수정이 최대 3회 돌 수 있어 여유를 둔다
+    timeout-minutes: 45
 
     steps:
       - name: Checkout
@@ -83,11 +84,18 @@ jobs:
           restore-keys: |
             next-${{ hashFiles('web/package-lock.json') }}-
 
-      - name: Restore archives from gh-pages
+      # 지난 발행본은 gh-pages 에만 있다. 글 JSON·커버도 함께 되살려야 오늘 글이 지난 글 목록과 같이 빌드된다.
+      - name: Restore archives, posts and covers from gh-pages
         continue-on-error: true
         run: |
           git fetch origin gh-pages --depth=1 || exit 0
           git checkout origin/gh-pages -- data/archives/ 2>/dev/null || true
+          git checkout origin/gh-pages -- data/posts/ 2>/dev/null || true
+          if git checkout origin/gh-pages -- covers/ 2>/dev/null; then
+            mkdir -p web/public/covers
+            cp -n covers/* web/public/covers/ 2>/dev/null || true
+            rm -rf covers
+          fi
 
       - name: Run digest pipeline
         env:
@@ -95,6 +103,8 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           SUPADATA_API_KEY: ${{ secrets.SUPADATA_API_KEY }}
+          # 오늘의 글 커버. 없으면 커버 없이 발행한다
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           DIGEST_RECIPIENTS: ${{ secrets.DIGEST_RECIPIENTS }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
           SITE_BASE_URL: ${{ secrets.SITE_BASE_URL || 'https://jiehoonpark.github.io/development-digest/' }}
@@ -117,6 +127,15 @@ jobs:
           path: data/digest-*.html
           retention-days: 7
 
+      # DRY_RUN 의 오늘의 글은 data/preview 에만 쓴다 — 운영 글 목록에 섞이지 않게
+      - name: Upload post preview (dry run)
+        if: github.event.inputs.dry_run == 'true' && hashFiles('data/preview/posts/*.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: post-preview
+          path: data/preview/
+          retention-days: 7
+
       - name: Build web (Next.js static export)
         if: github.event.inputs.dry_run != 'true'
         env:
@@ -125,12 +144,15 @@ jobs:
         run: npm run build
         working-directory: web
 
-      - name: Persist archives inside web/out
+      - name: Persist archives and posts inside web/out
         if: github.event.inputs.dry_run != 'true'
         run: |
-          mkdir -p web/out/data/archives
+          mkdir -p web/out/data/archives web/out/data/posts
           if [ -d data/archives ]; then
             cp -r data/archives/. web/out/data/archives/
+          fi
+          if [ -d data/posts ]; then
+            cp -r data/posts/. web/out/data/posts/
           fi
 
       - name: Copy markdown to web/out
