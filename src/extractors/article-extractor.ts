@@ -1,4 +1,7 @@
 import * as cheerio from "cheerio";
+
+/** `$(selector).first()` 의 결과 타입 — cheerio 가 노드 타입을 따로 export 하지 않아 추론한다 */
+type ContentRoot = ReturnType<ReturnType<cheerio.CheerioAPI>["first"]>;
 import { createChildLogger } from "../utils/logger.js";
 
 const log = createChildLogger("article-extractor");
@@ -9,6 +12,12 @@ export interface ExtractionResult {
   wordCount: number;
   status: "success" | "failed";
   error?: string;
+  /** og:title 또는 <title> */
+  title?: string;
+  /** og:image 절대 URL */
+  image?: string;
+  /** 본문 영역의 링크(절대 URL, 중복 제거) — 심층 글의 1차 자료 후보 */
+  links?: string[];
 }
 
 const CONTENT_SELECTORS = [
@@ -23,14 +32,51 @@ const CONTENT_SELECTORS = [
   "main",
 ];
 
-const NOISE_SELECTORS = [
-  "script", "style", "nav", "header", "footer", "aside",
-  "iframe", "noscript", "svg",
-  "[class*='sidebar']", "[class*='comment']", "[class*='share']",
-  "[class*='related']", "[class*='newsletter']", "[class*='ad-']",
-  "[class*='social']", "[class*='nav']", "[class*='menu']",
-  "[class*='cookie']", "[class*='popup']", "[class*='banner']",
-];
+/** 어디에 있든 본문이 아닌 태그 */
+const GLOBAL_NOISE_TAGS = ["script", "style", "iframe", "noscript", "svg"];
+/** 본문 영역 안에 있을 때 지우는 태그 */
+const NOISE_TAGS = ["nav", "header", "footer", "aside"];
+
+/** 클래스 토큰을 `-`·`_` 로 나눈 조각이 이 단어와 같으면 본문이 아닌 부속 영역으로 본다 */
+const NOISE_CLASS_WORDS = new Set([
+  "sidebar", "comment", "comments", "share", "sharing", "related", "newsletter",
+  "ad", "ads", "advert", "social", "nav", "navbar", "navigation", "menu",
+  "cookie", "cookies", "popup", "banner",
+]);
+
+/**
+ * Tailwind 임의값 유틸리티(`[&_.comment]:pt-0`, `max-w-(--x)`)는 스타일 규칙이지 영역 이름이 아니다.
+ * 이런 토큰까지 검사하면 본문 컨테이너 전체가 노이즈로 지워진다(nextjs.org 블로그에서 확인).
+ */
+const UTILITY_TOKEN_CHARS = /[[\]():!&/]/;
+
+export function isNoiseClass(className: string): boolean {
+  return className
+    .toLowerCase()
+    .split(/\s+/)
+    .filter((token) => token && !UTILITY_TOKEN_CHARS.test(token))
+    .some((token) => token.split(/[-_]+/).some((part) => NOISE_CLASS_WORDS.has(part)));
+}
+
+const MIN_ROOT_TEXT = 200;
+
+/**
+ * 본문 영역을 고르고, 노이즈는 그 영역 "안에서만" 지운다.
+ * 문서 전체에서 지우면 본문을 감싼 레이아웃(MDN 의 `layout__2-sidebars-inline`)까지 지워져 본문이 사라진다.
+ */
+function findContentRoot($: cheerio.CheerioAPI): ContentRoot | undefined {
+  $(GLOBAL_NOISE_TAGS.join(",")).remove();
+  for (const selector of CONTENT_SELECTORS) {
+    const el: ContentRoot = $(selector).first();
+    if (el.length === 0) continue;
+    el.find(NOISE_TAGS.join(",")).remove();
+    el.find("[class]")
+      .filter((_, child) => isNoiseClass($(child).attr("class") ?? ""))
+      .remove();
+    if (el.text().trim().length > MIN_ROOT_TEXT) return el;
+  }
+  return undefined;
+}
 
 const SKIP_DOMAINS = [
   "twitter.com", "x.com",
@@ -82,7 +128,7 @@ export async function extractArticle(url: string): Promise<ExtractionResult> {
     }
 
     const html = await res.text();
-    const content = extractContent(html);
+    const { content, ...page } = parsePage(html, res.url || url);
 
     if (content.length < 100) {
       return { url, content: "", wordCount: 0, status: "failed", error: "Content too short" };
@@ -95,6 +141,7 @@ export async function extractArticle(url: string): Promise<ExtractionResult> {
       content,
       wordCount: content.split(/\s+/).length,
       status: "success",
+      ...page,
     };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
@@ -103,39 +150,52 @@ export async function extractArticle(url: string): Promise<ExtractionResult> {
   }
 }
 
-function extractContent(html: string): string {
+const MAX_LINKS = 80;
+
+/** 본문 텍스트·제목·대표 이미지·본문 링크를 한 번에 읽는다 */
+function parsePage(html: string, pageUrl: string): Pick<ExtractionResult, "content" | "title" | "image" | "links"> {
   const $ = cheerio.load(html);
-
-  // 노이즈 요소 제거
-  for (const selector of NOISE_SELECTORS) {
-    $(selector).remove();
-  }
-
-  // 콘텐츠 선택자 순서대로 탐색
-  let contentText: string | null = null;
-
-  for (const selector of CONTENT_SELECTORS) {
-    const el = $(selector);
-    if (el.length > 0) {
-      const text = el.text().trim();
-      if (text.length > 200) {
-        contentText = text;
-        break;
-      }
+  const toAbsolute = (href: string | undefined): string | undefined => {
+    if (!href) return undefined;
+    try {
+      const absolute = new URL(href, pageUrl);
+      return absolute.protocol === "https:" || absolute.protocol === "http:" ? absolute.href.split("#")[0] : undefined;
+    } catch {
+      return undefined;
     }
-  }
+  };
 
-  // fallback: body에서 p 태그 텍스트 수집
-  if (!contentText) {
-    const paragraphs = $("p")
-      .map((_, el) => $(el).text().trim())
-      .get()
-      .filter((t) => t.length > 30);
+  // 메타 정보는 노이즈 제거 전에 읽는다
+  const title = ($('meta[property="og:title"]').attr("content") ?? $("title").first().text()).trim() || undefined;
+  const image = toAbsolute($('meta[property="og:image"]').attr("content"));
 
-    return cleanText(paragraphs.join("\n\n")).slice(0, MAX_CONTENT_LENGTH);
-  }
+  const root = findContentRoot($);
+  const content = root ? cleanText(root.text()) : collectParagraphs($);
 
-  return cleanText(contentText).slice(0, MAX_CONTENT_LENGTH);
+  const pageWithoutHash = pageUrl.split("#")[0];
+  const links = [
+    ...new Set(
+      (root ?? $("body").first())
+        .find("a[href]")
+        .map((_, el) => toAbsolute($(el).attr("href")))
+        .get()
+        // 같은 사이트 문서 링크(nextjs.org/docs 등)도 1차 자료라 남기고, 자기 자신만 뺀다
+        .filter((href): href is string => Boolean(href) && href !== pageWithoutHash)
+    ),
+  ].slice(0, MAX_LINKS);
+
+  return { content: content.slice(0, MAX_CONTENT_LENGTH), title, image, links };
+}
+
+/** 본문 영역을 못 찾은 페이지: 내비게이션 밖의 긴 문단만 모은다 */
+function collectParagraphs($: cheerio.CheerioAPI): string {
+  const MIN_PARAGRAPH = 30;
+  $(NOISE_TAGS.join(",")).remove();
+  const paragraphs = $("p")
+    .map((_, el) => $(el).text().trim())
+    .get()
+    .filter((text) => text.length > MIN_PARAGRAPH);
+  return cleanText(paragraphs.join("\n\n"));
 }
 
 function cleanText(text: string): string {
