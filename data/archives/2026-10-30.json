@@ -1,0 +1,364 @@
+{
+  "date": "2026-10-30",
+  "intro": "Next.js 16.4의 성능 개선 사례와 Node.js 27 알파 버전 출시로 프론트엔드 인프라가 진화하고 있습니다. 동시에 AI 에이전트 라이브러리들이 속속 등장하면서 프론트엔드 개발의 새로운 활용 사례가 확대되고 있으며, Pico CSS 유지보수 중단은 CSS 프레임워크 생태계의 변화를 시사합니다.",
+  "sections": [
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Improving navigation experience in v0 with Next.js 16.4",
+          "titleKo": "Next.js 16.4로 v0의 네비게이션 경험 개선하기",
+          "summary": "Next.js 16.4의 Partial Prefetching과 코딩 에이전트를 활용하여 v0 플랫폼의 네비게이션 성능을 개선한 사례를 소개합니다.",
+          "keyPoints": [
+            "Partial Prefetching 기능을 통한 페이지 로드 성능 최적화",
+            "AI 코딩 에이전트를 활용한 네비게이션 개선 자동화"
+          ],
+          "whyItMatters": "Next.js의 최신 기능을 실제 프로젝트에 적용하여 사용자 경험을 개선하는 방법을 학습할 수 있습니다.",
+          "url": "https://nextjs.org/blog/improving-navigation-experience-in-v0-with-nextjs-16-4",
+          "sourceName": "Next.js Blog",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 78,
+          "topicId": "nextjs-updates",
+          "isTopicPrimary": true,
+          "slug": "improving-navigation-experience-in-v0-with-nextjs-164",
+          "category": "tech",
+          "publishedAt": "2026-10-16T15:00:00.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Pico CSS is no longer maintained",
+          "titleKo": "경량 CSS 프레임워크 Pico CSS, 유지보수 종료 공지와 함께 저장소 보관 처리",
+          "summary": "클래스 기반 시맨틱 CSS 프레임워크 Pico CSS의 GitHub 저장소가 2026년 10월 4일 archive 처리되며 읽기 전용으로 전환됐습니다. 관리자 lucaslarroche는 Discussions에 '더 이상 유지보수되지 않는다'는 짧은 공지만 남겼고, 중단 사유나 대안에 대한 설명은 없습니다. 기존 사용자는 당장 코드가 깨지지는 않지만 향후 업데이트나 보안 패치를 받을 수 없는 상황입니다.",
+          "keyPoints": [
+            "Pico CSS 저장소가 2026년 10월 4일 소유자에 의해 archive 처리되어 읽기 전용 상태가 되었습니다.",
+            "관리자 lucaslarroche가 Discussions에 '더 이상 유지보수되지 않는다'는 공지를 게시했으나 세부 사유는 밝히지 않았습니다.",
+            "archive 처리로 인해 새로운 이슈 등록과 PR 제출이 불가능해졌고, 기존 열린 이슈/PR도 더 이상 처리되지 않을 가능성이 높습니다.",
+            "기존 사용자는 순수 CSS 기반이라 즉각적인 동작 문제는 적지만, 향후 보안 이슈 대응이 없는 점을 고려해 포크 추적이나 대체 프레임워크 전환을 검토할 필요가 있습니다."
+          ],
+          "whyItMatters": "다수의 사이드 프로젝트와 프로토타입에서 가볍게 채택되어 온 CSS 프레임워크의 유지보수 중단은, 의존성 선택 시 프로젝트의 장기 생존성과 커뮤니티 활성도를 함께 고려해야 한다는 점을 다시 일깨워줍니다.",
+          "article": "GitHub 저장소 보관(archive) 처리와 함께 짧은 공지 하나가 올라왔습니다. 클래스 기반의 시맨틱 CSS 프레임워크로 꽤 많은 개발자들이 가볍게 써온 Pico CSS가 더 이상 유지보수되지 않는다는 소식인데요, 공지 자체는 매우 간결하지만 프런트엔드 생태계에서 작지 않은 비중을 차지해온 프로젝트인 만큼 짚고 넘어갈 필요가 있습니다.\n\n## 무슨 일이 있었나\n\nPico CSS의 GitHub 저장소 Discussions에 \"Pico CSS is no longer maintained\"라는 제목의 공지가 올라왔습니다. 작성자는 프로젝트 관리자인 lucaslarroche이고, 날짜는 2026년 10월 4일입니다. 이 공지와 동시에 저장소 소유자가 저장소 자체를 보관(archive) 처리했으며, 이로 인해 저장소는 읽기 전용(read-only) 상태로 전환되었습니다.\n\n공지 게시물에는 추가 설명이나 배경 문구가 거의 없고, 댓글(comment)도 현재까지 0개입니다. 즉 왜 유지보수를 중단하게 되었는지, 향후 포크(fork)나 대체 프로젝트 계획이 있는지 등에 대한 구체적인 내용은 공개된 글 자체에는 포함되어 있지 않습니다.\n\n## 저장소가 보관(archive) 처리되었다는 것의 의미\n\nGitHub에서 저장소를 archive 처리하면 다음과 같은 변화가 생깁니다.\n\n- 저장소는 읽기 전용으로 전환되어 코드 브라우징과 클론(clone)은 계속 가능하지만, 새로운 이슈(issue)나 풀 리퀘스트(pull request)를 생성할 수 없습니다.\n- 기존에 열려 있던 이슈나 PR도 더 이상 처리되지 않을 가능성이 높습니다.\n- 사실상 해당 프로젝트에 대한 공식적인 업데이트, 버그 수정, 보안 패치가 중단되었다는 신호로 받아들여집니다.\n\n이번 Pico CSS 저장소도 동일하게 archive 처리되었기 때문에, 공식 채널을 통한 추가 기능 개발이나 이슈 대응은 더 이상 기대하기 어려운 상황입니다.\n\n## 실무에서 고려할 점\n\n이미 Pico CSS를 프로덕션에 사용 중인 팀이라면, 다음과 같은 선택지를 검토해볼 수 있습니다.\n\n- **그대로 유지**: Pico CSS는 순수 CSS 기반 프레임워크로 외부 의존성이 적기 때문에, 새로운 브라우저 API나 보안 이슈와 직접적으로 얽히지 않는 한 당장 동작에 문제가 생기지는 않습니다. 다만 향후 브라우저 환경 변화에 대응한 업데이트는 받을 수 없습니다.\n- **포크(fork) 검토**: 커뮤니티에서 포크를 만들어 유지보수를 이어갈 가능성이 있으므로, 공식 저장소의 Discussions나 관련 커뮤니티를 주시할 필요가 있습니다.\n- **대체 라이브러리로 전환**: 신규 프로젝트라면 현재 활발히 유지보수되고 있는 다른 클래스리스(classless) 또는 경량 CSS 프레임워크로 전환하는 것을 고려해볼 만합니다.\n\n다만 원문 공지에는 구체적인 전환 가이드나 대안 추천이 포함되어 있지 않으므로, 각 팀의 상황에 맞춰 판단이 필요합니다.\n\n## 정리\n\n- Pico CSS 저장소가 2026년 10월 4일 소유자에 의해 archive 처리되었고, 관리자 lucaslarroche가 \"더 이상 유지보수되지 않는다\"는 공지를 Discussions에 게시했습니다.\n- 저장소는 읽기 전용으로 전환되어 새 이슈/PR 생성이 불가능하며, 공지 자체에는 중단 사유나 대안에 대한 설명이 없습니다.\n- 이미 Pico CSS를 쓰고 있다면 당장 동작이 깨지지는 않지만, 향후 보안 패치나 신규 기능은 기대할 수 없으므로 포크 추적 혹은 대체 라이브러리 전환을 염두에 두는 것이 안전합니다.",
+          "url": "https://github.com/picocss/pico/discussions/754",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 12,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 68,
+          "topicId": "css-frameworks",
+          "isTopicPrimary": true,
+          "slug": "pico-css-is-no-longer-maintained",
+          "fullContent": "This repository was archived by the owner on Oct 4, 2026. It is now read-only.\nPico CSS is no longer maintained\n#754\nlucaslarroche\nannounced in\nAnnouncements\nPico CSS is no longer maintained\n#754\nlucaslarroche\nOct 4, 2026\n·\n0 comments\nReturn to top\nReplies:\n0 comments\nSign up for free\nto join this conversation on GitHub.\nAlready have an account?\nSign in to comment\nHeading\nBold\nItalic\nQuote\nCode\nLink\nNumbered list\nUnordered list\nTask list\nAttach files\nMention\nReference\nSelect a reply\nLoading\nUh oh!\nThere was an error while loading. Please reload this page.\nCreate a new saved reply\nreacted with thumbs up emoji\nreacted with thumbs down emoji\nreacted with laugh emoji\nreacted with hooray emoji\nreacted with confused emoji\nreacted with heart emoji\nreacted with rocket emoji\nreacted with eyes emoji",
+          "category": "tech",
+          "publishedAt": "2026-10-30T01:58:44.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "\nstructured-filter-react: React component for structured queries\n",
+          "titleKo": "structured-filter-react: 구조화된 검색 조건을 만드는 React 컴포넌트",
+          "summary": "structured-filter-react는 text, number, boolean, date, time, list 타입의 필드를 조합해 구조화된 검색/필터 조건을 만들 수 있는 TypeScript 기반 React 컴포넌트입니다. 기존 jQuery UI 위젯 Structured-Filter를 React로 재작성한 버전으로, 필드 배열을 정의하고 Filter 컴포넌트에 넘기면 타입별 연산자가 자동 구성됩니다. onChange 콜백으로 조건 배열을 받아 쿼리로 변환할 수 있으며, TypeScript 타입도 함께 제공됩니다.",
+          "keyPoints": [
+            "필드는 id, type, label로 정의하며 type은 text/number/boolean/date/time/list 중 하나를 사용한다.",
+            "조건은 { field, operator, value } 형태의 배열이며, 연산자는 필드 타입에 따라 eq, ne, sw, ct, gt, lt, in, null, nn 등으로 달라진다.",
+            "date/time 필드의 between/not between 연산자는 드롭다운에만 노출되고 실제 두 번째 값 입력(to) 기능은 아직 구현되지 않았다.",
+            "Filter 컴포넌트는 fields(필수)와 onChange(선택) 두 가지 props만으로 동작하며, 관련 TypeScript 타입도 패키지에서 함께 export된다.",
+            "react/react-dom 18, 19를 peer dependency로 요구하며, MIT 라이선스로 배포된다."
+          ],
+          "whyItMatters": "검색/필터 UI를 매번 직접 구현하는 대신, 타입 안전한 구조화된 쿼리 빌더를 빠르게 도입하고 싶은 React 개발자에게 바로 적용 가능한 레퍼런스가 된다.",
+          "article": "React 애플리케이션에서 \"이름이 'A'로 시작하고, 생일이 1990년 1월 1일 이후이며, 카테고리가 가족 또는 친구인\" 것과 같은 복잡한 구조화된 검색 조건을 만들어야 할 때가 있습니다. 이런 UI를 직접 구현하려면 필드 타입별 연산자 분기, 값 입력 컴포넌트, 조건 트리 관리까지 손이 많이 가는데요. `structured-filter-react`는 이 작업을 TypeScript로 작성된 React 컴포넌트 하나로 해결해주는 라이브러리입니다. 기존에 jQuery UI 위젯으로 존재하던 `Structured-Filter`를 React로 다시 작성한 버전이라고 합니다.\n\n## 설치 및 기본 사용법\n\n설치는 npm으로 간단하게 진행합니다.\n\n```\nnpm install structured-filter-react\n```\n\n단, `react`와 `react-dom`(18 또는 19 버전)은 peer dependency이기 때문에 프로젝트에 미리 설치되어 있어야 합니다.\n\n사용법은 필터링할 필드 목록을 정의하고 `Filter` 컴포넌트에 넘겨주는 방식입니다.\n\n```jsx\nimport Filter from \"structured-filter-react\";\nimport \"structured-filter-react/dist/index.css\";\n\nconst fields = [\n  { id: \"lastname\", type: \"text\", label: \"Lastname\" },\n  { id: \"firstname\", type: \"text\", label: \"Firstname\" },\n  { id: \"active\", type: \"boolean\", label: \"Is active\" },\n  { id: \"age\", type: \"number\", label: \"Age\" },\n  { id: \"bday\", type: \"date\", label: \"Birthday\" },\n  {\n    id: \"category\", type: \"list\", label: \"Category\",\n    list: [\n      { id: \"1\", text: \"Family\" },\n      { id: \"2\", text: \"Friends\" },\n      { id: \"3\", text: \"Business\" },\n      { id: \"4\", text: \"Acquaintances\" },\n      { id: \"5\", text: \"Other\" },\n    ],\n  },\n];\n\nconst App = () => <Filter fields={fields} />;\n```\n\n`onChange` 콜백을 통해 현재 설정된 조건을 꺼내 쓸 수 있으며, 전체 예제는 데모 페이지에서 확인할 수 있습니다.\n\n## 데이터 모델 이해하기\n\n### 필드(Fields)\n\n각 필드는 반드시 `id`, `type`, `label` 세 가지를 가져야 합니다.\n\n- `id`: 필드를 구분하는 고유 식별자\n- `label`: 화면에 표시되는 필드명\n- `type`: `text`, `number`, `boolean`, `date`, `time`, `list` 중 하나\n\n`list` 타입의 필드는 추가로 `list` 속성을 가져야 하며, 이는 `{ id, text }` 형태의 옵션 배열입니다.\n\n### 조건(Conditions)\n\n필터의 값(value)은 조건들의 배열이며, 각 조건은 다음과 같은 형태를 가집니다.\n\n```\n{ field: string, operator: string, value: string | string[] | null }\n```\n\n사용 가능한 연산자는 필드의 타입에 따라 달라집니다.\n\n| 타입 | 연산자 |\n|---|---|\n| text | equals(eq), not equal(ne), starts with(sw), contains(ct), doesn't contain(nct), finishes with(fw), is empty(null), is not empty(nn) |\n| number | =(eq), !=(ne), >(gt), <(lt), is empty(null), is not empty(nn) |\n| boolean | equals(eq), is empty(null), is not empty(nn) |\n| date | on/not on(eq/ne), after(gt), before(lt), between/not between(bw/nbw), is empty(null), is not empty(nn) |\n| time | at/not at(eq/ne), after(gt), before(lt), between/not between(bw/nbw), is empty(null), is not empty(nn) |\n| list | any of(in), is empty(null), is not empty(nn) |\n\n여기서 한 가지 주의할 점이 있습니다. date/time 필드에는 연산자 드롭다운에 between/not between이 노출되지만, 현재 값 편집기는 단일 값만 입력받도록 구현되어 있다는 점입니다. 즉 \"~부터 ~까지\"를 입력할 두 번째 \"to\" 입력 필드는 아직 구현되지 않은 상태입니다. between 연산자를 실제로 활용하려면 이 부분이 향후 업데이트에서 추가되기를 기다려야 할 것으로 보입니다.\n\n## Props\n\n`<Filter>` 컴포넌트가 받는 props는 두 가지입니다.\n\n| Prop | 타입 | 필수 여부 | 설명 |\n|---|---|---|---|\n| fields | Field[] | 필수 | 조건을 구성할 때 사용할 필드 목록 |\n| onChange | (conditions: Condition[]) => void | 선택 | 조건 목록이 변경될 때마다 호출되는 콜백 |\n\nTypeScript 타입도 컴포넌트와 함께 export되므로, 아래처럼 바로 가져다 쓸 수 있습니다.\n\n```ts\nimport type { Field, FieldType, ListOption, Condition, ConditionValue } from \"structured-filter-react\";\n```\n\n## 개발 환경 구성\n\n라이브러리 자체를 로컬에서 수정하거나 기여하고 싶다면 다음 명령어들을 사용하면 됩니다.\n\n```\nnpm install # install dependencies\nnpm run demo # run the demo app at http://localhost:3001\nnpm run build # build the library to dist/\nnpm run typecheck # type-check the project\n```\n\n`npm run demo`로 로컬 데모 앱(http://localhost:3001)을 띄워 라이트/다크 테마 등 실제 동작을 바로 확인해볼 수 있습니다.\n\n## 라이선스\n\nMIT 라이선스로 배포되고 있으며, 2026년 Olivier Giulieri가 저작권을 보유하고 있습니다. 프로젝트 후원(sponsor)도 가능합니다.\n\n## 정리\n\n`structured-filter-react`는 text, number, boolean, date, time, list 등 다양한 타입의 필드에 대해 타입별로 적절한 연산자 세트를 자동으로 제공하는 구조화된 필터 UI 컴포넌트입니다. 필드 정의 배열만 넘겨주면 복잡한 AND 조건의 검색 쿼리 빌더 UI를 손쉽게 구성할 수 있고, `onChange`로 조건 배열을 받아 백엔드 쿼리로 변환하는 식의 연동이 가능합니다. TypeScript 타입을 함께 제공하기 때문에 조건 객체의 구조(`field`, `operator`, `value`)를 안전하게 다룰 수 있다는 것도 장점입니다.\n\n다만 date/time 필드의 between/not between 연산자는 UI상으로만 노출되고 실제 두 번째 값 입력이 아직 구현되지 않았다는 한계가 있으니, 기간 검색이 핵심 요구사항인 프로젝트라면 현재 버전으로는 부족할 수 있습니다. 검색 필터 UI를 매번 새로 만들던 팀이라면, 기존 jQuery UI 위젯의 React 버전이라는 점에서 검증된 UX 패턴을 React/TypeScript 생태계로 가져올 수 있는 선택지로 검토해볼 만합니다.",
+          "url": "\nhttps://github.com/evoluteur/structured-filter-react\n",
+          "sourceName": "Echo JS",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 75,
+          "topicId": "react-components",
+          "isTopicPrimary": true,
+          "slug": "structured-filter-react-react-component-for-structured-queries",
+          "fullContent": "Structured-Filter-React\nStructured-Filter-React is a React component, written in TypeScript, for building structured search/filter queries.\nWith it you can build structured search conditions like Firstname starts with 'A' and Birthday after 1/1/1990 and Category in (Family, Friends)...\nCheck out the Demo.\nLight theme:\nDark theme:\nThis is the React re-write of Structured-Filter, the original jQuery UI widget.\nTable of Contents\nInstallation\nUsage\nModel\nProps\nDevelopment\nLicense\nInstallation\nnpm install structured-filter-react\nreact and react-dom (18 or 19) are peer dependencies and must already be installed in your project.\nUsage\nimport Filter from \"structured-filter-react\";\nimport \"structured-filter-react/dist/index.css\";\nconst fields = [\n{ id: \"lastname\", type: \"text\", label: \"Lastname\" },\n{ id: \"firstname\", type: \"text\", label: \"Firstname\" },\n{ id: \"active\", type: \"boolean\", label: \"Is active\" },\n{ id: \"age\", type: \"number\", label: \"Age\" },\n{ id: \"bday\", type: \"date\", label: \"Birthday\" },\n{\nid: \"category\", type: \"list\", label: \"Category\",\nlist: [\n{ id: \"1\", text: \"Family\" },\n{ id: \"2\", text: \"Friends\" },\n{ id: \"3\", text: \"Business\" },\n{ id: \"4\", text: \"Acquaintances\" },\n{ id: \"5\", text: \"Other\" },\n],\n},\n];\nconst App = () => <Filter fields={fields} />;\nCheck the Demo for a full example, including reading the current conditions back out via onChange.\nModel\nFields\nEach field must have an id, a type, and a label.\nid - unique identifier for the field.\nlabel - displayed field name.\ntype - one of: text, number, boolean, date, time, list.\nFields of type list must also have a list property: an array of { id, text } options.\nConditions\nThe filter's value is an array of conditions, each shaped as:\n{ field: string, operator: string, value: string | string[] | null }\nThe available operators depend on the field's type:\nType\nOperators\ntext\nequals (eq), not equal (ne), starts with (sw), contains (ct), doesn't contain (nct), finishes with (fw), is empty (null), is not empty (nn)\nnumber\n= (eq), != (ne), > (gt), < (lt), is empty (null), is not empty (nn)\nboolean\nequals (eq), is empty (null), is not empty (nn)\ndate\non/not on (eq/ne), after (gt), before (lt), between/not between (bw/nbw), is empty (null), is not empty (nn)\ntime\nat/not at (eq/ne), after (gt), before (lt), between/not between (bw/nbw), is empty (null), is not empty (nn)\nlist\nany of (in), is empty (null), is not empty (nn)\nNote: between/not between are exposed in the operator dropdown for date/time fields, but the value editor currently only captures a single value — a second \"to\" input isn't implemented yet.\nProps\n<Filter>\nProp\nType\nRequired\nDescription\nfields\nField[]\nyes\nThe list of fields available to build conditions from.\nonChange\n(conditions: Condition[]) => void\nno\nCalled whenever the list of conditions changes.\nTypes\nThe package exports its TypeScript types alongside the component:\nimport type { Field, FieldType, ListOption, Condition, ConditionValue } from \"structured-filter-react\";\nDevelopment\nnpm install # install dependencies\nnpm run demo # run the demo app at http://localhost:3001\nnpm run build # build the library to dist/\nnpm run typecheck # type-check the project\nLicense\nStructured-Filter-React is released under the MIT license.\nEncourage this project by becoming a sponsor.\nCopyright (c) 2026 Olivier Giulieri.",
+          "category": "tech",
+          "publishedAt": "2026-10-30T02:25:23.344Z",
+          "language": "en"
+        },
+        {
+          "title": "Node.js 27.0.0-alpha.0.0.0 (Alpha)",
+          "titleKo": "Node.js 27 알파 공개: V8 15.6 업그레이드와 대규모 Breaking Change 정리",
+          "summary": "Node.js 27.0.0-alpha.0.0.0이 공개되며 V8 엔진이 14.6에서 15.6.75.13으로 업그레이드되었습니다. 힙 메모리 기본값 계산 방식 변경, v8.serialize()/structuredClone() 직렬화 포맷 변경 등 V8 관련 주요 변화와 함께, OpenSSL 3+/4.1.0 전환, HTTP keepAliveTimeout 기본값 65초 변경, domain 모듈 런타임 deprecated 등 다수의 SEMVER-MAJOR 변경 사항이 포함되었습니다. 아직 알파 단계지만 메모리 설정과 crypto 의존 코드를 미리 점검해볼 필요가 있습니다.",
+          "keyPoints": [
+            "V8이 15.6.75.13으로 업그레이드되며 Math.sumPrecise(), Iterator.zip() 등 신규 기능이 기본 활성화되고, --max-old-space-size 미설정 시 힙 기본값 계산 방식과 Buffer/ArrayBuffer 메모리 집계 방식이 바뀐다.",
+            "v8.serialize(), structuredClone(), postMessage()가 새 직렬화 포맷을 사용해 구버전 Node.js와 호환되지 않으며, Math 연산 정밀도와 Math.random() 시퀀스, Array.prototype.sort() 알고리즘(PowerSort)도 달라진다.",
+            "OpenSSL 3 이상만 지원하도록 요구사항이 강화되고 OpenSSL 4.1.0으로 업그레이드되며, 레거시 OpenSSL 코드 경로와 엔진 기반 API 지원이 완전히 제거된다.",
+            "HTTP 서버의 기본 keepAliveTimeout이 65초로 늘어나고 헤더 크기 제한 초과 응답이 거부되며, req.headers가 null prototype을 갖게 된다.",
+            "domain 모듈이 런타임 deprecated 처리되어 AsyncLocalStorage 기반으로 포팅되고, --allow-env 권한 플래그가 추가되는 등 런타임 거버넌스 관련 변화도 포함된다."
+          ],
+          "whyItMatters": "V8 업그레이드로 인한 메모리 기본값 변화와 직렬화 포맷 변경은 운영 중인 서버의 메모리 설정과 캐시/통신 호환성에 직접 영향을 줄 수 있어, 프론트엔드 개발자도 Node.js 기반 백엔드나 빌드 도구 운영 시 미리 확인해야 한다.",
+          "article": "Node.js 27이 알파 버전으로 첫 모습을 드러냈습니다. 아직 정식 출시 전 단계지만, V8 엔진 메이저 업그레이드와 다수의 SEMVER-MAJOR(호환성 깨지는) 변경 사항이 포함되어 있어 미리 살펴볼 가치가 있는데요. 이번 글에서는 2026년 10월 29일 공개된 Node.js 27.0.0-alpha.0.0.0 릴리스 노트를 바탕으로, V8 업데이트 내용과 주요 Breaking Change들을 정리해보겠습니다.\n\n## V8 15.6 업그레이드\n\nNode.js 26에서 사용되던 V8 14.6이 이번 버전에서 **V8 15.6.75.13**으로 올라갑니다. Joyee Cheung이 #65161, #66537, #66601 PR을 통해 주도한 작업이며, 변경 폭이 상당히 큽니다.\n\n### 기본 활성화되는 새 언어 기능\n\n별도 플래그 없이 바로 사용할 수 있는 기능들입니다.\n\n- `Math.sumPrecise()`\n- `Intl.Locale.prototype.variants`\n- `Iterator.prototype.join()`\n- `Iterator.prototype.includes()`\n- `Iterator.zip()`, `Iterator.zipKeyed()`\n\n### 플래그 뒤에 숨겨진 실험적 기능\n\n- `import defer` — `--js-defer-import-eval`\n- Immutable ArrayBuffer — `--js-immutable-arraybuffer`\n- RegExp buffer boundaries — `--js-regexp-buffer-boundaries`\n\n### 메모리 관련 변경\n\n`--max-old-space-size`를 지정하지 않으면, 기본 힙 크기 제한이 **물리 메모리의 절반**(256MB~4GB 사이로 clamp)으로 바뀝니다. 또한 `Buffer`와 `ArrayBuffer` 인스턴스가 차지하는 메모리도 이제 힙 제한에 포함되어 계산됩니다. 기존 기본값에 의존해서 메모리 설정을 하지 않았던 애플리케이션이라면, 이번 업그레이드 후 `--max-old-space-size`를 명시적으로 설정해두는 것이 안전합니다.\n\n### 직렬화 포맷 변경\n\n`v8.serialize()`, `structuredClone()`, `postMessage()`가 새로운 직렬화 포맷을 사용합니다. 이 포맷은 구버전 Node.js에서는 읽을 수 없습니다. 또한 `v8.cachedDataVersionTag()`와 컴파일 캐시도 이제 V8 메이저 버전이 바뀔 때뿐 아니라 Node.js의 V8 패치 버전이 바뀔 때마다 함께 변경됩니다.\n\n### 관찰 가능한 동작 변화\n\n- Math 메서드들이 LLVM의 libm을 사용하게 되어, 마지막 비트 단위에서 결과가 달라질 수 있습니다.\n- 동일한 `--random-seed`를 사용해도 `Math.random()` 시퀀스가 달라집니다.\n- `error.stack`이 더 이상 프로토타입 체인을 통해 조회되지 않습니다.\n- `await` 발생 시 마이크로태스크 수가 줄어듭니다.\n- `Array.prototype.sort()`가 대용량 배열에서 PowerSort 알고리즘을 사용하며, 여전히 안정 정렬(stable sort)을 유지합니다.\n\n### 힙 스냅샷과 WebAssembly\n\n힙 스냅샷에 내부 객체, 숫자 값, 전체 스크립트 소스가 포함되도록 바뀌면서, 스냅샷을 찍는 데 걸리는 시간이 약 2배, 파일 크기도 약 2배로 늘어납니다.\n\nWebAssembly 쪽에서는 asm.js가 더 이상 WebAssembly로 컴파일되지 않으며, `--experimental-wasm-<name>` 형태의 플래그는 `--wasm-<name>`으로 이름이 바뀌었습니다.\n\nV8 14.6에서 15.6 사이의 전체 변경 로그는 추후 별도로 공개될 예정입니다.\n\n## 암호화(Crypto)·OpenSSL 관련 대규모 정리\n\n이번 릴리스는 OpenSSL과 crypto 모듈에 대한 대대적인 정리 작업을 포함합니다. 대부분 Filip Skokan이 작업했습니다.\n\n- **OpenSSL 4.1.0**으로 업그레이드하며, 이제 **OpenSSL 3 이상만 지원**합니다(빌드 요구사항 변경).\n- 번들된 FIPS provider 빌드가 제거되었습니다.\n- 레거시 OpenSSL 코드 경로와 `ncrypto`의 레거시 OpenSSL 백엔드가 제거되었습니다.\n- OpenSSL 엔진(engine) 기반 지원이 `crypto`, `https`, `tls` 전반에서 종료됩니다.\n- digest의 출력 인코딩과 update의 입력 인코딩에 대한 유효성 검사가 추가되어, `Cipher`/`Decipher`의 `update()` 호출 시 `inputEncoding` 검증이 강화됩니다.\n- Web Crypto의 버퍼 파라미터에서 resizable backing store를 거부합니다.\n- 초기화되지 않은 상태로 DH `computeSecret()`을 호출하면 예외가 발생합니다.\n- `Hmac.digest()`를 두 번 이상 호출하는 것이 런타임 deprecated(DEP) 처리됩니다.\n- DEP0093, DEP0198, DEP0203, DEP0204가 End-of-Life 단계로 넘어갑니다.\n\n## HTTP / HTTP2 동작 변경\n\nHTTP 서버를 운영하는 입장에서 눈여겨볼 변경이 여러 건 있습니다.\n\n- 헤더 크기 제한을 초과하는 응답은 거부됩니다.\n- `new` 없이 인스턴스화하는 것이 런타임 deprecated 처리됩니다.\n- **기본 `keepAliveTimeout`이 65초로 증가**합니다(Tim Perry 기여, #62782).\n- `req.headers`가 이제 null prototype을 갖게 됩니다.\n- 요청이 끝난(finish) 이후 `addTrailers`를 호출하면 거부됩니다.\n- HTTP2의 기본 윈도우 크기가 증가합니다.\n\n## 네트워크·DNS·파일시스템 변경\n\n- `dgram`: 리터럴 IP 주소에 대해서는 커스텀 lookup을 건너뜁니다.\n- `dns`: 역방향 조회(reverse lookup) 시 더 이상 hosts 파일을 참조하지 않습니다.\n- `net`: family autoselection 시도가 경합(race) 방식으로 바뀌며, 동일 소켓에 `listen`을 여러 번 호출하면 예외가 발생합니다. 실험적인 `net/promises` API도 추가됩니다.\n- `fs`: `glob`이 네이티브로 구현되며, `prefix`가 Buffer일 때 `mkdtemp`가 Buffer를 반환하도록 바뀝니다.\n\n## 모듈 생명주기 관련 변경\n\n- `domain` 모듈이 런타임 deprecated 처리되며, 내부적으로 `AsyncLocalStorage` 기반으로 포팅됩니다.\n- `async_hooks`의 레거시 `AsyncLocalStorage` 구현이 제거됩니다.\n- `test_runner`도 `async_hooks` 대신 `AsyncLocalStorage`를 사용하도록 바뀝니다.\n- `tls`의 `_tls_*` 내부 모듈이 End-of-Life로 처리됩니다.\n- `lib`의 `_http_*` 내부 모듈이 deprecated 처리됩니다.\n- `zlib` 클래스들이 모던 문법으로 전환되며 DEP0184가 종료됩니다.\n- `--no-experimental-websocket` CLI 플래그가 제거됩니다.\n\n## 기타 주목할 변경\n\n- `src,lib`: James M Snell이 `--allow-env` 권한 플래그를 추가했습니다(#66132). Node.js의 Permission Model이 환경 변수 접근까지 세밀하게 제어할 수 있도록 확장되는 흐름입니다.\n- `build`: Intel macOS 지원이 experimental 단계로 다운그레이드됩니다.\n- `repl`: `vm` 대신 inspector를 사용하도록 바뀝니다.\n- `npm`이 **12.1.0**으로 업그레이드됩니다.\n- `stream`: map iterator가 조기 종료될 때 source를 destroy하도록 수정됩니다.\n\n이 외에도 `SEMVER-MAJOR` 라벨이 붙은 커밋이 수십 건에 달하는데, 대부분 V8 업그레이드 작업을 위한 내부 빌드 패치(illumos 지원, Windows 빌드 수정, cherry-pick 등)와 OpenSSL 전환 관련 세부 작업들입니다.\n\n## 정리\n\nNode.js 27 알파는 V8 15.6으로의 메이저 업그레이드와 OpenSSL 3+/4.1.0 전환, 그리고 수십 건의 SEMVER-MAJOR 변경을 한꺼번에 담고 있는 무거운 릴리스입니다. 아직 알파 단계이므로 프로덕션 적용은 시기상조지만, 다음 사항들은 미리 체크해두는 것이 좋습니다.\n\n- **메모리 설정**: `--max-old-space-size`를 명시적으로 지정하지 않았다면, 힙 크기 기본값 계산 방식이 바뀌고 Buffer/ArrayBuffer도 힙 제한에 포함되므로 메모리 사용 패턴을 다시 점검해야 합니다.\n- **직렬화 호환성**: `v8.serialize()`, `structuredClone()`, `postMessage()`의 포맷이 바뀌어 구버전 Node.js와 데이터를 주고받는 환경이라면 영향이 있을 수 있습니다.\n- **crypto/OpenSSL 의존 코드**: OpenSSL 1.x를 전제로 한 코드나 엔진 기반 API, 레거시 인코딩 처리를 사용 중이라면 마이그레이션이 필요합니다.\n- **HTTP 서버 설정**: `keepAliveTimeout` 기본값 변경(65초)과 헤더 크기 제한 강화가 서버 운영에 영향을 줄 수 있습니다.\n- **domain 모듈 사용처**: 런타임 deprecated 처리되므로 아직 `domain`을 쓰고 있다면 대체 방안을 검토할 시점입니다.\n\n정식 LTS 전환까지는 시간이 남아있지만, 이번 알파 릴리스 노트만 봐도 V8 업그레이드에 따른 관찰 가능한 동작 변화(Math 정밀도, 랜덤 시퀀스, sort 알고리즘 등)가 적지 않으므로, 테스트 스위트를 미리 돌려보며 회귀 여부를 확인해두는 것을 추천합니다.",
+          "url": "https://nodejs.org/en/blog/release/v27.0.0-alpha.0.0.0",
+          "sourceName": "Node.js Blog",
+          "contentType": "article",
+          "labels": [
+            "backend"
+          ],
+          "relevance": 58,
+          "topicId": "nodejs-releases",
+          "isTopicPrimary": true,
+          "slug": "nodejs-2700-alpha000-alpha",
+          "fullContent": "Node.js 27.0.0-alpha.0.0.0 (Alpha)RGRafael GonzagaNode.js 27.0.0-alpha.0.0.0 (Alpha)2026-10-29, Version 27.0.0-alpha.0.0.0 (Alpha), @RafaelGSS\nNotable Changes\nV8 15.6\nThe V8 engine is updated to version 15.6.75.13, up from 14.6 in Node.js 26. Highlights:\nNew language features enabled by default: Math.sumPrecise(), Intl.Locale.prototype.variants, Iterator.prototype.join(), Iterator.prototype.includes(), Iterator.zip() and Iterator.zipKeyed().\nExperimental features behind flags: import defer (--js-defer-import-eval), Immutable ArrayBuffer (--js-immutable-arraybuffer) and RegExp buffer boundaries (--js-regexp-buffer-boundaries).\nMemory: when --max-old-space-size is not set, the default heap size limit is now half of the physical memory clamped between 256 MB and 4 GB, and memory held by Buffer and ArrayBuffer instances now counts toward the heap limit. Applications that relied on the previous defaults should set --max-old-space-size explicitly.\nSerialization: v8.serialize(), structuredClone() and postMessage() use a new format that older Node.js releases cannot read. v8.cachedDataVersionTag() and the compile cache also change on every Node.js patch of V8, not only on V8 version changes.\nObservable behavior changes: Math methods now use LLVM's libm and may differ in the last bit; Math.random() sequences change for a given --random-seed; error.stack is no longer looked up through the prototype chain; await incurs fewer microtasks; Array.prototype.sort() uses PowerSort for large arrays and remains stable.\nHeap snapshots include internal objects, numeric values and full script sources. Taking one takes about twice as long and the file is about twice as large.\nWebAssembly: asm.js is no longer compiled to WebAssembly, and the --experimental-wasm-<name> flags are renamed --wasm-<name>.\nA full changelog of the V8 changes between 14.6 and 15.6 will be shared soon.\nContributed by Joyee Cheung in #65161, #66537 and #66601.\nOther notable changes\n[21cfb2a4ad] - (SEMVER-MAJOR) build: remove the bundled FIPS provider build (Filip Skokan) #64777\n[34e3b90621] - (SEMVER-MAJOR) build: require OpenSSL 3 or later (Filip Skokan) #64777\n[c362db6e24] - (SEMVER-MAJOR) build: downgrade Intel macOS support to experimental (Antoine du Hamel) #65427\n[fb8d52d75a] - (SEMVER-MAJOR) crypto: move DEP0093 to End-of-Life (Filip Skokan) #64777\n[8be36fb494] - (SEMVER-MAJOR) crypto: remove legacy OpenSSL code paths (Filip Skokan) #64777\n[718f044f07] - (SEMVER-MAJOR) crypto: validate digest output encodings (Filip Skokan) #66247\n[6b8001d219] - (SEMVER-MAJOR) crypto: validate update input encodings (Filip Skokan) #66247\n[127f79a911] - (SEMVER-MAJOR) crypto: validate inputEncoding in Cipher/Decipher update (Maruthan G) #66247\n[b116861e88] - (SEMVER-MAJOR) crypto: move DEP0198 to End-of-Life (Filip Skokan) #64000\n[4d09c04253] - (SEMVER-MAJOR) crypto: move DEP0203 and DEP0204 to End-of-Life (Filip Skokan) #63188\n[9d50432837] - (SEMVER-MAJOR) crypto: reject resizable backing stores in Web Crypto buffer parameters (Filip Skokan) #63925\n[63907e1018] - (SEMVER-MAJOR) crypto: throw on uninitialized DH computeSecret (Filip Skokan) #63922\n[463e56fb00] - (SEMVER-MAJOR) crypto: runtime-deprecate calling Hmac.digest() more than once (Madelyn) #63624\n[a2cd8aa883] - (SEMVER-MAJOR) crypto,https,tls: end OpenSSL engine support (Filip Skokan) #64777\n[3983092f63] - (SEMVER-MAJOR) deps: update archs files for openssl-4.1.0 (Node.js GitHub Bot) #66971\n[79239a48f1] - (SEMVER-MAJOR) deps: upgrade openssl sources to openssl-4.1.0 (Node.js GitHub Bot) #66971\n[85bfe9a938] - (SEMVER-MAJOR) deps: remove ncrypto legacy OpenSSL backend (Filip Skokan) #64777\n[826df076a3] - (SEMVER-MAJOR) deps: update V8 to 15.6.75.13 (Joyee Cheung) #66601\n[4eb3908d1f] - (SEMVER-MAJOR) deps: upgrade npm to 12.1.0 (npm team) #66212\n[cba0833111] - (SEMVER-MAJOR) dgram: skip the custom lookup for literal IP addresses (Ruben Bridgewater) #64131\n[54a5095764] - (SEMVER-MAJOR) dns: do not consult hosts file in reverse lookups (Archkon) #64268\n[efc0a14461] - (SEMVER-MAJOR) dns: stop using deprecated functions in SetServers (Antoine du Hamel) #64356\n[7f16850ef6] - (SEMVER-MAJOR) doc: remove OpenSSL 1.x references (Filip Skokan) #64777\n[9c67491706] - (SEMVER-MAJOR) doc: update Node.js 27 official binary toolchains (Richard Lau) #66377\n[6071f8bc32] - (SEMVER-MAJOR) domain: runtime-deprecate the module (Matteo Collina) #65074\n[2c4356cedf] - (SEMVER-MAJOR) domain: port to AsyncLocalStorage (Matteo Collina) #61095\n[a8f2bf007e] - (SEMVER-MAJOR) fs: implement glob natively (Aviv Keller) #65392\n[1f53d7ee3f] - (SEMVER-MAJOR) fs: return Buffer from mkdtemp when prefix is a Buffer (Hamid Reza Ghavami) #64397\n[e5778f78c5] - (SEMVER-MAJOR) http: reject responses exceeding header limit (Matteo Collina) #65010\n[25c0c8e18a] - (SEMVER-MAJOR) http: runtime deprecate instantiating without new (Yagiz Nizipli) #64853\n[9f75269840] - (SEMVER-MAJOR) http: increase keepAliveTimeout default to 65 seconds (Tim Perry) #62782\n[21436f0405] - (SEMVER-MAJOR) http: make req.headers have a null prototype (Matteo Collina) #62900\n[b2248fd370] - (SEMVER-MAJOR) http: reject addTrailers after finish (Ryuhei Shima) #62832\n[1576cb83b4] - (SEMVER-MAJOR) http2: increase default window sizes (Matteo Collina) #64623\n[12ce81920a] - (SEMVER-MAJOR) lib: deprecate _http_* (Sebastian Beltran) #58535\n[19c46abbef] - (SEMVER-MAJOR) lib: insert argv[0] at argv[1] in setDeserializeMainFunction (Daijiro Wachi) #62928\n[b1387e6aed] - (SEMVER-MAJOR) lib: use Object.freeze to avoid defensive cloning in SourceMap (Daijiro Wachi) #62830\n[9390c810d1] - (SEMVER-MAJOR) lib: reject SharedArrayBuffer in Blob constructor per spec (Ali Hassan) #63046\n[057e591f7c] - (SEMVER-MAJOR) lib,src: remove --no-experimental-websocket CLI flag (Antoine du Hamel) #65284\n[9746ebce07] - (SEMVER-MAJOR) net: race family autoselection attempts (Matteo Collina) #66229\n[e03e2f6486] - (SEMVER-MAJOR) net: throw on multiple listen calls (Matteo Collina) #64871\n[a6e7e6a95e] - (SEMVER-MAJOR) net: runtime-deprecate Server.prototype._listen2 (Guilherme Araújo) #64794\n[6d8baeabb0] - (SEMVER-MAJOR) net: add experimental net/promises API (Ethan Arrowood) #63965\n[4f844f4380] - (SEMVER-MAJOR) repl: use inspector over vm (Aviv Keller) #64034\n[fc28d9402f] - (SEMVER-MAJOR) src: officially deprecate node::ObjectWrap (Anna Henningsen) #63756\n[2d0c926907] - (SEMVER-MAJOR) src: merge CreateEnvironment() overloads (Anna Henningsen) #63596\n[f378cfcfbf] - (SEMVER-MAJOR) src,lib: add --allow-env permission (James M Snell) #66132\n[9f7ae86d8b] - (SEMVER-MAJOR) stream: destroy source when map iterator closes early (Y1D7NG) #64264\n[6698675526] - test_runner: use AsyncLocalStorage instead of async_hooks (Matteo Collina) #66795\n[7a11a9b2db] - (SEMVER-MAJOR) tls: move _tls_* to end-of-life (Sebastian Beltran) #60658\n[967d4af565] - (SEMVER-MAJOR) zlib: convert classes to modern syntax and eol DEP0184 (Yagiz Nizipli) #64849\nSemver-Major Commits\n[984aa0c25e] - (SEMVER-MAJOR) async_hooks: remove legacy AsyncLocalStorage implementation (Matteo Collina) #63641\n[d1960949bb] - (SEMVER-MAJOR) benchmark: protect against accidental fork bomb (James M Snell) #66132\n[21cfb2a4ad] - (SEMVER-MAJOR) build: remove the bundled FIPS provider build (Filip Skokan) #64777\n[34e3b90621] - (SEMVER-MAJOR) build: require OpenSSL 3 or later (Filip Skokan) #64777\n[6f178cd39f] - (SEMVER-MAJOR) build: reset embedder string to \"-node.0\" (Joyee Cheung) #66601\n[60c7958b8e] - (SEMVER-MAJOR) build: update flags for V8 CI (Richard Lau) #66537\n[05c9b89d42] - (SEMVER-MAJOR) build: disable V8_USE_METAGEN_INSTANCE_TYPES (Joyee Cheung) #66537\n[18077b5d3a] - (SEMVER-MAJOR) build: do not match v8_libplatform_headers when scraping sources (Joyee Cheung) #66537\n[520388f362] - (SEMVER-MAJOR) build: reset embedder string to \"-node.0\" (Joyee Cheung) #66537\n[30074a3cc8] - (SEMVER-MAJOR) build: fix cppgc_base perfetto source scraper (Chengzhong Wu) #65161\n[b356886269] - (SEMVER-MAJOR) build: use ICU_UTIL_DATA_STATIC across V8 (Joyee Cheung) #65161\n[08a7331bb1] - (SEMVER-MAJOR) build: disable v8_postmortem_support (Joyee Cheung) #65161\n[c148a7f3ba] - (SEMVER-MAJOR) build: reset embedder string to \"-node.0\" (Joyee Cheung) #65161\n[87a4efb61f] - (SEMVER-MAJOR) Revert \"build: update Makefile to support fat binary\" (Antoine du Hamel) #65427\n[c362db6e24] - (SEMVER-MAJOR) build: downgrade Intel macOS support to experimental (Antoine du Hamel) #65427\n[ea86967557] - (SEMVER-MAJOR) build,win: do not quote cmd arguments (StefanStojanovic) #65161\n[fb8d52d75a] - (SEMVER-MAJOR) crypto: move DEP0093 to End-of-Life (Filip Skokan) #64777\n[8be36fb494] - (SEMVER-MAJOR) crypto: remove legacy OpenSSL code paths (Filip Skokan) #64777\n[718f044f07] - (SEMVER-MAJOR) crypto: validate digest output encodings (Filip Skokan) #66247\n[6b8001d219] - (SEMVER-MAJOR) crypto: validate update input encodings (Filip Skokan) #66247\n[127f79a911] - (SEMVER-MAJOR) crypto: validate inputEncoding in Cipher/Decipher update (Maruthan G) #66247\n[b116861e88] - (SEMVER-MAJOR) crypto: move DEP0198 to End-of-Life (Filip Skokan) #64000\n[4d09c04253] - (SEMVER-MAJOR) crypto: move DEP0203 and DEP0204 to End-of-Life (Filip Skokan) #63188\n[9d50432837] - (SEMVER-MAJOR) crypto: reject resizable backing stores in Web Crypto buffer parameters (Filip Skokan) #63925\n[63907e1018] - (SEMVER-MAJOR) crypto: throw on uninitialized DH computeSecret (Filip Skokan) #63922\n[463e56fb00] - (SEMVER-MAJOR) crypto: runtime-deprecate calling Hmac.digest() more than once (Madelyn) #63624\n[a2cd8aa883] - (SEMVER-MAJOR) crypto,https,tls: end OpenSSL engine support (Filip Skokan) #64777\n[b61e682fc0] - (SEMVER-MAJOR) Revert \"crypto,https,tls: runtime-deprecate OpenSSL engine-based APIs (DEP0183)\" (Filip Skokan) #64777\n[da516920fc] - (SEMVER-MAJOR) crypto,https,tls: runtime-deprecate OpenSSL engine-based APIs (DEP0183) (Filip Skokan) #63966\n[3983092f63] - (SEMVER-MAJOR) deps: update archs files for openssl-4.1.0 (Node.js GitHub Bot) #66971\n[79239a48f1] - (SEMVER-MAJOR) deps: upgrade openssl sources to openssl-4.1.0 (Node.js GitHub Bot) #66971\n[85bfe9a938] - (SEMVER-MAJOR) deps: remove ncrypto legacy OpenSSL backend (Filip Skokan) #64777\n[1c90519c1a] - (SEMVER-MAJOR) deps: V8: cherry-pick 8d14d49c4040 (Antoine du Hamel) #66601\n[2d87c56f37] - (SEMVER-MAJOR) deps: V8: cherry-pick 19173cde61d8 (Joyee Cheung) #66601\n[2589e42f48] - (SEMVER-MAJOR) deps: V8: cherry-pick 95626c699ff2 (Joyee Cheung) #66601\n[0e2f479a0c] - (SEMVER-MAJOR) deps: V8: cherry-pick 99ebeac9c548 (Joyee Cheung) #66601\n[c1e280b773] - (SEMVER-MAJOR) deps: V8: cherry-pick b2fc93f37507 (Joyee Cheung) #66601\n[66f9d2e907] - (SEMVER-MAJOR) deps: V8: cherry-pick e10d795bfe95 (Joyee Cheung) #66601\n[fc2b3fb0d0] - (SEMVER-MAJOR) deps: V8: cherry-pick 5dfeb2e42380 (Joyee Cheung) #66601\n[5fb4242977] - (SEMVER-MAJOR) deps: V8: cherry-pick 415b7d302d2e (Joyee Cheung) #66601\n[cb9469250e] - (SEMVER-MAJOR) deps: patch V8 to avoid duplicated zlib symbol (Michaël Zasso) #66601\n[415fe6e55e] - (SEMVER-MAJOR) deps: update Rust crates for V8 15.6.75.13 (Joyee Cheung) #66601\n[826df076a3] - (SEMVER-MAJOR) deps: update V8 to 15.6.75.13 (Joyee Cheung) #66601\n[18b117b30f] - (SEMVER-MAJOR) deps: patch V8 to fix Windows build (StefanStojanovic) #66537\n[87c1b1cfb4] - (SEMVER-MAJOR) deps: support madvise(3C) across ALL illumos revisions (Dan McDonald) #66537\n[5fb74d16f9] - (SEMVER-MAJOR) deps: patch V8 for illumos (Dan McDonald) #66537\n[ea41e655f3] - (SEMVER-MAJOR) deps: define V8_PRESERVE_MOST as no-op on Windows (Stefan Stojanovic) #66537\n[a633547d9c] - (SEMVER-MAJOR) deps: patch V8 to avoid duplicated zlib symbol (Michaël Zasso) #66537\n[bae4e709b8] - (SEMVER-MAJOR) deps: V8: cherry-pick 1246d3bfab1a (Joyee Cheung) #66537\n[a9cc80dd34] - (SEMVER-MAJOR) deps: V8: cherry-pick 00508c374a45 (Joyee Cheung) #66537\n[801d1c7a39] - (SEMVER-MAJOR) deps: V8: backport 9fb4444bfc46 (Steven R. Loomis) #66537\n[938487505f] - (SEMVER-MAJOR) deps: V8: cherry-pick 786c1c2d88d4 (Eliau Elkouby) #66537\n[e7db809",
+          "category": "tech",
+          "publishedAt": "2026-10-29T19:52:29.000Z",
+          "language": "en"
+        },
+        {
+          "title": "\nVovk.ts – Turn Next.js route handlers into MCP tools and typed clients\n",
+          "titleKo": "Vovk.ts – Next.js 라우트 핸들러를 MCP 도구와 타입된 클라이언트로 변환",
+          "summary": "Next.js 라우트 핸들러를 Model Context Protocol(MCP) 도구로 변환하고 타입된 클라이언트를 생성하는 라이브러리입니다.",
+          "keyPoints": [
+            "Next.js 라우트 핸들러를 MCP 표준 도구로 자동 변환",
+            "타입 안전성을 보장하는 클라이언트 생성 기능"
+          ],
+          "whyItMatters": "AI 에이전트와 Next.js 백엔드를 연결할 때 표준화되고 타입 안전한 인터페이스를 제공합니다.",
+          "url": "\nhttps://vovk.dev\n",
+          "sourceName": "Echo JS",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "typescript"
+          ],
+          "relevance": 75,
+          "topicId": "nextjs-tools",
+          "isTopicPrimary": true,
+          "slug": "vovkts-turn-nextjs-route-handlers-into-mcp-tools-and-typed-clients",
+          "category": "tech",
+          "publishedAt": "2026-10-30T02:25:23.344Z",
+          "language": "en"
+        },
+        {
+          "title": "CopilotKit/OpenBot (TypeScript)",
+          "titleKo": "CopilotKit/OpenBot (TypeScript)",
+          "summary": "각각 독립적인 컴퓨터(브라우저, 파일, 도구)를 가진 오픈소스 AI 동료 에이전트로, 모든 동작이 실행 전에 결정되고 실행 후 기록됩니다.",
+          "keyPoints": [
+            "각 에이전트가 독립적인 브라우저와 파일 시스템, 도구에 접근 가능",
+            "모든 동작의 투명성과 추적성 보장",
+            "AG-UI 에이전트 프레임워크 지원"
+          ],
+          "whyItMatters": "개발자는 이 라이브러리를 통해 신뢰할 수 있고 추적 가능한 AI 워크플로우를 구현할 수 있습니다.",
+          "url": "https://github.com/CopilotKit/OpenBot",
+          "sourceName": "GitHub Trending",
+          "engagement": 8198,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "relevance": 62,
+          "topicId": "ai-agent-frameworks",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "copilotkitopenbot-typescript",
+          "category": "tech",
+          "publishedAt": "2026-10-30T02:25:31.585Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        },
+        {
+          "title": "\nFull port of CossUI components to Svelte\n",
+          "titleKo": "CossUI 컴포넌트의 Svelte 완전 포팅",
+          "summary": "UI 컴포넌트 라이브러리 CossUI가 Svelte 프레임워크로 완전히 포팅되었습니다.",
+          "keyPoints": [
+            "CossUI 컴포넌트 라이브러리의 Svelte 버전 출시"
+          ],
+          "whyItMatters": "Svelte 개발자들이 CossUI의 디자인 시스템과 컴포넌트를 자신의 프로젝트에서 사용할 수 있습니다.",
+          "url": "\nhttps://cossui-svelte.com/\n",
+          "sourceName": "Echo JS",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 72,
+          "topicId": "component-libraries",
+          "isTopicPrimary": false,
+          "slug": "full-port-of-cossui-components-to-svelte",
+          "category": "tech",
+          "publishedAt": "2026-10-30T02:25:23.344Z",
+          "language": "en"
+        },
+        {
+          "title": "Show HN: Auto Dismiss Mac OS \"Allow <app> to find devices on local networks?\"",
+          "titleKo": "macOS '로컬 네트워크 접근 허용' 팝업, 자동으로 꺼버리는 도구 dontallow",
+          "summary": "macOS Sequoia 이후 반복적으로 뜨는 '로컬 네트워크에서 기기 찾기 허용' 팝업은 Chromium 브라우저의 임시 경로 복사, 버전별 설치 경로, 잘못된 귀속 등으로 인해 권한 결정이 제대로 기억되지 않아 발생합니다. dontallow는 Accessibility API로 이 팝업을 감지해 자동으로 '허용 안 함'을 눌러주는 경량 Swift 에이전트로, 필요한 앱은 일시정지나 허용 목록으로 예외 처리할 수 있습니다. MDM 환경에서는 PPPC 프로파일로 Accessibility 권한을 사전 부여해 조직 전체에 배포할 수도 있습니다.",
+          "keyPoints": [
+            "Chromium 계열 브라우저는 실행마다 번들을 랜덤 임시 경로로 복사해, macOS가 매번 새 앱으로 인식하고 권한 팝업을 반복 표시한다.",
+            "dontallow는 UserNotificationCenter 창 생성을 감지해 Accessibility press 액션(실패 시 합성 클릭)으로 '허용 안 함'만 자동으로 누르며, '허용'은 절대 선택하지 않는다.",
+            "실제 로컬 네트워크 접근이 필요한 앱은 pause 명령, allowlist 파일, 시스템 설정 토글 세 가지 방법으로 예외 처리 가능하다.",
+            "MDM으로는 로컬 네트워크 권한 자체를 사전 설정할 수 없지만 Developer ID 서명 + PPPC 프로파일로 Accessibility 권한을 미리 부여해 기업 환경에 배포할 수 있다.",
+            "바이너리 업데이트마다 코드 서명이 바뀌어 Accessibility 권한을 재등록해야 하는 한계가 있으며, 현재는 영어 로케일 macOS 15 이상만 지원한다."
+          ],
+          "whyItMatters": "macOS를 개발 환경으로 쓰는 프론트엔드 개발자라면 브라우저나 로컬 개발 도구에서 반복되는 이 팝업으로 업무 흐름이 끊기는 경험이 흔한데, 이 도구는 시스템 내부 동작 원리를 이해하고 Accessibility API로 깔끔하게 해결한 좋은 사례입니다.",
+          "article": "macOS Sequoia부터 등장한 \"로컬 네트워크에서 기기를 찾도록 허용하시겠습니까?\" 팝업은 한 번 설정하면 기억되어야 정상이지만, 실제로는 같은 앱에서 매번 다시 뜨는 경우가 많습니다. 이 문제를 겪던 개발자가 아예 이 팝업을 자동으로 \"허용 안 함\"으로 처리해주는 작은 macOS 에이전트 `dontallow`를 만들어 Hacker News에 공개했는데요, 왜 이런 현상이 생기는지와 함께 그 구조를 살펴보겠습니다.\n\n## 왜 로컬 네트워크 팝업이 계속 뜨는가\n\nmacOS는 앱이 처음 로컬 네트워크에 접근할 때 이 권한 팝업을 띄우고, 사용자의 선택을 기억해야 합니다. 하지만 다음과 같은 이유로 그 \"기억\"이 제대로 작동하지 않는 경우가 흔합니다.\n\n- **Chromium 계열 브라우저(Chrome, Brave, Edge, Island, Arc)**는 실행할 때마다 앱 번들 자체를 임시 폴더의 랜덤 경로로 복사합니다. 코드 서명을 그대로 유지하면서 인플레이스 업데이트를 지원하기 위한 방식인데, macOS는 로컬 네트워크 권한 결정을 이 랜덤 경로에 연동시킵니다. 결과적으로 다음 실행 시에는 완전히 새로운 앱으로 인식되어 다시 팝업이 뜨고, 개인정보 보호 설정에는 더 이상 아무것도 가리키지 않는 중복된 \"Google Chrome.app\" 항목이 계속 쌓입니다.\n- **버전별 설치 경로를 쓰는 앱**(`.../versions/1.2.3/` 형태)도 업데이트할 때마다 새로운 항목이 생깁니다.\n- **잘못된 귀속(misattribution)** 문제도 있습니다. macOS가 \"책임자\"로 판단한 앱에 팝업을 고정시키다 보니, 실제로는 실행 중이지도 않은 앱에 대해 팝업이 뜨기도 합니다.\n\n물론 이 권한이 실제로 필요한 경우도 있습니다. 브라우저나 미디어 플레이어의 Chromecast/AirPlay 탐색, 게임의 LAN 멀티플레이어, 프린터·스캐너 유틸리티 등이 대표적입니다. 이런 기능을 쓴다면 해당 순간에만 허용하면 되고, 앱의 경로가 안정적이기만 하면 그 선택은 계속 유지됩니다. 반대로 그 기능을 전혀 쓰지 않는다면 애초에 물어볼 필요도 없는 셈입니다.\n\n문제는 이 목록을 정리할 공식적인 방법이 없다는 점입니다. MDM으로 권한을 미리 거부하도록 설정할 수도 없고, `tccutil reset`도 이 항목을 건드리지 못합니다. 그래서 나온 해결책이 사용자 대신 매번 \"아니오\"를 눌러주는 작은 에이전트, `dontallow`입니다.\n\n## 설치와 기본 동작\n\n설치는 Homebrew 또는 직접 빌드 두 가지 방법을 지원합니다.\n\n```\nbrew install johncassil/tap/dontallow # or: make && make install\ndontallow install\n```\n\n`dontallow install`을 실행하면 사용자별 launchd 에이전트를 생성하고 바로 시작한 뒤, 시스템 설정의 개인정보 보호 및 보안 > 손쉬운 사용 화면을 자동으로 열어줍니다. 만약 macOS가 자동으로 권한 요청 창을 띄우지 않으면, 추가해야 할 정확한 경로를 터미널에 출력해줍니다. 여기서 \"손쉬운 사용(Accessibility)\" 권한이 필요한 이유는, 이 권한이 있어야 에이전트가 팝업의 버튼을 실제로 누를 수 있기 때문입니다. 설치 과정은 권한이 부여될 때까지 대기한 뒤 에이전트가 정상 작동 중임을 확인해줍니다. 권한이 빠져 있으면 `dontallow status` 명령으로 언제든 다시 안내를 받을 수 있습니다.\n\n## 사용 가능한 명령어\n\n| 명령 | 동작 |\n|---|---|\n| `dontallow status` | 에이전트 상태, 일시정지 상태, 허용 목록, 최근 닫힌 팝업 내역 표시 |\n| `dontallow pause [1h]` | 일정 시간 동안 팝업을 건드리지 않음 (30m, 2h, 1d, forever) |\n| `dontallow resume` | 다시 자동으로 닫기 시작 |\n| `dontallow rules` | 시스템의 로컬 네트워크 규칙 저장소를 해석해, 각 개인정보 보호 항목이 실제로 무엇인지(고아 항목 포함) 보여줌 |\n| `dontallow uninstall` | 에이전트 중지 및 제거 |\n| `dontallow run --dry-run` | 포그라운드에서 동작을 로그로만 남기고 실제 클릭은 하지 않음 |\n\n팝업을 닫을 때마다 해당 앱 이름과 일시정지 명령어를 알려주는 알림이 뜨기 때문에, 끄는 방법을 따로 외워둘 필요는 없습니다. 알림 자체가 거슬린다면 시스템 설정에서 음소거할 수 있습니다.\n\n## 실제로 권한이 필요한 앱을 다룰 때\n\n앱이 정말로 로컬 네트워크 접근이 필요한 상황이라면 세 가지 방법 중 하나를 선택하면 됩니다.\n\n1. `dontallow pause 10m`으로 잠시 멈춘 뒤, 앱을 실행해 직접 \"허용\"을 클릭합니다.\n2. `~/.config/dontallow/allowlist` 파일에 앱 이름을 한 줄씩 추가합니다(대소문자 구분 없는 부분 일치). 목록에 포함된 앱의 팝업은 아예 건드리지 않습니다.\n3. 시스템 설정 > 개인정보 보호 및 보안 > 로컬 네트워크에서 직접 토글을 켭니다. 참고로 `dontallow`가 닫은 팝업은 \"거부\"로 기록되므로, 여기서 언제든 되돌릴 수 있습니다.\n\n또한 `~/.config/dontallow/grace`에 초 단위 값을 설정하면, 에이전트가 자동으로 버튼을 누르기 전에 사용자가 직접 클릭할 수 있는 유예 시간을 둘 수 있습니다(기본값 0.25초).\n\n## 동작 원리\n\n이 팝업은 시스템 프로세스인 `UserNotificationCenter`가 소유한 창입니다. `dontallow`는 이 프로세스의 창 생성 이벤트에 대해 Accessibility 옵저버를 등록하고, 이벤트가 발생할 때까지 대기합니다. 창이 뜨면 다이얼로그 텍스트를 읽어 그것이 정말 로컬 네트워크 관련 팝업인지(다른 종류의 팝업이 아닌지) 확인하고, 일시정지 상태와 허용 목록을 체크한 뒤 Accessibility API로 \"허용 안 함\" 버튼에 대해 press 액션을 수행합니다. 만약 이 press 액션이 거부되면, 버튼 위치를 좌표로 계산해 합성 클릭(synthetic click)으로 대체합니다.\n\n중요한 점은 이 도구가 시스템 파일을 절대 수정하지 않고, 어떤 보호 기능도 비활성화하지 않으며, 한 번도 \"허용\"을 선택하지 않는다는 점입니다. 오직 \"허용 안 함\"만 누릅니다.\n\n## 관리형 Mac(기업 환경)에서의 적용\n\n로컬 네트워크 권한은 MDM으로 미리 설정할 수 없지만, Accessibility 권한은 가능합니다. 조직 단위로 배포하려면 바이너리를 한 번 빌드하고 Developer ID로 서명한 뒤, 해당 코드 요구사항(code requirement)에 Accessibility 권한을 부여하는 PPPC(Privacy Preferences Policy Control) 프로파일과 함께 배포하면 됩니다. 이후 각 사용자별로 `dontallow install`만 실행하면 되고, 수동으로 시스템 설정을 건드릴 필요가 없습니다.\n\n## 업그레이드 이후 주의사항\n\nAccessibility 권한 부여는 바이너리의 코드 서명에 연동되는데, `brew upgrade`를 포함한 모든 새 빌드는 새로운 서명을 만들어냅니다. 업그레이드 후에는 `dontallow status`로 상태를 확인하고, 권한이 빠졌다고 나오면 Accessibility 설정에서 기존 `dontallow` 항목을 지운 뒤 출력된 경로로 다시 추가해야 합니다. 그러면 에이전트가 10초 이내에 자동으로 다시 연결됩니다. 향후 Developer ID로 서명된 릴리스가 나오면 이 수동 단계는 사라질 예정입니다.\n\n## 테스트와 호환성\n\n`make test`로 실행하는 단위 테스트는 다이얼로그 텍스트 파싱, 기간·일시정지 파싱, 허용 목록 매칭, launchd plist 생성, 그리고 픽스처 아카이브를 대상으로 한 로컬 네트워크 규칙 디코더 등 순수 로직을 검증합니다. 순정 `swiftc`만으로 빌드되며 Xcode나 SwiftPM이 필요 없습니다. 실제 팝업에 실제로 버튼을 누르는 엔드투엔드 테스트는 Accessibility 권한이 부여된 실제 Mac에서만 확인할 수 있고, 수동 테스트 절차는 `Tests/INTEGRATION.md`에 정리되어 있습니다.\n\n호환성 측면에서는 Apple Command Line Tools만으로 빌드 가능하며(Xcode 불필요), Apple Silicon과 Intel 모두에서 Homebrew가 네이티브로 컴파일합니다. 빌드는 macOS 13 이상에서 가능하지만, 팝업 자체는 macOS 15 Sequoia 이상에서만 존재합니다. 현재까지는 Intel, macOS 26.6 환경에서 테스트되었고, 다른 버전에서의 사용 후기도 환영한다고 밝히고 있습니다. 다만 아직은 영어 로케일 macOS만 지원합니다. 매칭 로직이 다이얼로그 텍스트와 \"Don't Allow\" 버튼 제목에 의존하기 때문인데, 현지화된 문자열 지원은 계획 중입니다. 라이선스는 MIT입니다.\n\n## 정리\n\n- macOS의 로컬 네트워크 접근 팝업은 Chromium 계열 브라우저의 임시 경로 복사, 버전별 설치 경로, 잘못된 귀속 등의 이유로 \"기억\"이 제대로 작동하지 않아 반복적으로 등장하는 경우가 많습니다.\n- `dontallow`는 Accessibility API를 이용해 이 팝업을 감지하고 자동으로 \"허용 안 함\"을 눌러주는 경량 Swift 에이전트로, 유휴 시 CPU 사용량이 0이고 재부팅 후에도 유지됩니다.\n- 정말 로컬 네트워크 접근이 필요한 앱(Chromecast, AirPlay, LAN 멀티플레이어 등)은 일시정지, 허용 목록, 시스템 설정 토글 세 가지 방법으로 예외 처리할 수 있습니다.\n- MDM으로 로컬 네트워크 권한 자체는 사전 설정할 수 없지만, Developer ID 서명과 PPPC 프로파일을 활용하면 조직 단위로 Accessibility 권한을 미리 부여해 수동 설정 단계를 없앨 수 있습니다.\n- 바이너리를 업데이트할 때마다 코드 서명이 바뀌어 Accessibility 권한을 다시 등록해야 하는 번거로움이 있으며, 이는 향후 Developer ID 서명 릴리스로 해결될 예정입니다.",
+          "url": "https://github.com/johncassil/dontallow",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 103,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 62,
+          "isTopicPrimary": true,
+          "slug": "show-hn-auto-dismiss-mac-os-allow-app-to-find-devices-on-local-networks",
+          "fullContent": "dontallow\nAuto-dismisses the macOS prompt:\nAllow \"Google Chrome\" to find devices on local networks?\nThis will allow the app to discover, connect to, and collect data from devices on your networks.\nIt presses Don't Allow for you, within a fraction of a second, every time. Zero CPU while idle. Survives reboots. Two short Swift files, no dependencies.\nWhy this exists\nmacOS (Sequoia and later) shows this prompt the first time an app touches the local network. The decision is supposed to be remembered. For many apps it isn't, so the prompt comes back on every launch, often for apps you aren't even using:\nChromium browsers (Chrome, Brave, Edge, Island, Arc) copy their own app bundle into a random temp folder at launch so the code signature survives in-place updates. macOS keys the Local Network decision to that random path, so the next launch looks like a brand-new app. Your Privacy settings fill up with duplicate \"Google Chrome.app\" rows that no longer point at anything.\nApps with versioned install paths (anything that installs into .../versions/1.2.3/) get a new row per update.\nMisattributed prompts. macOS pins the dialog on whichever app it decides is \"responsible\", so you'll see prompts for apps that aren't running.\nSome apps do legitimately use this permission: Chromecast and AirPlay discovery in browsers and media players, LAN multiplayer in games, printer and scanner utilities. If you use one of those features, answer Allow for that app (dontallow pause 10m while you do), and it's remembered as long as the app's path is stable. If you never use them, you never need to be asked.\nThere is no supported way to prune the list, no MDM payload to pre-deny the permission, and tccutil reset doesn't cover it. So: a small agent that answers \"no\" for you.\nInstall\nbrew install johncassil/tap/dontallow # or: make && make install\ndontallow install\ndontallow install writes a per-user launchd agent, starts it, opens System Settings > Privacy & Security > Accessibility, and prints the exact path to add if macOS doesn't prompt you. Accessibility is the permission that lets it press the button. It waits for the grant and confirms when the agent is active. dontallow status repeats the instructions any time the grant is missing.\nUse\nCommand\nWhat it does\ndontallow status\nAgent state, pause state, allowlist, recent dismissals\ndontallow pause [1h]\nLeave prompts alone for a while (30m, 2h, 1d, forever)\ndontallow resume\nDismiss again\ndontallow rules\nDecode the system's Local Network rule store and show what each Privacy row really is, including orphans\ndontallow uninstall\nStop and remove the agent\ndontallow run --dry-run\nForeground, log what it would do, press nothing\nEach dismissal posts a notification naming the app and the pause command, so you never have to remember how to turn it off. Mute the notification in System Settings if you'd rather not see it.\nWhen an app really does need local network access\nThree options, pick whichever fits:\ndontallow pause 10m, then launch the app and click Allow yourself.\nAdd the app's name to ~/.config/dontallow/allowlist (one per line, case-insensitive substring). Prompts for it are never touched.\nFlip the toggle in System Settings > Privacy & Security > Local Network. A dismissed prompt records a deny, which you can reverse there.\nSet ~/.config/dontallow/grace to a number of seconds if you want a window to click Allow before the agent does (default 0.25).\nHow it works\nThe prompt is a window owned by the system process UserNotificationCenter. dontallow registers an Accessibility observer for window creation on that process and sleeps until one fires. It reads the dialog text, confirms it's a local network prompt and not something else, checks pause and allowlist, and performs the Accessibility press action on the Don't Allow button. If the press is refused it falls back to a synthetic click at the button's location.\nIt never modifies system files, never disables protections, and never chooses Allow.\nManaged Macs\nLocal Network cannot be pre-set by MDM, but Accessibility can. For a fleet: build once, sign with a Developer ID, ship the binary plus a PPPC (Privacy Preferences Policy Control) profile granting Accessibility to its code requirement, and run dontallow install per user. No manual Settings step.\nAfter upgrading\nmacOS keys the Accessibility grant to the binary's code signature, and every build (including brew upgrade) produces a new one. After an upgrade run dontallow status. If it says the grant is missing, remove the dontallow row in Accessibility settings and add it back from the path it prints. The agent re-attaches on its own within ten seconds. A future release signed with a Developer ID will remove this step.\nTests\nmake test\nUnit tests cover the pure logic (dialog text parsing, duration and pause parsing, allowlist matching, launchd plist generation, and the Local Network rule decoder against a fixture archive). They build with plain swiftc and need no Xcode or SwiftPM. The end-to-end path (a real prompt, a real press) can only be checked on a Mac with Accessibility granted; the manual recipe is in Tests/INTEGRATION.md.\nCompatibility\nBuilds with Apple's Command Line Tools alone. Xcode is not required.\nApple Silicon and Intel: Homebrew compiles natively on each.\nmacOS 13 or later to build; the prompt itself only exists on macOS 15 Sequoia and later.\nTested so far: Intel, macOS 26.6. Reports from other versions welcome.\nEnglish-localized macOS only for now. The matcher keys on the dialog text and the \"Don't Allow\" button title; localized strings are planned.\nLicense\nMIT",
+          "category": "tech",
+          "publishedAt": "2026-10-29T19:27:44.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "milind-soni/OpenMausBot (TypeScript)",
+          "titleKo": "milind-soni/OpenMausBot (TypeScript)",
+          "summary": "봇이 사용할 수 있는 가상 머신을 제공하는 오픈소스 Grok Bot 대안입니다.",
+          "keyPoints": [
+            "가상 머신 기반의 에이전트 실행 환경 제공",
+            "Grok Bot의 오픈소스 대체 구현"
+          ],
+          "whyItMatters": "개발자가 AI 에이전트를 격리된 환경에서 안전하게 실행하고 제어할 수 있습니다.",
+          "url": "https://github.com/milind-soni/OpenMausBot",
+          "sourceName": "GitHub Trending",
+          "engagement": 7542,
+          "contentType": "repo",
+          "labels": [
+            "typescript",
+            "ai"
+          ],
+          "relevance": 58,
+          "topicId": "ai-agent-frameworks",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "milind-soniopenmausbot-typescript",
+          "category": "tech",
+          "publishedAt": "2026-10-30T02:25:31.584Z",
+          "language": "en",
+          "tags": [
+            "github",
+            "TypeScript"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "This Week In React 302",
+          "titleKo": "This Week In React 302",
+          "summary": "React, Next.js, React Router 등 프론트엔드 생태계의 주간 뉴스를 다루며, React Native 0.88, Expo 58 등 모바일 개발 소식과 TypeScript, Astro 등 개발 도구 업데이트를 포함합니다.",
+          "keyPoints": [
+            "Next.js, React Router, DevTools, shadcn 등 React 생태계 주요 소식 정리",
+            "React Native 0.88과 Expo 58의 새로운 기능 및 업데이트 소개",
+            "TypeScript, Rsdoctor, Astro 등 개발 도구 및 언어 관련 소식 포함"
+          ],
+          "whyItMatters": "React 및 관련 생태계의 최신 트렌드와 업데이트를 빠르게 파악할 수 있습니다.",
+          "url": "https://substack.thisweekinreact.com/p/this-week-in-react-302",
+          "sourceName": "This Week In React",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 82,
+          "topicId": "react-newsletter",
+          "isTopicPrimary": true,
+          "relatedCount": 1,
+          "slug": "this-week-in-react-302",
+          "category": "insight",
+          "publishedAt": "2026-10-23T12:40:03.000Z",
+          "language": "en"
+        },
+        {
+          "title": "The Web Can't Afford a JavaScript Runtime Monoculture",
+          "titleKo": "웹은 JavaScript 런타임 단일문화를 감당할 수 없다",
+          "summary": "JavaScript 런타임 시장의 다양성과 대안 런타임의 필요성에 대한 RedMonk의 분석 글입니다.",
+          "keyPoints": [
+            "JavaScript 런타임 생태계의 단일문화 문제점 지적"
+          ],
+          "whyItMatters": "Deno, Bun 등 다양한 런타임의 중요성과 선택지의 가치를 이해할 수 있습니다.",
+          "url": "https://redmonk.com/kholterhoff/2026/10/27/js-runtime-monoculture/",
+          "sourceName": "Lobste.rs",
+          "contentType": "article",
+          "labels": [
+            "frontend",
+            "backend"
+          ],
+          "relevance": 72,
+          "topicId": "js-runtime",
+          "isTopicPrimary": true,
+          "slug": "the-web-cant-afford-a-javascript-runtime-monoculture",
+          "category": "insight",
+          "publishedAt": "2026-10-29T15:44:47.000Z",
+          "language": "en"
+        },
+        {
+          "title": "This Week In React 301",
+          "titleKo": "This Week In React 301",
+          "summary": "TanStack Start, React Aria, Base UI 등 React 생태계 소식과 React Native Web, Tamagui 등 크로스플랫폼 개발 도구 업데이트, Deno, Bun 등 런타임 및 도구 소식을 전달합니다.",
+          "keyPoints": [
+            "TanStack Start, React Aria, Base UI, Satori 등 주요 라이브러리 업데이트",
+            "React Native Web, Tamagui, Skia 등 크로스플랫폼 개발 관련 소식",
+            "Deno, Bun, TypeScript, Playwright, pnpm 등 개발 생태계 동향"
+          ],
+          "whyItMatters": "React 생태계의 신규 도구와 업데이트된 라이브러리 정보를 종합적으로 얻을 수 있습니다.",
+          "url": "https://substack.thisweekinreact.com/p/this-week-in-react-301",
+          "sourceName": "This Week In React",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 82,
+          "topicId": "react-newsletter",
+          "isTopicPrimary": false,
+          "relatedCount": 1,
+          "slug": "this-week-in-react-301",
+          "category": "insight",
+          "publishedAt": "2026-10-16T12:23:26.000Z",
+          "language": "en"
+        },
+        {
+          "title": "Design the interface for functionality not familiarity",
+          "titleKo": "익숙함이 아니라 기능에 맞춰 인터페이스를 설계하라: 터치스크린 Mac 논쟁",
+          "summary": "이 글은 애플이 터치스크린 Mac 도입을 '젊은 사용자들이 터치를 기대한다'는 이유로 정당화하려는 움직임을 비판하는 에세이입니다. 터치스크린 자동차의 실패 사례와 아이폰 터치스크린 채택의 물리적 배경을 근거로, 단순히 익숙하다는 이유로 인터페이스를 설계하는 것의 위험성을 지적합니다. 필자는 Mac의 전통적인 키보드+포인팅 디바이스 인터페이스가 대부분의 작업에서 더 생산적이며, 터치 습관은 얼마든지 교정 가능하다고 주장합니다.",
+          "keyPoints": [
+            "터치스크린 자동차는 운전자 주의 분산과 안전 문제로 실패 사례로 지적되고 있으며, 이는 터치가 만능 인터페이스가 아님을 보여줍니다.",
+            "아이폰의 터치스크린 채택은 작은 기기 크기라는 물리적 제약에서 나온 합리적 선택이었지만, 이 논리가 더 큰 화면의 Mac에도 그대로 적용되지는 않습니다.",
+            "애플 마케팅 수석부사장은 '터치를 기대하는 젊은 세대'를 터치스크린 Mac의 근거로 들었지만, 필자는 습관은 교정 가능하며 그래야 한다고 반박합니다.",
+            "Mac의 물리 키보드와 간접 포인팅 장치 기반 인터페이스는 대부분의 생산적 작업에서 터치스크린보다 우월하다고 주장합니다.",
+            "Hacker News의 일화를 인용해, 터치스크린 없는 노트북에 불만을 표하던 사용자도 일주일 만에 적응하고 더 이상 터치스크린을 원하지 않게 된 사례를 소개합니다."
+          ],
+          "whyItMatters": "플랫폼 간 익숙한 UI 패턴을 그대로 이식하려는 유혹은 프론트엔드 설계에서도 흔한데, 이 글은 '익숙함'보다 '기능과 맥락에 맞는 설계'를 우선해야 한다는 인터페이스 설계 원칙을 다시 생각하게 합니다.",
+          "article": "터치스크린 자동차가 운전자들의 원성을 사고 있다는 소식은 이미 여러 매체에서 다뤄진 바 있습니다. 그런데 최근 애플 마케팅 수석부사장 그레그 조스위악(Greg Joswiak)이 Wired와의 인터뷰에서 \"터치를 기대하는 젊은 세대\"를 언급하며 터치스크린 Mac의 필요성을 시사했습니다. 이 글은 \"사용자가 익숙하다\"는 이유만으로 인터페이스를 설계하는 것이 얼마나 위험한 발상인지, 자동차 업계의 실패 사례와 Mac의 역사를 근거로 반박하는 에세이입니다.\n\n## 터치스크린 자동차가 보여준 교훈\n\n자동차 제조사들은 최근 몇 년간 물리 버튼과 다이얼을 터치스크린으로 대거 교체해왔습니다. 결과는 썩 좋지 않았습니다. Popular Mechanics와 The Conversation 등 여러 매체가 터치스크린이 운전자의 주의를 분산시켜 실제로 위험한 수준이라고 보도했습니다. 미국 어퍼 미드웨스트 지역에 거주하며 겨울철 장갑을 끼고 운전하는 필자는 \"아마 터치스크린 아이디어는 디트로이트보다 따뜻한 지역에서 나왔을 것\"이라고 꼬집습니다. 장갑을 낀 손으로는 정전식 터치스크린을 제대로 조작할 수 없기 때문입니다.\n\n스마트폰의 보급으로 터치 인터페이스에 대한 '익숙함'은 이제 거의 보편적인 상식이 됐습니다. 하지만 자동차 사례가 보여주듯, 익숙함이 곧 최선의 인터페이스를 의미하지는 않습니다. 오히려 \"익숙함이 경멸을 낳는다(familiarity breeds contempt)\"는 표현이 더 적절할 수 있습니다.\n\n## 아이폰의 터치스크린은 '물리적 제약'에서 나온 선택이었다\n\n아이폰에 터치스크린을 도입한 결정은 당시 기기의 물리적 한계에서 비롯된 합리적 선택이었습니다. 역대 가장 큰 아이폰이라는 신형 iPhone Duo조차 펼쳤을 때 가장 작은 MacBook보다 훨씬 작습니다. 2007년 초대 아이폰은 말할 것도 없이 MacBook에 비하면 손바닥만 한 크기였습니다. 물리 키보드를 탑재하려면 그만큼 화면이 작아질 수밖에 없는데, 제조사들은 화면 크기를 극대화하기 위해 물리 키보드를 과감히 없애고 소프트웨어 키보드를 포함한 터치 인터페이스에 전적으로 의존하는 방향을 택했습니다. 이 맥락에서 터치스크린 도입은 충분히 설득력 있는 결정이었습니다.\n\n## Mac 화면을 터치하려 한 적이 없다\n\n필자는 iMac, Mac Pro, Mac mini, MacBook Pro, iPhone, iPad 등 애플의 다양한 기기를 오랫동안 사용해왔지만, 단 한 번도 — 무의식중에라도 — Mac 화면을 손가락으로 터치해 조작하려 시도한 적이 없다고 말합니다. 그런 습관 자체가 생기지 않았다는 것입니다.\n\n반면 스마트폰이나 태블릿 같은 터치스크린 기기만 써온 많은 사람들은 처음 Mac을 접했을 때 습관적으로 화면을 터치해 조작하려 합니다. 이 '습관'이야말로 터치스크린 Mac을 옹호하는 이들이 내세우는 핵심 근거입니다. 실제로 조스위악은 Wired 인터뷰에서 \"우리 MacBook Pro를 사용하는 젊은 창작자, 젊은 세대는 터치를 기대한다\"고 말했습니다.\n\n필자는 이런 '기대'를 터치스크린 Mac 도입의 근거로 삼는 것이 \"끔찍한 이유\"라고 단언합니다. 화면을 터치하려는 습관은 얼마든지 고칠 수 있고, 고칠 가치가 있다는 것입니다. 대부분의 작업에서 키보드와 간접 포인팅 장치(마우스 또는 트랙패드)로 구성된 전통적인 Mac 인터페이스가 iPhone이나 iPad의 터치스크린보다 훨씬 강력하고 생산적이기 때문입니다.\n\n## 애플의 시가총액이 정당성을 보장하지는 않는다\n\n애플의 어마어마한 시가총액(AAPL)을 근거로 조스위악의 의견이 자신의 의견보다 옳다고 주장하기 전에, 애플이 그동안 어떤 회사였는지 돌아볼 필요가 있다고 필자는 지적합니다. 쓰레기통 모양의 Mac Pro, Touch Bar, 버터플라이 키보드, Liquid Glass, 그리고 트럼프에게 금 조각상을 선물한 일까지 — 애플은 논란의 여지가 있는 결정을 숱하게 내려온 회사입니다. 필자는 터치스크린 Mac의 미래 수익성에 대해 어떤 주장도 하지 않는다고 선을 그으며, 다만 이것이 \"형편없는 설계\"라고 생각할 뿐이라고 밝힙니다.\n\n## \"변화에 저항한다\"는 조롱, 그리고 역설\n\n스마트폰 시대 이전에 컴퓨터를 접한 필자 같은 사람들은 종종 \"변화에 저항하는 사람\"이라고 조롱받습니다. 하지만 정작 필자는 iPhone과 (키보드 없는) iPad 사용법도 익혀왔습니다. 그렇다면 스마트폰 시대에 컴퓨터를 접한 사람들은 왜 Mac 사용법을 배우지 못한다는 것일까요?\n\n필자는 올해 초 작성한 자신의 블로그 글 \"If computers are the future, why are computer users expected to be permanently illiterate?\"의 내용을 인용합니다. MacBook Pro는 iPhone보다 부피가 크고 손이나 주머니에 들어가지 않는다는 단점이 있지만, 이를 상쇄하고도 남는 장점들이 있다는 것입니다. 더 큰 화면, 물리 키보드, 그리고 덜 제한적인 운영체제 덕분에 Mac 사용자는 iPhone이나 iPad에서보다 훨씬 수월하게 동일한 작업을 수행할 수 있을 뿐 아니라, 애초에 iPhone이나 iPad에서는 불가능한 작업까지 해낼 수 있습니다.\n\n새로운 사용자에게 Mac을 소개하면서 \"예전에 쓰던 익숙한 기기와 똑같은 방식으로 쓰라\"고 가르치는 것은 하드웨어와 소프트웨어 모두에서 엄격한 제약을 받는 과거 경험에 사용자를 가두는 꼴이라고 필자는 지적합니다. 기능적으로도 그렇지만 재정적으로도 아까운 일인데, Mac은 평균적으로 iOS 기기보다 가격이 높고 실질 수명도 더 길기 때문입니다.\n\n## 자전거의 보조바퀴 비유\n\n스티브 잡스는 아이폰이 나오기 훨씬 전, 컴퓨터를 \"마음을 위한 자전거(bicycles for our mind)\"라고 불렀습니다. 필자는 Mac에 터치스크린을 추가하는 것이 이 자전거에 보조바퀴를 다는 것과 같다고 비유합니다. 어떤 아이들에게는 보조바퀴가 일시적으로 필요하지만, 궁극적인 목표는 보조바퀴를 '졸업'하는 것이지 그것에 '익숙해지는' 것이 아닙니다. 보조바퀴 없이 자전거를 타는 법을 배우는 어려움은 금세 보상받으며, 더 빠른 속도와 조작성을 가져다줍니다. 보조바퀴를 자전거의 미래라고 여기는 디스토피아가 과연 어디 있겠느냐고 필자는 반문합니다. (자동차에서 핸들을 없애는 것과 같은 디스토피아일 것이라고 덧붙이면서요.)\n\n## Hacker News의 숨은 증언\n\n글의 마지막에서 필자는 평소 Hacker News 댓글들이 수준이 낮은 편이지만, 가끔 \"진흙 속의 진주\" 같은 댓글이 있다며 하나를 인용합니다. 진위 여부를 직접 검증하지는 못했지만 논쟁거리로 삼을 만하다고 소개하는 내용입니다.\n\n> 친척에게 노트북을 사줬는데 터치스크린이 없다는 걸 몰랐다. 그들은 하루 종일 불평했고, 나는 그들이 화면을 터치해보려다 작동하지 않아 실망하는 모습을 자주 목격했다. 일주일 후 그들은 더 이상 그 얘기를 꺼내지 않았고 노트북을 잘 사용했다.\n>\n> 두 번째 노트북을 사줄 때 터치스크린이 필요한지 물었더니, 더 이상 신경 쓰지 않는다고 답했다. 그래서 두 번째 노트북도 터치스크린 없이 샀다.\n\n## 정리\n\n- 터치스크린은 모든 상황에 최적인 범용 인터페이스가 아닙니다. 자동차 업계의 사례가 보여주듯, 상황에 맞지 않는 터치스크린 도입은 사용성 저하와 실제 위험으로 이어질 수 있습니다.\n- 아이폰의 터치스크린 채택은 '작은 기기에서 화면을 최대화해야 한다'는 명확한 물리적 제약에서 비롯된 합리적 설계였지만, 이 논리를 그대로 MacBook 같은 더 큰 기기에 적용할 근거는 약합니다.\n- \"사용자가 터치를 기대한다\"는 습관·기대는 인터페이스 설계의 정당화 근거로 충분하지 않습니다. 습관은 형성되기도 하고 바뀌기도 하며, Hacker News 댓글 사례처럼 며칠이면 적응되는 경우도 많습니다.\n- Mac의 전통적 인터페이스(물리 키보드 + 간접 포인팅 장치)는 대부분의 생산적 작업에서 터치스크린보다 우월하며, 새로운 사용자에게 이를 제대로 가르치는 것이 오히려 더 나은 경험을 제공합니다.\n- 기업의 시장가치나 과거 성공이 특정 설계 결정의 타당성을 자동으로 보증하지 않습니다. 애플도 Touch Bar, 버터플라이 키보드 등 실패한 설계 사례를 여럿 남겼습니다.\n\n이 글은 프론트엔드 개발자에게도 시사하는 바가 있습니다. '사용자가 익숙해하니까', '다른 플랫폼에서 통용되는 패턴이니까'라는 이유만으로 UI 패턴을 이식하는 것이 항상 옳은 선택은 아니라는 점, 그리고 기능과 맥락에 맞는 인터페이스 설계가 익숙함을 좇는 설계보다 우선해야 한다는 원칙을 다시 생각하게 합니다.",
+          "url": "https://lapcatsoftware.com/articles/2026/10/10.html",
+          "sourceName": "Lobste.rs",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 60,
+          "isTopicPrimary": true,
+          "slug": "design-the-interface-for-functionality-not-familiarity",
+          "fullContent": "This blog post is about touch screen Macs, but I’ll start by talking about touch screen cars. Vehicle manufacturers have increasingly replaced physical controls in cars with touch screens, and it hasn’t gone well, because the touch screens frustrate drivers. As a resident of the Upper Midwest who drives wearing gloves in the winter, I suspect that the idea for touch screens came from somewhere warmer than the traditional home of the automotive industry, Detroit. For further reading on the serious, indeed dangerous problems with touch screens in cars, I found a couple of recent articles from Popular Mechanics and The Conversation.\nSmartphones have become ubiquitous, bringing ubiquitous familiarity with touch screen interfaces. Nonetheless, a touch screen is not the best interface for all purposes. In the case of cars, familiarity breeds contempt! The introduction of touch screens to smartphones was inspired by the physical limitations of the devices. The largest iPhone ever made, the new iPhone Duo, is still significantly smaller when unfolded than the smallest MacBook. Needless to say, the original 2007 iPhone was tiny compared to a MacBook. Mobile phones with a physical keyboard must have a correspondingly smaller screen, so manufacturers eliminated the physical keyboard to maximize screen size, relying entirely on a touch screen interface, including a software keyboard. In this case, touch screens were well motivated.\nOver the years I’ve owned many different computing devices of various sizes; from Apple: iMac, Mac Pro, Mac mini, MacBook Pro, iPhone, iPad. I’ve never once tried to control a Mac by touching its screen, not even absentmindedly. I simply never developed that habit. Many other people, however, when first introduced to a Mac, having only used touch screen computers such as smartphones and tablets, habitually attempt to control the Mac by touching its screen. This habit or expectation is cited as justification by defenders of touch screen Macs. In a Wired interview yesterday, Apple Senior Vice President of Worldwide Marketing Greg Joswiak said, “There’s a generation of young creators and young people using our MacBook Pros that expect to touch.” In my opinion, such an expectation is a terrible reason to introduce touch screen Macs. The habit of touching Mac screens can be broken and is worth breaking, because for most purposes the traditional Mac interface of a keyboard and indirect pointing device (mouse or trackpad) is so much more powerful and productive than the touch screen of an iPhone or iPad.\nBefore you cite the ungodly AAPL market capitalization as proof that Joz’s opinion trumps mine, consider how Apple is the same company that gave us howlers such as the trash can Mac Pro, Touch Bar, butterfly keyboard, Liquid Glass, and gave a gold statue to Trump. I’m not even making any claims about the future profitability of touch screen Macs. I just think it’s a poor design.\nIronically, people like me who were introduced to computers before the smartphone era are ridiculed as “resistant to change,” yet I’ve managed to learn how to use iPhones and iPads (the latter without a keyboard), so why can’t people who were introduced to computers during the smartphone era learn how to use Macs? Let me quote from a blog post I wrote earlier this year, If computers are the future, why are computer users expected to be permanently illiterate?\nA MacBook Pro is bulkier than an iPhone, can’t fit in your hand or your pocket. That’s a disadvantage. Thankfully, a MacBook Pro has many advantages that outweigh the disadvantages. The larger screen size, the physical keyboard, and the less restrictive operating system allow Mac users to perform the same tasks with vastly greater ease than on iPhone or iPad and, moreover, to perform tasks not even possible on iPhone or iPad. It’s a shame to introduce new users to Mac by telling them to use it in the same way they used their old familiar devices, which are strictly limited by both hardware and software. A Mac is a terrible thing to waste! Not only functionally but also financially, since Macs on average have higher prices and longer effective lifespans than iOS devices. Steve Jobs (long before iPhone) called computers “bicycles for our mind.” I feel that adding touch screens to Macs is like adding training wheels to our bicycles. Some kids are given training wheels temporarily, but the ultimate goal is to outgrow training wheels, not to grow into them. The difficulty of learning to ride a bike without training wheels pays off in short order, giving the rider greater speed and maneuverability. In what dystopia would we consider training wheels the future of biking? (I suppose the same dystopia that would remove the steering wheel from our cars.)\nIn general, Hacker News comments tend to be appalling. Occasionally, though, there’s a diamond in the rough. I’d like to end by quoting one of those. Admittedly, I haven’t independently verified the veracity of the comment, but it seems truthy enough to cite, at least as fodder for debate:\nI bought a laptop for a relative and didn't realise it doesn't have touchscreen. They complained for a day and I often saw them try to touch the screen and then being disappointed it doesn't work. Week later they never mentioned it again and use the laptop just fine.\nWhen I was buying them a second one and asked about touchscreen, they said they don't care anymore for it, so second laptop also was without touchscreen.",
+          "category": "insight",
+          "publishedAt": "2026-10-30T01:04:38.000Z",
+          "language": "en"
+        }
+      ]
+    }
+  ]
+}
