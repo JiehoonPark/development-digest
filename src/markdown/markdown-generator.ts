@@ -58,9 +58,6 @@ updated: ${archive.date}
 aliases: []
 ---
 
-> [!abstract]
-> ${archive.intro}
-
 `;
 
   for (const section of archive.sections) {

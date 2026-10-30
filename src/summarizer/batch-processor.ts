@@ -43,7 +43,6 @@ export interface DigestItem {
 }
 
 export interface DigestResult {
-  intro: string;
   sections: DigestSection[];
 }
 
@@ -131,7 +130,7 @@ export async function classifyItems(items: ScoredItem[]): Promise<ClassifiedItem
 
 /**
  * Step 2-3: 본문 있는 아이템은 아티클 생성(Sonnet, 건당 1회 — 요약/번역 겸함),
- * 본문 없는 아이템은 간략 요약(Haiku, 배치). 이후 편집(도입부 + 순서).
+ * 본문 없는 아이템은 간략 요약(Haiku, 배치). 이후 편집(섹션 내 순서).
  */
 export async function composeDigest(items: ClassifiedItem[]): Promise<DigestResult> {
   const articleItems = items.filter((it) => (it.fullContent?.length ?? 0) >= ARTICLE_MIN_CONTENT);
@@ -196,7 +195,7 @@ export async function composeDigest(items: ClassifiedItem[]): Promise<DigestResu
     });
   }
 
-  // Step 3: 편집 (도입부 + 순서)
+  // Step 3: 편집 (섹션 내 순서)
   log.info("Step 3: 편집");
   const editInput = buildEditorialInput(
     Object.fromEntries(
@@ -206,13 +205,13 @@ export async function composeDigest(items: ClassifiedItem[]): Promise<DigestResu
       ])
     )
   );
-  let editorial: { intro: string; sectionOrder: Record<string, number[]> };
+  let editorial: { sectionOrder: Record<string, number[]> };
   try {
     const editRaw = await askClaude(EDITORIAL_PROMPT, editInput);
-    editorial = parseJsonResponse<{ intro: string; sectionOrder: Record<string, number[]> }>(editRaw);
+    editorial = parseJsonResponse<{ sectionOrder: Record<string, number[]> }>(editRaw);
   } catch (err) {
     log.warn({ error: (err as Error).message }, "편집 AI 실패 — 기본값 사용");
-    editorial = { intro: "", sectionOrder: {} };
+    editorial = { sectionOrder: {} };
   }
 
   const finalSections: DigestSection[] = [];
@@ -234,7 +233,7 @@ export async function composeDigest(items: ClassifiedItem[]): Promise<DigestResu
     "AI 처리 완료"
   );
 
-  return { intro: editorial.intro, sections: finalSections };
+  return { sections: finalSections };
 }
 
 /**

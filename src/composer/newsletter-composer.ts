@@ -1,4 +1,4 @@
-import type { DigestResult, DigestSection } from "../summarizer/batch-processor.js";
+import type { DigestItem, DigestResult, DigestSection } from "../summarizer/batch-processor.js";
 import { buildSectionHtml } from "./section-builder.js";
 import { EMAIL_TOKENS } from "./email-tokens.js";
 import { formatDigestDate, formatISODate } from "../utils/date.js";
@@ -20,15 +20,20 @@ export function composeNewsletter(digest: DigestResult, options?: ComposeOptions
   const dateStr = formatISODate();
   const maxItems = options?.maxEmailItems ?? DEFAULT_MAX_EMAIL_ITEMS;
 
-  // 이메일 본문은 상위 N개 + 클러스터 비주요 제외
-  const totalItems = digest.sections.reduce((acc, s) => acc + s.items.length, 0);
+  // 이메일 본문은 상위 N개 + 클러스터 비주요 제외.
+  // totalItems 는 웹 목록에 보이는 건수와 같아야 하므로 클러스터 비주요를 뺀다 (web listVisibleItems 와 동일 기준).
+  const isRelatedClusterItem = (item: DigestItem) => Boolean(item.topicId && !item.isTopicPrimary);
+  const totalItems = digest.sections.reduce(
+    (acc, s) => acc + s.items.filter((item) => !isRelatedClusterItem(item)).length,
+    0
+  );
   let emailItemCount = 0;
   const emailSections: DigestSection[] = digest.sections
     .map((section) => ({
       ...section,
       items: section.items.filter((item) => {
         if (emailItemCount >= maxItems) return false;
-        if (item.topicId && !item.isTopicPrimary) return false;
+        if (isRelatedClusterItem(item)) return false;
         if ((item.relevance ?? 100) < EMAIL_MIN_RELEVANCE) return false;
         emailItemCount++;
         return true;
@@ -90,21 +95,6 @@ export function composeNewsletter(digest: DigestResult, options?: ComposeOptions
               <p style="margin:6px 0 0;font-size:13px;color:${T.textTertiary};">
                 ${date} · ${totalItems}개 아티클
               </p>
-            </td>
-          </tr>
-
-          <!-- Intro callout -->
-          <tr>
-            <td style="padding:20px 24px 4px;">
-              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
-                     style="background:${T.bgMuted};border-radius:6px;">
-                <tr>
-                  <td style="padding:14px 16px;font-size:14px;line-height:1.7;color:${T.text};">
-                    <span style="display:inline-block;margin-right:6px;">✨</span>
-                    ${escapeHtml(digest.intro)}
-                  </td>
-                </tr>
-              </table>
             </td>
           </tr>
 

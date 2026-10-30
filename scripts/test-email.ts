@@ -11,8 +11,6 @@ async function main() {
   }
 
   const mockDigest: DigestResult = {
-    intro:
-      "오늘은 React 19.1 출시와 함께 Next.js 15.3의 Turbopack 기본 번들러 전환 소식이 화제입니다. TypeScript 5.8의 새로운 기능도 주목할 만합니다.",
     sections: [
       {
         category: "hot",

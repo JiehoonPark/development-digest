@@ -22,7 +22,6 @@ export interface ArchiveItem extends DigestItem {
 
 export interface ArchiveData {
   date: string;
-  intro: string;
   sections: Array<{
     category: string;
     items: ArchiveItem[];
@@ -59,7 +58,6 @@ export function buildArchiveData(
 
   return {
     date: formatISODate(date),
-    intro: digest.intro,
     sections,
   };
 }
