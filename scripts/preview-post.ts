@@ -3,7 +3,7 @@
  *   npx tsx scripts/preview-post.ts [아카이브 날짜 YYYY-MM-DD]
  *
  * - 항상 DRY_RUN — 결과는 data/preview/posts, data/preview/covers 에만 쓴다(운영 글 목록과 섞이지 않음)
- * - 필요한 키: ANTHROPIC_API_KEY(필수), OPENAI_API_KEY(커버, 없으면 커버 없이)
+ * - 필요한 키: ANTHROPIC_API_KEY. 커버는 설치된 Chrome 으로 그린다(AI 이미지 생성 없음)
  * - 실제 AI 비용이 든다: 주제 선정·짧은 소식(Sonnet), 작성·수정(Opus), 사실 검증(Sonnet)
  */
 import "dotenv/config";

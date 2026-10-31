@@ -111,7 +111,7 @@ describe("parseDraft", () => {
 <actions>
 - 검색한다
 </actions>
-<cover>three white clay panels</cover>
+<cover>{"logos":["css"],"keyword":"@media"}</cover>
 <coverAlt>흰색 패널 세 개</coverAlt>`;
 
   it("태그를 읽고 slug 를 정규화한다", () => {
@@ -120,7 +120,7 @@ describe("parseDraft", () => {
     expect(draft.tags).toEqual(["CSS", "반응형"]);
     expect(draft.tldr).toEqual(["첫째[1]", "둘째[2]"]);
     expect(draft.body).toContain("<body> 라는 문자열");
-    expect(draft.coverScene).toBe("three white clay panels");
+    expect(JSON.parse(draft.coverSpec)).toEqual({ logos: ["css"], keyword: "@media" });
   });
 
   it("직렬화 후 다시 읽어도 같다", () => {

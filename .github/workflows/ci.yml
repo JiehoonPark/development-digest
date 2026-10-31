@@ -3,8 +3,9 @@ name: 검증
 # 수집·발송 없이 타입 검사와 테스트만. 정기 실행(digest.yml)에 들어가기 전에 PR 단계에서 막는다.
 on:
   pull_request:
+  # 작업 브랜치도 푸시마다 검증한다(gh-pages 는 빌드 산출물이라 제외)
   push:
-    branches: [main]
+    branches-ignore: [gh-pages]
 
 permissions:
   contents: read
@@ -32,6 +33,17 @@ jobs:
         run: |
           npm ci
           npm run verify
+
+      # 오늘의 글 커버는 러너의 Chrome 으로 그린다 — 실제로 캡처되는지 확인하고 결과물을 남긴다
+      - name: Cover — render smoke test
+        run: npx tsx scripts/preview-covers.ts
+
+      - name: Upload cover previews
+        uses: actions/upload-artifact@v4
+        with:
+          name: cover-previews
+          path: data/preview/covers-gallery/*.jpg
+          retention-days: 7
 
       - name: Web — typecheck
         working-directory: web
