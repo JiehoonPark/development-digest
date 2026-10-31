@@ -30,6 +30,11 @@ describe("lintPost", () => {
     expect(hasLintErrors(lintPost(goodInput))).toBe(false);
   });
 
+  it("제목·소개의 백틱을 잡는다(평문으로 표시되어 글자로 보인다)", () => {
+    const issues = lintPost({ ...goodInput, dek: "`position: sticky`로 푸는 방법" });
+    expect(issues.find((issue) => issue.rule === "plain-text-markdown")?.message).toContain("dek");
+  });
+
   it("없는 출처 번호 인용을 잡는다", () => {
     const issues = lintPost({ ...goodInput, tldr: ["근거 없는 주장[7]", "둘째[1]"] });
     expect(issues.map((issue) => issue.rule)).toContain("unknown-citation");
