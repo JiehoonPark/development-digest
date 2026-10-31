@@ -77,11 +77,15 @@ const CODE_LINE_HEIGHT = 1.5;
 const MONO_CHAR_WIDTH = 0.6;
 const CODE_FONT = { max: 42, min: 26 } as const;
 
+/** 고정폭 글꼴에서 차지하는 칸 수(한글은 두 칸) */
+function monoColumns(text: string): number {
+  return [...text].reduce((sum, char) => sum + (/[\u3131-\uD79D]/.test(char) ? 2 : 1), 0);
+}
+
 /** 줄 수와 가장 긴 줄에 맞춰 글자 크기를 줄인다 — 창 밖으로 넘치지 않게 */
 function codeFontSize(code: string): number {
   const lines = code.split("\n");
-  // 한글은 고정폭 두 칸
-  const widest = Math.max(...lines.map((line) => [...line].reduce((sum, char) => sum + (/[\u3131-\uD79D]/.test(char) ? 2 : 1), 0)));
+  const widest = Math.max(...lines.map(monoColumns));
   const byHeight = CODE_AREA.height / (lines.length * CODE_LINE_HEIGHT);
   const byWidth = CODE_AREA.width / (widest * MONO_CHAR_WIDTH);
   return Math.max(CODE_FONT.min, Math.min(CODE_FONT.max, Math.floor(Math.min(byHeight, byWidth))));
@@ -108,12 +112,23 @@ function codeWindow(spec: CoverSpec): string {
 }
 
 /** 비교형: 이전(흐리게·취소선) → 이후(강조) */
+/** 비교 카드 글자 영역 폭(카드 1360 − 왼쪽 라벨 자리 220 − 오른쪽 여백 56) */
+const COMPARE_TEXT_WIDTH = 1084;
+const COMPARE_FONT = { max: 74, min: 40 } as const;
+
+/** 전/후 중 긴 쪽에 맞춰 글자를 줄인다 — 34자까지 카드 밖으로 넘치지 않게(한글은 두 칸) */
+function compareFontSize(spec: CoverSpec): number {
+  const widest = Math.max(...[spec.before, spec.after].map(monoColumns));
+  const fit = Math.floor(COMPARE_TEXT_WIDTH / (widest * MONO_CHAR_WIDTH));
+  return Math.max(COMPARE_FONT.min, Math.min(COMPARE_FONT.max, fit));
+}
+
 function compare(spec: CoverSpec): string {
   const accent = accentOf(spec);
   return page(
     `.c{background:linear-gradient(90deg,#0b0b0a 0%,#0b0b0a 48%,${accent}22 100%),${BG}}
-     .stack{position:absolute;left:200px;right:200px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:28px}
-     .side{position:relative;font-size:74px;font-weight:700;line-height:1.2;padding:44px 56px 44px 220px;border-radius:24px;white-space:nowrap}
+     .stack{position:absolute;left:120px;right:120px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:28px}
+     .side{position:relative;font-size:${compareFontSize(spec)}px;font-weight:700;line-height:1.2;padding:44px 56px 44px 220px;border-radius:24px;white-space:nowrap}
      .side .tag{position:absolute;left:56px;top:50%;transform:translateY(-50%);font-size:26px;letter-spacing:.18em;text-decoration:none}
      .before{color:${MUTED};text-decoration:line-through;text-decoration-thickness:4px;text-decoration-color:rgba(244,242,238,.35);background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07)}
      .after{color:${INK};background:${accent}1f;border:2px solid ${accent}}

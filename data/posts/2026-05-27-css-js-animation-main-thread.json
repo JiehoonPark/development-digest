@@ -1,0 +1,92 @@
+{
+  "slug": "2026-05-27-css-js-animation-main-thread",
+  "date": "2026-05-27",
+  "title": "CSS 애니메이션이 더 부드러운 진짜 이유 — 메인 스레드와 WAAPI",
+  "dek": "JS 애니메이션이 느린 건 계산량 때문이 아니라 메인 스레드를 쓰기 때문입니다. 애니메이션이 어느 스레드에서 도는지, 어떤 속성을 움직여야 컴포지터에 맡길 수 있는지, JS로 쓰면서도 메인 스레드를 비켜 가는 Web Animations API까지 정리했습니다.",
+  "tags": [
+    "CSS",
+    "JavaScript",
+    "애니메이션"
+  ],
+  "readingMinutes": 18,
+  "cover": {
+    "src": "/covers/2026-05-27-css-js-animation-main-thread.jpg",
+    "alt": "메인 스레드를 비켜 가는 CSS·JS 애니메이션을 나타낸 성능 모티프 위에 CSS와 JavaScript 로고",
+    "style": "logos"
+  },
+  "tldr": [
+    "원문 필자는 JS 애니메이션이 끊기는 원인을 매 프레임 계산이 아니라, 앱의 다른 작업과 메인 스레드를 나눠 쓰는 데서 찾는다[1]",
+    "CSS 애니메이션과 Web Animations는 보통 컴포지터 스레드에서 처리돼 메인 스레드가 바빠도 계속 움직인다[2]",
+    "다만 `transform`·`opacity`가 아닌 속성을 움직이면 CSS든 JS든 메인 스레드가 레이아웃·페인트를 다시 해야 한다[3][2]",
+    "`element.animate()`는 JS로 값을 정하면서 CSS 애니메이션과 같은 엔진을 쓰는 방법이고, Motion 라이브러리가 이 방식을 쓴다[1][4]"
+  ],
+  "body": "## 애니메이션은 어느 스레드에서 도는가\n\n애니메이션이 부드러우려면 브라우저가 화면을 일정한 간격으로 다시 그려야 합니다. 웹에서는 보통 초당 60프레임(60 FPS)을 목표로 하고, 그러려면 한 프레임의 작업이 16.7ms 안에 끝나야 합니다.[2] 이 시간 안에 누가 그 작업을 맡느냐가 CSS와 JS의 차이를 만듭니다.\n\n### 메인 스레드와 컴포지터 스레드\n\n메인 스레드(main thread)는 스타일 계산, 레이아웃, 페인트, 그리고 JavaScript 실행을 모두 맡는 스레드입니다.[2] React가 상태에 맞춰 DOM을 갱신하는 일도, `fetch` 응답을 파싱하는 일도 여기서 일어납니다.[1]\n\n컴포지터 스레드(compositor thread)는 이미 그려 둔 레이어를 합쳐 화면에 내보내는 일을 따로 맡습니다. CSS 애니메이션과 Web Animations는 보통 이 컴포지터 스레드에서 처리되므로, 메인 스레드가 무거운 작업을 하는 동안에도 끊기지 않습니다.[2]\n\n### 같은 움직임, 두 가지 구현\n\n좌우로 튀는 공을 CSS 키프레임으로 쓰면 이렇습니다.[1]\n\n```css\n@keyframes bounce {\n  to {\n    transform: translateX(calc(var(--bounce-magnitude) * -1));\n  }\n}\n\n.ball {\n  --bounce-magnitude: 200px;\n  animation: bounce 1000ms infinite alternate;\n}\n/* 1초 동안 왼쪽으로 200px 이동, 다음 1초 동안 되돌아옴을 반복 */\n```\n\n같은 효과를 JS로 만들 때는 `requestAnimationFrame()`을 씁니다. 이 메서드는 다음 화면 갱신 직전에 콜백을 한 번 호출하고, 다음 프레임에도 움직이려면 콜백 안에서 다시 호출해야 합니다.[5]\n\n```js\nconst element = document.getElementById(\"some-element-you-want-to-animate\");\nlet start;\n\nfunction step(timestamp) {\n  if (start === undefined) {\n    start = timestamp;\n  }\n  const elapsed = timestamp - start;\n  const shift = Math.min(0.1 * elapsed, 200);\n  element.style.transform = `translateX(${shift}px)`;\n  if (shift < 200) {\n    requestAnimationFrame(step);\n  }\n}\nrequestAnimationFrame(step);\n// 2초 동안 오른쪽으로 200px 이동하고 멈춤\n```\n\n이 예제는 1ms에 0.1px씩 움직여 2초 뒤 200px 위치에서 멈춥니다.[5]\n\n### 느린 건 계산이 아니라 줄 서기\n\nJS 버전이 느리다고 하면 흔히 매 프레임 위치를 계산하는 비용이나 JS와 DOM 사이를 오가는 비용을 떠올립니다. 원문 필자는 이 비용이 저사양 기기에서도 1ms에 한참 못 미쳐 프레임 속도에 영향을 주지 않는다고 봅니다.[1] 차이는 JS 루프가 앱의 다른 모든 작업과 같은 메인 스레드에서 돈다는 점입니다.[1]\n\n직접 확인하려면 메인 스레드를 일부러 막아 보면 됩니다.\n\n```js\nfunction blockMainThread(durationMs) {\n  const end = performance.now() + durationMs;\n  while (performance.now() < end) {} // 이 동안 메인 스레드는 다른 일을 못 함\n}\n\nsetInterval(() => blockMainThread(500), 3000);\n// requestAnimationFrame 공: 3초마다 0.5초씩 멈춤\n// CSS transform 공: 대개 멈추지 않고 계속 움직임\n```\n\n데이터를 새로 불러온 직후 로딩 스피너가 잠깐 얼어붙는 현상도 같은 이유입니다. JS로 돌린 스피너가 응답 처리와 메인 스레드를 두고 경쟁하기 때문입니다.[1]\n\n#### 자주 하는 실수: 경과 시간 대신 프레임 수로 계산하기\n\n`requestAnimationFrame()` 콜백이 불리는 빈도는 대체로 화면 주사율을 따르는데, 60Hz가 가장 흔하지만 120Hz, 144Hz 화면도 많습니다.[5] 콜백마다 `x += 2`처럼 고정값을 더하면 고주사율 화면에서 애니메이션이 더 빨라집니다. 콜백의 첫 번째 인자인 `timestamp`로 경과 시간을 구해 위치를 계산해야 합니다.[5]\n\n## 무엇을 움직이느냐가 먼저다\n\nCSS로 썼다고 해서 늘 컴포지터 스레드에서 도는 것은 아닙니다. 어떤 속성을 움직이느냐에 따라 메인 스레드가 다시 끼어듭니다.\n\n### 렌더링 파이프라인\n\n브라우저는 화면을 그릴 때 스타일 → 레이아웃 → 페인트 → 합성(composite)을 순서대로 거칩니다.[2] 애니메이션 중에는 바뀐 단계부터 다시 시작하므로, 레이아웃을 바꾸는 속성은 페인트와 합성까지 모두 다시 하게 만듭니다.[2]\n\n| 단계 | 하는 일 | 이 단계부터 다시 하게 만드는 예 |\n| --- | --- | --- |\n| 레이아웃 | 요소의 위치와 크기 계산 | `top`, `left`, `width` |\n| 페인트 | 요소의 픽셀 채우기 | 그림자처럼 흐림이 있는 효과 |\n| 합성 | 레이어를 합쳐 화면에 출력 | `transform`, `opacity` |\n\nweb.dev는 브라우저가 싸게 움직일 수 있는 속성으로 `transform`과 `opacity` 두 가지를 꼽습니다.[2] 그 밖의 속성은 렌더링 파이프라인에 주는 영향을 먼저 확인하고, 레이아웃이나 페인트를 일으키는 속성은 꼭 필요할 때만 쓰라고 권합니다.[3]\n\n### top/left 대신 transform\n\n같은 이동을 두 방식으로 써 보면 차이가 분명합니다.[3]\n\n```css\n/* 피할 것: 매 프레임 레이아웃을 다시 계산 */\n@keyframes move {\n  50% {\n    top: calc(90vh - 160px);\n    left: calc(90vw - 200px);\n  }\n}\n\n/* 권장: 합성 단계에서 처리 */\n@keyframes move {\n  50% {\n    transform: translate(calc(90vw - 200px), calc(90vh - 160px));\n  }\n}\n```\n\nweb.dev의 예제에서 `top`/`left` 버전은 프레임의 50%를 떨어뜨렸고, `transform` 버전은 1%만 떨어뜨렸습니다.[3] Chrome DevTools의 Rendering 탭에서 FPS meter를 켜면 버려진 프레임 비율을 직접 확인할 수 있습니다.[3]\n\n> [!POSTER]\n> 버려진 프레임\n> top/left 50%\n> transform 1%\n\n### CSS냐 JS냐보다 앞서는 질문\n\n애니메이션이 레이아웃이나 페인트를 일으키면 CSS든 JS든 메인 스레드가 일해야 하고, 그 비용이 CSS·JS 실행 비용을 압도해 둘을 비교하는 의미가 사라집니다.[2] MDN도 같은 점을 짚습니다. Firefox에서 `<div>` 1000개를 움직인 실험에서 두 방식이 모두 메인 스레드에서 돌 때는 FPS가 거의 같았고, 메인 스레드 밖 애니메이션(OMTA)을 켜자 CSS 쪽 FPS가 크게 올랐습니다.[6]\n\n#### 자주 하는 실수: will-change를 미리 뿌려 두기\n\n`will-change: transform`은 요소를 새 레이어로 올리라고 브라우저에 알리는 속성입니다.[3] 레이어마다 메모리를 쓰고 텍스처를 GPU로 올려야 해서, 메모리가 적은 기기에서는 해결하려던 문제보다 더 큰 성능 문제를 만들 수 있습니다.[2] 자주 바뀌지 않는 요소라면 변화가 일어나기 직전에 JS로 붙이고 끝나면 떼고, 실제 성능 문제가 있을 때만 쓰라는 것이 web.dev의 권고입니다.[3]\n\n## JS로 쓰면서 메인 스레드를 비켜 가기\n\n### Web Animations API\n\nWeb Animations API(WAAPI)는 브라우저의 애니메이션 엔진을 JavaScript로 다룰 수 있게 열어 둔 API이고, CSS 애니메이션과 CSS 트랜지션의 바탕이 되도록 설계됐습니다.[4] 키프레임과 길이를 JS 값으로 정하면서도 CSS 애니메이션과 같은 엔진에 맡길 수 있다는 뜻입니다.\n\n가장 짧은 사용법은 `Element.animate()`입니다. 애니메이션을 만들고 요소에 적용한 뒤 바로 재생하며, 만든 `Animation` 객체를 돌려줍니다.[7] 앞의 튀는 공을 WAAPI로 옮기면 이렇습니다.\n\n```js\nconst ball = document.querySelector(\".ball\");\n\nconst keyframes = [\n  { transform: \"translateX(0)\" },\n  { transform: \"translateX(-200px)\" },\n];\nconst timing = {\n  duration: 1000,\n  iterations: Infinity,\n  direction: \"alternate\",\n};\n\nconst bounce = ball.animate(keyframes, timing);\n// CSS의 animation: bounce 1000ms infinite alternate 와 같은 움직임\n```\n\n옵션 이름은 CSS 속성과 거의 일대일로 대응합니다. `direction`의 `\"alternate\"`는 반복마다 방향을 바꾸고, `iterations`에 `Infinity`를 주면 요소가 있는 동안 계속 반복합니다.[8] 키프레임은 따로 위치를 정하지 않으면 개수에 맞춰 균등하게 나뉘고, 특정 위치에 두려면 `offset: 0.3`처럼 지정합니다.[4]\n\n### 재생을 코드로 제어하기\n\nCSS 애니메이션을 멈추거나 되돌리려면 클래스를 붙였다 떼는 식의 우회가 필요했지만, WAAPI는 `Animation` 객체의 메서드로 바로 제어합니다.[4][9]\n\n```js\nbounce.pause();            // 일시 정지\nbounce.playbackRate = 2;   // 두 배 속도\nbounce.reverse();          // 방향을 뒤집어 재생\nbounce.play();             // 다시 재생\n\nconst fadeOut = ball.animate([{ opacity: 1 }, { opacity: 0 }], 300);\nawait fadeOut.finished;    // 재생이 끝나면 resolve되는 Promise\n```\n\n`finished`는 재생이 끝날 때를 알려 주는 Promise라서, 다음 동작을 이어 붙이기 쉽습니다.[9]\n\n#### 자주 하는 실수: 끝나고 원래 자리로 돌아가는 요소\n\n`fill` 옵션의 기본값은 `\"none\"`이라서, 애니메이션이 끝나면 요소는 시작 전 스타일로 돌아갑니다.[8] 마지막 상태를 유지하려면 `fill: \"forwards\"`를 주거나, `commitStyles()`로 현재 스타일을 요소의 `style` 속성에 기록합니다.[8][9] 또 `duration`의 기본값은 0이어서, 길이를 빼먹으면 애니메이션이 실행되지 않습니다.[8]\n\n### 라이브러리 선택에도 같은 기준\n\n원문 필자는 메인 스레드를 막는 시뮬레이션에서 Motion(이전 이름 Framer Motion)과 GSAP를 비교했습니다. 둘 다 JS 라이브러리지만 Motion만 끊기지 않았는데, Motion이 내부적으로 WAAPI를 쓰기 때문이라고 설명합니다.[1] 필자는 GSAP가 WAAPI로는 구현하기 어려운 기능을 많이 갖춘 강력한 라이브러리라서, 잘못된 선택이 아니라 다른 트레이드오프를 고른 것이라고 봅니다.[1]\n\nWAAPI를 써도 `width`처럼 레이아웃을 일으키는 속성을 움직이면 메인 스레드가 일해야 한다는 점은 같습니다.[2] 라이브러리를 고를 때도, 직접 짤 때도 \"무엇을 움직이는가\"를 먼저 확인해야 합니다.\n\n## 언제 무엇을 고를까\n\n원문 필자는 가능하면 CSS 애니메이션·트랜지션을 쓰고, CSS만으로 안 될 때 Motion 같은 WAAPI 기반 라이브러리를 쓴다고 말합니다.[1] View Transitions, `linear()`, Animation Timeline 같은 새 CSS 기능 덕분에 라이브러리가 필요한 경우가 많지 않다는 것이 필자의 의견입니다.[1] MDN도 가능하면 CSS 트랜지션·애니메이션을 쓰고, 정말 복잡한 경우에만 JS 애니메이션에 기대라고 정리합니다.[6]\n\n어떤 방법을 고르든 움직임을 줄이고 싶어 하는 사용자를 배려해야 합니다. 큰 요소의 확대·이동 같은 움직임은 전정 기관 장애가 있는 사람에게 불편을 줄 수 있고, `prefers-reduced-motion`으로 그 설정을 감지할 수 있습니다.[10]\n\n```css\n.animation {\n  animation: pulse 1s linear infinite both;\n}\n\n/* 움직임 줄이기를 켠 사용자에게는 크기 변화 대신 투명도만 */\n@media (prefers-reduced-motion: reduce) {\n  .animation {\n    animation: dissolve 4s linear infinite both;\n  }\n}\n```\n\n## 정리\n\n| 상황 | 고를 방법 | 이유 |\n| --- | --- | --- |\n| 상태 두 개 사이 전환(hover 등) | CSS 트랜지션 | 선언만으로 끝나고 보통 컴포지터에서 처리[6][2] |\n| 반복·다단계 움직임 | CSS `@keyframes` | 트랜지션과 성능 차이 없음[6] |\n| 값·길이를 JS로 정하거나 재생 제어 | `element.animate()` | CSS와 같은 엔진, `pause()`·`reverse()`·`finished` 제공[4][9] |\n| 매 프레임 직접 그려야 함(Canvas 등) | `requestAnimationFrame()` | 메인 스레드에서 돌아 다른 작업에 막힐 수 있음[1][5] |\n| 무엇으로 구현하든 | `transform`·`opacity`만 움직이기 | 다른 속성은 레이아웃·페인트로 메인 스레드를 다시 씀[3][2] |\n\nCSS가 빠른 이유는 계산이 가벼워서가 아니라 메인 스레드와 줄을 서지 않아서입니다. 그 조건은 움직이는 속성이 `transform`과 `opacity`일 때 성립하고, WAAPI를 쓰면 JS에서도 같은 조건을 누릴 수 있습니다.",
+  "actions": [
+    "앱에서 로딩 스피너와 전환 애니메이션이 `requestAnimationFrame` 루프나 JS 라이브러리로 돌고 있는지 찾아보고, `transform` 기반 CSS 애니메이션이나 `element.animate()`로 옮길 수 있는지 확인한다",
+    "Chrome DevTools Rendering 탭에서 FPS meter와 Paint flashing을 켜고, 주요 애니메이션이 프레임을 떨어뜨리거나 넓은 영역을 다시 그리는지 본다",
+    "`top`·`left`·`width`를 키프레임에 쓰는 CSS를 검색해 `transform`으로 바꿀 수 있는 것부터 바꾼다"
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "CSS vs. JavaScript",
+      "publisher": "Josh W. Comeau",
+      "url": "https://www.joshwcomeau.com/animation/css-vs-javascript/",
+      "publishedAt": "2026-05-26"
+    },
+    {
+      "id": 2,
+      "title": "Why are some animations slow?  |  Articles  |  web.dev",
+      "publisher": "web.dev",
+      "url": "https://web.dev/articles/animations-overview?hl=en"
+    },
+    {
+      "id": 3,
+      "title": "How to create high-performance CSS animations  |  Articles  |  web.dev",
+      "publisher": "web.dev",
+      "url": "https://web.dev/articles/animations-guide?hl=en"
+    },
+    {
+      "id": 4,
+      "title": "Using the Web Animations API - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API/Using_the_Web_Animations_API"
+    },
+    {
+      "id": 5,
+      "title": "Window: requestAnimationFrame() method - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame"
+    },
+    {
+      "id": 6,
+      "title": "CSS and JavaScript animation performance - Performance | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/CSS_JavaScript_animation_performance"
+    },
+    {
+      "id": 7,
+      "title": "Element: animate() method - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Element/animate"
+    },
+    {
+      "id": 8,
+      "title": "KeyframeEffect: KeyframeEffect() constructor - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/KeyframeEffect/KeyframeEffect"
+    },
+    {
+      "id": 9,
+      "title": "Animation - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Animation"
+    },
+    {
+      "id": 10,
+      "title": "prefers-reduced-motion CSS media feature - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion"
+    }
+  ]
+}

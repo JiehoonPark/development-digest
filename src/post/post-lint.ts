@@ -57,6 +57,12 @@ export function lintPost(input: LintInput): LintIssue[] {
     issues.push({ severity: "error", rule: "body-length", message: `본문이 ${input.body.length}자로 너무 짧습니다(최소 ${MIN_BODY_CHARS}자)` });
   }
 
+  // 제목·소개는 마크다운 없이 그대로 화면과 검색 결과 설명에 나가 백틱이 글자로 보인다
+  const markdownInPlainText = (["title", "dek"] as const).filter((field) => input[field].includes("`"));
+  if (markdownInPlainText.length > 0) {
+    issues.push({ severity: "error", rule: "plain-text-markdown", message: `${markdownInPlainText.join("·")}에 백틱(\`)을 쓰지 마세요 — 평문으로 표시됩니다` });
+  }
+
   if (/^#\s/m.test(prose)) {
     issues.push({ severity: "error", rule: "no-h1", message: "본문에 h1(# 제목)이 있습니다. 제목은 페이지가 따로 그립니다" });
   }
