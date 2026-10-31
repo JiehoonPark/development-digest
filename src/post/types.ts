@@ -8,6 +8,8 @@ export interface PostCover {
   /** 사이트 루트 기준 경로(`/covers/...`) */
   src: string;
   alt: string;
+  /** 커버 형식(code·compare·stat·logos·typography·logo-glow) — 다음 글이 같은 형식을 피하는 데 쓴다 */
+  style?: string;
 }
 
 export interface PostSource {

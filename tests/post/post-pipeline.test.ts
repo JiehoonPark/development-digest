@@ -19,6 +19,10 @@ vi.mock("../../src/summarizer/claude-summarizer.js", async (importOriginal) => {
 });
 
 const extractor = vi.hoisted(() => ({ extractArticle: vi.fn() }));
+
+// 커버는 Chrome 캡처 대신 고정 바이트 — 형식 선택과 저장만 확인한다
+const renderer = vi.hoisted(() => ({ renderHtmlToJpeg: vi.fn(async () => Buffer.from("jpeg")) }));
+vi.mock("../../src/post/cover/render.js", () => renderer);
 vi.mock("../../src/extractors/article-extractor.js", () => ({ extractArticle: extractor.extractArticle }));
 
 import { runPostPipeline } from "../../src/post/post-pipeline.js";
@@ -77,7 +81,7 @@ ${extra}
 <actions>
 - 프로젝트에서 .98px 를 검색한다
 </actions>
-<cover>three white clay panels with a ruler</cover>
+<cover>{"logos":["css"],"keyword":"범위 문법","before":"max-width: 767.98px","after":"width < 768px"}</cover>
 <coverAlt>흰색 패널 세 개와 자</coverAlt>`;
 }
 
@@ -87,7 +91,6 @@ beforeEach(() => {
   dir = mkdtempSync(join(tmpdir(), "post-pipeline-"));
   process.env.POST_DATA_DIR = join(dir, "posts");
   process.env.POST_COVER_DIR = join(dir, "covers");
-  delete process.env.OPENAI_API_KEY;
 
   extractor.extractArticle.mockImplementation(async (url: string) => {
     if (url === candidates[0].url) {
@@ -155,7 +158,9 @@ describe("runPostPipeline", () => {
     expect(post.briefs).toEqual([
       { label: "보안", title: "Next.js 11월 보안 릴리스 예정", note: "Next.js · 10월 29일", sourceId: 3 },
     ]);
-    expect(post.cover).toBeUndefined(); // OPENAI_API_KEY 없음 → 커버 없이 발행
+    // before/after 가 있으니 비교형, 파일은 커버 폴더에 slug 이름으로
+    expect(post.cover).toEqual({ src: `/covers/${TODAY}-media-query-range.jpg`, alt: "흰색 패널 세 개와 자", style: "compare" });
+    expect(existsSync(join(dir, "covers", `${TODAY}-media-query-range.jpg`))).toBe(true);
     expect(post.readingMinutes).toBeGreaterThan(0);
     // 트위터 링크는 근거로 따라가지 않는다
     expect(extractor.extractArticle).not.toHaveBeenCalledWith("https://twitter.com/x/status/1");
@@ -209,6 +214,18 @@ describe("runPostPipeline", () => {
     const result = await runPostPipeline(candidates, NOW);
     expect(result.status).toBe("skipped");
     expect(claude.askClaude).not.toHaveBeenCalled();
+  });
+
+  it("커버 렌더링이 실패해도 글은 커버 없이 발행한다", async () => {
+    renderer.renderHtmlToJpeg.mockRejectedValueOnce(new Error("Chrome 을 찾지 못했습니다"));
+    claude.askClaudeComplete.mockImplementation(async (system: string) =>
+      system === FACT_CHECK_PROMPT ? JSON.stringify({ verdict: "pass", issues: [] }) : draftText()
+    );
+
+    const result = await runPostPipeline(candidates, NOW);
+    expect(result.status).toBe("published");
+    const post = JSON.parse(readFileSync(join(dir, "posts", `${TODAY}-media-query-range.json`), "utf8")) as PostData;
+    expect(post.cover).toBeUndefined();
   });
 
   it("원문 본문을 못 얻으면 글을 쓰지 않는다", async () => {

@@ -7,7 +7,8 @@ export interface PostDraft {
   tldr: string[];
   body: string;
   actions: string[];
-  coverScene: string;
+  /** 커버 재료 JSON 원문 — cover/cover-spec.ts 가 검증한다 */
+  coverSpec: string;
   coverAlt: string;
 }
 
@@ -60,7 +61,7 @@ export function parseDraft(raw: string): PostDraft {
     tldr: readList(readTag(raw, "tldr")!),
     body: readTag(raw, "body")!,
     actions: readList(readTag(raw, "actions")!),
-    coverScene: readTag(raw, "cover") ?? "",
+    coverSpec: readTag(raw, "cover") ?? "",
     coverAlt: readTag(raw, "coverAlt") ?? "",
   };
 }
@@ -75,7 +76,7 @@ export function serializeDraft(draft: PostDraft): string {
     `<tldr>\n${draft.tldr.map((line) => `- ${line}`).join("\n")}\n</tldr>`,
     `<body>\n${draft.body}\n</body>`,
     `<actions>\n${draft.actions.map((line) => `- ${line}`).join("\n")}\n</actions>`,
-    `<cover>${draft.coverScene}</cover>`,
+    `<cover>${draft.coverSpec}</cover>`,
     `<coverAlt>${draft.coverAlt}</coverAlt>`,
   ].join("\n");
 }

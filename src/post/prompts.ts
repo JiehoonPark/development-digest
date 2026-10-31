@@ -3,6 +3,7 @@
  * 문체·구조 규칙을 바꾸면 post-lint.ts 의 기계 검사도 함께 맞춘다.
  */
 import { SOURCE_DATA_RULES } from "../../config/prompts.js";
+import { LOGO_NAMES } from "./cover/logos.js";
 
 export const TOPIC_PROMPT = SOURCE_DATA_RULES + `당신은 한국 프론트엔드 개발자를 위한 기술 블로그의 편집장입니다.
 매일 아침 한 편만 깊게 씁니다. 아래 후보 중 오늘 깊게 쓸 글감 하나와, 짧게 소개할 소식 몇 개를 고르세요.
@@ -69,7 +70,19 @@ export const WRITE_PROMPT = SOURCE_DATA_RULES + `당신은 한국의 시니어 �
 - 독자가 오늘 해볼 일 2~3개. 구체적인 행동으로
 </actions>
 <cover>
-커버 일러스트 장면 한 문장(영어). 글자·숫자·로고·화면 캡처 없이, 개념을 비유하는 사물로. 예: three white clay panels of increasing width with a ruler sliding between them
+커버 재료 JSON 한 개. 본문에 실제로 나온 내용만 쓰고, 해당하지 않는 칸은 빈 문자열("")로 둔다.
+시스템이 채워진 칸을 보고 커버 형식(코드·비교·수치·로고 조합·큰 글자)을 고르므로, 쓸 수 있는 칸은 최대한 채운다.
+{
+  "logos": ["글의 주인공 기술부터 최대 3개. 다음 이름만 사용: ${LOGO_NAMES.join(", ")}"],
+  "keyword": "핵심 키워드나 API 이름 한 개(32자 이내). 예: @media print, useEffectEvent",
+  "headline": "큰 글자로 넣을 한국어 문구(20자 안팎). 예: 767.98px은 이제 그만",
+  "code": "본문의 대표 코드 2~8줄(한 줄 56자 이내). 줄바꿈은 \\n",
+  "codeFile": "코드 창 파일 이름. 예: breakpoints.css",
+  "before": "바뀌기 전 표현(34자 이내). 예: max-width: 767.98px",
+  "after": "바뀐 뒤 표현(34자 이내). 예: width < 768px",
+  "stat": "본문에 출처와 함께 나온 수치 하나(8자 이내). 예: 5.5×, 90%",
+  "statLabel": "그 수치의 뜻(40자 이내)"
+}
 </cover>
 <coverAlt>커버 이미지 대체 텍스트(한국어 한 문장)</coverAlt>`;
 
@@ -101,13 +114,3 @@ export const BRIEF_PROMPT = SOURCE_DATA_RULES + `아래 기술 소식 각각에 
 
 JSON 배열만 응답: [{"index": 0, "title": "한국어 제목"}]`;
 
-/** 커버 화풍은 고정하고 장면만 바꾼다 — 글마다 화풍이 달라지면 홈 카드 목록이 산만해진다 */
-export function buildCoverPrompt(scene: string): string {
-  return [
-    "STYLE: minimal white clay 3D render, matte white materials on a soft off-white seamless background,",
-    "soft diffused studio lighting, gentle contact shadows, generous negative space,",
-    "exactly one muted terracotta accent color (#d97757), calm premium editorial cover.",
-    "No text, no letters, no numbers, no logos, no UI screenshots.",
-    `SUBJECT: ${scene}`,
-  ].join("\n");
-}

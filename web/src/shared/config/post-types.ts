@@ -6,6 +6,8 @@ export interface PostCover {
   /** 사이트 루트 기준 경로(`/covers/...`) 또는 절대 URL */
   src: string;
   alt: string;
+  /** 파이프라인이 고른 커버 형식(화면에서는 쓰지 않음) */
+  style?: string;
 }
 
 /** 본문에서 `[n]` 으로 인용하는 원문 */

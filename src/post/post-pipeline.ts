@@ -1,6 +1,6 @@
 import { createChildLogger } from "../utils/logger.js";
 import { renumberCitations } from "./citations.js";
-import { generateCover } from "./cover.js";
+import { generateCover, parseCoverSpec } from "./cover/index.js";
 import { estimateReadingMinutes } from "./draft.js";
 import { formatKstDate } from "./kst-date.js";
 import { hasPostForDate, loadPublishedPosts, loadRecentPosts, savePost } from "./post-store.js";
@@ -78,7 +78,11 @@ export async function runPostPipeline(candidates: PostCandidate[], now: Date = n
   }));
 
   const slug = `${today}-${draft.slug}`;
-  const cover = await generateCover(slug, draft.coverScene, draft.coverAlt);
+  const recentCoverStyles = loadPublishedPosts()
+    .map((published) => published.cover?.style)
+    .filter((style): style is string => Boolean(style));
+  const coverSpec = parseCoverSpec(draft.coverSpec, draft.tags[0] ?? draft.title);
+  const cover = await generateCover(slug, coverSpec, draft.coverAlt, recentCoverStyles);
 
   const post: PostData = {
     slug,
