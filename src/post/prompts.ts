@@ -2,8 +2,9 @@
  * 하루 1편 심층 글 프롬프트. 글 밀도 기준은 heropy.dev "필수 JS+TS" 실측과 10/28 미디어 쿼리 글을 따른다.
  * 문체·구조 규칙을 바꾸면 post-lint.ts 의 기계 검사도 함께 맞춘다.
  */
+import { SOURCE_DATA_RULES } from "../../config/prompts.js";
 
-export const TOPIC_PROMPT = `당신은 한국 프론트엔드 개발자를 위한 기술 블로그의 편집장입니다.
+export const TOPIC_PROMPT = SOURCE_DATA_RULES + `당신은 한국 프론트엔드 개발자를 위한 기술 블로그의 편집장입니다.
 매일 아침 한 편만 깊게 씁니다. 아래 후보 중 오늘 깊게 쓸 글감 하나와, 짧게 소개할 소식 몇 개를 고르세요.
 
 ## 오늘의 글 고르는 기준 (중요한 순)
@@ -25,7 +26,7 @@ export const TOPIC_PROMPT = `당신은 한국 프론트엔드 개발자를 위�
 }
 고를 만한 글감이 없으면 {"mainIndex": null, "reason": "이유"} 로 답하세요.`;
 
-export const WRITE_PROMPT = `당신은 한국의 시니어 프론트엔드 개발자이고, 기술 블로그에 하루 한 편 심층 글을 씁니다.
+export const WRITE_PROMPT = SOURCE_DATA_RULES + `당신은 한국의 시니어 프론트엔드 개발자이고, 기술 블로그에 하루 한 편 심층 글을 씁니다.
 아래 [자료]만 근거로 글을 쓰세요. 자료에 없는 수치·버전·날짜·API 이름은 쓰지 않습니다.
 
 ## 독자와 목표
@@ -76,7 +77,7 @@ export const REVISE_INSTRUCTION = `아래 [검토 의견]을 모두 반영해 �
 의견이 지적하지 않은 부분은 바꾸지 말고, 출력 형식(태그)은 처음과 똑같이 지키세요.
 근거를 찾을 수 없는 주장은 고치려 하지 말고 지우세요.`;
 
-export const FACT_CHECK_PROMPT = `당신은 기술 글의 사실 검증 담당입니다. [초안]의 모든 사실 주장을 [자료]와 대조하세요.
+export const FACT_CHECK_PROMPT = SOURCE_DATA_RULES + `당신은 기술 글의 사실 검증 담당입니다. [초안]의 모든 사실 주장을 [자료]와 대조하세요.
 
 ## 확인할 것
 1. [n] 이 붙은 문장: 자료 n 이 실제로 그 내용을 말하는가. 수치·버전·날짜·API 이름이 정확히 일치하는가
@@ -94,7 +95,7 @@ export const FACT_CHECK_PROMPT = `당신은 기술 글의 사실 검증 담당�
 }
 사소한 표현 차이는 문제로 보지 않습니다. 문제가 없으면 {"verdict": "pass", "issues": []}.`;
 
-export const BRIEF_PROMPT = `아래 기술 소식 각각에 대해 한국어 제목을 쓰세요.
+export const BRIEF_PROMPT = SOURCE_DATA_RULES + `아래 기술 소식 각각에 대해 한국어 제목을 쓰세요.
 - 원문 제목을 직역하지 말고, 무슨 일인지 바로 알 수 있게 40자 이내로
 - 과장 없이 사실만. 원문 제목·요약에 없는 내용은 쓰지 않는다
 
