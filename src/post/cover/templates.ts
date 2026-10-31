@@ -176,13 +176,12 @@ function typography(spec: CoverSpec): string {
   const accent = accentOf(spec);
   return page(
     `.c{background:${BG}}
-     .bar{position:absolute;left:0;top:0;bottom:0;width:22px;background:${accent}}
      .kw{position:absolute;left:120px;top:150px;font-size:34px;color:${accent};letter-spacing:.04em}
      .head{position:absolute;left:112px;right:300px;top:230px;font-family:'Anton','Black Han Sans','Pretendard Variable',sans-serif;
        font-size:${spec.headline.length > 14 ? 150 : 190}px;line-height:1.04;color:${INK}}
      .corner{left:auto;right:96px;top:auto;bottom:90px;width:120px;height:120px}`,
     `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Black+Han+Sans&display=swap">
-     <div class="bar"></div><div class="kw mono">${escapeHtml(spec.keyword)}</div><div class="head">${escapeHtml(spec.headline)}</div>${cornerLogo(spec)}`
+     <div class="kw mono">${escapeHtml(spec.keyword)}</div><div class="head">${escapeHtml(spec.headline)}</div>${cornerLogo(spec)}`
   );
 }
 
