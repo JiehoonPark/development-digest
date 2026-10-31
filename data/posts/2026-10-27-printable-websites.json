@@ -1,0 +1,34 @@
+{
+  "slug": "2026-10-27-printable-websites",
+  "date": "2026-10-27",
+  "title": "Ctrl+P를 눌러 보셨나요 — 인쇄 가능한 웹사이트",
+  "dek": "한 개발자가 자기 블로그를 인쇄해 보고 고친 @media print 설정. 글자 크기, 숨길 요소, 링크 색까지 바로 가져다 쓸 수 있는 체크리스트로 정리했습니다.",
+  "tags": [
+    "CSS",
+    "인쇄"
+  ],
+  "readingMinutes": 4,
+  "cover": {
+    "src": "/covers/2026-10-27-printable-websites.jpg",
+    "alt": "흰색 클레이 프린터와 브라우저 창, 출력물에 주황색 책갈피"
+  },
+  "tldr": [
+    "인쇄해 보니 글자가 두 단계쯤 크고, 헤더는 엉망이고, 링크는 흑백에서 회색으로 흐렸다[1]",
+    "`@media print` 안에서 본문 12pt, 제목 13~16pt로 맞추고 링크를 검정으로[1]",
+    "코드 블록이 페이지 경계에서 잘리는 문제는 아직 해결하지 못했다고 밝힘[1]"
+  ],
+  "body": "## 무엇이 문제였나\n\nBrennen Puth는 인쇄한 문서에 메모하며 읽는 걸 좋아해서, 자기 블로그도 그렇게 읽을 수 있게 하고 싶었습니다. 아무 준비 없이 Ctrl+P를 눌러 보니 결과가 좋지 않았습니다.[1]\n\n- 글자가 두 단계쯤 크게 나옴\n- 헤더가 인쇄물에서 보기 흉함\n- 파란 링크가 흑백 인쇄에서 흐린 회색이 됨\n\n## 적용한 CSS\n\n원문에서 공개한 설정을 정리하면 다음과 같습니다.[1]\n\n```css\n.onlyPrint { display: none; }\n\n@media print {\n  .noPrint   { display: none; }   /* 헤더처럼 인쇄에 불필요한 요소 */\n  .onlyPrint { display: inline; } /* 인쇄물에만 넣을 저자 표기 등 */\n\n  p, ol  { font-size: 12pt; }\n  h3, h4 { font-size: 13pt; }\n  h2     { font-size: 14pt; }\n  h1     { font-size: 16pt; }\n\n  a { color: black !important; }\n}\n```\n\n| 설정 | 이유 |\n| --- | --- |\n| `.noPrint` | 화면용 헤더를 인쇄에서 제외 |\n| `.onlyPrint` | 인쇄물에만 저자 표기를 추가 |\n| 12pt 본문 | 화면용 가변 글자 크기는 종이에서 너무 큼 |\n| 검정 링크 | 흑백 인쇄에서 파란 링크가 흐려짐 |\n\n## 남은 문제\n\n코드 블록은 손을 본 뒤에도 가장 보기 안 좋은 부분이라고 합니다. 페이지 경계에서 잘리지 않고 한 덩어리로 나오게 하는 방법은 찾지 못했다고 적었습니다.[1]\n\n## 왜 해 볼 만한가\n\n작성자도 인쇄를 자주 하는 사람이 많지 않다는 건 인정합니다. 그래도 텍스트 중심 사이트라면 독자가 원하는 매체로 읽게 해 주는 건 손해 볼 일이 없다고 말합니다.[1] 이 글은 이후 Hacker News와 lobste.rs 첫 페이지에 올랐습니다.[1]\n",
+  "actions": [
+    "블로그나 문서 사이트 한 페이지를 실제로 Ctrl+P로 미리보기 한다",
+    "`@media print`에 헤더·내비 숨김과 12pt 본문부터 넣는다"
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "Websites Should Be Printable",
+      "publisher": "Brennen Puth",
+      "url": "https://brennenputh.me/blog/printable-websites/",
+      "publishedAt": "2026-10-24"
+    }
+  ]
+}

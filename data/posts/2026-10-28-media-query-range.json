@@ -1,0 +1,65 @@
+{
+  "slug": "2026-10-28-media-query-range",
+  "date": "2026-10-28",
+  "title": "767.98px은 이제 그만 — 미디어 쿼리 범위 문법 정리",
+  "dek": "Bootstrap 소스에 남아 있는 767.98px은 경계가 겹치는 문제를 피하려던 우회책입니다. 왜 그런 숫자가 필요했는지부터, 범위 문법으로 바꾸는 방법, 컨테이너 쿼리와 Tailwind v4에서의 쓰임, 실제로 바꿀 때 확인할 것까지 정리했습니다.",
+  "tags": [
+    "CSS",
+    "반응형"
+  ],
+  "readingMinutes": 9,
+  "cover": {
+    "src": "/covers/2026-10-28-media-query-range.jpg",
+    "alt": "휴대폰·태블릿·노트북 모양 흰색 패널 사이를 지나는 주황색 자"
+  },
+  "tldr": [
+    "`min-width`와 `max-width`는 둘 다 경계값을 포함해서, 같은 숫자를 쓰면 경계에서 두 규칙이 겹친다",
+    "Bootstrap의 `767.98px`은 겹침을 피하려고 0.02px를 뺀 값이고, 소수점 너비에서는 여전히 빈틈이 남는다[2]",
+    "`width < 768px`과 `width >= 768px`로 쓰면 빈틈도 겹침도 없다 — 2025년 9월부터 Baseline 널리 사용 가능[4]"
+  ],
+  "body": "## 경계가 왜 문제인가\n\n반응형 레이아웃은 화면 너비를 몇 개의 구간으로 나누고, 구간마다 다른 스타일을 적용합니다. 구간을 나누려면 경계값이 필요하고, 경계값에서는 \"이 너비는 어느 구간인가\"라는 질문에 정확히 하나의 답이 나와야 합니다.\n\n### 경계가 겹치는 경우\n\n가장 먼저 떠오르는 방법은 같은 숫자를 양쪽에 쓰는 것입니다.\n\n```css\n@media (max-width: 768px) {\n  .nav { display: none; } /* 모바일: 메뉴 숨김 */\n}\n\n@media (min-width: 768px) {\n  .nav { display: flex; } /* 데스크톱: 메뉴 표시 */\n}\n```\n\n`min-width`와 `max-width`는 모두 경계값을 **포함**합니다. 그래서 화면 너비가 정확히 `768px`이면 두 조건이 동시에 참이 됩니다.\n\n```css\n/* 화면 너비 768px */\n(max-width: 768px) /* true */\n(min-width: 768px) /* true */\n/* → 두 규칙이 모두 적용되고, 나중에 선언된 display: flex가 이김 */\n```\n\n지금은 우연히 나중 규칙이 원하는 값이라 괜찮아 보이지만, 선언 순서가 바뀌거나 한쪽 규칙에만 다른 속성이 있으면 768px에서만 레이아웃이 어긋나는 버그가 됩니다. 재현하려면 창 너비를 정확히 768px로 맞춰야 해서 찾기도 어렵습니다.\n\n### 0.02px를 빼는 이유\n\n겹침을 피하려면 한쪽 경계를 조금 줄여야 합니다. Bootstrap은 아래쪽 구간의 최대값에서 `0.02px`를 뺍니다. Bootstrap 소스의 `breakpoint-max` 함수가 이 계산을 하고, `md` 구간(768px)의 결과가 바로 `767.98px`입니다.[2]\n\n```scss\n// Bootstrap 5.3 scss/mixins/_breakpoints.scss\n@function breakpoint-max($name, $breakpoints: $grid-breakpoints) {\n  $max: map-get($breakpoints, $name);\n  @return if($max and $max > 0, $max - .02, null);\n}\n// breakpoint-max(md) → 767.98px\n```\n\n그럼 `1px`을 빼서 `767px`로 쓰면 되지 않을까요? 소스 주석에 그 답이 있습니다. 화면 너비는 항상 정수가 아니며(fractional widths), `min-`/`max-` 접두사로는 이 경우를 처리하는 데 한계가 있다고 적혀 있습니다.[2] 브라우저 확대·축소나 고해상도 화면에서는 너비가 `767.5px`처럼 계산될 수 있고, 이 값은 `max-width: 767px`에도 `min-width: 768px`에도 해당하지 않습니다.\n\n![min/max 방식에서 생기는 빈틈](/figures/mq-gap.svg \"그림 1 · 0.02px를 빼면 겹침은 사라지지만 아주 좁은 빈틈이 남습니다\")\n\n`0.01px`가 아니라 `0.02px`인 이유도 주석에 있습니다. Safari의 반올림 버그를 피하기 위해서입니다.[2] 결국 `767.98px`은 겹침과 빈틈 사이에서 최대한 빈틈을 줄인 값이지, 빈틈을 없앤 값은 아닙니다.\n\n> 경계값을 `-1px`, `-0.02px`처럼 직접 계산해야 한다는 것 자체가 문법이 의도를 표현하지 못한다는 신호입니다. \"768px 미만\"이라고 쓸 수 있으면 계산할 필요가 없습니다.\n\n> [!POSTER]\n> 767.98px 대신\n> 768px 미만\n> width < 768px\n\n## 범위 문법\n\n미디어 쿼리 레벨 4에 들어간 범위 문법(Range Syntax)은 `min-`/`max-` 접두사 대신 수학 비교 연산자를 씁니다.[3][4]\n\n### 비교 연산자로 쓰기\n\n연산자는 네 가지이고, 경계값 포함 여부가 연산자에 그대로 드러납니다.\n\n| 연산자 | 의미 | 경계값 768px |\n| --- | --- | --- |\n| `width >= 768px` | 768px 이상 | 포함 |\n| `width > 768px` | 768px 초과 | 제외 |\n| `width <= 768px` | 768px 이하 | 포함 |\n| `width < 768px` | 768px 미만 | 제외 |\n\n기존 문법과 대응시키면 다음과 같습니다. `min-width`와 `max-width`는 경계값을 포함하므로 `>=`, `<=`와 같습니다.[3]\n\n```css\n@media (min-width: 768px) { }  /* 이전 */\n@media (width >= 768px) { }    /* 같은 뜻 */\n\n@media (max-width: 767.98px) { } /* 이전: 빈틈이 남는 우회 */\n@media (width < 768px) { }       /* 768px 미만, 우회 필요 없음 */\n```\n\n앞의 메뉴 예제를 범위 문법으로 바꾸면 경계값을 그대로 씁니다.\n\n```css\n@media (width < 768px) {\n  .nav { display: none; }\n}\n\n@media (width >= 768px) {\n  .nav { display: flex; }\n}\n\n/* 화면 너비 768px    → 두 번째만 true */\n/* 화면 너비 767.99px → 첫 번째만 true */\n```\n\n`<`와 `>=`는 서로 정확히 반대이므로 768px은 한쪽에만 속하고, 767.99px 같은 소수점 너비도 빠짐없이 한쪽에 속합니다.\n\n![범위 문법의 경계](/figures/mq-range.svg \"그림 2 · 한쪽은 포함, 한쪽은 제외로 나누면 빈틈과 겹침이 동시에 사라집니다\")\n\n### 구간 지정\n\n두 경계 사이의 구간은 비교식을 이어서 씁니다. MDN은 아래 세 쿼리가 모두 같은 뜻이라고 설명합니다.[3]\n\n```css\n@media (min-width: 30em) and (max-width: 50em) { }\n@media (30em <= width <= 50em) { }\n@media (50em >= width >= 30em) { }\n```\n\n이어 쓰는 방식이 읽기 어렵다면 `and`로 나눠 써도 결과는 같습니다. 영상에서 Kevin Powell은 이 방식을 더 선호한다고 말합니다.[1]\n\n```css\n@media (768px <= width < 1024px) { }          /* 이어 쓰기 */\n@media (width >= 768px) and (width < 1024px) { } /* and로 나누기 */\n```\n\n#### 자주 하는 실수: 양쪽 다 포함하기\n\n구간을 여러 개 이어 붙일 때 양쪽을 모두 `<=`로 쓰면, 범위 문법에서도 경계가 겹칩니다.\n\n```css\n/* 잘못된 예: 1024px에서 두 구간이 모두 true */\n@media (768px <= width <= 1024px) { }\n@media (1024px <= width <= 1280px) { }\n\n/* 올바른 예: 아래쪽은 포함(<=), 위쪽은 제외(<) */\n@media (768px <= width < 1024px) { }\n@media (1024px <= width < 1280px) { }\n```\n\n규칙을 하나로 정해 두면 실수가 줄어듭니다. *아래 경계는 포함, 위 경계는 제외*로 통일하는 것을 권합니다. 이렇게 쓰면 구간을 몇 개로 나눠도 빈틈과 겹침이 생기지 않습니다.\n\n### width 말고도\n\n범위 문법은 값의 크기를 비교하는 미디어 특성이면 똑같이 쓸 수 있습니다. 높이, 화면비, 해상도 같은 특성이 여기에 해당합니다.\n\n```css\n@media (height < 600px) { }          /* 낮은 화면: 고정 헤더 줄이기 */\n@media (aspect-ratio > 1) { }        /* 가로가 더 긴 화면 */\n@media (resolution >= 2dppx) { }     /* 고해상도 화면 */\n```\n\n## 컨테이너 쿼리에서도 같은 문법\n\n컨테이너 쿼리(Container Query)는 화면 대신 부모 요소의 크기를 기준으로 스타일을 바꿉니다. 조건을 쓰는 방식은 범위 문법과 같습니다. MDN의 컨테이너 쿼리 문서도 범위 문법으로 예제를 씁니다.[5]\n\n```css\n.sidebar {\n  container-type: inline-size; /* 이 요소의 너비를 기준으로 삼음 */\n}\n\n@container (width > 700px) {\n  .card { display: grid; grid-template-columns: 2fr 1fr; }\n}\n```\n\n미디어 쿼리와 컨테이너 쿼리를 같은 문법으로 쓰면, 컴포넌트를 화면 기준에서 컨테이너 기준으로 옮길 때 `@media`를 `@container`로 바꾸는 것만으로 조건을 그대로 가져갈 수 있습니다.\n\n## 지금 써도 될까\n\n### 브라우저 지원\n\n범위 문법은 Chrome·Edge 104, Firefox 102, Safari 16.4부터 지원합니다. 마지막으로 지원한 Safari 16.4가 나온 2023년 3월 27일에 Baseline 신규(Newly available)가 됐고, 30개월 뒤인 2025년 9월 27일에 Baseline 널리 사용 가능(Widely available)이 됐습니다.[4]\n\n![범위 문법 지원 버전](/figures/mq-support.svg \"그림 3 · 2025년 9월부터 Baseline 널리 사용 가능 단계입니다\")\n\n지원하지 않는 브라우저는 범위 문법이 들어간 쿼리 전체를 이해하지 못해 그 안의 스타일을 적용하지 않습니다. Safari 16.3 이하 사용자를 반드시 지원해야 한다면 해당 사이트의 실제 방문자 통계를 먼저 확인하세요.\n\n### 이미 쓰고 있을 수도 있습니다\n\nTailwind CSS v4는 반응형 변형(variant)을 범위 문법으로 출력합니다. `md:`는 `@media (width >= 48rem)`, `max-md:`는 `@media (width < 48rem)`가 됩니다.[6] Tailwind v4를 쓰고 있다면 빌드 결과물에 이미 범위 문법이 들어 있습니다.\n\n| Tailwind v4 변형 | 출력되는 미디어 쿼리 |\n| --- | --- |\n| `md:` | `@media (width >= 48rem)` |\n| `max-md:` | `@media (width < 48rem)` |\n| `md:max-lg:` | `48rem` 이상이면서 `64rem` 미만 |\n\n### 기존 코드 바꾸기\n\n한 번에 바꾸기보다 경계 하나씩 바꾸고 확인하는 편이 안전합니다.\n\n1. `.98px`, `.99px`로 끝나는 값과 `max-width`를 검색합니다.\n2. `max-width: 767.98px`처럼 우회한 값은 `width < 768px`로, `min-width: 768px`는 `width >= 768px`로 바꿉니다.\n3. 개발자 도구에서 창 너비를 경계값(768px)과 경계값 바로 아래(767px)로 맞춰 두 상태를 모두 확인합니다.\n4. Sass 같은 전처리기를 거친다면 빌드된 CSS를 열어 범위 문법이 그대로 출력됐는지 확인합니다.\n\n## 정리\n\n| 하고 싶은 것 | 이전 | 범위 문법 |\n| --- | --- | --- |\n| 768px 이상 | `min-width: 768px` | `width >= 768px` |\n| 768px 미만 | `max-width: 767.98px` | `width < 768px` |\n| 768px 이상 1024px 미만 | `(min-width: 768px) and (max-width: 1023.98px)` | `768px <= width < 1024px` |\n| 컨테이너 너비 700px 초과 | — | `@container (width > 700px)` |\n\n`767.98px`은 잘못된 코드가 아니라 문법이 표현하지 못하던 \"미만\"을 숫자로 흉내 낸 결과였습니다. 이제는 연산자로 그대로 쓸 수 있습니다.\n\n> [!POSTER]\n> 경계 규칙 하나만 기억하기\n> 아래는 포함\n> 위는 제외\n",
+  "actions": [
+    "프로젝트에서 `.98px`, `.99px`로 끝나는 미디어 쿼리를 검색해 개수를 확인한다",
+    "구간 경계 규칙을 \"아래는 포함(`<=`), 위는 제외(`<`)\"로 팀 컨벤션에 적는다",
+    "방문자 통계에서 Safari 16.3 이하 비율을 확인하고 전환 시점을 정한다"
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "Stop using min-width in your media queries",
+      "publisher": "Kevin Powell (YouTube)",
+      "url": "https://www.youtube.com/watch?v=zS_K-bfpQfk",
+      "publishedAt": "2026-10-28"
+    },
+    {
+      "id": 2,
+      "title": "scss/mixins/_breakpoints.scss (v5.3.3)",
+      "publisher": "Bootstrap",
+      "url": "https://github.com/twbs/bootstrap/blob/v5.3.3/scss/mixins/_breakpoints.scss"
+    },
+    {
+      "id": 3,
+      "title": "Using media queries",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Media_queries/Using"
+    },
+    {
+      "id": 4,
+      "title": "Media query range syntax (web-features)",
+      "publisher": "W3C WebDX Community Group",
+      "url": "https://github.com/web-platform-dx/web-features/blob/main/features/media-query-range-syntax.yml"
+    },
+    {
+      "id": 5,
+      "title": "CSS container queries",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Containment/Container_queries"
+    },
+    {
+      "id": 6,
+      "title": "Responsive design",
+      "publisher": "Tailwind CSS",
+      "url": "https://tailwindcss.com/docs/responsive-design"
+    }
+  ]
+}
