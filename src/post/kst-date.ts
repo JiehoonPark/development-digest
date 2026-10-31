@@ -1,11 +1,8 @@
-const KST_OFFSET_MS = 9 * 60 * 60 * 1000;
+import { formatISODate } from "../utils/date.js";
 
-/**
- * KST 기준 YYYY-MM-DD.
- * CI 러너는 UTC 23:00(=KST 08:00)에 돌기 때문에 로컬 시간대 날짜를 쓰면 하루 전 날짜가 된다.
- */
+/** KST 기준 YYYY-MM-DD — 다이제스트 발행일과 같은 함수를 써서 글 날짜와 어긋나지 않게 한다 */
 export function formatKstDate(date: Date = new Date()): string {
-  return new Date(date.getTime() + KST_OFFSET_MS).toISOString().slice(0, 10);
+  return formatISODate(date);
 }
 
 export function daysBetween(fromIsoDate: string, toIsoDate: string): number {

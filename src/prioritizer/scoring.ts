@@ -1,6 +1,6 @@
 import type { CollectedItem } from "../collectors/types.js";
 import { getSourceById } from "../../config/sources/index.js";
-import { hoursAgo } from "../utils/date.js";
+import { getKstWeekday, hoursAgo } from "../utils/date.js";
 
 export interface ScoredItem extends CollectedItem {
   score: number;
@@ -31,8 +31,10 @@ export function calculateScore(item: CollectedItem, now: Date = new Date()): num
   }
 
   // 3. 최신성 점수 (0-20점)
-  // 월요일(getDay()===1)이면 주말 콘텐츠를 위해 기준 +24h 완화
-  const mondayOffset = now.getDay() === 1 ? 24 : 0;
+  // 발송일이 KST 월요일이면 주말 콘텐츠를 위해 기준 +24h 완화
+  // (getDay() 는 CI 러너의 UTC 를 따라 KST 월요일 08시를 일요일로 봐서 보정이 적용되지 않았다)
+  const MONDAY = 1;
+  const mondayOffset = getKstWeekday(now) === MONDAY ? 24 : 0;
   const age = hoursAgo(new Date(item.publishedAt), now);
   if (age <= 6 + mondayOffset) score += 20;
   else if (age <= 12 + mondayOffset) score += 15;
