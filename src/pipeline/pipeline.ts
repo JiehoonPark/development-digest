@@ -17,6 +17,7 @@ import { saveDigestHistory } from "../db/repositories/digest-history.js";
 import { buildArchiveData, saveArchive, getArchiveDir } from "../data/digest-archiver.js";
 import { generateMarkdown } from "../markdown/markdown-generator.js";
 import { runStep } from "./step-runner.js";
+import { runPostPipeline, type PostCandidate } from "../post/index.js";
 import { createChildLogger } from "../utils/logger.js";
 import { RateLimiter } from "../utils/rate-limiter.js";
 import { writeFileSync, mkdirSync } from "fs";
@@ -141,7 +142,17 @@ export async function runPipeline(): Promise<void> {
       generateMarkdown(archive);
     });
 
-    // 9. 이력 저장 + URL 마킹
+    // 9. 오늘의 심층 글 — 실패해도 다이제스트 발송·이력 저장은 이어간다
+    await runStep("오늘의 글", async () => {
+      try {
+        const result = await runPostPipeline(toPostCandidates(enriched, digest));
+        log.info(result, "오늘의 글 결과");
+      } catch (error) {
+        log.error({ error }, "오늘의 글 생성 실패 — 다이제스트는 계속 진행");
+      }
+    });
+
+    // 10. 이력 저장 + URL 마킹
     await runStep("이력 저장", async () => {
       markUrlsSeen(uniqueItems);
       // 실제 다이제스트에 담긴 아이템 제목만 3일 윈도우로 기록 (크로스-데이 중복 방지)
@@ -167,6 +178,25 @@ export async function runPipeline(): Promise<void> {
   } finally {
     closeDb();
   }
+}
+
+function toPostCandidates(
+  enriched: Awaited<ReturnType<typeof classifyItems>>,
+  digest: Awaited<ReturnType<typeof composeDigest>>
+): PostCandidate[] {
+  const titleKoByUrl = new Map(digest.sections.flatMap((section) => section.items.map((item) => [item.url, item.titleKo])));
+  return enriched.map((item) => ({
+    url: item.url,
+    title: item.title,
+    titleKo: titleKoByUrl.get(item.url),
+    sourceName: item.sourceName,
+    publishedAt: item.publishedAt,
+    contentType: item.contentType,
+    labels: item.labels,
+    relevance: item.relevance,
+    summary: item.summary,
+    fullContent: item.fullContent,
+  }));
 }
 
 async function collectAll(): Promise<CollectorResult[]> {

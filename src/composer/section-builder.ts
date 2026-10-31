@@ -84,7 +84,7 @@ function buildItemHtml(item: DigestItem, siteBaseUrl?: string, dateStr?: string)
   return `
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 10px;background:${T.bg};border:1px solid ${T.border};border-radius:8px;">
       <tr><td style="padding:14px 18px;">
-        <a href="${item.url}" style="display:block;font-size:15px;line-height:1.4;font-weight:600;color:${T.textStrong};text-decoration:none;letter-spacing:-0.01em;">
+        <a href="${escapeHtml(safeExternalUrl(item.url))}" style="display:block;font-size:15px;line-height:1.4;font-weight:600;color:${T.textStrong};text-decoration:none;letter-spacing:-0.01em;">
           ${displayTitle}
         </a>
         <div style="margin-top:4px;font-size:12px;color:${T.textTertiary};">via ${escapeHtml(item.sourceName)}</div>
@@ -98,6 +98,16 @@ function buildItemHtml(item: DigestItem, siteBaseUrl?: string, dateStr?: string)
       </td></tr>
     </table>
   `;
+}
+
+/** 수집한 URL 이 javascript: 같은 스킴이면 링크를 비운다 — 메일 본문에 그대로 들어가기 때문 */
+function safeExternalUrl(value: string): string {
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" || url.protocol === "http:" ? url.href : "";
+  } catch {
+    return "";
+  }
 }
 
 function buildDetailLink(title: string, siteBaseUrl?: string, dateStr?: string): string {

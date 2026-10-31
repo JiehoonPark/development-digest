@@ -12,6 +12,7 @@ on:
     branches: [main]
     paths:
       - "web/**"
+      - "data/posts/**"
       - ".github/workflows/deploy-web.yml"
   workflow_dispatch:
 
@@ -37,7 +38,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version-file: .nvmrc
           cache: "npm"
           cache-dependency-path: web/package-lock.json
 
@@ -53,10 +54,17 @@ jobs:
           restore-keys: |
             next-${{ hashFiles('web/package-lock.json') }}-
 
-      - name: Restore archives from gh-pages
+      # 오늘의 글 JSON·커버는 매일 파이프라인이 gh-pages 에 쌓는다. UI 만 다시 배포할 때도 되살려야 글이 사라지지 않는다.
+      - name: Restore archives, posts and covers from gh-pages
         run: |
           git fetch origin gh-pages --depth=1
           git checkout origin/gh-pages -- data/archives/ 2>/dev/null || mkdir -p data/archives
+          git checkout origin/gh-pages -- data/posts/ 2>/dev/null || true
+          if git checkout origin/gh-pages -- covers/ 2>/dev/null; then
+            mkdir -p web/public/covers
+            cp -n covers/* web/public/covers/ 2>/dev/null || true
+            rm -rf covers
+          fi
 
       - name: Build web (Next.js static export)
         env:
@@ -65,11 +73,14 @@ jobs:
         run: npm run build
         working-directory: web
 
-      - name: Persist archives inside web/out
+      - name: Persist archives and posts inside web/out
         run: |
-          mkdir -p web/out/data/archives
+          mkdir -p web/out/data/archives web/out/data/posts
           if [ -d data/archives ]; then
             cp -r data/archives/. web/out/data/archives/
+          fi
+          if [ -d data/posts ]; then
+            cp -r data/posts/. web/out/data/posts/
           fi
 
       - name: Ensure .nojekyll

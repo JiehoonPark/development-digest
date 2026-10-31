@@ -13,7 +13,7 @@ let dir: string;
 function writeArchive(date: string, items: Array<Record<string, unknown>>): void {
   writeFileSync(
     join(dir, `${date}.json`),
-    JSON.stringify({ date, intro: "", sections: [{ category: "tech", items }] })
+    JSON.stringify({ date, sections: [{ category: "tech", items }] })
   );
 }
 

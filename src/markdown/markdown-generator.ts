@@ -58,9 +58,6 @@ updated: ${archive.date}
 aliases: []
 ---
 
-> [!abstract]
-> ${archive.intro}
-
 `;
 
   for (const section of archive.sections) {
@@ -170,8 +167,11 @@ function extractTechTags(item: ArchiveItem): string[] {
 function sanitizeFileName(title: string): string {
   return title
     .replace(/[/\\:*?"<>|#^\[\]]/g, "")
+    // 제어 문자와 앞뒤 마침표(숨김 파일·상위 경로처럼 해석될 수 있음)를 지운다
+    .replace(/[\x00-\x1f\x7f]/g, "")
     .replace(/\s+/g, " ")
     .trim()
+    .replace(/^\.+|\.+$/g, "")
     .slice(0, 100);
 }
 

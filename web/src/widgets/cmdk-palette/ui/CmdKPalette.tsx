@@ -16,7 +16,7 @@ interface Page {
 }
 
 const PAGES: Page[] = [
-  { label: "오늘의 다이제스트", icon: "📅", href: ROUTES.home },
+  { label: "오늘의 다이제스트", icon: "📅", href: ROUTES.digestToday },
   { label: "전체 아카이브", icon: "📚", href: ROUTES.archive },
   { label: "설정", icon: "⚙️", href: ROUTES.settings },
 ];

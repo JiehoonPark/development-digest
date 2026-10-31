@@ -18,7 +18,7 @@ interface NavItem {
 }
 
 const TOP_ITEMS: NavItem[] = [
-  { label: "오늘의 다이제스트", emoji: "📅", href: ROUTES.home },
+  { label: "오늘의 다이제스트", emoji: "📅", href: ROUTES.digestToday },
 ];
 
 const EXPLORE_ITEMS: NavItem[] = [

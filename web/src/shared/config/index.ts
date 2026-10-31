@@ -5,3 +5,4 @@ export type {
   ArchiveSection,
   CategoryKey,
 } from "./archive-types";
+export type { PostData, PostCover, PostSource, PostBrief } from "./post-types";

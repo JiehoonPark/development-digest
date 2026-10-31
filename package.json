@@ -7,11 +7,14 @@
     "start": "tsx src/index.ts",
     "dry-run": "DRY_RUN=true tsx src/index.ts",
     "test": "vitest run",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "verify": "npm run typecheck && npm test",
     "test:watch": "vitest",
     "test:collect": "tsx scripts/test-collect.ts",
     "test:summarize": "tsx scripts/test-summarize.ts",
     "test:email": "tsx scripts/test-email.ts",
-    "build:web": "npm --prefix web run build"
+    "build:web": "npm --prefix web run build",
+    "preview:post": "tsx scripts/preview-post.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",

@@ -1,0 +1,40 @@
+name: 검증
+
+# 수집·발송 없이 타입 검사와 테스트만. 정기 실행(digest.yml)에 들어가기 전에 PR 단계에서 막는다.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # 운영 러너와 같은 UTC 에서 돌려 날짜·요일 버그가 로컬(KST)에서만 통과하지 않게 한다
+      TZ: UTC
+      LOG_LEVEL: silent
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            web/package-lock.json
+
+      - name: Pipeline — typecheck + tests
+        run: |
+          npm ci
+          npm run verify
+
+      - name: Web — typecheck
+        working-directory: web
+        run: |
+          npm ci
+          npx tsc --noEmit
