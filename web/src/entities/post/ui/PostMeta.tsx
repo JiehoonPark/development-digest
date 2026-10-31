@@ -3,16 +3,13 @@ import { formatShortKoreanDate } from "@/shared/lib";
 
 import styles from "./PostMeta.module.css";
 
-type PostMetaProps = Pick<PostData, "date" | "readingMinutes" | "sources">;
+type PostMetaProps = Pick<PostData, "date">;
 
-export function PostMeta({ date, readingMinutes, sources }: PostMetaProps) {
+/** 글 카드 아래 발행일 */
+export function PostMeta({ date }: PostMetaProps) {
   return (
     <p className={styles.meta}>
       <time dateTime={date}>{formatShortKoreanDate(date)}</time>
-      <span aria-hidden> · </span>
-      {readingMinutes}분 읽기
-      <span aria-hidden> · </span>
-      출처 {sources.length}
     </p>
   );
 }

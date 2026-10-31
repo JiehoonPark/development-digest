@@ -123,7 +123,6 @@ export function PostView({ slug }: { slug: string }) {
         <dl className={styles.facts}>
           <div><dt>발행</dt><dd>{formatKoreanDate(post.date)}</dd></div>
           {sourceDateRange && <div><dt>원문</dt><dd>{sourceDateRange}</dd></div>}
-          <div><dt>분량</dt><dd>{post.readingMinutes}분 읽기 · 출처 {post.sources.length}</dd></div>
         </dl>
         <nav aria-labelledby="toc-title" className={styles.toc}>
           <p id="toc-title" className={styles.tocTitle}>목차</p>

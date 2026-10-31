@@ -53,7 +53,7 @@ export function BlogHomeView() {
             <p className={styles.eyebrow}>오늘의 글</p>
             <h1 className={styles.featureTitle}>{latest.title}</h1>
             <p className={styles.featureDek}>{latest.dek}</p>
-            <PostMeta {...latest} />
+            <PostMeta date={latest.date} />
           </div>
         </Link>
 
@@ -90,7 +90,7 @@ export function BlogHomeView() {
                 <PostCover cover={post.cover} variant="card" badge={post.tags[0]} />
                 <h3 className={styles.cardTitle}>{post.title}</h3>
                 <p className={styles.cardDek}>{post.dek}</p>
-                <PostMeta {...post} />
+                <PostMeta date={post.date} />
               </Link>
             </li>
           ))}
