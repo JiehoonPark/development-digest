@@ -1,0 +1,98 @@
+{
+  "slug": "2026-04-10-css-date-range-selector-logic",
+  "date": "2026-04-10",
+  "title": "두 날짜 사이를 선택자로 칠하기 — :has()와 형제 결합자로 만드는 기간 선택",
+  "dek": "숙소 예약 달력처럼 시작일과 종료일 사이를 칠하는 일은 보통 JavaScript로 날짜를 비교해서 처리합니다. 체크박스 상태와 :has(), :nth-child()의 of 문법, 형제 결합자를 조합해 그 계산을 선택자 하나로 옮기는 방법과, 그 과정에서 빠지기 쉬운 함정을 정리했습니다.",
+  "tags": [
+    "CSS",
+    "선택자",
+    "접근성"
+  ],
+  "readingMinutes": 22,
+  "cover": {
+    "src": "/covers/2026-04-10-css-date-range-selector-logic.jpg",
+    "alt": "체크된 두 날짜 사이를 칠하는 CSS 선택자 코드와 CSS·HTML 로고",
+    "style": "logos"
+  },
+  "tldr": [
+    "날짜마다 체크박스를 두면 \"선택됨\" 상태는 `:checked`로, 그 체크박스를 품은 날짜 칸은 `.date:has(:checked)`로 고를 수 있다[1][2]",
+    "`:nth-child(2 of :has(:checked))`는 체크된 날짜 중 두 번째, 즉 종료일만 고른다 — 조건을 함수 밖에 붙인 `:has(:checked):nth-child(2)`와는 다른 선택자다[3][4]",
+    "사이 구간은 \"시작일 뒤의 형제 중, 종료일 뒤의 날짜가 아닌 것\"으로 표현한다: `~`와 `:not()`의 조합[3][5][6]",
+    "체크를 두 개로 제한하는 일만 JavaScript가 맡고, 색만으로 구간을 표시하지 않도록 끝점에 다른 시각 단서를 더한다[3][7]"
+  ],
+  "body": "## 상태는 체크박스에, 판단은 선택자에\n\n기간 선택기(date range selector)는 시작일과 종료일 사이를 한 덩어리로 보여 주는 UI로, 여행 예약이나 일정 계획에 자주 씁니다.[3] 보통은 클릭할 때마다 JavaScript로 두 날짜를 비교하고, 사이 칸마다 클래스를 붙입니다.\n\n원문 필자는 날짜 칸마다 체크박스를 넣어 선택 상태를 DOM에 두고, 구간을 칠하는 판단은 선택자에 맡깁니다.[3] JavaScript는 체크를 두 개로 유지하는 일만 합니다.\n\n### 달력 마크업\n\n달력은 요일 머리글과 날짜를 같은 `<ul>`의 형제로 나열하고, 그리드로 7열을 만듭니다.[3]\n\n```html\n<ul id=\"calendar\">\n  <li class=\"day\">Mon</li>\n  <li class=\"day\">Tue</li>\n  <!-- up to Sat -->\n  <li class=\"date\">01<input type=\"checkbox\" value=\"01\"></li>\n  <li class=\"date\">02<input type=\"checkbox\" value=\"02\"></li>\n  <!-- up to 31 -->\n</ul>\n```\n\n```css\n#calendar {\n  display: grid;\n  grid-template-columns: repeat(7, 1fr); /* 7 for no. of days in a week */\n}\n```\n\n모든 날짜가 한 부모 아래 형제라는 점이 중요합니다. 뒤에서 쓸 형제 결합자는 같은 부모를 공유하는 요소끼리만 동작하므로,[5] 주 단위로 `<tr>`을 나누는 구조라면 주 경계에서 끊깁니다.\n\n### :checked와 :has()로 \"선택된 날짜 칸\" 고르기\n\n`:checked`는 체크된 체크박스·라디오 버튼·`<option>`을 나타냅니다.[2] 그런데 칠할 대상은 체크박스를 감싼 `<li>`입니다.\n\n`:has()`는 인자로 받은 상대 선택자가 이 요소를 기준으로 하나 이상 일치할 때 그 요소를 나타냅니다. 기준 요소의 부모나 앞 형제를 고르는 길이 여기서 열립니다.[1]\n\n```css\n/* 체크된 체크박스를 품은 날짜 칸 = 시작일 또는 종료일 */\n.date:has(:checked) {\n  font-weight: bold;\n}\n/* 03일과 07일을 체크하면 → 03, 07 두 칸이 굵어짐 */\n```\n\n`:has()`를 지원하지 않는 브라우저는 그 선택자가 든 규칙 블록 전체를 무시합니다. MDN은 2023년 12월부터 주요 브라우저에서 쓸 수 있다고 표시합니다.[1]\n\n## \"체크된 것 중 n번째\" 고르기\n\n시작일과 종료일을 구분하려면 \"체크된 칸 중 첫 번째\", \"체크된 칸 중 두 번째\"라는 순서가 필요합니다. `:nth-child()`의 `of <selector>` 문법이 정확히 이 일을 합니다.\n\n### of 문법이 세는 방식\n\n`:nth-child(An+B of S)`는 형제 중 먼저 `S`에 맞는 요소만 추린 뒤, 그 안에서 순서를 셉니다.[4] 선택자를 함수 밖에 붙이면 의미가 달라집니다. 그때는 모든 자식 중 n번째이면서 동시에 `S`에도 맞는 요소를 찾습니다.[4]\n\n```html\n<p>The reclamation of land...</p>\n<p>The first reclamations can be traced...</p>\n<p class=\"accent\">By 1996, a total of...</p>\n<p>Much reclamation has taken...</p>\n<p class=\"accent\">Hong Kong legislators...</p>\n```\n\n```css\n.accent:nth-child(2) {\n  font-weight: bold; /* does not work */\n}\n/* 두 번째 자식은 .accent가 아니므로 → 아무것도 선택 안 됨 */\n\n:nth-child(2 of .accent) {\n  text-decoration: underline;\n}\n/* .accent 둘 중 두 번째 → 다섯 번째 문단 */\n```\n\n원문 예제 그대로입니다.[3] 주석의 결과는 Chromium에서 직접 확인했습니다.\n\n달력에서는 `S` 자리에 `:has(:checked)`를 넣습니다. 그러면 체크된 날짜 칸만 추려서 셉니다.[3]\n\n```css\n:nth-child(1 of :has(:checked)) { } /* 시작일 칸 */\n:nth-child(2 of :has(:checked)) { } /* 종료일 칸 */\n/* 03, 07 체크 → 1번은 03일, 2번은 07일 */\n```\n\n### 자주 하는 실수: 요일 칸까지 센다\n\n`:nth-child()`는 요소 종류와 상관없이 형제 전체를 셉니다.[4] 요일 `<li class=\"day\">`도 형제라서 `.date:nth-child(3)`은 \"3일\"이 아닙니다. `of` 문법은 추린 목록 안에서만 세므로 앞의 요일 칸에 영향을 받지 않습니다.\n\n`of` 문법은 Chrome·Edge 111, Firefox 113, Safari 9부터 지원하고, 2025년 11월 9일에 Baseline 널리 사용 가능(Widely available) 단계가 됐습니다.[8]\n\n### JavaScript가 맡는 일: 체크를 두 개로 유지\n\nCSS로는 체크박스를 체크하거나 해제할 수 없으므로, 세 번째 날짜를 고를 때 하나를 해제하는 일은 JavaScript가 합니다.[3] 체크박스는 체크하거나 해제할 때마다 `change` 이벤트를 발생시킵니다.[9] 원문 코드는 이 이벤트를 날짜마다 받지 않고 달력 `ul` 하나에서 받습니다.[3]\n\n여기서도 배열을 정렬하지 않고 같은 선택자로 순서를 묻습니다.[3]\n\n```js\nconst CAL = document.getElementById('calendar');\nconst DT = Array.from(CAL.getElementsByClassName('date'));\nCAL.addEventListener('change', e => {\n  if (!CAL.querySelector(':checked')) return;\n  /* When there are two checked boxes, calendar gets 'isRangeSelected' class */\n  CAL.className = CAL.querySelector(':nth-child(2 of :has(:checked))') ? 'isRangeSelected':'';\n  /* When there are three checked boxes */\n  if (CAL.querySelector(':nth-child(3 of :has(:checked))')) {\n    switch (DT.indexOf(e.target.parentElement)) {\n      case DT.indexOf(CAL.querySelector(':nth-child(1 of :has(:checked))')):\n        CAL.querySelector(':nth-child(2 of :has(:checked)) input').checked = 0;\n        break;\n      case DT.indexOf(CAL.querySelector(':nth-child(2 of :has(:checked))')):\n        CAL.querySelector(':nth-child(3 of :has(:checked)) input').checked = 0;\n        break;\n      case DT.indexOf(CAL.querySelector(':nth-child(3 of :has(:checked))')):\n        CAL.querySelector(':nth-child(2 of :has(:checked)) input').checked = 0;\n        break;\n    }\n  }\n});\n```\n\n새로 체크한 날짜가 셋 중 몇 번째인지로 해제할 칸이 정해집니다.[3] 클릭을 재현한 결과입니다.\n\n```js\n// 03 클릭 → 체크 [03]          className ''\n// 07 클릭 → 체크 [03, 07]      className 'isRangeSelected'\n// 09 클릭 → 셋 중 3번째 → 07 해제 → [03, 09]  종료일을 뒤로\n// 05 클릭 → 셋 중 2번째 → 09 해제 → [03, 05]  종료일을 앞으로\n// 01 클릭 → 셋 중 1번째 → 03 해제 → [01, 05]  시작일을 앞으로\n```\n\n재조정 규칙은 원하는 방식으로 바꿔도 된다고 원문 필자는 말합니다.[3]\n\n## 사이 구간을 칠하는 선택자 해부\n\n구간 스타일은 선택자 하나입니다.[3]\n\n```css\n/* When two dates are selected */\n.isRangeSelected {\n  /* Dates following the first but not the second of selected */\n  :nth-child(1 of :has(:checked)) ~ :not(:nth-child(2 of :has(:checked)) ~ .date) {\n    /* Range color */\n    background-color: rgb(228 239 253);\n  }\n}\n```\n\nCSS 중첩에서 `&` 없이 쓴 안쪽 선택자는 바깥 선택자의 자손으로 풀리므로,[10] 이 규칙은 `.isRangeSelected` 안에서만 적용됩니다.\n\n### 한 단계씩 읽기\n\n선택자를 두 조건으로 쪼개면 읽힙니다.\n\n1. `A ~ X`: 형제 결합자(subsequent-sibling combinator) `~`는 `A` 뒤에 오는, 같은 부모의 모든 `X`를 고릅니다. 바로 뒤가 아니어도 됩니다.[5] 여기서 `A`는 시작일 칸이므로 \"시작일 뒤의 모든 형제\"가 후보가 됩니다.\n2. `:not(B ~ .date)`: `:not()`은 인자 목록에 맞지 않는 요소를 나타내고, 결합자가 든 복잡한 선택자(complex selector)도 인자로 받습니다.[6] `B`는 종료일 칸이므로 \"종료일 뒤에 오는 날짜\"를 후보에서 뺍니다.\n\n두 조건이 겹치는 곳이 구간입니다.\n\n```css\n/* 03, 07 체크 상태 */\n/* 조건 1 — 03 뒤의 형제:      04 05 06 07 08 09 10 ... */\n/* 조건 2 — 07 뒤의 날짜 제외:  04 05 06 07 */\n/* → 칠해지는 칸: 04, 05, 06, 07 */\n```\n\n> [!POSTER]\n> 구간 = 두 조건의 교집합\n> 시작일 뒤, 종료일 뒤는 제외\n\n종료일 자신은 \"종료일 뒤\"가 아니라서 칠해지고, 시작일은 빠집니다. 끝점은 `.date:has(:checked)`로 따로 꾸밉니다.\n\n### 자주 하는 실수 1: 클래스 없이 쓰기\n\n`.isRangeSelected` 없이 선택자만 두면, 날짜를 하나만 체크한 순간 문제가 됩니다. `:nth-child(2 of :has(:checked))`에 맞는 요소가 없으니 `:not(...)`은 아무것도 빼지 못합니다.\n\n```css\n/* 03만 체크, 클래스 없음 */\n:nth-child(1 of :has(:checked)) ~ :not(:nth-child(2 of :has(:checked)) ~ .date)\n/* → 04부터 달 끝까지 전부 칠해짐 */\n```\n\n원문이 두 번째 체크가 있을 때만 클래스를 붙이는 이유입니다.[3]\n\n### 자주 하는 실수 2: 클래스를 :has()로 대신하기\n\n\"체크가 두 개일 때\"도 `:has()`로 쓰고 싶어집니다. 하지만 `#calendar:has(:nth-child(2 of :has(:checked)))`처럼 `:has()` 안에 `:has()`를 넣을 수는 없습니다.[1] 실제로 `querySelector`에 넘기면 `SyntaxError`가 납니다.\n\n### JavaScript 클래스 없이 쓰는 대안\n\n클래스를 아예 없애고 싶다면 `:has()`의 다른 쓰임을 씁니다. MDN은 `:has(+ .xyz)`가 정규식의 전방 탐색(lookahead)처럼 \"뒤에 무엇이 오는지\"로 앞 요소를 고른다고 설명합니다.[1] 같은 원리를 `~`에 적용하면 \"뒤에 체크된 날짜가 남아 있는 칸\"을 고를 수 있습니다.\n\n```css\n/* 앞에 체크가 있고, 뒤에도 체크가 있는 날짜 */\n.date:has(:checked) ~ .date:has(~ .date :checked) {\n  background-color: rgb(228 239 253);\n}\n/* 03만 체크   → 칠해지는 칸 없음 */\n/* 03, 07 체크 → 04, 05, 06 (양 끝 제외) */\n```\n\n체크가 하나일 때는 저절로 아무것도 칠하지 않습니다. 다만 `:has()`는 DOM이 바뀔 때마다 다시 평가되므로 `body`나 `*` 같은 넓은 요소에 걸지 말라고 MDN은 권합니다.[1] 위 선택자는 날짜 칸 범위로 묶여 있습니다.\n\n## 접근성과 실무 점검\n\n원문은 접근성을 따로 다루지 않습니다. 아래는 MDN과 WCAG 기준으로 확인할 부분입니다.\n\n### 날짜 숫자를 레이블로 묶기\n\n원문 마크업의 날짜 숫자는 `<li>`의 텍스트일 뿐이라 눌러도 체크박스가 바뀌지 않습니다. 연결된 `<label>`을 누르면 체크가 토글되고, 작은 화면에서 누를 영역도 넓어집니다.[11]\n\n```html\n<li class=\"date\">\n  <label><span>02</span> <input type=\"checkbox\" value=\"02\"></label>\n</li>\n<!-- 숫자 02를 클릭 → 체크박스 02가 체크됨 -->\n```\n\n이때 체크박스의 부모가 `<label>`이 되므로 `e.target.parentElement`로 날짜 칸을 찾던 코드도 바꿔야 합니다.\n\n```js\n// 변경 전: e.target.parentElement → LABEL (DT에 없음, switch가 어느 case에도 안 맞음)\n// 변경 후: e.target.closest('.date') → LI\nswitch (DT.indexOf(e.target.closest('.date'))) { /* ... */ }\n```\n\nCSS 쪽 `.date:has(:checked)`는 자손 전체를 보므로 그대로 동작합니다.\n\n### 색만으로 구간을 알리지 않기\n\nWCAG 성공 기준 1.4.1은 색을 정보를 전달하는 유일한 시각 수단으로 쓰지 말라고 요구합니다.[7] 연한 파랑 배경만으로는 색을 잘 구분하지 못하는 사용자에게 구간이 보이지 않습니다. 끝점에 테두리나 굵은 글씨를 주고, 기간을 텍스트로도 보여 주세요.\n\n## 정리\n\n| 하고 싶은 것 | 선택자 |\n| --- | --- |\n| 선택된 날짜 칸 | `.date:has(:checked)` |\n| 시작일 칸 | `:nth-child(1 of :has(:checked))` |\n| 종료일 칸 | `:nth-child(2 of :has(:checked))` |\n| 시작일 다음 ~ 종료일 | `A ~ :not(B ~ .date)` (두 개 체크일 때만) |\n| 양 끝 제외한 사이 | `.date:has(:checked) ~ .date:has(~ .date :checked)` |\n\n순서는 `of` 문법이 세고, 구간은 두 조건의 교집합으로 고르며, JavaScript는 체크 개수만 관리합니다.[3][4]",
+  "actions": [
+    "원문 달력 마크업에 날짜 10개만 넣고 `.isRangeSelected` 규칙을 지운 채 날짜 하나를 체크해, 달 끝까지 칠해지는 현상을 직접 확인한다",
+    "프로젝트의 기간 선택 UI에서 \"사이 날짜에 클래스를 붙이는\" JavaScript를 찾아 `:nth-child(1 of :has(:checked))` 기반 선택자로 바꿀 수 있는지 검토한다",
+    "기간 선택 UI를 흑백 화면으로 캡처해, 색 없이도 시작일·종료일·구간이 구분되는지 확인한다"
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": ":has() CSS pseudo-class - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:has"
+    },
+    {
+      "id": 2,
+      "title": ":checked CSS pseudo-class - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:checked"
+    },
+    {
+      "id": 3,
+      "title": "Selecting a Date Range in CSS",
+      "publisher": "CSS-Tricks",
+      "url": "https://css-tricks.com/selecting-a-date-range-in-css/",
+      "publishedAt": "2026-04-09"
+    },
+    {
+      "id": 4,
+      "title": ":nth-child() CSS pseudo-class - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:nth-child"
+    },
+    {
+      "id": 5,
+      "title": "Subsequent-sibling combinator - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/Subsequent-sibling_combinator"
+    },
+    {
+      "id": 6,
+      "title": ":not() CSS pseudo-class - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:not"
+    },
+    {
+      "id": 7,
+      "title": "Understanding Success Criterion 1.4.1: Use of Color | WAI | W3C",
+      "publisher": "w3.org",
+      "url": "https://www.w3.org/WAI/WCAG22/Understanding/use-of-color.html"
+    },
+    {
+      "id": 8,
+      "title": "web-features/features/nth-child-of.yml.dist at main · web-platform-dx/web-features",
+      "publisher": "github.com",
+      "url": "https://github.com/web-platform-dx/web-features/blob/main/features/nth-child-of.yml.dist"
+    },
+    {
+      "id": 9,
+      "title": "HTMLElement: change event - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event"
+    },
+    {
+      "id": 10,
+      "title": "Using CSS nesting - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Nesting/Using"
+    },
+    {
+      "id": 11,
+      "title": "<input type=\"checkbox\"> HTML attribute value - HTML | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/checkbox"
+    }
+  ]
+}
