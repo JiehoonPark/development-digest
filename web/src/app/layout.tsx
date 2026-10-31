@@ -7,7 +7,7 @@ import { AnalyticsScript } from "@/shared/ui";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "FE Daily — 매일 하나, 깊게 읽는 프론트엔드",
+  title: "Dev Digest — 매일 하나, 깊게 읽는 프론트엔드",
   description: "매일 아침 프론트엔드 소식 하나를 깊게 정리합니다",
 };
 

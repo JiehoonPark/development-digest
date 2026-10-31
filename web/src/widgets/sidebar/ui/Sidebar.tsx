@@ -6,6 +6,7 @@ import type { ReactNode } from "react";
 
 import { cx } from "@/shared/lib";
 import { ROUTES } from "@/shared/config";
+import { BrandMark } from "@/shared/ui";
 
 import styles from "./Sidebar.module.css";
 
@@ -70,7 +71,7 @@ export function Sidebar() {
 function WorkspaceHeader() {
   return (
     <div className={styles.wsHeader}>
-      <div className={styles.wsAvatar}>📬</div>
+      <BrandMark size={22} />
       <div className={styles.wsName}>Dev Digest</div>
     </div>
   );
