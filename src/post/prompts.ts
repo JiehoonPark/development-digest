@@ -78,7 +78,7 @@ export const WRITE_PROMPT = SOURCE_DATA_RULES + `당신은 한국의 시니어 �
   "keyword": "핵심 키워드나 API 이름 한 개(32자 이내). 예: @media print, useEffectEvent",
   "headline": "큰 글자로 넣을 한국어 문구(20자 안팎). 예: 767.98px은 이제 그만",
   "code": "본문의 대표 코드 2~8줄(한 줄 56자 이내). 줄바꿈은 \\n",
-  "codeFile": "코드 창 파일 이름. 예: breakpoints.css",
+  "codeFile": "코드 창 파일 이름. 확장자로 문법 색을 정하니 .css·.ts·.tsx·.html 같은 확장자를 꼭 붙인다. 예: breakpoints.css",
   "before": "바뀌기 전 표현(34자 이내). 예: max-width: 767.98px",
   "after": "바뀐 뒤 표현(34자 이내). 예: width < 768px",
   "stat": "본문에 출처와 함께 나온 수치 하나(8자 이내). 예: 5.5×, 90%",

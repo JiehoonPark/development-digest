@@ -1,4 +1,5 @@
 import type { CoverSpec, CoverStyle } from "./cover-spec.js";
+import { highlightCode, languageOf } from "./code-highlight.js";
 import { DEFAULT_ACCENT, LOGOS, logoDataUri } from "./logos.js";
 import { motifSvg, resolveMotif, type Motif } from "./motifs.js";
 
@@ -28,26 +29,6 @@ function logoImg(name: string, className = "logo"): string {
 /** 좌상단 작은 로고 배지(주인공 로고가 있을 때) */
 function cornerLogo(spec: CoverSpec): string {
   return spec.logos[0] ? `<div class="corner">${logoImg(spec.logos[0], "corner-logo")}</div>` : "";
-}
-
-/**
- * 아주 단순한 코드 강조 — 주석·문자열·숫자만 칠한다(커버용이라 정확한 문법 분석은 하지 않음).
- * 원문을 토큰으로 먼저 나눈 뒤 토큰마다 이스케이프한다. 이스케이프한 결과에 정규식을 다시 걸면
- * 앞서 넣은 <span style="…"> 속 숫자까지 칠해져 HTML 이 깨진다.
- */
-const CODE_TOKEN = /(\/\*[\s\S]*?\*\/|\/\/[^\n]*)|('[^'\n]*'|"[^"\n]*"|`[^`\n]*`)|(\b\d+(?:\.\d+)?(?:px|pt|rem|em|vh|vw|ms|s|%)?(?![\w]))/g;
-
-function highlightCode(code: string, accent: string): string {
-  let html = "";
-  let last = 0;
-  for (const match of code.matchAll(CODE_TOKEN)) {
-    const [token, comment, string] = match;
-    html += escapeHtml(code.slice(last, match.index));
-    const color = comment ? MUTED : string ? "#b9d98a" : accent;
-    html += `<span style="color:${color}">${escapeHtml(token)}</span>`;
-    last = match.index! + token.length;
-  }
-  return html + escapeHtml(code.slice(last));
 }
 
 const BASE_CSS = `
@@ -89,7 +70,24 @@ function logoGlow(spec: CoverSpec): string {
   );
 }
 
-/** 코드형: macOS 창 모양 코드 블록이 화면을 채운다 */
+/** 코드 창 안쪽 크기(창 1320×640 − 제목 줄 64 − 위아래·좌우 여백) */
+const CODE_AREA = { width: 1200, height: 470 } as const;
+const CODE_LINE_HEIGHT = 1.5;
+/** JetBrains Mono 한 글자 폭 ≈ 0.6em */
+const MONO_CHAR_WIDTH = 0.6;
+const CODE_FONT = { max: 42, min: 26 } as const;
+
+/** 줄 수와 가장 긴 줄에 맞춰 글자 크기를 줄인다 — 창 밖으로 넘치지 않게 */
+function codeFontSize(code: string): number {
+  const lines = code.split("\n");
+  // 한글은 고정폭 두 칸
+  const widest = Math.max(...lines.map((line) => [...line].reduce((sum, char) => sum + (/[\u3131-\uD79D]/.test(char) ? 2 : 1), 0)));
+  const byHeight = CODE_AREA.height / (lines.length * CODE_LINE_HEIGHT);
+  const byWidth = CODE_AREA.width / (widest * MONO_CHAR_WIDTH);
+  return Math.max(CODE_FONT.min, Math.min(CODE_FONT.max, Math.floor(Math.min(byHeight, byWidth))));
+}
+
+/** 코드형: macOS 창 모양 코드 블록이 화면을 채운다. 문법 색 + 괄호 깊이별 색 */
 function codeWindow(spec: CoverSpec): string {
   const accent = accentOf(spec);
   return page(
@@ -99,12 +97,12 @@ function codeWindow(spec: CoverSpec): string {
      .bar{height:64px;display:flex;align-items:center;gap:12px;padding:0 28px;border-bottom:1px solid rgba(255,255,255,.07)}
      .dot{width:16px;height:16px;border-radius:50%}
      .file{margin-left:18px;font-size:22px;color:${MUTED}}
-     pre{margin:0;padding:48px 60px;font-size:42px;line-height:1.5;color:${INK};white-space:pre}
+     pre{margin:0;padding:48px 60px;font-size:${codeFontSize(spec.code)}px;line-height:${CODE_LINE_HEIGHT};color:${INK};white-space:pre}
      .corner{left:auto;right:72px;top:56px;width:84px;height:84px}`,
     `${cornerLogo(spec)}<div class="win"><div class="bar">
        <span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span>
        <span class="file mono">${escapeHtml(spec.codeFile || spec.keyword)}</span></div>
-       <pre class="mono">${highlightCode(spec.code, accent)}</pre></div>`
+       <pre class="mono">${highlightCode(spec.code, languageOf(spec.codeFile, spec.logos[0]))}</pre></div>`
   );
 }
 

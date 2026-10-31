@@ -32,6 +32,43 @@ const samples: Sample[] = [
       code: "/* 이전 */\n@media (max-width: 767.98px) { … }\n\n/* 이후 */\n@media (width < 768px) { … }\n@media (768px <= width < 1024px) { … }",
     },
   },
+  {
+    name: "code-print",
+    style: "code",
+    title: "인쇄용 CSS",
+    tags: ["CSS"],
+    spec: {
+      logos: ["css"],
+      keyword: "@media print",
+      codeFile: "print.css",
+      code: "@media print {\n  .noPrint { display: none; }\n  p, ol  { font-size: 12pt; }\n  h1     { font-size: 16pt; }\n  a { color: black !important; }\n}",
+    },
+  },
+  {
+    name: "code-react",
+    style: "code",
+    title: "useEffectEvent",
+    tags: ["React"],
+    spec: {
+      logos: ["react"],
+      keyword: "useEffectEvent",
+      codeFile: "ChatRoom.tsx",
+      // 규칙상 최대 9줄 — 가장 긴 경우에도 창 안에 들어가는지 확인용
+      code: "function ChatRoom({ roomId, theme }: Props) {\n  const onConnected = useEffectEvent(() => {\n    showNotification('연결됨', theme);\n  });\n  useEffect(() => {\n    const conn = createConnection(roomId);\n    conn.on('connected', () => onConnected());\n    return () => conn.disconnect();\n  }, [roomId]);",
+    },
+  },
+  {
+    name: "code-ts",
+    style: "code",
+    title: "satisfies",
+    tags: ["TypeScript"],
+    spec: {
+      logos: ["typescript"],
+      keyword: "satisfies",
+      codeFile: "routes.ts",
+      code: "type Route = { path: string; auth?: boolean };\n\n// 키 자동완성은 그대로, 값 검사는 엄격하게\nexport const routes = {\n  home: { path: \"/\" },\n  admin: { path: \"/admin\", auth: true },\n} satisfies Record<string, Route>;",
+    },
+  },
   { name: "compare-media-query", style: "compare", title: "767.98px은 이제 그만", tags: ["CSS"], spec: { logos: ["css"], keyword: "범위 문법", before: "max-width: 767.98px", after: "width < 768px" } },
   { name: "stat-turbopack", style: "stat", title: "Turbopack 재빌드", tags: ["Next.js"], spec: { logos: ["nextjs"], keyword: "Turbopack", stat: "5.5×", statLabel: "더 빨라진 재빌드, 메모리는 90% 감소" } },
   { name: "logos-cursor", style: "logos", title: "Cursor Agent SDK", tags: ["AI 에이전트"], spec: { logos: ["cursor", "typescript"], keyword: "Agent SDK" } },
