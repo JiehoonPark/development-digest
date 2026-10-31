@@ -59,10 +59,12 @@ describe("highlightCode", () => {
   it("CSS: at-rule·선택자·속성·값·숫자를 구분한다", () => {
     const html = highlightCode(css, "css");
     expect(colorOf(html, "@media")).toBe(SYNTAX_COLORS.keyword);
-    expect(colorOf(html, ".noPrint")).toBe(SYNTAX_COLORS.selector);
-    expect(colorOf(html, "display")).toBe(SYNTAX_COLORS.property);
+    expect(colorOf(html, ".noPrint")).toBe(SYNTAX_COLORS.classSelector);
+    expect(colorOf(html, "display")).toBe(SYNTAX_COLORS.cssProperty);
     expect(colorOf(html, "none")).toBe(SYNTAX_COLORS.value);
-    expect(colorOf(html, "16pt")).toBe(SYNTAX_COLORS.number);
+    // One Dark Pro 처럼 숫자와 단위를 따로
+    expect(colorOf(html, "16")).toBe(SYNTAX_COLORS.number);
+    expect(colorOf(html, "pt")).toBe(SYNTAX_COLORS.unit);
     expect(colorOf(html, "h1")).toBe(SYNTAX_COLORS.tag);
     expect(colorOf(html, "!important")).toBe(SYNTAX_COLORS.keyword);
     // at-rule 뒤의 미디어 유형은 요소 선택자가 아니다
@@ -71,7 +73,8 @@ describe("highlightCode", () => {
 
   it("CSS: 범위 문법의 비교 연산자와 단위", () => {
     const html = highlightCode("@media (768px <= width < 1024px) { … }", "css");
-    expect(colorOf(html, "768px")).toBe(SYNTAX_COLORS.number);
+    expect(colorOf(html, "768")).toBe(SYNTAX_COLORS.number);
+    expect(colorOf(html, "px")).toBe(SYNTAX_COLORS.unit);
     expect(colorOf(html, "<=")).toBe(SYNTAX_COLORS.operator);
   });
 
@@ -82,7 +85,22 @@ describe("highlightCode", () => {
     expect(colorOf(html, "'연결됨'")).toBe(SYNTAX_COLORS.string);
     expect(colorOf(html, "Route")).toBe(SYNTAX_COLORS.type);
     expect(colorOf(html, "true")).toBe(SYNTAX_COLORS.constant);
-    expect(colorOf(html, "=>")).toBe(SYNTAX_COLORS.operator);
+    expect(colorOf(html, "=>")).toBe(SYNTAX_COLORS.keyword);
+    expect(colorOf(html, "=")).toBe(SYNTAX_COLORS.operator);
+    expect(colorOf(html, "roomId")).toBe(SYNTAX_COLORS.variable);
+  });
+
+  it("스크립트: 점 앞 객체는 노랑, 점 뒤 속성은 빨강, 호출은 파랑(One Dark Pro)", () => {
+    const html = highlightCode("conn.disconnect(); conn.state;", "script");
+    expect(colorOf(html, "conn")).toBe(SYNTAX_COLORS.object);
+    expect(colorOf(html, "disconnect")).toBe(SYNTAX_COLORS.function);
+    expect(colorOf(html, "state")).toBe(SYNTAX_COLORS.property);
+  });
+
+  it("JSX: 소문자 태그와 컴포넌트를 구분한다", () => {
+    const html = highlightCode("<div><Button /></div>", "script");
+    expect(colorOf(html, "div")).toBe(SYNTAX_COLORS.tag);
+    expect(colorOf(html, "Button")).toBe(SYNTAX_COLORS.type);
   });
 
   it("스크립트: 점 뒤 이름은 키워드여도 속성", () => {

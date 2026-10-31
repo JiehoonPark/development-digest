@@ -1,5 +1,5 @@
 import type { CoverSpec, CoverStyle } from "./cover-spec.js";
-import { highlightCode, languageOf } from "./code-highlight.js";
+import { highlightCode, languageOf, ONE_DARK_PRO } from "./code-highlight.js";
 import { DEFAULT_ACCENT, LOGOS, logoDataUri } from "./logos.js";
 import { motifSvg, resolveMotif, type Motif } from "./motifs.js";
 
@@ -92,12 +92,13 @@ function codeWindow(spec: CoverSpec): string {
   const accent = accentOf(spec);
   return page(
     `.c{background:radial-gradient(ellipse 70% 60% at 85% 0%,${accent}40,transparent 70%),radial-gradient(ellipse 60% 60% at 0% 100%,${accent}26,transparent 70%),${BG}}
-     .win{position:absolute;left:140px;right:140px;top:150px;bottom:110px;border-radius:22px;background:#151514;
-       border:1px solid rgba(255,255,255,.09);box-shadow:0 50px 120px rgba(0,0,0,.6),0 0 0 1px ${accent}22}
-     .bar{height:64px;display:flex;align-items:center;gap:12px;padding:0 28px;border-bottom:1px solid rgba(255,255,255,.07)}
+     /* 창은 VS Code One Dark Pro 편집기 색 — 제목 줄 #21252b, 본문 #282c34 */
+     .win{position:absolute;left:140px;right:140px;top:150px;bottom:110px;border-radius:22px;overflow:hidden;background:${ONE_DARK_PRO.background};
+       border:1px solid ${ONE_DARK_PRO.border};box-shadow:0 50px 120px rgba(0,0,0,.6),0 0 0 1px ${accent}22}
+     .bar{height:64px;display:flex;align-items:center;gap:12px;padding:0 28px;background:${ONE_DARK_PRO.titleBar};border-bottom:1px solid ${ONE_DARK_PRO.border}}
      .dot{width:16px;height:16px;border-radius:50%}
-     .file{margin-left:18px;font-size:22px;color:${MUTED}}
-     pre{margin:0;padding:48px 60px;font-size:${codeFontSize(spec.code)}px;line-height:${CODE_LINE_HEIGHT};color:${INK};white-space:pre}
+     .file{margin-left:18px;font-size:22px;color:${ONE_DARK_PRO.tabForeground}}
+     pre{margin:0;padding:48px 60px;font-size:${codeFontSize(spec.code)}px;line-height:${CODE_LINE_HEIGHT};color:${ONE_DARK_PRO.foreground};white-space:pre}
      .corner{left:auto;right:72px;top:56px;width:84px;height:84px}`,
     `${cornerLogo(spec)}<div class="win"><div class="bar">
        <span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span>
