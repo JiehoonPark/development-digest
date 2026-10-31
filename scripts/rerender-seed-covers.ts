@@ -39,11 +39,11 @@ const seeds: Array<{ slug: string; style: CoverStyle; alt: string; spec: object 
 ];
 
 for (const seed of seeds) {
-  const html = renderCoverHtml(seed.style, parseCoverSpec(JSON.stringify(seed.spec), seed.slug));
-  writeFileSync(join(ROOT, "web/public/covers", `${seed.slug}.jpg`), await renderHtmlToJpeg(html));
-
   const postPath = join(ROOT, "data/posts", `${seed.slug}.json`);
   const post = JSON.parse(readFileSync(postPath, "utf8"));
+  const html = renderCoverHtml(seed.style, parseCoverSpec(JSON.stringify(seed.spec), { title: post.title, tags: post.tags }));
+  writeFileSync(join(ROOT, "web/public/covers", `${seed.slug}.jpg`), await renderHtmlToJpeg(html));
+
   post.cover = { src: `/covers/${seed.slug}.jpg`, alt: seed.alt, style: seed.style };
   writeFileSync(postPath, `${JSON.stringify(post, null, 2)}\n`);
   console.log(`${seed.slug} → ${seed.style}`);
