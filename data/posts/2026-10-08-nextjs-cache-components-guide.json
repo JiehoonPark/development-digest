@@ -1,0 +1,85 @@
+{
+  "slug": "2026-10-08-nextjs-cache-components-guide",
+  "date": "2026-10-08",
+  "title": "캐시는 이제 직접 고른다 — Next.js Cache Components 개념부터 코드까지",
+  "dek": "Next.js 16.4부터 Cache Components가 모든 앱에 권장되는 기본 모델이 됐습니다. use cache로 무엇을 캐시할지 고르고, cacheLife로 수명을 정하고, cacheTag로 지우고, 정적 셸과 동적 영역의 경계를 어떻게 지키는지 코드로 정리했습니다.",
+  "tags": [
+    "Next.js",
+    "캐시"
+  ],
+  "readingMinutes": 20,
+  "cover": {
+    "src": "/covers/2026-10-08-nextjs-cache-components-guide.jpg",
+    "alt": "use cache, cacheLife, cacheTag가 들어간 getUsers 함수 코드 창과 Next.js 로고",
+    "style": "typography"
+  },
+  "tldr": [
+    "Next.js 16.4부터 Cache Components를 모든 Next.js 앱에 권장하고, create-next-app으로 만든 새 앱은 기본으로 켜져 있습니다[1].",
+    "데이터 패칭은 기본이 동적이고, 'use cache'를 붙인 함수·컴포넌트만 인자를 키로 캐시됩니다[2][3].",
+    "cacheLife의 stale·revalidate·expire가 수명을 정하고, expire가 5분 미만이면 정적 셸에서 빠져 요청 때 렌더링됩니다[4].",
+    "16.4의 ensureStatic은 셸·프리페치·전체 내비게이션이 정적인지 빌드에서 검사합니다[1][5]."
+  ],
+  "body": "## 캐시를 고르는 모델\n\n이전 App Router는 요청하지 않아도 알아서 캐시했습니다. Cache Components는 반대입니다. 데이터 패칭은 기본이 동적이고, 페이지·컴포넌트·함수 단위로 캐시할 대상을 직접 고릅니다[3]. Next.js 블로그는 `'use cache'`를 컴포넌트 단위의 `Cache-Control` 헤더처럼 생각하라고 설명하고, 이 표시들이 이전 App Router의 암묵적 캐시 동작을 대체한다고 밝힙니다[1].\n\n### 16.4에서 달라진 것\n\n이전까지는 기존 모델만큼 비용·성능을 보장하지 못하는 경우가 있어 모든 앱에 권하지 않았습니다. 16.4는 그 빈틈을 메우고 Cache Components를 모든 Next.js 앱에 권장합니다[1]. `create-next-app`으로 만든 새 앱은 기본으로 켜져 있고, Next.js 17에서는 기본 동작이 됩니다[1].\n\n기존 앱에서는 설정 두 개를 켭니다[1][6].\n\n```ts\n// next.config.ts\nimport type { NextConfig } from 'next'\n\nconst nextConfig: NextConfig = {\n  cacheComponents: true,\n  partialPrefetching: true,\n}\n\nexport default nextConfig\n```\n\n`partialPrefetching`을 비워 두면 경고가 찍히니 명시적으로 적습니다[6]. Cache Components는 Node.js 런타임이 필요해서 `runtime` 내보내기는 모두 지워야 합니다[3]. 기존 앱을 옮길 때는 마이그레이션 가이드와 codemod를 에이전트에게 넘겨 주는 `npx next@canary upgrade --agent=latest`도 쓸 수 있습니다[1].\n\n## use cache — 무엇을, 어떤 키로\n\n`'use cache'`는 async 함수와 컴포넌트의 반환값을 캐시하는 지시어입니다. 함수·컴포넌트 본문이나 파일 맨 위에 두며, 대상은 반드시 async여야 합니다[6][2].\n\n### 데이터 수준과 UI 수준\n\n함수에 붙이면 데이터를 여러 컴포넌트가 나눠 쓰고, 컴포넌트에 붙이면 UI 자체가 캐시됩니다[6].\n\n```ts\n// app/lib/data.ts — 데이터 수준\nimport { cacheLife, cacheTag } from 'next/cache'\n\nexport async function getUsers() {\n  'use cache'\n  cacheLife('hours')\n  cacheTag('users')\n  return db.query('SELECT * FROM users')\n}\n// 두 컴포넌트가 getUsers()를 불러도 쿼리는 한 번\n```\n\n### 캐시 키는 자동으로 만들어진다\n\n캐시 키는 빌드 ID, 함수 위치와 시그니처의 해시인 함수 ID, 직렬화 가능한 인자(컴포넌트라면 props)로 만들어집니다. 개발 중에는 HMR 해시도 들어갑니다[2]. 바깥 스코프의 변수를 참조하면 그 변수도 인자처럼 키에 들어가므로, 클로저로 `userId`를 잡은 함수는 사용자마다 별도 항목을 가집니다[2].\n\n인자와 반환값은 직렬화할 수 있어야 합니다. 반환값으로는 JSX를 돌려줄 수 있지만, 클래스 인스턴스·URL 인스턴스는 쓸 수 없습니다[2]. `children`처럼 읽지 않고 그대로 넘기기만 하는 값은 예외라서, 캐시된 래퍼 안에 동적 컴포넌트를 넣을 수 있습니다[2].\n\n### 자주 하는 실수: 캐시 안에서 쿠키 읽기\n\n캐시된 함수는 `cookies()`, `headers()`, `searchParams`에 접근할 수 없습니다. 이 제한은 호출 스택을 따라가서, 캐시 함수가 부른 헬퍼가 쿠키를 읽어도 `next-request-in-use-cache` 오류가 납니다[2]. 동적 라우트에서는 `next build`를 통과하고 `next start`에서 실패할 수 있어 늦게 발견됩니다[2].\n\n해결책은 바깥에서 읽고 값만 인자로 넘기는 것입니다[6][2].\n\n```tsx\n// app/profile/page.tsx\nimport { cookies } from 'next/headers'\n\n// 캐시 바깥: 요청 데이터를 읽음\nasync function ProfileContent() {\n  const session = (await cookies()).get('session')?.value\n  return <CachedContent sessionId={session} />\n}\n\n// 캐시 안: 값만 받음 → sessionId가 키\nasync function CachedContent({ sessionId }: { sessionId: string }) {\n  'use cache'\n  const data = await fetchUserData(sessionId)\n  return <div>{data}</div>\n}\n```\n\n이 결과는 정적 셸에 들어가지 않고 요청 때 메모리에 캐시되는데, 서버리스에서는 요청 사이에 유지되지 않을 수 있습니다. 공유 캐시가 필요하면 `'use cache: remote'`를 검토합니다[6].\n\n## cacheLife와 cacheTag — 수명과 무효화\n\n### 세 개의 숫자\n\n`cacheLife`는 캐시 범위 안에서 수명을 정합니다. 수명은 세 값으로 이뤄집니다[4].\n\n- `stale`: 클라이언트가 서버에 묻지 않고 캐시를 쓰는 시간\n- `revalidate`: 이 시간이 지난 뒤 요청이 오면 캐시를 먼저 내주고 백그라운드에서 다시 만듦\n- `expire`: 이 시간 동안 요청이 없으면 다음 요청은 새 결과를 기다림\n\n이름만 넘기면 되는 프리셋이 있습니다[4].\n\n| 프로필 | stale | revalidate | expire |\n| --- | --- | --- | --- |\n| `default` | 5분 | 15분 | 만료 없음 |\n| `seconds` | 30초 | 1초 | 1분 |\n| `minutes` | 5분 | 1분 | 1시간 |\n| `hours` | 5분 | 1시간 | 1일 |\n| `days` | 5분 | 1일 | 1주 |\n| `weeks` | 5분 | 1주 | 30일 |\n| `max` | 5분 | 30일 | 1년 |\n\n`next.config.ts`의 `cacheLife` 옵션에 이름 붙인 프로필을 정의할 수도 있고, 빠뜨린 속성은 `default`에서 물려받습니다[4].\n\n`cacheLife`를 빼면 `default` 프로필이 조용히 적용되므로, 공식 문서는 모든 캐시 범위에 `cacheLife`를 함께 쓰라고 권합니다[6][4]. 모듈 최상위에서 부르면 오류가 나고, `expire`는 `revalidate`보다 길어야 합니다[4].\n\n### 자주 하는 실수: 짧은 수명은 셸에서 빠진다\n\n수명은 결과가 어디서 나갈지도 정합니다. `revalidate`가 0이거나 `expire`가 5분 미만이면 프리렌더에서 빠져 요청 때 채우는 \"동적 구멍(dynamic hole)\"이 됩니다. `stale`이 30초 미만이어도 프리렌더에서 빠집니다[4]. `cacheLife('seconds')`는 expire가 1분이라 셸에 들어가지 않습니다[4].\n\n`stale`은 `Cache-Control` 헤더가 아니라 클라이언트 라우터 캐시를 조절하며, 프리페치한 링크가 클릭 전에 만료되지 않도록 최소 30초가 강제됩니다[4].\n\n### 태그로 골라서 지우기\n\n`cacheTag`는 캐시 항목에 문자열 태그를 하나 이상 붙이며, 가져온 데이터의 ID로 태그를 만들 수도 있습니다[7]. 한 호출에 태그는 128개까지, 태그 하나는 256자까지입니다[7].\n\n지우는 함수는 두 가지입니다. `updateTag`는 Server Action 안에서만 쓸 수 있고, 다음 요청이 오래된 캐시 대신 새 데이터를 기다립니다. 사용자가 쓴 글을 바로 보여 줘야 하는 경우에 맞습니다[8].\n\n```ts\n// app/actions.ts\n'use server'\nimport { updateTag } from 'next/cache'\n\nexport async function createPost(formData: FormData) {\n  const post = await db.post.create({\n    data: { title: formData.get('title') },\n  })\n  updateTag('posts')           // 목록 페이지\n  updateTag(`post-${post.id}`) // 상세 페이지\n}\n```\n\n`revalidateTag`는 Route Handler에서도 쓸 수 있고, 권장 프로필 `'max'`를 넘기면 오래된 데이터를 내주면서 백그라운드에서 새로 가져옵니다[9].\n\n```ts\n// app/api/revalidate/route.ts\nrevalidateTag(tag, 'max')          // 오래된 값 제공 + 백그라운드 갱신\nrevalidateTag(tag, { expire: 0 })  // 웹훅: 즉시 만료, 다음 요청은 대기\n```\n\n인자 하나짜리 `revalidateTag(tag)`는 지원 중단(deprecated)됐으니 두 번째 인자를 꼭 넘깁니다[9].\n\n## 정적 셸과 동적 영역의 경계\n\n### 한 페이지 안의 세 가지 콘텐츠\n\n`cacheComponents`는 부분 프리렌더링(Partial Prerendering, PPR)을 App Router의 기본 동작으로 구현하고, `experimental.ppr` 플래그는 제거됐습니다[3]. 정적 HTML 셸을 먼저 보내고 동적 콘텐츠는 준비되는 대로 스트리밍합니다[3].\n\n한 페이지 안에 정적·캐시·런타임 콘텐츠가 함께 있을 수 있습니다[6].\n\n```tsx\n// app/blog/page.tsx\nimport { Suspense } from 'react'\nimport { cookies } from 'next/headers'\nimport { cacheLife, cacheTag } from 'next/cache'\n\nexport default function BlogPage() {\n  return (\n    <>\n      <h1>Our Blog</h1>\n      <BlogPosts />\n      <Suspense fallback={<p>Loading your preferences...</p>}>\n        <UserPreferences />\n      </Suspense>\n    </>\n  )\n}\n// h1, BlogPosts, fallback → 정적 셸 / UserPreferences → 요청 때 스트리밍\n\nasync function BlogPosts() {\n  'use cache'\n  cacheLife('hours')\n  cacheTag('posts')\n  const posts = await getPosts()\n  return <ul>{posts.map((p) => <li key={p.id}>{p.title}</li>)}</ul>\n}\n\nasync function UserPreferences() {\n  const theme = (await cookies()).get('theme')?.value\n  return <p>Your theme: {theme}</p>\n}\n```\n\n캐시하지 않는 읽기나 런타임 API를 `<Suspense>` 없이 쓰면 개발 오버레이가 막힌 라우트(blocking route)라고 알립니다[6]. 반대로 `<Suspense>`로 감싼다고 동적이 되지는 않습니다. 동기 작업만 하면 프리렌더 때 완료됩니다[6].\n\n> [!POSTER]\n> 기본은 동적\n> 캐시는 직접 고른다\n\n### ensureStatic — 정적이어야 할 라우트 지키기\n\n동적 컴포넌트 하나가 섞이면 정적이던 페이지의 비용과 성능이 나빠집니다. 16.4의 `ensureStatic`은 라우트의 셸, 프리페치, 전체 내비게이션 중 원하는 단계가 정적인지 보장합니다[1].\n\n```tsx\n// app/about/page.tsx\nexport const ensureStatic = 'navigation'\n\nexport default function Page() {\n  return (\n    <>\n      <UserAvatar /> {/* 🔴 쿠키를 읽으면 빌드 실패 */}\n      <Content />    {/* 'use cache' → 통과 */}\n    </>\n  )\n}\n```\n\n값은 `'auto'`(기본), `'shell'`, `'prefetch'`, `'navigation'`, `false`이고, `'shell'` → `'prefetch'` → `'navigation'` 순으로 엄격해집니다[5]. `'navigation'`에서는 캐시하지 않는 fetch·DB 호출과 `cookies()`·`headers()`가 `<Suspense>` 안에 있어도 걸리고, expire 5분 미만인 캐시도 실패합니다[5]. 동적 라우트라면 `generateStaticParams()`가 완전한 파라미터 세트를 하나 이상 돌려줘야 합니다[5].\n\n레이아웃에 두면 그 아래 모든 라우트에 적용되고, 하위 세그먼트는 더 엄격하게만 바꿀 수 있습니다[5].\n\n### 프리페치에서 일부만 빼기\n\n`<Link prefetch>`는 링크가 보이는 순간 캐시된 UI를 미리 가져오므로, 메일 목록이라면 열지 않을 스레드까지 렌더링합니다[1]. 16.4의 `navigation()`을 `await`하면 그 아래 코드는 실제 이동 때까지 미뤄집니다[1].\n\n```tsx\nimport { navigation } from 'next/cache'\n\nasync function Thread({ id }) {\n  await navigation() // 프리페치 때는 여기서 멈춤\n  const thread = await getThread(id)\n  return thread.map((m) => <div key={m.id}>{m.body}</div>)\n}\n// 프리페치: Thread 바깥만 / 클릭 후: 스레드까지\n```\n\n`await prefetch()`는 같은 방식으로 셸의 일부를 명시적 프리페치 단계로 미룹니다[1].\n\n## 정리\n\n| 하고 싶은 것 | 쓰는 API | 기억할 점 |\n| --- | --- | --- |\n| 데이터·UI 캐시 | `'use cache'` | async 필수, 인자·클로저가 키[2] |\n| 수명 지정 | `cacheLife('hours')` | expire 5분 미만이면 셸에서 빠짐[4] |\n| 태그 붙이기 | `cacheTag('posts')` | 호출당 128개, 태그당 256자[7] |\n| 내가 쓴 글 즉시 반영 | `updateTag` | Server Action 전용[8] |\n| 웹훅·CMS 갱신 | `revalidateTag(tag, 'max')` | 오래된 값 제공 후 갱신[9] |\n| 요청 데이터 표시 | `<Suspense>` + 런타임 API | 캐시 바깥에서 읽고 인자로 전달[2] |\n| 정적 보장 | `ensureStatic` | 셸·프리페치·내비게이션 단계 선택[5] |\n\n`'use cache'`를 붙일 때는 `cacheLife`와 태그를 함께 정하고, 정적이어야 할 라우트에는 `ensureStatic`을 둡니다.",
+  "actions": [
+    "기존 앱의 next.config.ts에 cacheComponents와 partialPrefetching을 켜고 next dev 오버레이에 뜨는 막힌 라우트 경고를 목록으로 정리한다",
+    "프로젝트의 'use cache' 범위를 검색해 cacheLife가 빠진 곳과 seconds 프로필을 쓰는 곳을 찾는다",
+    "블로그·문서처럼 공개 콘텐츠 라우트의 레이아웃에 ensureStatic = 'navigation'을 추가하고 next build가 통과하는지 확인한다"
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "Next.js 16.4",
+      "publisher": "Next.js Blog",
+      "url": "https://nextjs.org/blog/next-16-4",
+      "publishedAt": "2026-10-07"
+    },
+    {
+      "id": 2,
+      "title": "use cache",
+      "publisher": "nextjs.org",
+      "url": "https://nextjs.org/docs/app/api-reference/directives/use-cache"
+    },
+    {
+      "id": 3,
+      "title": "cacheComponents",
+      "publisher": "nextjs.org",
+      "url": "https://nextjs.org/docs/app/api-reference/config/next-config-js/cacheComponents"
+    },
+    {
+      "id": 4,
+      "title": "cacheLife",
+      "publisher": "nextjs.org",
+      "url": "https://nextjs.org/docs/app/api-reference/functions/cacheLife"
+    },
+    {
+      "id": 5,
+      "title": "ensureStatic",
+      "publisher": "nextjs.org",
+      "url": "https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config/ensureStatic"
+    },
+    {
+      "id": 6,
+      "title": "Caching",
+      "publisher": "nextjs.org",
+      "url": "https://nextjs.org/docs/app/getting-started/caching"
+    },
+    {
+      "id": 7,
+      "title": "cacheTag",
+      "publisher": "nextjs.org",
+      "url": "https://nextjs.org/docs/app/api-reference/functions/cacheTag"
+    },
+    {
+      "id": 8,
+      "title": "updateTag",
+      "publisher": "nextjs.org",
+      "url": "https://nextjs.org/docs/app/api-reference/functions/updateTag"
+    },
+    {
+      "id": 9,
+      "title": "revalidateTag",
+      "publisher": "nextjs.org",
+      "url": "https://nextjs.org/docs/app/api-reference/functions/revalidateTag"
+    }
+  ]
+}

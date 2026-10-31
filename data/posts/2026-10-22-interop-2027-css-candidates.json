@@ -1,0 +1,98 @@
+{
+  "slug": "2026-10-22-interop-2027-css-candidates",
+  "date": "2026-10-22",
+  "title": "Chromium에만 있는 CSS 세 가지 — Interop 2027 후보로 미리 보기",
+  "dek": "CSS 사용자 함수, 모서리 모양을 바꾸는 corner-shape, 툴팁이 뒤집혔는지 알려 주는 앵커드 컨테이너 쿼리는 지금 Chromium 계열에서만 동작합니다. Interop 2027 후보로 오른 이 세 기능을 개념, 코드, 주의점 순서로 정리하고 지금 써도 되는 범위를 따져 봅니다.",
+  "tags": [
+    "CSS",
+    "Interop",
+    "브라우저 지원"
+  ],
+  "readingMinutes": 17,
+  "cover": {
+    "src": "/covers/2026-10-22-interop-2027-css-candidates.jpg",
+    "alt": "CSS 로고와 함께 각도와 거리로 이동 값을 계산하는 @function 코드가 놓인 카드",
+    "style": "code"
+  },
+  "tldr": [
+    "`@function`은 인자를 받아 `result`로 값을 돌려주는 CSS 사용자 함수이고, Chrome 139부터 지원하지만 Firefox·Safari는 아직 지원하지 않습니다[1][2].",
+    "`corner-shape`는 `border-radius`가 만든 모서리 모양을 `bevel`·`squircle` 등으로 바꾸며, 테두리·그림자·외곽선도 그 모양을 따라갑니다[3].",
+    "`container-type: anchored`와 `@container anchored(fallback: …)`를 쓰면 앵커 위치 지정 요소가 대체 위치로 옮겨졌을 때 자손 스타일을 바꿀 수 있습니다[4].",
+    "세 기능 모두 2026년 10월 기준 Chrome·Edge에서만 동작하므로, 없어도 화면이 깨지지 않는 곳부터 점진적 향상으로 씁니다[5]."
+  ],
+  "body": "## Interop 후보라는 말의 의미\n\nInterop은 Google, Apple, Microsoft, Mozilla가 Igalia, Bocoup과 함께 해마다 집중할 웹 기술을 정해 브라우저 간 지원을 맞추는 프로젝트입니다[5]. 어느 해의 집중 영역(focus area)으로 뽑히면 1년 안에 주요 브라우저 지원이 100% 가까이 올라가는 경우가 많습니다[5]. 서브그리드(subgrid)가 좋은 예입니다. 2019년 Firefox에 먼저 들어갔지만 다른 브라우저는 몇 년간 움직이지 않다가, Interop 2023에 포함된 해 말에 모든 최신 브라우저에서 쓸 수 있게 됐습니다[5].\n\n아무 기능이나 후보가 되지는 않습니다. 표준 기구에서 충분히 성숙한 명세가 있어야 하고, WPT(web-platform-tests)나 Test262에 품질 좋은 자동 테스트가 있어야 합니다[6]. 그래서 Interop 후보는 명세와 테스트라는 조건을 이미 갖춘 기능이고, 남은 과제는 주로 브라우저 간 구현을 맞추는 일입니다.\n\n2026년 말 현재 Interop 2027 계획이 진행 중이고, Mozilla가 만든 순위 페이지에서 개발자 투표를 받고 있습니다[5]. 원문 필자 Josh W. Comeau는 자신이 투표한 기능 10개를 소개했습니다[5]. 이 글은 그중 실무 코드에 바로 영향을 줄 세 가지를 고릅니다. 아직 어느 브라우저에도 없는 `inherit()` 함수는 필자도 이번에 뽑히기 어렵다고 보고 있어 제외합니다[5].\n\n> 아래 세 기능은 Interop 2027 **후보**입니다. 최종 포함 여부는 이 글의 자료로 확인되지 않았습니다.\n\n## @function — 값을 계산해 돌려주는 CSS 함수\n\n`@function` 규칙은 CSS 사용자 함수(custom function)를 정의합니다. 이름은 `--`로 시작하고, 정의한 뒤에는 `--my-function(30px, 3)`처럼 어떤 속성 값 안에서든 호출할 수 있습니다[1].\n\n### 기본 형태\n\n매개변수는 커스텀 속성 이름으로 받고, 돌려줄 값은 `result` 디스크립터에 씁니다[1]. 매개변수 뒤에 콜론으로 기본값을 붙일 수 있습니다[1]. 원문의 그라디언트 예제를 옮기면 다음과 같습니다[5].\n\n```css\n@function --gradient-to-transparent(--color, --direction: bottom) {\n  result: linear-gradient(\n    to var(--direction),\n    var(--color),\n    transparent\n  );\n}\n\n.elem {\n  background: --gradient-to-transparent(red);\n  /* → linear-gradient(to bottom, red, transparent) */\n}\n```\n\n`--direction`을 생략했으므로 기본값 `bottom`이 들어갑니다. 함수 본문 안에서 `cos()`, `sin()` 같은 수학 함수도 쓸 수 있어서, 각도와 거리를 받아 이동 값을 만드는 함수도 가능합니다[5].\n\n```css\n@function --translate-polar(--angle, --distance) {\n  result: translate(\n    calc(cos(var(--angle)) * var(--distance)),\n    calc(sin(var(--angle)) * var(--distance))\n  );\n}\n\n/* 45° 방향으로 100px 이동 */\n.particle {\n  transform: --translate-polar(45deg, 100px);\n}\n```\n\n### 타입 지정과 지역 변수\n\n매개변수 뒤에 `<color>`, `<number>` 같은 타입을, 괄호 뒤에 `returns`로 반환 타입을 적을 수 있습니다[1]. 본문에 선언한 커스텀 속성은 함수 안에서만 쓰는 지역 상수가 됩니다[1].\n\n```css\n@function --transparent(--color <color>, --alpha <number>: 0.8)\n  returns <color> {\n  result: oklch(from var(--color) l c h / var(--alpha));\n}\n\nsection {\n  --base-color: #faa6ff;\n  background-color: --transparent(var(--base-color));\n  /* --alpha 생략 → 0.8 */\n}\n```\n\n함수는 호출한 요소에 선언된 커스텀 속성도 읽습니다. 이름이 겹치면 함수 본문의 지역 속성이 가장 우선이고, 그다음이 매개변수, 마지막이 요소의 커스텀 속성입니다[1].\n\n### 주의점\n\n- **타입이 틀리면 값이 사라집니다.** 위 함수의 `--alpha`를 기본값 없이 `<number>`로만 선언하고 `50%`를 넘기면, 값은 계산값 시점에 무효가 되고 `background-color`는 `transparent`가 됩니다[1]. 퍼센트도 받으려면 `type(<number> | <percentage>)`처럼 씁니다[1].\n- **쉼표가 든 값은 중괄호로 감쌉니다.** `--max-plus-x({1px, 7px, 2px}, 3px)`처럼 감싸지 않으면 쉼표가 인자 구분자로 읽힙니다[1].\n- **같은 이름은 캐스케이드로 정해집니다.** 이름이 같은 함수가 여럿이면 더 강한 `@layer`의 것이, 같은 레이어면 나중에 정의한 것이 이깁니다[1].\n- **지원 범위가 좁습니다.** web-features 기준 Chrome·Edge 139부터 지원하고 Firefox·Safari는 미지원이며, MDN도 실험적 기능으로 표시합니다[1][2]. Interop 제안 이슈에는 Safari Technology Preview 249에 들어갔다고 적혀 있습니다[7]. 디자인 토큰 계산처럼 빠지면 화면이 깨지는 곳에는 아직 이릅니다.\n\n## corner-shape — 둥근 모서리 말고 다른 모서리\n\n`corner-shape`는 `border-radius`가 차지하는 영역 안에서 모서리의 모양을 정하는 단축 속성입니다[3]. 기본값 `round`는 지금의 둥근 모서리와 같고, `scoop`, `bevel`, `notch`, `square`, `squircle`, 그리고 `superellipse()` 함수를 쓸 수 있습니다[3].\n\n```css\n.box {\n  border-radius: 16px;\n\n  &.squircle { corner-shape: squircle; } /* 부드러운 둥근 사각 */\n  &.bevel { corner-shape: bevel; }       /* 모서리를 비스듬히 자름 */\n  &.notch { corner-shape: notch; }\n  &.scoop { corner-shape: scoop; }       /* 안쪽으로 둥글게 파임 */\n}\n```\n\n`bevel`은 `border-radius` 양 끝을 직선으로 잇습니다[3]. 원문 필자는 처음엔 `squircle`에 끌렸지만 실제로는 게임·SF풍 UI에 `bevel`을 가장 많이 쓴다고 말합니다[5].\n\n### clip-path와 다른 점\n\n모서리를 깎는 일은 이전에도 `clip-path`나 마스크로 할 수 있었습니다. 차이는 `corner-shape`가 보더 박스 자체의 모양을 바꾼다는 점입니다[5]. 그래서 `border`, `outline`, `box-shadow`, `overflow`, `backdrop-filter`, 배경이 모두 바뀐 모양을 따라갑니다[3].\n\n```css\n.card {\n  border: 2px solid black;\n  border-radius: 20px;\n  corner-shape: bevel;\n  box-shadow: 4px 4px 0 black; /* 그림자도 깎인 모서리를 따라감 */\n}\n```\n\n값은 1~4개를 줄 수 있고, 네 개면 왼쪽 위부터 시계 방향으로 적용됩니다[3]. 키워드 사이는 `superellipse()` 값으로 보간되어 부드럽게 애니메이션됩니다[3].\n\n### 주의점\n\n- **`border-radius`가 없으면 아무 일도 없습니다.** 반지름이 0이면 `corner-shape`는 효과가 없습니다[3].\n- **마주 보는 모서리가 겹치면 브라우저가 줄입니다.** 큰 반지름에 `scoop`처럼 안쪽으로 파는 값을 주면 겹치지 않게 반지름이 조정됩니다[3].\n- **클릭 영역은 모양을 따르지 않을 수 있습니다.** MDN 예제는 `:hover`로 클릭 가능한 영역이 모서리 모양 밖까지 걸친다는 점을 보여 줍니다[3].\n- **`border-shape`와 함께 쓰면 무시됩니다.** `border-shape`가 설정되면 `border-radius`가 무시되고, 그에 의존하는 `corner-shape`도 효과가 없습니다[3].\n\n지원은 Chrome·Edge 139부터이고 Firefox·Safari는 미지원입니다[8][9]. 미지원 브라우저는 속성을 무시하고 `border-radius`의 둥근 모서리를 그대로 그리므로, 원문 필자는 지금 써도 되는 점진적 향상(progressive enhancement)이라고 봅니다[5].\n\n> [!POSTER]\n> 모르는 브라우저에선\n> 그냥 둥근 모서리\n\n## 앵커드 컨테이너 쿼리 — 툴팁이 뒤집혔는지 알기\n\n앵커 위치 지정(Anchor Positioning)은 툴팁 같은 요소를 다른 요소에 붙여 두는 API로, Interop 2026에서 우선순위를 받아 지금은 널리 사용 가능합니다[5]. 툴팁이 위쪽 공간이 부족하면 `position-try-fallbacks`로 아래로 뒤집을 수 있습니다[4]. 빠져 있던 것은 \"지금 뒤집혔는가\"를 CSS에서 아는 방법이었습니다. 그래서 앵커를 가리키는 작은 화살표 방향을 바꿀 수 없었습니다[5].\n\n### 두 가지 조각\n\n앵커드 컨테이너 쿼리(anchored container query)는 두 기능으로 이뤄집니다. 위치 지정 요소에 `container-type: anchored`를 주고, `@container anchored(fallback: …)`로 어떤 대체 위치가 적용됐는지 검사합니다[4]. `fallback`에는 `position-try-fallbacks`에 쓴 값을 그대로 씁니다[4].\n\n```css\n.anchor {\n  anchor-name: --my-anchor;\n}\n\n.infobox {\n  position: fixed;\n  position-anchor: --my-anchor;\n  position-area: top;            /* 기본: 앵커 위 */\n  position-try-fallbacks: bottom; /* 위가 넘치면 아래로 */\n  container-type: anchored;\n}\n\n.infobox::before {\n  content: \"▼\";   /* 기본: 아래를 가리키는 화살표 */\n  position: absolute;\n  top: 105%;\n}\n\n@container anchored(fallback: bottom) {\n  .infobox::before {\n    content: \"▲\"; /* 아래로 옮겨지면 위를 가리킴 */\n    bottom: 100%;\n    top: auto;\n  }\n}\n```\n\n스크롤을 올려 정보 상자가 화면 위로 넘치기 시작하면 앵커 아래로 옮겨지고, 그때만 쿼리 안의 스타일이 적용됩니다[4][10].\n\n### 주의점\n\n- **컨테이너 자신은 바꿀 수 없습니다.** 모든 컨테이너 쿼리처럼 스타일은 자손에게만 적용됩니다[4]. 위 예제가 `.infobox`가 아니라 `::before`를 바꾸는 이유입니다. 배경이나 모서리 반지름처럼 상자 자체를 바꾸려면 안쪽에 감싸는 요소를 하나 두고 그 요소를 꾸밉니다[4].\n- **미지원 브라우저 처리를 따로 둡니다.** MDN 예제는 `@supports not (container-type: anchored)`로 지원 여부를 나눕니다[4]. 미지원 브라우저에서는 툴팁이 뒤집혀도 화살표가 아래를 가리키므로, 이 블록 안에서 화살표를 숨기는 편이 안전합니다.\n- **지원 범위.** Chrome·Edge 143부터 지원하고 Firefox·Safari는 미지원입니다[11]. 명세는 CSS 앵커 위치 지정 모듈 레벨 2에 있습니다[11].\n\n## 정리\n\n| 기능 | 해결하는 문제 | 지원 (web-features) | 지금 쓰는 법 |\n| --- | --- | --- | --- |\n| `@function` | 반복되는 값 계산을 함수로 묶기 | Chrome·Edge 139+, Firefox·Safari 미지원[2] | 빠져도 되는 장식 값부터 |\n| `corner-shape` | 둥근 모서리 외의 모양, 테두리·그림자까지 | Chrome·Edge 139+, Firefox·Safari 미지원[8] | 바로 점진적 향상으로 |\n| `@container anchored()` | 대체 위치에 따라 툴팁 화살표 바꾸기 | Chrome·Edge 143+, Firefox·Safari 미지원[11] | `@supports`로 미지원 시 화살표 숨김 |\n\n세 기능 모두 원문 작성 시점인 2026년 10월에 Chrome 155·Edge 154에서는 동작하고 Firefox 157·Safari 27에서는 동작하지 않습니다[5]. Interop에 들어가면 1년 안에 격차가 줄어드는 경우가 많았으니[5], 지금은 없어도 화면이 깨지지 않는 자리에서 먼저 익혀 두는 것이 현실적인 선택입니다.",
+  "actions": [
+    "프로젝트에서 `clip-path: polygon(`으로 모서리를 깎은 곳을 찾아 `border-radius` + `corner-shape: bevel`로 바꿀 수 있는지 Chrome에서 확인한다",
+    "같은 `oklch(from …)`나 `calc()` 조합이 세 번 이상 반복되는 곳을 골라 `@function`으로 묶은 버전을 Chrome에서만 실험해 본다",
+    "앵커 위치 지정 툴팁이 있다면 `container-type: anchored`와 `@supports not (container-type: anchored)`로 화살표 방향을 바꾸는 코드를 붙여 본다"
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "@function CSS at-rule - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@function"
+    },
+    {
+      "id": 2,
+      "title": "@function - Web platform features explorer",
+      "publisher": "web-platform-dx.github.io",
+      "url": "https://web-platform-dx.github.io/web-features-explorer/features/function/"
+    },
+    {
+      "id": 3,
+      "title": "corner-shape CSS property - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/corner-shape"
+    },
+    {
+      "id": 4,
+      "title": "Using anchored container queries - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Anchor_positioning/Anchored_container_queries"
+    },
+    {
+      "id": 5,
+      "title": "The Future of CSS",
+      "publisher": "Josh W. Comeau",
+      "url": "https://www.joshwcomeau.com/css/interop-2027/",
+      "publishedAt": "2026-10-21"
+    },
+    {
+      "id": 6,
+      "title": "interop/README.md at main · web-platform-tests/interop",
+      "publisher": "GitHub · web-platform-tests/interop",
+      "url": "https://github.com/web-platform-tests/interop/blob/main/README.md"
+    },
+    {
+      "id": 7,
+      "title": "CSS @function · Issue #1357 · web-platform-tests/interop",
+      "publisher": "GitHub · web-platform-tests/interop",
+      "url": "https://github.com/web-platform-tests/interop/issues/1357"
+    },
+    {
+      "id": 8,
+      "title": "corner-shape - Web platform features explorer",
+      "publisher": "web-platform-dx.github.io",
+      "url": "https://web-platform-dx.github.io/web-features-explorer/features/corner-shape/"
+    },
+    {
+      "id": 9,
+      "title": "corner-shape | Can I use... Support tables for HTML5, CSS3, etc",
+      "publisher": "caniuse.com",
+      "url": "https://caniuse.com/wf-corner-shape"
+    },
+    {
+      "id": 10,
+      "title": "@container CSS at-rule - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@container"
+    },
+    {
+      "id": 11,
+      "title": "Anchor position container queries - Web platform features explorer",
+      "publisher": "web-platform-dx.github.io",
+      "url": "https://web-platform-dx.github.io/web-features-explorer/features/container-anchor-position-queries/"
+    }
+  ]
+}

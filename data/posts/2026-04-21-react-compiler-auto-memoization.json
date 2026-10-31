@@ -1,0 +1,92 @@
+{
+  "slug": "2026-04-21-react-compiler-auto-memoization",
+  "date": "2026-04-21",
+  "title": "useMemo를 손으로 쓰지 않는 React — React Compiler 1.0 도입 가이드",
+  "dek": "React Compiler가 빌드 단계에서 메모이제이션을 넣는 원리, 기존 useMemo·useCallback·memo를 어떻게 다룰지, 그리고 React 규칙을 어긴 코드에서 무슨 일이 생기는지 코드로 정리합니다.",
+  "tags": [
+    "React",
+    "React Compiler",
+    "성능"
+  ],
+  "readingMinutes": 20,
+  "cover": {
+    "src": "/covers/2026-04-21-react-compiler-auto-memoization.jpg",
+    "alt": "React 로고와 함께 useMemo 없이 컴파일러가 메모이제이션을 맡는다는 문구를 담은 커버",
+    "style": "typography"
+  },
+  "tldr": [
+    "React Compiler는 빌드 단계에서 컴포넌트와 훅에 메모이제이션 코드를 자동으로 넣는 도구이고, 2025년 10월 7일 첫 안정 버전 1.0이 나왔습니다.[1]",
+    "새 코드는 컴파일러에 맡기고, 이펙트 의존성처럼 정밀한 제어가 필요한 곳에만 useMemo·useCallback을 탈출구로 씁니다. 기존 메모이제이션은 지우면 컴파일 결과가 달라질 수 있어 그대로 두는 것이 권장됩니다.[1]",
+    "컴파일러는 규칙 위반을 감지하면 그 컴포넌트를 건너뛰지만, 감지하지 못한 위반은 이펙트 과다 실행 같은 런타임 문제로 나타납니다.[2]",
+    "문제가 생긴 컴포넌트는 \"use no memo\"로 잠시 제외해 원인을 좁히고, 고친 뒤 지시어를 지웁니다.[3][2]"
+  ],
+  "body": "## 손으로 하는 메모이제이션이 어려운 이유\n\n메모이제이션(memoization)은 입력이 같으면 이전 계산 결과를 다시 쓰는 기법입니다. React에서는 컴포넌트의 state가 바뀌면 그 컴포넌트와 모든 자식이 다시 렌더링되고, 이를 막으려면 `useMemo()`, `useCallback()`, `React.memo()`로 직접 메모이제이션해야 했습니다.[4]\n\n### 의존성을 다 맞춰도 깨지는 경우\n\nReact 공식 문서의 예제는 `memo`, `useMemo`, `useCallback`을 모두 씁니다.[4]\n\n```jsx\nimport { useMemo, useCallback, memo } from 'react';\n\nconst ExpensiveComponent = memo(function ExpensiveComponent({ data, onClick }) {\n  const processedData = useMemo(() => expensiveProcessing(data), [data]);\n  const handleClick = useCallback((item) => onClick(item.id), [onClick]);\n  return (\n    <div>\n      {processedData.map(item => (\n        // () => handleClick(item)은 렌더링마다 새 함수\n        <Item key={item.id} onClick={() => handleClick(item)} />\n      ))}\n    </div>\n  );\n});\n// 결과: Item은 매번 새 onClick을 받아 메모이제이션이 깨짐\n```\n\n`handleClick`은 `useCallback`으로 감쌌지만, JSX 안의 화살표 함수는 렌더링마다 새로 만들어져 `Item`은 항상 새 `onClick`을 받습니다.[4] 참조는 마지막 지점까지 유지돼야 하고, 인라인 함수 하나만 끼어도 효과가 사라집니다. 문서가 수동 메모이제이션을 \"틀리기 쉽다\"고 하는 이유입니다.[4]\n\n## 컴파일러는 무엇을 하는가\n\nReact Compiler는 빌드 단계에서 컴포넌트와 훅에 메모이제이션을 자동으로 넣는 컴파일러입니다.[1] Babel 플러그인으로 동작하지만, 추상 구문 트리(AST)를 자체 중간 표현(HIR)으로 바꿔 데이터 흐름과 값의 변경 가능성(mutability)을 분석합니다.[1]\n\n### 빌드 결과에 캐시 코드가 들어간다\n\n컴파일러를 쓰면 같은 컴포넌트를 메모이제이션 API 없이 씁니다.[4]\n\n```jsx\nfunction ExpensiveComponent({ data, onClick }) {\n  const processedData = expensiveProcessing(data);\n  const handleClick = (item) => onClick(item.id);\n  return (\n    <div>\n      {processedData.map(item => (\n        <Item key={item.id} onClick={() => handleClick(item)} />\n      ))}\n    </div>\n  );\n}\n// 결과: 화살표 함수가 있어도 Item은\n// props.onClick이 바뀔 때만 다시 렌더링 (공식 문서 설명)\n```\n\n컴파일러가 실제로 넣는 코드는 빌드 결과에서 볼 수 있습니다.[5]\n\n```jsx\nimport { c as _c } from \"react/compiler-runtime\";\n\nexport default function MyApp() {\n  const $ = _c(1); // 캐시 칸 1개\n  let t0;\n  if ($[0] === Symbol.for(\"react.memo_cache_sentinel\")) {\n    t0 = <div>Hello World</div>; // 처음 한 번만 JSX 생성\n    $[0] = t0;\n  } else {\n    t0 = $[0]; // 이후에는 캐시한 JSX를 그대로 반환\n  }\n  return t0;\n}\n```\n\n### 조기 반환 뒤에서도 메모이제이션한다\n\n훅은 조기 반환(early return) 뒤에서 부를 수 없습니다.[6] 그래서 `useMemo`는 `return null` 아래에 둘 수 없지만, 컴파일러는 이런 조건부 메모이제이션도 합니다.[1]\n\n```jsx\nfunction ThemeProvider(props) {\n  if (!props.children) return null;\n  // 조기 반환 뒤: useMemo는 못 쓰지만 컴파일러는 메모이제이션\n  const theme = mergeTheme(props.theme, use(ThemeContext));\n  return <ThemeContext value={theme}>{props.children}</ThemeContext>;\n}\n```\n\n### 무엇을 메모이제이션하는가\n\n컴파일러는 업데이트 성능에 집중합니다. 부모가 바뀔 때 자식 트리가 연쇄로 다시 렌더링되는 것과, 렌더링 중 호출하는 비싼 계산을 건너뜁니다.[4] 다만 컴포넌트와 훅만 메모이제이션하고, 그 결과는 여러 컴포넌트 사이에서 공유되지 않습니다.[4] 여러 컴포넌트가 같은 비싼 함수를 부른다면 먼저 프로파일링하고, 필요하면 React 밖에서 따로 메모이제이션합니다.[4]\n\n### 어떤 함수가 컴파일 대상인가\n\n기본 `compilationMode`는 `'infer'`입니다. 이름이 PascalCase(컴포넌트)이거나 `use`로 시작하면서(훅), JSX를 만들거나 다른 훅을 호출하는 함수가 대상입니다.[7] 그래서 `function button()`처럼 소문자로 지은 컴포넌트나 훅을 하나도 부르지 않는 `use` 함수는 조용히 최적화에서 빠집니다.[7]\n\n### 기존 useMemo·useCallback·memo는\n\nReact 팀은 컴파일러의 메모이제이션이 대부분 직접 쓴 것만큼 또는 그보다 정밀하다고 설명합니다.[1] 그래도 `useMemo`와 `useCallback`은 계속 쓸 수 있고, 메모이제이션할 값을 직접 정하는 탈출구(escape hatch)가 됩니다.[1]\n\n| 상황 | 권장 |\n| --- | --- |\n| 새로 쓰는 코드 | 컴파일러에 맡기고, 정밀한 제어가 필요한 곳에만 `useMemo`/`useCallback` |\n| 이펙트 의존성으로 쓰는 값 | 의미 없는 변경에 이펙트가 반복 실행되지 않도록 직접 메모이제이션 |\n| 이미 있는 메모이제이션 | 그대로 두거나, 지운다면 꼼꼼히 테스트한 뒤 |\n\n> [!POSTER]\n> 이미 있는 useMemo는\n> 지우지 말고 둔다\n\n컴파일러를 켜자마자 `useMemo`를 일괄 삭제하면 컴파일 결과가 달라질 수 있습니다.[1] 그 값이 `useEffect` 의존성이었다면 이펙트 실행 횟수가 바뀔 수 있습니다. 지우려면 컴포넌트 단위로 테스트와 함께 진행합니다.\n\n## 도입하기\n\nReact 팀에 따르면 Meta Quest Store에서 첫 로드와 페이지 간 이동이 최대 12% 개선됐고, 일부 상호작용은 2.5배 넘게 빨라졌으며, 메모리 사용량은 그대로였습니다.[1] 앱마다 결과는 다를 수 있다는 단서가 붙어 있습니다.[1]\n\n### 설치와 빌드 설정\n\nReact 19에 맞춰 설계됐지만 17과 18도 지원합니다.[5] 블로그는 버전을 고정해 설치하라고 안내합니다.[1]\n\n```bash\nnpm install --save-dev --save-exact babel-plugin-react-compiler@latest\n```\n\nBabel을 쓴다면 플러그인을 등록합니다. 컴파일러는 원래 소스 정보로 분석해야 하므로 Babel 플러그인 파이프라인에서 **가장 먼저** 실행돼야 합니다.[5]\n\n```js\n// babel.config.js\nmodule.exports = {\n  plugins: [\n    'babel-plugin-react-compiler', // 반드시 첫 번째\n  ],\n};\n```\n\nReact 17·18이라면 `target: '18'`처럼 문자열로 버전을 지정하고 `react-compiler-runtime`을 설치합니다. 이 패키지는 런타임에 필요하므로 `devDependencies`가 아닌 `dependencies`에 둡니다.[8]\n\nNext.js는 15.3.1 이상에서 swc로 컴파일러를 호출할 수 있고, Expo는 SDK 54부터 기본으로 켜져 있으며, `create-vite`와 `create-next-app`에는 컴파일러를 켠 템플릿이 있습니다.[1][4]\n\n설치 후 개발 모드의 React DevTools를 열면 최적화된 컴포넌트에 \"Memo ✨\" 배지가 붙습니다.[5]\n\n### 조금씩 켜기\n\n기존 앱은 Babel `overrides`로 디렉터리별로 켜거나, `compilationMode: 'annotation'`으로 `\"use memo\"`를 붙인 함수만 컴파일하거나, `gating` 옵션으로 기능 플래그에 따라 런타임에 켜고 끄며 조금씩 넓힐 수 있습니다.[9]\n\n```js\n// babel.config.js — 표시한 함수만 컴파일\nmodule.exports = {\n  plugins: [\n    ['babel-plugin-react-compiler', {\n      compilationMode: 'annotation',\n    }],\n  ],\n};\n```\n\n```jsx\nfunction TodoList({ todos }) {\n  \"use memo\"; // 이 컴포넌트만 컴파일 대상\n  const sortedTodos = todos.slice().sort();\n  return (\n    <ul>\n      {sortedTodos.map(todo => (\n        <TodoItem key={todo.id} todo={todo} />\n      ))}\n    </ul>\n  );\n}\n```\n\nannotation 모드에서는 새로 만드는 컴포넌트와 커스텀 훅에도 `\"use memo\"`를 빠짐없이 붙여야 합니다.[9]\n\n### 린트 먼저\n\n컴파일러 기반 린트 규칙은 `eslint-plugin-react-hooks`의 `recommended` 프리셋에 들어 있고, 컴파일러 없이도 쓸 수 있습니다. `eslint-plugin-react-compiler`를 썼다면 지우고 이쪽으로 옮깁니다.[1] 렌더링 중 `setState`로 생기는 루프(`set-state-in-render`), 이펙트 안의 비싼 작업(`set-state-in-effect`), 렌더링 중 안전하지 않은 ref 접근(`refs`) 같은 패턴을 잡아 줍니다.[1] 린트가 오류를 보고한 컴포넌트나 훅은 컴파일러가 최적화를 건너뛰고 나머지는 계속 최적화하므로, 위반은 천천히 고쳐도 됩니다.[5]\n\n## React 규칙을 어기면 생기는 일\n\nReact 규칙(Rules of React)은 컴포넌트와 훅은 순수해야 하고, 컴포넌트는 React가 호출하며, 훅은 최상위에서만 부른다는 세 묶음입니다.[6] 어기면 앱에 버그가 있을 가능성이 높아서 가이드라인이 아니라 규칙이라고 부릅니다.[6]\n\n### 감지되면 건너뛰고, 못 하면 런타임 문제\n\n컴파일러는 규칙을 어겼을 수 있는 코드를 만나면 최적화를 건너뜁니다. 그래서 빌드 오류는 드물고, 문제는 대부분 감지하지 못한 미묘한 위반이 있는 컴포넌트를 컴파일했을 때 런타임에 나타납니다.[2]\n\n렌더링 중 컴포넌트 밖의 값을 바꾸는 코드가 대표적인 위반입니다.[10]\n\n```jsx\nconst items = []; // 컴포넌트 바깥\n\nfunction FriendList({ friends }) {\n  for (let i = 0; i < friends.length; i++) {\n    const friend = friends[i];\n    items.push(<Friend key={friend.id} friend={friend} />);\n  }\n  return <section>{items}</section>;\n}\n// 결과: 렌더링할 때마다 items에 친구가 계속 쌓여 중복 표시\n```\n\n`const items = []`를 함수 안으로 옮기면 렌더링마다 새로 만들어지므로 지역 변경(local mutation)이 되고, 규칙에 맞는 코드가 됩니다.[10]\n\n### 메모이제이션에 정확성을 기댄 코드\n\n더 찾기 어려운 경우는 특정 값이 메모이제이션돼 있어야만 올바르게 동작하는 코드입니다. 컴파일러는 직접 쓴 것과 다르게 메모이제이션할 수 있어서 이펙트 과다 실행, 무한 루프, 업데이트 누락이 생길 수 있습니다.[2] 컴파일러 버전을 올릴 때도 메모이제이션 방식이 달라질 수 있습니다.[1]\n\n```jsx\nfunction SearchResults({ query }) {\n  const options = useMemo(() => ({ query }), [query]);\n  useEffect(() => {\n    fetchResults(options);\n  }, [options]); // options 참조가 바뀌면 다시 실행\n}\n\n// 참조 대신 원시값에 의존하면 메모이제이션 방식과 무관\nfunction SearchResults({ query }) {\n  useEffect(() => {\n    fetchResults({ query });\n  }, [query]);\n}\n```\n\n첫 번째처럼 이펙트가 참조에 기대고 있다면 `useMemo`를 지우지 말고 남겨 두는 것이 공식 권장입니다.[1] 두 번째처럼 원시값에 의존하게 바꾸면 메모이제이션 방식이 달라져도 이펙트 실행 횟수는 그대로입니다.\n\n### \"use no memo\"로 범위 좁히기\n\n`\"use no memo\"`는 함수 하나를 컴파일 대상에서 빼는 지시어입니다. 함수 본문 맨 처음에 작은따옴표나 큰따옴표로 써야 하고(백틱 불가), 어떤 `compilationMode`보다 우선합니다.[3]\n\n지시어를 붙여 문제가 사라지면 React 규칙 위반일 가능성이 높습니다.[2] 원인을 고친 뒤에는 지시어를 지우고 DevTools에서 ✨ 배지가 다시 붙는지 확인합니다.[2] 문서는 이 지시어를 영구 해결책이 아니라 임시 디버깅 도구로 규정합니다.[3]\n\n테스트 커버리지가 부족하다면 컴파일러를 `^1.0.0` 같은 범위가 아니라 `1.0.0`처럼 정확한 버전으로 고정하고, 업그레이드는 직접 확인하며 진행하라고 React 팀은 권합니다.[1]\n\n## 정리\n\n| 주제 | 핵심 |\n| --- | --- |\n| 원리 | 빌드 단계에서 데이터 흐름을 분석해 컴포넌트·훅에 캐시 코드를 삽입[1] |\n| 대상 | 기본 `infer`: PascalCase·`use` 이름 + JSX 또는 훅 호출[7] |\n| useMemo·useCallback | 새 코드는 컴파일러에 맡기고 탈출구로만, 기존 코드는 유지[1] |\n| 도입 | Babel 플러그인 맨 앞, React 17·18은 `target`과 런타임 패키지[5][8] |\n| 점진 도입 | `overrides`, `annotation` + `\"use memo\"`, `gating`[9] |\n| 규칙 위반 | 감지되면 건너뜀, 못 하면 런타임 문제 → `\"use no memo\"`로 좁히기[3][2] |\n\n컴파일러는 React 규칙을 지킨 코드를 전제로 합니다. 린트부터 켜고 범위를 넓혀 갑니다.",
+  "actions": [
+    "eslint-plugin-react-hooks를 최신으로 올리고 recommended 프리셋을 켜서 컴파일러가 건너뛸 컴포넌트가 몇 개인지 확인하기",
+    "작은 디렉터리 하나에 Babel overrides로 컴파일러를 켜고 React DevTools에서 Memo ✨ 배지가 붙는지 보기",
+    "useEffect 의존성 배열에 객체나 함수가 들어간 곳을 검색해 원시값 의존으로 바꿀 수 있는지 점검하기"
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "React Compiler v1.0",
+      "publisher": "React Blog",
+      "url": "https://react.dev/blog/2025/10/07/react-compiler-1",
+      "publishedAt": "2025-10-07"
+    },
+    {
+      "id": 2,
+      "title": "Debugging and Troubleshooting – React",
+      "publisher": "react.dev",
+      "url": "https://react.dev/learn/react-compiler/debugging"
+    },
+    {
+      "id": 3,
+      "title": "'use no memo' directive – React",
+      "publisher": "react.dev",
+      "url": "https://react.dev/reference/react-compiler/directives/use-no-memo"
+    },
+    {
+      "id": 4,
+      "title": "Introduction – React",
+      "publisher": "react.dev",
+      "url": "https://react.dev/learn/react-compiler/introduction"
+    },
+    {
+      "id": 5,
+      "title": "Installation – React",
+      "publisher": "react.dev",
+      "url": "https://react.dev/learn/react-compiler/installation"
+    },
+    {
+      "id": 6,
+      "title": "Rules of React – React",
+      "publisher": "react.dev",
+      "url": "https://react.dev/reference/rules"
+    },
+    {
+      "id": 7,
+      "title": "compilationMode – React",
+      "publisher": "react.dev",
+      "url": "https://react.dev/reference/react-compiler/compilationMode"
+    },
+    {
+      "id": 8,
+      "title": "target – React",
+      "publisher": "react.dev",
+      "url": "https://react.dev/reference/react-compiler/target"
+    },
+    {
+      "id": 9,
+      "title": "Incremental Adoption – React",
+      "publisher": "react.dev",
+      "url": "https://react.dev/learn/react-compiler/incremental-adoption"
+    },
+    {
+      "id": 10,
+      "title": "Components and Hooks must be pure – React",
+      "publisher": "react.dev",
+      "url": "https://react.dev/reference/rules/components-and-hooks-must-be-pure"
+    }
+  ]
+}
