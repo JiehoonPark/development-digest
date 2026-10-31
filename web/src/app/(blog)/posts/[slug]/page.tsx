@@ -20,7 +20,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const post = getPost((await params).slug);
-  return post ? { title: `${post.title} — FE Daily`, description: post.dek } : {};
+  return post ? { title: `${post.title} — Dev Digest`, description: post.dek } : {};
 }
 
 export default async function PostPage({ params }: PageProps) {

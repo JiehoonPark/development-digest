@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { ROUTES } from "@/shared/config";
+import { BrandMark } from "@/shared/ui";
 
 import styles from "./BlogShell.module.css";
 
@@ -13,15 +14,9 @@ export function BlogShell({ children }: { children: ReactNode }) {
         본문으로 건너뛰기
       </a>
       <header className={styles.bar}>
-        <Link href={ROUTES.home} className={styles.brand} aria-label="FE Daily 홈">
-          <span className={styles.logo} aria-hidden>
-            FE
-          </span>
-          <span className={styles.brandText}>
-            FE
-            <br />
-            DAILY
-          </span>
+        <Link href={ROUTES.home} className={styles.brand} aria-label="Dev Digest 홈">
+          <BrandMark size={30} />
+          <span className={styles.brandText}>Dev Digest</span>
         </Link>
         <nav aria-label="주요 메뉴" className={styles.nav}>
           <Link href={ROUTES.home}>글</Link>
