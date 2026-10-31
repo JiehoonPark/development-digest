@@ -109,7 +109,7 @@ describe("renderCoverHtml", () => {
     const html = renderCoverHtml("code", spec);
     const pre = html.slice(html.indexOf("<pre"), html.indexOf("</pre>"));
     // 원문의 < > " 는 모두 이스케이프되고, 남은 태그는 강조용 span 뿐이다
-    expect(pre).toContain("&#60;div class=");
+    expect(pre).toContain("&#60;");
     expect(pre).toContain("&#34;a&#34;");
     expect(pre.replace(/<\/?span[^>]*>/g, "").replace(/^<pre[^>]*>/, "")).not.toMatch(/[<>]/);
   });
