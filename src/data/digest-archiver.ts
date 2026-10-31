@@ -13,7 +13,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export interface ArchiveItem extends DigestItem {
   slug: string;
   fullContent?: string;
-  translatedContent?: string;
   category: string;
   publishedAt?: string;
   language?: string;

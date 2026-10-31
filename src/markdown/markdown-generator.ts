@@ -109,10 +109,9 @@ aliases: []
   md += `## 핵심 개념\n\n`;
   md += `> [!abstract]\n> ${item.summary}\n\n`;
 
-  const body = item.article ?? item.translatedContent;
-  if (body) {
+  if (item.article) {
     // 아티클이 있으면 그것이 본문 — keyPoints 목록은 중복이라 생략
-    md += `## 아티클\n\n${body}\n\n`;
+    md += `## 아티클\n\n${item.article}\n\n`;
   } else {
     if (item.keyPoints?.length) {
       md += `## 상세 내용\n\n`;

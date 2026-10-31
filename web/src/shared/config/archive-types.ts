@@ -24,6 +24,10 @@ export interface ArchiveItem {
 
   slug: string;
   fullContent?: string;
+  /**
+   * 2026-03~04 발행본에만 있는 원문 번역(387건). 번역 단계는 없앴고 새 발행본에는 쓰지 않는다.
+   * 지난 상세 페이지 본문이 사라지지 않도록 읽기만 남겨 둔다.
+   */
   translatedContent?: string;
   category: string;
   publishedAt?: string;
