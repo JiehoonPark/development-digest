@@ -1,0 +1,86 @@
+{
+  "slug": "2026-03-24-role-queries-over-test-ids",
+  "date": "2026-03-24",
+  "title": "버튼을 div로 바꿔도 통과하는 테스트 — data-testid 대신 getByRole",
+  "dek": "data-testid로 요소를 찾는 테스트는 사용자가 볼 수 없는 값에 기대기 때문에, 접근성이 무너져도 계속 통과합니다. 역할(role)과 접근 가능한 이름(accessible name)으로 요소를 찾으면 테스트가 어떻게 접근성 검사 역할까지 하게 되는지, 그리고 역할로 찾을 수 없을 때 무엇을 고쳐야 하는지 정리했습니다.",
+  "tags": [
+    "테스트",
+    "접근성",
+    "Testing Library"
+  ],
+  "readingMinutes": 20,
+  "cover": {
+    "src": "/covers/2026-03-24-role-queries-over-test-ids.jpg",
+    "alt": "getByTestId 대신 getByRole('button', { name })으로 버튼을 찾는 테스트 코드와 React·Playwright 로고",
+    "style": "code"
+  },
+  "tldr": [
+    "`data-testid`로 찾는 테스트는 `<button>`을 클릭 핸들러가 붙은 `<div>`로 바꿔도 그대로 통과한다[1]",
+    "`getByRole('button', { name })`으로 찾으면 역할과 접근 가능한 이름이 없는 요소에서 테스트가 실패해, 접근성 문제를 일찍 드러낸다[1][2]",
+    "Testing Library는 `getByRole`을 가장 먼저, `getByTestId`를 가장 나중에 쓰라고 권하고, Playwright도 역할 기반 로케이터를 우선하라고 권한다[3][4]",
+    "역할로 찾을 수 없다면 테스트에 ID를 붙이기보다 마크업을 고치는 쪽이 맞다고 원문 필자는 본다[1]"
+  ],
+  "body": "## 테스트 ID가 놓치는 것\n\n테스트 ID는 `data-testid` 같은 속성에 테스트 전용 값을 넣고, 테스트에서 그 값으로 요소를 찾는 방식입니다. 클래스 이름이나 DOM 구조가 바뀌어도 깨지지 않으니 안정적으로 보입니다. 문제는 이 값이 화면에도, 스크린 리더에도 나타나지 않는다는 점입니다.\n\n### 테스트 ID로 버튼 찾기\n\n대화 상자를 여는 버튼이 하나 있다고 하겠습니다.[1]\n\n```tsx\nfunction WidgetDialogTrigger({ onClick }: Props) {\n  return (\n    <button data-testid=\"widget-dialog-trigger\" onClick={onClick}>\n      Open Widget\n    </button>\n  )\n}\n```\n\n테스트에서는 ID로 버튼을 찾아 클릭합니다.[1]\n\n```tsx\nscreen.getByTestId('widget-dialog-trigger').click()\n// 버튼을 찾아 클릭 → onClick 호출, 테스트 통과\n```\n\n### 버튼을 div로 바꿔도 통과한다\n\n이제 누군가 `<button>`을 `<div>`로 바꿨다고 해 봅시다. 속성 값은 그대로이니 위 테스트는 여전히 통과합니다.[1]\n\n```tsx\nfunction WidgetDialogTrigger({ onClick }: Props) {\n  return (\n    <div data-testid=\"widget-dialog-trigger\" onClick={onClick}>\n      Open Widget\n    </div>\n  )\n}\n// getByTestId 테스트: 여전히 통과\n```\n\n마우스로는 똑같이 동작하지만, 이 `div`는 키보드로 조작할 수 없고 버튼이라는 역할도 없어서 스크린 리더가 제대로 알려 주지 못할 수 있습니다.[1] MDN도 의미 없는 요소인 `<div>`와 `<span>`에는 역할이 없다고 설명합니다.[5] 테스트는 초록불인데 일부 사용자는 버튼을 쓸 수 없는 상태가 된 것입니다.\n\n### 역할로 찾으면 테스트가 실패한다\n\n같은 버튼을 역할과 이름으로 찾으면 결과가 달라집니다.[1]\n\n```tsx\nscreen\n  .getByRole('button', { name: 'Open Widget' })\n  .click()\n// <button>이면 통과\n// <div>로 바꾸면 에러: button 역할을 가진 요소가 없음\n```\n\n`getBy...` 쿼리는 일치하는 요소가 없으면 설명이 담긴 에러를 던집니다.[3] 그래서 `div`로 바꾸는 순간 테스트가 깨지고, 접근성 회귀가 리뷰 전에 드러납니다. 덤으로 \"Open Widget 버튼을 클릭한다\"처럼 테스트가 사람이 읽는 문장에 가까워집니다.[1]\n\n버튼 문구가 바뀌면 테스트도 고쳐야 한다는 걱정이 있습니다. 원문 필자는 문구가 생각만큼 자주 바뀌지 않고, 문구에 묶이는 것 자체가 문제는 아니라고 봅니다.[1]\n\n> [!POSTER]\n> 사용자는 볼 수 없다\n> 테스트 ID는 보이지 않는다\n\n## 역할과 접근 가능한 이름\n\n`getByRole`이 기대는 두 가지 정보는 역할과 접근 가능한 이름입니다. 둘 다 브라우저가 접근성 트리(accessibility tree)에 올려 보조 기술에 전달하는 값입니다.[6][3]\n\n### 역할: 이 요소가 무엇인가\n\n역할(role)은 요소가 버튼인지, 링크인지, 대화 상자인지를 나타내는 의미입니다. 많은 HTML 요소는 기본 역할을 갖고 있어서, `<input type=\"radio\">`는 따로 지정하지 않아도 `radio` 역할입니다.[5] `getByRole`도 이 기본 역할을 고려하므로 `<button>`은 `role` 속성 없이 `button`으로 찾힙니다.[2]\n\n```html\n<button>저장</button>        <!-- 역할: button -->\n<a href=\"/docs\">문서</a>     <!-- 역할: link -->\n<nav>...</nav>              <!-- 역할: navigation -->\n<form aria-label=\"가입\">...</form> <!-- 역할: form -->\n<div>저장</div>              <!-- 역할 없음 -->\n```\n\n`<nav>`는 `navigation`, `<form>`은 `form`, `<main>`은 `main` 같은 랜드마크 역할에 대응합니다.[5] 다만 `<form>`은 접근 가능한 이름이 있을 때만 `form` 랜드마크로 노출됩니다.[7]\n\n#### 자주 하는 실수: 기본 역할을 다시 적기\n\n```html\n<!-- 불필요: button은 이미 button 역할 -->\n<button role=\"button\">저장</button>\n\n<!-- 충돌: button에 heading 역할을 줄 수 없음 -->\n<button role=\"heading\">제목</button>\n```\n\nARIA in HTML 명세는 기본 역할과 같은 값을 `role`에 다시 넣는 것을 권장하지 않고, 기본 의미와 충돌하는 `role` 사용을 금지합니다.[8] Testing Library 문서도 같은 이유로 `button`에 `heading` 역할을 줄 수 없다고 예를 듭니다.[2]\n\n`role=\"button\"`을 `div`에 붙이는 것도 해결책이 아닙니다. 스크린 리더에 버튼이라고 알려 줄 뿐, 클릭 이벤트나 키보드 처리 같은 버튼 기능은 생기지 않습니다.[5] 진짜 `<button>`을 쓰는 편이 간단합니다.\n\n### 접근 가능한 이름: 이 요소를 무엇이라 부르는가\n\n접근 가능한 이름(accessible name)은 보조 기술 사용자에게 요소를 소개하는 텍스트입니다.[6] 같은 역할의 버튼이 여러 개일 때 `name` 옵션으로 원하는 요소를 정확히 고를 수 있는 것도 이 이름 덕분입니다.[2] 이름이 어디서 오는지는 요소마다 다릅니다.[6]\n\n```html\n<button>저장</button>\n<!-- 이름: \"저장\" (요소 내용) -->\n\n<label for=\"email\">이메일</label>\n<input id=\"email\" />\n<!-- 이름: \"이메일\" (for와 id로 연결한 label) -->\n\n<label>이메일 <input /></label>\n<!-- 이름: \"이메일\" (label 안에 넣어 암묵적으로 연결) -->\n\n<img src=\"grape.jpg\" alt=\"banana\" />\n<!-- 이름: \"banana\" (alt 속성) -->\n\n<button aria-label=\"닫기\">×</button>\n<!-- 이름: \"닫기\" (보이는 텍스트가 없을 때 aria-label) -->\n```\n\nMDN은 가능하면 보이는 텍스트를 이름으로 쓰라고 권하고, 모든 컨트롤에는 이름이 있어야 한다고 설명합니다.[6]\n\n#### 자주 하는 실수: 역할로 찾을 수 없는 요소\n\n```tsx\n// <input type=\"password\" />는 기본 역할이 없음\nscreen.getByRole('textbox', { name: '비밀번호' }) // 찾지 못함\nscreen.getByLabelText('비밀번호') // label로 찾기\n\n// <main aria-hidden=\"true\"> 안의 버튼은 기본적으로 제외\nscreen.getByRole('button', { name: 'Open dialog' }) // 찾지 못함\n```\n\n명세상 `<input type=\"password\">`에는 기본 역할이 없어서 `getByLabelText` 같은 쿼리로 찾아야 합니다.[2] 또 `getByRole`은 접근성 트리에서 빠진 요소를 기본으로 제외하므로, `aria-hidden=\"true\"` 안의 요소는 `hidden: true` 옵션을 줘야 찾을 수 있습니다.[2] 역할 이름은 문자열로 정확히 비교하기 때문에 `checkbox`로 찾으면 `switch` 역할 요소는 나오지 않습니다.[2]\n\n## 사용자의 동작을 쿼리로 옮기기\n\n원문 필자는 직접 클릭하며 하는 일을 말로 풀어 본 뒤, 그 문장을 그대로 셀렉터로 옮긴다고 합니다.[1] \"사이드바의 Dashboards 링크를 누른다\"는 \"내비게이션 안의, 이름이 Dashboards인 링크\"가 됩니다.\n\n### within으로 범위 좁히기\n\n`within`은 특정 요소를 받아 그 안에서만 쿼리하도록 묶어 줍니다.[9] 랜드마크나 대화 상자를 먼저 찾고, 그 안에서 컨트롤을 찾으면 같은 이름의 버튼이 여러 곳에 있어도 헷갈리지 않습니다.\n\n```tsx\n// 사이드바의 Dashboards 링크를 누른다\nwithin(screen.getByRole('navigation'))\n  .getByRole('link', { name: 'Dashboards' })\n  .click()\n\n// Save 대화 상자의 Confirm 버튼을 누른다\nconst dialog = screen.getByRole('dialog', { name: 'Save' })\nconst confirm = await within(dialog).findByRole('button', { name: 'Confirm' })\nconfirm.click()\n\n// 가입 폼의 Email 필드에 입력한다\nconst form = screen.getByRole('form', { name: 'Registration' })\nconst email = within(form).getByRole('textbox', { name: 'Email' })\nawait userEvent.type(email, 'user@example.com')\n```\n\n위 예제는 원문의 셀렉터를 바탕으로 했습니다.[1] 나중에 나타나는 요소에는 `findBy...`를 씁니다. 이 쿼리는 Promise를 돌려주고 기본 1000ms 안에 요소가 나타나지 않으면 거부되므로 `await`가 필요합니다.[3]\n\n### get, query, find 고르기\n\n| 쿼리 | 0개 | 1개 | 2개 이상 | 재시도 |\n| --- | --- | --- | --- | --- |\n| `getBy...` | 에러 | 요소 | 에러 | 없음 |\n| `queryBy...` | `null` | 요소 | 에러 | 없음 |\n| `findBy...` | 에러 | 요소 | 에러 | 있음 |\n\nTesting Library 문서의 요약표를 옮긴 것입니다.[3] `queryBy...`는 요소가 없다는 것을 확인할 때 씁니다.[3] `findBy...`는 Promise라서, 결과에 `.click()`을 바로 붙이지 말고 `await`한 뒤 씁니다.\n\n### 쿼리 우선순위\n\nTesting Library는 테스트가 사용자가 코드를 쓰는 방식과 최대한 닮아야 한다는 원칙에 따라 쿼리 우선순위를 정해 둡니다.[3]\n\n1. `getByRole`: 거의 모든 경우의 첫 번째 선택이고, 이것으로 찾을 수 없다면 UI가 접근성을 갖추지 못했을 수 있다고 봅니다.[3]\n2. `getByLabelText`: 폼 필드에 가장 좋습니다.[3]\n3. `getByPlaceholderText`, `getByText`, `getByDisplayValue`[3]\n4. `getByAltText`, `getByTitle`[3]\n5. `getByTestId`: 사용자가 보거나 들을 수 없으므로, 역할이나 텍스트로 찾을 수 없거나 텍스트가 동적일 때만 권합니다.[3]\n\nPlaywright의 `page.getByRole()`도 같은 개념입니다. Playwright 문서는 역할 로케이터가 사용자와 보조 기술이 페이지를 인식하는 방식에 가장 가깝다며 우선 쓰라고 권합니다.[4] 한편 테스트 ID가 텍스트나 역할이 바뀌어도 통과하는 가장 견고한 방식이라고도 적고 있습니다.[4] 앞의 `div` 예제에서 문제가 된 것이 바로 이 성질입니다.\n\n```ts\nawait page.getByRole('button', { name: 'Sign in' }).click()\nawait expect(page.getByRole('heading', { name: 'Sign up' })).toBeVisible()\n```\n\n## 역할로 찾을 수 없을 때 고칠 곳\n\n역할 기반 셀렉터가 동작하지 않으면 원문 필자는 테스트 대신 앱을 고칩니다.[1] 그때 확인할 목록은 다음과 같습니다.[1]\n\n- **시맨틱 HTML을 씁니다.** 기본 ARIA 역할이 따라오므로 `role`을 직접 붙일 일이 드뭅니다.\n- **상호작용 요소에 이름을 줍니다.** 보이는 텍스트나 label이 있어야 하고, 상호작용하지 않는 것에는 상호작용 요소를 쓰지 않습니다.\n- **키보드로 앱을 다녀 봅니다.** 키보드로 쓸 수 없는 것이 있다면 고칠 대상입니다.\n- **제목, 랜드마크, 그룹 영역으로 구조를 만듭니다.** 테스트에서 `within`으로 범위를 좁히기도 쉬워집니다.\n- **폼 컨트롤은 항상 label과 연결합니다.** 보이는 label이 싫다면 화면에서만 숨기는 컴포넌트나 `sr-only` 클래스를 씁니다.\n- **도구로 확인합니다.** Testing Playground로 가장 좋은 셀렉터를 찾거나, 개발자 도구에서 DOM 트리 대신 접근성 트리 보기로 전환해 봅니다.\n\n```tsx\n// 보이는 label 없이도 이름을 주는 예\n<label htmlFor=\"search\" className=\"sr-only\">검색어</label>\n<input id=\"search\" />\n// getByRole('textbox', { name: '검색어' })로 찾을 수 있음\n```\n\n#### 자주 하는 실수: 역할 테스트를 접근성 검사로 착각하기\n\n역할 기반 셀렉터는 접근성 없는 마크업을 실수로 만들기 어렵게 할 뿐, axe 같은 도구로 하는 전용 접근성 테스트를 대신하지 않습니다.[1] Playwright 문서도 역할 로케이터가 접근성 감사와 적합성 테스트를 대체하지 않고, ARIA 지침에 대한 이른 피드백을 줄 뿐이라고 설명합니다.[4] 원문 필자는 유럽 접근성법(European Accessibility Act)이나 미국 장애인법(Americans with Disabilities Act) 같은 법이 WCAG 2.1 AA 준수를 요구한다고 짚습니다.[1] 법적 기준을 맞추려면 별도의 검사가 필요합니다.\n\n## 정리\n\n| 상황 | 피할 것 | 쓸 것 |\n| --- | --- | --- |\n| 버튼·링크 찾기 | `getByTestId('...')` | `getByRole('button', { name })` |\n| 폼 필드 찾기 | `placeholder`에만 의존 | `getByLabelText`, `getByRole('textbox', { name })` |\n| 같은 이름이 여러 곳 | 인덱스로 고르기 | `within(getByRole('dialog', { name }))` |\n| 나중에 나타나는 요소 | `findBy...` 결과를 바로 사용 | `await findBy...` |\n| 역할로 못 찾음 | `data-testid` 추가 | 시맨틱 HTML, label, 이름 보강 |\n| 텍스트가 동적임 | — | `getByTestId` 허용[3] |\n\n테스트가 역할로 요소를 찾지 못한다면, 같은 방식으로 화면을 읽는 일부 사용자도 그 요소를 찾지 못할 가능성이 큽니다.[1] 테스트 ID를 붙이고 싶을 때가 마크업을 다시 볼 때입니다.",
+  "actions": [
+    "프로젝트에서 `getByTestId`를 검색해, 그중 하나를 `getByRole(역할, { name })`으로 바꿔 테스트가 통과하는지 확인한다",
+    "브라우저 개발자 도구의 접근성 트리 보기로 주요 버튼과 폼 필드에 이름이 있는지 확인한다",
+    "키보드만으로 가입·저장 같은 핵심 흐름을 끝까지 진행해 보고, 막히는 요소를 이슈로 남긴다"
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "Test IDs are an a11y smell",
+      "publisher": "TkDodo",
+      "url": "https://tkdodo.eu/blog/test-ids-are-an-a11y-smell",
+      "publishedAt": "2026-03-23"
+    },
+    {
+      "id": 2,
+      "title": "ByRole | Testing Library",
+      "publisher": "testing-library.com",
+      "url": "https://testing-library.com/docs/queries/byrole"
+    },
+    {
+      "id": 3,
+      "title": "About Queries | Testing Library",
+      "publisher": "testing-library.com",
+      "url": "https://testing-library.com/docs/queries/about"
+    },
+    {
+      "id": 4,
+      "title": "Locators | Playwright",
+      "publisher": "playwright.dev",
+      "url": "https://playwright.dev/docs/locators"
+    },
+    {
+      "id": 5,
+      "title": "WAI-ARIA Roles - ARIA | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles"
+    },
+    {
+      "id": 6,
+      "title": "Accessible name - Glossary | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Accessible_name"
+    },
+    {
+      "id": 7,
+      "title": "ARIA: form role - ARIA | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/form_role"
+    },
+    {
+      "id": 8,
+      "title": "ARIA in HTML",
+      "publisher": "w3.org",
+      "url": "https://www.w3.org/TR/html-aria/"
+    },
+    {
+      "id": 9,
+      "title": "Querying Within Elements | Testing Library",
+      "publisher": "testing-library.com",
+      "url": "https://testing-library.com/docs/dom-testing-library/api-within"
+    }
+  ]
+}
