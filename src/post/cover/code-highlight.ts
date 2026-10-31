@@ -1,48 +1,53 @@
 /**
- * 커버 코드 창용 문법 강조 + 괄호 색(bracket pair colorization).
+ * 커버 코드 창용 문법 강조 + 괄호 색(bracket pair colorization). 색은 VS Code 테마 One Dark Pro 를 따른다.
  *
- * 커버에 실리는 코드는 2~8줄짜리 발췌라 문법 분석기(shiki 등)까지는 쓰지 않고,
+ * 커버에 실리는 코드는 2~9줄짜리 발췌라 문법 분석기(shiki 등)까지는 쓰지 않고,
  * 언어별 토큰 규칙을 위에서부터 차례로 맞춰 보는 작은 스캐너로 칠한다.
  * 원문을 토큰으로 나눈 뒤 토큰마다 이스케이프한다 — 이스케이프한 HTML 에 다시 정규식을 걸면 span 속 값까지 칠해져 깨진다.
  */
 
 export type CodeLanguage = "css" | "script" | "markup" | "plain";
 
-type TokenKind =
-  | "comment"
-  | "string"
-  | "keyword"
-  | "constant"
-  | "number"
-  | "selector"
-  | "property"
-  | "value"
-  | "function"
-  | "type"
-  | "tag"
-  | "operator"
-  | "punctuation"
-  | "plain";
+/**
+ * One Dark Pro(Binaryify/OneDark-Pro, themes/OneDark-Pro.json)의 편집기 색.
+ * 토큰 색은 각 토큰 종류에 해당하는 TextMate scope 를 테마에서 찾은 값이다(주석에 scope).
+ */
+export const ONE_DARK_PRO = {
+  background: "#282c34", // editor.background
+  titleBar: "#21252b", // editorGroupHeader.tabsBackground
+  foreground: "#abb2bf", // editor.foreground
+  tabForeground: "#dcdcdc", // tab.activeForeground
+  border: "#181a1f",
+} as const;
 
-/** 어두운 코드 창(#151514) 위 색. 사이트 강조색(테라코타)과 부딪히지 않는 Material 계열 */
-export const SYNTAX_COLORS: Record<Exclude<TokenKind, "plain">, string> = {
-  comment: "rgba(244,242,238,.42)",
-  string: "#c3e88d",
-  keyword: "#c792ea",
-  constant: "#f78c6c",
-  number: "#f78c6c",
-  selector: "#ffcb6b",
-  property: "#89ddff",
-  value: "#c3e88d",
-  function: "#82aaff",
-  type: "#ffcb6b",
-  tag: "#f07178",
-  operator: "#89ddff",
-  punctuation: "rgba(244,242,238,.6)",
-};
+export const SYNTAX_COLORS = {
+  comment: "#7f848e", // comment (italic)
+  keyword: "#c678dd", // keyword, storage, keyword.control.at-rule, keyword.other.important
+  string: "#98c379", // string
+  number: "#d19a66", // constant.numeric
+  unit: "#e06c75", // keyword.other.unit (12pt 의 pt)
+  constant: "#d19a66", // constant.language (true, null)
+  function: "#61afef", // entity.name.function
+  cssFunction: "#56b6c2", // support.function (var, calc)
+  type: "#e5c07b", // entity.name.type, support.type.primitive, support.class
+  variable: "#e06c75", // variable.other.readwrite, variable.parameter
+  object: "#e5c07b", // variable.other.object (점 앞)
+  property: "#e06c75", // variable.other.property, meta.object-literal.key
+  cssProperty: "#abb2bf", // support.type.property-name
+  value: "#d19a66", // support.constant.property-value.css, 색 이름·16진 색
+  classSelector: "#d19a66", // entity.other.attribute-name.class.css
+  idSelector: "#61afef", // entity.other.attribute-name.id
+  pseudo: "#56b6c2", // entity.other.attribute-name.pseudo-class
+  tag: "#e06c75", // entity.name.tag
+  attribute: "#d19a66", // entity.other.attribute-name
+  operator: "#56b6c2", // keyword.operator.assignment·comparison·logical
+  punctuation: "#abb2bf", // 테마에 지정 없음 → editor.foreground
+} as const;
 
-/** VS Code 기본 괄호 색 세 가지를 깊이마다 돌려 쓴다 */
-export const BRACKET_COLORS = ["#ffd700", "#da70d6", "#179fff"] as const;
+type TokenKind = keyof typeof SYNTAX_COLORS | "plain";
+
+/** editorBracketHighlight.foreground1~3 — 깊이마다 돌려 쓴다 */
+export const BRACKET_COLORS = ["#d19a66", "#c678dd", "#56b6c2"] as const;
 
 const OPEN_BRACKETS = "({[";
 const CLOSE_BRACKETS = ")}]";
@@ -95,61 +100,74 @@ const COMMON_RULES = {
   blockComment: rule("comment", /\/\*[\s\S]*?\*\//),
   lineComment: rule("comment", /\/\/[^\n]*/),
   string: rule("string", /'[^'\n]*'|"[^"\n]*"|`[^`]*`/),
-  number: rule("number", /-?(?:\d+\.?\d*|\.\d+)(?:px|pt|rem|em|vh|vw|dvh|svh|ch|fr|ms|s|deg|x|n)?%?(?![\w$])/),
-  punctuation: rule("punctuation", /[;:,.]/),
 };
+
+/** CSS 숫자는 값과 단위를 따로 칠한다(One Dark Pro: 12 는 주황, pt 는 빨강) */
+const CSS_NUMBER = /(-?(?:\d+\.?\d*|\.\d+))([a-z]+|%)?(?![\w-])/;
 
 const CSS_RULES: Rule[] = [
   COMMON_RULES.blockComment,
   COMMON_RULES.string,
   rule("keyword", /@[\w-]+|!important\b/),
   // 값 위치의 색 코드(#fff)를 선택자(#id)보다 먼저 — 16진 글자만으로 된 경우만
-  rule("number", /#[0-9a-fA-F]{3,8}(?![\w-])/),
-  rule("selector", /[.#][A-Za-z_][\w-]*|::?[a-z][\w-]*/),
+  rule("value", /#[0-9a-fA-F]{3,8}(?![\w-])/),
+  rule("classSelector", /\.[A-Za-z_][\w-]*/),
+  rule("idSelector", /#[A-Za-z_][\w-]*/),
+  rule("pseudo", /::?[a-z][\w-]*(?![\w-]*\s*:\s)/),
   // "속성: 값" — 콜론 뒤 공백까지 있어야 속성(a:hover 같은 가상 클래스와 구분)
-  rule("property", /[\w-]+(?=\s*:\s)/),
+  rule("cssProperty", /[\w-]+(?=\s*:\s)/),
   // 요소 선택자(p, h1, a) — 뒤에 { 가 오고, @media print 처럼 at-rule 뒤가 아닐 때
   rule("tag", /(?<!@[\w-]+[^{};]*)[a-z][a-z0-9]*(?=[^;{}()]*\{)/),
-  COMMON_RULES.number,
-  rule("function", /[\w-]+(?=\()/),
+  rule("number", CSS_NUMBER),
+  rule("cssFunction", /[\w-]+(?=\()/),
   // 이름은 통째로 — 값 위치면 값 색, 아니면 그대로
   rule("plain", /[A-Za-z_][\w-]*/),
-  rule("operator", /<=|>=|[<>=+*\/~]/),
-  COMMON_RULES.punctuation,
+  rule("operator", /<=|>=|[<>=]/),
+  rule("punctuation", /[;:,.+*\/~]/),
 ];
 
 const SCRIPT_KEYWORDS =
-  /(?:const|let|var|function|return|if|else|for|while|do|import|export|from|default|async|await|new|class|extends|implements|type|interface|enum|as|satisfies|of|in|typeof|keyof|instanceof|throw|try|catch|finally|switch|case|break|continue|yield|delete|void)(?![\w$])/;
+  /(?<![.\w$])(?:const|let|var|function|return|if|else|for|while|do|import|export|from|default|async|await|new|class|extends|implements|type|interface|enum|as|satisfies|of|in|typeof|keyof|instanceof|throw|try|catch|finally|switch|case|break|continue|yield|delete|void|readonly|public|private|protected|static)(?![\w$])/;
 
 const SCRIPT_RULES: Rule[] = [
   COMMON_RULES.blockComment,
   COMMON_RULES.lineComment,
   COMMON_RULES.string,
-  // 점 뒤의 이름은 키워드여도 속성(obj.default, node.type)
-  rule("property", /(?<=\.)[A-Za-z_$][\w$]*/),
   rule("keyword", SCRIPT_KEYWORDS),
-  rule("constant", /(?:true|false|null|undefined|this)(?![\w$])/),
-  // JSX 태그 이름(<div, </Button)
-  rule("tag", /(?<=<\/?)[A-Za-z][\w.]*/),
+  rule("constant", /(?<![.\w$])(?:true|false|null|undefined|NaN|Infinity)(?![\w$])/),
+  rule("object", /(?<![.\w$])this(?![\w$])/),
+  rule("type", /(?<![.\w$])(?:string|number|boolean|bigint|symbol|object|unknown|any|never)(?![\w$])/),
+  // JSX 태그 — 소문자는 HTML 태그(빨강), 대문자는 컴포넌트(노랑)
+  rule("tag", /(?<=<\/?)[a-z][\w.-]*(?=[\s>\/])/),
+  rule("type", /(?<=<\/?)[A-Z][\w.]*(?=[\s>\/])/),
   rule("function", /[A-Za-z_$][\w$]*(?=\s*(?:<[^>()]*>)?\()/),
+  rule("property", /(?<=\.)[A-Za-z_$][\w$]*/),
+  rule("object", /[A-Za-z_$][\w$]*(?=\??\.(?!\.))/),
   rule("type", /[A-Z][\w$]*/),
-  // 객체 키
-  rule("property", /[A-Za-z_$][\w$]*(?=\s*:(?!:))/),
-  COMMON_RULES.number,
-  rule("plain", /[A-Za-z_$][\w$]*/),
-  rule("operator", /=>|===|!==|==|!=|<=|>=|&&|\|\||\?\?=?|\?\.|\.\.\.|[=+\-*\/%!<>?&|]/),
-  COMMON_RULES.punctuation,
+  // 객체 키(타입 표기 auth?: 포함)
+  rule("property", /[A-Za-z_$][\w$]*(?=\??\s*:(?!:))/),
+  rule("number", /(?<![\w$])(?:0x[\da-fA-F]+|\d[\d_]*\.?\d*(?:e[+-]?\d+)?n?)(?![\w$])/),
+  rule("variable", /[A-Za-z_$][\w$]*/),
+  rule("keyword", /=>/),
+  rule("operator", /===|!==|==|!=|<=|>=|&&=?|\|\|=?|\?\?=?|[+\-*\/%]=|=|!|[<>+\-*\/%]/),
+  rule("punctuation", /\?\.|\.\.\.|[;:,.?]/),
 ];
 
 const MARKUP_RULES: Rule[] = [
   rule("comment", /<!--[\s\S]*?-->/),
-  rule("tag", /<\/?[A-Za-z][\w:-]*|\/?>/),
+  rule("punctuation", /<\/?|\/?>/),
+  rule("tag", /(?<=<\/?)[A-Za-z][\w:-]*/),
   COMMON_RULES.string,
-  rule("property", /[A-Za-z_:@][\w:.-]*(?==)/),
-  rule("operator", /=/),
+  rule("attribute", /[A-Za-z_:@][\w:.-]*(?==)/),
+  rule("punctuation", /=/),
 ];
 
-const PLAIN_RULES: Rule[] = [COMMON_RULES.blockComment, COMMON_RULES.lineComment, COMMON_RULES.string, COMMON_RULES.number];
+const PLAIN_RULES: Rule[] = [
+  COMMON_RULES.blockComment,
+  COMMON_RULES.lineComment,
+  COMMON_RULES.string,
+  rule("number", /(?<![\w$])\d+(?:\.\d+)?(?![\w$])/),
+];
 
 const RULES_BY_LANGUAGE: Record<CodeLanguage, Rule[]> = {
   css: CSS_RULES,
@@ -165,6 +183,17 @@ function escapeHtml(value: string): string {
 function colored(text: string, color: string, italic = false): string {
   const style = italic ? `color:${color};font-style:italic` : `color:${color}`;
   return `<span style="${style}">${escapeHtml(text)}</span>`;
+}
+
+/** 토큰 하나를 HTML 로. CSS 숫자는 값·단위로 나눈다 */
+function renderToken(kind: TokenKind, text: string, language: CodeLanguage, inCssValue: boolean): string {
+  if (kind === "plain") return inCssValue ? colored(text, SYNTAX_COLORS.value) : escapeHtml(text);
+  if (kind === "comment") return colored(text, SYNTAX_COLORS.comment, true);
+  if (kind === "number" && language === "css") {
+    const [, digits = text, unit = ""] = text.match(CSS_NUMBER) ?? [];
+    return colored(digits, SYNTAX_COLORS.number) + (unit ? colored(unit, SYNTAX_COLORS.unit) : "");
+  }
+  return colored(text, SYNTAX_COLORS[kind]);
 }
 
 export function highlightCode(code: string, language: CodeLanguage): string {
@@ -215,7 +244,7 @@ export function highlightCode(code: string, language: CodeLanguage): string {
     const { kind, text } = matched;
 
     if (language === "css") {
-      if (kind === "property") afterCssProperty = true;
+      if (kind === "cssProperty") afterCssProperty = true;
       if (kind === "punctuation" && text === ":" && afterCssProperty) {
         inCssValue = true;
         afterCssProperty = false;
@@ -224,11 +253,7 @@ export function highlightCode(code: string, language: CodeLanguage): string {
       }
     }
 
-    if (kind === "plain") {
-      html += inCssValue ? colored(text, SYNTAX_COLORS.value) : escapeHtml(text);
-    } else {
-      html += colored(text, SYNTAX_COLORS[kind], kind === "comment");
-    }
+    html += renderToken(kind, text, language, inCssValue);
     index += text.length;
   }
 
