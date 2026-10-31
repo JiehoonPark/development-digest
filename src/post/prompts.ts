@@ -4,6 +4,7 @@
  */
 import { SOURCE_DATA_RULES } from "../../config/prompts.js";
 import { LOGO_NAMES } from "./cover/logos.js";
+import { MOTIFS, MOTIF_DESCRIPTIONS } from "./cover/motifs.js";
 
 export const TOPIC_PROMPT = SOURCE_DATA_RULES + `당신은 한국 프론트엔드 개발자를 위한 기술 블로그의 편집장입니다.
 매일 아침 한 편만 깊게 씁니다. 아래 후보 중 오늘 깊게 쓸 글감 하나와, 짧게 소개할 소식 몇 개를 고르세요.
@@ -81,7 +82,8 @@ export const WRITE_PROMPT = SOURCE_DATA_RULES + `당신은 한국의 시니어 �
   "before": "바뀌기 전 표현(34자 이내). 예: max-width: 767.98px",
   "after": "바뀐 뒤 표현(34자 이내). 예: width < 768px",
   "stat": "본문에 출처와 함께 나온 수치 하나(8자 이내). 예: 5.5×, 90%",
-  "statLabel": "그 수치의 뜻(40자 이내)"
+  "statLabel": "그 수치의 뜻(40자 이내)",
+  "motif": "글 주제에 맞는 그림 하나. ${MOTIFS.map((motif) => `${motif}(${MOTIF_DESCRIPTIONS[motif]})`).join(", ")}"
 }
 </cover>
 <coverAlt>커버 이미지 대체 텍스트(한국어 한 문장)</coverAlt>`;

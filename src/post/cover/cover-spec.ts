@@ -2,12 +2,17 @@ import { isKnownLogo } from "./logos.js";
 
 /**
  * 커버 형식. 글마다 같은 느낌이 반복되지 않도록 여러 형식을 돌려 쓰고,
- * 재료가 맞는 형식이 없을 때만 기본형(logo-glow)을 쓴다.
+ * 재료가 맞는 형식이 없을 때만 기본형(pop·logo-glow)을 쓴다.
  */
-export const COVER_STYLES = ["code", "compare", "stat", "logos", "typography", "logo-glow"] as const;
+export const COVER_STYLES = ["code", "compare", "stat", "logos", "typography", "pop", "logo-glow"] as const;
 export type CoverStyle = (typeof COVER_STYLES)[number];
 
-export const FALLBACK_STYLE: CoverStyle = "logo-glow";
+/**
+ * 재료가 맞는 형식이 없을 때 쓰는 기본형. 둘을 번갈아 쓴다.
+ * - pop: 주제 그림을 넣은 팝아트 큰 글자 — 글자만 있으면 언제든 그릴 수 있다
+ * - logo-glow: 로고+빛 — 주인공 로고가 있어야 한다
+ */
+export const FALLBACK_STYLES = ["pop", "logo-glow"] as const satisfies readonly CoverStyle[];
 
 /** 작성 모델이 글에서 뽑아 주는 커버 재료. 해당하는 것만 채운다 */
 export interface CoverSpec {
@@ -27,6 +32,17 @@ export interface CoverSpec {
   /** 큰 숫자(예: 5.5×, 90%)와 설명 */
   stat: string;
   statLabel: string;
+  /** 팝아트 커버의 주제 그림(motifs.ts). 비면 자동으로 정한다 */
+  motif: string;
+  /** 글 제목·태그 — 모델이 아니라 파이프라인이 채운다(기본형 문구·주제 판단용) */
+  title: string;
+  tags: string[];
+}
+
+/** 커버 재료와 함께 넘기는 글 정보 */
+export interface CoverContext {
+  title: string;
+  tags: string[];
 }
 
 const LIMITS = {
@@ -45,7 +61,8 @@ function text(value: unknown): string {
 }
 
 /** 모델 출력(JSON)을 검증해 쓸 수 있는 값만 남긴다. 실패해도 빈 재료로 돌려 기본형이 되게 한다 */
-export function parseCoverSpec(raw: string, fallbackKeyword: string): CoverSpec {
+export function parseCoverSpec(raw: string, context: CoverContext): CoverSpec {
+  const fallbackKeyword = context.tags[0] ?? context.title;
   let input: Record<string, unknown> = {};
   try {
     const parsed: unknown = JSON.parse(raw);
@@ -71,6 +88,9 @@ export function parseCoverSpec(raw: string, fallbackKeyword: string): CoverSpec 
     after: text(input.after),
     stat: text(input.stat),
     statLabel: text(input.statLabel),
+    motif: text(input.motif).toLowerCase(),
+    title: context.title,
+    tags: context.tags,
   };
 }
 
@@ -105,16 +125,20 @@ export function usableStyles(spec: CoverSpec): CoverStyle[] {
 
 /**
  * 쓸 수 있는 형식 중 최근에 가장 오래 안 쓴 것을 고른다(같은 형식이 연달아 나오지 않게).
- * recentStyles 는 최신 글부터. 쓸 수 있는 형식이 없으면 기본형.
+ * recentStyles 는 최신 글부터. 쓸 수 있는 형식이 없으면 기본형 둘 중 오래 안 쓴 것,
+ * 주인공 로고가 없으면 로고+빛은 그릴 수 없어 팝아트.
  */
 export function chooseCoverStyle(spec: CoverSpec, recentStyles: string[]): CoverStyle {
-  const candidates = usableStyles(spec);
-  if (candidates.length === 0) return FALLBACK_STYLE;
-
   const lastUsedAt = (style: CoverStyle) => {
     const index = recentStyles.indexOf(style);
     return index === -1 ? Number.POSITIVE_INFINITY : index;
   };
-  // 오래 안 쓴 순, 같으면 COVER_STYLES 순서(글 내용에 더 밀착한 형식 우선)
-  return [...candidates].sort((a, b) => lastUsedAt(b) - lastUsedAt(a))[0];
+  // 오래 안 쓴 순, 같으면 배열 순서(글 내용에 더 밀착한 형식 우선). sort 는 안정 정렬이다
+  const leastRecent = (styles: readonly CoverStyle[]) => [...styles].sort((a, b) => lastUsedAt(b) - lastUsedAt(a))[0];
+
+  const candidates = usableStyles(spec);
+  if (candidates.length > 0) return leastRecent(candidates);
+
+  const hasLogo = spec.logos.length > 0;
+  return hasLogo ? leastRecent(FALLBACK_STYLES) : "pop";
 }

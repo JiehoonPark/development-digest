@@ -81,7 +81,7 @@ export async function runPostPipeline(candidates: PostCandidate[], now: Date = n
   const recentCoverStyles = loadPublishedPosts()
     .map((published) => published.cover?.style)
     .filter((style): style is string => Boolean(style));
-  const coverSpec = parseCoverSpec(draft.coverSpec, draft.tags[0] ?? draft.title);
+  const coverSpec = parseCoverSpec(draft.coverSpec, { title: draft.title, tags: draft.tags });
   const cover = await generateCover(slug, coverSpec, draft.coverAlt, recentCoverStyles);
 
   const post: PostData = {

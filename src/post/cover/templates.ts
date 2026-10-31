@@ -1,5 +1,6 @@
 import type { CoverSpec, CoverStyle } from "./cover-spec.js";
 import { DEFAULT_ACCENT, LOGOS, logoDataUri } from "./logos.js";
+import { motifSvg, resolveMotif, type Motif } from "./motifs.js";
 
 /**
  * 커버 형식별 HTML. 1600×900(16:9)으로 캡처한다.
@@ -171,6 +172,72 @@ function typography(spec: CoverSpec): string {
   );
 }
 
+/** 팝아트 배경·강조색 — 주제마다 다른 조합. 글자는 흰 면 + 굵은 검정 테두리 + 검정 그림자라 어느 배경에서도 읽힌다 */
+const POP_PALETTES: Record<Motif, { bg: string; fill: string }> = {
+  layout: { bg: "#2f6bff", fill: "#ffd60a" },
+  code: { bg: "#ffd60a", fill: "#ff4d6d" },
+  component: { bg: "#3fd0ff", fill: "#ff4d6d" },
+  speed: { bg: "#ff6a1f", fill: "#ffd60a" },
+  security: { bg: "#ff3b3b", fill: "#ffd60a" },
+  ai: { bg: "#a77bff", fill: "#ffd60a" },
+  test: { bg: "#22d58b", fill: "#ffd60a" },
+  browser: { bg: "#ffd60a", fill: "#2f6bff" },
+  data: { bg: "#ff7ac6", fill: "#3fd0ff" },
+  burst: { bg: "#ffd60a", fill: "#ff3b3b" },
+};
+const POP_PAPER = "#fffaf0";
+const POP_INK = "#111111";
+
+/** 제목의 "— 부제" 앞부분을 큰 글자로. 모델이 준 headline 이 있으면 그것을 쓴다 */
+function popHeadline(spec: CoverSpec): string {
+  if (spec.headline) return spec.headline;
+  const [main] = spec.title.split(/\s+[—–-]\s+/);
+  return (main || spec.keyword).trim();
+}
+
+/** 글자 수가 많을수록 작게 — 최대 세 줄 안에 들어가게 */
+function popFontSize(headline: string): number {
+  const length = [...headline].length;
+  if (length <= 8) return 190;
+  if (length <= 14) return 150;
+  if (length <= 22) return 118;
+  return 96;
+}
+
+/** 기본형: 팝아트 큰 글자 + 망점 + 주제 그림 */
+function pop(spec: CoverSpec): string {
+  const motif = resolveMotif(spec);
+  const { bg, fill } = POP_PALETTES[motif];
+  const headline = popHeadline(spec);
+  const keywordChip = spec.keyword && spec.keyword !== headline ? `<div class="chip mono">${escapeHtml(spec.keyword)}</div>` : "";
+  const sticker = spec.logos[0] ? `<div class="sticker">${logoImg(spec.logos[0], "sticker-logo")}</div>` : "";
+  return page(
+    `.c{background:${bg}}
+     /* 망점 — 오른쪽 위에서 왼쪽 아래로 옅어진다 */
+     .dots{position:absolute;inset:0;background-image:radial-gradient(${POP_INK}33 26%,transparent 28%);background-size:30px 30px;
+       -webkit-mask-image:linear-gradient(225deg,#000 0%,rgba(0,0,0,.55) 35%,transparent 70%)}
+     /* 오른쪽 그림 뒤 햇살 줄무늬 */
+     .rays{position:absolute;left:1330px;top:500px;width:2400px;height:2400px;transform:translate(-50%,-50%);border-radius:50%;
+       background:repeating-conic-gradient(${POP_PAPER}26 0deg 9deg,transparent 9deg 18deg);
+       -webkit-mask-image:radial-gradient(circle,#000 0%,#000 22%,transparent 40%)}
+     .motif{position:absolute;inset:0;width:100%;height:100%;filter:drop-shadow(14px 14px 0 ${POP_INK})}
+     .chip{position:absolute;left:96px;top:110px;padding:14px 26px;background:${POP_INK};color:${POP_PAPER};
+       font-size:34px;font-weight:800;border-radius:10px;transform:rotate(-2deg);box-shadow:8px 8px 0 ${fill}}
+     .head{position:absolute;left:92px;width:960px;top:${keywordChip ? 230 : 170}px;
+       font-family:'Anton','Black Han Sans','Pretendard Variable',sans-serif;font-size:${popFontSize(headline)}px;line-height:1.08;
+       color:${POP_PAPER};-webkit-text-stroke:10px ${POP_INK};paint-order:stroke fill;text-shadow:12px 12px 0 ${POP_INK};
+       display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;padding:0 24px 24px 0}
+     /* 로고 스티커는 왼쪽 아래 빈자리 — 오른쪽 주제 그림과 겹치지 않게 */
+     .sticker{position:absolute;left:96px;bottom:84px;width:140px;height:140px;border-radius:28px;background:${POP_PAPER};
+       border:8px solid ${POP_INK};box-shadow:10px 10px 0 ${POP_INK};display:grid;place-items:center;transform:rotate(-6deg)}
+     .sticker-logo{width:96px;height:96px;object-fit:contain}
+     .frame{position:absolute;inset:26px;border:8px solid ${POP_INK};border-radius:22px;pointer-events:none}`,
+    `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Black+Han+Sans&display=swap">
+     <div class="dots"></div><div class="rays"></div>${motifSvg(motif, fill, POP_PAPER)}
+     ${keywordChip}<div class="head">${escapeHtml(headline)}</div>${sticker}<div class="frame"></div>`
+  );
+}
+
 export function renderCoverHtml(style: CoverStyle, spec: CoverSpec): string {
   switch (style) {
     case "code":
@@ -183,6 +250,8 @@ export function renderCoverHtml(style: CoverStyle, spec: CoverSpec): string {
       return logos(spec);
     case "typography":
       return typography(spec);
+    case "pop":
+      return pop(spec);
     case "logo-glow":
       return logoGlow(spec);
   }
