@@ -106,6 +106,12 @@ function enhanceChildren(node: HastNode, isInsideCode: boolean): void {
       continue;
     }
 
+    const demo = toDemoIfMarked(child);
+    if (demo) {
+      nextChildren.push(demo);
+      continue;
+    }
+
     if (child.tagName === "img") prefixImageSource(child);
     if (child.tagName === "pre") labelCodeLanguage(child);
 
@@ -186,6 +192,41 @@ function toPosterIfMarked(node: HastNode): HastNode | null {
       properties: { className: index === rows.length - 1 ? ["poster-line", "poster-accent"] : ["poster-line"], ariaHidden: "true" },
       children: [{ type: "text", value: row }],
     })),
+  };
+}
+
+const DEMO_LANGUAGE_CLASS = "language-demo";
+const DEMO_NAME_PATTERN = /^[a-z0-9-]+$/;
+
+/**
+ * 언어가 demo 인 코드 블록은 인터랙티브 데모 자리표시로 바꾼다. 실제 데모는 브라우저에서 PostDemos 가 끼워 넣는다.
+ * 자바스크립트가 꺼져 있으면 안내 문구만 보인다.
+ *
+ *   ```demo
+ *   media-query-gap
+ *   ```
+ */
+function toDemoIfMarked(node: HastNode): HastNode | null {
+  if (node.tagName !== "pre") return null;
+  const code = node.children?.find((c) => c.tagName === "code");
+  const classNames = code?.properties?.className;
+  const isDemo = Array.isArray(classNames) && classNames.includes(DEMO_LANGUAGE_CLASS);
+  if (!isDemo || !code) return null;
+
+  const name = textContent(code).trim();
+  if (!DEMO_NAME_PATTERN.test(name)) return null;
+  return {
+    type: "element",
+    tagName: "div",
+    properties: { className: ["demo"], dataDemo: name },
+    children: [
+      {
+        type: "element",
+        tagName: "p",
+        properties: { className: ["demo-fallback"] },
+        children: [{ type: "text", value: "직접 만져 보는 데모입니다. 자바스크립트를 켜면 보입니다." }],
+      },
+    ],
   };
 }
 

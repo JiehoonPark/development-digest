@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 
-import { getBriefTone, getPost, PostCover, PostTags } from "@/entities/post";
+import { getBriefTone, getIssueNumbers, getPost, IssueLine, listPosts, PostCover } from "@/entities/post";
 import type { PostSource } from "@/shared/config";
+import { PostDemos } from "@/widgets/post-demos";
 import { formatKoreanDate, renderPostDocument, renderPostMarkdown, withBasePath } from "@/shared/lib";
 
 import styles from "./PostView.module.css";
@@ -31,6 +32,7 @@ export function PostView({ slug }: { slug: string }) {
   if (!post) notFound();
 
   const { html, headings } = renderPostDocument(post.body);
+  const issue = getIssueNumbers(listPosts()).get(post.slug)!;
   const sourceDateRange = getSourceDateRange(post.sources);
   const primarySource = post.sources[0];
   const hasBriefs = Boolean(post.briefs && post.briefs.length > 0);
@@ -40,7 +42,7 @@ export function PostView({ slug }: { slug: string }) {
     <main className={styles.layout}>
       <article className={styles.article}>
         <header className={styles.header}>
-          <PostTags tags={post.tags} />
+          <IssueLine issue={issue} date={post.date} tags={post.tags} />
           <h1 className={styles.title}>{post.title}</h1>
           <p className={styles.dek}>{post.dek}</p>
           <PostCover cover={post.cover} priority />
@@ -56,6 +58,7 @@ export function PostView({ slug }: { slug: string }) {
         </section>
 
         <div className={styles.prose} dangerouslySetInnerHTML={{ __html: html }} />
+        <PostDemos />
 
         {post.actions && post.actions.length > 0 && (
           <section className={styles.actions} aria-label="해 볼 것">
