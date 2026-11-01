@@ -90,7 +90,11 @@ jobs:
         run: |
           git fetch origin gh-pages --depth=1 || exit 0
           git checkout origin/gh-pages -- data/archives/ 2>/dev/null || true
-          git checkout origin/gh-pages -- data/posts/ 2>/dev/null || true
+          # 저장소에 있는 글(백필·수정한 글)이 이긴다. gh-pages 에서는 저장소에 없는 글(매일 파이프라인이 쓴 글)만 더한다.
+          mkdir -p data/posts "$RUNNER_TEMP/gh-pages-posts"
+          if git archive origin/gh-pages data/posts | tar -x -C "$RUNNER_TEMP/gh-pages-posts" 2>/dev/null; then
+            cp -n "$RUNNER_TEMP/gh-pages-posts/data/posts/"* data/posts/ 2>/dev/null || true
+          fi
           if git checkout origin/gh-pages -- covers/ 2>/dev/null; then
             mkdir -p web/public/covers
             cp -n covers/* web/public/covers/ 2>/dev/null || true
