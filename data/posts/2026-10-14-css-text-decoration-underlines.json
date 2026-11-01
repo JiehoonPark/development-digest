@@ -1,0 +1,98 @@
+{
+  "slug": "2026-10-14-css-text-decoration-underlines",
+  "date": "2026-10-14",
+  "title": "border-bottom 밑줄은 이제 그만 — text-decoration으로 두께·간격 다루기",
+  "dek": "링크 밑줄의 색이나 두께를 바꾸려고 border-bottom이나 box-shadow로 가짜 밑줄을 그리던 습관이 아직 남아 있다면 바꿀 때입니다. 밑줄을 이루는 text-decoration 속성들을 하나씩 나누고, 링크 hover와 한글 글꼴에서 확인할 점까지 정리했습니다.",
+  "tags": [
+    "CSS",
+    "타이포그래피",
+    "접근성"
+  ],
+  "readingMinutes": 17,
+  "cover": {
+    "src": "/covers/2026-10-14-css-text-decoration-underlines.jpg",
+    "alt": "border-bottom 밑줄이 text-decoration 밑줄로 바뀌는 CSS 코드와 CSS 로고",
+    "style": "code"
+  },
+  "tldr": [
+    "예전에는 밑줄 색을 글자 색과 따로 정할 수 없었고 두께도 브라우저마다 달라서, `border-bottom`으로 가짜 밑줄을 그리는 우회가 오래 쓰였다[1]",
+    "지금은 `text-decoration-color`, `text-decoration-thickness`, `text-underline-offset`으로 색·두께·간격을 직접 정하고, 모두 Baseline 널리 사용 가능 단계다[2][3][4]",
+    "`text-decoration` 축약형은 두께까지 초기화하지만 `text-underline-offset`, `text-underline-position`, `text-decoration-skip-ink`는 건드리지 않는다[5]",
+    "한중일(CJK) 글꼴에서는 기본값 `auto`가 밑줄을 끊지 않을 수 있어, 필요하면 `text-decoration-skip-ink: all`을 시험한다[6]"
+  ],
+  "body": "## 가짜 밑줄이 생긴 이유\n\n밑줄은 원래 글자에 딸린 장식이라 손댈 곳이 거의 없었습니다. 밑줄 색은 글자 색을 그대로 물려받을 수밖에 없었고, 명세가 밑줄 두께를 정하지 않아 두께는 브라우저가 알아서 정했습니다. 그 결과 큰 글자에서 특히 브라우저마다 밑줄 굵기가 달랐습니다.[1]\n\n그래서 오랫동안 쓰인 우회책이 밑줄을 끄고 테두리로 선을 긋는 방법입니다.[1]\n\n```css\n/* 오래된 우회책: 테두리를 밑줄처럼 쓰기 */\na {\n  border-bottom: 1px solid;\n  text-decoration: none;\n}\n/* 결과: 색·두께는 마음대로 바뀌지만, 선은 글자가 아니라 상자 아래쪽에 붙는다 */\n```\n\n`box-shadow`로 상자 아래에 그림자 선을 넣는 방법도 같은 계열입니다. 둘 다 글자가 아니라 요소의 상자를 꾸미는 속성이라, 선이 글자 모양과 상관없이 상자 맨 아래에 그려집니다.\n\n원문 필자는 이 방식이 우아하지 않고 보기에도 좋지 않다고 봅니다. 밑줄은 g, y처럼 아래로 내려오는 획(디센더, descender)이 있는 글자와 만나야 하는데 테두리는 그러지 못하기 때문입니다.[1] 반대로 진짜 밑줄은 글자를 기준으로 그려지므로, 디센더 근처에서 선을 끊을지 말지를 브라우저가 판단할 수 있습니다.[6]\n\n> 가짜 밑줄은 상자를 꾸미고, 진짜 밑줄은 글자를 꾸밉니다. 디센더 근처를 어떻게 그릴지처럼 글자에 맞춰야 하는 판단은 진짜 밑줄에서만 할 수 있습니다.\n\n## 밑줄을 이루는 네 가지 속성\n\n`text-decoration`은 네 개의 개별 속성을 묶은 축약형(shorthand)입니다. 선의 종류 `text-decoration-line`, 색 `text-decoration-color`, 모양 `text-decoration-style`, 두께 `text-decoration-thickness`입니다.[5]\n\n### 종류·모양·색\n\n`text-decoration-line`은 어떤 선을 그을지 정합니다. `underline`, `overline`, `line-through`를 띄어 써서 여러 개를 함께 줄 수 있습니다.[7] `text-decoration-style`은 선 모양으로 `solid`, `double`, `dotted`, `dashed`, `wavy` 중 하나를 고릅니다.[8] `text-decoration-color`는 선 색이고, 초기값은 `currentcolor`라서 따로 정하지 않으면 글자 색을 따라갑니다.[4][5]\n\n원문이 소개한 코드는 네 속성을 하나씩 다 적은 형태입니다.[1]\n\n```css\na {\n  text-decoration-line: underline;\n  text-decoration-color: teal;\n  text-decoration-style: solid;\n  text-decoration-thickness: 1px;\n}\n/* 결과: 글자 색과 상관없이 청록색 1px 실선 밑줄 */\n```\n\n### 두께: text-decoration-thickness\n\n`text-decoration-thickness`는 밑줄·윗줄·취소선의 굵기를 정합니다.[2] 값은 네 가지입니다.[2]\n\n- `auto`: 브라우저가 적당한 두께를 고릅니다.\n- `from-font`: 글꼴 파일에 권장 두께가 있으면 그 값을 쓰고, 없으면 `auto`처럼 동작합니다.\n- 길이(`3px`, `0.1em`): 글꼴의 권장값과 브라우저 기본값을 무시하고 이 값을 씁니다.\n- 퍼센트(`10%`): 현재 글꼴 `1em`에 대한 비율이고, 최소 1 장치 픽셀(device pixel)은 보장됩니다.\n\n```css\n.thin  { text-decoration: underline red 1px; } /* 1px 빨간 밑줄 */\n.thick { text-decoration: underline red 5px; } /* 5px 빨간 밑줄 */\n.scale { text-decoration: underline 10%; }     /* 글자 크기에 비례 */\n```\n\n이 속성은 한때 `text-decoration-width`라는 이름이었고 2019년에 지금 이름으로 바뀌었습니다.[2] 예전 글이나 코드에서 옛 이름을 보면 같은 기능으로 읽으면 됩니다.\n\n#### 자주 하는 실수: 자식의 글자 크기를 따라갈 거라 기대하기\n\n퍼센트 두께는 속성을 적용한 상자 전체에서 일정하게 유지됩니다. 안에 글자 크기가 다른 자식 요소가 있어도 두께는 바뀌지 않습니다.[2] 또 `text-decoration-thickness`는 상속되지 않는 속성입니다.[2] 링크 안에 큰 글씨 `span`을 넣었다고 그 부분만 밑줄이 굵어지지는 않습니다.\n\n### 축약형이 초기화하는 것\n\n축약형은 편하지만, 적지 않은 값을 초기값으로 되돌립니다. 두께도 축약형에 포함되므로 `text-decoration: underline`처럼 두께를 빼고 쓰면 앞서 정한 두께가 초기값 `auto`로 돌아갑니다.[2][5]\n\n```css\na {\n  text-decoration-thickness: 3px;\n  text-decoration: underline; /* 두께가 초기값 auto로 돌아감 */\n}\n\na {\n  text-decoration: underline 3px; /* 축약형 안에 두께까지 적기 */\n}\n```\n\n반대로 `text-decoration-skip-ink`, `text-underline-offset`, `text-underline-position`은 밑줄에 영향을 주지만 축약형에는 들어 있지 않습니다.[5] 축약형을 다시 써도 이 셋은 유지됩니다.\n\n#### 자주 하는 실수: 자식에서 밑줄 지우기\n\n장식선은 자손 텍스트 위로 이어서 그려집니다. 그래서 부모에 밑줄이 있으면 자식에서 `text-decoration: none`을 줘도 밑줄이 사라지지 않습니다.[5] 링크 안의 아이콘이나 배지에만 밑줄을 빼고 싶다면, 밑줄을 링크 전체가 아니라 글자를 감싼 요소에만 거는 식으로 구조를 바꿔야 합니다.\n\n```css\np  { text-decoration: underline; }\nem { text-decoration: none; }     /* 효과 없음: em도 여전히 밑줄 */\nem { text-decoration: overline; } /* em에만 윗줄이 하나 더 생김 */\n```\n\n## 위치와 간격, 그리고 한글\n\n### 간격: text-underline-offset\n\n`text-underline-offset`은 밑줄을 원래 위치에서 얼마나 떨어뜨릴지 정합니다. 밑줄에만 적용되고 윗줄이나 취소선에는 영향이 없습니다.[3] 값은 `auto`, 길이, 퍼센트이고, MDN은 글자 크기에 맞춰 함께 커지도록 `em` 단위를 권합니다.[3]\n\n```css\na {\n  text-decoration: underline;\n  text-underline-offset: 0.2em; /* 글자 크기에 비례해 아래로 */\n}\n```\n\n이 속성은 상속되고, 퍼센트 값은 상대값 그대로 상속되어 글꼴이 바뀌면 함께 달라집니다.[3] 그래서 문서 전체 기준을 한 번 정해 두기 좋습니다.\n\n```css\n:root {\n  text-underline-offset: 20%; /* 모든 밑줄이 글자 크기의 20%만큼 내려감 */\n}\n```\n\n`border-bottom` 우회에서 `padding-bottom`으로 하던 일을 이 속성 하나가 맡는다고 보면 됩니다.\n\n### 위치: text-underline-position\n\n`text-underline-position`은 밑줄을 어느 기준에 둘지 정합니다. `under`는 밑줄을 알파벳 기준선(baseline) 아래, 디센더와 겹치지 않는 위치로 내립니다. 아래 첨자가 많은 화학식이나 수식에서 읽기 좋게 하려는 값입니다.[9] 세로쓰기(vertical writing mode)에서는 `left`, `right`로 밑줄을 글자의 왼쪽이나 오른쪽에 둡니다.[9]\n\n이 속성도 상속되고 축약형이 초기화하지 않으므로, MDN은 수식이 많은 문서라면 전역에 설정하는 방법을 소개합니다.[9]\n\n```css\n:root {\n  text-underline-position: under;\n}\n/* 결과: 모든 밑줄이 디센더와 겹치지 않는 기준선 아래에 놓임 */\n```\n\n### 잉크 건너뛰기: text-decoration-skip-ink\n\n`text-decoration-skip-ink`는 밑줄과 윗줄이 글자의 위·아래로 튀어나온 획을 지날 때 선을 끊을지 정합니다.[6] 이 속성도 축약형에 들어 있지 않습니다.[6]\n\n- `auto`(기본값): 브라우저가 글자에 닿거나 가까워지는 곳에서 선을 끊을 *수 있습니다*.\n- `none`: 끊지 않고 텍스트 전체 길이에 선을 긋습니다.\n- `all`: 글자에 닿거나 가까워지는 곳에서 *반드시* 끊습니다.\n\n```css\np        { text-decoration: underline blue; }  /* auto가 기본 */\n.no-skip { text-decoration-skip-ink: none; }   /* g, y 아래로 선이 지나감 */\n.cjk     { text-decoration-skip-ink: all; }    /* 글자 근처는 항상 끊김 */\n```\n\n### 한글 글꼴에서 확인할 점\n\nMDN은 일부 한중일(CJK) 글꼴에서 `auto`가 선을 끊지 않을 수 있고, 이때 `all`이 도움이 된다고 설명합니다.[6] 한글 본문에서 밑줄이 글자 아래쪽 획에 붙어 보인다면 먼저 `all`을 켜 보고 결과를 비교하세요.\n\n`all`로도 답답하다면 선 자체를 내리는 방법이 있습니다. `text-underline-offset`을 `em`이나 퍼센트로 주거나 `text-underline-position: under`를 쓰면 됩니다.[3][9] 어느 쪽이 나은지는 글꼴마다 다르니, 실제 서비스에서 쓰는 한글 웹폰트로 받침이 많은 단어를 넣어 확인하는 것이 확실합니다.\n\n## 링크 hover 밑줄\n\n### 두께와 간격을 전환하기\n\n`text-decoration-thickness`와 `text-underline-offset`의 애니메이션 유형은 \"계산값 유형에 따름(by computed value type)\"이고, `text-decoration-color`는 색으로 보간됩니다.[2][3][4] 반면 `text-decoration-line`과 `text-decoration-style`은 중간값 없이 바뀌는 이산(discrete) 유형입니다.[7][8] 그래서 hover 효과는 굵기·간격·색으로 만드는 편이 자연스럽습니다. 두 상태 사이의 변화는 `transition`으로 정하고, 상태는 `:hover` 같은 의사 클래스로 나눕니다.[10]\n\n```css\na {\n  text-decoration: underline 1px;\n  text-underline-offset: 0.2em;\n  transition:\n    text-decoration-thickness 0.2s,\n    text-underline-offset 0.2s;\n}\na:hover {\n  text-decoration-thickness: 3px;\n}\n/* 결과: hover 하면 밑줄이 0.2초 동안 1px → 3px로 굵어짐 */\n```\n\n`border-bottom` 방식이라면 같은 효과를 위해 테두리 두께와 `padding-bottom`을 함께 조정해야 했지만, 여기서는 밑줄 속성만 바꿉니다.\n\n### 자주 하는 실수: 색만 바꾸기\n\nMDN은 글자 색과 `text-decoration-color`만 바꾸는 것으로는 링크에 포커스가 있다는 사실을 알리기에 부족하다고 설명합니다. 색만으로 의미를 전달하지 말라는 것입니다.[4] 굵기나 간격 변화처럼 색이 아닌 단서를 함께 주고, 같은 규칙을 `:focus-visible`에도 적용하세요. `:focus-visible`은 요소에 포커스가 있고 브라우저가 포커스를 눈에 보이게 표시해야 한다고 판단할 때 적용되는 의사 클래스입니다.[11]\n\n```css\na:hover,\na:focus-visible {\n  text-decoration-thickness: 3px;\n  text-decoration-color: currentcolor;\n}\n```\n\n밑줄을 아예 없애는 것도 조심해야 합니다. MDN은 사용자가 링크를 알아보는 데 밑줄에 의존하는 경우가 많으니, 링크의 밑줄을 지울 때 주의하라고 적고 있습니다.[5] 밑줄 색을 흐리게 하거나 대비를 낮출 때도 글자·배경·밑줄 색의 대비가 충분한지 확인해야 합니다.[4]\n\n> [!POSTER]\n> 가짜 밑줄 대신\n> 진짜 밑줄을 다듬기\n\n## 정리\n\n| 하고 싶은 것 | 예전 우회 | 지금 쓰는 속성 | Baseline 널리 사용 가능 |\n| --- | --- | --- | --- |\n| 밑줄 색 따로 정하기 | `border-bottom-color` | `text-decoration-color` | 2020년 1월부터[4] |\n| 밑줄 굵기 정하기 | `border-bottom-width` | `text-decoration-thickness` | 2021년 3월부터[2] |\n| 글자와 간격 띄우기 | `padding-bottom` | `text-underline-offset` | 2020년 11월부터[3] |\n| 아래 첨자 피하기 | — | `text-underline-position: under` | 2020년 7월부터[9] |\n| 디센더 근처 끊기 | — | `text-decoration-skip-ink` | 2022년 3월부터[6] |\n\n`text-underline-offset`, `text-underline-position`, `text-decoration-skip-ink`, `text-decoration`, `text-decoration-line`에는 일부 기능의 지원 수준이 다를 수 있다는 표시가 붙어 있습니다.[3][5][6][9][7] 특정 값(예: `from-font`)에 기대는 경우에는 MDN 호환성 표를 따로 확인하세요.\n\n기억할 규칙은 두 가지입니다. 축약형은 두께까지 초기화하고, 간격·위치·잉크 건너뛰기는 축약형 밖에 있습니다.[5]",
+  "actions": [
+    "프로젝트에서 `border-bottom`과 `text-decoration: none`이 함께 쓰인 링크 스타일을 검색해 `text-decoration` + `text-underline-offset`으로 바꿀 수 있는지 확인한다",
+    "서비스에서 쓰는 한글 웹폰트로 밑줄 링크를 띄워 `text-decoration-skip-ink`를 `auto`와 `all`로 번갈아 비교한다",
+    "링크 hover·focus 스타일이 색만 바꾸는지 점검하고, `text-decoration-thickness` 변화를 `:focus-visible`에도 함께 건다"
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "CSS for underlines",
+      "publisher": "Rubenerd",
+      "url": "https://www.rubenerd.au/css-for-underlines",
+      "publishedAt": "2026-10-12"
+    },
+    {
+      "id": 2,
+      "title": "text-decoration-thickness CSS property - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/text-decoration-thickness"
+    },
+    {
+      "id": 3,
+      "title": "text-underline-offset CSS property - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/text-underline-offset"
+    },
+    {
+      "id": 4,
+      "title": "text-decoration-color CSS property - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/text-decoration-color"
+    },
+    {
+      "id": 5,
+      "title": "text-decoration CSS property - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/text-decoration"
+    },
+    {
+      "id": 6,
+      "title": "text-decoration-skip-ink CSS property - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/text-decoration-skip-ink"
+    },
+    {
+      "id": 7,
+      "title": "text-decoration-line CSS property - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/text-decoration-line"
+    },
+    {
+      "id": 8,
+      "title": "text-decoration-style CSS property - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/text-decoration-style"
+    },
+    {
+      "id": 9,
+      "title": "text-underline-position CSS property - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/text-underline-position"
+    },
+    {
+      "id": 10,
+      "title": "transition CSS property - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/transition"
+    },
+    {
+      "id": 11,
+      "title": ":focus-visible CSS pseudo-class - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/:focus-visible"
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "slug": "2026-03-20-modal-vs-page-dialog-decision",
+  "date": "2026-03-20",
+  "title": "모달로 띄울까, 페이지로 보낼까 — 결정 기준과 dialog 구현",
+  "dek": "모달과 별도 페이지 중 무엇을 고를지 정하는 네 가지 질문을 정리하고, 모달로 정했을 때 dialog 요소로 포커스, inert, URL과 뒤로 가기까지 처리하는 코드를 다룹니다.",
+  "tags": [
+    "HTML",
+    "접근성",
+    "UX"
+  ],
+  "readingMinutes": 20,
+  "cover": {
+    "src": "/covers/2026-03-20-modal-vs-page-dialog-decision.jpg",
+    "alt": "dialog 요소의 close 이벤트 코드와 HTML, JavaScript 로고가 놓인 커버",
+    "style": "code"
+  },
+  "tldr": [
+    "원문 필자는 모달을 짧고 독립적인 작업에만 쓰고, 기본값은 화면을 막지 않는 논모달로 두자고 봅니다.[1]",
+    "길고 복잡한 흐름이나 여러 단계 작업은 별도 페이지가, 배경 데이터를 참고해야 하는 작업은 드로어나 떠 있는 패널이 낫습니다.[1]",
+    "showModal()로 연 dialog는 바깥 요소를 inert로 만들고 Esc로 닫히며, 닫힐 때 연 요소로 포커스를 돌려줘야 합니다.[2][3][4]",
+    "모달에 URL을 주려면 pushState로 기록을 쌓고 popstate에서 닫아 뒤로 가기와 맞춥니다.[5][6]"
+  ],
+  "body": "## 모달이 지키는 것과 막는 것\n\n화면 위에 무언가를 띄우는 UI는 이름이 비슷해도 성격이 다릅니다. 원문은 다음처럼 구분합니다.[1]\n\n| 용어 | 뜻 |\n| --- | --- |\n| 다이얼로그(dialog) | 사용자와 시스템의 대화를 가리키는 넓은 말 |\n| 오버레이(overlay) | 페이지 위에 뜨는 작은 콘텐츠 패널 |\n| 모달(modal) | 오버레이와만 상호작용 가능, 배경은 막힘 |\n| 논모달(nonmodal) | 오버레이가 떠 있어도 배경을 쓸 수 있음 |\n| 라이트박스(lightbox) | 배경을 어둡게 해 시선을 모으는 방식 |\n\n모달의 가장 큰 장점은 현재 화면의 맥락을 지킨다는 점입니다. 입력하던 값, 스크롤 위치, 펼친 아코디언, 고른 필터와 정렬이 그대로 남습니다.[1] 반대로 배경을 막기 때문에 다른 데이터와 비교하거나 값을 복사해 붙여 넣기 어렵습니다.[1]\n\nHTML의 `<dialog>`는 두 방식을 모두 지원합니다. `show()`는 논모달로, `showModal()`은 모달로 엽니다.[2]\n\n```js\nconst panel = document.getElementById(\"panel\");\n\npanel.show();      // 논모달: 페이지의 나머지를 그대로 쓸 수 있음\npanel.close();\npanel.showModal(); // 모달: 바깥 요소가 inert가 되고 ::backdrop이 깔림\n```\n\n`showModal()`로 연 dialog는 최상위 레이어(top layer)에 그려지고, dialog와 그 자손을 뺀 같은 문서의 요소가 `inert` 속성을 준 것처럼 막힙니다.[4] 이미 `show()`로 열린 dialog에 `showModal()`을 호출하면 `InvalidStateError`가 발생합니다.[4] 그래서 위 예제는 중간에 `close()`를 넣었습니다.\n\n## 네 가지 질문으로 고르기\n\n원문은 Ryan Neufeld가 만든 결정 트리를 소개합니다. 페이지를 기본값으로 두고, 모달은 흐름을 끊고 집중시켜야 할 때만 씁니다.[1] 질문은 네 단계입니다.[1]\n\n1. 아래 화면의 맥락을 유지해야 하는가\n2. 작업이 짧고 단순한가, 길고 복잡한가\n3. 작업 중에 배경 데이터를 자주 참고해야 하는가\n4. 오버레이로 간다면 모달인가 논모달인가(논모달 쪽으로 기운다)\n\n흐름을 단순화해 코드로 옮기면 다음과 같습니다.\n\n```ts\ntype Surface = \"page\" | \"nonmodal\" | \"modal\";\n\ntype Task = {\n  keepsScreenContext: boolean; // 입력값·스크롤·필터를 지켜야 하나\n  isShortAndFocused: boolean;  // 한 번에 끝나는 짧은 작업인가\n  needsBackgroundData: boolean; // 배경을 보거나 복사해야 하나\n  preventsCriticalMistake: boolean; // 되돌릴 수 없는 실수를 막나\n};\n\nfunction chooseSurface(task: Task): Surface {\n  if (!task.keepsScreenContext) return \"page\";\n  if (!task.isShortAndFocused) return \"page\";\n  if (task.needsBackgroundData) return \"nonmodal\";\n  if (task.preventsCriticalMistake) return \"modal\";\n  return \"nonmodal\";\n}\n\n// 프로젝트 삭제 확인 → \"modal\"\n// 목록 옆에서 고르는 필터 → \"nonmodal\"\n// 여러 단계로 된 가입 절차 → \"page\"\n```\n\n원문 필자는 영향이 큰 행동이 아니라면 논모달이 더 부드러운 선택이고, 이를 기본값으로 두라고 권합니다.[1] 모달이 어울리는 곳은 경고, 파괴적인 동작, 빠른 확인처럼 우선순위가 높고 짧은 상호작용입니다.[1]\n\n> [!POSTER]\n> 막을 이유가 없다면\n> 화면을 막지 않는다\n\n### 모달을 피할 자리\n\n원문은 다음 경우에 모달을 쓰지 말라고 합니다.[1]\n\n- 오류 메시지, 새 기능 알림, 온보딩\n- 길고 여러 단계로 된 작업. 모달 안의 마법사나 탭은 잘 동작하지 않고, 사이드 패널이나 드로어가 낫습니다\n- 모달 위에 모달을 겹치는 구조. 이전/다음 이동으로 바꿉니다\n- 사용자가 누르지 않았는데 저절로 뜨는 모달\n\n같은 작업을 반복하는 업무용 화면이라면 모달과 페이지 이동 모두 흐름을 끊습니다. 이때는 펼치는 영역이나 제자리 편집이 작업을 현재 화면에 붙잡아 둡니다.[1] 사용자가 같은 페이지를 탭 여러 개로 다시 열어 비교하고 있다면 모달이 비교를 막고 있다는 신호입니다.[1]\n\n## dialog로 모달 제대로 만들기\n\n모달로 정했다면 직접 `div`로 만들기보다 `<dialog>`를 씁니다. 다른 요소로 만들면 dialog가 기본 제공하는 사용성·접근성 동작을 모두 직접 구현해야 합니다.[2]\n\n```html\n<button type=\"button\" id=\"delete-open\">프로젝트 삭제</button>\n\n<dialog id=\"delete-dialog\" aria-labelledby=\"delete-title\">\n  <h2 id=\"delete-title\">프로젝트를 삭제할까요?</h2>\n  <p>삭제하면 되돌릴 수 없습니다.</p>\n  <form method=\"dialog\">\n    <button value=\"cancel\" autofocus>취소</button>\n    <button value=\"confirm\">삭제</button>\n  </form>\n</dialog>\n```\n\n```js\nconst dialog = document.getElementById(\"delete-dialog\");\n\ndocument.getElementById(\"delete-open\").addEventListener(\"click\", () => {\n  dialog.returnValue = \"\"; // 이전에 누른 버튼 값이 남지 않게\n  dialog.showModal();\n});\n\ndialog.addEventListener(\"close\", () => {\n  if (dialog.returnValue === \"confirm\") deleteProject();\n  // 취소 버튼이나 Esc로 닫으면 아무 일도 하지 않음\n});\n```\n\n`method=\"dialog\"`인 폼을 제출하면 dialog가 닫히고, 데이터는 서버로 전송되지 않으며, 누른 버튼의 값이 `returnValue`에 들어갑니다.[2] `close` 이벤트는 `close()` 호출, `method=\"dialog\"` 폼 제출, Esc 키 중 어느 경로로 닫혀도 발생하므로 후처리를 한곳에 모을 수 있습니다.[7]\n\n### 처음 포커스와 닫는 방법\n\n`showModal()`로 열면 포커스는 안쪽의 첫 번째 포커스 가능한 요소로 갑니다. `autofocus`로 위치를 명시하는 편이 안전합니다.[2] 되돌리기 어려운 동작을 확인하는 dialog라면 가장 덜 파괴적인 버튼에 포커스를 두는 것이 좋습니다.[3] 위 예제가 \"삭제\"가 아니라 \"취소\"에 `autofocus`를 둔 이유입니다.\n\n닫는 방법은 `closedby` 속성으로 정합니다.[2]\n\n- `any`: 바깥 클릭(라이트 디스미스), Esc, 개발자가 만든 버튼 모두 허용\n- `closerequest`: Esc나 모바일의 뒤로 가기 제스처 같은 플랫폼 동작과 버튼만 허용\n- `none`: 개발자가 만든 버튼으로만 닫힘\n\n값을 주지 않으면 `showModal()`로 연 dialog는 `closerequest`처럼 동작합니다.[2] 입력 폼이 든 모달에 `any`를 주면 실수로 바깥을 눌러 입력이 날아갈 수 있으니 용도에 맞춰 고릅니다. 어떤 경우든 눈에 보이는 닫기 버튼을 넣습니다.[3]\n\n#### 자주 하는 실수\n\n- `open` 속성으로 열기. 이렇게 열면 논모달이 됩니다.[2]\n- `<dialog>`에 `tabindex` 주기. dialog 자체는 포커스를 받는 요소가 아니므로 쓰지 않습니다.[2]\n- 모달이 아닌데 `aria-modal=\"true\"` 주기. 일부 보조 기술 사용자는 바깥 콘텐츠를 아예 인식하지 못하게 됩니다.[3]\n\n### 닫힌 뒤 포커스 돌려주기\n\ndialog가 닫히면 포커스는 dialog를 연 요소로 돌아가야 합니다. 그 요소가 사라졌다면 다음 작업 흐름에 맞는 다른 요소로 보냅니다.[3] 삭제 확인처럼 버튼이 든 행이 지워지는 경우가 바로 그렇습니다.\n\n```js\nconst dialog = document.getElementById(\"delete-dialog\");\nlet invoker = null;\n\nfunction openWithReturn() {\n  invoker = document.activeElement; // 연 요소 기억\n  dialog.showModal();\n}\n\ndialog.addEventListener(\"close\", () => {\n  if (invoker?.isConnected) invoker.focus(); // 아직 있으면 원래 자리로\n  else document.getElementById(\"project-list\").focus(); // tabindex=\"-1\"인 목록\n  invoker = null;\n});\n```\n\n### 모달이 아닐 때는 inert를 직접\n\n`inert`는 요소와 그 자손을 클릭·포커스·페이지 내 검색·텍스트 선택·편집에서 빼고 접근성 트리에서도 제외합니다.[8] 모달은 `showModal()`이 알아서 처리하지만, 화면 밖으로 밀어 둔 드로어처럼 숨겨 둔 영역에는 직접 붙여야 합니다.[8]\n\n```js\nconst drawer = document.getElementById(\"filter-drawer\");\n\nfunction setDrawerOpen(isOpen) {\n  drawer.inert = !isOpen; // 닫힌 동안 Tab으로 들어가지 않음\n  drawer.classList.toggle(\"is-open\", isOpen);\n}\n```\n\n`inert`가 걸렸는지 화면에는 아무 표시도 나지 않으므로, 어디가 활성이고 어디가 비활성인지 시각적으로 알려 주는 것은 개발자 몫입니다.[8]\n\n## URL과 뒤로 가기\n\n모달은 화면 전환 없이 상세 내용을 보여 주기에 좋지만[1], 기본적으로 주소가 바뀌지 않습니다. 사용자가 링크를 공유하거나 뒤로 가기로 닫으려 한다면 기록과 맞춰야 합니다. `pushState()`는 문서를 다시 불러오지 않고 같은 출처 안의 URL로 기록을 하나 쌓고, 사용자가 그 기록으로 이동할 때 `popstate`가 발생합니다.[5] `pushState()`를 호출하는 것만으로는 `popstate`가 발생하지 않습니다.[6]\n\n```js\nconst ITEM_PARAM = \"item\";\nconst itemDialog = document.getElementById(\"item-dialog\");\nconst getItemId = () => new URL(location).searchParams.get(ITEM_PARAM);\n\nfunction openItem(id) {\n  const url = new URL(location);\n  url.searchParams.set(ITEM_PARAM, id);\n  history.pushState({ itemId: id }, \"\", url);\n  showItem(id);\n}\n\nfunction showItem(id) {\n  renderItem(id); // 내용을 채우는 앱 함수\n  if (!itemDialog.open) itemDialog.showModal();\n}\n\nwindow.addEventListener(\"popstate\", () => {\n  const id = getItemId();\n  if (id === null && itemDialog.open) itemDialog.close(); // 뒤로 가기\n  if (id !== null) showItem(id); // 앞으로 가기\n});\n\nitemDialog.addEventListener(\"close\", () => {\n  if (getItemId() === null) return; // 이미 뒤로 가기로 닫힘\n  if (history.state?.itemId) {\n    history.back(); // 직접 쌓은 기록이면 되돌리기\n    return;\n  }\n  const url = new URL(location); // 공유 링크로 바로 들어온 경우\n  url.searchParams.delete(ITEM_PARAM);\n  history.replaceState(null, \"\", url);\n});\n\nif (getItemId() !== null) showItem(getItemId()); // ?item=42로 첫 진입\n```\n\n`close` 핸들러에서 무조건 `history.back()`을 부르면 공유 링크로 바로 들어온 사용자는 사이트 밖으로 나가 버립니다. 그래서 직접 쌓은 기록인지 `history.state`로 확인하고, 아니면 `replaceState()`로 주소만 고칩니다.[6] 브라우저는 페이지와 상호작용이 없으면 `popstate`를 아예 보내지 않을 수 있다는 점도 알아 둡니다.[6]\n\n지원 범위는 넉넉합니다. `<dialog>`와 `showModal()`은 2022년 3월부터, `inert`는 2023년 4월부터, `pushState()`와 `popstate`는 2015년 7월부터 주요 브라우저에서 쓸 수 있습니다.[2][4][8][5][6] 다만 MDN은 dialog의 일부 기능은 지원 수준이 다를 수 있다고 표시하므로 `closedby` 같은 속성은 호환성 표를 확인하고 씁니다.[2]\n\n## 정리\n\n| 상황 | 고를 것 | 구현 포인트 |\n| --- | --- | --- |\n| 되돌릴 수 없는 동작 확인 | 모달 | `showModal()`, 취소 버튼에 `autofocus` |\n| 목록을 보며 고르는 필터 | 논모달·드로어 | `show()`, 닫힌 드로어에 `inert` |\n| 여러 단계 작업, 긴 입력 | 별도 페이지 | 일반 라우트 |\n| 반복되는 편집 | 제자리 편집 | 모달·페이지 이동 없이 |\n| 공유하고 싶은 상세 보기 | 모달 + URL | `pushState()`, `popstate`에서 닫기 |\n\n모달의 값은 흐름을 일부러 끊는 데 있습니다. 원문 필자는 사용자의 속도를 높이고 싶다면 모달을 최대한 피하고, 실수를 막아야 할 때만 쓰라고 봅니다.[1]",
+  "actions": [
+    "서비스에서 저절로 뜨는 모달과 모달 안의 여러 단계 마법사를 찾아 논모달, 드로어, 별도 페이지로 바꿀 후보를 적어 봅니다",
+    "직접 만든 div 모달 하나를 dialog와 showModal()로 바꾸고, Tab·Esc·닫힌 뒤 포커스 위치를 키보드로 확인합니다",
+    "상세 모달이 있는 화면에서 뒤로 가기를 눌러 보고, 모달 대신 이전 페이지로 나가 버리면 pushState와 popstate로 기록을 맞춥니다"
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "Modal vs. Separate Page: UX Decision Tree",
+      "publisher": "Smashing Magazine",
+      "url": "https://smashingmagazine.com/2026/03/modal-separate-page-ux-decision-tree",
+      "publishedAt": "2026-03-19"
+    },
+    {
+      "id": 2,
+      "title": "<dialog> HTML dialog element - HTML | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/dialog"
+    },
+    {
+      "id": 3,
+      "title": "Dialog (Modal) Pattern",
+      "publisher": "w3.org",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/"
+    },
+    {
+      "id": 4,
+      "title": "HTMLDialogElement: showModal() method - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/showModal"
+    },
+    {
+      "id": 5,
+      "title": "History: pushState() method - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/History/pushState"
+    },
+    {
+      "id": 6,
+      "title": "Window: popstate event - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event"
+    },
+    {
+      "id": 7,
+      "title": "HTMLDialogElement: close event - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/close_event"
+    },
+    {
+      "id": 8,
+      "title": "inert HTML global attribute - HTML | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/inert"
+    }
+  ]
+}

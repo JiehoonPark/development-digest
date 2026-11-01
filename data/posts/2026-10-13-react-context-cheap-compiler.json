@@ -1,0 +1,86 @@
+{
+  "slug": "2026-10-13-react-context-cheap-compiler",
+  "date": "2026-10-13",
+  "title": "라디오 5,000개가 전부 다시 렌더링된다 — Context를 싸게 만드는 React Compiler",
+  "dek": "Context 값이 바뀌면 그 값을 읽는 컴포넌트는 모두 다시 렌더링됩니다. 셀렉터가 없는 이유, 공식 문서가 권하는 컴포넌트 나누기, React Compiler가 그 일을 대신하는 방식, 그리고 효과를 깨뜨리는 실수를 코드로 정리합니다.",
+  "tags": [
+    "React",
+    "React Compiler",
+    "성능"
+  ],
+  "readingMinutes": 18,
+  "cover": {
+    "src": "/covers/2026-10-13-react-context-cheap-compiler.jpg",
+    "alt": "useContext로 값을 읽고 checked를 파생하는 Radio 컴포넌트 코드와 React 로고",
+    "style": "stat"
+  },
+  "tldr": [
+    "Provider가 Object.is로 다른 값을 받으면 그 Context를 읽는 모든 컴포넌트가 다시 렌더링되고, memo로도 막을 수 없습니다.[1]",
+    "React에는 Context 셀렉터가 없고, 예전의 calculateChangedBits는 실제로 쓸모가 없었다는 이유로 제거됐습니다.[2][3]",
+    "공식 문서는 Context를 읽는 바깥 컴포넌트와 memo로 감싼 안쪽 컴포넌트로 나누라고 권하고, React Compiler는 이 메모이제이션을 한 컴포넌트 안에서 자동으로 합니다.[4][5]",
+    "원문 필자의 벤치마크에서는 라디오 5,000개가 모두 렌더링돼도 컴파일러 버전이 외부 스토어 방식과 비슷한 속도를 냈습니다.[5]"
+  ],
+  "body": "## Context 값이 바뀌면 소비자는 모두 렌더링된다\n\n`useContext`는 Context를 읽는 동시에 구독(subscribe)하는 훅입니다.[1] 가장 가까운 Provider가 Object.is 비교로 다른 값을 받으면, React는 그 Context를 읽는 자식을 모두 다시 렌더링합니다.[1] \"필요한 부분만 바뀌었는지\"는 따지지 않습니다.\n\n### 라디오 그룹으로 확인하기\n\n원문 필자가 만든 라디오 그룹은 선택된 값을 state로 들고, 안정된 핸들러와 함께 Context에 넣습니다.[5]\n\n```jsx\nconst RadioContext = React.createContext();\n\nfunction RadioGroup({ children }) {\n  const [value, setValue] = React.useState('');\n  const context = React.useMemo(\n    () => ({ value, onSelect: setValue }),\n    [value],\n  );\n\n  return (\n    <RadioContext.Provider value={context}>\n      {children}\n    </RadioContext.Provider>\n  );\n}\n\nfunction Radio({ value }) {\n  const context = React.useContext(RadioContext);\n\n  return (\n    <input\n      type=\"radio\"\n      name=\"demo\"\n      checked={context.value === value}\n      onChange={() => context.onSelect(value)}\n    />\n  );\n}\n// 라디오 5,000개 중 하나를 클릭하면\n// → value가 바뀌어 context 객체가 새로 만들어짐\n// → Radio 5,000개가 모두 다시 렌더링\n```\n\n`Radio`는 `children`으로 들어오므로 `RadioGroup`이 다시 렌더링된다고 같이 렌더링되지는 않습니다.[5] 공식 문서도 감싸는 컴포넌트가 JSX를 `children`으로 받으면 자기 state가 바뀌어도 자식을 다시 렌더링할 필요가 없다고 설명합니다.[4] 문제는 Context입니다. 실제로 checked가 바뀌는 라디오는 둘뿐인데, `useContext(RadioContext)`를 부른 5,000개가 모두 렌더링됩니다.[5]\n\n예제는 React 19 이전 문법인 `<RadioContext.Provider>`를 씁니다. React 19부터는 `<RadioContext value={...}>`처럼 Context 자체를 Provider로 렌더링할 수 있습니다.[6]\n\n### 자주 하는 실수: memo로 막으려 하기\n\n`memo`는 부모에게서 받는 props만 봅니다. 메모이제이션한 컴포넌트도 자기가 읽는 Context가 바뀌면 다시 렌더링됩니다.[4][1] `Radio`를 `memo`로 감싸도 결과는 같습니다.\n\n### 자주 하는 실수: Provider에 매번 새 객체 넘기기\n\n원문 코드가 `useMemo`로 context 객체를 감싼 데는 이유가 있습니다. 비교는 Object.is라서, 내용이 같아도 새 객체면 다른 값입니다.[1]\n\n```jsx\nfunction RadioGroup({ children }) {\n  const [value, setValue] = React.useState('');\n  return (\n    // 렌더링마다 새 객체 → 내용이 같아도 Object.is는 false\n    <RadioContext.Provider value={{ value, onSelect: setValue }}>\n      {children}\n    </RadioContext.Provider>\n  );\n}\n// RadioGroup이 부모 때문에 렌더링돼도 Radio 전부가 다시 렌더링\n```\n\n## 셀렉터는 왜 없을까\n\nContext 셀렉터는 Context에서 필요한 값만 골라내고, 그 값이 바뀔 때만 렌더링하게 하는 API입니다. 원문 필자는 아래 같은 모양을 예로 듭니다. React에는 이런 API가 없습니다.[5]\n\n```jsx\n// React에 없는 API — 제안된 모양\nconst checked = useContextSelector(\n  RadioContext,\n  (context) => context.value === value,\n);\n```\n\n### 제거된 changedBits와 멈춘 RFC\n\n비슷한 장치는 예전에 있었습니다. React 16.3.2의 `createContext`는 두 번째 인자로 `calculateChangedBits` 함수를 받았습니다.[2] Provider가 바뀐 비트를 표시하면 소비자는 `unstable_observedBits`로 관심 있는 비트만 구독하는 방식이었습니다.[5]\n\n이 기능은 PR #20953에서 제거됐습니다. Context 업데이트를 건너뛰려고 넣었지만 실제로 쓸모가 없었고, Context 셀렉터 같은 다른 제안이 있다는 이유였습니다.[3] 그 셀렉터 RFC는 선택한 값이 바뀌지 않으면 컴포넌트가 업데이트되지 않는 새 훅을 제안했고, 이를 위해 Context 전파를 더 게으르게(lazy) 바꾸는 변경에 의존합니다.[7]\n\n### useSyncExternalStore로 우회하기 전에\n\n많은 팀이 이 지점에서 외부 스토어와 `useSyncExternalStore`를 고릅니다. 공식 문서는 가능하면 `useState`·`useReducer` 같은 내장 state를 쓰라고 권하고, 이 훅은 주로 React가 아닌 기존 코드와 연동할 때 유용하다고 말합니다.[8] 외부 스토어가 non-blocking Transition 중에 바뀌면 React가 그 업데이트를 blocking으로 다시 처리한다는 주의점도 있습니다.[8]\n\n원문 필자는 React의 기본 도구에서 벗어날수록 동시성 렌더링 같은 기능을 놓칠 위험이 있다고 봅니다.[5] 이것은 필자의 해석이고, 공식 문서가 외부 스토어를 금지하는 것은 아닙니다.\n\n## 공식 문서의 방법: 컴포넌트를 둘로 나누기\n\n`memo` 문서는 Context의 일부가 바뀔 때만 렌더링하려면 컴포넌트를 둘로 나누라고 안내합니다. 바깥 컴포넌트가 Context를 읽고, 필요한 값만 props로 memo 자식에게 넘기는 방식입니다.[5]\n\n```jsx\nfunction Radio({ value }) {\n  const context = React.useContext(RadioContext);\n\n  return (\n    <RadioView\n      checked={context.value === value}\n      onSelect={context.onSelect}\n      value={value}\n    />\n  );\n}\n\nconst RadioView = React.memo(function RadioView({ checked, onSelect, value }) {\n  return (\n    <input\n      type=\"radio\"\n      name=\"demo\"\n      checked={checked}\n      onChange={() => onSelect(value)}\n    />\n  );\n});\n// 선택이 바뀌면: Radio 5,000개는 렌더링\n// RadioView는 checked가 바뀐 2개만 렌더링, 나머지 4,998개는 건너뜀\n```\n\n바깥 `Radio`는 여전히 매번 렌더링되지만 하는 일은 비교 한 번과 JSX 한 줄뿐입니다. `memo`는 기본으로 각 prop을 Object.is로 비교하고[4], `checked`는 불리언, `onSelect`는 `setValue`라 안정적입니다. 그래서 4,998개의 `RadioView`가 일을 건너뜁니다.[5]\n\n### 측정 결과\n\n필자는 라디오 5,000개를 프로덕션 빌드로, Chrome에서 p95 시간을 쟀습니다. 4× 열은 DevTools의 CPU 4배 감속입니다.[5]\n\n| 방식 | 마운트 1× | 마운트 4× | 클릭 1× | 클릭 4× |\n| --- | --- | --- | --- | --- |\n| `useSyncExternalStore` 스토어 | 147.6 ms | 601.8 ms | 19.2 ms | 64.9 ms |\n| Context + memo 자식 | 145.0 ms | 568.2 ms | 18.9 ms | 72.6 ms |\n| Context + 컴파일러 | 141.0 ms | 565.2 ms | 18.4 ms | 63.6 ms |\n\n스토어 방식은 바뀐 라디오 2개만 렌더링하는데도 큰 차이가 나지 않았습니다.[5] 필자도 좁은 벤치마크라 일반적인 순위로 보면 안 된다고 단서를 답니다.[5]\n\n### 자주 하는 실수: 자식에게 새 함수 넘기기\n\n나누기만 하고 props를 잘못 넘기면 효과가 사라집니다. 렌더링 중에 만든 함수는 매번 새 값이라 `memo`가 쓸모없어집니다.[4]\n\n```jsx\n// 잘못된 예: 화살표 함수가 매 렌더링마다 새로 생김\n<RadioView checked={checked} onSelect={() => context.onSelect(value)} />\n// → 5,000개 RadioView가 모두 다시 렌더링\n\n// 올바른 예: 안정된 핸들러와 원시값을 따로 넘김\n<RadioView checked={checked} onSelect={context.onSelect} value={value} />\n```\n\n`context` 객체를 통째로 넘기는 것도 같은 실수입니다. `value`가 바뀔 때마다 새 객체가 되므로 모든 `RadioView`가 새 prop을 받습니다.\n\n## React Compiler가 바꾸는 점\n\nReact Compiler는 빌드 단계에서 컴포넌트에 메모이제이션을 넣어 주는 도구입니다. 설치와 기본 원리는 이전 글 \"useMemo를 손으로 쓰지 않는 React\"에서 다뤘으니 여기서는 Context와 만나는 지점만 봅니다. `memo` 문서에 따르면 컴파일러는 모든 컴포넌트에 `memo`와 같은 효과를 적용합니다.[4]\n\n### 나누지 않아도 된다\n\n컴파일러를 켜면 `RadioView`를 따로 만들 필요가 없습니다. 원문의 컴파일러 버전은 이렇습니다.[5]\n\n```jsx\nfunction Radio({ value }) {\n  const context = React.useContext(RadioContext);\n  const checked = context.value === value;\n  const onSelect = context.onSelect;\n\n  return (\n    <input\n      type=\"radio\"\n      name=\"demo\"\n      checked={checked}\n      onChange={() => onSelect(value)}\n    />\n  );\n}\n// 선택이 바뀌면: Radio 5,000개는 여전히 렌더링\n// checked·onSelect·value가 그대로인 4,998개는 이전 JSX를 재사용\n```\n\n모든 `Radio`가 렌더링되는 것은 그대로입니다. 대신 컴파일러가 `checked`, `onSelect`, `value`가 바뀌지 않은 라디오의 JSX를 다시 씁니다.[5] 공식 문서도 컴파일러가 이전에 만든 JSX를 재사용해 자식 렌더링을 건너뛴다고 설명합니다.[9] 나누기와 같은 생각인데, 메모이제이션이 별도 컴포넌트가 아니라 소비자의 렌더링 안에서 일어납니다.[5]\n\n`onChange={() => onSelect(value)}` 같은 화살표 함수도 괜찮습니다. 공식 문서는 화살표 함수가 있든 없든 컴파일러가 올바르게 최적화한다고 말합니다.[9]\n\n### 원문의 주장과 공식 동작 구분하기\n\nJoseph Savona는 RFC 댓글에서 컴파일러가 이미 Context 셀렉터에서 원하는 것의 상당 부분을 해 준다고 주장했습니다.[5] 이것은 의견이고, Context의 전파 방식이 바뀐 것은 아닙니다. Provider 값이 바뀌면 모든 소비자가 렌더링된다는 공식 동작은 그대로이고[1], 컴파일러는 그 렌더링 안의 일을 줄일 뿐입니다.\n\n> [!POSTER]\n> 렌더 횟수보다\n> 렌더 한 번의 비용\n\n원문 필자는 사용자가 기다리는 것은 렌더링 횟수가 아니라 각 렌더링이 하는 일이고, 렌더링을 피하기보다 싸게 만드는 데 집중하자고 제안합니다.[5]\n\n### 자주 하는 실수\n\n- **값을 파생하지 않고 객체를 그대로 쓰기**: JSX가 `context` 객체 전체에 의존하면 재사용할 근거가 없습니다. 원문처럼 `checked` 같은 원시값을 먼저 계산합니다.\n- **기존 메모이제이션 일괄 삭제**: 컴파일러를 켰다고 Provider의 `useMemo`를 지우면 컴파일 결과가 달라질 수 있습니다. 공식 문서는 그대로 두거나 꼼꼼히 테스트한 뒤 지우라고 권합니다.[9]\n- **컴포넌트 팩토리 남겨 두기**: 필자는 컴파일러가 없을 때를 위해 `withContextSelector`라는 감싸개를 만들었지만, 이는 컴포넌트 팩토리라 React 린트 규칙이 권하지 않습니다. 나중에 컴파일러로 옮기면 지워야 효과를 다 얻는다고 필자는 말합니다.[5]\n\n## 정리\n\n| 상황 | 동작 | 할 일 |\n| --- | --- | --- |\n| Provider 값이 Object.is로 바뀜 | 모든 소비자 렌더링, memo로 못 막음[1] | 값 객체를 안정적으로 유지 |\n| 컴파일러 없음 | memo 자식은 props가 같으면 건너뜀[4] | Context 읽기와 화면을 둘로 나누기 |\n| 컴파일러 있음 | 바뀌지 않은 JSX를 재사용[5][9] | 필요한 값을 원시값으로 파생 |\n| 외부 스토어 고민 | 문서는 내장 state를 먼저 권함[8] | 측정한 뒤 결정 |\n\nContext 셀렉터가 없다는 사실은 그대로입니다. 바뀐 것은 \"모두 렌더링된다\"의 비용입니다. 컴파일러가 렌더링마다 남은 일을 거의 없애 주면, 소비자 수를 세는 것보다 각 렌더링이 무엇을 하는지 보는 편이 더 정확합니다.",
+  "actions": [
+    "프로젝트에서 Provider의 value에 객체 리터럴을 바로 넘기는 곳을 검색해 확인한다",
+    "React DevTools Profiler로 Context를 쓰는 목록 화면에서 렌더링 수와 렌더링 시간을 따로 기록한다",
+    "컴파일러를 쓰고 있다면 Context 소비자 하나에서 객체 대신 원시값을 파생해 JSX에 넘기도록 고쳐 본다"
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "useContext – React",
+      "publisher": "react.dev",
+      "url": "https://react.dev/reference/react/useContext"
+    },
+    {
+      "id": 2,
+      "title": "react/packages/react/src/ReactContext.js at v16.3.2 · react/react",
+      "publisher": "GitHub · facebook/react",
+      "url": "https://github.com/facebook/react/blob/v16.3.2/packages/react/src/ReactContext.js"
+    },
+    {
+      "id": 3,
+      "title": "Remove unstable_changedBits by acdlite · Pull Request #20953 · react/react",
+      "publisher": "GitHub · react/react",
+      "url": "https://github.com/react/react/pull/20953"
+    },
+    {
+      "id": 4,
+      "title": "memo – React",
+      "publisher": "react.dev",
+      "url": "https://react.dev/reference/react/memo"
+    },
+    {
+      "id": 5,
+      "title": "Making React Context Cheap with React Compiler",
+      "publisher": "jjenzz",
+      "url": "https://jjenzz.com/making-react-context-cheap",
+      "publishedAt": "2026-10-12"
+    },
+    {
+      "id": 6,
+      "title": "createContext – React",
+      "publisher": "react.dev",
+      "url": "https://react.dev/reference/react/createContext"
+    },
+    {
+      "id": 7,
+      "title": "RFC: Context selectors by gnoff · Pull Request #119 · reactjs/rfcs",
+      "publisher": "GitHub · reactjs/rfcs",
+      "url": "https://github.com/reactjs/rfcs/pull/119"
+    },
+    {
+      "id": 8,
+      "title": "useSyncExternalStore – React",
+      "publisher": "react.dev",
+      "url": "https://react.dev/reference/react/useSyncExternalStore"
+    },
+    {
+      "id": 9,
+      "title": "Introduction – React",
+      "publisher": "react.dev",
+      "url": "https://react.dev/learn/react-compiler/introduction"
+    }
+  ]
+}
