@@ -1,0 +1,80 @@
+{
+  "slug": "2026-03-31-bot-checks-read-react-state",
+  "date": "2026-03-31",
+  "title": "봇 검사는 브라우저가 아니라 앱을 본다 — ChatGPT와 Turnstile이 읽는 React 상태",
+  "dek": "한 보안 연구자가 ChatGPT에서 도는 Cloudflare Turnstile 프로그램을 복호화해 보니, 브라우저 지문뿐 아니라 React Router가 남긴 전역 상태까지 확인하고 있었다고 합니다. 이 분석을 출발점으로, 봇 검사가 앱 상태를 보는 원리와 하이드레이션 전 입력 처리, 내 앱에 Turnstile을 붙일 때의 주의점을 정리했습니다.",
+  "tags": [
+    "보안",
+    "React",
+    "하이드레이션"
+  ],
+  "readingMinutes": 18,
+  "cover": {
+    "src": "/covers/2026-03-31-bot-checks-read-react-state.jpg",
+    "alt": "하이드레이션 완료를 감지하는 useIsHydrated 훅 코드와 React·OpenAI 로고",
+    "style": "stat"
+  },
+  "tldr": [
+    "원문 필자는 ChatGPT 메시지마다 실행되는 Turnstile 프로그램 377개를 복호화했고, 매번 같은 55개 속성을 브라우저·Cloudflare 네트워크·React 앱의 세 층에서 수집한다고 분석한다[1]",
+    "앱 층에서 본다는 `__reactRouterContext`는 React Router가 선언한 window 전역이고, 그 안의 `state.loaderData`는 클라이언트 코드가 스트림을 디코딩해야 채워진다[1][2][3]",
+    "하이드레이션이 끝났는지는 렌더 중 `typeof window` 검사가 아니라 `useEffect`로 판단해야 하이드레이션 오류를 피한다[4][5]",
+    "Turnstile 토큰은 서버에서 Siteverify로 검증하고, 300초 유효·한 번만 사용 가능하다는 제약에 맞춰 만료 처리를 만들어야 한다[6]"
+  ],
+  "body": "## 원문 필자가 찾은 것: 세 층을 보는 봇 검사\n\n봇 검사(bot detection)는 지금 요청을 보낸 쪽이 사람이 쓰는 실제 브라우저인지 자동화 도구인지 가려내는 일입니다. 오래된 방식은 화면에 퍼즐을 띄우는 CAPTCHA였고, Cloudflare Turnstile은 퍼즐 없이 백그라운드에서 이 판단을 하려는 도구입니다.\n\nCloudflare 공식 문서는 Turnstile이 작은 비대화형 JavaScript 챌린지를 여러 번 실행해 방문자와 브라우저 환경에 대한 신호를 모은다고 설명합니다. 여기에는 작업 증명(proof-of-work), 공간 증명(proof-of-space), 웹 API 탐지, 브라우저 특이점과 사람의 행동을 감지하는 챌린지가 포함됩니다.[7]\n\n### 복호화한 프로그램의 구성\n\n원문 필자는 ChatGPT 네트워크 트래픽에서 Turnstile 프로그램 377개를 복호화했고, 377개 모두에서 같은 55개 속성을 수집했다고 보고합니다.[1] 필자는 이 속성을 세 층으로 나눕니다.\n\n| 층 | 원문 필자가 본 속성 예 | 무엇을 확인하나 |\n| --- | --- | --- |\n| 브라우저 | WebGL 렌더러, 화면 크기, `hardwareConcurrency`, 글꼴 측정 | 진짜 브라우저와 하드웨어인가 |\n| Cloudflare 네트워크 | `cfIpCity`, `cfConnectingIp`, `userRegion` | 요청이 Cloudflare 엣지를 거쳤나 |\n| 애플리케이션 | `__reactRouterContext`, `loaderData`, `clientBootstrap` | ChatGPT 앱이 실제로 부팅됐나 |\n\n표의 속성 이름과 분류는 원문 필자의 분석입니다.[1] 필자는 앞의 두 층보다 세 번째 층이 핵심이라고 보며, 브라우저 지문을 위조해도 ChatGPT SPA를 실제로 렌더링하지 않는 봇은 실패한다고 주장합니다.[1]\n\n필자는 그 밖에 키 입력·포인터 이동·스크롤·붙여넣기 이벤트를 듣는 행동 신호 수집기와 SHA-256 기반 작업 증명도 함께 실행된다고 분석합니다. 다만 작업 증명은 72%가 5ms 안에 풀려 실제 방어선은 아니라고 봅니다.[1]\n\n### 제목과 본문의 간격\n\n원문 제목은 \"Cloudflare가 React 상태를 읽기 전까지 입력할 수 없다\"고 말하지만, 본문은 입력을 막는 코드 자체를 보여 주지는 않습니다. 본문이 다루는 것은 프로그램의 복호화 과정과 수집 항목입니다.[1] 그래서 이 글에서는 \"입력을 막는다\"를 원문 필자의 관찰로만 다루고, 내 앱에서 같은 상황을 만들 때 알아야 할 원리를 따로 정리합니다.\n\n> [!POSTER]\n> 지문은 흉내 낼 수 있어도\n> 앱 부팅은 흉내 내기 어렵다\n\n## 앱 층 검사가 가능한 이유: 하이드레이션이 남기는 흔적\n\n원문 필자가 말하는 \"애플리케이션 층\"을 이해하려면, 서버 렌더링한 React 앱이 브라우저에서 어떻게 깨어나는지 알아야 합니다.\n\n### 하이드레이션이란\n\n하이드레이션(hydration)은 서버가 만든 HTML에 React가 컴포넌트 로직을 \"붙여서\", 정적인 HTML 스냅샷을 브라우저에서 동작하는 앱으로 바꾸는 과정입니다.[4] React 문서는 사용자가 JavaScript가 로드되기 전까지 한동안 서버가 만든 HTML을 보고 있다고 설명합니다.[4]\n\n```tsx\nimport { hydrateRoot } from \"react-dom/client\";\nimport App from \"./App.js\";\n\nhydrateRoot(document.getElementById(\"root\"), <App />);\n// 이 호출이 끝나야 이벤트 핸들러와 상태가 HTML에 연결됨\n```\n\n즉 화면에 입력창이 보인다고 해서 앱이 준비된 것은 아닙니다. HTML만 받은 상태와 JavaScript까지 실행한 상태는 겉모습이 같아도 내부가 다릅니다.\n\n### `__reactRouterContext`는 어디서 오나\n\n원문 필자는 `__reactRouterContext`를 React Router가 DOM에 붙이는 내부 자료 구조라고 설명합니다.[1] React Router 소스를 보면 이것은 `declare global` 안에 선언된 window 전역 변수이고, 그 타입에는 `state: HydrationState`와 스트림 관련 필드가 들어 있습니다.[2]\n\n```ts\n// react-router/lib/dom/global.ts (발췌)\nexport type WindowReactRouterContext = ServerHandoff & {\n  state: HydrationState; // Deserialized via the stream\n  stream: ReadableStream<Uint8Array> | undefined;\n  streamController: ReadableStreamDefaultController<Uint8Array>;\n};\n```\n\n`state`는 주석대로 스트림에서 역직렬화된 값입니다.[2] 클라이언트 진입점의 `createHydratedRouter`는 초기 상태 스냅샷이 `window.__reactRouterContext.state`로 디코딩될 때까지 기다린 뒤, 그 상태(`loaderData` 포함)로 하이드레이션 데이터를 만들어 라우터에 넘깁니다.[3]\n\n여기서 원문 필자의 주장이 왜 성립하는지 보입니다. HTML만 받아 두고 JavaScript 번들을 실행하지 않는 도구에는 디코딩된 `state.loaderData`가 생기지 않습니다. 필자도 같은 이유로, 헤드리스 브라우저가 HTML만 읽거나 봇 프레임워크가 브라우저 API만 흉내 내면 이 값이 없다고 분석합니다.[1]\n\n### 자주 하는 실수: 로더 데이터를 비밀 저장소처럼 쓰기\n\n`loaderData`가 window 전역 아래 들어간다는 것은, 같은 페이지에서 실행되는 모든 스크립트가 그 값을 읽을 수 있다는 뜻입니다.[2][3] 분석 스크립트, 광고 태그, 봇 검사 SDK도 예외가 아닙니다.\n\n내 앱에서 직접 확인해 보는 것이 가장 빠릅니다. React Router 프레임워크 모드로 서버 렌더링한 페이지를 열고 개발자 도구 콘솔에서 아래를 실행합니다.\n\n```js\n// 내 앱 페이지의 개발자 도구 콘솔에서\ntypeof window.__reactRouterContext; // \"object\"\nObject.keys(window.__reactRouterContext.state.loaderData);\n// 라우트 id 목록, 예: [\"root\", \"routes/home\"]\n```\n\n로더가 돌려준 값은 화면에 쓰지 않아도 페이지 안에 남습니다. 세션 토큰, 내부 ID, 다른 사용자 정보처럼 화면에 필요 없는 값은 로더 응답에서 빼는 것이 원칙입니다.\n\n## 하이드레이션 전 입력 다루기\n\n원문 제목이 말하는 \"준비될 때까지 입력할 수 없는\" 상태를 내 앱에서 의도적으로 만든다면, 하이드레이션 완료를 기준으로 입력을 열면 됩니다. ChatGPT가 이 방식을 쓴다는 근거는 자료에 없으므로, 아래는 일반적인 React 패턴입니다.\n\n### `useEffect`로 하이드레이션 완료 감지\n\nReact 문서는 Effect가 클라이언트에서만 실행되고 서버 렌더링 중에는 실행되지 않는다고 설명합니다.[5] 이 성질을 쓰면 \"클라이언트에서 커밋까지 끝났다\"는 신호를 얻을 수 있습니다.\n\n```tsx\nimport { useEffect, useState } from \"react\";\n\nfunction useIsHydrated() {\n  const [isHydrated, setIsHydrated] = useState(false);\n  useEffect(() => setIsHydrated(true), []);\n  return isHydrated;\n}\n\nexport function PromptInput() {\n  const isHydrated = useIsHydrated();\n  return <textarea disabled={!isHydrated} aria-busy={!isHydrated} />;\n}\n// 서버 HTML: <textarea disabled>\n// 하이드레이션 직후 effect 실행 → disabled 해제\n```\n\n서버와 클라이언트의 첫 렌더는 둘 다 `isHydrated === false`라서 결과가 같고, 그 뒤 Effect가 상태를 바꿉니다. 하이드레이션 규칙을 지키면서 두 번째 렌더에서만 입력을 엽니다.\n\n### 자주 하는 실수: 렌더 중 `typeof window` 검사\n\n같은 일을 더 짧게 하려고 렌더 로직에서 환경을 직접 검사하면 문제가 생깁니다.\n\n```tsx\n// 잘못된 예: 서버는 disabled, 클라이언트 첫 렌더는 enabled\n<textarea disabled={typeof window === \"undefined\"} />\n```\n\nReact 문서는 렌더 로직 안의 `typeof window !== 'undefined'` 같은 검사와 `window.matchMedia` 같은 브라우저 전용 API를 하이드레이션 오류의 흔한 원인으로 꼽습니다.[4] 불일치가 나면 좋으면 느려지는 정도지만, 나쁘면 이벤트 핸들러가 엉뚱한 요소에 붙을 수 있다고 경고합니다.[4]\n\n### 입력을 막을 때의 비용\n\n입력을 막는 순간, JavaScript가 늦게 오거나 실패한 사용자는 아무것도 할 수 없습니다. 막을 범위는 \"제출\"처럼 정말 준비가 필요한 동작으로 좁히고, 입력 자체는 열어 두는 편이 안전한 경우가 많습니다. 막는다면 `aria-busy`나 안내 문구로 왜 비활성인지 보여 주세요.\n\n## 내 앱에 Turnstile을 붙일 때\n\nChatGPT는 Cloudflare 엣지 헤더까지 확인하는 특수한 통합으로 보이지만[1], 공식 문서는 Turnstile을 Cloudflare CDN으로 트래픽을 보내지 않는 사이트에도 넣을 수 있다고 설명합니다.[7]\n\n### SPA는 명시적 렌더링\n\nTurnstile 위젯은 `cf-turnstile` 클래스를 자동으로 찾는 암묵적 렌더링과, `turnstile.render()`를 직접 호출하는 명시적 렌더링 두 가지로 붙입니다. 공식 문서는 SPA처럼 폼이 첫 로드 뒤에 만들어지는 경우 명시적 렌더링을 권합니다.[8] 스크립트 URL에 `?render=explicit`를 붙여 불러온 뒤 아래처럼 씁니다.[8]\n\n```tsx\nimport { useEffect } from \"react\";\n\nexport function TurnstileBox({ onToken }: { onToken: (t: string) => void }) {\n  useEffect(() => {\n    const widgetId = turnstile.render(\"#turnstile-container\", {\n      sitekey: \"<YOUR-SITE-KEY>\",\n      callback: onToken,\n    });\n    return () => turnstile.remove(widgetId);\n  }, [onToken]);\n  return <div id=\"turnstile-container\" />;\n}\n```\n\n정리 함수에서 `turnstile.remove`를 부르는 이유가 있습니다. React는 개발 모드 Strict Mode에서 실제 setup 전에 setup과 cleanup을 한 번 더 실행합니다.[5] 정리하지 않으면 개발 중에 위젯이 두 개 생깁니다.\n\n### 토큰은 서버에서 검증\n\n위젯이 준 토큰만으로는 아무것도 보장되지 않습니다. 서버가 `POST https://challenges.cloudflare.com/turnstile/v0/siteverify`에 비밀 키와 토큰을 보내 결과를 받아야 합니다.[6]\n\n```js\nconst result = await fetch(\n  \"https://challenges.cloudflare.com/turnstile/v0/siteverify\",\n  {\n    method: \"POST\",\n    headers: { \"Content-Type\": \"application/json\" },\n    body: JSON.stringify({ secret: SECRET_KEY, response: token }),\n  },\n).then((res) => res.json());\n// result.success === false 이면 요청 거부\n```\n\n토큰은 최대 2048자, 생성 후 300초 동안 유효하며 한 번만 검증할 수 있습니다.[6] 사용자가 5분 넘게 폼을 붙잡고 있다가 제출하면 검증은 `timeout-or-duplicate` 오류로 실패하고, 이때는 `turnstile.reset`으로 위젯을 새로 고쳐 토큰을 다시 받아야 합니다.[6]\n\n### 자주 하는 실수\n\n- 토큰이 왔다는 사실만 보고 클라이언트에서 통과 처리하기: 검증은 반드시 서버 Siteverify 호출로 합니다.[6]\n- 실패한 요청을 같은 토큰으로 재시도하기: 토큰은 한 번만 쓸 수 있습니다.[6] 서버 쪽 재시도가 필요하면 문서가 안내하는 `idempotency_key`를 씁니다.[6]\n- 클라이언트 난독화를 비밀로 믿기: 원문 필자는 내부 프로그램의 XOR 키가 같은 응답 안에 들어 있어 \"가벼운 열람은 막지만 분석은 막지 못한다\"고 평가합니다.[1] 브라우저로 보낸 코드와 데이터는 결국 읽힌다고 가정하세요.\n\n## 정리\n\n| 주제 | 핵심 | 근거 |\n| --- | --- | --- |\n| 원문 분석 | 377개 프로그램, 55개 속성, 브라우저·네트워크·앱 세 층 | 원문 필자 분석[1] |\n| 앱 층 신호 | `__reactRouterContext.state.loaderData`는 클라이언트 디코딩 후 생김 | React Router 소스[2][3] |\n| 데이터 노출 | 로더 데이터는 window 전역에 남아 페이지의 모든 스크립트가 읽음 | [2][3] |\n| 하이드레이션 감지 | `useEffect`로 판단, 렌더 중 `typeof window` 금지 | [4][5] |\n| Turnstile 통합 | SPA는 명시적 렌더링, cleanup에서 `turnstile.remove` | [8][5] |\n| 토큰 검증 | 서버 Siteverify, 300초·1회용, 만료 시 `turnstile.reset` | [6] |\n\n봇 검사가 앱 상태까지 본다는 원문 필자의 분석은, 거꾸로 말하면 하이드레이션 상태와 로더 데이터가 페이지 안의 누구에게나 보인다는 뜻이기도 합니다.\n\n> [!POSTER]\n> 브라우저에 보낸 것은\n> 모두 읽힌다고 가정하기",
+  "actions": [
+    "내 React Router 앱 페이지에서 `Object.keys(window.__reactRouterContext.state.loaderData)`를 실행하고, 각 로더가 화면에 쓰지 않는 값을 내려보내고 있지 않은지 점검한다",
+    "코드베이스에서 렌더 로직 안의 `typeof window` 검사를 검색해, 하이드레이션 완료 판단이 필요한 곳은 `useEffect` 기반 훅으로 바꾼다",
+    "Turnstile이나 비슷한 봇 검사를 쓰고 있다면 서버가 Siteverify를 호출하는지, 5분 만료 시 `turnstile.reset` 흐름이 있는지 확인한다"
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "ChatGPT Won't Let You Type Until Cloudflare Reads Your React State",
+      "publisher": "buchodi",
+      "url": "https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it",
+      "publishedAt": "2026-03-30"
+    },
+    {
+      "id": 2,
+      "title": "react-router/packages/react-router/lib/dom/global.ts at caaae6535b4a9eb42ef08c08fe34b8e1c9861072 · remix-run/react-router",
+      "publisher": "github.com",
+      "url": "https://github.com/remix-run/react-router/blob/caaae653/packages/react-router/lib/dom/global.ts"
+    },
+    {
+      "id": 3,
+      "title": "react-router/packages/react-router/lib/dom-export/hydrated-router.tsx at caaae6535b4a9eb42ef08c08fe34b8e1c9861072 · remix-run/react-router",
+      "publisher": "github.com",
+      "url": "https://github.com/remix-run/react-router/blob/caaae653/packages/react-router/lib/dom-export/hydrated-router.tsx"
+    },
+    {
+      "id": 4,
+      "title": "hydrateRoot – React",
+      "publisher": "react.dev",
+      "url": "https://react.dev/reference/react-dom/client/hydrateRoot"
+    },
+    {
+      "id": 5,
+      "title": "useEffect – React",
+      "publisher": "react.dev",
+      "url": "https://react.dev/reference/react/useEffect"
+    },
+    {
+      "id": 6,
+      "title": "Validate the token",
+      "publisher": "developers.cloudflare.com",
+      "url": "https://developers.cloudflare.com/turnstile/get-started/server-side-validation/"
+    },
+    {
+      "id": 7,
+      "title": "Cloudflare Turnstile",
+      "publisher": "developers.cloudflare.com",
+      "url": "https://developers.cloudflare.com/turnstile/"
+    },
+    {
+      "id": 8,
+      "title": "Embed the widget",
+      "publisher": "developers.cloudflare.com",
+      "url": "https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/"
+    }
+  ]
+}
