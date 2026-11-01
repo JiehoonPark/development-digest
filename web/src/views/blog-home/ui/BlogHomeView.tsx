@@ -1,11 +1,14 @@
 import Link from "next/link";
 
-import { getBriefTone, listPosts, PostCover, PostMeta } from "@/entities/post";
+import { formatIssue, getBriefTone, getIssueNumbers, IssueLine, listPosts, PostCover } from "@/entities/post";
 import type { PostBrief, PostData } from "@/shared/config";
 import { ROUTES } from "@/shared/config";
 import { formatShortKoreanDate } from "@/shared/lib";
 
+import { splitTitle } from "../lib/split-title";
 import styles from "./BlogHomeView.module.css";
+import { PostIndex, type PostIndexItem } from "./PostIndex";
+import { TerminalHero, type TerminalPost } from "./TerminalHero";
 
 const MAX_RECENT_BRIEFS = 6;
 
@@ -28,6 +31,33 @@ function collectRecentBriefs(posts: PostData[]): RecentBrief[] {
     .slice(0, MAX_RECENT_BRIEFS);
 }
 
+function toTerminalPost(post: PostData, issue: number): TerminalPost {
+  return {
+    no: issue,
+    issue: formatIssue(issue),
+    date: post.date,
+    href: ROUTES.post(post.slug),
+    tag: post.tags[0] ?? "",
+    title: splitTitle(post.title).main,
+    tags: post.tags,
+  };
+}
+
+function toIndexItem(post: PostData, issue: number): PostIndexItem {
+  const { main, sub } = splitTitle(post.title);
+  return {
+    href: ROUTES.post(post.slug),
+    issue: formatIssue(issue),
+    date: post.date,
+    main,
+    sub,
+    tags: post.tags,
+    dek: post.dek,
+    cover: <PostCover cover={post.cover} variant="card" />,
+    hasCover: Boolean(post.cover),
+  };
+}
+
 export function BlogHomeView() {
   const posts = listPosts();
   const [latest] = posts;
@@ -42,61 +72,49 @@ export function BlogHomeView() {
     );
   }
 
+  const issues = getIssueNumbers(posts);
   const briefs = collectRecentBriefs(posts);
+  const latestTitle = splitTitle(latest.title);
 
   return (
     <main className={styles.page}>
-      <section className={styles.top} aria-label="오늘의 글과 짧은 소식">
+      <section className={styles.hero} aria-label="오늘의 글">
+        <TerminalHero posts={posts.map((post) => toTerminalPost(post, issues.get(post.slug)!))} />
+
         <Link href={ROUTES.post(latest.slug)} className={styles.feature}>
+          <IssueLine issue={issues.get(latest.slug)!} date={latest.date} tags={latest.tags} label="LATEST" />
+          <h1 className={styles.featureTitle}>{latestTitle.main}</h1>
+          {latestTitle.sub && <p className={styles.featureSub}>{latestTitle.sub}</p>}
           <PostCover cover={latest.cover} priority />
-          <div className={styles.featureText}>
-            <p className={styles.eyebrow}>오늘의 글</p>
-            <h1 className={styles.featureTitle}>{latest.title}</h1>
-            <p className={styles.featureDek}>{latest.dek}</p>
-            <PostMeta date={latest.date} />
-          </div>
+          <p className={styles.featureDek}>{latest.dek}</p>
+          <span className={styles.read}>읽기 →</span>
         </Link>
-
-        {briefs.length > 0 && (
-          <div className={styles.briefs}>
-            <h2 className={styles.blockTitle}>최신 짧은 소식</h2>
-            <ul>
-              {briefs.map((brief) => (
-                <li key={`${brief.date}-${brief.title}`}>
-                  <a href={brief.url} target="_blank" rel="noopener noreferrer">
-                    <span className={styles.chip} data-tone={getBriefTone(brief.label)}>
-                      {brief.label}
-                    </span>
-                    <span className={styles.briefTitle}>{brief.title}</span>
-                    <time className={styles.briefDate} dateTime={brief.date}>
-                      {formatShortKoreanDate(brief.date)}
-                    </time>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </section>
 
-      <section aria-labelledby="all-posts">
-        <h2 id="all-posts" className={styles.blockTitle}>
-          전체 글 <span className={styles.count}>{posts.length}</span>
-        </h2>
-        <ul className={styles.grid}>
-          {posts.map((post) => (
-            <li key={post.slug}>
-              <Link href={ROUTES.post(post.slug)} className={styles.card}>
-                <PostCover cover={post.cover} variant="card" badge={post.tags[0]} />
-                <h3 className={styles.cardTitle}>{post.title}</h3>
-                <p className={styles.cardDek}>{post.dek}</p>
-                <PostMeta date={post.date} />
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </section>
+      {briefs.length > 0 && (
+        <section className={styles.briefs} aria-labelledby="briefs">
+          <h2 id="briefs" className={styles.label}>
+            BRIEFS
+          </h2>
+          <ul>
+            {briefs.map((brief) => (
+              <li key={`${brief.date}-${brief.title}`}>
+                <a href={brief.url} target="_blank" rel="noopener noreferrer">
+                  <span className={styles.chip} data-tone={getBriefTone(brief.label)}>
+                    {brief.label}
+                  </span>
+                  <span className={styles.briefTitle}>{brief.title}</span>
+                  <time className={styles.briefDate} dateTime={brief.date}>
+                    {formatShortKoreanDate(brief.date)}
+                  </time>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <PostIndex items={posts.map((post) => toIndexItem(post, issues.get(post.slug)!))} />
     </main>
   );
 }
-

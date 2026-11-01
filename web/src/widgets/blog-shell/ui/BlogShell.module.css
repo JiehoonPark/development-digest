@@ -18,7 +18,7 @@
   --blog-secondary: #8fb996;
   --blog-secondary-soft: rgba(143, 185, 150, 0.12);
   --blog-alert: #e5484d;
-  --blog-mono: "Roboto Mono", Monaco, courier, monospace;
+  --blog-mono: "JetBrains Mono", "Roboto Mono", Monaco, courier, monospace;
 
   height: 100vh;
   overflow-y: auto;
@@ -34,6 +34,13 @@
   overflow-wrap: anywhere;
   -webkit-font-smoothing: antialiased;
   color-scheme: dark;
+}
+
+/* 고정폭 글꼴(JetBrains Mono)의 합자를 끈다 — >= 가 ≥ 로 보이면 실제 코드와 달라진다 */
+.shell :global(:is(pre, code, kbd, samp, output)),
+.shell :global([class*="mono"]) {
+  font-variant-ligatures: none;
+  font-feature-settings: "liga" 0, "calt" 0;
 }
 
 .skip {
