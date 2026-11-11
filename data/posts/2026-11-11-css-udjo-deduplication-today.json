@@ -1,0 +1,97 @@
+{
+  "slug": "2026-11-11-css-udjo-deduplication-today",
+  "date": "2026-11-11",
+  "title": "CSS 선언 중복 제거(UDJO), 지금도 효과 있을까",
+  "dek": "같은 선언을 한 번만 쓰도록 셀렉터를 묶는 18년 된 최적화 기법을 다룹니다. 20개 사이트 실측 데이터로 언제 파일이 줄고 언제 오히려 커지는지, 그리고 묶을 때 깨지지 않으려면 무엇을 확인해야 하는지 정리합니다.",
+  "tags": [
+    "CSS",
+    "성능 최적화",
+    "캐스케이드"
+  ],
+  "readingMinutes": 10,
+  "cover": {
+    "src": "/covers/2026-11-11-css-udjo-deduplication-today.jpg",
+    "alt": "CSS 선언 중복 제거 예제 코드와 20곳 중 18곳에서 파일이 커졌다는 수치를 함께 보여주는 커버 이미지.",
+    "style": "typography"
+  },
+  "tldr": [
+    "UDJO는 같은 선언이 두 번 이상 나오면 셀렉터를 묶어 한 번만 쓰는 기법으로, 최소 18년 된 방식입니다 [1].",
+    "20개 사이트 측정에서 모든 사이트에 제거 가능한 중복이 있었지만, 그중 18곳은 중복 제거 후 오히려 파일이 커졌습니다 [1].",
+    "크기가 줄어드는 경우만 골라서 적용하면 모든 사이트에서 파일 크기를 줄일 수 있었습니다 [1].",
+    "묶기 전에 선언 순서, 단축 속성, 캐스케이드 레이어가 같은지 확인해야 결과가 바뀌지 않습니다 [2][3]."
+  ],
+  "body": "## UDJO: 선언을 한 번만 쓰기\n\nUDJO(using declarations just once)는 같은 선언이 스타일시트에 두 번 이상 나타나면 셀렉터를 묶어 선언을 한 번만 남기는 기법입니다 [1]. DRY(don't repeat yourself) 원칙에서 출발했고, 최소 18년 된 방식입니다 [1].\n\n```css\n/* before */\n.example {\n  display: flex;\n}\n.sample {\n  display: flex;\n}\n\n/* after — 선언은 1개, 셀렉터는 2개 */\n.example,\n.sample {\n  display: flex;\n}\n```\n\n효과는 두 가지에 달려 있습니다 [1]. 하나는 중복 제거가 얼마나 영리하게 되었는지, 즉 묶인 셀렉터 전체에 대해 그 선언을 정말 같이 바꿀 수 있는지입니다 [1]. 다른 하나는 셀렉터 길이입니다. 셀렉터가 길면 묶느라 늘어난 셀렉터 문자열이 줄어든 선언보다 커질 수 있습니다 [1].\n\n자주 하는 실수는 \"같은 값이니까 같은 의도\"라고 가정하는 것입니다. `.modal`과 `.toast`가 우연히 둘 다 `display: flex`일 뿐이라면, 묶는 순간 한쪽만 바꾸려 할 때마다 다시 분리해야 합니다. 유지보수 이득이 없는 중복 제거는 그냥 파일만 건드린 것입니다 [1].\n\n## 중복을 줄이면 파일은 커질 수도 있다\n\n원문 저자는 CSS Dedup이라는 도구를 만들어 임의로 고른 20개 사이트의 외부 스타일시트를 측정했습니다 [1]. 결과는 직관과 어긋납니다.\n\n- 20개 사이트 전부에서 선언 중복을 줄일 수 있었습니다 [1].\n- 그중 18개 사이트는 중복을 줄였더니 파일 크기가 **늘었습니다**. 셀렉터가 반복되고, 그 셀렉터가 절약된 선언보다 길었기 때문입니다 [1].\n- 다만 모든 사이트에서, 크기가 줄어드는 스타일시트에만 선택적으로 적용하는 방식으로 하면 크기를 줄일 수 있었습니다 [1].\n\n증가 폭은 작지 않습니다. eff.org는 단순 중복 제거 시 +120.8 KB(+27.7%)였지만, 절감되는 경우만 공격적으로 적용하면 -8.5 KB(-2.0%)였습니다 [1]. die-linke.de도 +104.0 KB(+20.5%) 대 -21.2 KB(-4.2%)였습니다 [1].\n\n웹 개발자 개인 사이트 10곳은 양상이 달랐습니다. 파일이 커진 경우가 5곳으로, 조직 사이트의 90%에 비해 50%였습니다 [1]. sarasoueidan.com은 단순 적용만으로도 -2.9 KB(-7.3%), 선택 적용 시 -4.5 KB(-11.1%)였습니다 [1]. 개발자들이 더 짧은 셀렉터를 쓰기 때문에 UDJO의 이득을 더 볼 수 있다는 해석이 가능합니다 [1].\n\n> [!POSTER]\n> 중복은 모두 줄일 수 있지만\n> 줄인다고 작아지지 않는다\n\n이 수치들은 CSS 품질 지표가 아닙니다. 셀렉터 길이에 좌우되고, 해당 사례에서 중복 제거가 실제로 유지보수에 도움이 되는지 따로 확인해야 합니다 [1]. 또한 압축(gzip/Brotli) 이후의 변화는 이 실험에 포함되지 않았습니다 [1]. 실무에서는 압축 후 전송 크기까지 재보고 판단해야 합니다.\n\n## 묶기 전에 캐스케이드를 확인한다\n\n중복 제거는 선언의 위치를 바꿉니다. 그리고 위치는 캐스케이드가 승자를 정하는 방식의 일부입니다 [1]. 브라우저는 관련성 → 중요도 → 출처 → 캐스케이드 레이어 → 명시도 → 스코프 근접성 → 등장 순서 순으로 값을 결정합니다 [3].\n\n### 등장 순서\n\n명시도와 스코프 근접성까지 같다면, 마지막에 선언된 쪽이 이깁니다 [3]. 병합은 선언을 다른 위치로 옮기는 일이므로, 경쟁하는 규칙을 건너뛰는 순간 승자가 바뀝니다.\n\n```html\n<p class=\"card alert\">두 클래스를 함께 가진 요소</p>\n```\n\n```css\n/* before: .card alert 요소는 blue\n   — .alert 가 뒤에 오고 명시도가 같다 */\n.card  { color: red; }\n.alert { color: blue; }\n.badge { color: red; }\n\n/* after: color: red 를 뒤쪽 위치로 모으면 */\n.alert { color: blue; }\n.card,\n.badge { color: red; }   /* ← 같은 요소가 red 로 바뀐다 */\n```\n\n`color: red`는 `.card`와 `.badge` 두 곳에 중복이지만, 둘 사이에 같은 속성을 건드리는 `.alert`가 끼어 있습니다. 병합 위치가 `.alert` 뒤로 내려가면 등장 순서가 뒤집히고 결과가 달라집니다 [3]. 반대로 앞쪽 위치로 모으면 이 예제에서는 결과가 유지됩니다. 어느 쪽이든 중간에 같은 속성을 경쟁시키는 규칙이 하나라도 있으면 자동 병합은 안전하지 않습니다.\n\n### 단축 속성\n\n단축 속성(shorthand)은 명시하지 않은 하위 속성까지 포함해 모든 하위 속성을 설정합니다. 생략된 값은 초기값으로 들어갑니다 [2].\n\n```css\n.a { background: green; }        /* background-image 등도 초기화된다 */\n.b { background-color: green; }  /* 색만 바꾼다 */\n```\n\n값이 같아 보여도 이 둘은 같은 선언이 아닙니다 [2]. 묶으면 `.b`에 다른 곳에서 상속·적용되던 배경 이미지가 사라질 수 있습니다.\n\n### 레이어와 출처\n\n캐스케이드 레이어가 다르면 선언의 우선순위 자체가 다릅니다. 일반 선언의 레이어 순서는 먼저 만들어진 레이어부터이고, 레이어에 속하지 않은 일반 스타일이 가장 마지막(가장 높은 우선순위)입니다 [3]. `@import ... layer(framework.component)` 같은 구문으로 들어온 스타일시트도 그 레이어에 속합니다 [2]. 레이어가 다른 두 규칙은 값이 같아도 묶으면 안 됩니다.\n\n도구는 선언의 용도를 구분하지 못합니다. 그래서 무디고(blunt), 성능 이득만 취하도록 설정해서 쓰는 접근이 필요합니다 [1].\n\n## 값의 중복은 셀렉터가 아니라 커스텀 속성으로\n\nUDJO는 셀렉터를 묶어 선언의 반복을 줄입니다. 반면 커스텀 속성(custom properties)은 값을 한 곳에 정의하고 여러 곳에서 참조해 값의 반복을 줄입니다 [4]. 큰 사이트에서 같은 색이 수백 군데 중복되는 문제를 다루는 방식입니다 [4].\n\n```css\n:root {\n  --main-bg-color: teal;\n}\n\n.one,\n.three,\n.four,\n.five {\n  background-color: var(--main-bg-color);\n}\n\n.two {\n  color: black;\n  background-color: pink;\n}\n```\n\n이 코드는 두 기법을 함께 쓴 형태입니다. 값은 `--main-bg-color` 한 곳에서 관리되고, 같은 선언을 쓰는 셀렉터는 하나로 묶였습니다 [4].\n\n주의할 점 세 가지입니다.\n\n- `var()`는 속성 값 자리에만 쓸 수 있습니다. 속성 이름, 셀렉터, 미디어 쿼리나 컨테이너 쿼리 조건에는 쓸 수 없습니다 [4].\n- 두 대시로 정의한 커스텀 속성은 항상 부모 값을 상속합니다 [4]. 값은 저장되는 게 아니라 필요한 지점에서 계산되므로, 형제의 자손 규칙에서 꺼내 쓸 수 없습니다 [4].\n- 상속을 끄거나 타입·초기값을 지정하려면 `@property`를 씁니다 [4].\n\n```css\n@property --box-color {\n  syntax: \"<color>\";\n  inherits: false;\n  initial-value: teal;\n}\n/* 자식은 부모의 --box-color 를 물려받지 않는다 */\n```\n\n커스텀 속성 이름은 대소문자를 구분합니다. `--my-color`와 `--My-color`는 별개입니다 [4].\n\n## 정리\n\n| 항목 | 내용 |\n| --- | --- |\n| UDJO | 같은 선언을 쓰는 셀렉터를 묶어 선언을 한 번만 남김. 최소 18년 된 기법 [1] |\n| 중복 존재 여부 | 측정한 20개 사이트 전부에 제거 가능한 중복이 있었음 [1] |\n| 크기 효과 | 20곳 중 18곳은 단순 적용 시 파일이 커짐. 셀렉터가 선언보다 길어서 [1] |\n| 개발자 사이트 | 10곳 중 5곳만 증가(50% 대 90%). 셀렉터가 짧은 영향으로 추정 [1] |\n| 안전한 적용 | 크기가 줄어드는 경우만 골라 적용하면 모든 사례에서 절감 [1] |\n| 병합 전 확인 | 등장 순서 [3], 단축 속성의 하위 속성 초기화 [2], 레이어·출처 [3] |\n| 값 중복 | 커스텀 속성과 `:root`로 한 곳에서 관리 [4] |\n| 미측정 영역 | gzip/Brotli 압축 후 크기 변화는 실험에 포함되지 않음 [1] |\n\nminify된 출력물에 안전한 범위로 적용하면 비용이 낮은 성능 최적화 수단이 됩니다 [1].",
+  "actions": [
+    "프로젝트의 빌드 결과 CSS에서 같은 선언이 몇 번 반복되는지 세어 보고, 묶었을 때 셀렉터 문자열이 더 길어지는지 직접 비교합니다.",
+    "병합 후보를 찾았다면 두 규칙 사이에 같은 속성을 건드리는 규칙이 있는지, 단축 속성이 섞여 있는지, 캐스케이드 레이어가 같은지 먼저 확인합니다.",
+    "반복되는 색·간격 값은 셀렉터를 묶기 전에 `:root`의 커스텀 속성으로 먼저 끌어올려 봅니다."
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "CSS Optimization: Is Using Declarations Just Once (UDJO) Still Effective Today?",
+      "publisher": "CSS-Tricks",
+      "url": "https://css-tricks.com/css-using-declarations-just-once/",
+      "publishedAt": "2026-11-10"
+    },
+    {
+      "id": 2,
+      "title": "CSS Cascading and Inheritance Level 5",
+      "publisher": "w3.org",
+      "url": "https://www.w3.org/TR/css-cascade-5/"
+    },
+    {
+      "id": 3,
+      "title": "Cascade layers - Learn web development | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Styling_basics/Cascade_layers"
+    },
+    {
+      "id": 4,
+      "title": "Using CSS custom properties (variables) - CSS | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Cascading_variables/Using_custom_properties"
+    },
+    {
+      "id": 5,
+      "title": "How X (Twitter) is rebuilding its web app",
+      "publisher": "JavaScript Weekly",
+      "url": "https://javascriptweekly.com/issues/810",
+      "publishedAt": "2026-11-10"
+    },
+    {
+      "id": 6,
+      "title": "addyosmani/agent-skills (JavaScript)",
+      "publisher": "GitHub Trending",
+      "url": "https://github.com/addyosmani/agent-skills",
+      "publishedAt": "2026-11-11"
+    },
+    {
+      "id": 7,
+      "title": "A comprehensive study of how fingerprintable users are",
+      "publisher": "Hacker News (Top)",
+      "url": "https://fingerprinting.study/",
+      "publishedAt": "2026-11-10"
+    }
+  ],
+  "briefs": [
+    {
+      "label": "읽을거리",
+      "title": "X, 웹앱을 React·Vite·Fastify로 재구축",
+      "note": "JavaScript Weekly · 11월 10일",
+      "sourceId": 5
+    },
+    {
+      "label": "도구",
+      "title": "AI 코딩 에이전트용 엔지니어링 스킬 라이브러리",
+      "note": "GitHub Trending · 11월 11일",
+      "sourceId": 6
+    },
+    {
+      "label": "읽을거리",
+      "title": "웹 브라우저 사용자 지문인식 대규모 실태 조사",
+      "note": "Hacker News (Top) · 11월 10일",
+      "sourceId": 7
+    }
+  ]
+}
