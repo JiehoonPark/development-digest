@@ -21,7 +21,9 @@ export interface LintInput {
 
 const MIN_BODY_CHARS = 2500;
 const MIN_H2_COUNT = 2;
-const MAX_POSTER_COUNT = 2;
+const MAX_POSTER_COUNT = 1;
+/** POSTER·PITFALL·RULE·STAT·QUOTE 를 합친 강조 블록 상한. 같은 강조가 반복되면 무뎌진다 */
+const MAX_CALLOUT_COUNT = 3;
 const TLDR_RANGE = { min: 2, max: 4 };
 const ACTIONS_RANGE = { min: 1, max: 4 };
 
@@ -86,6 +88,13 @@ export function lintPost(input: LintInput): LintIssue[] {
   if (posterCount > MAX_POSTER_COUNT) {
     issues.push({ severity: "error", rule: "poster-count", message: `포스터 인용이 ${posterCount}개입니다(최대 ${MAX_POSTER_COUNT}개)` });
   }
+  const calloutCount = (input.body.match(/^>\s*\[!(POSTER|PITFALL|RULE|STAT|QUOTE)\]/gm) ?? []).length;
+  if (calloutCount > MAX_CALLOUT_COUNT) {
+    issues.push({ severity: "error", rule: "callout-count", message: `강조 블록이 ${calloutCount}개입니다(최대 ${MAX_CALLOUT_COUNT}개)` });
+  }
+  if (sectionsWithManyCallouts(input.body).length > 0) {
+    issues.push({ severity: "warn", rule: "callout-per-section", message: "한 ## 구역에 강조 블록이 두 개 이상 있습니다" });
+  }
 
   const fenceCount = (input.body.match(/^```/gm) ?? []).length;
   if (fenceCount % 2 !== 0) {
@@ -118,4 +127,14 @@ function inRange(value: number, range: { min: number; max: number }): boolean {
 
 export function hasLintErrors(issues: LintIssue[]): boolean {
   return issues.some((issue) => issue.severity === "error");
+}
+
+const CALLOUT_LINE = /^>\s*\[!(POSTER|PITFALL|RULE|STAT|QUOTE)\]/gm;
+
+/** 강조 블록이 2개 이상 들어간 ## 구역의 제목 목록 */
+function sectionsWithManyCallouts(body: string): string[] {
+  return body
+    .split(/^(?=## )/m)
+    .filter((section) => (section.match(CALLOUT_LINE) ?? []).length > 1)
+    .map((section) => section.split("\n")[0]);
 }

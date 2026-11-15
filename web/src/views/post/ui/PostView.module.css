@@ -269,6 +269,159 @@
   color: var(--blog-accent);
 }
 
+/* ── 강조 블록: 목적마다 다른 모양 ─────────────────────────
+   POSTER 는 글의 논지 하나, 나머지는 쓰임새가 드러나게 작고 조용하게. 왼쪽 세로선은 쓰지 않는다 */
+.prose :global(:is(.callout-pitfall, .callout-rule)) {
+  margin: 28px 0 32px;
+  padding: 18px 22px;
+  border-radius: 10px;
+  background: var(--blog-surface);
+}
+.prose :global(.callout-pitfall) {
+  background: rgba(229, 72, 77, 0.07);
+}
+.prose :global(.callout-head) {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 8px;
+  color: var(--blog-strong);
+}
+.prose :global(.callout-tag) {
+  flex: none;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-family: var(--blog-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: var(--blog-surface-line);
+  color: var(--blog-text);
+}
+.prose :global(.callout-pitfall .callout-tag) {
+  background: var(--blog-alert);
+  color: #fff;
+}
+.prose :global(:is(.callout-pitfall, .callout-rule) p:not(.callout-head)) {
+  margin: 0;
+  font-size: 15px;
+}
+.prose :global(.callout-pitfall p + p:not(.callout-head)) {
+  margin-top: 6px;
+}
+.prose :global(.callout-rule ol) {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: rule;
+}
+.prose :global(.callout-rule li) {
+  /* 항목 안에 코드·인용 번호 같은 인라인 요소가 섞이므로 grid 대신 들여쓰기로 번호 자리를 만든다 */
+  counter-increment: rule;
+  position: relative;
+  margin: 0;
+  padding: 7px 0 7px 30px;
+  font-size: 15px;
+  border-top: 1px solid var(--blog-line);
+}
+.prose :global(.callout-rule li::before) {
+  content: counter(rule, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 10px;
+  font-family: var(--blog-mono);
+  font-size: 12px;
+  color: var(--blog-accent);
+}
+.prose :global(.callout-rule li p) {
+  margin: 0;
+}
+
+/* 숫자 대비: 값은 크게, 설명은 작게. 큰 글씨지만 포스터와 달리 숫자 자체가 근거다 */
+.prose :global(.callout-stat) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  margin: 32px 0 36px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--blog-line);
+}
+.prose :global(.stat-item) {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px 22px;
+  background: var(--blog-bg);
+}
+.prose :global(.stat-value) {
+  font-family: var(--blog-mono);
+  font-size: clamp(30px, 4.4vw, 44px);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--blog-strong);
+}
+.prose :global(.stat-item:first-child .stat-value) {
+  color: var(--blog-accent);
+}
+.prose :global(.stat-caption) {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--blog-muted);
+}
+
+/* 인용: 원문 필자의 목소리. 따옴표 하나와 글자 크기로만 구분한다 */
+.prose :global(.callout-quote) {
+  position: relative;
+  margin: 36px 0 36px;
+  padding: 0 0 0 44px;
+}
+.prose :global(.callout-quote)::before {
+  content: "\201C";
+  position: absolute;
+  left: 0;
+  top: -14px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 64px;
+  line-height: 1;
+  color: var(--blog-accent);
+}
+.prose :global(.callout-quote blockquote) {
+  margin: 0;
+  padding: 0;
+  background: none;
+}
+.prose :global(.callout-quote blockquote p) {
+  margin: 0;
+  font-size: 21px;
+  line-height: 1.55;
+  font-weight: 600;
+  color: var(--blog-strong);
+}
+.prose :global(.callout-quote figcaption) {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--blog-muted);
+}
+.prose :global(.callout-quote figcaption)::before {
+  content: "— ";
+}
+
+/* diff 코드 블록: 바꾸기 전과 후를 한 블록에서 */
+.prose :global(.hljs-addition) {
+  display: inline-block;
+  width: 100%;
+  background: rgba(143, 185, 150, 0.14);
+  color: #b5d6ba;
+}
+.prose :global(.hljs-deletion) {
+  display: inline-block;
+  width: 100%;
+  background: rgba(229, 72, 77, 0.12);
+  color: #f0a3a5;
+}
+
 .prose :global(hr) {
   border: 0;
   border-top: 1px solid var(--blog-line);
@@ -476,6 +629,12 @@
   }
   .prose :global(.poster) {
     padding: 28px 24px;
+  }
+  .prose :global(.callout-quote) {
+    padding-left: 32px;
+  }
+  .prose :global(.callout-quote blockquote p) {
+    font-size: 18px;
   }
   .prose :global(pre code) {
     padding: 24px 18px;

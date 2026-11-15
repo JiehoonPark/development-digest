@@ -57,6 +57,16 @@ describe("lintPost", () => {
     expect(rules).toEqual(expect.arrayContaining(["banned-phrase", "no-h1", "body-length", "poster-count", "h2-count"]));
   });
 
+  it("강조 블록이 글 전체에 3개를 넘으면 잡고, 한 구역에 몰리면 경고한다", () => {
+    const pitfall = "> [!PITFALL] 증상\n> 확인할 곳[1]\n\n";
+    const rule = "> [!RULE] 규칙\n> - 하나\n> - 둘\n\n";
+    const crowded = lintPost({ ...goodInput, body: `${GOOD_BODY}\n\n${pitfall}${rule}${pitfall}${rule}` });
+    expect(crowded.map((issue) => issue.rule)).toEqual(expect.arrayContaining(["callout-count", "callout-per-section"]));
+
+    const spread = lintPost({ ...goodInput, body: `${GOOD_BODY}\n\n${pitfall}` });
+    expect(spread.map((issue) => issue.rule)).not.toContain("callout-count");
+  });
+
   it("닫히지 않은 코드 블록을 잡는다", () => {
     const issues = lintPost({ ...goodInput, body: `${GOOD_BODY}\n\n\`\`\`js\nconst a = 1;` });
     expect(issues.map((issue) => issue.rule)).toContain("unclosed-fence");
