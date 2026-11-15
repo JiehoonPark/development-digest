@@ -120,6 +120,12 @@ function enhanceChildren(node: HastNode, isInsideCode: boolean): void {
       nextChildren.push(poster);
       continue;
     }
+    const callout = toCalloutIfMarked(child);
+    if (callout) {
+      enhanceChildren(callout, false);
+      nextChildren.push(callout);
+      continue;
+    }
     if (child.tagName === "a") openExternalLinkInNewTab(child);
 
     const figure = toFigureIfImageOnly(child);
@@ -193,6 +199,126 @@ function toPosterIfMarked(node: HastNode): HastNode | null {
       children: [{ type: "text", value: row }],
     })),
   };
+}
+
+/**
+ * 강조 블록은 목적마다 모양이 다르다. 같은 큰 글씨를 모든 글에 반복하면 강조가 무뎌지기 때문이다.
+ *
+ * - POSTER  글 전체의 논지 한 줄(위에 있음)
+ * - PITFALL 증상 → 확인할 곳. 디버깅하다 검색해 들어온 독자가 바로 찾게 한다
+ *     > [!PITFALL] 캐시가 맞았는데 dist가 없다
+ *     > outputs 에 dist/** 가 있는지 확인합니다.[4]
+ * - RULE    외워 둘 규칙 2~4개. 번호 붙은 목록
+ *     > [!RULE] 경계 규칙
+ *     > - 아래 경계는 포함
+ *     > - 위 경계는 제외
+ * - STAT    숫자가 말하는 대비. 한 줄에 "값 | 설명"
+ *     > [!STAT]
+ *     > 50% | top/left 애니메이션이 떨어뜨린 프레임[3]
+ *     > 1% | transform 애니메이션
+ * - QUOTE   원문 필자의 말. 첫 줄이 출처 표기
+ *     > [!QUOTE] Dan Abramov
+ *     > MPA처럼 생각하지만 SPA처럼 느껴진다.[1]
+ */
+const CALLOUT_MARKER = /^\[!(PITFALL|RULE|STAT|QUOTE)\][ \t]*/;
+type CalloutKind = "PITFALL" | "RULE" | "STAT" | "QUOTE";
+
+function el(tagName: string, className: string | null, children: HastNode[], properties: Record<string, unknown> = {}): HastNode {
+  return { type: "element", tagName, properties: className ? { className: [className], ...properties } : properties, children };
+}
+const txt = (value: string): HastNode => ({ type: "text", value });
+
+/** 인라인 노드 목록을 줄바꿈(\n) 기준으로 나눈다. 코드·링크 같은 요소는 그대로 둔다 */
+function splitInlineLines(nodes: HastNode[]): HastNode[][] {
+  const lines: HastNode[][] = [[]];
+  for (const node of nodes) {
+    if (node.type !== "text") {
+      lines[lines.length - 1].push(node);
+      continue;
+    }
+    const parts = (node.value ?? "").split("\n");
+    parts.forEach((part, index) => {
+      if (index > 0) lines.push([]);
+      if (part) lines[lines.length - 1].push(txt(part));
+    });
+  }
+  return lines.filter((line) => line.some((node) => node.type !== "text" || (node.value ?? "").trim()));
+}
+
+function trimInline(nodes: HastNode[]): HastNode[] {
+  const copy = nodes.map((node) => ({ ...node }));
+  const first = copy[0];
+  const last = copy[copy.length - 1];
+  if (first?.type === "text") first.value = (first.value ?? "").replace(/^\s+/, "");
+  if (last?.type === "text") last.value = (last.value ?? "").replace(/\s+$/, "");
+  return copy.filter((node) => node.type !== "text" || node.value);
+}
+
+/** 인라인 노드에서 첫 " | " 를 기준으로 [값, 설명] 으로 나눈다 */
+function splitAtPipe(nodes: HastNode[]): [HastNode[], HastNode[]] {
+  const before: HastNode[] = [];
+  const after: HastNode[] = [];
+  let found = false;
+  for (const node of nodes) {
+    if (found) {
+      after.push(node);
+      continue;
+    }
+    const index = node.type === "text" ? (node.value ?? "").indexOf("|") : -1;
+    if (index < 0) {
+      before.push(node);
+      continue;
+    }
+    found = true;
+    const value = node.value ?? "";
+    if (value.slice(0, index)) before.push(txt(value.slice(0, index)));
+    if (value.slice(index + 1)) after.push(txt(value.slice(index + 1)));
+  }
+  return [trimInline(before), trimInline(after)];
+}
+
+function toCalloutIfMarked(node: HastNode): HastNode | null {
+  if (node.tagName !== "blockquote") return null;
+  const blocks = (node.children ?? []).filter((child) => child.type === "element");
+  const firstParagraph = blocks[0];
+  if (firstParagraph?.tagName !== "p") return null;
+  const firstText = firstParagraph.children?.[0];
+  const match = firstText?.type === "text" ? CALLOUT_MARKER.exec(firstText.value ?? "") : null;
+  if (!match || !firstText) return null;
+
+  const kind = match[1] as CalloutKind;
+  const inline = [txt((firstText.value ?? "").slice(match[0].length)), ...(firstParagraph.children ?? []).slice(1)];
+  const [titleLine = [], ...restLines] = splitInlineLines(inline);
+  const rest = blocks.slice(1);
+
+  switch (kind) {
+    case "PITFALL":
+      return el("aside", "callout-pitfall", [
+        el("p", "callout-head", [el("span", "callout-tag", [txt("증상")]), el("strong", null, trimInline(titleLine))]),
+        ...restLines.map((line) => el("p", null, trimInline(line))),
+        ...rest,
+      ], { ariaLabel: "증상과 확인할 곳" });
+    case "RULE": {
+      const list = rest.find((child) => child.tagName === "ul" || child.tagName === "ol");
+      const items = (list?.children ?? []).filter((child) => child.tagName === "li");
+      return el("aside", "callout-rule", [
+        el("p", "callout-head", [el("span", "callout-tag", [txt("규칙")]), el("strong", null, trimInline(titleLine))]),
+        el("ol", null, items),
+      ], { ariaLabel: "기억할 규칙" });
+    }
+    case "STAT": {
+      const lines = [titleLine, ...restLines].filter((line) => line.length > 0);
+      return el("figure", "callout-stat", lines.map((line) => {
+        const [value, caption] = splitAtPipe(line);
+        return el("div", "stat-item", [el("strong", "stat-value", value), el("span", "stat-caption", caption)]);
+      }));
+    }
+    case "QUOTE":
+      return el("figure", "callout-quote", [
+        el("blockquote", null, [...restLines.map((line) => el("p", null, trimInline(line))), ...rest]),
+        el("figcaption", null, trimInline(titleLine)),
+      ]);
+  }
 }
 
 const DEMO_LANGUAGE_CLASS = "language-demo";
