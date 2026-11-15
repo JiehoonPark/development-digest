@@ -111,6 +111,11 @@ function enhanceChildren(node: HastNode, isInsideCode: boolean): void {
       nextChildren.push(demo);
       continue;
     }
+    const clip = toClipIfMarked(child);
+    if (clip) {
+      nextChildren.push(clip);
+      continue;
+    }
 
     if (child.tagName === "img") prefixImageSource(child);
     if (child.tagName === "pre") labelCodeLanguage(child);
@@ -354,6 +359,63 @@ function toDemoIfMarked(node: HastNode): HastNode | null {
       },
     ],
   };
+}
+
+const CLIP_LANGUAGE_CLASS = "language-clip";
+const CLIP_NAME_PATTERN = /^[a-z0-9-]+$/;
+
+/**
+ * 언어가 clip 인 코드 블록은 시연 녹화 영상으로 바꾼다. 영상은 scripts/record-clips.ts 가
+ * 본문 코드를 실제 브라우저에 띄워 녹화한 것이다(web/public/clips/<이름>.mp4, .jpg 는 첫 장면).
+ * 첫 줄은 영상 이름, 둘째 줄부터는 캡션이다.
+ *
+ *   ```clip
+ *   sticky-header-blockers
+ *   스크롤하면 구역마다 다른 색 가림막이 헤더 뒤를 이어받습니다.
+ *   ```
+ *
+ * 소리 없는 짧은 반복 영상이라 자동 재생하되, 모션 줄이기 설정이면 멈춘 채 시작한다(PostClips).
+ */
+function toClipIfMarked(node: HastNode): HastNode | null {
+  if (node.tagName !== "pre") return null;
+  const code = node.children?.find((c) => c.tagName === "code");
+  const classNames = code?.properties?.className;
+  const isClip = Array.isArray(classNames) && classNames.includes(CLIP_LANGUAGE_CLASS);
+  if (!isClip || !code) return null;
+
+  const [name = "", ...captionLines] = textContent(code).trim().split("\n").map((line) => line.trim());
+  if (!CLIP_NAME_PATTERN.test(name)) return null;
+  const caption = captionLines.filter(Boolean).join(" ");
+  const children: HastNode[] = [
+    {
+      type: "element",
+      tagName: "video",
+      properties: {
+        src: withBasePath(`/clips/${name}.mp4`),
+        poster: withBasePath(`/clips/${name}.jpg`),
+        muted: true,
+        loop: true,
+        playsInline: true,
+        controls: true,
+        preload: "none",
+        dataClip: name,
+        ariaLabel: caption || "구현 화면 녹화",
+      },
+      children: [],
+    },
+  ];
+  if (caption) {
+    children.push({
+      type: "element",
+      tagName: "figcaption",
+      properties: {},
+      children: [
+        { type: "element", tagName: "span", properties: { className: ["clip-label"] }, children: [{ type: "text", value: "실행 화면" }] },
+        { type: "text", value: caption },
+      ],
+    });
+  }
+  return { type: "element", tagName: "figure", properties: { className: ["clip"] }, children };
 }
 
 const LANGUAGE_CLASS_PREFIX = "language-";

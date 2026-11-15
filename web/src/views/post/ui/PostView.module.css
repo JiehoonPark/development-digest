@@ -239,6 +239,33 @@
   color: var(--blog-faint);
   margin-top: 6px;
 }
+/* 시연 녹화 — ```clip 블록. 본문 코드를 실제 브라우저에 띄워 녹화한 영상 */
+.prose :global(figure.clip) {
+  margin: 24px 0 34px;
+}
+.prose :global(figure.clip video) {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  border-radius: 10px;
+  background: var(--blog-surface);
+}
+.prose :global(figure.clip figcaption) {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--blog-muted);
+}
+.prose :global(.clip-label) {
+  flex: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--blog-accent);
+}
 /* 큰 타이포 포스터 인용 — `> [!POSTER]` */
 .prose :global(.poster) {
   display: flex;

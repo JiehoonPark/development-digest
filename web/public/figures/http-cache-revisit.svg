@@ -1,0 +1,35 @@
+<svg width="900" height="440" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 440" font-family="-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Pretendard',sans-serif">
+<defs><marker id="ar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" fill="#6b6760"/></marker>
+<marker id="arA" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" fill="#a64d31"/></marker></defs>
+<rect width="900" height="440" fill="#f4f1ea"/>
+<text x="40" y="48" font-size="20" fill="#1d1d1f" font-weight="700" text-anchor="start">배포 다음 날, 같은 사용자가 다시 들어왔을 때</text>
+<text x="40" y="74" font-size="14" fill="#6b6760" font-weight="400" text-anchor="start">HTML은 매번 확인하고(no-cache), 해시 파일명 에셋은 확인 없이 재사용합니다(immutable)</text>
+<text x="160" y="112" font-size="13" fill="#6b6760" font-weight="600" text-anchor="middle">브라우저 캐시</text>
+<text x="450" y="112" font-size="13" fill="#6b6760" font-weight="600" text-anchor="middle">요청</text>
+<text x="740" y="112" font-size="13" fill="#6b6760" font-weight="600" text-anchor="middle">서버·CDN</text>
+<rect x="40" y="134" width="240" height="74" rx="10" fill="#fff" stroke="#d8d3c8" stroke-width="1.2"/>
+<text x="56" y="162" font-size="15" fill="#1d1d1f" font-weight="700" text-anchor="start" font-family="ui-monospace,Menlo,monospace">index.html</text>
+<text x="56" y="186" font-size="13" fill="#6b6760" font-weight="400" text-anchor="start">저장됨 · 매번 검증 필요</text>
+<line x1="286" y1="160" x2="610" y2="160" stroke="#6b6760" stroke-width="1.6" marker-end="url(#ar)"/>
+<text x="448" y="152" font-size="13" fill="#1d1d1f" font-weight="400" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">If-None-Match: "v1"</text>
+<rect x="620" y="134" width="240" height="74" rx="10" fill="#fff" stroke="#a64d31" stroke-width="1.6"/>
+<text x="636" y="162" font-size="14" fill="#a64d31" font-weight="700" text-anchor="start">새 배포 → ETag "v2"</text>
+<text x="636" y="186" font-size="13" fill="#6b6760" font-weight="400" text-anchor="start">값이 달라 200 + 새 HTML</text>
+<line x1="610" y1="186" x2="292" y2="186" stroke="#a64d31" stroke-width="1.6" marker-end="url(#arA)"/>
+<text x="448" y="202" font-size="13" fill="#a64d31" font-weight="400" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">200 · 새 본문</text>
+<rect x="40" y="236" width="240" height="74" rx="10" fill="#fff" stroke="#d8d3c8" stroke-width="1.2"/>
+<text x="56" y="264" font-size="15" fill="#1d1d1f" font-weight="700" text-anchor="start" font-family="ui-monospace,Menlo,monospace">app.9f3c.js</text>
+<text x="56" y="288" font-size="13" fill="#6b6760" font-weight="400" text-anchor="start">캐시에 없음 (새 파일명)</text>
+<line x1="286" y1="262" x2="610" y2="262" stroke="#6b6760" stroke-width="1.6" marker-end="url(#ar)"/>
+<text x="448" y="254" font-size="13" fill="#1d1d1f" font-weight="400" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">GET app.9f3c.js</text>
+<rect x="620" y="236" width="240" height="74" rx="10" fill="#fff" stroke="#d8d3c8" stroke-width="1.2"/>
+<text x="636" y="264" font-size="14" fill="#1d1d1f" font-weight="700" text-anchor="start">200 + 본문</text>
+<text x="636" y="288" font-size="12" fill="#6b6760" font-weight="400" text-anchor="start" font-family="ui-monospace,Menlo,monospace">max-age=31536000, immutable</text>
+<line x1="610" y1="288" x2="292" y2="288" stroke="#6b6760" stroke-width="1.6" marker-end="url(#ar)"/><text x="448" y="304" font-size="13" fill="#6b6760" font-weight="400" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">200 · 본문 저장</text>
+<rect x="40" y="338" width="240" height="74" rx="10" fill="#fff" stroke="#3f7a52" stroke-width="1.6"/>
+<text x="56" y="366" font-size="15" fill="#1d1d1f" font-weight="700" text-anchor="start" font-family="ui-monospace,Menlo,monospace">vendor.a1b2.js</text>
+<text x="56" y="390" font-size="13" fill="#3f7a52" font-weight="600" text-anchor="start">신선함 → 요청 없이 바로 사용</text>
+<text x="448" y="382" font-size="14" fill="#6b6760" font-weight="400" text-anchor="middle">요청 없음</text>
+<line x1="300" y1="376" x2="400" y2="376" stroke="#d8d3c8" stroke-width="1.6" stroke-dasharray="4 5"/>
+<line x1="496" y1="376" x2="600" y2="376" stroke="#d8d3c8" stroke-width="1.6" stroke-dasharray="4 5"/>
+</svg>

@@ -24,4 +24,15 @@ describe("renderPostMarkdown 강조 블록", () => {
   it("표시 없는 인용은 그대로 blockquote 로 둔다", () => {
     expect(renderPostMarkdown("> 그냥 인용")).toContain("<blockquote>");
   });
+
+  it("clip 블록은 영상과 캡션 figure 가 되고, 이름이 잘못되면 코드 블록으로 남는다", () => {
+    const html = renderPostMarkdown("```clip\nsticky-header-blockers\n스크롤하면 가림막이 바뀝니다.\n```");
+    expect(html).toContain('<figure class="clip">');
+    expect(html).toContain('src="/clips/sticky-header-blockers.mp4"');
+    expect(html).toContain('poster="/clips/sticky-header-blockers.jpg"');
+    expect(html).toContain("muted");
+    expect(html).toContain('<span class="clip-label">실행 화면</span>스크롤하면 가림막이 바뀝니다.');
+
+    expect(renderPostMarkdown("```clip\n../../etc/passwd\n```")).toContain("<pre");
+  });
 });
