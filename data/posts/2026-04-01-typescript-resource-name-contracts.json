@@ -1,0 +1,61 @@
+{
+  "slug": "2026-04-01-typescript-resource-name-contracts",
+  "date": "2026-04-01",
+  "title": "서비스마다 다른 리소스 경로 — TypeScript로 이름 규칙 통일하기",
+  "dek": "경로 문자열에 타입 이름만 붙여서는 잘못된 입력을 막을 수 없습니다. 상대 이름과 전체 이름을 구분하고, 빌더·파서·브랜드 타입으로 생성부터 검증까지 같은 규칙을 쓰는 방법을 정리합니다.",
+  "tags": [
+    "TypeScript",
+    "모노레포",
+    "API 설계"
+  ],
+  "readingMinutes": 21,
+  "cover": {
+    "src": "/covers/2026-04-01-typescript-resource-name-contracts.jpg",
+    "alt": "TypeScript 경로 타입 코드와 모양은 타입으로 입력은 파서로 검사한다는 문구",
+    "style": "code"
+  },
+  "tldr": [
+    "리소스 이름은 개별 대상을, 리소스 타입은 대상의 종류를 식별하며 서로 다른 역할을 합니다.[1]",
+    "템플릿 리터럴 타입은 문자열의 모양을 제한하고, 브랜드 타입은 일반 문자열과 검증된 입력을 구분하는 데 쓸 수 있습니다.[2][3]",
+    "전체 리소스 이름은 소유 API가 모호한 참조에 쓰는 식별자이며, 요청을 보내는 URL과는 다릅니다.[4]"
+  ],
+  "body": "## 경로는 문자열이 아니라 식별 규칙입니다\n\n같은 청구서를 가리키는데 화면에서는 ID만 넘기고, 댓글 서비스에서는 조직 경로까지 붙이며, 다른 코드에서는 서비스 도메인을 직접 덧붙인다고 가정해 봅시다. 문제는 문자열 보간 문법 자체가 아닙니다. 무엇을 어디까지 포함해야 같은 대상을 뜻하는지 호출자가 매번 판단한다는 점입니다.\n\nRobin Wieruch는 여러 서비스가 있는 모노레포에서 이름 변경이 다른 서비스의 문자열 조립 코드를 깨뜨렸다고 회고합니다. 코드 리뷰를 늘리기보다 공통 명명 규칙을 정하는 편이 낫다는 것이 원문 필자의 판단입니다.[1] 여기서는 폴더를 기능별로 나누는 방법 대신, 서비스 사이에서 전달하는 식별자 계약에 집중합니다.\n\n### 개별 대상과 대상의 종류를 구분합니다\n\n리소스 이름(resource name)은 특정 대상을 식별합니다. Google AIP-122는 컬렉션 이름과 리소스 ID를 번갈아 배치하고, 경로 조각을 슬래시로 나누는 형태를 제시합니다.[4] 원문은 여기에 리소스 타입(resource type)을 구분해, 개별 청구서와 청구서라는 종류를 따로 표현합니다.[1]\n\n```ts\nconst relativeName = \"organizations/acme/invoices/april\";\nconst fullName =\n  \"//billing.acmeapis.com/organizations/acme/invoices/april\";\nconst invoiceType = \"billing.acmeapis.com/Invoice\";\n\nconsole.log(relativeName); // organizations/acme/invoices/april\nconsole.log(invoiceType); // billing.acmeapis.com/Invoice\n```\n\n첫 값은 서비스 안에서 쓰는 상대 이름입니다. 둘째는 소유 서비스까지 표시하는 전체 이름이고, 마지막은 특정 청구서가 아닌 종류를 나타냅니다.[1][4] 예제의 도메인과 ID는 설명용입니다. 서비스 도메인, 컬렉션, 타입의 철자까지 각 화면에서 직접 쓰지 않도록 만드는 것이 목표입니다.\n\n이 구분을 놓치면 댓글의 연결 대상을 저장할 때 타입 문자열만으로 충분하다고 생각하기 쉽습니다. 원문은 댓글에 `resourceType`과 `resource`를 따로 두는 예를 제시합니다. 전자는 청구서에 달린 댓글 전체를 고르고, 후자는 특정 청구서의 댓글을 찾는 데 쓰입니다.[1]\n\n## 타입으로 제한할 것과 검증할 것을 나눕니다\n\n### 서비스 이름과 경로 모양을 좁힙니다\n\n원문은 `ServiceName`을 문자열 유니온으로 제한하고, 도메인 접미사는 공유 상수로 관리하자고 제안합니다.[1] 템플릿 리터럴 타입(template literal type)은 타입 위치에서 문자열 조각을 결합할 수 있으므로, 이 원칙을 경로의 고정 부분까지 확장할 수 있습니다.[2] 다음은 원문의 구현을 복사한 것이 아니라 공식 문법을 적용한 최소 예제입니다.\n\n```ts\ntype ServiceName =\n  | \"billing\"\n  | \"identity\"\n  | \"inventory\"\n  | \"notifications\";\n\ntype InvoicePath =\n  `organizations/${string}/invoices/${string}`;\n\nconst service: ServiceName = \"billing\";\nconst candidate: InvoicePath =\n  \"organizations/acme/invoices/april\";\n\n// @ts-expect-error: 허용한 서비스 이름이 아님\nconst misspelled: ServiceName = \"billin\";\n// @ts-expect-error: invoices 컬렉션이 아님\nconst wrongCollection: InvoicePath = \"organizations/acme/books/april\";\n\nconsole.log(service); // billing\nconsole.log(candidate); // organizations/acme/invoices/april\n```\n\n이제 서비스 철자와 고정된 컬렉션 이름의 실수는 타입 검사에서 드러납니다. 하지만 `${string}`을 ID 검증기로 읽어서는 안 됩니다. 이 예제에서 다음 값도 타입 검사를 통과합니다.\n\n```ts\nconst emptyId: InvoicePath = \"organizations//invoices/april\";\nconst extraSegment: InvoicePath =\n  \"organizations/acme/invoices/april/extra\";\n// 둘 다 타입 검사 통과: 문자열 자리의 내용을 제한하지 않았음\n```\n\n공식 Handbook의 템플릿 리터럴 타입 예제도 이벤트 이름처럼 문자열 조합의 제약을 타입으로 표현합니다.[2] 여기서 얻는 것은 정적 코드의 모양 검사입니다. 빈 ID나 추가 경로 조각까지 막으려면 별도로 입력을 검사해야 합니다.\n\n### 검증된 이름에는 별도 표식을 붙입니다\n\n브랜드 타입(branded type)은 원문의 코드에 나오지 않습니다. 이 글에서는 TypeScript 공식 Playground의 명목적 타이핑 예제를 보완해서 사용합니다. 공식 예제는 문자열과 `__brand` 속성을 교차시켜 일반 문자열을 그대로 대입하지 못하게 만들고, 타입에게 유효하다고 알려 주는 것과 실제 검증을 구분합니다.[3]\n\n```ts\ntype InvoiceName = InvoicePath & {\n  readonly __brand: \"InvoiceName\";\n};\n\n// @ts-expect-error: 경로 모양만 맞고 검증 표식은 없음\nconst unvalidated: InvoiceName = candidate;\n```\n\n`InvoicePath`는 모양을 나타내고, `InvoiceName`은 아래에서 정할 파서를 통과한 값을 나타내도록 운영합니다. 호출부마다 `as InvoiceName`을 붙이면 이 구분은 무너집니다. 브랜드를 붙이는 곳을 검증 함수 안으로 제한해야 하는 이유입니다.[3]\n\n> [!POSTER]\n> 모양은 타입으로\n> 입력은 파서로\n\n## 빌더와 파서가 같은 규칙을 쓰게 합니다\n\n원문은 ID 묶음을 이름으로 바꾸는 `encodeResourceId`와, 이름에서 ID를 꺼내는 `decodeResourceId`의 호출 예를 보여 주지만 구현 본문은 싣지 않습니다.[1] 아래는 같은 분리를 청구서 경로에 한정해 직접 구현한 예제이며, 원문 유틸리티와 같은 API는 아닙니다.\n\n### 파서는 구조와 ID를 함께 검사합니다\n\n파서(parser)는 외부 문자열을 받아 규칙에 맞는지 검사한 뒤 사용할 구조로 바꾸는 함수입니다. 여기서는 실패하면 `null`, 성공하면 브랜드가 붙은 이름과 ID 묶음을 반환하게 합니다. `RegExp.prototype.test()`는 패턴이 일치하면 `true`, 아니면 `false`를 반환합니다.[5]\n\n```ts\ntype InvoiceIds = {\n  organizations: string;\n  invoices: string;\n};\n\nconst idPattern = /^[a-z][a-z0-9-]*$/;\n\nfunction parseInvoiceName(value: string): {\n  name: InvoiceName;\n  ids: InvoiceIds;\n} | null {\n  const parts = value.split(\"/\");\n  if (parts.length !== 4) return null;\n\n  const [collection, orgId = \"\", child, invoiceId = \"\"] = parts;\n  if (collection !== \"organizations\" || child !== \"invoices\") {\n    return null;\n  }\n  if (!idPattern.test(orgId) || !idPattern.test(invoiceId)) {\n    return null;\n  }\n\n  return {\n    name: value as InvoiceName,\n    ids: { organizations: orgId, invoices: invoiceId },\n  };\n}\n\nconsole.log(parseInvoiceName(candidate)?.ids);\n// { organizations: \"acme\", invoices: \"april\" }\nconsole.log(parseInvoiceName(emptyId)); // null\nconsole.log(parseInvoiceName(extraSegment)); // null\n```\n\n소문자로 시작하고 소문자·숫자·하이픈만 허용한다는 것은 **이 예제에서 정한 정책**입니다. AIP-122 전체를 구현한 검증기가 아닙니다. AIP-122는 사용자 지정 ID의 허용 형식을 문서화하도록 요구하고, 문자뿐 아니라 길이와 끝 문자 등에 관한 권고도 제시합니다.[4] 실제로 적용할 때는 기존 ID 규칙부터 확인해야 합니다. 원문 예제의 밑줄이 들어간 ID도 이 파서에서는 거절됩니다.[1]\n\n정규식에 습관적으로 `g` 플래그를 추가하는 것도 피해야 합니다. 전역 또는 고정 검색 플래그가 있는 정규식은 `test()` 호출 사이에 상태를 유지하므로, 반복 검사에서 이전 호출의 영향을 받을 수 있습니다.[5] 이 예제는 매번 같은 조건으로 ID를 판정하려고 그런 플래그를 쓰지 않습니다.\n\n### 빌더는 검증을 우회하지 않습니다\n\n빌더(builder)는 ID 묶음을 받아 이름을 만드는 함수입니다. 호출부에서 사라진 문자열 보간이 빌더 안에 남는 것은 문제없습니다. 같은 규칙을 여러 곳에서 따로 구현하지 않는 것이 핵심입니다. 아래 빌더는 조립한 값을 파서에 넘겨 생성 경로와 수신 경로가 같은 조건을 적용받게 합니다.\n\n```ts\nfunction buildInvoiceName(ids: InvoiceIds): InvoiceName {\n  const path = `organizations/${ids.organizations}/invoices/${ids.invoices}`;\n  const parsed = parseInvoiceName(path);\n  if (!parsed) throw new Error(\"잘못된 청구서 ID입니다\");\n  return parsed.name;\n}\n\nconst builtName = buildInvoiceName({\n  organizations: \"acme\",\n  invoices: \"april\",\n});\nconsole.log(builtName); // organizations/acme/invoices/april\nconsole.log(parseInvoiceName(builtName)?.ids.invoices); // april\n\ntry {\n  buildInvoiceName({ organizations: \"acme\", invoices: \"april/extra\" });\n} catch {\n  console.log(\"생성 거절\"); // 생성 거절\n}\n```\n\n빈 ID, 다른 컬렉션, 추가 경로 조각도 테스트에 넣으세요. 수신 문자열을 바로 단언하면 파서가 필요한 이유가 사라집니다. 이 구현은 형식만 검사할 뿐, 청구서의 존재나 접근 권한은 확인하지 않습니다.\n\n## 서비스 경계를 넘을 때만 전체 이름을 씁니다\n\n### 전체 이름은 요청 URL이 아닙니다\n\nAIP-122는 소유 API가 모호할 수 있는 참조에 전체 이름을 쓰도록 설명합니다. 서비스가 다르다는 이유만으로 항상 전체 이름을 붙이라는 뜻은 아닙니다. 소유 API가 명확한 참조에는 전체 이름을 쓰지 말라는 주의도 있습니다.[4]\n\n다음 함수는 앞에서 검증한 청구서 이름을 청구 서비스의 전체 이름으로 바꾸는 최소 예제입니다. `ServiceName`이면 무엇이든 받게 하지 않고, 청구서의 소유 서비스를 함수 안에 고정합니다.\n\n```ts\nconst serviceDomain = \"acmeapis.com\";\nconst invoiceService = \"billing\";\n// 오타 검사: ServiceName에 없는 값이면 여기서 오류\nconst checkedService: ServiceName = invoiceService;\n\ntype FullInvoiceName =\n  `//${typeof invoiceService}.${typeof serviceDomain}/${InvoiceName}`;\n\nfunction toFullInvoiceName(name: InvoiceName): FullInvoiceName {\n  return `//${invoiceService}.${serviceDomain}/${name}`;\n}\n\nconsole.log(toFullInvoiceName(builtName));\n// //billing.acmeapis.com/organizations/acme/invoices/april\n```\n\n전체 이름에는 프로토콜이나 API 버전을 넣지 않습니다. AIP-122는 전체 이름과 실제 요청 URI를 구분하고, 서비스의 접속 주소가 여러 개여도 전체 이름은 달라지지 않는다고 설명합니다.[4] 따라서 이 문자열 앞에 프로토콜만 붙여 요청 주소로 사용하지 마세요. 어느 클라이언트와 접속 주소로 요청할지는 별도 문제입니다.\n\n### 상대 이름을 받던 코드의 계약도 확인합니다\n\n원문은 `decodeResourceId`가 전체 이름의 서비스 접두사를 제거하고 상대 이름과 같은 ID 객체를 반환하는 사용 예를 제시합니다.[1] 반면 위에서 만든 `parseInvoiceName`은 상대 이름만 받습니다. 두 구현의 지원 범위를 혼동하지 않아야 합니다.\n\n```ts\nconsole.log(parseInvoiceName(toFullInvoiceName(builtName)));\n// null: 이 글의 파서는 전체 이름을 지원하지 않음\n```\n\n전체 이름을 지원하도록 확장한다면 접두사를 무조건 버리기 전에 기대한 서비스인지 먼저 확인하세요. 그래야 다른 서비스의 이름을 청구서 이름으로 오해하지 않습니다. 원문은 리소스 타입 상수도 공유 인코더로 만들자고 제안합니다.[1]\n\n## 정리\n\n| 표현 또는 도구 | 맡길 책임 | 맡기면 안 되는 책임 |\n| --- | --- | --- |\n| 상대 리소스 이름 | 서비스 맥락 안의 대상 식별 | 소유 서비스 추측 |\n| 전체 리소스 이름 | 모호한 참조에 소유 서비스 표시 | 실제 요청 주소 결정 |\n| 리소스 타입 | 대상의 종류 구분 | 개별 대상 식별 |\n| 템플릿 리터럴 타입 | 경로의 고정된 모양 제한 | 외부 입력의 실제 검증 |\n| 파서와 빌더 | 같은 형식 규칙으로 읽고 만들기 | 대상의 존재·권한 확인 |\n| 브랜드 타입 | 검증된 값과 일반 문자열 구분 | 타입 단언의 남용 방지 |\n\n공통 유틸리티는 이름을 표현하는 형식을 소유하고, 각 도메인은 어떤 리소스 타입을 제공하는지 소유한다는 것이 원문 필자의 제안입니다.[1] 처음부터 범용 경로 프레임워크를 만들기보다, 자주 전달하는 이름을 골라 생성·수신·검증의 경계를 맞추는 방식으로 시작해 보세요. 경로를 어디에서 조립하든 같은 결과가 나오는 것보다, 잘못된 값이 어디에서 거절되는지 분명한 것이 중요합니다.",
+  "actions": [
+    "청구서처럼 서비스 사이에서 전달하는 리소스를 골라 상대 이름·전체 이름·타입 문자열의 사용처를 구분합니다.",
+    "해당 리소스의 빌더와 파서에 정상 왕복, 빈 ID, 다른 컬렉션, 추가 경로 조각을 테스트로 넣습니다.",
+    "검증 함수를 거치지 않은 타입 단언을 찾아 제거하고, 전체 이름을 지원하는 입력 경계를 문서화합니다."
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "Resource Names for Enterprise TypeScript Monorepos",
+      "publisher": "Robin Wieruch",
+      "url": "https://www.robinwieruch.de/typescript-monorepo-resource-names",
+      "publishedAt": "2026-03-30"
+    },
+    {
+      "id": 2,
+      "title": "Documentation - Template Literal Types",
+      "publisher": "typescriptlang.org",
+      "url": "https://www.typescriptlang.org/docs/handbook/2/template-literal-types.html"
+    },
+    {
+      "id": 3,
+      "title": "Playground Example - Nominal Typing",
+      "publisher": "typescriptlang.org",
+      "url": "https://www.typescriptlang.org/play/typescript/language-extensions/nominal-typing.ts.html"
+    },
+    {
+      "id": 4,
+      "title": "AIP-122: Resource names",
+      "publisher": "google.aip.dev",
+      "url": "https://google.aip.dev/122"
+    },
+    {
+      "id": 5,
+      "title": "RegExp.prototype.test() - JavaScript | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test"
+    }
+  ]
+}
