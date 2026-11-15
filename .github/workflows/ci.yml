@@ -50,3 +50,7 @@ jobs:
         run: |
           npm ci
           npx tsc --noEmit
+
+      # 본문 렌더러(강조 블록 등) 테스트 — web 의존성이 설치된 뒤에만 돌 수 있다
+      - name: Web — renderer tests
+        run: npm run test:web

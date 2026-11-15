@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "verify": "npm run typecheck && npm test",
     "test:watch": "vitest",
+    "test:web": "vitest run --config vitest.web.config.ts",
     "test:collect": "tsx scripts/test-collect.ts",
     "test:summarize": "tsx scripts/test-summarize.ts",
     "test:email": "tsx scripts/test-email.ts",
