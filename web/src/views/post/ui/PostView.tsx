@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import { getBriefTone, getIssueNumbers, getPost, IssueLine, listPosts, PostCover } from "@/entities/post";
 import type { PostSource } from "@/shared/config";
+import { PostClips } from "@/widgets/post-clips";
 import { PostDemos } from "@/widgets/post-demos";
 import { formatKoreanDate, renderPostDocument, renderPostMarkdown, withBasePath } from "@/shared/lib";
 
@@ -59,6 +60,7 @@ export function PostView({ slug }: { slug: string }) {
 
         <div className={styles.prose} dangerouslySetInnerHTML={{ __html: html }} />
         <PostDemos />
+        <PostClips />
 
         {post.actions && post.actions.length > 0 && (
           <section className={styles.actions} aria-label="해 볼 것">

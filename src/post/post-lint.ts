@@ -92,6 +92,11 @@ export function lintPost(input: LintInput): LintIssue[] {
   if (calloutCount > MAX_CALLOUT_COUNT) {
     issues.push({ severity: "error", rule: "callout-count", message: `강조 블록이 ${calloutCount}개입니다(최대 ${MAX_CALLOUT_COUNT}개)` });
   }
+  const clipNames = [...input.body.matchAll(/^```clip\n([^\n]*)/gm)].map((match) => match[1].trim());
+  const badClipNames = clipNames.filter((name) => !/^[a-z0-9-]+$/.test(name));
+  if (badClipNames.length > 0) {
+    issues.push({ severity: "error", rule: "clip-name", message: `clip 블록 첫 줄은 영상 이름(영문 소문자·숫자·-)이어야 합니다: ${badClipNames.join(", ")}` });
+  }
   if (sectionsWithManyCallouts(input.body).length > 0) {
     issues.push({ severity: "warn", rule: "callout-per-section", message: "한 ## 구역에 강조 블록이 두 개 이상 있습니다" });
   }

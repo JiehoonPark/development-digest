@@ -1,0 +1,30 @@
+<svg width="900" height="380" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" font-family="-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Pretendard',sans-serif">
+<defs><marker id="ar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" fill="#6b6760"/></marker>
+<marker id="arA" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" fill="#a64d31"/></marker></defs>
+<rect width="900" height="380" fill="#f4f1ea"/>
+<text x="40" y="48" font-size="20" fill="#1d1d1f" font-weight="700" text-anchor="start">서버 컴포넌트가 클라이언트 컴포넌트를 렌더링할 때 오가는 것</text>
+<text x="40" y="74" font-size="14" fill="#6b6760" font-weight="400" text-anchor="start">props는 값으로, Counter의 코드는 청크 주소로 보내고 브라우저가 그 청크를 따로 받습니다</text>
+<rect x="40" y="108" width="250" height="230" rx="10" fill="#fff" stroke="#d8d3c8" stroke-width="1.2"/>
+<text x="60" y="136" font-size="13" fill="#6b6760" font-weight="600" text-anchor="start">서버</text>
+<text x="60" y="166" font-size="14" fill="#1d1d1f" font-weight="700" text-anchor="start" font-family="ui-monospace,Menlo,monospace">&lt;Comments&gt;</text>
+<text x="76" y="192" font-size="14" fill="#1d1d1f" font-weight="400" text-anchor="start" font-family="ui-monospace,Menlo,monospace">&lt;Counter</text>
+<text x="92" y="214" font-size="14" fill="#1d1d1f" font-weight="400" text-anchor="start" font-family="ui-monospace,Menlo,monospace">initialCount={10} /&gt;</text>
+<text x="60" y="252" font-size="13" fill="#6b6760" font-weight="400" text-anchor="start">Counter는 'use client'</text>
+<text x="60" y="274" font-size="13" fill="#6b6760" font-weight="400" text-anchor="start">파일에 있음</text>
+<rect x="330" y="128" width="250" height="150" rx="10" fill="#fff" stroke="#a64d31" stroke-width="1.6"/>
+<text x="348" y="154" font-size="13" fill="#a64d31" font-weight="700" text-anchor="start">RSC 페이로드</text>
+<text x="348" y="186" font-size="14" fill="#6b6760" font-weight="400" text-anchor="start" font-family="ui-monospace,Menlo,monospace">type:</text>
+<text x="348" y="208" font-size="14" fill="#a64d31" font-weight="700" text-anchor="start" font-family="ui-monospace,Menlo,monospace">'chunk123.js#Counter'</text>
+<text x="348" y="240" font-size="14" fill="#6b6760" font-weight="400" text-anchor="start" font-family="ui-monospace,Menlo,monospace">props:</text>
+<text x="348" y="262" font-size="14" fill="#1d1d1f" font-weight="400" text-anchor="start" font-family="ui-monospace,Menlo,monospace">{ initialCount: 10 }</text>
+<line x1="296" y1="200" x2="322" y2="200" stroke="#6b6760" stroke-width="1.6" marker-end="url(#ar)"/>
+<rect x="620" y="108" width="240" height="230" rx="10" fill="#fff" stroke="#d8d3c8" stroke-width="1.2"/>
+<text x="640" y="136" font-size="13" fill="#6b6760" font-weight="600" text-anchor="start">브라우저</text>
+<text x="640" y="170" font-size="14" fill="#1d1d1f" font-weight="400" text-anchor="start">① 페이로드 해석</text>
+<text x="640" y="200" font-size="14" fill="#a64d31" font-weight="600" text-anchor="start">② chunk123.js 요청</text>
+<text x="640" y="230" font-size="14" fill="#1d1d1f" font-weight="400" text-anchor="start">③ Counter 꺼내 렌더링</text>
+<text x="640" y="262" font-size="14" fill="#1d1d1f" font-weight="400" text-anchor="start">④ initialCount=10으로</text>
+<text x="660" y="284" font-size="14" fill="#1d1d1f" font-weight="400" text-anchor="start">상태 시작</text>
+<line x1="586" y1="200" x2="612" y2="200" stroke="#6b6760" stroke-width="1.6" marker-end="url(#ar)"/>
+<text x="450" y="364" font-size="13" fill="#6b6760" font-weight="400" text-anchor="middle">코드를 문자열로 넣으면 eval이 필요하고 같은 코드를 여러 번 보내게 되므로, 주소만 보냅니다</text>
+</svg>

@@ -67,6 +67,11 @@ describe("lintPost", () => {
     expect(spread.map((issue) => issue.rule)).not.toContain("callout-count");
   });
 
+  it("clip 블록 첫 줄이 영상 이름 형식이 아니면 잡는다", () => {
+    const issues = lintPost({ ...goodInput, body: `${GOOD_BODY}\n\n\`\`\`clip\n스크롤 데모\n\`\`\`` });
+    expect(issues.map((issue) => issue.rule)).toContain("clip-name");
+  });
+
   it("닫히지 않은 코드 블록을 잡는다", () => {
     const issues = lintPost({ ...goodInput, body: `${GOOD_BODY}\n\n\`\`\`js\nconst a = 1;` });
     expect(issues.map((issue) => issue.rule)).toContain("unclosed-fence");
