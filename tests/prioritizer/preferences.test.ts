@@ -11,13 +11,12 @@ afterEach(() => {
 });
 
 describe("개인화 설정", () => {
-  it("저장소 기본 설정은 개인화 전 동작과 같다", () => {
-    expect(getDigestPreferences()).toEqual({
-      preferredKeywords: [],
-      excludedKeywords: [],
-      excludedSourceIds: [],
-      maxCandidates: 50,
-    });
+  it("저장소 기본 설정은 제외 없이 후보 50건을 넘기고, 관심 주제 키워드만 점수를 더한다", () => {
+    const preferences = getDigestPreferences();
+    expect(preferences).toMatchObject({ excludedKeywords: [], excludedSourceIds: [], maxCandidates: 50 });
+    expect(preferences.maxPerSource).toBeUndefined();
+    // 성능·대용량 렌더링, 프론트엔드 보안, 서비스에 붙이는 LLM 기능(2026-11-16 운영자 요청)
+    expect(preferences.preferredKeywords).toEqual(expect.arrayContaining(["LLM", "MCP", "RAG", "INP", "XSS", "CSP"]));
   });
 
   it("지정한 파일을 호출할 때마다 다시 읽는다", () => {
