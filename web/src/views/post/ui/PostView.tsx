@@ -47,13 +47,6 @@ export function PostView({ slug }: { slug: string }) {
           <h1 className={styles.title}>{post.title}</h1>
           <p className={styles.dek}>{post.dek}</p>
           <PostCover cover={post.cover} priority />
-          {/* 포트폴리오 상세의 사실 표(ROLE · PERIOD · SERVICE)와 같은 모양 */}
-          <dl className={styles.facts}>
-            <div><dt>발행</dt><dd>{formatKoreanDate(post.date)}</dd></div>
-            {sourceDateRange && <div><dt>원문</dt><dd>{sourceDateRange}</dd></div>}
-            <div><dt>읽기</dt><dd>{post.readingMinutes}분</dd></div>
-            <div><dt>출처</dt><dd>{post.sources.length}개</dd></div>
-          </dl>
         </header>
 
         <section className={styles.tldr} aria-label="요약">
@@ -131,18 +124,22 @@ export function PostView({ slug }: { slug: string }) {
         </section>
       </article>
 
-      <aside className={styles.aside} aria-label="목차">
+      <aside className={styles.aside} aria-label="글 정보와 목차">
+        <dl className={styles.facts}>
+          <div><dt>발행</dt><dd>{formatKoreanDate(post.date)}</dd></div>
+          {sourceDateRange && <div><dt>원문</dt><dd>{sourceDateRange}</dd></div>}
+        </dl>
         <nav aria-labelledby="toc-title" className={styles.toc}>
           <p id="toc-title" className={styles.tocTitle}>목차</p>
           <ul>
             {headings.map((heading) => (
               <li key={heading.id} data-depth={heading.depth}>
-                <a href={`#${heading.id}`}><span>{heading.text}</span></a>
+                <a href={`#${heading.id}`}>{heading.text}</a>
               </li>
             ))}
             {trailingToc.map((item) => (
               <li key={item.id} data-depth={2}>
-                <a href={`#${item.id}`}><span>{item.text}</span></a>
+                <a href={`#${item.id}`}>{item.text}</a>
               </li>
             ))}
           </ul>
