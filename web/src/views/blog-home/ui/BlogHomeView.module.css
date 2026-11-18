@@ -84,58 +84,6 @@
   margin-top: 64px;
 }
 
-/* ── 짧은 소식 ───────────────────────────────────── */
-.briefs {
-  margin: 64px 0;
-}
-.briefs ul {
-  list-style: none;
-  margin-top: -18px;
-}
-.briefs li {
-  border-bottom: 1px solid var(--blog-line);
-}
-.briefs a {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  padding: 11px 0;
-  font-size: 14px;
-  color: var(--blog-strong);
-}
-.briefs a:hover .briefTitle {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.chip {
-  flex: none;
-  width: 52px;
-  font: 400 10px/1.4 var(--blog-mono);
-  letter-spacing: 0.06em;
-  color: var(--blog-muted);
-}
-.chip[data-tone="alert"] {
-  color: var(--blog-alert);
-}
-.chip[data-tone="update"] {
-  color: var(--blog-secondary);
-}
-
-.briefTitle {
-  flex: 1;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.briefDate {
-  flex: none;
-  font: 400 11px/1.4 var(--blog-mono);
-  color: var(--blog-muted);
-}
-
 @media (max-width: 740px) {
   .page {
     padding: 36px 20px 0;
@@ -149,8 +97,7 @@
   .featureTitle {
     font-size: 18px;
   }
-  .terminalSection,
-  .briefs {
+  .terminalSection {
     margin-top: 52px;
   }
 }

@@ -40,7 +40,7 @@ export function PostIndex({ items }: { items: PostIndexItem[] }) {
     <section aria-labelledby="all-posts" className={styles.section}>
       <div className={styles.head}>
         <h2 id="all-posts" className={styles.heading}>
-          INDEX <span className={styles.count}>({items.length})</span>
+          All posts <span className={styles.count}>({items.length})</span>
         </h2>
         <div className={styles.toggle} role="group" aria-label="보기 방식">
           {(Object.keys(VIEW_LABELS) as ViewMode[]).map((mode) => (
