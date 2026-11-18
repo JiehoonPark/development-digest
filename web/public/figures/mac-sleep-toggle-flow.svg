@@ -1,0 +1,46 @@
+<svg width="900" height="560" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" font-family="-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Pretendard',sans-serif">
+<defs><marker id="ar" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" fill="#6b6760"/></marker>
+<marker id="arR" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L8 4L0 8z" fill="#c2353a"/></marker></defs>
+<rect width="900" height="560" fill="#f4f1ea"/>
+<text x="40" y="48" font-size="20" fill="#1d1d1f" font-weight="700" text-anchor="start">Caps Lock을 누르면 일어나는 일</text>
+<text x="40" y="74" font-size="14" fill="#6b6760" font-weight="400" text-anchor="start">상태는 따로 저장하지 않고, 매번 pmset의 SleepDisabled 값을 읽어 정합니다</text>
+<text x="40" y="102" font-size="13" fill="#6b6760" font-weight="600" text-anchor="start">① 키 바꾸기 (로그인할 때마다 다시 적용)</text>
+<rect x="40" y="116" width="170" height="70" rx="10" fill="#fff" stroke="#d8d3c8" stroke-width="1.2"/>
+<text x="125.0" y="144" font-size="15" fill="#1d1d1f" font-weight="700" text-anchor="middle">Caps Lock</text>
+<text x="125.0" y="167" font-size="12.5" fill="#6b6760" font-weight="400" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">usage 0x39</text>
+<rect x="262" y="116" width="190" height="70" rx="10" fill="#fff" stroke="#d8d3c8" stroke-width="1.2"/>
+<text x="357.0" y="144" font-size="15" fill="#1d1d1f" font-weight="700" text-anchor="middle">hidutil</text>
+<text x="357.0" y="167" font-size="12.5" fill="#6b6760" font-weight="400" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">0x700000039 → …06D</text>
+<rect x="504" y="116" width="150" height="70" rx="10" fill="#fff" stroke="#d8d3c8" stroke-width="1.2"/>
+<text x="579.0" y="144" font-size="15" fill="#1d1d1f" font-weight="700" text-anchor="middle">F18</text>
+<text x="579.0" y="167" font-size="12.5" fill="#6b6760" font-weight="400" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">usage 0x6D</text>
+<rect x="706" y="116" width="154" height="70" rx="10" fill="#fff" stroke="#a64d31" stroke-width="1.6"/>
+<text x="783.0" y="144" font-size="15" fill="#a64d31" font-weight="700" text-anchor="middle">Hammerspoon</text>
+<text x="783.0" y="167" font-size="12.5" fill="#6b6760" font-weight="400" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">hs.hotkey.bind</text>
+<line x1="210" y1="151" x2="254" y2="151" stroke="#6b6760" stroke-width="1.6" marker-end="url(#ar)"/>
+<line x1="452" y1="151" x2="496" y2="151" stroke="#6b6760" stroke-width="1.6" marker-end="url(#ar)"/>
+<line x1="654" y1="151" x2="698" y2="151" stroke="#6b6760" stroke-width="1.6" marker-end="url(#ar)"/>
+<text x="40" y="242" font-size="13" fill="#6b6760" font-weight="600" text-anchor="start">② 잠자기 설정 바꾸기</text>
+<rect x="40" y="256" width="250" height="70" rx="10" fill="#fff" stroke="#a64d31" stroke-width="1.6"/>
+<text x="165.0" y="284" font-size="15" fill="#a64d31" font-weight="700" text-anchor="middle">sudo -n pmset</text>
+<text x="165.0" y="307" font-size="12.5" fill="#6b6760" font-weight="400" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">-a disablesleep 1 또는 0</text>
+<rect x="342" y="256" width="210" height="70" rx="10" fill="#fff" stroke="#d8d3c8" stroke-width="1.2"/>
+<text x="447.0" y="284" font-size="15" fill="#1d1d1f" font-weight="700" text-anchor="middle">pmset -g</text>
+<text x="447.0" y="307" font-size="12.5" fill="#6b6760" font-weight="400" text-anchor="middle" font-family="ui-monospace,Menlo,monospace">SleepDisabled 1 / 0</text>
+<rect x="604" y="256" width="256" height="70" rx="10" fill="#fff" stroke="#d8d3c8" stroke-width="1.2"/>
+<text x="732.0" y="284" font-size="15" fill="#1d1d1f" font-weight="700" text-anchor="middle">메뉴바와 알림</text>
+<text x="732.0" y="307" font-size="12.5" fill="#6b6760" font-weight="400" text-anchor="middle">☕︎ ON  ·  💤 OFF (1초)</text>
+<line x1="290" y1="291" x2="334" y2="291" stroke="#6b6760" stroke-width="1.6" marker-end="url(#ar)"/>
+<line x1="552" y1="291" x2="596" y2="291" stroke="#6b6760" stroke-width="1.6" marker-end="url(#ar)"/>
+<path d="M 783 186 L 783 214 L 240 214 L 240 249" fill="none" stroke="#6b6760" stroke-width="1.6" marker-end="url(#ar)"/>
+<text x="510" y="208" font-size="12.5" fill="#6b6760" font-weight="400" text-anchor="middle">토글: 지금 값을 읽고 반대로</text>
+<line x1="165" y1="326" x2="165" y2="362" stroke="#c2353a" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#arR)"/>
+<rect x="40" y="366" width="250" height="48" rx="10" fill="#fff" stroke="#e5a3a5" stroke-width="1.2"/>
+<text x="165" y="396" font-size="12.5" fill="#c2353a" font-weight="600" text-anchor="middle">규칙이 없으면 바로 실패 → 경고 알림</text>
+<rect x="342" y="430" width="518" height="74" rx="10" fill="#fff" stroke="#d8d3c8" stroke-width="1.2"/>
+<text x="362" y="456" font-size="14" fill="#1d1d1f" font-weight="700" text-anchor="start" font-family="ui-monospace,Menlo,monospace">hs.battery.watcher</text>
+<text x="362" y="482" font-size="13" fill="#6b6760" font-weight="400" text-anchor="start">배터리 전원 · 15% 이하 · ON 이면 → 자동으로 OFF</text>
+<path d="M 342 467 L 316 467 L 316 310 L 298 310" fill="none" stroke="#6b6760" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#ar)"/>
+<rect x="40" y="514" width="820" height="36" rx="8" fill="#ebe6da" stroke="none" stroke-width="1.2"/>
+<text x="56" y="537" font-size="13" fill="#1d1d1f" font-weight="500" text-anchor="start">별도로 늘 켜져 있는 것: LaunchAgent가 띄운 caffeinate -i → 유휴 잠자기만 막음 (덮개와 무관)</text>
+</svg>

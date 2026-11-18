@@ -1,17 +1,18 @@
 .frame {
   position: relative;
   overflow: hidden;
-  background: #1f1d1b;
+  /* 커버는 크림색 종이 위 리소 인쇄라, 이미지가 늦게 떠도 같은 종이색 면이 먼저 보이게 한다 */
+  background: #f6e7cf;
 }
 
 .wide {
   aspect-ratio: 16 / 9;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
 .card {
   aspect-ratio: 16 / 9;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
 .image,
@@ -24,7 +25,7 @@
 }
 
 .empty {
-  background: linear-gradient(135deg, #2a2724, #1d1b19);
+  background: #f6e7cf;
 }
 
 .badge {
@@ -32,10 +33,9 @@
   top: 10px;
   right: 10px;
   padding: 5px 7px;
-  border-radius: 4px;
+  border-radius: 2px;
   background: var(--blog-bg);
-  color: var(--blog-text);
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1;
+  color: var(--blog-strong);
+  font: 400 10px/1 var(--blog-mono);
+  letter-spacing: 0.04em;
 }
