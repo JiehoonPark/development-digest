@@ -1,17 +1,18 @@
 .frame {
   position: relative;
   overflow: hidden;
+  /* 커버 이미지는 어두운 바탕으로 렌더링된다. 흰 페이지 위에서 이미지가 늦게 뜰 때도 같은 면이 보이게 한다 */
   background: #1f1d1b;
 }
 
 .wide {
   aspect-ratio: 16 / 9;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
 .card {
   aspect-ratio: 16 / 9;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
 .image,
@@ -32,10 +33,9 @@
   top: 10px;
   right: 10px;
   padding: 5px 7px;
-  border-radius: 4px;
+  border-radius: 2px;
   background: var(--blog-bg);
-  color: var(--blog-text);
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 1;
+  color: var(--blog-strong);
+  font: 400 10px/1 var(--blog-mono);
+  letter-spacing: 0.04em;
 }

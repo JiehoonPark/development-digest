@@ -78,23 +78,37 @@ export function BlogHomeView() {
 
   return (
     <main className={styles.page}>
-      <section className={styles.hero} aria-label="오늘의 글">
-        <TerminalHero posts={posts.map((post) => toTerminalPost(post, issues.get(post.slug)!))} />
+      {/* 포트폴리오 상세 머리말과 같은 모양: 굵은 이름 + 고정폭 메타 + 짧은 소개 */}
+      <header className={styles.intro}>
+        <h1 className={styles.introTitle}>Dev Digest</h1>
+        <p className={styles.introMeta}>Front-end daily · {posts.length} posts</p>
+        <p className={styles.introDek}>매일 아침 프론트엔드 소식 하나를 깊게 정리합니다.</p>
+      </header>
 
+      <section aria-labelledby="latest">
+        <h2 id="latest" className={styles.label}>
+          Latest
+        </h2>
         <Link href={ROUTES.post(latest.slug)} className={styles.feature}>
-          <IssueLine issue={issues.get(latest.slug)!} date={latest.date} tags={latest.tags} label="LATEST" />
-          <h1 className={styles.featureTitle}>{latestTitle.main}</h1>
-          {latestTitle.sub && <p className={styles.featureSub}>{latestTitle.sub}</p>}
           <PostCover cover={latest.cover} priority />
-          <p className={styles.featureDek}>{latest.dek}</p>
-          <span className={styles.read}>읽기 →</span>
+          <IssueLine issue={issues.get(latest.slug)!} date={latest.date} tags={latest.tags} />
+          <span className={styles.featureTitle}>{latestTitle.main}</span>
+          {latestTitle.sub && <span className={styles.featureSub}>{latestTitle.sub}</span>}
+          <span className={styles.featureDek}>{latest.dek}</span>
         </Link>
+      </section>
+
+      <section aria-labelledby="find" className={styles.terminalSection}>
+        <h2 id="find" className={styles.label}>
+          Find
+        </h2>
+        <TerminalHero posts={posts.map((post) => toTerminalPost(post, issues.get(post.slug)!))} />
       </section>
 
       {briefs.length > 0 && (
         <section className={styles.briefs} aria-labelledby="briefs">
           <h2 id="briefs" className={styles.label}>
-            BRIEFS
+            Briefs
           </h2>
           <ul>
             {briefs.map((brief) => (
