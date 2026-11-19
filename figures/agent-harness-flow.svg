@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="650" viewBox="0 0 900 650" role="img" aria-labelledby="title desc">
+  <title id="title">AI 코딩 에이전트 하네스의 책임 구분</title>
+  <desc id="desc">규칙 파일과 스킬은 모델의 판단에 문맥을 제공합니다. 권한과 실행 전 훅은 도구 호출을 제한하고, 샌드박스는 셸 실행의 자원 접근을 격리합니다. 도구가 변경한 결과를 검사하고 실패하면 모델로 돌려보냅니다. 반복 예산이 끝나면 중단하며 검사 통과 뒤에도 사람이 변경을 검토합니다. 제품 내부의 고정 실행 순서가 아닌 개념도입니다.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 8 4 0 8Z" fill="#6b6760"/></marker>
+    <marker id="accent-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 8 4 0 8Z" fill="#a64d31"/></marker>
+  </defs>
+  <rect width="900" height="650" rx="16" fill="#f4f1ea"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif" fill="#1d1d1f">
+    <text x="40" y="48" font-size="25" font-weight="700">설명 · 실행 제한 · 결과 검증은 서로 다른 책임입니다</text>
+    <text x="40" y="78" font-size="15" fill="#6b6760">하네스는 모델의 제안과 실제 실행, 다음 판단을 연결합니다.</text>
+    <g fill="none" stroke="#d8d3c8" stroke-width="1.5">
+      <rect x="40" y="110" width="250" height="76" rx="10"/>
+      <rect x="325" y="110" width="250" height="76" rx="10"/>
+      <rect x="610" y="110" width="250" height="76" rx="10"/>
+      <rect x="325" y="233" width="250" height="72" rx="10"/>
+      <rect x="40" y="355" width="360" height="92" rx="10"/>
+      <rect x="500" y="355" width="360" height="92" rx="10"/>
+      <rect x="500" y="502" width="360" height="70" rx="10"/>
+    </g>
+    <g text-anchor="middle">
+      <g font-size="19" font-weight="700">
+        <text x="165" y="140">규칙 파일</text>
+        <text x="450" y="140">요청 · 완료 조건</text>
+        <text x="735" y="140">스킬</text>
+        <text x="450" y="262">모델의 판단</text>
+        <text x="220" y="386">권한 · 실행 전 훅</text>
+        <text x="680" y="386">도구 실행</text>
+        <text x="680" y="531">검증 루프</text>
+      </g>
+      <g font-size="15" fill="#6b6760">
+        <text x="165" y="166">항상 필요한 배경과 계약</text>
+        <text x="450" y="166">작업 범위와 필요한 증거</text>
+        <text x="735" y="166">필요할 때 읽는 작업 절차</text>
+        <text x="450" y="286">다음 행동을 제안</text>
+        <text x="220" y="414">이 행동을 실행해도 되는가?</text>
+        <text x="680" y="414">파일 · 셸 · 외부 연동</text>
+        <text x="680" y="436">셸 자원 접근은 샌드박스로 격리</text>
+        <text x="680" y="556">마지막 변경을 검사하고 결과 확인</text>
+      </g>
+    </g>
+    <g fill="none" stroke="#6b6760" stroke-width="2" marker-end="url(#arrow)">
+      <path d="M165 186V212H400V231"/>
+      <path d="M450 186V231"/>
+      <path d="M735 186V212H500V231"/>
+      <path d="M400 305V329H220V353"/>
+      <path d="M400 400H498"/>
+      <path d="M680 447V500"/>
+      <path d="M680 572V607"/>
+    </g>
+    <text x="450" y="388" font-size="14" text-anchor="middle" fill="#6b6760">허용</text>
+    <g fill="none" stroke="#a64d31" stroke-width="2" marker-end="url(#accent-arrow)">
+      <path d="M500 537H25V269H323"/>
+      <path d="M220 447V488H25"/>
+    </g>
+    <text x="315" y="525" font-size="16" fill="#a64d31">실패 결과 → 다음 수정</text>
+    <text x="40" y="480" font-size="15" fill="#a64d31">차단 이유도 전달</text>
+    <text x="40" y="568" font-size="16" font-weight="700">반복 예산이 끝나면 중단</text>
+    <text x="40" y="593" font-size="14" fill="#6b6760">실패 원인과 미검증 범위를 보고합니다.</text>
+    <text x="680" y="628" text-anchor="middle" font-size="17" font-weight="700">검사 통과 → 사람의 변경 검토</text>
+  </g>
+</svg>
