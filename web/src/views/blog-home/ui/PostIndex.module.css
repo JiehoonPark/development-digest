@@ -1,49 +1,10 @@
 .section {
   position: relative;
-  margin-top: 64px;
+  margin-top: 72px;
+  border-top: 1px solid var(--blog-line);
 }
 
-.head {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--blog-line);
-}
-
-/* 홈의 다른 구역 라벨과 같은 글자 */
-.heading {
-  font: 400 11px/1.4 var(--blog-mono);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--blog-muted);
-}
-
-.count {
-  color: var(--blog-faint);
-}
-
-.toggle {
-  display: flex;
-  gap: 2px;
-  font: 400 10px/1 var(--blog-mono);
-}
-.toggle button {
-  padding: 4px 7px;
-  border: 1px solid transparent;
-  border-radius: 2px;
-  background: none;
-  color: var(--blog-muted);
-  font: inherit;
-  letter-spacing: 0.06em;
-  cursor: pointer;
-}
-.toggle button[aria-pressed="true"] {
-  border-color: var(--blog-strong);
-  color: var(--blog-strong);
-}
-
-/* ── 목록 보기: 번호 · 제목 · 날짜 세 칸, 얇은 선 ───────────── */
+/* ── 목록: 제목 · 날짜 두 칸, 얇은 선 ───────────── */
 .list {
   list-style: none;
 }
@@ -53,10 +14,10 @@
 
 .row {
   display: grid;
-  grid-template-columns: 56px minmax(0, 1fr) 76px;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
-  gap: 16px;
-  padding: 12px 0;
+  gap: 24px;
+  padding: 14px 0;
   color: var(--blog-strong);
 }
 .row:hover .title,
@@ -69,20 +30,8 @@
   outline-offset: 2px;
 }
 
-.issue,
-.tags,
-.date {
-  font: 400 11px/1.5 var(--blog-mono);
-  font-variant-ligatures: none;
-  letter-spacing: 0.04em;
-  color: var(--blog-muted);
-}
-.date {
-  text-align: right;
-}
-
 .title {
-  font-size: 14.5px;
+  font-size: 15px;
   font-weight: 500;
   line-height: 1.55;
   letter-spacing: -0.01em;
@@ -94,9 +43,10 @@
   color: var(--blog-muted);
 }
 
-/* 태그는 줄이 길어지지 않게 목록에서는 숨기고, 격자 보기에서만 쓴다 */
-.tags {
-  display: none;
+.date {
+  font-size: 13px;
+  color: var(--blog-muted);
+  white-space: nowrap;
 }
 
 /* 커서를 따라다니는 커버 미리보기 — 마우스가 있는 기기에서만 */
@@ -105,12 +55,12 @@
   left: 0;
   top: 0;
   z-index: 20;
-  width: 260px;
+  width: 280px;
   pointer-events: none;
   opacity: 0;
-  transform: translate(calc(var(--x) + 24px), calc(var(--y) - 50%));
+  transform: translate(calc(var(--x) + 24px), calc(var(--y) - 50%)) rotate(-1.5deg);
   transition: opacity 0.15s ease;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.16);
 }
 .preview[data-visible="true"] {
   opacity: 1;
@@ -126,66 +76,12 @@
   }
 }
 
-/* ── 격자 보기 ────────────────────────────────────── */
-.grid {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 32px 20px;
-  padding-top: 20px;
-}
-
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  color: var(--blog-text);
-}
-.card > :first-child {
-  margin-bottom: 6px;
-}
-.card:hover img {
-  transform: scale(1.02);
-}
-.card:hover .cardTitle {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-}
-
-.cardIssue {
-  font: 400 11px/1.5 var(--blog-mono);
-  letter-spacing: 0.04em;
-  color: var(--blog-muted);
-}
-
-.cardTitle {
-  font-size: 15px;
-  line-height: 1.45;
-  font-weight: 600;
-  color: var(--blog-strong);
-  word-break: keep-all;
-}
-
-.cardDek {
-  font-size: 13px;
-  line-height: 1.6;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-@media (max-width: 560px) {
+@media (max-width: 740px) {
+  .section {
+    margin: 56px 20px 0;
+  }
   .row {
-    grid-template-columns: 48px minmax(0, 1fr);
-    gap: 2px 12px;
-  }
-  .date {
-    grid-column: 2;
-    text-align: left;
-  }
-  .grid {
     grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
   }
 }

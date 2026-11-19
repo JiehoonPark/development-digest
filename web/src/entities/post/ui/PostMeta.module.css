@@ -1,0 +1,16 @@
+/* 글 메타: 날짜와 태그를 작은 회색 글자로. 구분 기호 대신 가운뎃점만 둔다 */
+.line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--blog-muted);
+}
+
+.tag::before {
+  content: "·";
+  margin-right: 8px;
+  color: #c4c4c6;
+}
