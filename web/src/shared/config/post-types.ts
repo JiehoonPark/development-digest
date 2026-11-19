@@ -48,4 +48,9 @@ export interface PostData {
   actions?: string[];
   sources: PostSource[];
   briefs?: PostBrief[];
+  /**
+   * 글의 출발점. 없으면 "source" — 그날 다이제스트 기사 하나([1])에서 출발해 여러 자료로 다시 쓴 글.
+   * "topic" 은 기사 없이 주제를 정해 공식 문서로 쓴 글(FSD·모노레포 등)이라 [1] 을 출발점으로 표시하지 않는다.
+   */
+  origin?: "source" | "topic";
 }

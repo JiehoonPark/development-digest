@@ -175,8 +175,7 @@
 }
 .prose :global(:not(pre) > code),
 .tldr :global(code),
-.actions :global(code),
-.briefs :global(code) {
+.actions :global(code) {
   padding: 1px 4px;
   border-radius: 3px;
   background: #f3f3f3;
@@ -514,94 +513,57 @@
   text-decoration: none !important;
 }
 
-/* ── 하단 블록 ──────────────────────────────────────── */
-.sectionTitle {
-  margin: 64px 0 14px;
-  font: 400 11px/1.4 var(--blog-mono);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--blog-muted);
+/* ── 출처: 기본으로 접어 두고 개수만 보인다 ─────────────── */
+.sourceDetails {
+  margin-top: 64px;
+  border-top: 1px solid var(--blog-line);
+  border-bottom: 1px solid var(--blog-line);
   scroll-margin-top: 72px;
 }
 
-.linkCard {
-  display: grid;
-  grid-template-columns: 160px 1fr;
-  gap: 16px;
-  align-items: center;
-  border-top: 1px solid var(--blog-line);
-  border-bottom: 1px solid var(--blog-line);
-  padding: 12px 0;
-}
-.linkCard img {
-  width: 160px;
-  height: 90px;
-  border-radius: 3px;
-  object-fit: cover;
-}
-.linkCard span {
+.sourceSummary {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.linkCard strong {
-  font-weight: 600;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  font-size: 13.5px;
   color: var(--blog-strong);
+  cursor: pointer;
+  list-style: none;
 }
-.linkCard small {
-  font: 400 11px/1.6 var(--blog-mono);
-  letter-spacing: 0.04em;
+.sourceSummary::-webkit-details-marker {
+  display: none;
+}
+/* 오른쪽 + / − 표시. 회전 대신 글자만 바꿔 움직임 없이 상태를 보인다 */
+.sourceSummary::after {
+  content: "+";
+  font: 400 16px/1 var(--blog-mono);
   color: var(--blog-muted);
 }
-.linkCard:hover strong {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+.sourceDetails[open] .sourceSummary::after {
+  content: "−";
 }
-/* 원문이 대표 이미지를 주지 않으면 이미지 칸 없이 한 열로 */
-.linkCard:not(:has(img)) {
-  grid-template-columns: minmax(0, 1fr);
+.sourceSummary:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
-.briefs {
-  list-style: none;
-  border-top: 1px solid var(--blog-line);
-}
-.briefs li {
-  padding: 10px 0;
-  border-bottom: 1px solid var(--blog-line);
-}
-.briefs small {
-  display: block;
-  margin-top: 2px;
-  font-size: 13px;
-  color: var(--blog-muted);
-}
-.briefTitle {
-  color: var(--blog-strong);
-}
-.briefTitle:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.badge {
+.originBadge {
   display: inline-block;
-  margin-right: 10px;
-  font: 400 10px/1 var(--blog-mono);
-  letter-spacing: 0.06em;
-  color: var(--blog-muted);
+  margin-right: 8px;
+  padding: 1px 6px;
+  border-radius: 2px;
+  background: var(--blog-accent-soft);
+  font-size: 11.5px;
+  color: var(--blog-accent);
   vertical-align: 1px;
-}
-.badge[data-tone="alert"] {
-  color: var(--blog-alert);
-}
-.badge[data-tone="update"] {
-  color: var(--blog-secondary);
 }
 
 .sources {
   display: grid;
-  gap: 4px;
-  padding-left: 22px;
+  gap: 6px;
+  padding: 0 0 18px 22px;
   font-size: 13px;
   line-height: 1.6;
   color: var(--blog-muted);
@@ -613,7 +575,8 @@
   font: 400 11px var(--blog-mono);
   color: var(--blog-muted);
 }
-.sources li:target {
+.sources li:target,
+.sources li[data-active] {
   background: var(--blog-accent-soft);
 }
 .sources a {
@@ -744,13 +707,6 @@
   .prose :global(pre code) {
     padding: 14px 14px;
     font-size: 12px;
-  }
-  .linkCard {
-    grid-template-columns: 96px 1fr;
-  }
-  .linkCard img {
-    width: 96px;
-    height: 54px;
   }
 }
 

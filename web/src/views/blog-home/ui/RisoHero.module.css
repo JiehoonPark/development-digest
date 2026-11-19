@@ -1,0 +1,170 @@
+/* 리소 인쇄 히어로 — 커버와 같은 종이·잉크 값.
+   잉크: 분홍 #ee4fa3, 파랑 #2f3f9e. 겹치면 곱하기로 보라가 된다. */
+.hero {
+  --paper: #f3eee3;
+  --ink-blue: #2f3f9e;
+  --ink-pink: #ee4fa3;
+  --loop: 14s;
+
+  position: relative;
+  overflow: hidden;
+  height: 300px;
+  margin-bottom: 64px;
+  border-radius: 4px;
+  background: var(--paper);
+  isolation: isolate;
+}
+
+.plates {
+  position: absolute;
+  inset: 0;
+}
+
+.blue,
+.pink {
+  position: absolute;
+  mix-blend-mode: multiply;
+  will-change: transform;
+  animation: var(--loop) ease-in-out infinite;
+}
+
+.blue {
+  right: 40px;
+  top: 6px;
+  width: 290px;
+  height: 290px;
+  fill: var(--ink-blue);
+  animation-name: drift-blue;
+}
+
+.pink {
+  right: 150px;
+  top: 40px;
+  width: 250px;
+  height: 250px;
+  fill: var(--ink-pink);
+  opacity: 0.92;
+  animation-name: drift-pink;
+}
+
+/* 두 판이 천천히 겹쳤다가 벌어진다 */
+@keyframes drift-blue {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(-46px, 14px) rotate(8deg);
+  }
+}
+@keyframes drift-pink {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(52px, -10px) rotate(-10deg);
+  }
+}
+
+.text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+  padding: 36px 40px;
+}
+
+/* 이름: 파랑 판 위에 분홍 판이 몇 px 어긋나 찍히고, 그 어긋남이 반복해서 바뀐다 */
+.name {
+  position: relative;
+  font: 800 34px/1.1 var(--blog-sans);
+  letter-spacing: -0.03em;
+  color: var(--ink-blue);
+  mix-blend-mode: multiply;
+}
+.name::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  color: var(--ink-pink);
+  animation: register calc(var(--loop) / 2) steps(1, end) infinite;
+}
+@keyframes register {
+  0% {
+    transform: translate(3px, 2px);
+  }
+  25% {
+    transform: translate(1px, 3px);
+  }
+  50% {
+    transform: translate(4px, 1px);
+  }
+  75% {
+    transform: translate(2px, 2px);
+  }
+}
+
+.tagline {
+  margin-top: 10px;
+  max-width: 300px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: #2b2e3a;
+}
+
+.count {
+  margin-top: 14px;
+  font-size: 12.5px;
+  color: #6a6458;
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blue,
+  .pink,
+  .name::before {
+    animation: none;
+  }
+  .name::before {
+    transform: translate(3px, 2px);
+  }
+}
+
+@media (max-width: 740px) {
+  .hero {
+    height: 260px;
+    margin-bottom: 48px;
+    border-radius: 0;
+  }
+  .blue {
+    right: -60px;
+    top: -20px;
+    width: 240px;
+    height: 240px;
+  }
+  .pink {
+    right: 30px;
+    top: 10px;
+    width: 200px;
+    height: 200px;
+  }
+  .text {
+    padding: 28px 20px;
+  }
+  .name {
+    font-size: 28px;
+  }
+}

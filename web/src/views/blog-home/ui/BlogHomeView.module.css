@@ -1,47 +1,12 @@
-/* 홈 — 글 상세와 같은 한 열. 포트폴리오 상세처럼 머리말(이름·메타·소개) 아래로
-   구역마다 작은 고정폭 대문자 라벨을 달고 얇은 선으로만 나눈다. */
+/* 홈 — 글 상세와 같은 한 열. 리소 머리말 아래로 최신 글과 목록을 여백으로만 나눈다. */
 .page {
   width: min(var(--blog-column), 100%);
   margin: 0 auto;
-  padding: 56px 0 0;
+  padding: 40px 0 0;
 }
 
 .empty {
   padding: 80px 0;
-  color: var(--blog-muted);
-}
-
-/* ── 머리말 ─────────────────────────────────────── */
-.intro {
-  margin-bottom: 56px;
-}
-.introTitle {
-  font: 700 26px/1.2 var(--blog-sans);
-  letter-spacing: -0.02em;
-  color: var(--blog-strong);
-}
-.introMeta {
-  margin-top: 6px;
-  font: 400 12px/1.4 var(--blog-mono);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--blog-muted);
-}
-.introDek {
-  margin-top: 18px;
-  font-size: 15px;
-  line-height: 1.75;
-  color: var(--blog-text);
-}
-
-/* 구역 라벨: 포트폴리오 사실 표의 ROLE · PERIOD 와 같은 글자 */
-.label {
-  padding-bottom: 10px;
-  margin-bottom: 18px;
-  border-bottom: 1px solid var(--blog-line);
-  font: 400 11px/1.4 var(--blog-mono);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--blog-muted);
 }
 
@@ -80,24 +45,14 @@
   line-height: 1.72;
 }
 
-.terminalSection {
-  margin-top: 64px;
-}
-
 @media (max-width: 740px) {
   .page {
-    padding: 36px 20px 0;
+    padding: 0 0 0;
   }
-  .intro {
-    margin-bottom: 44px;
-  }
-  .introTitle {
-    font-size: 22px;
+  .feature {
+    padding: 0 20px;
   }
   .featureTitle {
     font-size: 18px;
-  }
-  .terminalSection {
-    margin-top: 52px;
   }
 }

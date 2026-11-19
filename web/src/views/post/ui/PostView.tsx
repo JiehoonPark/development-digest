@@ -1,12 +1,14 @@
 import { notFound } from "next/navigation";
 
-import { getBriefTone, getIssueNumbers, getPost, IssueLine, listPosts, PostCover } from "@/entities/post";
+import { getPost, PostCover, PostMeta } from "@/entities/post";
 import type { PostSource } from "@/shared/config";
 import { PostClips } from "@/widgets/post-clips";
 import { PostDemos } from "@/widgets/post-demos";
-import { formatKoreanDate, renderPostDocument, renderPostMarkdown, withBasePath } from "@/shared/lib";
+import { formatKoreanDate, renderPostDocument, renderPostMarkdown } from "@/shared/lib";
 
+import { getCitedSources, getOriginSourceId } from "../lib/sources";
 import styles from "./PostView.module.css";
+import { SourceList } from "./SourceList";
 
 /** 요약·할 일 같은 한 줄 항목도 본문과 같은 렌더러를 쓰되 바깥 <p> 는 벗긴다 */
 function renderInline(markdown: string): string {
@@ -21,38 +23,28 @@ function getSourceDateRange(sources: PostSource[]): string | null {
   return first === last ? first : `${first} ~ ${last}`;
 }
 
-/** 본문 뒤에 붙는 고정 섹션도 목차에 넣는다 */
-const TRAILING_TOC = [
-  { id: "original", text: "원문" },
-  { id: "briefs", text: "그 외 오늘 소식" },
-  { id: "sources", text: "출처" },
-];
-
 export function PostView({ slug }: { slug: string }) {
   const post = getPost(slug);
   if (!post) notFound();
 
   const { html, headings } = renderPostDocument(post.body);
-  const issue = getIssueNumbers(listPosts()).get(post.slug)!;
-  const sourceDateRange = getSourceDateRange(post.sources);
-  const primarySource = post.sources[0];
-  const hasBriefs = Boolean(post.briefs && post.briefs.length > 0);
-  const trailingToc = TRAILING_TOC.filter((item) => item.id !== "briefs" || hasBriefs);
+  const sources = getCitedSources(post);
+  const sourceDateRange = getSourceDateRange(sources);
 
   return (
     <main className={styles.layout}>
       <article className={styles.article}>
         <header className={styles.header}>
-          <IssueLine issue={issue} date={post.date} tags={post.tags} />
+          <PostMeta date={post.date} tags={post.tags} />
           <h1 className={styles.title}>{post.title}</h1>
           <p className={styles.dek}>{post.dek}</p>
           <PostCover cover={post.cover} priority />
           {/* 포트폴리오 상세의 사실 표(ROLE · PERIOD · SERVICE)와 같은 모양 */}
           <dl className={styles.facts}>
             <div><dt>발행</dt><dd>{formatKoreanDate(post.date)}</dd></div>
-            {sourceDateRange && <div><dt>원문</dt><dd>{sourceDateRange}</dd></div>}
+            {sourceDateRange && <div><dt>자료</dt><dd>{sourceDateRange}</dd></div>}
             <div><dt>읽기</dt><dd>{post.readingMinutes}분</dd></div>
-            <div><dt>출처</dt><dd>{post.sources.length}개</dd></div>
+            <div><dt>출처</dt><dd>{sources.length}개</dd></div>
           </dl>
         </header>
 
@@ -80,55 +72,7 @@ export function PostView({ slug }: { slug: string }) {
           </section>
         )}
 
-        {primarySource && (
-          <section aria-labelledby="original">
-            <h2 id="original" className={styles.sectionTitle}>원문</h2>
-            <a className={styles.linkCard} href={primarySource.url} target="_blank" rel="noopener noreferrer">
-              {primarySource.image && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={withBasePath(primarySource.image)} alt="" loading="lazy" />
-              )}
-              <span>
-                <strong>{primarySource.title}</strong>
-                <small>
-                  {primarySource.publisher}
-                  {primarySource.publishedAt && ` · ${primarySource.publishedAt}`}
-                </small>
-              </span>
-            </a>
-          </section>
-        )}
-
-        {hasBriefs && (
-          <section aria-labelledby="briefs">
-            <h2 id="briefs" className={styles.sectionTitle}>그 외 오늘 소식</h2>
-            <ul className={styles.briefs}>
-              {post.briefs!.map((brief) => (
-                <li key={brief.title}>
-                  <span className={styles.badge} data-tone={getBriefTone(brief.label)}>
-                    {brief.label}
-                  </span>
-                  <a href={`#source-${brief.sourceId}`} className={styles.briefTitle}>{brief.title}</a>
-                  <small>{brief.note}</small>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        <section aria-labelledby="sources">
-          <h2 id="sources" className={styles.sectionTitle}>출처</h2>
-          <ol className={styles.sources}>
-            {post.sources.map((source) => (
-              <li key={source.id} id={`source-${source.id}`}>
-                <a href={source.url} target="_blank" rel="noopener noreferrer">
-                  {source.title}
-                </a>
-                <span> — {source.publisher}{source.publishedAt && `, ${source.publishedAt}`}</span>
-              </li>
-            ))}
-          </ol>
-        </section>
+        {sources.length > 0 && <SourceList sources={sources} originId={getOriginSourceId(post)} />}
       </article>
 
       <aside className={styles.aside} aria-label="목차">
@@ -138,11 +82,6 @@ export function PostView({ slug }: { slug: string }) {
             {headings.map((heading) => (
               <li key={heading.id} data-depth={heading.depth}>
                 <a href={`#${heading.id}`}><span>{heading.text}</span></a>
-              </li>
-            ))}
-            {trailingToc.map((item) => (
-              <li key={item.id} data-depth={2}>
-                <a href={`#${item.id}`}><span>{item.text}</span></a>
               </li>
             ))}
           </ul>
