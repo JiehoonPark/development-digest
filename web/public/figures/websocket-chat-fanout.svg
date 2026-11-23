@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="480" viewBox="0 0 900 480" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="480" fill="#f4f1ea"/>
+  <text x="40" y="44" font-size="20" font-weight="700" fill="#1d1d1f">순서는 저장소가 정하고, pub/sub은 지금 붙은 서버에만 알린다</text>
+  <text x="40" y="70" font-size="14" fill="#6b6760">pub/sub은 저장하지 않는다. 끊긴 사이의 메시지는 lastSeq로 저장소에서 다시 읽어 온다</text>
+
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1d1d1f"/>
+    </marker>
+    <marker id="arA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#a64d31"/>
+    </marker>
+  </defs>
+
+  <!-- 위: 실시간 전달 -->
+  <g font-size="14" fill="#1d1d1f">
+    <rect x="40" y="110" width="170" height="60" rx="8" fill="#ffffff" stroke="#d8d3c8"/>
+    <text x="125" y="137" text-anchor="middle" font-weight="700">alice</text>
+    <text x="125" y="157" text-anchor="middle" font-size="12" fill="#6b6760">서버 A에 연결</text>
+
+    <rect x="320" y="110" width="170" height="60" rx="8" fill="#ffffff" stroke="#d8d3c8"/>
+    <text x="405" y="137" text-anchor="middle" font-weight="700">서버 A</text>
+    <text x="405" y="157" text-anchor="middle" font-size="12" fill="#6b6760">room:lobby 구독</text>
+
+    <rect x="650" y="110" width="210" height="60" rx="8" fill="#ffffff" stroke="#a64d31" stroke-width="2"/>
+    <text x="755" y="137" text-anchor="middle" font-weight="700" fill="#a64d31">저장소 · seq 부여</text>
+    <text x="755" y="157" text-anchor="middle" font-size="12" fill="#6b6760">방마다 1씩 증가, clientId 중복 검사</text>
+
+    <rect x="650" y="250" width="210" height="60" rx="8" fill="#ffffff" stroke="#d8d3c8" stroke-dasharray="6 4"/>
+    <text x="755" y="277" text-anchor="middle" font-weight="700">pub/sub 채널</text>
+    <text x="755" y="297" text-anchor="middle" font-size="12" fill="#6b6760">저장 안 함 · at-most-once</text>
+
+    <rect x="320" y="250" width="170" height="60" rx="8" fill="#ffffff" stroke="#d8d3c8"/>
+    <text x="405" y="277" text-anchor="middle" font-weight="700">서버 B</text>
+    <text x="405" y="297" text-anchor="middle" font-size="12" fill="#6b6760">room:lobby 구독</text>
+
+    <rect x="40" y="250" width="170" height="60" rx="8" fill="#ffffff" stroke="#d8d3c8"/>
+    <text x="125" y="277" text-anchor="middle" font-weight="700">bob</text>
+    <text x="125" y="297" text-anchor="middle" font-size="12" fill="#6b6760">서버 B에 연결</text>
+  </g>
+
+  <g font-size="12" fill="#1d1d1f" stroke-width="1.6">
+    <line x1="212" y1="132" x2="316" y2="132" stroke="#1d1d1f" marker-end="url(#ar)"/>
+    <text x="264" y="124" text-anchor="middle">① send + clientId</text>
+    <line x1="316" y1="152" x2="214" y2="152" stroke="#6b6760" marker-end="url(#ar)"/>
+    <text x="264" y="190" text-anchor="middle" fill="#6b6760">④ ack seq=1</text>
+
+    <line x1="492" y1="140" x2="646" y2="140" stroke="#a64d31" marker-end="url(#arA)"/>
+    <text x="569" y="132" text-anchor="middle" fill="#a64d31">② append → seq=1</text>
+
+    <line x1="470" y1="172" x2="660" y2="248" stroke="#1d1d1f" marker-end="url(#ar)"/>
+    <text x="600" y="198" fill="#1d1d1f">③ 저장 성공 뒤 A가 publish</text>
+
+    <line x1="646" y1="280" x2="494" y2="280" stroke="#1d1d1f" marker-end="url(#ar)"/>
+    <text x="570" y="272" text-anchor="middle">⑤ 구독 중인 서버로</text>
+
+    <line x1="316" y1="280" x2="214" y2="280" stroke="#1d1d1f" marker-end="url(#ar)"/>
+    <text x="264" y="272" text-anchor="middle">⑥ message #1</text>
+  </g>
+
+  <!-- 아래: 재연결 복구 -->
+  <line x1="40" y1="345" x2="860" y2="345" stroke="#d8d3c8" stroke-width="1.5"/>
+  <text x="40" y="374" font-size="14" font-weight="700" fill="#1d1d1f">끊겼다 돌아오면 — 실시간 경로가 아니라 저장소에서 메우기</text>
+
+  <g font-size="13" fill="#1d1d1f">
+    <rect x="40" y="394" width="170" height="54" rx="8" fill="#ffffff" stroke="#d8d3c8"/>
+    <text x="125" y="418" text-anchor="middle" font-weight="700">bob 재연결</text>
+    <text x="125" y="436" text-anchor="middle" font-size="12" fill="#6b6760">백오프 + 지터 뒤</text>
+
+    <rect x="250" y="394" width="170" height="54" rx="8" fill="#ffffff" stroke="#d8d3c8"/>
+    <text x="335" y="418" text-anchor="middle" font-weight="700">hello lastSeq=1</text>
+    <text x="335" y="436" text-anchor="middle" font-size="12" fill="#6b6760">아무 서버에 붙어도 됨</text>
+
+    <rect x="460" y="394" width="170" height="54" rx="8" fill="#ffffff" stroke="#a64d31" stroke-width="2"/>
+    <text x="545" y="418" text-anchor="middle" font-weight="700" fill="#a64d31">seq &gt; 1 조회</text>
+    <text x="545" y="436" text-anchor="middle" font-size="12" fill="#6b6760">저장소의 history</text>
+
+    <rect x="670" y="394" width="190" height="54" rx="8" fill="#ffffff" stroke="#d8d3c8"/>
+    <text x="765" y="418" text-anchor="middle" font-weight="700">#2, #3 받고 이어 받기</text>
+    <text x="765" y="436" text-anchor="middle" font-size="12" fill="#6b6760">겹친 번호는 seq로 버림</text>
+  </g>
+  <g stroke="#1d1d1f" stroke-width="1.6">
+    <line x1="212" y1="421" x2="246" y2="421" marker-end="url(#ar)"/>
+    <line x1="422" y1="421" x2="456" y2="421" marker-end="url(#ar)"/>
+    <line x1="632" y1="421" x2="666" y2="421" marker-end="url(#ar)"/>
+  </g>
+</svg>

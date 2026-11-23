@@ -1,0 +1,96 @@
+{
+  "slug": "2026-11-24-websocket-chat-reconnect-order-dedup",
+  "date": "2026-11-24",
+  "title": "WebSocket 채팅, 끊겼다 다시 붙어도 메시지가 빠지거나 두 번 보이지 않게",
+  "dek": "하트비트로 끊김을 알아채고, 지터를 넣은 백오프로 다시 붙고, 메시지 번호로 중복과 빈틈을 메우는 방법을 서버 두 대짜리 로컬 데모로 실행해 봅니다. 서버가 여러 대일 때 pub/sub이 맡는 일과 맡지 않는 일도 나눕니다.",
+  "tags": [
+    "WebSocket",
+    "재연결",
+    "pub/sub"
+  ],
+  "readingMinutes": 24,
+  "cover": {
+    "src": "/covers/2026-11-24-websocket-chat-reconnect-order-dedup.jpg",
+    "alt": "JavaScript와 Node.js 로고 아래 lastSeq 키워드를 둔 커버",
+    "style": "logos"
+  },
+  "tldr": [
+    "브라우저 WebSocket에는 close()와 send()만 있어 프로토콜 Ping을 보낼 수 없으므로, 클라이언트 쪽 끊김 감지는 애플리케이션 메시지로 직접 만듭니다.[1]",
+    "재연결 대기 시간은 상한 있는 지수 백오프에 무작위 지터를 더해야 같은 순간 끊긴 클라이언트들이 한꺼번에 다시 몰리지 않습니다.[2]",
+    "Redis Pub/Sub은 메시지를 저장하지 않는 at-most-once 전달이라, 끊긴 사이의 메시지는 저장소에서 마지막 번호 이후를 다시 읽어 메워야 합니다.[3]"
+  ],
+  "body": "## 채팅 연결 관리를 맡았다고 가정해 봅시다\n\n고객 상담 채팅의 WebSocket 연결 관리를 맡았다고 가정해 봅시다. 설계를 설명하기 위해 정한 요구사항입니다.\n\n- 와이파이가 바뀌거나 노트북을 덮었다 열어도 새로고침 없이 대화를 이어 갑니다.\n- 끊긴 사이 상대가 보낸 메시지도 빠짐없이, 보낸 순서대로 보입니다.\n- 내가 보낸 메시지는 재전송이 일어나도 한 번만 저장되고 한 번만 보입니다.\n- 채팅 서버는 두 대 이상이고, 같은 방 사람이 서로 다른 서버에 붙을 수 있습니다.\n\nWebSocket API는 연결을 연 뒤 같은 연결로 메시지를 보내고 받게 해 줍니다.[4] 위 네 가지는 API가 대신해 주지 않습니다. 연결 확인, 재연결 시점, 메시지 번호, 서버 사이 전달은 모두 애플리케이션의 약속입니다.\n\n출력은 Node.js 22에서 로컬 데모를 실제로 실행한 기록입니다. 브로커 프로세스 하나가 메시지 저장소와 Redis Pub/Sub 역할을 흉내 내고, 채팅 서버 A·B가 그 브로커에 붙습니다. 클라이언트는 브라우저와 같은 전역 `WebSocket`만 씁니다. 시간 값은 성능 측정이 아닙니다.\n\n![서버 A에 붙은 alice의 메시지가 저장소에서 번호를 받고 pub/sub으로 서버 B의 bob에게 가는 흐름과, 재연결한 bob이 저장소에서 빠진 번호를 읽어 오는 흐름](/figures/websocket-chat-fanout.svg \"그림 1 · 순서와 복구는 저장소가, 실시간 전달은 pub/sub이 맡는다\")\n\n## 끊김을 알아채고 다시 붙기\n\n### 서버 쪽 하트비트: 프로토콜 Ping과 Pong\n\n랜선을 뽑은 것처럼 끊기면 서버와 클라이언트 모두 끊긴 줄 모르는 상태가 생길 수 있습니다.[5] 그래서 주기적으로 상대가 응답하는지 확인하는 하트비트(heartbeat)를 둡니다.\n\nWebSocket 프로토콜에는 이 용도의 제어 프레임이 있습니다. Ping의 opcode는 `0x9`, Pong은 `0xA`이고, Ping을 받은 쪽은 Close 프레임을 이미 받은 경우가 아니면 Pong으로 응답해야 합니다.[6] Node.js의 `ws` 라이브러리는 이 Pong을 자동으로 보냅니다.[5] 아래 데모 서버 코드는 `ws` README 예제와 같은 구조입니다.[5]\n\n```js\nwss.on(\"connection\", (ws) => {\n  ws.isAlive = true;\n  ws.on(\"pong\", () => { ws.isAlive = true; });\n});\n\nconst interval = setInterval(() => {\n  for (const ws of wss.clients) {\n    if (ws.isAlive === false) {\n      ws.terminate();\n      continue;\n    }\n    ws.isAlive = false;\n    ws.ping();\n  }\n}, HEARTBEAT_MS);\n```\n\n`close()` 대신 `terminate()`를 씁니다. `terminate()`는 연결을 즉시 없애고 `close()`는 닫기 타이머를 기다립니다.[5] 자동 Pong을 끈(`autoPong: false`) 클라이언트를 붙여 1000ms 간격으로 돌린 결과입니다.[7]\n\n```text\n   76ms silent 연결됨\n 1071ms silent: Ping 받음(응답 안 함)\n 2072ms [A] silent 응답 없음 → terminate()\n 2075ms silent close code=1006\n```\n\n`1006`은 닫기 프레임 없이 비정상으로 닫혔다는 예약 코드입니다.[8] 사용자가 나간 것이 아니므로 클라이언트는 재연결 대상으로 봅니다.\n\n### 브라우저 쪽 하트비트: 메시지로 묻기\n\n브라우저 `WebSocket`의 인스턴스 메서드는 `close()`와 `send()`뿐입니다.[1] 프로토콜 Ping을 보낼 수 없으므로 일반 메시지로 묻고 답을 기다립니다.\n\n```js\nstartHeartbeat(socket) {\n  this.lastPongAt = Date.now();\n  clearInterval(this.beat);\n  this.beat = setInterval(() => {\n    if (Date.now() - this.lastPongAt > this.timeoutMs) {\n      this.abandon(socket);\n      return;\n    }\n    socket.send(JSON.stringify({ type: \"ping\", t: Date.now() }));\n  }, this.heartbeatMs);\n}\n```\n\n서버는 `ping`에 `pong`으로 답하고, 클라이언트는 받을 때마다 `lastPongAt`을 갱신합니다. 연결만 받고 아무 응답도 하지 않는 서버에 간격 1000ms, 제한 3000ms로 붙인 결과입니다.\n\n```text\n 3614ms blackhole: 연결 받음\n 6623ms carol 3000ms 동안 pong 없음 → 소켓 버리고 재연결\n 6624ms carol 1번째 재시도 244ms 뒤\n 6873ms blackhole: 연결 받음\n 7911ms carol close code=1006 wasClean=false\n```\n\n버린 소켓의 `close` 이벤트가 새 연결이 열린 뒤에 왔습니다. 여기서 재연결을 또 시작하면 연결이 두 개가 됩니다. 데모는 버릴 때 `this.socket`을 먼저 비우고, `close` 처리기에서 `socket !== this.socket`이면 무시합니다.\n\n### 다시 붙는 간격: 지수 백오프와 지터\n\n상한 있는 지수 백오프(capped exponential backoff)는 시도마다 대기 시간에 일정한 수를 곱하되 최대값을 넘지 않게 하는 방식입니다.[2] AWS 아키텍처 블로그의 시뮬레이션에서는 백오프만으로는 호출이 여전히 뭉쳐 있었고, 무작위성을 더하는 지터(jitter)를 넣자 호출이 거의 일정한 비율로 퍼졌습니다.[2] 그 글은 대기 시간 전체를 무작위로 고르는 방식을 \"Full Jitter\"라고 부릅니다.[2]\n\n```js\nexport const BASE_MS = 500;\nexport const CAP_MS = 8000;\nexport function backoffDelay(attempt, random = Math.random) {\n  const ceiling = Math.min(CAP_MS, BASE_MS * 2 ** attempt);\n  return Math.floor(random() * ceiling);\n}\n```\n\n상한은 500ms에서 두 배씩 늘어 `attempt=4`부터 8000ms에 머뭅니다. 같은 순간 끊긴 클라이언트 1000개의 첫 재시도 시각을 100ms 칸으로 센 결과입니다. 지터 없음은 `random`에 1에 가까운 고정값을 넘겼습니다.\n\n```text\n지터 없음(1000개):\n  0~99ms: 0\n  100~199ms: 0\n  200~299ms: 0\n  300~399ms: 0\n  400~499ms: 1000\n전체 지터(1000개):\n  0~99ms: 200\n  100~199ms: 187\n  200~299ms: 230\n  300~399ms: 185\n  400~499ms: 198\n```\n\n시도 횟수는 `open`이 아니라 놓친 메시지까지 받은 뒤 0으로 되돌립니다. 열리자마자 서버가 끊는 상황에서 `open`마다 초기화하면 대기 시간이 첫 단계에 머뭅니다.\n\n## 순서와 중복은 메시지 번호로 맞춥니다\n\n### 받는 쪽: seq로 버리고 기다리기\n\n저장소가 방마다 1씩 늘어나는 번호 `seq`를 붙인다고 정합니다. 클라이언트는 마지막으로 화면에 올린 번호 `lastSeq`만 기억합니다. 같거나 작은 번호는 중복이고, 건너뛴 번호는 앞 번호가 올 때까지 보관합니다.\n\n```js\nexport function createInbox(onShow) {\n  let lastSeq = 0;\n  const early = new Map(); // 앞 번호가 아직 안 온 메시지\n  return {\n    get lastSeq() { return lastSeq; },\n    receive(msg) {\n      if (msg.seq <= lastSeq || early.has(msg.seq)) return \"duplicate\";\n      if (msg.seq > lastSeq + 1) { early.set(msg.seq, msg); return \"gap\"; }\n      onShow(msg);\n      lastSeq = msg.seq;\n      while (early.has(lastSeq + 1)) {\n        const next = early.get(lastSeq + 1);\n        early.delete(next.seq);\n        onShow(next);\n        lastSeq = next.seq;\n      }\n      return \"shown\";\n    },\n  };\n}\n```\n\n1, 3, 2, 2, 4 순서로 넣은 결과입니다. 3은 보관됐다가 2가 오자 함께 표시되고, 두 번째 2는 버려졌습니다.\n\n```text\n  화면에 표시: #1 안녕하세요\n도착 #1 → shown\n도착 #3 → gap\n  화면에 표시: #2 두 번째\n  화면에 표시: #3 세 번째\n도착 #2 → shown\n도착 #2 → duplicate\n  화면에 표시: #4 네 번째\n도착 #4 → shown\nlastSeq=4\n```\n\n번호는 한 곳에서 매깁니다. 서버마다 따로 붙이거나 클라이언트 시각으로 정렬하면 서버가 둘 이상일 때 같은 번호나 뒤바뀐 순서가 생깁니다.\n\n### 보내는 쪽: ack가 사라져도 한 번만 저장하기\n\n저장은 됐는데 확인 응답(ack)이 오기 전에 끊기면, 클라이언트는 실패로 보고 다시 보냅니다. 서버가 이를 새 메시지로 받으면 같은 말이 두 번 저장됩니다. 그래서 클라이언트는 메시지마다 `crypto.randomUUID()`로 `clientId`를 만들어 ack를 받을 때까지 보관하고, 재연결 뒤 다시 보냅니다. 서버는 같은 `clientId`가 오면 저장하지 않고 처음 번호로 ack만 보냅니다.\n\n서버 A가 1번을 저장한 직후 ack 없이 끊도록 만든 실행입니다(clientId는 줄였습니다).\n\n```text\n  430ms [A] seq=1 저장 후 ack 보내기 전에 연결 끊김(재현)\n  433ms alice close code=1006 wasClean=false\n  434ms alice 1번째 재시도 443ms 뒤\n  885ms [B] alice 입장 lastSeq=0 → 놓친 메시지 1개 전송\n  888ms [B] clientId=dfdc957c-… 이미 저장됨 → seq=1 로 ack 만 다시 보냄\n 1930ms alice outbox 남은 수: 0\n 1931ms bob 화면: #1 한 번만 보여야 함\n```\n\nalice는 서버 B로 재연결했지만, 중복 검사를 공유 저장소에서 하므로 1번은 한 번만 저장됐습니다.\n\n### 끊긴 사이 메시지: lastSeq부터 이어 받기\n\n재연결하면 `open` 이벤트 안에서 `lastSeq`를 담은 `hello`를 보내고, 서버는 그보다 큰 번호를 저장소에서 읽어 보냅니다. `open` 전에 `send()`를 부르면 `InvalidStateError`가 납니다.[9] bob을 끊은 사이 alice가 두 번 보낸 실험입니다.\n\n```text\n  628ms bob 연결을 강제로 끊음(네트워크 끊김 흉내)\n  635ms bob close code=4000 wasClean=true\n  635ms bob 1번째 재시도 293ms 뒤\n  935ms bob 화면: #2 alice: 끊긴 사이 1\n  935ms bob 화면: #3 alice: 끊긴 사이 2\n  936ms [A] bob 입장 lastSeq=1 → 놓친 메시지 2개 전송\n 2153ms bob 화면: #1, #2, #3\n```\n\nbob은 처음의 B가 아니라 A로 재연결했지만 빠진 번호를 받았습니다. 서버 로그가 화면 줄보다 늦게 찍힌 것은 서버가 별도 프로세스라 출력이 늦게 합쳐졌기 때문입니다.\n\n## 서버가 여러 대일 때 pub/sub이 맡는 일\n\n각 서버는 자기에게 붙은 연결만 압니다. 서버 A가 메시지를 저장한 뒤 자기 연결에만 보내면 B에 붙은 bob은 받지 못합니다. 같은 시나리오를 pub/sub 없이, 그리고 있이 실행한 결과입니다.\n\n```text\n# --no-pubsub\n  444ms alice 화면: #1 alice: A 서버에서 보냄\n  742ms bob 화면 메시지 수: 0\n# pub/sub\n  430ms alice 화면: #1 alice: A 서버에서 보냄\n  430ms bob 화면: #1 alice: A 서버에서 보냄\n  729ms bob 화면 메시지 수: 1\n```\n\nRedis Pub/Sub에서 발행자는 특정 수신자가 아니라 채널로 보내고, 구독자는 관심 있는 채널을 구독해 받습니다.[3] 모든 채팅 서버가 방 채널을 구독하고, 저장한 서버가 `room:lobby` 같은 채널로 발행하면 각 서버가 자기 연결에 전달합니다.\n\nRedis 문서는 Pub/Sub이 at-most-once 전달이며, 구독자가 오류나 연결 끊김으로 처리하지 못한 메시지는 영영 사라진다고 설명합니다.[3] 그래서 저장을 먼저 하고 pub/sub은 알림 통로로만 씁니다. 더 강한 보장이 필요하면 메시지를 보관하고 at-least-once 전달도 지원하는 Redis Streams를 검토할 수 있습니다.[3]\n\n> [!RULE] 서버가 여러 대일 때 나누는 역할\n> - 번호와 중복 검사는 공유 저장소 한 곳에서\n> - pub/sub은 저장이 끝난 메시지를 알리는 데만\n> - 재연결 복구는 pub/sub이 아니라 저장소 조회로\n\n## 배포 뒤 증상으로 점검할 네 가지\n\n### 서버를 재시작하자 접속이 한꺼번에 몰립니다\n\n**증상:** 배포 직후 연결 수가 뾰족하게 솟고, 실패한 연결이 다음 주기에 또 몰립니다. **원인 후보:** 재연결 대기에 지터가 없거나, 시도 횟수를 `open`마다 초기화해 백오프가 첫 단계에 머뭅니다.\n\n**대응:** `backoffDelay`처럼 상한까지 늘리고 0과 상한 사이에서 고릅니다. AWS의 비교에서 지터 없는 지수 백오프는 지터를 넣은 방식들보다 일도 많고 시간도 더 걸렸습니다.[2]\n\n### 다른 서버에 붙은 사람 메시지가 가끔 빠집니다\n\n**증상:** 드물게 한 개가 빠지고, 새로고침하면 보입니다. **원인 후보:** 실시간 전달만 믿고 있습니다. Pub/Sub은 처리하지 못한 메시지를 다시 보내지 않습니다.[3]\n\n**대응:** 번호가 건너뛴 것을 신호로 저장소를 다시 읽습니다. 데모 브로커가 2번 전달을 일부러 버리게 하고, 클라이언트가 `gap` 뒤 500ms 안에 2번이 오지 않으면 `resync`를 보내게 했습니다.\n\n```text\n  484ms [broker] seq=2 전달 유실(재현)\n  536ms bob #3 → gap\n 1042ms [B] bob resync lastSeq=1 → 2개 전송\n 1042ms bob 화면: #2 alice: 둘 (pub/sub에서 유실)\n 1042ms bob 화면: #3 alice: 셋\n```\n\n이 방법은 다음 메시지가 와야 빈틈을 압니다. 방의 마지막 메시지 유실은 드러나지 않으므로 화면이 다시 보일 때 한 번 `resync`하는 규칙을 함께 둡니다.\n\n### 로그아웃했는데 계속 다시 붙으려 합니다\n\n**증상:** 토큰이 만료된 뒤에도 백오프 상한 간격으로 끝없이 재연결합니다. **원인 후보:** 모든 `close`를 재연결 대상으로 처리합니다.\n\n**대응:** 서버가 이유를 닫기 코드로 알립니다. `4000`~`4999`는 애플리케이션끼리 약속해 쓰는 사설 범위이고[8], 브라우저 `close()`도 `1000` 또는 `3000`~`4999`만 받습니다.[10] 데모는 `4001`을 인증 만료로 정했고, 클라이언트는 `close code=4001`을 받자 재연결하지 않았습니다.\n\n### 연결은 정상인데 화면이 점점 느려집니다\n\n**증상:** 메시지가 몰리는 방에서 입력이 밀리고 메모리가 늘어납니다. **원인 후보:** `WebSocket` 인터페이스는 백프레셔(backpressure)를 지원하지 않아, 처리보다 빨리 도착한 메시지가 메모리를 채우거나 앱을 멈추게 할 수 있습니다.[4]\n\n**대응:** 받은 메시지를 모아서 한 번에 그립니다. 보내는 쪽은 `bufferedAmount`로 아직 전송되지 않은 바이트 수를 볼 수 있고, 이 값은 연결이 닫혀도 0으로 돌아가지 않으므로 `readyState`도 함께 봅니다.[11]\n\n## 정리\n\n| 기준 | 단일 서버 메모리 전달 | pub/sub 실시간 전달 | pub/sub + 저장소 번호·재조회 |\n| --- | --- | --- | --- |\n| 다른 서버 사용자에게 전달 | 안 됨(데모에서 0개) | 됨 | 됨 |\n| 끊긴 사이 메시지 | 서버 메모리에 남아 있을 때만 | 사라짐(at-most-once)[3] | `lastSeq` 이후 재조회 |\n| 순서 | 서버 한 대 안에서만 | 발행 순서대로 받음[3] | 저장소 `seq` 기준 |\n| 중복 방지 | 직접 구현 필요 | 직접 구현 필요 | `seq`·`clientId`로 처리 |\n| 운영 부담 | 가장 적음 | 브로커 운영 추가 | 브로커 + 저장소 조회 경로 |\n\n- **서버가 한 대이고 끊긴 사이 메시지를 새로고침으로 받아도 된다면** 메모리 전달로 시작합니다. 하트비트와 지터 있는 백오프는 처음부터 넣습니다.\n- **서버를 두 대 이상 두고 대화가 빠지면 안 된다면** 저장소가 번호를 매기고 pub/sub은 알림만 맡기는 구조를 고릅니다.\n- **재전송이 일어날 수 있는 송신에는** 클라이언트가 만든 `clientId`를 붙이고 저장소에서 중복을 검사합니다.\n- **연결 감지는** 서버는 프로토콜 Ping, 브라우저는 애플리케이션 ping으로 나눕니다. 브라우저 API에는 Ping을 보내는 메서드가 없습니다.[1]",
+  "actions": [
+    "지금 쓰는 WebSocket 클라이언트의 close 처리기에서 재연결 대기 시간을 계산하는 줄을 찾아, 무작위 지터가 있는지와 시도 횟수를 언제 0으로 되돌리는지 확인합니다.",
+    "개발 환경에서 메시지를 저장한 직후 서버가 ack 없이 연결을 끊게 만들어, 재전송 뒤 같은 메시지가 두 번 저장되는지 확인합니다.",
+    "서버를 두 대 띄우고 한 사용자를 끊은 사이 다른 서버에서 메시지를 보낸 뒤, 재연결했을 때 빠진 번호가 채워지는지 기록합니다."
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "WebSocket",
+      "publisher": "MDN Web Docs",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/WebSocket"
+    },
+    {
+      "id": 2,
+      "title": "Exponential Backoff and Jitter | Amazon Web Services",
+      "publisher": "aws.amazon.com",
+      "url": "https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/"
+    },
+    {
+      "id": 3,
+      "title": "Redis Pub/sub",
+      "publisher": "redis.io",
+      "url": "https://redis.io/docs/latest/develop/pubsub/"
+    },
+    {
+      "id": 4,
+      "title": "WebSocket API (WebSockets) - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API"
+    },
+    {
+      "id": 5,
+      "title": "ws/README.md at master · websockets/ws",
+      "publisher": "github.com",
+      "url": "https://github.com/websockets/ws/blob/master/README.md"
+    },
+    {
+      "id": 6,
+      "title": "RFC 6455: The WebSocket Protocol",
+      "publisher": "datatracker.ietf.org",
+      "url": "https://datatracker.ietf.org/doc/html/rfc6455"
+    },
+    {
+      "id": 7,
+      "title": "ws/doc/ws.md at master · websockets/ws",
+      "publisher": "github.com",
+      "url": "https://github.com/websockets/ws/blob/master/doc/ws.md"
+    },
+    {
+      "id": 8,
+      "title": "CloseEvent: code property - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent/code"
+    },
+    {
+      "id": 9,
+      "title": "WebSocket: WebSocket() constructor - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/WebSocket"
+    },
+    {
+      "id": 10,
+      "title": "WebSocket: close() method - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/close"
+    },
+    {
+      "id": 11,
+      "title": "WebSocket: bufferedAmount property - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/bufferedAmount"
+    }
+  ]
+}
