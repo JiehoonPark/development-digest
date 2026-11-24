@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500" viewBox="0 0 900 500" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="500" fill="#f4f1ea"/>
+  <text x="32" y="40" font-size="18" font-weight="700" fill="#1d1d1f">stdio MCP 서버 한 개와 주고받는 메시지(2026-07-28 개정판)</text>
+  <text x="32" y="64" font-size="13" fill="#6b6760">호스트는 서버마다 클라이언트를 하나씩 만들고, 모든 요청의 _meta에 프로토콜 버전을 싣습니다.</text>
+
+  <!-- lanes -->
+  <rect x="32" y="86" width="150" height="40" rx="8" fill="#ffffff" stroke="#d8d3c8"/>
+  <text x="107" y="111" font-size="14" font-weight="700" fill="#1d1d1f" text-anchor="middle">모델</text>
+  <rect x="300" y="86" width="210" height="40" rx="8" fill="#ffffff" stroke="#1d1d1f" stroke-width="2"/>
+  <text x="405" y="111" font-size="14" font-weight="700" fill="#1d1d1f" text-anchor="middle">호스트 안의 MCP 클라이언트</text>
+  <rect x="660" y="86" width="208" height="40" rx="8" fill="#ffffff" stroke="#d8d3c8"/>
+  <text x="764" y="111" font-size="14" font-weight="700" fill="#1d1d1f" text-anchor="middle">MCP 서버(자식 프로세스)</text>
+  <line x1="107" y1="126" x2="107" y2="470" stroke="#d8d3c8" stroke-width="2"/>
+  <line x1="405" y1="126" x2="405" y2="470" stroke="#d8d3c8" stroke-width="2"/>
+  <line x1="764" y1="126" x2="764" y2="470" stroke="#d8d3c8" stroke-width="2"/>
+
+  <!-- 1 discover -->
+  <path d="M405 160 L760 160" stroke="#1d1d1f" stroke-width="1.5" marker-end="url(#k)"/>
+  <text x="420" y="152" font-size="12" fill="#1d1d1f">① server/discover  (stdin 한 줄)</text>
+  <path d="M764 186 L409 186" stroke="#6b6760" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#g)"/>
+  <text x="420" y="204" font-size="12" fill="#6b6760">supportedVersions · capabilities  (stdout 한 줄)</text>
+
+  <!-- 2 list -->
+  <path d="M405 236 L760 236" stroke="#1d1d1f" stroke-width="1.5" marker-end="url(#k)"/>
+  <text x="420" y="228" font-size="12" fill="#1d1d1f">② tools/list</text>
+  <path d="M764 260 L409 260" stroke="#6b6760" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#g)"/>
+  <text x="420" y="278" font-size="12" fill="#6b6760">name · description · inputSchema · annotations</text>
+  <path d="M405 290 L111 290" stroke="#6b6760" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#g)"/>
+  <text x="122" y="282" font-size="12" fill="#6b6760">도구 목록을 모델에 전달</text>
+
+  <!-- 3 choose -->
+  <path d="M107 322 L401 322" stroke="#a64d31" stroke-width="1.5" marker-end="url(#r)"/>
+  <text x="122" y="314" font-size="12" fill="#a64d31" font-weight="700">③ 도구와 인자를 고름</text>
+  <rect x="300" y="334" width="210" height="34" rx="6" fill="#ffffff" stroke="#a64d31" stroke-width="1.5"/>
+  <text x="405" y="356" font-size="12" fill="#a64d31" text-anchor="middle" font-weight="700">권한 규칙·사람 확인</text>
+
+  <!-- 4 call -->
+  <path d="M405 396 L760 396" stroke="#1d1d1f" stroke-width="1.5" marker-end="url(#k)"/>
+  <text x="420" y="388" font-size="12" fill="#1d1d1f">④ tools/call {name, arguments}</text>
+  <path d="M764 420 L409 420" stroke="#6b6760" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#g)"/>
+  <text x="420" y="438" font-size="12" fill="#6b6760">content · isError  또는 JSON-RPC error</text>
+  <path d="M405 452 L111 452" stroke="#6b6760" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#g)"/>
+  <text x="122" y="444" font-size="12" fill="#6b6760">결과를 모델에 전달</text>
+
+  <!-- stderr -->
+  <rect x="660" y="300" width="208" height="62" rx="8" fill="#ffffff" stroke="#d8d3c8"/>
+  <text x="676" y="324" font-size="12" fill="#1d1d1f">로그는 stderr로만</text>
+  <text x="676" y="346" font-size="12" fill="#6b6760">stdout은 MCP 메시지 전용</text>
+
+  <text x="32" y="490" font-size="12" fill="#6b6760">실선: 요청 · 점선: 응답. 종료할 때 클라이언트는 서버의 stdin을 닫습니다.</text>
+  <defs>
+    <marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1d1d1f"/></marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#6b6760"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#a64d31"/></marker>
+  </defs>
+</svg>
