@@ -15,7 +15,7 @@ export function BlogShell({ children }: { children: ReactNode }) {
       </a>
       <header className={styles.bar}>
         <Link href={ROUTES.home} className={styles.brand} aria-label={`${SITE.name} 홈`}>
-          <BrandMark size={28} />
+          <BrandMark size={20} />
           <span className={styles.brandText}>{SITE.name}</span>
         </Link>
       </header>

@@ -8,6 +8,11 @@ export interface PostCover {
   alt: string;
   /** 파이프라인이 고른 커버 형식(화면에서는 쓰지 않음) */
   style?: string;
+  /**
+   * 움직이는 커버용 두 판. 그림 판(art, 글자 없음)만 천천히 움직이고 글자 판(text, 투명 바탕)은 고정한다.
+   * 없으면 src 한 장을 그대로 보여 준다.
+   */
+  layers?: { art: string; text: string; motion?: string };
 }
 
 /** 본문에서 `[n]` 으로 인용하는 원문 */

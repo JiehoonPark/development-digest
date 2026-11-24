@@ -77,49 +77,21 @@
   padding: 36px 40px;
 }
 
-/* 이름: 파랑 판 위에 분홍 판이 몇 px 어긋나 찍히고, 그 어긋남이 반복해서 바뀐다 */
-.name {
-  position: relative;
-  font: 800 34px/1.1 var(--blog-sans);
-  letter-spacing: -0.03em;
-  color: var(--ink-blue);
-  mix-blend-mode: multiply;
-}
-.name::before {
-  content: attr(data-text);
+/* 화면에는 보이지 않고 화면 읽기 프로그램만 읽는 페이지 제목 */
+.srOnly {
   position: absolute;
-  inset: 0;
-  z-index: -1;
-  color: var(--ink-pink);
-  animation: register calc(var(--loop) / 2) steps(1, end) infinite;
-}
-@keyframes register {
-  0% {
-    transform: translate(3px, 2px);
-  }
-  25% {
-    transform: translate(1px, 3px);
-  }
-  50% {
-    transform: translate(4px, 1px);
-  }
-  75% {
-    transform: translate(2px, 2px);
-  }
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .tagline {
-  margin-top: 10px;
-  max-width: 300px;
-  font-size: 14.5px;
+  max-width: 320px;
+  font-size: 15px;
   line-height: 1.6;
   color: #2b2e3a;
-}
-
-.count {
-  margin-top: 14px;
-  font-size: 12.5px;
-  color: #6a6458;
 }
 
 .grain {
@@ -134,12 +106,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .blue,
-  .pink,
-  .name::before {
+  .pink {
     animation: none;
-  }
-  .name::before {
-    transform: translate(3px, 2px);
   }
 }
 
@@ -163,8 +131,5 @@
   }
   .text {
     padding: 28px 20px;
-  }
-  .name {
-    font-size: 28px;
   }
 }
