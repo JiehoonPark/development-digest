@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { getPost, listPosts } from "@/entities/post";
+import { SITE } from "@/shared/config";
 import { PostView } from "@/views/post";
 
 export const dynamic = "force-static";
@@ -20,7 +21,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const post = getPost((await params).slug);
-  return post ? { title: `${post.title} — Dev Digest`, description: post.dek } : {};
+  return post ? { title: `${post.title} — ${SITE.name}`, description: post.dek } : {};
 }
 
 export default async function PostPage({ params }: PageProps) {

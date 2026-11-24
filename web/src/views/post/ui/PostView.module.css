@@ -43,21 +43,14 @@
   color: var(--blog-muted);
 }
 
-.tldr,
 .actions {
   padding: 18px 0;
   border-top: 1px solid var(--blog-line);
   border-bottom: 1px solid var(--blog-line);
 }
-/* 바로 위 사실 표의 마지막 선과 겹치지 않게 요약은 위 선 없이 띄운다 */
-.tldr {
-  margin: 12px 0 8px;
-  border-top: 0;
-}
 .actions {
   margin: 56px 0 0;
 }
-.tldr ul,
 .actions ol {
   display: grid;
   gap: 8px;
@@ -67,20 +60,10 @@
 .actions ol {
   counter-reset: action;
 }
-.tldr li,
 .actions li {
   position: relative;
   padding-left: 18px;
   color: var(--blog-strong);
-}
-.tldr li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.85em;
-  width: 9px;
-  height: 1px;
-  background: var(--blog-strong);
 }
 .actions li {
   counter-increment: action;
@@ -174,7 +157,6 @@
   background: linear-gradient(transparent 62%, #ececec 62%);
 }
 .prose :global(:not(pre) > code),
-.tldr :global(code),
 .actions :global(code) {
   padding: 1px 4px;
   border-radius: 3px;
@@ -597,27 +579,6 @@
   max-height: calc(100vh - 160px);
   overflow-y: auto;
   scrollbar-width: none;
-}
-
-.facts {
-  margin: 28px 0 0;
-  border-top: 1px solid var(--blog-line);
-}
-.facts > div {
-  display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
-  gap: 16px;
-  padding: 9px 0;
-  border-bottom: 1px solid var(--blog-line);
-}
-.facts dt {
-  font: 400 11px/1.9 var(--blog-mono);
-  letter-spacing: 0.04em;
-  color: var(--blog-muted);
-}
-.facts dd {
-  font: 400 13px/1.6 var(--blog-sans);
-  color: var(--blog-strong);
 }
 
 .tocTitle {

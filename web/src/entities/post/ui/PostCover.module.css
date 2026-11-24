@@ -1,8 +1,21 @@
 .frame {
+  --cover-paper: #f8f8f7;
+  --cover-edge: #ececec;
+
   position: relative;
   overflow: hidden;
-  /* 커버는 크림색 종이 위 리소 인쇄라, 이미지가 늦게 떠도 같은 종이색 면이 먼저 보이게 한다 */
-  background: #f6e7cf;
+  /* 커버는 밝은 무채색 종이 위 먹 인쇄라, 이미지가 늦게 떠도 같은 종이색 면이 먼저 보이게 한다 */
+  background: var(--cover-paper);
+}
+
+/* 흰 페이지 위에서 밝은 종이 커버의 가장자리가 사라지지 않게 옅은 선을 안쪽에 긋는다(크기는 그대로) */
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--cover-edge);
+  border-radius: inherit;
+  pointer-events: none;
 }
 
 .wide {
@@ -21,11 +34,20 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.35s var(--ease-out);
 }
 
 .empty {
-  background: #f6e7cf;
+  background: var(--cover-paper);
+}
+
+/* 판이 나뉜 커버의 글자 판: 그림 판(정지 그림 또는 포인트만 움직이는 영상) 위에 고정한다 */
+.text {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
 }
 
 .badge {

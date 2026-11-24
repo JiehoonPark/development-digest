@@ -4,9 +4,10 @@ import { halftoneDisc } from "../lib/halftone";
 import styles from "./RisoHero.module.css";
 
 /**
- * 홈 머리말 — 커버와 같은 리소 인쇄 말투(크림 종이 · 분홍/파랑 두 잉크 · 판 어긋남).
- * 두 잉크의 하프톤 원이 천천히 떠다니며 겹쳤다 벌어지고, 이름은 분홍 판이 조금씩 어긋나게 찍힌다.
- * 움직임은 CSS 반복 애니메이션뿐이고, 모션 줄이기 설정이면 멈춘 한 장면으로 보인다.
+ * 홈 머리말 — 커버와 같은 리소 인쇄 말투(크림 종이 · 분홍/파랑 두 잉크).
+ * 두 잉크의 하프톤 원만 천천히 떠다니며 겹쳤다 벌어지고, 글은 한 줄 소개만 둔다(움직이지 않음).
+ * 사이트 이름은 상단 로고 옆에 이미 있으므로 여기서는 화면 읽기 프로그램용 제목으로만 둔다.
+ * 움직임은 CSS 반복 애니메이션뿐이고, 모션 줄이기 설정이면 원도 멈춘다.
  */
 const BLUE_DISC = halftoneDisc(132, 11, 15);
 const PINK_DISC = halftoneDisc(112, 10, 75);
@@ -21,7 +22,7 @@ function Disc({ dots, className }: { dots: ReturnType<typeof halftoneDisc>; clas
   );
 }
 
-export function RisoHero({ postCount }: { postCount: number }) {
+export function RisoHero() {
   return (
     <header className={styles.hero}>
       <div className={styles.plates} aria-hidden>
@@ -29,11 +30,8 @@ export function RisoHero({ postCount }: { postCount: number }) {
         <Disc dots={PINK_DISC} className={styles.pink} />
       </div>
       <div className={styles.text}>
-        <h1 className={styles.name} data-text={SITE.name}>
-          {SITE.name}
-        </h1>
+        <h1 className={styles.srOnly}>{SITE.title}</h1>
         <p className={styles.tagline}>{SITE.tagline}</p>
-        <p className={styles.count}>지금까지 {postCount}편</p>
       </div>
       <svg className={styles.grain} aria-hidden focusable="false">
         <filter id="riso-grain">

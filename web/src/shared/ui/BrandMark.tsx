@@ -1,39 +1,39 @@
 /**
- * 로고 — 리소 인쇄의 맞춤표(registration mark). 분홍 판과 파랑 판을 살짝 어긋나게 겹쳐 찍은 모양이라
- * 커버 그림(2도 잉크·판 어긋남)과 같은 말을 한다. 64×64 격자. 파비콘(app/icon.svg)과 같은 도형이니 함께 바꾼다.
+ * 로고 — 16칸 픽셀 모니터를 먹색 한 색으로 채운 모양(화면 자리만 비움).
+ * 사이트 틀은 무채색으로 두고 색은 리소 커버에만 주기 위해 단색으로 둔다.
+ * z1hoon.com 포트폴리오의 CRT 모니터와 한 표시로 묶인다. 파비콘(app/icon.svg)과 같은 도형이니 함께 바꾼다.
  */
-const INK_PINK = "#ee4fa3";
-const INK_BLUE = "#2f3f9e";
-const PAPER = "#f3eee3";
-const PINK_OFFSET = { x: 2.5, y: 2 };
+const INK = "#232324";
+const PAPER = "#ffffff";
 
-interface BrandMarkProps {
-  size?: number;
-  className?: string;
-}
+/** 16×16 격자의 칸 묶음 [x, y, 폭, 높이] */
+const BODY: [number, number, number, number][] = [
+  [1, 1, 14, 12], // 몸체
+  [4, 13, 8, 1], // 목
+  [2, 14, 12, 1], // 받침
+];
+const HOLES: [number, number, number, number][] = [
+  [3, 3, 10, 6], // 화면
+  [3, 10.5, 3, 1], // 디스크 슬롯
+];
 
-function RegistrationMark({ color, dx = 0, dy = 0 }: { color: string; dx?: number; dy?: number }) {
+export function BrandMark({ size = 20, className }: { size?: number; className?: string }) {
   return (
-    <g
-      transform={`translate(${dx} ${dy})`}
-      stroke={color}
-      strokeWidth="4"
-      fill="none"
-      strokeLinecap="round"
-      style={{ mixBlendMode: "multiply" }}
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 16 16"
+      shapeRendering="crispEdges"
+      aria-hidden
+      focusable="false"
     >
-      <circle cx="32" cy="32" r="13" />
-      <path d="M32 9v46M9 32h46" />
-    </g>
-  );
-}
-
-export function BrandMark({ size = 32, className }: BrandMarkProps) {
-  return (
-    <svg className={className} width={size} height={size} viewBox="0 0 64 64" aria-hidden focusable="false">
-      <rect width="64" height="64" rx="14" fill={PAPER} />
-      <RegistrationMark color={INK_PINK} dx={PINK_OFFSET.x} dy={PINK_OFFSET.y} />
-      <RegistrationMark color={INK_BLUE} />
+      {BODY.map(([x, y, w, h]) => (
+        <rect key={`b${x},${y}`} x={x} y={y} width={w} height={h} fill={INK} />
+      ))}
+      {HOLES.map(([x, y, w, h]) => (
+        <rect key={`h${x},${y}`} x={x} y={y} width={w} height={h} fill={PAPER} />
+      ))}
     </svg>
   );
 }

@@ -1,10 +1,10 @@
 .section {
   position: relative;
-  margin-top: 72px;
-  border-top: 1px solid var(--blog-line);
+  margin-top: 112px;
+  border-top: 1px solid var(--blog-strong);
 }
 
-/* ── 목록: 제목 · 날짜 두 칸, 얇은 선 ───────────── */
+/* ── 목록: 제목 · 날짜 두 칸, 얇은 선. 제목을 키우고 줄 사이를 넓혀 여백으로 리듬을 만든다 ── */
 .list {
   list-style: none;
 }
@@ -16,8 +16,8 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
-  gap: 24px;
-  padding: 14px 0;
+  gap: 32px;
+  padding: 20px 0;
   color: var(--blog-strong);
 }
 .row:hover .title,
@@ -31,10 +31,10 @@
 }
 
 .title {
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1.55;
-  letter-spacing: -0.01em;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: -0.02em;
   word-break: keep-all;
 }
 
@@ -45,6 +45,7 @@
 
 .date {
   font-size: 13px;
+  font-variant-numeric: tabular-nums;
   color: var(--blog-muted);
   white-space: nowrap;
 }
@@ -78,10 +79,14 @@
 
 @media (max-width: 740px) {
   .section {
-    margin: 56px 20px 0;
+    margin: 72px 20px 0;
   }
   .row {
     grid-template-columns: minmax(0, 1fr);
-    gap: 2px;
+    gap: 4px;
+    padding: 16px 0;
+  }
+  .title {
+    font-size: 16px;
   }
 }

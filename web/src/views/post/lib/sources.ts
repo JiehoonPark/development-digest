@@ -2,9 +2,9 @@ import type { PostData, PostSource } from "@/shared/config";
 
 const CITATION = /\[(\d+)\]/g;
 
-/** 본문·요약·해 볼 것에서 실제로 [n] 으로 인용한 출처 번호 */
+/** 화면에 보이는 본문·해 볼 것에서 실제로 [n] 으로 인용한 출처 번호(요약은 화면에 내지 않으므로 세지 않는다) */
 function citedIds(post: PostData): Set<number> {
-  const text = [post.body, ...post.tldr, ...(post.actions ?? [])].join("\n");
+  const text = [post.body, ...(post.actions ?? [])].join("\n");
   return new Set([...text.matchAll(CITATION)].map((match) => Number(match[1])));
 }
 
