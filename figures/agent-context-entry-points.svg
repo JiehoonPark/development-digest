@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="470" viewBox="0 0 900 470" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="470" fill="#f4f1ea"/>
+  <text x="32" y="40" font-size="18" font-weight="700" fill="#1d1d1f">메인 대화 컨텍스트에 무엇이 언제 들어가는가</text>
+  <text x="32" y="64" font-size="13" fill="#6b6760">Claude Code 문서 기준(2026-11-25 확인). 굵은 테두리가 메인 대화의 컨텍스트 창입니다.</text>
+
+  <!-- main context -->
+  <rect x="300" y="96" width="300" height="330" rx="10" fill="#ffffff" stroke="#1d1d1f" stroke-width="2"/>
+  <text x="450" y="122" font-size="14" font-weight="700" fill="#1d1d1f" text-anchor="middle">메인 대화</text>
+  <rect x="318" y="140" width="264" height="44" rx="6" fill="#f4f1ea" stroke="#d8d3c8"/>
+  <text x="330" y="158" font-size="12" fill="#1d1d1f">시작 때: 스킬 이름·설명 목록</text>
+  <text x="330" y="175" font-size="12" fill="#6b6760">수동 전용 스킬은 목록에서도 빠짐</text>
+  <rect x="318" y="194" width="264" height="44" rx="6" fill="#f4f1ea" stroke="#d8d3c8"/>
+  <text x="330" y="212" font-size="12" fill="#1d1d1f">시작 때: MCP 도구 이름·서버 안내</text>
+  <text x="330" y="229" font-size="12" fill="#6b6760">도구 정의 전체는 찾을 때 로드(tool search)</text>
+  <rect x="318" y="248" width="264" height="44" rx="6" fill="#ffffff" stroke="#a64d31" stroke-width="1.5"/>
+  <text x="330" y="266" font-size="12" fill="#a64d31" font-weight="700">호출 때: SKILL.md 본문</text>
+  <text x="330" y="283" font-size="12" fill="#6b6760">한 번 들어오면 이후 턴에도 남음</text>
+  <rect x="318" y="302" width="264" height="44" rx="6" fill="#ffffff" stroke="#a64d31" stroke-width="1.5"/>
+  <text x="330" y="320" font-size="12" fill="#a64d31" font-weight="700">호출 때: MCP 도구 결과</text>
+  <text x="330" y="337" font-size="12" fill="#6b6760">결과가 길수록 컨텍스트가 참</text>
+  <rect x="318" y="356" width="264" height="52" rx="6" fill="#ffffff" stroke="#a64d31" stroke-width="1.5"/>
+  <text x="330" y="376" font-size="12" fill="#a64d31" font-weight="700">끝날 때: 서브에이전트 요약만</text>
+  <text x="330" y="394" font-size="12" fill="#6b6760">긴 로그는 서브에이전트 창에 남음</text>
+
+  <!-- skill folder -->
+  <rect x="32" y="140" width="226" height="152" rx="10" fill="#ffffff" stroke="#d8d3c8"/>
+  <text x="48" y="164" font-size="14" font-weight="700" fill="#1d1d1f">스킬 폴더</text>
+  <text x="48" y="190" font-size="12" fill="#1d1d1f">SKILL.md 머리말(name·description)</text>
+  <text x="48" y="212" font-size="12" fill="#1d1d1f">SKILL.md 본문(절차)</text>
+  <text x="48" y="234" font-size="12" fill="#1d1d1f">references/·scripts/</text>
+  <text x="48" y="260" font-size="12" fill="#6b6760">참고 파일은 본문이 가리킬 때</text>
+  <text x="48" y="278" font-size="12" fill="#6b6760">필요한 만큼 읽음</text>
+  <path d="M258 186 L318 162" stroke="#6b6760" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+  <path d="M258 210 L318 270" stroke="#a64d31" stroke-width="1.5" fill="none" marker-end="url(#b)"/>
+
+  <!-- MCP server -->
+  <rect x="32" y="316" width="226" height="110" rx="10" fill="#ffffff" stroke="#d8d3c8"/>
+  <text x="48" y="340" font-size="14" font-weight="700" fill="#1d1d1f">MCP 서버(별도 프로세스)</text>
+  <text x="48" y="364" font-size="12" fill="#1d1d1f">tools/list → 도구 목록</text>
+  <text x="48" y="386" font-size="12" fill="#1d1d1f">tools/call → 실행 결과</text>
+  <text x="48" y="410" font-size="12" fill="#6b6760">권한 확인은 호출 직전에</text>
+  <path d="M258 360 L318 220" stroke="#6b6760" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+  <path d="M258 384 L318 326" stroke="#a64d31" stroke-width="1.5" fill="none" marker-end="url(#b)"/>
+
+  <!-- subagent -->
+  <rect x="642" y="140" width="226" height="268" rx="10" fill="#ffffff" stroke="#1d1d1f" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="658" y="164" font-size="14" font-weight="700" fill="#1d1d1f">서브에이전트 컨텍스트</text>
+  <text x="658" y="190" font-size="12" fill="#1d1d1f">자기 시스템 프롬프트</text>
+  <text x="658" y="212" font-size="12" fill="#1d1d1f">위임 메시지</text>
+  <text x="658" y="234" font-size="12" fill="#1d1d1f">CLAUDE.md(Explore·Plan은 제외)</text>
+  <rect x="658" y="250" width="194" height="70" rx="6" fill="#f4f1ea" stroke="#d8d3c8"/>
+  <text x="670" y="272" font-size="12" fill="#1d1d1f">검사 로그 · 검색 결과</text>
+  <text x="670" y="292" font-size="12" fill="#1d1d1f">파일 내용 …</text>
+  <text x="670" y="312" font-size="12" fill="#6b6760">메인으로 돌아가지 않음</text>
+  <text x="658" y="346" font-size="12" fill="#6b6760">메인 대화 이력은 보지 못함</text>
+  <text x="658" y="366" font-size="12" fill="#6b6760">요청은 같은 사용량 한도에서</text>
+  <text x="658" y="386" font-size="12" fill="#6b6760">따로 나감</text>
+  <path d="M642 382 L582 382" stroke="#a64d31" stroke-width="1.5" fill="none" marker-end="url(#b)"/>
+  <path d="M582 150 C 620 120, 640 120, 660 140" stroke="#6b6760" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+  <text x="604" y="112" font-size="12" fill="#6b6760">위임</text>
+
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#6b6760"/></marker>
+    <marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#a64d31"/></marker>
+  </defs>
+  <text x="32" y="452" font-size="12" fill="#6b6760">회색 화살표: 세션을 시작할 때 들어가는 것 · 붉은 화살표: 호출하거나 끝났을 때 들어가는 것</text>
+</svg>

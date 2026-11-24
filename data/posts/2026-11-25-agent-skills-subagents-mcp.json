@@ -1,0 +1,103 @@
+{
+  "slug": "2026-11-25-agent-skills-subagents-mcp",
+  "date": "2026-11-25",
+  "title": "스킬·서브에이전트·MCP, 무엇을 어디에 붙일까 — 컨텍스트와 권한 나누기",
+  "dek": "코딩 에이전트를 넓히는 세 장치를 직접 만든 스킬 폴더, 가짜 LLM 위임 실험, SDK 없는 stdio MCP 서버로 확인합니다. 무엇이 언제 컨텍스트에 들어가고, 어떤 권한과 비용이 따라오는지 나눠 봅니다.",
+  "tags": [
+    "Skills",
+    "Subagent",
+    "MCP"
+  ],
+  "readingMinutes": 24,
+  "cover": {
+    "src": "/covers/2026-11-25-agent-skills-subagents-mcp.jpg",
+    "alt": "MCP 클라이언트가 tools/call 요청으로 이슈 검색 도구를 부르는 코드 창",
+    "style": "code"
+  },
+  "tldr": [
+    "스킬은 이름과 설명만 먼저 보이고 본문은 쓸 때 읽히므로, 매번 붙여 넣던 절차를 규칙 파일에서 떼어 내는 데 맞습니다.[1][2]",
+    "서브에이전트는 자기 컨텍스트 창에서 일하고 요약만 돌려주지만, 그 요청도 같은 사용량 한도에서 따로 나갑니다.[3]",
+    "MCP는 호스트가 서버마다 클라이언트를 하나씩 두고 JSON-RPC로 tools/list와 tools/call을 주고받는 규약이며, 2026-07-28 개정판부터 요청마다 프로토콜 버전을 싣습니다.[4][5]",
+    "세 장치 모두 권한 경계가 따로 있습니다. 스킬의 allowed-tools는 도구를 제한하지 않고, 도구 주석은 신뢰하는 서버가 아니면 믿지 않아야 합니다.[1][6]"
+  ],
+  "body": "## 팀 에이전트 환경을 넓히는 일을 맡았다고 가정해 봅시다\n\n프론트엔드 팀이 코딩 에이전트를 쓰고 있고, 그 사용 범위를 넓히는 일을 맡았다고 가정해 봅시다. 설명을 위해 정한 요구사항입니다.\n\n- 배포 전 점검처럼 매번 채팅에 붙여 넣던 절차를 저장소에 두고 재사용합니다.\n- 검사 로그나 코드 검색 결과처럼 긴 출력이 메인 대화를 채우지 않게 합니다.\n- 사내 이슈 트래커를 에이전트가 직접 조회하되, 이슈를 바꾸는 동작은 사람이 확인한 뒤에만 실행합니다.\n- 추가한 장치가 사용량을 얼마나 쓰는지 설명할 수 있어야 합니다.\n\n세 요구는 각각 스킬(skill), 서브에이전트(subagent), 모델 컨텍스트 프로토콜(MCP)에 대응합니다. 셋은 컨텍스트에 들어가는 시점이 다르고, 이 차이를 놓치면 대화가 금방 차거나 의도하지 않은 권한이 열립니다.\n\n기준은 Claude Code 문서, Agent Skills 명세, MCP 명세 2026-07-28 개정판이며 2026-11-25에 확인했습니다.[5] 실습 출력은 macOS의 Node.js v22.20.0에서 실제로 실행한 결과이고, 유료 모델 API는 호출하지 않았습니다.\n\n![스킬 폴더와 MCP 서버는 시작 때 목록만, 호출 때 본문과 결과를 메인 대화에 넣고, 서브에이전트는 긴 로그를 자기 창에 두고 요약만 돌려주는 구조](/figures/agent-context-entry-points.svg \"그림 1 · 세 장치는 메인 대화에 들어가는 시점이 다르다\")\n\n## 스킬: 반복 절차를 쓸 때만 읽히게 하기\n\n### 무엇이고 언제 만드나\n\n스킬은 `SKILL.md`와 선택적인 참고 파일·스크립트를 묶은 폴더입니다. Claude Code 문서는 같은 지침을 채팅에 계속 붙여 넣을 때, 또는 `CLAUDE.md`의 한 구역이 절차로 커졌을 때 스킬을 만들라고 안내합니다.[1] 스킬 본문은 사용할 때만 읽히므로 긴 참고 자료를 두어도 필요할 때까지 비용이 거의 들지 않습니다.[1]\n\nAgent Skills 명세는 이를 점진적 공개(progressive disclosure)라고 부릅니다. 시작할 때는 `name`과 `description`만 약 100토큰 수준으로 읽고, 스킬을 활성화하면 본문을, 참고 파일은 필요할 때만 읽습니다.[2] 본문은 5000토큰 미만, `SKILL.md`는 500줄 이하를 권장합니다.[2]\n\n배포 점검 절차를 스킬로 옮기면 다음과 같습니다. 개인용은 `~/.claude/skills/<이름>/SKILL.md`, 저장소 공유용은 `.claude/skills/<이름>/SKILL.md`에 둡니다.[1]\n\n```md\n---\nname: release-check\ndescription: 배포 전 점검 절차. 사용자가 배포 준비, 릴리스 점검, 태그 전 확인을 요청할 때 사용한다.\ndisable-model-invocation: true\n---\n\n# 배포 전 점검\n\n1. `node --test` 로 단위 검사를 돌리고 실패 목록을 그대로 적는다.\n2. 변경 파일 중 `src/payments/` 가 있으면 [결제 점검표](references/payments.md)를 읽고 항목별로 확인한다.\n3. `scripts/changed-env.mjs` 를 실행해 새 환경 변수가 있는지 본다.\n4. 결과를 \"통과 / 실패 / 확인 못 함\" 세 칸으로 나눠 보고한다.\n```\n\n`disable-model-invocation: true`를 넣으면 모델이 스스로 이 스킬을 부르지 못하고, 설명도 컨텍스트 목록에서 빠집니다.[1] 문서는 `/deploy`처럼 부작용이 있거나 시점을 사람이 정해야 하는 절차에 이 설정을 쓰라고 합니다.[1]\n\n### 형식과 목록 크기를 직접 재 보기\n\n스킬 세 개를 만들고 이름 규칙과 단계별 글자 수를 세는 스크립트를 돌렸습니다. `name`은 소문자·숫자·하이픈 1~64자이고 상위 폴더 이름과 같아야 하며, `description`은 1~1024자입니다.[2] 일부러 규칙을 어긴 `legacy-context`를 섞었습니다.\n\n```text\nlegacy-context  목록  18자 · 본문  14자 · 참고   0자\n  ✗ name: 소문자·숫자·하이픈 1~64자만\n  ✗ name 과 폴더 이름이 다름(legacy-context)\n  ✗ description 이 너무 짧아 언제 쓸지 판단할 단서가 없음(권장 사항)\nrelease-check   목록   0자 · 본문 232자 · 참고 247자 · 수동 호출 전용 · ✓ 형식 통과\nui-review       목록  69자 · 본문 121자 · 참고   0자 · ✓ 형식 통과\n\n세션 시작 때 들어가는 목록: 87자 / 전부 규칙 파일에 넣었다면: 614자\n```\n\n글자 수는 토큰이 아니라 문자열 길이로 잰 근사입니다. 절차를 규칙 파일에 두면 매 세션 전부 들어가고, 스킬로 옮기면 시작 때는 짧은 목록만 남는다는 방향은 보입니다.\n\n### 자주 하는 실수\n\n설명을 \"도움\"처럼 짧게 쓰면 모델이 언제 쓸지 판단할 단서가 없습니다. 명세는 무엇을 하는지와 언제 쓰는지를 함께, 작업을 식별할 키워드를 넣어 쓰라고 합니다.[2] Claude Code는 `description`과 `when_to_use`를 합쳐 목록에서 1,536자로 자르므로 핵심 용도를 앞에 둡니다.[1]\n\n호출한 스킬 본문은 한 메시지로 대화에 들어가 이후 턴에도 남고, Claude Code는 파일을 다시 읽지 않습니다.[1] 작업 내내 지켜야 할 지침은 \"처음에 한 번\" 같은 단계가 아니라 계속 적용되는 문장으로 씁니다.\n\n> [!PITFALL] allowed-tools를 넣었는데 다른 도구도 그대로 쓴다\n> `allowed-tools`는 그 턴 동안 확인 없이 쓸 도구를 미리 허락할 뿐, 사용 가능한 도구를 줄이지 않습니다. 도구를 빼려면 `disallowed-tools`나 권한 설정의 거부 규칙을 씁니다.[1]\n\n## 서브에이전트: 긴 출력을 다른 창에 두기\n\n### 무엇이 달라지나\n\n서브에이전트는 자기 컨텍스트 창, 자기 시스템 프롬프트, 지정한 도구와 독립된 권한으로 일하고 요약만 돌려주는 보조 에이전트입니다.[3] 메인 대화 이력이나 이미 호출한 스킬, 이미 읽은 파일을 보지 못하고, 메인 쪽이 작성한 위임 메시지에서 시작합니다.[3] 그래서 위임 메시지에 필요한 조건을 직접 적어야 합니다.\n\n정의는 YAML 머리말이 있는 Markdown 파일이며, 필수 필드는 `name`과 `description`입니다.[3]\n\n```md\n---\nname: test-runner\ndescription: 검사를 실행하고 실패한 검사 이름과 오류 메시지만 보고한다. 검사 실행이나 실패 원인 조사를 요청받을 때 사용한다.\ntools: Read, Grep, Glob, Bash\nmodel: haiku\n---\n\n검사 명령을 실행하고, 실패한 검사의 이름·파일·오류 메시지만 목록으로 돌려준다.\n통과한 검사 로그는 옮기지 않는다. 파일을 고치지 않는다.\n```\n\n문서는 단순한 작업을 `model: haiku`처럼 낮은 비용의 모델로 보내 비용을 조절하라고 안내합니다.[3][7]\n\n### 가짜 LLM으로 컨텍스트 크기 비교하기\n\n40개 중 2개가 일부러 실패하는 `node --test` 검사를 돌리고, 그 로그를 두 방식으로 다룰 때 쌓이는 글자 수를 셌습니다. 모델 대신 실패한 사례 이름만 뽑는 함수를 쓰고, 요청마다 대화 전체를 다시 보낸다고 가정했습니다.\n\n```text\nA 메인에서 직접: 메인 컨텍스트 4387자 · 4번 요청에 보낸 글자 합계 16274자\nB 서브에이전트: 메인 컨텍스트 1531자 · 메인 요청 합계 4850자 + 서브에이전트 요청 3281자 = 8131자\n  돌아온 요약: 실패 2건: 할인 계산 사례 17, 할인 계산 사례 33. 나머지는 통과.\n(로그 길이 2939자, node --test 종료 코드 1)\n```\n\n같은 실험에서 후속 질문을 없애면(`FOLLOWUPS=0`) 결과가 뒤집혀, A는 3760자, B는 메인 893자와 서브에이전트 3292자를 합친 4185자였습니다.\n\n실제 토큰·요금이 아니고 프롬프트 캐시도 뺀 모형입니다. 긴 출력을 읽은 뒤 대화가 오래 이어질수록 위임의 이득이 커지고, 한 번 보고 끝나는 작업이면 서브에이전트의 시스템 프롬프트와 위임 메시지만큼 총량이 늘 수 있다는 구조만 읽으면 됩니다.\n\n### 자주 하는 실수\n\n문서는 주고받기가 잦은 작업, 빠른 수정, 지연 시간이 중요한 작업은 메인 대화에 두라고 합니다.[3] 여러 서브에이전트가 자세한 결과를 돌려주면 그 결과가 다시 메인 컨텍스트를 채웁니다.[3]\n\n도구 목록도 오해하기 쉽습니다. `tools: Read, Grep, Glob, Bash`로 제한해도 Edit·Write가 없을 뿐 Bash로 파일을 바꿀 수 있습니다.[3] `disallowedTools`에 `Bash(git push *)`를 적으면 해당 명령만이 아니라 Bash 도구 전체가 빠지므로, 특정 명령만 막으려면 권한 설정의 Bash 거부 규칙을 씁니다.[3]\n\n## MCP: 외부 도구를 프로토콜로 붙이기\n\n### 호스트·클라이언트·서버\n\nMCP에서 Claude Code 같은 AI 애플리케이션은 호스트(host)이고, 호스트는 연결하는 서버마다 MCP 클라이언트를 하나씩 만듭니다.[4] 서버는 실행 위치와 관계없이 컨텍스트를 제공하는 프로그램이며, 같은 기계에서 표준 입출력으로 붙는 stdio와 원격용 Streamable HTTP 두 전송 방식이 있습니다.[4]\n\n데이터 계층은 JSON-RPC 2.0이고, 서버는 도구(tools)·리소스(resources)·프롬프트(prompts)를 제공합니다.[4] 클라이언트는 `tools/list`로 도구를 찾아 모델에 넘기고, 모델이 고른 도구를 `tools/call`로 실행합니다.[4]\n\n![호스트 안의 MCP 클라이언트가 server/discover와 tools/list를 보내고, 모델이 고른 도구를 권한 확인 뒤 tools/call로 실행하는 순서](/figures/mcp-stdio-message-flow.svg \"그림 2 · 모델은 도구를 고르고, 실행 여부는 호스트가 정한다\")\n\n2026-07-28 개정판은 `initialize` 핸드셰이크를 없애고, 모든 요청의 `_meta`에 프로토콜 버전과 클라이언트 기능을 싣게 바꿨습니다.[5] 서버는 지원 버전과 기능을 알려 주는 `server/discover`를 반드시 구현해야 합니다.[5]\n\n### SDK 없이 최소 서버 만들기\n\n메시지 모양을 보려고 SDK 없이 stdio 서버를 만들었습니다. 도구 정의는 `name`, `description`, `inputSchema`, 선택 항목인 `annotations`로 이루어집니다.[6] 아래는 서버의 핵심만 옮긴 것입니다.\n\n```js\nconst tools = [\n  {\n    name: \"search_issues\",\n    description: \"이슈 제목에서 검색어를 찾는다. 상태(open/closed)로 거를 수 있다.\",\n    inputSchema: {\n      type: \"object\",\n      properties: {\n        query: { type: \"string\" },\n        status: { type: \"string\", enum: [\"open\", \"closed\"] },\n      },\n      required: [\"query\"],\n      additionalProperties: false,\n    },\n    annotations: { readOnlyHint: true },\n  },\n  // close_issue: readOnlyHint false\n];\n```\n\n요청마다 `_meta`의 `io.modelcontextprotocol/protocolVersion`을 확인하고, 지원하지 않는 버전이면 `-32022` 오류로 거절하게 했습니다. 클라이언트는 서버를 자식 프로세스로 띄우고 stdin에 한 줄씩 요청을 씁니다.\n\n```js\nconst found = await request(\"tools/call\", {\n  name: \"search_issues\",\n  arguments: { query: \"결제\", status: \"open\" },\n});\n```\n\n실행 결과입니다.\n\n```text\nserver/discover → {\"resultType\":\"complete\",\"supportedVersions\":[\"2026-07-28\"],...\ntools/list → search_issues(readOnly=true), close_issue(readOnly=false)\ntools/call search_issues → {\"issues\":[{\"id\":101,\"title\":\"결제 버튼 두 번 눌림\",\"status\":\"open\"},{\"id\":102,\"title\":\"결제 완료 후 장바구니가 비지 않음\",\"status\":\"open\"}]}\ntools/call close_issue(999) → isError=true 이슈 999 가 없습니다. search_issues 로 번호를 먼저 확인하세요\ntools/call delete_repo → {\"code\":-32602,\"message\":\"Unknown tool: delete_repo\"}\n[issues-demo] stdin 닫힘 → 종료\n```\n\n오류가 두 갈래로 나온 것은 명세를 따른 결과입니다. 없는 도구 같은 요청 구조 문제는 JSON-RPC 오류로, 잘못된 인자 같은 실행 오류는 결과 안의 `isError: true`로 돌려줍니다.[6] 명세는 실행 오류를 모델에 넘겨 스스로 고치게 하라고 권하므로, 메시지에 다음 행동을 적어 두면 쓸모가 있습니다.[6]\n\n### 에이전트에 연결하는 설정\n\nClaude Code에서는 `--` 뒤에 서버 실행 명령을 둡니다.[8] `--scope project`로 추가하면 저장소 루트의 `.mcp.json`에 기록되어 팀이 같은 서버를 씁니다.[8]\n\n```bash\nclaude mcp add --transport stdio --scope project issues -- node mcp/issues-server.mjs\n```\n\nCodex는 `config.toml`의 `[mcp_servers.<이름>]` 표에 적고, `default_tools_approval_mode = \"writes\"`로 두면 읽기 전용으로 표시되지 않은 도구에만 확인을 요청합니다.[9] 두 설정은 문서 형식대로 쓴 예시이고, 실제 세션에 이 데모 서버를 붙여 보지는 않았습니다.\n\n## 실무에서 부딪히는 문제\n\n### 서버가 붙었는데 응답이 깨진다\n\n증상은 클라이언트가 JSON이 아닌 줄을 받는 것입니다. stdio 서버는 stdout에 유효한 MCP 메시지 외에는 아무것도 쓰면 안 되고, 로그는 stderr로 보내야 합니다.[10] 데모 서버에 `console.log` 디버그 줄을 섞어 돌리자 요청마다 `! JSON 이 아닌 줄을 받음: \"[debug] got 253 bytes\"` 같은 줄이 끼어들었습니다. 데모 클라이언트는 그 줄을 버려서 동작했지만 모든 클라이언트가 그렇다는 보장은 없으니, 로그는 `console.error`로 옮깁니다.\n\n### 버전이 맞지 않아 첫 요청에서 끊긴다\n\n이전 개정판 클라이언트처럼 `initialize`부터 보내면, 데모 서버는 `_meta`에 버전이 없으므로 `-32022` `Unsupported protocol version` 오류로 바로 거절했습니다. 명세의 호환 표도 이전 개정판만 아는 클라이언트와 새 개정판만 아는 서버의 조합은 실패한다고 적습니다.[11] 오래 쓸 서버라면 두 시대를 모두 받는 구현을 고려합니다.\n\n### 도구 주석을 권한으로 믿는다\n\n`readOnlyHint` 같은 주석은 서버가 스스로 붙이는 설명입니다. 명세는 신뢰하는 서버가 아니면 도구 주석을 믿지 말라고 하고, 사람이 도구 호출을 거부할 수 있어야 한다고 권합니다.[6] 외부 콘텐츠를 가져오는 서버는 프롬프트 주입 위험이 있다는 경고도 있습니다.[8]\n\n그래서 바꾸는 도구는 호스트 권한 규칙으로 따로 묶습니다. Claude Code 권한 규칙은 `mcp__<server>__<tool>` 형식으로 도구 하나를, `mcp__<server>__*`로 서버 전체를 가리킵니다.[12]\n\n```json\n{\n  \"permissions\": {\n    \"allow\": [\"mcp__issues__search_issues\"],\n    \"ask\": [\"mcp__issues__close_issue\"]\n  }\n}\n```\n\n서버 쪽 책임도 남습니다. 명세는 서버가 모든 입력을 검증하고, 접근 제어와 호출 횟수 제한을 두고, 출력을 정리해야 한다고 정합니다.[6]\n\n### 비대화형 실행에서 승인 없이 서버가 붙는다\n\n대화형 세션은 `.mcp.json`의 프로젝트 서버를 쓰기 전에 승인을 묻지만, `claude -p`나 Agent SDK 세션은 묻지 않고 불러옵니다.[8] CI라면 `--strict-mcp-config`로 넘긴 설정만 쓰게 합니다.[8] 스킬의 `allowed-tools`도 신뢰하지 않은 폴더의 `-p` 실행에서 적용되므로 저장소에 들어온 스킬을 검토합니다.[1]\n\n### 사용량이 어디서 늘었는지 모른다\n\nMCP 도구 정의는 기본으로 지연 로드되어 시작 때는 도구 이름과 서버 안내만 들어갑니다.[8] 도구 결과는 그대로 들어오며, Claude Code는 MCP 출력이 10,000토큰을 넘으면 경고하고 기본 상한은 25,000토큰입니다.[8] 비용 문서는 `gh` 같은 CLI가 도구 목록을 늘리지 않아 MCP보다 컨텍스트 효율이 좋다고 하고, 쓰지 않는 서버는 끄라고 권합니다.[7]\n\n요금제 사용자는 `/usage`에서 스킬, 서브에이전트, 플러그인, MCP 서버별 사용 비중을 볼 수 있습니다.[7] 장치를 붙인 뒤 이 비중을 보는 편이 추측보다 정확합니다.\n\n## 정리\n\n| 기준 | 스킬 | 서브에이전트 | MCP 서버 |\n| --- | --- | --- | --- |\n| 해결하는 문제 | 반복 절차·참고 자료 | 긴 출력·독립 작업 격리 | 외부 시스템 조회·조작 |\n| 시작 때 들어가는 것 | 이름·설명 | 설명 | 도구 이름·서버 안내 |\n| 실행 중 늘어나는 것 | 본문(이후 턴에도 남음) | 돌아온 요약 | 도구 결과 |\n| 추가 요청 | 없음 | 서브에이전트 자기 요청 | 서버 쪽 처리 |\n| 권한 경계 | allowed-tools는 허락만, 제한은 거부 규칙 | tools·disallowedTools, Bash 주의 | 호스트 권한 규칙 + 서버 입력 검증 |\n| 맞지 않는 경우 | 매번 필요한 사실 | 주고받기 잦은 작업 | CLI로 충분한 작업 |\n\n- **같은 절차를 세 번 이상 붙여 넣었다면** 스킬로 옮깁니다. 부작용이 있는 절차는 `disable-model-invocation: true`로 사람이 부를 때만 실행하게 합니다.\n- **출력은 길고 필요한 것은 결론뿐이라면** 서브에이전트에 맡깁니다. 한 번 보고 끝나는 짧은 작업이면 메인 대화가 더 쌉니다.\n- **복사해 붙이던 외부 데이터를 에이전트가 직접 읽어야 한다면** MCP 서버를 붙입니다. 이미 잘 쓰는 CLI가 있으면 그것부터 씁니다.\n- **바꾸는 도구가 생겼다면** 서버 주석이 아니라 호스트 권한 규칙으로 확인 단계를 둡니다.\n\n### 새 프로젝트에 붙이는 순서\n\n1. 규칙 파일에는 매번 필요한 사실만 남기고, 절차는 스킬로 옮깁니다.\n2. 긴 출력이 나오는 작업 하나를 읽기 도구만 준 서브에이전트로 시험합니다.\n3. MCP 서버는 읽기 도구부터 붙이고, 바꾸는 도구는 `ask` 규칙과 함께 추가합니다.\n4. `/usage`의 장치별 비중을 보고 쓰지 않는 스킬·서버를 정리합니다.\n\n세 장치는 서로를 대신하지 않습니다. 무엇을 미리 보여 주고, 무엇을 다른 창에 두고, 무엇을 사람이 확인할지 정하는 일이 장치를 늘리는 일보다 먼저입니다.",
+  "actions": [
+    "채팅에 반복해서 붙여 넣던 절차 하나를 골라 `SKILL.md`로 옮기고, 이름이 폴더 이름과 같은지와 설명에 사용 시점이 들어 있는지 확인해 보세요.[2]",
+    "쓰고 있는 MCP 서버의 도구 중 상태를 바꾸는 도구를 찾아 `mcp__<server>__<tool>` 형식의 `ask` 규칙을 추가해 보세요.[12]",
+    "직접 만든 stdio 서버가 있다면 `console.log`가 stdout에 섞이지 않는지 확인하고 로그를 stderr로 옮겨 보세요.[10]"
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "Extend Claude with skills - Claude Code Docs",
+      "publisher": "code.claude.com",
+      "url": "https://code.claude.com/docs/en/skills"
+    },
+    {
+      "id": 2,
+      "title": "Specification - Agent Skills",
+      "publisher": "agentskills.io",
+      "url": "https://agentskills.io/specification"
+    },
+    {
+      "id": 3,
+      "title": "Create custom subagents - Claude Code Docs",
+      "publisher": "code.claude.com",
+      "url": "https://code.claude.com/docs/en/sub-agents"
+    },
+    {
+      "id": 4,
+      "title": "Architecture overview",
+      "publisher": "Model Context Protocol",
+      "url": "https://modelcontextprotocol.io/docs/learn/architecture"
+    },
+    {
+      "id": 5,
+      "title": "Key Changes - Model Context Protocol",
+      "publisher": "modelcontextprotocol.io",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/changelog"
+    },
+    {
+      "id": 6,
+      "title": "Tools - Model Context Protocol",
+      "publisher": "modelcontextprotocol.io",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools"
+    },
+    {
+      "id": 7,
+      "title": "Manage costs effectively - Claude Code Docs",
+      "publisher": "code.claude.com",
+      "url": "https://code.claude.com/docs/en/costs"
+    },
+    {
+      "id": 8,
+      "title": "Connect Claude Code to tools via MCP - Claude Code Docs",
+      "publisher": "code.claude.com",
+      "url": "https://code.claude.com/docs/en/mcp"
+    },
+    {
+      "id": 9,
+      "title": "Model Context Protocol | ChatGPT Learn",
+      "publisher": "developers.openai.com",
+      "url": "https://developers.openai.com/codex/mcp"
+    },
+    {
+      "id": 10,
+      "title": "stdio - Model Context Protocol",
+      "publisher": "modelcontextprotocol.io",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/stdio"
+    },
+    {
+      "id": 11,
+      "title": "Versioning and Compatibility - Model Context Protocol",
+      "publisher": "modelcontextprotocol.io",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/versioning"
+    },
+    {
+      "id": 12,
+      "title": "Configure permissions - Claude Code Docs",
+      "publisher": "code.claude.com",
+      "url": "https://code.claude.com/docs/en/permissions"
+    }
+  ]
+}
