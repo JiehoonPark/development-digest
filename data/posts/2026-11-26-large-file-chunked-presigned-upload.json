@@ -1,0 +1,109 @@
+{
+  "slug": "2026-11-26-large-file-chunked-presigned-upload",
+  "date": "2026-11-26",
+  "title": "대용량 파일 업로드, 파트로 잘라 스토리지에 바로 올리고 끊기면 이어 올리기",
+  "dek": "300 MiB 파일을 앱 서버로 그대로 받을 때 메모리가 어떻게 되는지 재 보고, 파일을 8 MiB 파트로 잘라 사전 서명 URL로 스토리지에 직접 올리는 방식으로 바꿉니다. 진행률, 일시정지, 새로고침 뒤 이어 올리기와 배포 뒤 만나는 오류까지 로컬 데모로 실행해 봅니다.",
+  "tags": [
+    "Blob.slice",
+    "multipart",
+    "presigned URL"
+  ],
+  "readingMinutes": 23,
+  "cover": {
+    "src": "/covers/2026-11-26-large-file-chunked-presigned-upload.jpg",
+    "alt": "파일을 파트 크기만큼 slice로 잘라 배열에 담는 업로드 코드 커버",
+    "style": "code"
+  },
+  "tldr": [
+    "파일은 Blob이라 slice()로 원본을 바꾸지 않고 바이트 범위만 떼어 낸 새 Blob을 얻을 수 있고, 이것이 파트 업로드의 출발점입니다.[1][2]",
+    "S3 멀티파트 업로드는 시작, 파트 올리기, 완료의 세 단계이고, 파트는 따로 어떤 순서로든 올릴 수 있으며 실패한 파트만 다시 보내면 됩니다.[3]",
+    "사전 서명 URL을 쓰면 상대에게 AWS 자격 증명을 주지 않고도 업로드를 허락할 수 있어, 앱 서버는 파일 바이트를 받지 않고 허락만 내줍니다.[4]",
+    "완료하거나 중단하기 전까지 올린 파트는 저장 비용이 계속 나가므로, 미완료 업로드를 지우는 수명 주기 규칙을 같이 둡니다.[3][5]"
+  ],
+  "body": "## 300 MiB 동영상 업로드를 맡았다고 가정해 봅시다\n\n강의 영상을 올리는 관리자 화면의 업로드 기능을 맡았다고 가정해 봅시다. 설계를 설명하려고 정한 요구사항입니다.\n\n- 수백 MiB짜리 파일도 올릴 수 있어야 합니다.\n- 진행률이 보이고, 사용자가 일시정지했다가 이어 올릴 수 있습니다.\n- 와이파이가 끊기거나 탭을 새로고침해도 처음부터 다시 올리지 않습니다.\n- 업로드가 몰려도 앱 서버(API 서버)의 메모리가 버텨야 합니다.\n\n파일을 `fetch` 요청 하나로 보내면 위 네 가지를 하나도 지키지 못합니다. 끊기면 처음부터 다시 보내야 하고, 앱 서버가 그 바이트를 전부 받아 줘야 합니다. 그래서 먼저 앱 서버가 파일을 직접 받을 때 메모리가 얼마나 드는지 재고, 그다음 파일을 파트로 잘라 스토리지에 바로 올리는 구조로 옮깁니다.\n\n데모는 제 맥에서 실제로 돌린 것입니다. 스토리지는 S3 멀티파트 업로드와 같은 생김새로 만든 로컬 Node.js 서버이고, 서명은 HMAC 하나로 흉내 냈습니다. 진행이 눈에 보이도록 연결당 초당 20 MiB로 늦췄으므로 로그의 시간은 성능 측정이 아닙니다.\n\n![브라우저가 앱 서버에서 uploadId와 파트별 서명 URL을 받고, 파일 바이트는 스토리지로 직접 PUT 한 뒤, 번호와 ETag 목록으로 완료를 요청하는 흐름](/figures/presigned-multipart-upload.svg \"그림 1 · 앱 서버는 허락만 하고, 파일 바이트는 스토리지로 바로 간다\")\n\n## 앱 서버가 파일을 받으면 메모리부터 찹니다\n\n### 다 모은 뒤 저장하기와 흘려 쓰기\n\n앱 서버가 업로드를 받는 가장 쉬운 방법은 요청 본문을 전부 모은 뒤 한 번에 저장하는 것입니다. 다른 방법은 받는 대로 파일에 흘려 쓰는 것입니다.\n\n```js\n// 1) 다 모은 뒤 저장\nconst chunks = [];\nfor await (const c of req) chunks.push(c);\nconst body = Buffer.concat(chunks);\nwriteFileSync(`${DATA}buffered.bin`, body);\n\n// 2) 받는 대로 흘려 쓰기\nawait pipeline(req, createWriteStream(`${DATA}stream.bin`));\n```\n\n`pipeline`은 스트림들을 이어 주면서 오류를 전달하고, 끝나면 정리까지 해 주는 Node.js 함수입니다.[6] 300 MiB 파일을 한 번에 보내고, 처리하는 동안 서버 프로세스의 메모리를 20ms마다 읽어 가장 높은 값을 적었습니다. 제 맥의 Node.js에서 방식마다 서버를 새로 띄워 세 번씩 재서, 한 번 튄 값에 휘둘리지 않도록 가운데 값을 적었습니다.\n\n```text\nbuffered 받은 바이트 314572800 · 시작 RSS 50.4 MB · 최고 RSS 331.2 MB · 최고 arrayBuffers 266.9 MB\n         세 번의 최고 RSS: 331.2, 362.2, 315.0\nstream   받은 바이트 314572800 · 시작 RSS 50.5 MB · 최고 RSS 99.9 MB · 최고 arrayBuffers 29.8 MB\n         세 번의 최고 RSS: 100.1, 98.4, 99.9\n```\n\nRSS는 프로세스가 실제로 차지한 메모리이고, 여기서 MB는 1024×1024바이트 단위입니다. 다 모으는 방식은 파일 크기만큼 메모리가 늘었고, 흘려 쓰는 방식은 시작보다 50 MB쯤 늘어나는 데 그쳤습니다. 업로드가 동시에 몰리면 앞의 방식은 그만큼 곱해집니다.\n\n### 흘려 쓰기가 버티는 이유\n\n흘려 쓰기가 버티는 것은 배압(backpressure) 덕분입니다. 받는 쪽이 느리면 보내는 쪽 데이터가 버퍼 뒤에 쌓이는데, 스트림은 이 흐름을 조절해 메모리가 쌓이지 않게 합니다.[6] `write()`가 `false`를 돌려주면 `'drain'` 이벤트가 올 때까지 더 쓰지 말아야 하고, 이를 무시하면 Node.js는 메모리 한계까지 버퍼에 쌓다가 결국 중단합니다.[7]\n\n> [!PITFALL] 업로드가 몰릴 때만 서버가 재시작됩니다\n> 업로드 처리기에서 요청 본문 조각을 배열에 모아 `Buffer.concat`으로 합치는 식의 코드를 찾습니다. 받는 대로 저장소로 흘려 쓰도록 바꾸고, `write()`의 반환값을 무시하는 직접 구현이 있으면 `pipeline`으로 바꿉니다.[6][7]\n\n흘려 쓰기로 메모리는 지켰지만 파일 바이트는 여전히 전부 앱 서버를 지나가고, 끊기면 처음부터 다시 받아야 합니다. 그래서 다음 단계는 바이트가 앱 서버를 아예 지나가지 않게 하는 것입니다.\n\n## 파일을 파트로 잘라 스토리지에 바로 올리기\n\n### Blob.slice로 바이트 범위 떼어 내기\n\n브라우저에서 고른 파일은 `File` 객체이고, `File`은 `Blob`을 바탕으로 만든 인터페이스입니다.[2] `Blob`의 `slice()`는 호출한 Blob의 일부 바이트를 담은 새 Blob을 돌려주고, 원본은 바꾸지 않습니다.[1] `end` 위치의 바이트는 포함하지 않고, 음수는 끝에서부터 센 위치입니다.[1]\n\n```js\nconst PART = 10;\nconst parts = [];\nfor (let start = 0; start < file.size; start += PART) {\n  parts.push(file.slice(start, start + PART));\n}\n```\n\n23바이트짜리 파일로 확인한 결과입니다. Node.js 22에도 전역 `File`·`Blob`이 있어 그대로 돌렸습니다.\n\n```text\n파트 크기: [ 10, 10, 3 ]\n마지막 파트 내용: [ 20, 21, 22 ]\n원본 크기 그대로: 23\n범위를 넘긴 start: 0\n음수 start(-3): [ 20, 21, 22 ]\nslice 결과의 type: \"\"\n```\n\n`end`가 파일 크기를 넘어도 남은 바이트만 담기므로 마지막 파트를 따로 처리할 필요가 없습니다. `contentType`을 넘기지 않으면 새 Blob의 `type`은 빈 문자열입니다.[1]\n\n### S3 멀티파트 업로드의 세 단계\n\nS3 멀티파트 업로드는 객체 하나를 여러 파트로 나눠 올리는 방식입니다. 파트는 서로 독립적으로, 어떤 순서로든 올릴 수 있고, 한 파트가 실패하면 그 파트만 다시 보내면 됩니다.[3] AWS 문서는 객체가 100 MB 이상이면 한 번에 올리는 대신 멀티파트 업로드를 쓰라고 권합니다.[3]\n\n흐름은 시작, 파트 올리기, 완료의 세 단계입니다.[3] 시작하면 업로드 ID(`uploadId`)를 받고, 파트를 올릴 때마다 응답의 ETag를 파트 번호와 함께 기록해 두었다가 완료 요청에 그 목록을 넣습니다.[3] S3는 파트 번호 오름차순으로 파트를 이어 붙여 객체를 만듭니다.[3]\n\n파트 번호는 1부터 10,000까지이고, 파트 크기는 5 MiB에서 5 GiB이며 마지막 파트만 최소 크기 제한이 없습니다.[8] 데모는 8 MiB로 잘라 300 MiB 파일이 38개 파트가 됐습니다. 같은 크기로 100 GiB를 자르면 12,800개가 되어 한도를 넘으므로, 파일 크기에 맞춰 파트 크기를 키워야 합니다.\n\n### 사전 서명 URL로 허락만 내주기\n\n사전 서명 URL(presigned URL)은 만든 사람의 권한으로 정해진 동작을 정해진 시간 동안 허락하는 URL입니다. 받는 쪽은 AWS 자격 증명 없이도 그 URL로 객체를 올릴 수 있습니다.[4] 데모 앱 서버는 브라우저가 보낼 파트 번호 목록을 받아, 파트마다 업로드 ID·파트 번호·만료 시각을 넣고 서명한 URL을 돌려줍니다.\n\n데모의 서명은 HMAC 하나로 만든 흉내입니다. 실제로는 AWS SDK로 URL을 만들고, AWS CLI나 SDK로 만들면 만료 시간을 최대 7일까지 줄 수 있습니다.[9] 브라우저는 받은 URL로 파트를 `PUT` 하고 응답 헤더의 ETag를 읽습니다.\n\n```js\nfunction putPart(url, blob, onProgress) {\n  const xhr = new XMLHttpRequest();\n  const promise = new Promise((resolve, reject) => {\n    xhr.open(\"PUT\", url);\n    xhr.upload.addEventListener(\"progress\", (e) => onProgress(e.loaded));\n    xhr.addEventListener(\"load\", () => {\n      if (xhr.status !== 200) return reject(new Error(`HTTP ${xhr.status} ${xhr.responseText}`));\n      resolve(xhr.getResponseHeader(\"ETag\"));\n    });\n    xhr.addEventListener(\"error\", () => reject(new Error(\"network\")));\n    xhr.addEventListener(\"abort\", () => reject(new Error(\"aborted\")));\n    xhr.send(blob);\n  });\n  return { promise, abort: () => xhr.abort() };\n}\n```\n\n`fetch` 대신 `XMLHttpRequest`를 쓴 이유는 올리는 쪽 진행률 때문입니다. `xhr.upload`는 업로드 진행 상황을 지켜볼 수 있는 객체를 돌려주고, 그 객체의 `progress` 이벤트가 지금까지 보낸 양을 주기적으로 알려 줍니다.[10][11] 데모에서 300 MiB를 파트 세 개씩 동시에 보내자 6.5초 뒤 완료됐고, 스토리지가 이어 붙인 파일의 SHA-256이 원본과 같았습니다.\n\n## 진행률, 일시정지, 새로고침 뒤 이어 올리기\n\n### 진행률은 끝난 파트와 보내는 중인 파트를 더해 계산합니다\n\n파트를 동시에 여러 개 보내면 `progress` 이벤트도 파트마다 따로 옵니다. 그래서 끝난 파트의 크기와 보내는 중인 파트들의 `loaded`를 더해 전체 진행률을 냅니다.\n\n일시정지는 보내던 요청을 끊는 것입니다. 데모는 `abort()`로 요청을 끊고, 업로드가 중단되면 업로드 객체에 `abort` 이벤트가 옵니다.[10]\n\n30%쯤에서 일시정지를 누른 화면입니다. 9번까지 파트가 끝났고, 보내던 10~12번은 취소되어 빈 칸으로 돌아갔습니다.\n\n![진행률 막대가 24.0%에 멈춰 있고, 1~9번 파트 칸만 진하게 칠해진 데모 화면](/figures/large-upload-paused.png \"그림 2 · 일시정지하면 보내던 파트의 진행분은 버려진다\")\n\n```text\n일시정지 직전: 92.8 / 300.0 MiB · 30.9% · 끝난 파트 9/38 · 보내는 중 3\n일시정지 직후: 72.0 / 300.0 MiB · 24.0% · 끝난 파트 9/38 · 보내는 중 0\n이어 올리기 0.4초 뒤: 92.6 / 300.0 MiB · 30.9% · 끝난 파트 9/38 · 보내는 중 3\n```\n\n막대가 30.9%에서 24.0%로 물러났습니다. 반쯤 보낸 파트는 처음부터 다시 보내므로, 파트가 클수록 일시정지와 재시도 때 버리는 양이 커집니다.\n\n### 새로고침해도 이어 올리려면 기록을 남깁니다\n\n새로고침하면 페이지의 변수와 진행 중이던 요청이 모두 사라집니다. 데모는 파트가 끝날 때마다 `uploadId`와 파트 번호·ETag 목록을 `localStorage`에 남기고, 키는 파일 이름·크기·수정 시각으로 만듭니다.\n\n```js\nsave() {\n  localStorage.setItem(this.storageKey, JSON.stringify({\n    uploadId: this.uploadId, key: this.key, partSize: this.partSize, parts: [...this.done],\n  }));\n}\n```\n\n다시 시작할 때 기록이 있으면 새 업로드를 만들지 않고, 기록한 파트를 끝난 것으로 둔 채 나머지만 보냅니다.\n\nS3에도 올라간 파트를 나열하는 기능이 있지만, AWS 문서는 그 목록을 확인용으로만 쓰고 완료 요청에는 직접 기록한 파트 번호와 ETag 목록을 쓰라고 합니다.[3] 목록 요청은 한 번에 최대 1,000개 파트까지 돌려주고, 아직 다 올라가지 않은 파트는 포함하지 않습니다.[3]\n\n45%쯤에서 새로고침하고 같은 파일을 다시 고른 결과입니다. 새로고침하면 `File` 객체도 사라지므로 사용자가 파일을 다시 골라야 합니다.\n\n```text\n새로고침 직전: 135.7 / 300.0 MiB · 45.2% · 끝난 파트 15/38 · 보내는 중 3\n   526ms 이어 올리기: uploadId=a6fe8715, 기록한 파트 15개 · 스토리지 확인 15개\n같은 파일을 다시 고른 직후: 158.8 / 300.0 MiB · 52.9% · 끝난 파트 18/38 · 보내는 중 3\n원본 sha256 일치: true\n```\n\n![새로고침 뒤 같은 파일을 다시 고르자 1~15번 파트가 이미 끝난 상태로 시작해 16번부터 이어 올리는 데모 화면](/figures/large-upload-resumed.png \"그림 3 · 기록해 둔 uploadId로 끝난 파트를 건너뛰고 이어 올린다\")\n\nS3에 묶이지 않는 방법도 있습니다. tus는 HTTP 위에서 끊긴 업로드를 이어 올리는 공개 프로토콜로, `HEAD` 요청으로 서버가 받은 바이트 위치(`Upload-Offset`)를 묻고 그 위치부터 `PATCH`로 나머지를 보냅니다.[12]\n\n## 배포 뒤 부딪히는 네 가지 문제\n\n### 파트는 올라가는데 ETag를 읽지 못합니다\n\n**증상:** 네트워크 탭에는 200이 찍히는데 완료 단계로 못 갑니다. 데모 콘솔에는 이런 줄이 남았습니다.\n\n```text\nRefused to get unsafe header \"ETag\"\n   500ms 실패: ETag를 읽을 수 없음(CORS ExposeHeaders 확인)\n```\n\n**원인:** 다른 출처의 응답 헤더는 서버가 노출을 허락한 것만 자바스크립트에서 읽을 수 있고, S3에서는 CORS 설정의 `ExposeHeader`가 그 목록입니다.[13]\n\n**대응:** 버킷 CORS 설정의 `ExposeHeaders`에 `ETag`를 넣습니다. 데모 스토리지에서 이 헤더 노출을 끄자 첫 파트에서 바로 실패했고, 켜자 정상으로 끝났습니다.\n\n### 큰 파일의 뒤쪽 파트만 거절됩니다\n\n**증상:** 작은 파일은 되는데 큰 파일은 중간부터 파트가 거절됩니다. **원인 후보:** 업로드를 시작할 때 모든 파트의 URL을 한꺼번에 받았고, 뒤쪽 파트를 보낼 때쯤 URL이 만료됐습니다. S3 콘솔에서 만드는 URL의 만료는 1분에서 12시간 사이이고, 임시 자격 증명으로 만든 URL은 그 자격 증명이 만료되면 함께 만료됩니다.[9]\n\n**대응:** 만료 오류를 받은 파트만 새 URL을 받아 다시 보냅니다. 데모 앱 서버가 URL을 3초짜리로 발급하게 바꿔 돌린 결과입니다.\n\n```text\n  3478ms 파트 22: URL 만료 → 새 URL 받아 다시\n  ...(23~38번도 같은 방식으로 다시)\n  6727ms 완료: 1795643418085-big.bin 314572800바이트\n원본 sha256 일치: true\n```\n\nURL을 처음부터 길게 주면 이 문제는 줄지만, 새어 나간 URL을 쓸 수 있는 시간도 길어집니다.\n\n### 한 파트만 500으로 실패합니다\n\n**증상:** 대부분의 파트는 성공했는데 하나가 서버 오류로 실패합니다. **대응:** 그 파트만 다시 보냅니다. 같은 파트 번호로 다시 올리면 이전 파트를 덮어쓰므로 중복이 생기지 않습니다.[3] 데모 스토리지가 12번 파트의 첫 시도에만 500을 돌려주게 했습니다.\n\n```text\n  1939ms 파트 12: HTTP 500 {\"error\":\"InternalError\"} → 2번째 시도\n  6434ms 완료: 1795643410802-big.bin 314572800바이트\n원본 sha256 일치: true\n```\n\n### 버킷 저장 비용이 이유 없이 늘어납니다\n\n**증상:** 객체 목록에는 보이지 않는데 저장 용량 비용이 늘어납니다. **원인 후보:** 사용자가 탭을 닫고 떠난 미완료 멀티파트 업로드입니다. 멀티파트 업로드는 시작한 뒤 만료가 없고, 완료하거나 중단하기 전까지 올린 파트의 저장 비용이 계속 나갑니다.[3]\n\n**대응:** 사용자가 취소를 누르면 업로드를 중단하고, 그래도 남는 것은 버킷 수명 주기 규칙의 `AbortIncompleteMultipartUpload`로 지웁니다. AWS 문서의 예시는 `DaysAfterInitiation`을 7로 두어 시작 후 7일이 지난 미완료 업로드를 지웁니다.[5]\n\n이 규칙을 두면 `localStorage`의 `uploadId`가 이미 지워진 업로드를 가리킬 수 있으니, 이어 올리기 전에 업로드가 남아 있는지 확인하고 없으면 새로 시작합니다.\n\n## 정리\n\n| 기준 | 앱 서버가 다 모아 저장 | 앱 서버가 흘려 쓰기 | 사전 서명 URL + 멀티파트 |\n| --- | --- | --- | --- |\n| 앱 서버 메모리(데모, 300 MiB) | 최고 RSS 331.2 MB | 최고 RSS 99.9 MB | 파일 바이트를 받지 않음 |\n| 끊겼을 때 | 처음부터 | 처음부터 | 끝나지 않은 파트만 |\n| 진행률·일시정지 | 요청 하나 단위 | 요청 하나 단위 | 파트 단위로 이어 감 |\n| 앱 서버가 할 일 | 받기·저장 | 받기·흘려 쓰기 | 권한 확인·URL 발급·완료 전달 |\n| 추가로 챙길 것 | 크기 제한 | 배압 처리[6] | CORS 헤더 노출[13], URL 만료[9], 미완료 정리[5] |\n\n- **파일이 수 MiB 이하이고 끊겨도 다시 올리면 된다면** 사전 서명 URL 하나로 한 번에 `PUT` 합니다.\n- **앱 서버가 파일 내용을 바로 검사하거나 변환해야 한다면** 앱 서버로 받되 흘려 쓰기로 받습니다.\n- **100 MB를 넘는 파일을 이어 올려야 한다면** 사전 서명 URL과 멀티파트 업로드를 고릅니다.[3] 파트 크기는 파트 수 한도 10,000개 안에 들도록 파일 크기에 맞춰 정합니다.[8]\n- **스토리지를 S3에 묶고 싶지 않다면** 바이트 위치로 이어 가는 tus 같은 프로토콜을 검토합니다.[12]",
+  "actions": [
+    "지금 서비스의 업로드 처리기에 요청 본문 전체를 메모리에 모으는 코드가 있는지 찾고, 300 MiB 파일을 올리며 서버 메모리를 기록해 봅니다.",
+    "스토리지 버킷의 CORS 설정에 ETag가 노출돼 있는지, 미완료 멀티파트 업로드를 지우는 수명 주기 규칙이 있는지 확인합니다.",
+    "업로드 중에 새로고침했을 때 몇 퍼센트에서 다시 시작하는지 직접 눌러 보고, 처음부터라면 uploadId와 파트 목록을 어디에 남길지 정합니다."
+  ],
+  "sources": [
+    {
+      "id": 1,
+      "title": "Blob: slice() method",
+      "publisher": "MDN Web Docs",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Blob/slice"
+    },
+    {
+      "id": 2,
+      "title": "Blob - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Blob"
+    },
+    {
+      "id": 3,
+      "title": "Uploading and copying objects using multipart upload in Amazon S3 - Amazon Simple Storage Service",
+      "publisher": "docs.aws.amazon.com",
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html"
+    },
+    {
+      "id": 4,
+      "title": "Uploading objects with presigned URLs - Amazon Simple Storage Service",
+      "publisher": "docs.aws.amazon.com",
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html"
+    },
+    {
+      "id": 5,
+      "title": "Configuring a bucket lifecycle configuration to delete incomplete multipart uploads - Amazon Simple Storage Service",
+      "publisher": "docs.aws.amazon.com",
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpu-abort-incomplete-mpu-lifecycle-config.html"
+    },
+    {
+      "id": 6,
+      "title": "Backpressuring in Streams | Node.js Learn",
+      "publisher": "nodejs.org",
+      "url": "https://nodejs.org/en/learn/modules/backpressuring-in-streams"
+    },
+    {
+      "id": 7,
+      "title": "Stream | Node.js v26.13.1 Documentation",
+      "publisher": "nodejs.org",
+      "url": "https://nodejs.org/api/stream.html"
+    },
+    {
+      "id": 8,
+      "title": "Amazon S3 multipart upload limits - Amazon Simple Storage Service",
+      "publisher": "docs.aws.amazon.com",
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/qfacts.html"
+    },
+    {
+      "id": 9,
+      "title": "Download and upload objects with presigned URLs - Amazon Simple Storage Service",
+      "publisher": "docs.aws.amazon.com",
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html"
+    },
+    {
+      "id": 10,
+      "title": "XMLHttpRequest: upload property - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/upload"
+    },
+    {
+      "id": 11,
+      "title": "XMLHttpRequestEventTarget: progress event - Web APIs | MDN",
+      "publisher": "MDN",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequestUpload/progress_event"
+    },
+    {
+      "id": 12,
+      "title": "Resumable upload protocol 1.0.x | tus.io",
+      "publisher": "tus.io",
+      "url": "https://tus.io/protocols/resumable-upload"
+    },
+    {
+      "id": 13,
+      "title": "Elements of a CORS configuration - Amazon Simple Storage Service",
+      "publisher": "docs.aws.amazon.com",
+      "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManageCorsUsing.html"
+    }
+  ]
+}
