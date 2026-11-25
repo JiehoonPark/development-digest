@@ -1,0 +1,174 @@
+{
+  "date": "2026-11-25",
+  "sections": [
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "Bypassing iOS Safari's 60 FPS Limit to Build Web Applications That Feel Native",
+          "titleKo": "iOS Safari의 60 FPS 제한을 우회하여 네이티브처럼 느껴지는 웹 애플리케이션 구축",
+          "summary": "iOS Safari의 60 FPS 제한을 극복하고 120 Hz 입력과 렌더링을 달성하는 기술적 방법을 설명합니다. 스크롤 컨트롤러, OffscreenCanvas, MetalFX를 활용해 네이티브 수준의 상호작용 성능을 구현합니다.",
+          "keyPoints": [
+            "MessageChannel과 requestAnimationFrame을 조합한 고주파 입력 감지로 120 Hz 위치 업데이트 달성",
+            "OffscreenCanvas를 사용하여 canvas 콘텐츠를 120 Hz로 렌더링",
+            "스크롤 기반 애니메이션과 GPU 가속을 활용해 Liquid Glass 효과 등 고성능 UI 구현"
+          ],
+          "whyItMatters": "iOS 웹앱이 네이티브 앱 수준의 반응성과 부드러운 애니메이션을 제공할 수 있게 되어 모바일 웹 개발의 가능성을 크게 확장합니다.",
+          "url": "https://rida.dev/blog/bypassing-ios-safari-60-fps-limit",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 51,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 78,
+          "isTopicPrimary": true,
+          "slug": "bypassing-ios-safaris-60-fps-limit-to-build-web-applications-that-feel-native",
+          "fullContent": "Bypassing iOS Safari’s 60 FPS Limit to Build Web Applications That Feel NativeRida F'kih · November 20, 2026 · 10 min read\nDevon Govett of React Aria posted “Scrolling is All You Need: Building a Swipeable Sheet” back in October, and in it he talked about his team developing a sheet component that cleverly leverages the physics and smooth interactions provided by native browsers to provide the illusion of a native interaction.\nMore recently, Jordan Walke, creator of React, posted a video of an experiment on X showing a convincing native-like mobile interaction using DOM & CSS. It re-established a long-lived itch that I’ve had, and prompted this response from me. It’s something I could never justify building, however. Anything I built using this method would be pegged to 60 FPS.\nWhy the iOS Safari Experience Sucks\nWhat the video Jordan Walke posted doesn’t show is that, unless you flip the “Prefer Page Rendering Updates near 60fps” flag buried deep within the Safari developer settings on iOS, WebKit limits requestAnimationFrame to just 60 Hz on a 120 Hz screen, and on a regular page, touch and pointer events are held to that same rate. This is what makes even the best mobile websites feel irritating to use.\nHow can I make this experience suck less without resorting to flags? Let’s call back to the React Aria piece. The reason it feels so nice is that scrolling is the responsibility of the compositor. It runs in its own thread. It moves, clips and fades without a JavaScript round-trip.\nFinger to digitizer, digitizer to compositor, compositor to GPU. This will become the basis of our interaction.\nHigh Refresh Rate Interactions\nBehold, two grids. They both move a square when you drag. The one on the left uses JavaScript events and sets the transform attribute in CSS, while the one on the right simply places a square in a scrollable area.\nTry dragging thisTry dragging this\nIf you’re on iOS Safari, you’ll immediately be able to tell which is which because one refreshes at most 60 times a second in a renderer pass, while the other uses the compositor.\nIn order to leverage the power of the scroll area, we need to find a way to read the scroll position outside of the renderer. If we can do that, we can treat it like a trackpad, or use it to “extract” native bounce, physics, momentum, etc., and apply them directly from the compositor to our animations.\nWant a 1:1 trackpad experience? We just measure only when the finger is pressed.\nWant a true trackball with native momentum? We just make it an infinitely scrollable region.\nWant native bounce? We configure over-scroll padding and set the bounds of the container.\nWant a dial with notches? Snap points!\nThe point is, it’d be crazy flexible if we could just find a way to pull the values out of it frequently enough.\nCreating “The Controller”\nI measured scroll events updating 5 to 26 times per second during momentum scroll on an iPhone Duo. The best-case scenario is during slow, deliberate scrolls where it reaches almost 60 updates a second. Useless.\nInstead, we’ll be aiming to read scrollTop and scrollLeft synchronously.\nFirst, I tried having a MessageChannel call itself recursively, which worked: but it produced 50,000 reads a second with just 80 distinct values. That’s a lot of waste and heat since it pins a CPU core.\nNext failure was trying to use Atomics to wake at the screen’s refresh rate, which worked and similarly extracted 80 distinct positions every second, but the drawbacks were too great. Since it needs a SharedArrayBuffer, we’re forced to use COOP/COEP headers which break cross-origin assets on our website.\nWhat finally worked was using a MessageChannel like before, throttling the next measurement to the next tick using a setTimeout according to the refresh rate of the device, phase-locked to vsync using requestAnimationFrame timestamps. I was nervous about this approach, but as you’ll see later, it panned out well. The only remaining drawback specific to this solution was easy to work around. iOS rounds performance.now() to the millisecond, so I derived the minimum time between draws from the refresh interval.\nEach solution got us 80 position reads per second. Two-thirds towards our goal of 120 Hz input.\nSafari’s UI process sends the web process one scroll position at a time, and waits for an acknowledgement from the web process before sending another. Anything that arrives in the meantime is overwritten. This was costing us dropped positions. Digging through WebKit yielded what we needed to get around this. It turns out that on every tick where the page has a rendering update queued, Safari flushes the position without waiting. An empty requestAnimationFrame loop is all we need to do that.\nThis bought us ~12.5% more reads, and brought us to 90 unique position reads per second.\nI sort of assumed I had hit the limit of the aforementioned IPC, but it turns out that ProMotion was just deciding that there’s no need to render at a refresh rate higher than 90 Hz.\nSqueezing out the last 30 Hz was trickier. A GPU-accelerated CSS animation lets the screen go to 120 Hz, but only while something is scrolling. So a tiny invisible scroller smooth-scrolls in the background, ready to boost us to the full ProMotion refresh rate whenever we need it.\nOf course, we don’t want the display pegging to 120 Hz the entire time, so we reserve all the tricks we used to get there for times we expect animations to occur: touch events, scroll-derived animations, etc.\nIf the interaction you’re building doesn’t need momentum, rubber banding, or snapping, you can forego them entirely and just use a passive touchmove listener on the controller which fires at the full 120 Hz.\nJust like that, we’re receiving updates from the controller at a full 120 Hz! Drag the grid below to see.\nPosition0, 0Updates0/sUnique values0/sSpeed0 pt/sTry dragging this\nOne issue remains. scrollTop and scrollLeft are rounded to the nearest integer even though iOS scrolls with sub-point precision. Easy fix, thankfully. We just scale the scrollable surface up by the device pixel ratio, then its container back down by its reciprocal.\nIf you want to use the viewport itself as a controller, you can choose to invasively set the initial-scale in the same way, but this comes with some caveats. You’ll have to scale units by the DPR, disable text autosizing, and manually scale safe areas. You’ll also get tiny text-selection indicators. All trade-offs, but by no means required.\nPosition0.00, 0.00Updates0/sUnique values0/sSpeed0 pt/sTry dragging this\nFrom here on out, I’ll refer to these scrolling grids as “controllers”, because they act exactly like one. All we have to do is make one invisible and lay it over where we want to read high-frequency input.\nNote that the page itself can also be a controller, but Safari will throttle reported scroll positions to 10 Hz during the URL bar resize that happens when you change scroll direction. WebKit skips this if we give the page a scroll-driven animation that animates a non-GPU-accelerated attribute. I went with transitioning between two transparent colours for this page.\nBreaking the 60 FPS Render Barrier\nNow we get high-frequency input, but the DOM still only updates 60 times a second, so if we tried to leverage it as it stands, we’d just be updating a value twice for every frame that’s drawn. The user would get no benefit.\nThe vast majority of dragging interactions are already covered by our controllers, and predefined animations are covered by CSS animations. But what about more complicated interactions? What about computation-derived layouts? What about shaders?\nAsk your search engine or AI of choice today “How to render canvas content on iOS at 120 Hz without feature flag?” and it will respond that this is a fundamental impossibility in iOS Safari. Even WebKit’s own bug tracker is full of people asking for it. Ink & Switch, game-engine makers. People even cite Capacitor & Tauri as resorting to private APIs.\nAsking Google yields the following preamble.\nThere is no public web API or standard JavaScript workaround to force HTML5 <canvas> (requestAnimationFrame) to run at 120 Hz on iOS Safari without changing the system feature flag.\nFable 5.2 shares the same sentiment.\nShort answer: you can't, for JavaScript-drawn canvas frames. On iOS, WebKit caps page rendering updates (which is when canvas content is presented) at 60 Hz unless the user turns off the flag. No web API overrides it. […] Timer-based loops (setTimeout, MessageChannel) won't help, in my understanding: you can draw more often, but the result is still presented at the 60 Hz rendering update. Low Power Mode throttles further.\nWell, as of today… you can!\nAt first, I tunnel-visioned on scroll. I tried breaking workers, pre-rendering permutation “flip-books,” and even live-generating video. It was all too laggy, jagged, or required so much RAM the WebKit process just crashed.\nSeven attempts later, and a whole lot of agents digging through WebKit’s source, I landed on this.\nIn WebKit on iOS, if we create a canvas element and call transferControlToOffscreen, we get an OffscreenCanvas back. The original canvas element becomes a placeholder, and WebKit (following the HTML specification’s recommendation) skips waiting for the next rendering pass when an OffscreenCanvas pushes a frame.\nUnlike earlier attempts, without workarounds this is easy on the battery and only uses as much memory as is needed to support a higher-frequency backing store.\nJackpot. We now have 120 FPS rendering on iOS WebKit canvases.\nOffscreenCanvasCanvasControllerTry dragging this\nPutting it All Together\nNow we can take any input at 120 Hz, and render an output at that very same frame rate. The first thing I created for this was a small UI clone of Ando’s mobile application fitted with a Liquid Glass tab bar, buttons, and buttery smooth navigation interactions. Once installed as a PWA, I kept having to double-take to check I wasn’t in the native application.\nApplying Our Learnings\nThis page is fitted with two custom “Liquid Glass” elements in the viewport. Each of them renders at the full device refresh rate. We have to be very deliberate in order to do this in a way that is performant and convincing.\nWhen the page first loads, we take a snapshot and load it into a WebGL texture. This texture is used as the foundation for a composite that is then fed into our shader.\nWebGL Composite Texture + GlassDrag me!\nAs the page scrolls, we then sample the region beneath each component, which is all we need to produce our effect. Building it this way means that no matter how the content below it is built, it can decide the best way to keep the texture live.\nOn this page, components using requestAnimationFrame for illustrative reasons update the texture from the main thread. Components using OffscreenCanvas post their frames directly from their workers to the worker managing the texture. This keeps us off the main thread and lets us get shaders refreshing at 120 Hz.\nAfter all that, the glass just samples a small region around where it would land on the composite texture and computes the frame.\nBuilding a Tab Bar Component\nBuilding the Structure\nLet’s build our Liquid Glass tab bar. We’ll start out by just drawing the underlying structure.\nStructure\nLayout of Controllers\nWe’ll break this down into one controller for each button. Each controller sends us timestamped events: which controller is being used, and how much it has been dragged. We keep a short history of those samples, so we know when a press has moved far enough to count as a drag, and how fast the finger is moving. Nothing else. Everything else is derived from that.\nControllersTap and drag me!\nBuilding the State Machine\nWe now build a state machine around this. Every frame, the new events go in, and a frame comes out: where the lens is, how far it has lifted and stretched, and how visible the pill is.\nIf a controller is being touched we then magnify & lift the lens.\nWe know",
+          "category": "tech",
+          "publishedAt": "2026-11-25T03:04:37.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: Sliding-panes React UI library (inspired by WebOS Enyo)",
+          "titleKo": "Sashay: WebOS Enyo에서 영감을 받은 리사이저블 패널 React 라이브러리",
+          "summary": "Sashay는 패널 사이 경계선 드래그로 레이아웃을 조정하는 React UI 라이브러리로, 구분선이 단순 분수 비율에 스냅되고 던지기 제스처를 지원하며, 공간이 부족한 패널은 스파인 형태로 접혀 들어갑니다. 레이아웃 상태는 URL에 저장해 공유할 수 있고, 1,000개 패널에서도 드래그 프레임 처리가 2ms 미만으로 유지됩니다. React 19 이상이 필요하며 런타임 의존성이 없는 가벼운 코어로 제공됩니다.",
+          "keyPoints": [
+            "패널 간 경계선 드래그 하나만으로 파워 유저용 커스터마이징 가능한 레이아웃을 제공하되, 복잡한 UI는 피하는 설계 철학",
+            "구분선은 분모 6 이하의 단순 분수에 스냅되어 다양한 화면 크기에서도 일관된 배치를 유지",
+            "마지막 90ms 드래그 속도를 읽어 던지기 제스처를 지원하고, 깊은 드릴다운 스택은 스파인으로 접혀 1,000 depth에서도 2ms 미만의 드래그 성능 유지",
+            "레이아웃 상태(열린 패널, 너비, 바 상태 등)를 URL 쿼리 파라미터로 저장해 링크 공유만으로 동일한 화면 배치 재현 가능",
+            "React 19 이상 지원, 런타임 의존성 0개의 코어, 키보드 조작 및 aria-valuenow 등 접근성 속성 포함, MIT 라이선스"
+          ],
+          "whyItMatters": "대시보드, 관리자 도구, IDE형 인터페이스처럼 여러 뷰를 동시에 다뤄야 하는 프로젝트에서 복잡한 커스텀 드래그 리사이징 로직을 직접 구현하지 않고도 성능과 접근성을 갖춘 패널 레이아웃을 빠르게 도입할 수 있습니다.",
+          "article": "# Sashay: WebOS Enyo에서 영감을 받은 리사이저블 패널 React 라이브러리\n\n데스크톱 파일 탐색기나 IDE에서 패널 경계선을 드래그해 레이아웃을 조정해본 경험은 다들 있으실 겁니다. Hacker News에 공개된 Sashay는 이런 \"패널(pane)\" 기반 UI를 React에서 손쉽게 구현할 수 있도록 만든 라이브러리인데요, 과거 WebOS의 Enyo 프레임워크에서 영감을 받았다고 합니다. 패널 사이 경계선을 드래그하면 크기가 조정되고, 공간이 부족해진 패널은 옆으로 접혀 들어가며, 이 레이아웃 상태를 URL에 저장할 수 있다는 점이 핵심입니다.\n\n## 왜 패널 방식인가\n\nSashay가 내세우는 지향점은 \"파워 유저가 자신의 작업 방식대로 화면을 배치할 수 있게 하되, 인터페이스를 복잡하게 만들지 않는 것\"입니다. 각 패널은 평범한 뷰일 뿐이고, 사용자에게 새로 주어지는 컨트롤은 패널 사이의 경계선 하나뿐입니다.\n\n이는 두 극단의 중간 지점을 노리는 설계입니다. 한쪽 끝에는 어떤 패널이든 어디로든 옮길 수 있는 완전히 커스터마이징 가능한 UI가 있고, 반대쪽 끝에는 모든 것을 자동으로 결정해버리는 단순한 반응형 레이아웃이 있습니다. Sashay는 그 사이에서 적당한 자유도를 제공하려는 접근입니다.\n\n## 기본 사용법\n\nReact에서는 `@vcarl/sashay/react` 패키지를 통해 `Sashay`와 `Pane` 컴포넌트로 레이아웃을 구성합니다.\n\n```jsx\n// @vcarl/sashay/react\n<Sashay\n  onLayoutChange={save}>\n  <Pane id=\"list\"\n    title=\"List\"\n    focus={1/3}>…</Pane>\n  <Pane id=\"detail\"\n    title=\"Detail\"\n    focus={1/2}>…</Pane>\n</Sashay>\n```\n\n`focus` prop으로 패널이 차지할 비율을 지정하고, `onLayoutChange` 콜백으로 레이아웃 변경 시점을 감지해 저장할 수 있습니다. 라이브러리는 ESM만 지원하며, React 19 이상이 필요하고, 핵심 코어는 의존성이 0개(0-dep core)입니다. 라이선스는 MIT입니다.\n\n모바일 환경에서는 패널 사이 경계선이 탭(tab)으로 바뀌어, 탭을 눌러 패널을 전환하는 방식으로 동작합니다.\n\n## 분할선은 단순한 분수 비율에 고정된다\n\n패널을 나누는 구분선(divider)은 분모가 6 이하인 단순한 분수 비율 지점에 스냅됩니다. 예를 들어 1/2, 1/3, 2/3 같은 지점에 자연스럽게 정렬되는 것인데요, 덕분에 노트북에서 저장한 레이아웃을 모니터에서 열어도 여전히 말이 되는 배치로 보입니다. 화면(frame)이 넓어질수록 그리드는 더 촘촘해져서, 큰 화면에서는 더 세밀한 비율 조정이 가능합니다.\n\n## 던지기(throw) 제스처 지원\n\n구분선을 빠르게 드래그한 뒤 놓으면, 단순히 손을 뗀 지점이 아니라 한두 스냅 지점을 더 지나간 곳에 자리를 잡습니다. 이 \"던지기\" 동작을 판단하기 위해 마지막 90ms 동안의 놓는 속도(release speed)를 읽어들이는데요, 반대로 느리게 드래그하면 손을 뗀 바로 그 지점에 정확히 자리 잡습니다.\n\n## 패널 하단 바(bottom bar)\n\n모든 패널은 하단에 필터, 설정, 목차 등을 위한 바를 가질 수 있습니다. 이 바는 패널 위로 확장되는 방식으로 펼쳐지며, 모바일에서도 동일하게 동작합니다.\n\n## 깊은 스택은 스파인(spine)으로 접힌다\n\n드릴다운(drill-down) 방식으로 패널을 계속 깊게 파고들 수 있는데, 더 이상 화면에 들어갈 공간이 없는 패널들은 얇은 스파인 형태로 접혀 들어가고, 각 패널마다 탭 하나씩이 남습니다. 이 구조의 장점은 성능인데, 1,000단계 깊이까지 들어가도 드래그 비용(drag cost)이 평탄하게 유지된다고 소개하고 있습니다.\n\n## URL에 저장되는 레이아웃\n\n어떤 패널이 열려 있는지, 폭은 얼마인지, 어떤 바가 펼쳐져 있는지 등 레이아웃 전체 상태가 짧은 코드 형태로 압축되어 URL에 담길 수 있습니다. 이 링크를 공유하면 받는 사람도 동일한 배치를 그대로 볼 수 있습니다. 실제 데모 페이지에서는 `?layout=69.0` 같은 쿼리 파라미터 형태로 이를 확인할 수 있습니다.\n\n## 데모로 확인하는 실사용 예시\n\n공식 페이지에는 두 가지 데모가 소스 코드와 함께 제공됩니다.\n\n- **Houseplants**: 창문 방향(북/동/서/남)을 고르고 차트에서 식물을 선택하면, 창문·차트·근처 식물(Nearby Plant) 패널이 서로 연동되어 동작하는 3단 패널 구성 예시입니다. 차트를 좁혀도 선택한 식물은 계속 화면에 남아 있습니다.\n- **The house**: 집 → 방(응접실, 부엌, 다락, 서재, 욕실, 침실) → 서랍장 → 서랍 → 통 같은 식으로 끝없이 드릴다운할 수 있는 예시로, 이전 단계들은 스파인으로 접혀 들어갑니다.\n\n## 성능 및 기술 스펙\n\n공식 페이지가 밝힌 수치는 다음과 같습니다.\n\n- 런타임 의존성: 0개\n- 1,000개 패널 환경에서 드래그 프레임 처리: 2ms 미만\n- 모든 경계선에서 키보드 조작 지원, `aria-valuenow` 등 접근성 속성 포함\n- 현재 버전: 1.2.1\n- React 19 이상 또는 vanilla 코어로 사용 가능\n- 라이선스: MIT\n\n## 정리\n\nSashay는 패널 사이 경계선 드래그만으로 레이아웃을 조정하는 단순한 인터랙션 모델을 제공하면서도, 분수 비율 스냅·던지기 제스처·깊은 스택의 스파인 폴딩·URL 레이아웃 공유 등 세부 디테일에 공을 들인 라이브러리입니다. IDE나 파일 탐색기처럼 여러 뷰를 동시에 띄워놓고 작업하는 \"파워 유저용\" 대시보드, 관리자 도구, 탐색형 UI를 만들 때 참고할 만합니다. React 19 이상이 필요하고 의존성이 없는 가벼운 코어로 설계되어 있어, 기존 프로젝트에 부담 없이 도입을 검토해볼 수 있는 선택지입니다.",
+          "url": "https://vcarl.com/sashay/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 17,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 72,
+          "isTopicPrimary": true,
+          "slug": "show-hn-sliding-panes-react-ui-library-inspired-by-webos-enyo",
+          "fullContent": "SashayDrag the edge between two panes to resize them. The edge settles at a simple fraction of the width, and a pane with no room left slides under its neighbour. The layout can be saved in the URL.Read the docsnpm i @vcarl/sashay This headline is a pane. Grab the edge to its right.This headline is a pane. On a phone the edges become tabs: tap one.Why panes?Power users want to arrange their screen the way they work. Panes give them that without making the interface complicated: each pane is an ordinary view, and the only new control is the edge between them.That makes them a good middle ground between a fully customisable UI, where any panel can go anywhere, and a simple responsive layout that decides everything for you.Hang it in a frame.// @vcarl/sashay/react\n<Sashay\nonLayoutChange={save}>\n<Pane id=\"list\"\ntitle=\"List\"\nfocus={1/3}>…</Pane>\n<Pane id=\"detail\"\ntitle=\"Detail\"\nfocus={1/2}>…</Pane>\n</Sashay>ESM onlyReact ≥190-dep coreMITPackagePackagePackagePackagePackageHelloWhyInstallThemeHouseSashShojiGreenhouseBlueprintCurtainSleeperAbout themes →?layout=69.0This code is the layout. Drag an edge, throw it, or click one to open and close.Add paneResetSnaps to simple fractions.Dividers rest on fractions with a denominator up to six, so a layout saved on a laptop still makes sense on a monitor. The grid gets finer as the frame gets wider.Guide: Your first frame →Throw it.A quick throw carries the divider one or two snaps past where you let go. Release speed is read from the last 90 ms, so a slow drag still lands exactly where you put it.Guide: Your first frame →A bar for each pane.Any pane can have a bar at its bottom for filters, settings or a table of contents. It expands over the pane and works the same on a phone.Guide: Bottom bars → Open Mine ArchivedDeep stacks fold into a spine.Drill down as far as you like. Panes that no longer fit fold into a slim spine, with a tab for each. Drag cost stays flat at a thousand deep.Guide: Navigation stacks →12Add paneBackDeep linked pane arrangementsWhich panes are open, how wide they are, and which bars are open all fit in a short code you can keep in the URL. Share the link and the other person sees the same arrangement.Guide: Layout in the URL →See it work.‹›HouseplantsSun against water. Pick a plant.Your window facesNorthEastWestSouthPick a plant on the chart.Pick a plant.WindowWindowChartNearbyPlantHouseplants in three panes. Pick a plant, then open its card. Squeeze the chart and your plant stays in view.‹›The house6 thingsParlour›Kitchen›Attic›Study›Bathroom›Bedroom›‹ The houseParlour2 thingsDresser›Cotton reelThe houseParlourThe houseParlourA house, all the way down. Rooms, dressers, drawers, a tin box. The old levels fold into the spine.Both demos, with source0runtime dependencies<2msdrag frame at 1,000 panes← →keyboard on every edge, aria-valuenow1.2.1React ≥19, or the vanilla core · MIT",
+          "category": "tech",
+          "publishedAt": "2026-11-25T03:10:18.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: Old Nvidia and ATI tech demos, running again in the browser",
+          "titleKo": "오래된 NVIDIA와 ATI 테크 데모, 브라우저에서 다시 살아나다",
+          "summary": "3dfx Voodoo2부터 NVIDIA GeForce 8까지, 1998년부터 2006년 사이 제작된 15개의 GPU 테크 데모를 브라우저에서 재생할 수 있게 복원한 갤러리 사이트가 공개됐습니다. Borg, Grass, Car Paint, Pipe Dream 같은 당대의 상징적인 데모들을 전용 하드웨어 없이 웹에서 바로 체험할 수 있습니다. 각 데모는 멀티 텍스처링, 범프 매핑, HDR 조명, 셸/핀 털 렌더링, GPU 유체 시뮬레이션 등 당시 최신 그래픽스 기술을 보여줍니다.",
+          "keyPoints": [
+            "1998년 3dfx Voodoo2의 Borg, Donut 데모부터 2006년 NVIDIA GeForce 8의 Box of Smoke까지 15개 데모가 수록됨",
+            "NVIDIA GeForce 256/GeForce2 시대 데모는 범프 매핑, 반사, 대규모 인스턴싱(수만 개 풀잎, 수백 마리 물고기) 기술을 선보임",
+            "ATI Radeon 9700 데모들은 Car Paint, Natural Light(Paul Debevec HDR 데모), Bear 등 예술적 완성도가 높은 셰이더 기법을 담음",
+            "모든 데모는 전용 드라이버나 하드웨어 없이 웹 브라우저에서 바로 재생 가능하도록 복원됨"
+          ],
+          "whyItMatters": "셰이더와 실시간 렌더링 기술이 어떻게 발전해왔는지 역사적 맥락에서 살펴볼 수 있어, 그래픽스 프로그래밍을 공부하는 프론트엔드/웹 개발자에게도 흥미로운 레퍼런스가 됩니다.",
+          "article": "# 오래된 NVIDIA와 ATI 테크 데모, 브라우저에서 다시 살아나다\n\n1990년대 후반부터 2000년대 중반까지는 3D 그래픽카드 업계가 치열하게 경쟁하던 시기였습니다. 3dfx, NVIDIA, ATI 같은 제조사들은 새 GPU가 나올 때마다 당시 기술력을 과시하기 위한 '테크 데모'를 함께 내놓았는데요. 이번에 소개할 프로젝트는 이런 역사적인 테크 데모들을 웹 브라우저에서 다시 실행할 수 있게 복원한 갤러리 사이트입니다. 전용 드라이버와 하드웨어가 있어야만 볼 수 있던 데모들을 이제는 누구나 웹 페이지 접속만으로 체험해볼 수 있게 된 셈입니다.\n\n## 3dfx Voodoo2 시대의 데모 (1998)\n\n가장 오래된 데모는 3dfx의 Voodoo2 카드를 위해 만들어진 것들입니다.\n\n- **Borg**: 텍스처 유닛 두 개를 탑재한 최초의 카드가, 다섯 번의 렌더링 패스에 걸쳐 아홉 개의 텍스처를 입힌 큐브를 그려내는 데모입니다.\n- **Donut**: 엠보싱 범프와 반사 효과를 두 번의 패스로 구현한 토러스(도넛) 모양 오브젝트입니다.\n\n당시 멀티 텍스처링과 멀티패스 렌더링이 얼마나 혁신적인 기술이었는지를 보여주는 자료입니다.\n\n## NVIDIA GeForce 시대의 데모 (1999~2000)\n\nGeForce 256과 GeForce2가 등장하면서 데모들은 한층 더 정교해집니다.\n\n- **Bubble**: 주변 환경을 반사하는 스프링 형태의 거품으로, 직접 찔러볼 수 있습니다.\n- **Lightning**: 철판을 붙잡고 있으면 번개가 내리치는데, 번개가 범프를 비추고 금속을 가열하며 스파크를 튀깁니다.\n- **Grove**: 몇 개의 숫자값만으로 자라난 나무들을 반딧불이 비추는 장면입니다.\n- **Principles of Shading**: 로고 하나를 점부터 범프 맵, 반사까지 여섯 단계에 걸쳐 분해하고 다시 셰이딩하는 과정을 보여줍니다.\n- **Creature**: 코스틱(caustic) 광원 아래 있는 바다 괴물과, 그 괴물을 피해 다니는 물고기 500마리, 그리고 레이저가 등장합니다.\n- **Grass**: 끝없이 펼쳐진 초원에서 만 개의 풀잎이 바람에 흔들리며 머리카락처럼 빛을 반사합니다.\n- **Small Pond**: 나무로 된 작은 연못에 생기는 물결이 하루 동안 주변에서 찍은 사진들을 비춥니다. 물을 클릭하면 반응합니다.\n\n이 시기 데모들은 픽셀 셰이더 초기 기술인 범프 매핑, 반사, 대규모 인스턴싱(수천 개의 풀잎, 수백 마리의 물고기) 등을 적극적으로 선보이고 있습니다.\n\n## ATI Radeon 9700 시대의 데모 (2002~2003)\n\nRadeon 9700은 당시 셰이더 기술에서 한 획을 그은 카드로, 데모들도 그만큼 예술적 완성도가 높아집니다.\n\n- **Car Paint**: 메탈 플레이크와 클리어 코트가 들어간 투톤 자동차 도장을, 레이어별로 어떻게 쌓아 올리는지 보여줍니다.\n- **NPR Hatching**: 연필로 그린 정물화처럼, 명암에 따른 해칭(빗금)과 잉크 윤곽선, 획으로 표현한 그림자를 구현한 비사실적 렌더링(NPR) 데모입니다.\n- **Natural Light**: Paul Debevec의 유명한 유리구슬·금구슬 데모로, HDR(High Dynamic Range) 환경에서 숲을 조명으로 사용해 구슬들을 비춥니다.\n- **Bear**: 셸(shell)과 핀(fin) 기법으로 구현한 털을 가진 곰이 등장하며, 털 한 올 한 올을 따라 조명이 적용되고 포효하는 모습까지 담겼습니다.\n- **Pipe Dream**: Animusic의 악기 연주 머신 데모로, 모든 음표가 공처럼 표현되어 정확한 타이밍에 떨어져야 연주가 완성됩니다.\n\n## NVIDIA GeForce 8 시대의 데모 (2006)\n\n마지막으로 소개되는 데모는 GeForce 8 세대의 기술력을 보여줍니다.\n\n- **Box of Smoke**: GPU 자체에서 연기와 물 시뮬레이션을 수행하는 데모로, 마우스 포인터로 직접 저어볼 수 있습니다. GPGPU(범용 GPU 연산)가 본격화되던 시기의 기술을 엿볼 수 있습니다.\n\n## 정리\n\n이 갤러리는 3dfx Voodoo2부터 NVIDIA GeForce 8까지, 약 8년에 걸친 GPU 테크 데모 15종을 브라우저에서 재생할 수 있도록 복원한 아카이브입니다. 각 데모는 당대 하드웨어의 핵심 기술 포인트(멀티 텍스처링, 범프 매핑, HDR 조명, 셸/핀 기반 털 렌더링, GPU 기반 유체 시뮬레이션 등)를 명확히 보여주고 있어, 그래픽스 역사를 공부하거나 셰이더 기법의 발전 과정을 살펴보고 싶은 개발자에게 좋은 참고 자료가 됩니다. 전용 드라이버 없이도 웹에서 바로 재생해볼 수 있다는 점이 이 프로젝트의 핵심 가치이며, 실제로 어떤 식으로 포팅·에뮬레이션됐는지는 원문에 기술적 설명이 없어 확인할 수 없지만, 결과물만으로도 당시 그래픽스 엔지니어들의 창의성과 기술력을 다시 체감해볼 수 있습니다.",
+          "url": "https://gpu-demo-gallery.pages.dev/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 6,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 68,
+          "isTopicPrimary": true,
+          "slug": "show-hn-old-nvidia-and-ati-tech-demos-running-again-in-the-browser",
+          "fullContent": "1998Borg3dfx, Voodoo2\nA cube with nine textures in five passes, as the first card with two texture units drew it.Play\n1998Donut3dfx, Voodoo2\nA torus with embossed bumps and a reflection, in two passes.Play\n1999BubbleNVIDIA, GeForce 256\nA bubble of springs that mirrors its surroundings. Poke it.Play\n2000LightningNVIDIA, GeForce 256\nHold the steel plate to strike it: the bolt lights bumps, heats the metal and throws sparks.Play\n2000GroveNVIDIA, GeForce 256\nTrees grown from a few numbers, lit by fireflies.Play\n2000Principles of ShadingNVIDIA, GeForce2\nA logo taken apart and shaded again in six steps, from points to bump maps and reflections.Play\n2000CreatureNVIDIA, GeForce2\nA sea monster under caustic light, 500 fish that avoid it, and a laser.Play\n2000GrassNVIDIA, GeForce 256\nA meadow without an end: ten thousand blades bend in the wind and shine like hair.Play\n2000Small PondNVIDIA, GeForce2\nRipples in a wooden pool mirror photographs of a whole day around it. Click the water.Play\n2002Car PaintATI, Radeon 9700\nTwo-tone paint with metal flakes and clear coat, and how it is built up layer by layer.Play\n2002NPR HatchingATI, Radeon 9700\nA still life in pencil: hatching by tone, ink outlines, shadows in strokes.Play\n2002Natural LightATI, Radeon 9700\nPaul Debevec’s balls of glass and gold, lit by a forest in high dynamic range.Play\n2002BearATI, Radeon 9700\nFur of shells and fins, lit along each hair, and a roar.Play\n2003Pipe DreamATI, Radeon 9700\nAnimusic's machine plays itself: every note is a ball that has to land on time.Play\n2006Box of SmokeNVIDIA, GeForce 8\nSmoke and water simulated on the card itself. Stir it with the pointer.Play",
+          "category": "tech",
+          "publishedAt": "2026-11-25T04:31:48.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Button Sounds – collection of professionally-recorded button clicks and presses",
+          "titleKo": "Button Sounds – 전문적으로 녹음된 버튼 클릭 및 누름음 모음",
+          "summary": "Josh Comeau가 만든 버튼 클릭 및 누름음 사운드 라이브러리입니다.",
+          "keyPoints": [
+            "전문적으로 녹음된 고품질 버튼 사운드 모음"
+          ],
+          "whyItMatters": "웹사이트와 애플리케이션에 사실적인 사용자 피드백 오디오를 추가할 수 있습니다.",
+          "url": "https://buttons.joshwcomeau.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 97,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 65,
+          "isTopicPrimary": true,
+          "slug": "button-sounds-collection-of-professionally-recorded-button-clicks-and-presses",
+          "category": "tech",
+          "publishedAt": "2026-11-25T03:23:07.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "Show HN: U.S. Interstate Weather",
+          "titleKo": "Show HN: U.S. Interstate Weather",
+          "summary": "미국 고속도로 구간별 날씨 정보를 시각화한 웹 애플리케이션입니다.",
+          "keyPoints": [
+            "미국 주간 고속도로의 실시간 날씨 데이터 제공"
+          ],
+          "whyItMatters": "주행 계획 시 경로별 날씨 조건을 미리 확인할 수 있습니다.",
+          "url": "https://www.interstateweather.com/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 10,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 60,
+          "isTopicPrimary": true,
+          "slug": "show-hn-us-interstate-weather",
+          "category": "tech",
+          "publishedAt": "2026-11-25T04:35:32.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        },
+        {
+          "title": "The Shapes of Rivers",
+          "titleKo": "The Shapes of Rivers",
+          "summary": "강의 형태와 패턴을 시각적으로 표현한 프로젝트입니다.",
+          "keyPoints": [
+            "강의 지리적 형태를 데이터 시각화로 표현"
+          ],
+          "whyItMatters": "지리정보 시각화 기법을 활용한 과학 커뮤니케이션 사례를 제공합니다.",
+          "url": "https://dominicroye.github.io/shapes-of-rivers/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 9,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 60,
+          "isTopicPrimary": true,
+          "slug": "the-shapes-of-rivers",
+          "category": "tech",
+          "publishedAt": "2026-11-24T12:14:25.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    }
+  ]
+}
