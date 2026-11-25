@@ -165,13 +165,13 @@
   color: var(--blog-strong);
 }
 
-/* 코드 블록 — GitHub Light 계열. 언어 이름은 오른쪽 위에 작게 */
+/* 코드 블록 — Tomorrow Night(Prism prism-tomorrow) 색을 highlight.js 클래스에 입힌다.
+   배경은 테마 기본 #2d2d2d 대신 짙은 회청색 #1f2937(leapcell 블로그와 같은 조합). 언어 이름은 오른쪽 위에 작게 */
 .prose :global(pre) {
   position: relative;
   margin: 18px 0 28px;
-  border: 1px solid #e6e8eb;
   border-radius: 6px;
-  background: #f6f8fa;
+  background: #1f2937;
   overflow-x: auto;
 }
 .prose :global(pre[data-lang])::before {
@@ -181,53 +181,63 @@
   right: 10px;
   font: 400 10px/1 var(--blog-mono);
   letter-spacing: 0.06em;
-  color: #8c959f;
+  color: #8b95a3;
 }
 .prose :global(pre code) {
   display: block;
-  padding: 16px 18px;
-  font: 400 12.5px/1.7 var(--blog-mono);
-  color: #1f2328;
+  padding: 14px 18px;
+  font: 400 13px/1.65 var(--blog-mono);
+  color: #cccccc;
   white-space: pre;
+}
+/* 긴 첫 줄이 오른쪽 위 언어 이름과 겹치지 않게 위 여백을 조금 더 */
+.prose :global(pre[data-lang] code) {
+  padding-top: 24px;
 }
 .prose :global(.hljs-comment),
 .prose :global(.hljs-quote) {
-  color: #6e7781;
+  color: #999999;
 }
 .prose :global(.hljs-keyword),
 .prose :global(.hljs-selector-tag),
 .prose :global(.hljs-meta),
-.prose :global(.hljs-doctag) {
-  color: #cf222e;
+.prose :global(.hljs-doctag),
+.prose :global(.hljs-built_in),
+.prose :global(.hljs-variable.language_) {
+  color: #cc99cd;
 }
 .prose :global(.hljs-string),
-.prose :global(.hljs-regexp) {
-  color: #0a3069;
+.prose :global(.hljs-regexp),
+.prose :global(.hljs-template-tag) {
+  color: #7ec699;
 }
 .prose :global(.hljs-number),
-.prose :global(.hljs-literal) {
-  color: #0550ae;
-}
+.prose :global(.hljs-literal),
 .prose :global(.hljs-title),
-.prose :global(.hljs-built_in),
-.prose :global(.hljs-title.function_) {
-  color: #8250df;
+.prose :global(.hljs-title.function_),
+.prose :global(.hljs-name) {
+  color: #f08d49;
+}
+.prose :global(.hljs-type),
+.prose :global(.hljs-title.class_),
+.prose :global(.hljs-property),
+.prose :global(.hljs-selector-class),
+.prose :global(.hljs-selector-id) {
+  color: #f8c555;
 }
 .prose :global(.hljs-attr),
 .prose :global(.hljs-attribute),
-.prose :global(.hljs-property),
-.prose :global(.hljs-selector-class),
-.prose :global(.hljs-selector-id),
-.prose :global(.hljs-name),
-.prose :global(.hljs-tag) {
-  color: #116329;
-}
-.prose :global(.hljs-type),
-.prose :global(.hljs-variable.language_) {
-  color: #953800;
+.prose :global(.hljs-tag),
+.prose :global(.hljs-selector-pseudo) {
+  color: #e2777a;
 }
 .prose :global(.hljs-operator),
-.prose :global(.hljs-punctuation) {
+.prose :global(.hljs-symbol),
+.prose :global(.hljs-link) {
+  color: #67cdcc;
+}
+.prose :global(.hljs-punctuation),
+.prose :global(.hljs-params) {
   color: inherit;
 }
 
@@ -470,14 +480,14 @@
 .prose :global(.hljs-addition) {
   display: inline-block;
   width: 100%;
-  background: #dafbe1;
-  color: #116329;
+  background: rgba(126, 198, 153, 0.14);
+  color: #7ec699;
 }
 .prose :global(.hljs-deletion) {
   display: inline-block;
   width: 100%;
-  background: #ffebe9;
-  color: #82071e;
+  background: rgba(226, 119, 122, 0.14);
+  color: #e2777a;
 }
 
 .prose :global(hr) {
@@ -666,7 +676,7 @@
     margin-right: -4px;
   }
   .prose :global(pre code) {
-    padding: 14px 14px;
+    padding: 12px 14px;
     font-size: 12px;
   }
 }
