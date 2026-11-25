@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="470" viewBox="0 0 900 470" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="470" fill="#f4f1ea"/>
+  <text x="40" y="44" font-size="20" font-weight="700" fill="#1d1d1f">앱 서버는 허락만 하고, 파일 바이트는 스토리지로 바로 간다</text>
+  <text x="40" y="70" font-size="14" fill="#6b6760">앱 서버를 지나가는 것은 작은 JSON 요청뿐이다. 굵은 선이 실제 파일 바이트가 흐르는 길이다</text>
+
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1d1d1f"/>
+    </marker>
+    <marker id="arA" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="18" markerHeight="18" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#a64d31"/>
+    </marker>
+  </defs>
+
+  <g font-size="14" fill="#1d1d1f">
+    <rect x="40" y="110" width="200" height="300" rx="10" fill="#ffffff" stroke="#d8d3c8"/>
+    <text x="140" y="138" text-anchor="middle" font-weight="700">브라우저</text>
+    <text x="140" y="158" text-anchor="middle" font-size="12" fill="#6b6760">file.slice()로 8 MiB씩</text>
+    <g font-size="11" font-family="ui-monospace, Menlo, monospace">
+      <rect x="62" y="176" width="48" height="24" rx="4" fill="#a64d31"/><text x="86" y="192" text-anchor="middle" fill="#fff">1</text>
+      <rect x="116" y="176" width="48" height="24" rx="4" fill="#a64d31"/><text x="140" y="192" text-anchor="middle" fill="#fff">2</text>
+      <rect x="170" y="176" width="48" height="24" rx="4" fill="#e9c4b6"/><text x="194" y="192" text-anchor="middle">3</text>
+      <rect x="62" y="206" width="48" height="24" rx="4" fill="#e9c4b6"/><text x="86" y="222" text-anchor="middle">4</text>
+      <rect x="116" y="206" width="48" height="24" rx="4" fill="#e9c4b6"/><text x="140" y="222" text-anchor="middle">5</text>
+      <rect x="170" y="206" width="48" height="24" rx="4" fill="#e6e1d6"/><text x="194" y="222" text-anchor="middle" fill="#6b6760">6</text>
+    </g>
+    <text x="140" y="256" text-anchor="middle" font-size="12" fill="#6b6760">진하게: ETag 받음</text>
+    <text x="140" y="274" text-anchor="middle" font-size="12" fill="#6b6760">옅게: 보내는 중(동시 3개)</text>
+    <line x1="60" y1="292" x2="220" y2="292" stroke="#d8d3c8"/>
+    <text x="140" y="316" text-anchor="middle" font-size="12" font-weight="700">localStorage</text>
+    <text x="140" y="334" text-anchor="middle" font-size="12" fill="#6b6760">uploadId만 기억</text>
+    <text x="140" y="352" text-anchor="middle" font-size="12" fill="#6b6760">끝난 파트는 스토리지에 묻는다</text>
+
+    <rect x="350" y="110" width="200" height="110" rx="10" fill="#ffffff" stroke="#d8d3c8"/>
+    <text x="450" y="138" text-anchor="middle" font-weight="700">앱 서버</text>
+    <text x="450" y="160" text-anchor="middle" font-size="12" fill="#6b6760">권한 확인 · uploadId 생성</text>
+    <text x="450" y="178" text-anchor="middle" font-size="12" fill="#6b6760">파트별 서명 URL 발급</text>
+    <text x="450" y="204" text-anchor="middle" font-size="12" fill="#a64d31">파일 바이트는 받지 않음</text>
+
+    <rect x="660" y="110" width="200" height="300" rx="10" fill="#ffffff" stroke="#a64d31" stroke-width="2"/>
+    <text x="760" y="138" text-anchor="middle" font-weight="700" fill="#a64d31">스토리지</text>
+    <text x="760" y="158" text-anchor="middle" font-size="12" fill="#6b6760">S3 멀티파트 업로드</text>
+    <text x="760" y="196" text-anchor="middle" font-size="12">파트 번호 → ETag</text>
+    <text x="760" y="214" text-anchor="middle" font-size="12" fill="#6b6760">같은 번호는 덮어씀</text>
+    <line x1="680" y1="292" x2="840" y2="292" stroke="#d8d3c8"/>
+    <text x="760" y="316" text-anchor="middle" font-size="12" font-weight="700">완료 시</text>
+    <text x="760" y="334" text-anchor="middle" font-size="12" fill="#6b6760">번호 오름차순으로 이어 붙임</text>
+    <text x="760" y="352" text-anchor="middle" font-size="12" fill="#6b6760">완료·중단 전까지 파트 보관</text>
+  </g>
+
+  <g font-size="12" fill="#1d1d1f" stroke-width="1.6">
+    <line x1="242" y1="132" x2="346" y2="132" stroke="#1d1d1f" marker-end="url(#ar)"/>
+    <text x="294" y="124" text-anchor="middle">① 시작</text>
+    <line x1="346" y1="164" x2="244" y2="164" stroke="#6b6760" marker-end="url(#ar)"/>
+    <text x="294" y="156" text-anchor="middle" fill="#6b6760">② URL 목록</text>
+
+    <line x1="552" y1="150" x2="656" y2="150" stroke="#1d1d1f" marker-end="url(#ar)"/>
+    <text x="604" y="142" text-anchor="middle">uploadId 생성</text>
+
+    <line x1="242" y1="252" x2="654" y2="252" stroke="#a64d31" stroke-width="6" marker-end="url(#arA)"/>
+    <text x="449" y="240" text-anchor="middle" fill="#a64d31" font-weight="700">③ 파트마다 서명 URL로 PUT (파일 바이트)</text>
+    <line x1="656" y1="292" x2="244" y2="292" stroke="#6b6760" marker-end="url(#ar)"/>
+    <text x="449" y="284" text-anchor="middle" fill="#6b6760">응답 헤더 ETag</text>
+
+    <line x1="242" y1="380" x2="346" y2="380" stroke="#1d1d1f" marker-end="url(#ar)"/>
+    <text x="294" y="372" text-anchor="middle">④ 완료</text>
+    <rect x="350" y="350" width="200" height="56" rx="10" fill="#ffffff" stroke="#d8d3c8"/>
+    <text x="450" y="374" text-anchor="middle" font-size="13" font-weight="700">앱 서버</text>
+    <text x="450" y="394" text-anchor="middle" font-size="12" fill="#6b6760">[번호, ETag] 목록 전달</text>
+    <line x1="552" y1="380" x2="656" y2="380" stroke="#1d1d1f" marker-end="url(#ar)"/>
+  </g>
+</svg>
