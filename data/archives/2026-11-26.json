@@ -1,0 +1,104 @@
+{
+  "date": "2026-11-26",
+  "sections": [
+    {
+      "category": "hot",
+      "items": [
+        {
+          "title": "1Password Security Incident",
+          "titleKo": "1Password, 직원 GitHub 계정 탈취로 인한 보안 사고 공식 발표",
+          "summary": "1Password는 2026년 11월 19일 직원의 GitHub 계정이 탈취돼 소스 코드와 일부 고객 계정 메타데이터(이름, 이메일, 토큰 등)가 유출된 사고를 공개했습니다. 사용자 볼트 콘텐츠나 이를 보호하는 키는 제로-지식 암호화 구조 덕분에 전혀 영향을 받지 않았습니다. 회사는 자격 증명 로테이션, 초대·복구 코드를 6자리에서 10자리 영숫자로 강화, 외부 전문가 검증 등 대응 조치를 취했습니다.",
+          "keyPoints": [
+            "공격자는 직원 GitHub 계정을 통해 소스 코드와 CI/CD에 접근했고, 고객 이름·이메일·계정 메타데이터를 유출했지만 볼트 콘텐츠에는 접근하지 못했습니다.",
+            "유출된 정보에는 공개 키, SRP 파라미터, 초대·복구 이메일 토큰이 포함되나 단독으로는 계정 탈취에 사용될 수 없습니다.",
+            "1Password는 노출 가능 자격 증명을 모두 로테이션하고, 초대·복구 코드를 6자리 숫자에서 10자리 영숫자로 강화해 무차별 대입 공격을 사실상 차단했습니다.",
+            "계정 비밀번호, Secret Key, 복구 키는 1Password가 애초에 저장하지 않는 구조라 이번 사고의 영향을 받지 않았습니다.",
+            "사용자에게는 1Password를 사칭한 피싱 시도를 경계하고, 비밀번호·Secret Key는 공식 앱/웹사이트에서만 입력하라고 당부했습니다."
+          ],
+          "whyItMatters": "제로-지식 아키텍처와 클라이언트 측 암호화가 서버 침해 상황에서도 사용자 데이터를 보호하는 실제 사례이자, CI/CD 시크릿 관리와 토큰 엔트로피 설계의 중요성을 보여주는 좋은 참고 자료입니다.",
+          "article": "비밀번호 관리 서비스 1Password가 2026년 11월 19일 발생한 보안 사고에 대한 공식 업데이트를 발표했습니다. 직원의 GitHub 계정이 탈취당해 소스 코드와 일부 고객 계정 메타데이터가 유출된 사건인데요, 다행히 사용자들이 가장 우려할 볼트(vault) 내용은 이번 사고와 무관하다는 점이 핵심입니다. 어떤 정보가 노출됐고, 1Password가 어떤 조치를 취했는지 원문 내용을 바탕으로 정리해보겠습니다.\n\n## 무슨 일이 있었나\n\n2026년 11월 19일, 1Password는 공격자가 직원의 회사 GitHub 계정에 접근한 정황을 포착하고 조사에 착수했습니다. 공격자는 탈취한 계정으로 소스 코드에 접근했을 뿐만 아니라, 백엔드 서비스에 악성 코드를 푸시해 고객 관련 관리용 데이터(administrative data)를 다운로드하는 데까지 성공했습니다.\n\n이 과정에서 유출된 정보는 고객의 이름과 이메일 주소, 그리고 계정에 관한 비(非)기밀 내부 메타데이터였습니다. 공격자가 고객의 볼트 내용에 접근하거나 이를 열람할 수 있었던 적은 한 번도 없었다고 1Password는 명확히 밝히고 있습니다.\n\n## 유출된 정보의 범위\n\n공격자가 다운로드한 것은 일부 사용자에 대한 계정 기록으로, 구체적으로는 다음과 같습니다.\n\n- 이름과 이메일 주소\n- 계정 및 사용자 식별자, 계정 생성일과 마지막 로그인 시각\n- 공개 키(public key) — 원래부터 공개되는 값이라 보안에 영향 없음\n- Secure Remote Password(SRP) 프로토콜 파라미터 — 이 값만으로는 계정에 접근 불가\n- 초대, 프로비저닝, 계정 복구용 이메일 링크에 포함된 토큰\n- 내부 아키텍처와 관련된 기타 비기밀 메타데이터(버전 숫자 식별자, 파일 숫자 식별자 등)\n\n또한 공격자는 비공개 리포지토리의 소스 코드를 복사하고 CI/CD 시스템에도 접근했습니다. 소스 코드 자체는 고객 데이터가 아니며 사용자 비밀 정보를 포함하지 않지만, CI/CD 시스템에는 제품 동작을 위한 인프라 관련 시크릿이 들어 있습니다. 이에 따라 노출 가능성이 있는 모든 자격 증명(credential)에 대해 로테이션을 진행했으며, 1Password 서비스 가용성이나 제품 보안에는 영향이 없다고 밝혔습니다.\n\n특히 주목할 부분은 프로비저닝 초대 또는 계정 복구 이메일에 포함되는 토큰입니다. 프로비저닝 초대는 SCIM Bridge나 Hosted Provisioning 기능에 한정해서 사용되는데, 이번 사고로 이런 상태에 있던 사용자는 소수였고 이들에게는 개별적으로 통지가 이뤄졌습니다. 이 토큰은 단독으로는 계정에 접근할 수 없고, SSO 로그인 또는 사용자의 등록된 이메일로 전송되는 6자리 코드와 결합해야만 초대·복구 절차를 완료할 수 있습니다. 1Password는 악의적인 제3자가 이 코드를 무작위 대입(brute force)으로 추측할 가능성을 더 낮추기 위해, 코드 체계를 기존 숫자 6자리에서 영숫자 혼합 10자리로 확장했습니다. 이로써 무차별 대입 공격은 사실상 불가능해졌다고 설명합니다.\n\n## 영향을 받지 않은 것들\n\n1Password는 다음 항목들은 이번 사고의 영향을 받지 않았다고 명시했습니다.\n\n- 사용자의 볼트와 그 안에 저장된 항목들\n- 볼트를 보호하는 암호 키\n- 계정 비밀번호와 Secret Key (1Password는 이 값들을 애초에 저장하지 않음)\n- 계정 복구 키\n- 1Password 앱과 브라우저 확장 프로그램\n\n## 1Password가 취한 조치\n\n사고 대응 과정에서 1Password는 다음과 같은 조치를 시행했습니다.\n\n- 탈취당한 GitHub 계정 비활성화, 탈취된 토큰 폐기, 공격자가 만든 접근 권한 제거\n- 노출 가능성이 있는 모든 내부 자격 증명 로테이션 또는 폐기\n- 초대·복구 이메일에 사용되는 코드를 6자리에서 10자리 영숫자로 변경(예방적 조치)\n- 내부 GitHub, CI/CD, 엔드포인트 통제 강화 및 유사 공격 탐지 규칙 신규 추가\n- 노출된 계정 프로비저닝 토큰을 악용한 계정 탈취나 침해 정황이 내부적으로 없음을 검증\n- 외부 독립 보안 전문가를 투입해 봉쇄(containment) 및 사고 대응 절차의 적절성 검증\n\n## 사용자가 해야 할 일\n\n1Password는 이번 사고와 관련해 사용자에게 피싱 시도를 각별히 경계할 것을 당부했습니다. 1Password, 초대, 계정 복구 등을 언급하는 예상치 못한 이메일·문자·전화는 의심해야 하며, 1Password는 절대 계정 비밀번호나 Secret Key를 요구하는 연락을 하지 않는다는 점을 강조했습니다. 이 두 정보는 오직 공식 1Password 앱이나 공식 웹사이트에서, 그것도 사용자가 직접 앱을 열거나 주소를 입력했을 때만 입력해야 합니다. Secret Key는 새로운 기기나 브라우저에서 처음 로그인할 때만 필요하므로 안전하게 보관해야 하며, 의심스러운 정황을 발견하면 support@1password.com으로 신고할 것을 권장했습니다.\n\n1Password는 볼트 콘텐츠가 자사 서버 침해로도 노출될 수 없도록 설계되어 있다는 점을 재차 강조합니다. 볼트의 비밀 정보는 오직 사용자만 보유한 키로 암호화되기 때문에, 1Password도, 심지어 서버에 침투한 공격자도 이를 열람할 수 없다는 것입니다. 또한 2015년부터 공개해온 Security Whitepaper를 통해 투명성을 유지해왔으며, 이번 블로그 포스트 역시 새로운 사실이 확인되면 계속 업데이트하겠다고 밝혔습니다.\n\n## 정리\n\n이번 사고는 직원 GitHub 계정 탈취를 시작으로 소스 코드와 CI/CD 접근, 그리고 일부 고객의 이름·이메일·계정 메타데이터 유출로 이어진 공급망형 침해 사례입니다. 다만 제로-지식(zero-knowledge) 아키텍처 덕분에 볼트 콘텐츠나 이를 보호하는 키는 애초에 공격자가 접근할 수 없는 구조였다는 점이 피해를 제한하는 핵심 요인이었습니다. 프론트엔드·백엔드를 막론하고 개발 조직이라면 소스 저장소 접근 권한 관리, CI/CD 시크릿 로테이션 체계, 그리고 서버가 침해되어도 민감 데이터가 노출되지 않는 설계(종단간 암호화, 클라이언트 측 키 보관)가 왜 중요한지 보여주는 사례로 참고할 만합니다. 또한 초대·복구용 토큰처럼 보조 인증 수단으로 쓰이는 값도 무차별 대입에 안전하도록 충분한 엔트로피를 갖춰야 한다는 교훈도 눈여겨볼 지점입니다.",
+          "url": "https://1password.com/blog/update-on-nov-2026-security-incident",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 1270,
+          "contentType": "discussion",
+          "labels": [
+            "frontend",
+            "general"
+          ],
+          "relevance": 65,
+          "isTopicPrimary": true,
+          "slug": "1password-security-incident",
+          "fullContent": "by 1PasswordNovember 25, 2026 - 4 minRelated CategoriesSecurityWhat happenedOn November 19, 2026, 1Password began investigating indications that an attacker gained access to an employee’s corporate GitHub account. The actor used the account to access source code and push malicious code to backend services, which downloaded administrative data pertaining to our customers. This data included customer names and email addresses, in addition to non-secret internal metadata about the account. At no time were customer vault contents accessed by, or available to, the attacker.What information was affectedThe attacker downloaded account records for a subset of our users. These records include:Names and email addressesAccount and user identifiers, and account creation and last sign-in timesPublic keys (which are public by design, this has no impact to user security)Secure Remote Password protocol parameters (which cannot be used to access your account) Tokens present in certain emailed links for invitations, provisioning and account recoveryOther non-secret account metadata relative to our internal architecture (e.g. version numeric identifiers, file numeric identifiers)The attacker also copied source code from private repositories and gained access to our CI/CD system. Our source code is not customer data, and contains no user secrets. CI/CD contains infrastructure related secrets in order for our product to work. We have triggered a rotation of all credentials which may have been exposed, and there is no impact to 1Password’s services, availability, or product security. When we send an email to a customer to accept a provisioning invite to an account, or to accept recovery of their account, it contains a token. A provisioning invite is specifically used for our SCIM Bridge or Hosted Provisioning. During this incident there were a small number of users in this state, who have been specifically notified. This token is used to complete the invitation or recovery process, but only when combined with an SSO sign-in or a six digit code sent to the user's registered email address. The token is not able to get access to the account by itself. In order to reduce the ability for a malicious third party to successfully guess the code, we’ve expanded the code from six numeric digits to ten alphanumeric digits. This makes brute force guessing practically impossible.What was not affectedYour vaults and the items in themThe keys that protect your vaults 1Password does not store your account password or secret keyAccount recovery keys1Password apps and browser extensionsWhat we’ve doneDisabled the affected GitHub account, revoked the stolen token, and removed the access the attacker created.Rotated or revoked all internal credentials which may have been exposed.Lengthened the codes used in invitation and recovery emails from six digits to ten characters as a precautionary measure.Tightened internal GitHub, CI/CD, and endpoint controls, and added new detections for this kind of attack.Validated no internal evidence of user account takeovers or compromise using any exposed account provisioning tokens. Brought in independent cybersecurity experts to validate our containment approaches and remediation efforts.What you can doBe cautious about phishing attempts in the form of unexpected emails, texts or calls that mention 1Password, invitations, or account recovery attempts. 1Password will never contact you to ask for your account password or Secret Key. Only enter them in the official 1Password app, or on our official website, and only when you’ve opened the app or typed the address yourself. Your Secret Key is only needed the first time you sign in on a new device or browser. Keep your Secret Key and account password safe.If you see something suspicious, tell us at support@1password.com.Our commitment to youYou trust us with some of the most sensitive information you have. 1Password is designed so that a breach of our systems can’t expose your vault contents. Your vault secrets are encrypted with keys that only you hold, so we can’t access them, and neither can an attacker who gets into our servers. We are committed to transparency in the interests of our customers' security and the security of the broader industry, which is why we have published and maintained our Security Whitepaper since 2015.  We’ll keep this blog post current, and we’ll update it if we find anything that changes what we’ve said here.",
+          "category": "hot",
+          "publishedAt": "2026-11-25T17:18:26.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "tech",
+      "items": [
+        {
+          "title": "The beauty of CSS mixins",
+          "titleKo": "CSS 믹스인의 아름다움",
+          "summary": "CSS 믹스인을 활용한 스타일 작성 방법과 이점에 대한 글입니다. 반복되는 CSS 코드를 재사용 가능한 패턴으로 만드는 방식을 다룹니다.",
+          "keyPoints": [
+            "CSS 믹스인을 통해 중복 코드를 줄이고 유지보수성을 높일 수 있습니다.",
+            "재사용 가능한 스타일 패턴을 만들어 개발 효율성을 향상시킵니다."
+          ],
+          "whyItMatters": "CSS 작성 시 코드 재사용성과 유지보수성을 개선하는 실질적인 방법을 제시합니다.",
+          "url": "https://patrickbrosset.com/articles/2026-11-25-the-beauty-of-css-mixins/",
+          "sourceName": "Lobste.rs",
+          "contentType": "article",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 72,
+          "isTopicPrimary": true,
+          "slug": "the-beauty-of-css-mixins",
+          "category": "tech",
+          "publishedAt": "2026-11-26T01:02:17.000Z",
+          "language": "en"
+        }
+      ]
+    },
+    {
+      "category": "insight",
+      "items": [
+        {
+          "title": "Collection of preserved UI style guides",
+          "titleKo": "1980년대부터 현재까지, 사라진 UI 스타일 가이드를 모은 아카이브",
+          "summary": "aresluna.org가 1980년대부터 현재까지 발행된 각종 플랫폼의 UI 스타일 가이드(인터페이스 가이드라인)를 한곳에 모아 보존하는 프로젝트를 공개했습니다. Amiga, GEM, CUA, NeXTSTEP 같은 데스크톱/UNIX 계열부터 iOS, Android, Palm OS, webOS, Windows Mobile 같은 모바일 계열까지 폭넓게 수록되어 있습니다. 단순 링크 모음이 아니라 이미지 정리, 임베드 복구 등 열람 편의 작업을 거쳤으며 전체 아카이브 다운로드도 지원합니다.",
+          "keyPoints": [
+            "1980년대 Amiga Workbench부터 현재의 iOS/Android까지, 수십 개 플랫폼의 UI 스타일 가이드를 시대순으로 수집했습니다.",
+            "CUA가 Windows/OS2에 영향을 줬고 NeXTSTEP이 OpenStep과 Mac OS X로 갈라지는 등, 플랫폼 간 디자인 계보를 확인할 수 있습니다.",
+            "CDE와 SGI처럼 Motif 위젯을 공유하는 UNIX 계열, Windows Mobile/Phone 같은 실패한 모바일 시도 등 다양한 사례가 포함됩니다.",
+            "이미지 품질 개선, 인라인화, 깨진 임베드 수정 등 가벼운 정리를 거쳤고, 전체 자료를 압축 파일로 일괄 다운로드할 수 있습니다."
+          ],
+          "whyItMatters": "현재 당연하게 쓰는 UI 컨벤션과 인터랙션 패턴이 어떤 역사적 디자인 철학과 제약에서 비롯됐는지 추적할 수 있는 1차 자료라서, UI/UX 설계의 맥락을 이해하려는 프론트엔드 개발자와 디자이너에게 유용합니다.",
+          "article": "# 1980년대부터 지금까지, UI 스타일 가이드의 타임캡슐\n\nGUI(그래픽 사용자 인터페이스)의 역사를 돌아보면 각 플랫폼마다 \"우리 제품은 이렇게 디자인하라\"는 공식 인터페이스 가이드라인이 존재했습니다. 문제는 이런 문서들이 회사가 망하거나 제품이 단종되면 함께 사라져버린다는 점인데요. aresluna.org에서는 1980년대 초반부터 현재까지 발행된 각종 UI 스타일 가이드(인터페이스 가이드라인)를 한곳에 모아 보존하는 아카이브 프로젝트를 공개했습니다. 단순한 링크 모음이 아니라, 이미지 픽셀화 개선이나 이미지 인라인 처리, 유튜브 임베드 복구 등 실제로 열람하기 편하도록 가벼운 정리 작업까지 거친 것이 특징입니다.\n\n## 아카이브에 담긴 플랫폼들\n\n이 컬렉션은 PC, 모바일, UNIX 계열 운영체제를 가리지 않고 폭넓게 수집한 것이 특징입니다. 주요 항목을 정리하면 다음과 같습니다.\n\n**데스크톱 / PC 계열**\n- **Commodore Amiga (Workbench)** — 1980~90년대 유럽에서 인기 있던 멀티미디어 PC의 GUI\n- **GEM(Graphics Environment Manager)** — 1980년대 OS/GUI로, Atari ST 사용자들에게는 TOS로 잘 알려진 시스템\n- **Common User Access(CUA)** — 1980년대 후반 등장해 Windows와 OS/2에 영향을 준 UI 표준\n- **Common Desktop Environment(CDE)** — Unix용 데스크톱 환경으로, OSF/Motif 위젯을 사용하다 결국 이와 통합됨\n- **OPEN LOOK** — Sun과 AT&T가 시작한 UNIX GUI\n- **SGI(Silicon Graphics Inc.)** — CDE와 마찬가지로 Motif 위젯 기반의 UNIX 계열 OS들을 위한 가이드\n- **RISC OS** — 원래 Acorn 컴퓨터용으로 개발됐고 지금도 커뮤니티 프로젝트로 이어지는 영국산 OS/GUI\n- **GNOME** — Linux/BSD용 데스크톱 환경으로, 버전 넘버링이 상당히 혼란스럽다고 저자는 지적합니다\n- **Windows** — 별도 설명이 필요 없는 그 Windows. 다만 1990년 전후에는 Microsoft가 IBM과 함께 CUA 프레임워크에 집중하느라 공백기가 있었다고 합니다\n- **Microsoft Office** — 특히 리본 UI 사용법을 다루는 전용 가이드라인\n- **NeXTSTEP** — NeXT의 영향력 있는 OS/GUI로, 한쪽으로는 OpenStep으로, 다른 한쪽으로는 현대의 Mac OS X로 이어짐\n\n**Apple 계열**\n- Lisa(1980년대)부터 \"클래식\" Mac OS, Apple II까지 아우르는 초기 Apple GUI 가이드\n- Mac OS X/Aqua 이후를 다루는 보다 현대적인 Mac 스타일 가이드\n\n**모바일 / PDA**\n- **iOS(구 iPhone OS)** — Apple의 모바일 OS\n- **Android** — iOS의 경쟁자로, 저자가 찾을 수 있었던 가장 오래된 가이드는 2012년 버전\n- **BlackBerry** — 한때 고전하던 휴대폰 제조사\n- **Nokia** — Symbian OS를 포함한 초기 스마트폰용 각종 가이드\n- **Palm OS** — Palm 모바일 기기용 초기 그래픽 OS. 이후 webOS로 전환\n- **webOS** — Palm OS의 후속작으로, HP에 인수됐다가 이후 LG전자로 넘어감. 현재는 스마트 TV, 냉장고, 프로젝터 등에 쓰임\n- **Apple Newton** — 1993년 출시, 1998년 단종된 Apple의 PDA\n- **PenPoint** — GO Corporation이 개발한 초기 태블릿 OS(성공하지 못한 기기 라인용)\n- **General Magic의 모바일 OS** — 지금은 잊힌 General Magic 설계의 모바일 운영체제\n- **Windows Mobile / Windows Phone** — Windows Mobile 6부터 Windows Phone 7까지 이어진, 결국 실패로 끝난 Microsoft의 모바일 시도들\n\n**기타**\n- **Java(JFC/Swing)** — 프로그래밍 언어 Java에 포함된 Java Foundation Classes와 Swing GUI 컴포넌트 가이드\n- **Taligent** — Apple과 IBM의 합작사로 설립됐던 문제 많은 소프트웨어 회사. CommonPoint라는 애플리케이션 프레임워크를 남김\n\n## 왜 이런 아카이브가 의미 있을까\n\n이 프로젝트의 가치는 단순한 레트로 취향을 넘어섭니다. 각 플랫폼의 스타일 가이드는 당시 디자이너들이 어떤 제약과 철학 속에서 인터페이스를 설계했는지를 보여주는 1차 사료입니다. 예를 들어 CUA가 Windows와 OS/2 모두에 영향을 미쳤다는 사실이나, NeXTSTEP이 OpenStep과 Mac OS X 양쪽으로 갈라져 나간 계보, CDE와 SGI가 공통으로 Motif 위젯을 썼다는 연결고리는 단편적인 링크만으로는 쉽게 파악하기 어려운 디자인 역사의 흐름입니다. 이런 문서가 보존되지 않으면 \"왜 지금의 UI 컨벤션이 이런 형태를 띠게 됐는가\"를 추적할 방법이 사라지게 됩니다.\n\n저자는 이 컬렉션이 여러 기여자들의 개인 아카이브를 취합한 결과물이라고 밝히고 있으며, 누락된 스타일 가이드가 있다면 제보해달라고 요청하고 있습니다. 전체 자료는 압축 파일 형태로 일괄 다운로드도 가능합니다.\n\n## 정리\n\n- aresluna.org는 1980년대부터 현재까지의 UI 스타일 가이드(인터페이스 가이드라인)를 수집·보존하는 아카이브 프로젝트입니다.\n- Amiga Workbench, GEM/TOS, CUA, CDE, OPEN LOOK, SGI, RISC OS, GNOME, Windows/Office, NeXTSTEP 같은 데스크톱·UNIX 계열부터, iOS·Android·BlackBerry·Nokia·Palm OS·webOS·Newton·PenPoint·Windows Mobile/Phone 같은 모바일/PDA 계열, 그리고 Java Swing, Taligent CommonPoint까지 폭넓게 망라합니다.\n- 단순 링크 모음이 아니라 이미지 품질 개선, 인라인 처리, 깨진 임베드 수정 등 열람 편의를 위한 정리 작업을 거쳤고, 전체 아카이브를 한 번에 내려받을 수도 있습니다.\n- 프론트엔드 개발자나 UI/UX 디자이너 입장에서는 현재 당연하게 쓰는 인터랙션 패턴과 디자인 컨벤션이 어떤 역사적 계보를 거쳐 정착됐는지 추적할 수 있는 귀중한 1차 자료로 활용할 수 있습니다.",
+          "url": "https://aresluna.org/ui-style-guides/",
+          "sourceName": "Hacker News (Top)",
+          "engagement": 51,
+          "contentType": "discussion",
+          "labels": [
+            "frontend"
+          ],
+          "relevance": 60,
+          "isTopicPrimary": true,
+          "slug": "collection-of-preserved-ui-style-guides",
+          "fullContent": "This is a collection of preserved UI style guides a.k.a. interface guidelines from various companies, starting from the early 1980s and continuing to today.\n(Commodore) Amiga was a multimedia personal computer particularly popular in the 1980s and 1990s in Europe. Its GUI was called Workbench.\nAndroid is a mobile operating system and a rival to iOS. The first style guide I could locate was in 2012.\nBlackBerry was a beleagured maker of mobile handsets.\nCommon Desktop Environment (CDE) is a desktop environment for Unix machines, using (and eventually merging with) OSF/Motif widgets.\nCommon User Access (CUA) is a late 1980s standard for user interfaces that influenced Windows and OS/2.\nGraphics Environment Manager (GEM) is a 1980s operating system/GUI. It was well-known by users of the Atari ST computers, known in these circles as TOS.\nGNOME is a desktop environment for Linux and BSD operating systems. Note that the versioning number of these guidelines is very confusing.\niOS (previously iPhone OS) is Apple’s mobile operating system for iPhone smartphones and their siblings.\nJava is a programming language, which comes equipped with JFC (Java Foundation Classes) and Swing GUI components.\nThese are some historical Apple GUI style guides, starting with Lisa in the 1980, and continuing to the “classic” Mac OS, with a brief stop in the Apple II corner.\nMore modern Apple Mac style guides, covering Mac OS X/Aqua and beyond.\nAn abandoned mobile operating system designed by General Magic.\nGuidelines specific to Microsoft Office, in particular covering the use of its ribbon.\nNeXTSTEP was NeXT’s influential operating system and graphical user interface. It eventually morphed into OpenStep on one side, and modern Mac OS X on another.\nApple Newton was Apple’s PDA launched in 1993 and abandoned in 1998.\nNokia released various style guides for its early smartphones, including its Symbian operating system.\nOPEN LOOK is a UNIX graphical user interface, started by Sun and AT&T.\nPalm OS was the original graphical operating system for Palm’s mobile devices. Eventually, the company moved toward webOS, covered elsewhere on this page.\nPenPoint was an early tablet operating system developed by GO Corporation for its unsuccessful line of devices.\nRISC OS is a British operating system and GUI, developed originally for Acorn computers, and continuing as a community project.\nStyle guides for various UNIX-based operating system from SGI, or Silicon Graphics Inc. Just like CDE above, these too use the Motif widgets.\nTaligent was a troubled software company, incorporated as an Apple/IBM partnership. One of its fruits was a CommonPoint application framework.\nwebOS was a successor to Palm OS that was eventually purchased by HP and later LG Electronics. Today, it is used on smart TVs, refrigerators, and projectors.\nDoes Microsoft Windows need an introduction? Note a little hole here around 1990, where Microsoft was preoccupied with CUA framework in partnership with IBM.\nStyle guides for failed mobile Windows efforts, starting with Windows Mobile 6, and continuing through Windows Phone 7.\nThat’s it! Please let me know if you have any thoughts and particularly if you have some style guides that are missing from the above list.\nSome of the above mirrors were lightly cleaned up to make their consumption easier – stuff like pixellating images better, inlining images instead of linking to them, or fixing YouTube embeds.\nYou can also\ndownload all the above style guides in one archive.\nThank you to the following people for their collections that contributed to the above – you should check them out, since each one offers a different take and interface:",
+          "category": "insight",
+          "publishedAt": "2026-11-26T00:40:00.000Z",
+          "language": "en",
+          "tags": [
+            "hackernews"
+          ]
+        }
+      ]
+    }
+  ]
+}
