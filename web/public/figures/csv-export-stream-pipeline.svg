@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="430" viewBox="0 0 900 430" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="430" fill="#f4f1ea"/>
+  <text x="40" y="44" font-size="20" font-weight="700" fill="#1d1d1f">받는 쪽이 비워야 다음 행을 읽는다</text>
+  <text x="40" y="70" font-size="14" fill="#6b6760">굵은 선은 데이터가 흐르는 방향, 아래 점선은 버퍼가 찼을 때 거꾸로 전해지는 신호다</text>
+
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1d1d1f"/>
+    </marker>
+    <marker id="arA" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#a64d31"/>
+    </marker>
+  </defs>
+
+  <g font-size="14" fill="#1d1d1f">
+    <rect x="40" y="110" width="150" height="120" rx="10" fill="#ffffff" stroke="#d8d3c8"/>
+    <text x="115" y="140" text-anchor="middle" font-weight="700">DB</text>
+    <text x="115" y="164" text-anchor="middle" font-size="12" fill="#6b6760" font-family="ui-monospace, Menlo, monospace">iterate()</text>
+    <text x="115" y="186" text-anchor="middle" font-size="12" fill="#6b6760">한 번에 한 행씩</text>
+    <text x="115" y="204" text-anchor="middle" font-size="12" fill="#6b6760">꺼내는 커서</text>
+
+    <rect x="240" y="110" width="170" height="120" rx="10" fill="#ffffff" stroke="#d8d3c8"/>
+    <text x="325" y="140" text-anchor="middle" font-weight="700">CSV 제너레이터</text>
+    <text x="325" y="164" text-anchor="middle" font-size="12" fill="#6b6760" font-family="ui-monospace, Menlo, monospace">function* csvChunks</text>
+    <text x="325" y="186" text-anchor="middle" font-size="12" fill="#6b6760">500행을 문자열 하나로</text>
+    <text x="325" y="204" text-anchor="middle" font-size="12" fill="#6b6760">묶어 yield</text>
+
+    <rect x="460" y="110" width="170" height="120" rx="10" fill="#ffffff" stroke="#d8d3c8"/>
+    <text x="545" y="140" text-anchor="middle" font-weight="700">읽기 스트림</text>
+    <text x="545" y="164" text-anchor="middle" font-size="12" fill="#6b6760" font-family="ui-monospace, Menlo, monospace">Readable.from</text>
+    <text x="545" y="186" text-anchor="middle" font-size="12" fill="#6b6760">조각 16개까지</text>
+    <text x="545" y="204" text-anchor="middle" font-size="12" fill="#6b6760">미리 받아 둠</text>
+
+    <rect x="680" y="110" width="180" height="120" rx="10" fill="#ffffff" stroke="#d8d3c8"/>
+    <text x="770" y="140" text-anchor="middle" font-weight="700">HTTP 응답</text>
+    <text x="770" y="164" text-anchor="middle" font-size="12" fill="#6b6760" font-family="ui-monospace, Menlo, monospace">res → 소켓 → 브라우저</text>
+    <text x="770" y="186" text-anchor="middle" font-size="12" fill="#6b6760">write()가 false면</text>
+    <text x="770" y="204" text-anchor="middle" font-size="12" fill="#6b6760">'drain'까지 멈춤</text>
+  </g>
+
+  <g stroke="#a64d31" stroke-width="5" fill="none">
+    <line x1="192" y1="170" x2="236" y2="170" marker-end="url(#arA)"/>
+    <line x1="412" y1="170" x2="456" y2="170" marker-end="url(#arA)"/>
+    <line x1="632" y1="170" x2="676" y2="170" marker-end="url(#arA)"/>
+  </g>
+  <text x="545" y="98" text-anchor="middle" font-size="12" fill="#6b6760" font-family="ui-monospace, Menlo, monospace">pipeline(source, res)</text>
+
+  <g stroke="#1d1d1f" stroke-width="1.5" fill="none" stroke-dasharray="5 4">
+    <path d="M770,232 L770,286 L115,286 L115,234" marker-end="url(#ar)"/>
+  </g>
+  <rect x="300" y="272" width="300" height="28" fill="#f4f1ea"/>
+  <text x="450" y="291" text-anchor="middle" font-size="13" fill="#1d1d1f">버퍼가 차면 다음 조각을 당기지 않음</text>
+
+  <g font-size="13" fill="#1d1d1f">
+    <rect x="40" y="326" width="820" height="76" rx="10" fill="#ffffff" stroke="#d8d3c8"/>
+    <text x="60" y="354">당기지 않으면 제너레이터가 다음 행을 읽지 않으므로, 메모리에 머무는 것은 늘 조각 몇 개뿐이다.</text>
+    <text x="60" y="380" fill="#6b6760">사용자가 다운로드를 취소하면 pipeline이 앞쪽 스트림을 정리하고 제너레이터의 finally가 실행된다.</text>
+  </g>
+</svg>

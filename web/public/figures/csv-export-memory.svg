@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="400" viewBox="0 0 900 400" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="400" fill="#f4f1ea"/>
+  <text x="40" y="44" font-size="20" font-weight="700" fill="#1d1d1f">같은 86.2 MB를 보내도 서버 메모리는 약 열 배 차이</text>
+  <text x="40" y="70" font-size="14" fill="#6b6760">주문 100만 행 내보내기, 서버 프로세스의 최고 RSS와 첫 바이트까지 걸린 시간(세 번 잰 가운데 값)</text>
+
+  <g font-size="14" fill="#1d1d1f">
+    <text x="40" y="128" font-weight="700">다 모아서 보내기</text>
+    <text x="40" y="148" font-size="12" fill="#6b6760" font-family="ui-monospace, Menlo, monospace">all() → join → end</text>
+    <rect x="250" y="112" width="520" height="34" rx="4" fill="#1d1d1f"/>
+    <text x="780" y="134" font-weight="700">1310.5 MB</text>
+    <text x="280" y="166" font-size="12" fill="#6b6760">첫 바이트 3.16초 뒤</text>
+
+    <text x="40" y="214" font-weight="700">커서 + write 반환값 무시</text>
+    <text x="40" y="234" font-size="12" fill="#6b6760" font-family="ui-monospace, Menlo, monospace">iterate() → res.write</text>
+    <rect x="250" y="198" width="148" height="34" rx="4" fill="#6b6760"/>
+    <text x="408" y="220" font-weight="700">373.8 MB</text>
+    <text x="280" y="252" font-size="12" fill="#6b6760">첫 바이트 1.75초 뒤</text>
+
+    <text x="40" y="300" font-weight="700">커서 + pipeline</text>
+    <text x="40" y="320" font-size="12" fill="#6b6760" font-family="ui-monospace, Menlo, monospace">iterate() → Readable.from</text>
+    <rect x="250" y="284" width="53" height="34" rx="4" fill="#a64d31"/>
+    <text x="313" y="306" font-weight="700" fill="#a64d31">132.8 MB</text>
+    <text x="280" y="338" font-size="12" fill="#6b6760">첫 바이트 0.009초 뒤</text>
+  </g>
+
+  <line x1="270" y1="100" x2="270" y2="352" stroke="#1d1d1f" stroke-dasharray="3 3"/>
+  <text x="274" y="370" font-size="12" fill="#6b6760">서버 시작 직후 약 51 MB</text>
+</svg>
