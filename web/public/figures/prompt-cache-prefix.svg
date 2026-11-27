@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="400" viewBox="0 0 900 400" font-family="Pretendard, 'Apple SD Gothic Neo', sans-serif">
+  <rect width="900" height="400" fill="#f4f1ea"/>
+  <text x="32" y="40" font-size="18" font-weight="700" fill="#1d1d1f">요청마다 대화 전체를 다시 보내고, 캐시는 앞부분 일치로 찾는다</text>
+  <text x="32" y="64" font-size="13" fill="#6b6760">Claude API·Claude Code 프롬프트 캐시 문서 기준(2026-11-27 확인). 순서는 도구 → 시스템 → 메시지입니다.</text>
+
+  <!-- legend -->
+  <rect x="32" y="84" width="18" height="14" rx="3" fill="#d8d3c8"/>
+  <text x="58" y="96" font-size="12" fill="#1d1d1f">캐시에서 읽음 · 기본 입력가의 0.1배</text>
+  <rect x="300" y="84" width="18" height="14" rx="3" fill="#a64d31"/>
+  <text x="326" y="96" font-size="12" fill="#1d1d1f">새로 처리하고 캐시에 씀 · 1.25배(5분 TTL)</text>
+
+  <!-- row 1 -->
+  <text x="32" y="146" font-size="13" font-weight="700" fill="#1d1d1f">요청 1</text>
+  <rect x="120" y="126" width="90" height="32" rx="4" fill="#a64d31"/>
+  <text x="165" y="147" font-size="12" fill="#ffffff" text-anchor="middle">도구</text>
+  <rect x="212" y="126" width="120" height="32" rx="4" fill="#a64d31"/>
+  <text x="272" y="147" font-size="12" fill="#ffffff" text-anchor="middle">시스템</text>
+  <rect x="334" y="126" width="110" height="32" rx="4" fill="#a64d31"/>
+  <text x="389" y="147" font-size="12" fill="#ffffff" text-anchor="middle">대화 1턴</text>
+  <text x="470" y="147" font-size="12" fill="#6b6760">처음이라 전부 씀</text>
+
+  <!-- row 2 -->
+  <text x="32" y="206" font-size="13" font-weight="700" fill="#1d1d1f">요청 2</text>
+  <rect x="120" y="186" width="90" height="32" rx="4" fill="#d8d3c8"/>
+  <text x="165" y="207" font-size="12" fill="#1d1d1f" text-anchor="middle">도구</text>
+  <rect x="212" y="186" width="120" height="32" rx="4" fill="#d8d3c8"/>
+  <text x="272" y="207" font-size="12" fill="#1d1d1f" text-anchor="middle">시스템</text>
+  <rect x="334" y="186" width="110" height="32" rx="4" fill="#d8d3c8"/>
+  <text x="389" y="207" font-size="12" fill="#1d1d1f" text-anchor="middle">대화 1턴</text>
+  <rect x="446" y="186" width="110" height="32" rx="4" fill="#a64d31"/>
+  <text x="501" y="207" font-size="12" fill="#ffffff" text-anchor="middle">대화 2턴</text>
+  <text x="582" y="207" font-size="12" fill="#6b6760">앞부분이 같아 새 턴만 처리</text>
+
+  <!-- row 3 -->
+  <text x="32" y="266" font-size="13" font-weight="700" fill="#1d1d1f">요청 3</text>
+  <rect x="120" y="246" width="90" height="32" rx="4" fill="#d8d3c8"/>
+  <text x="165" y="267" font-size="12" fill="#1d1d1f" text-anchor="middle">도구</text>
+  <rect x="212" y="246" width="120" height="32" rx="4" fill="#a64d31" stroke="#1d1d1f" stroke-width="2" stroke-dasharray="5 3"/>
+  <text x="272" y="267" font-size="12" fill="#ffffff" text-anchor="middle">시스템(바뀜)</text>
+  <rect x="334" y="246" width="110" height="32" rx="4" fill="#a64d31"/>
+  <text x="389" y="267" font-size="12" fill="#ffffff" text-anchor="middle">대화 1턴</text>
+  <rect x="446" y="246" width="110" height="32" rx="4" fill="#a64d31"/>
+  <text x="501" y="267" font-size="12" fill="#ffffff" text-anchor="middle">대화 2턴</text>
+  <rect x="558" y="246" width="110" height="32" rx="4" fill="#a64d31"/>
+  <text x="613" y="267" font-size="12" fill="#ffffff" text-anchor="middle">대화 3턴</text>
+  <text x="694" y="267" font-size="12" fill="#6b6760">바뀐 곳부터 끝까지</text>
+  <text x="694" y="283" font-size="12" fill="#6b6760">전부 다시 처리</text>
+
+  <line x1="32" y1="312" x2="868" y2="312" stroke="#d8d3c8"/>
+  <text x="32" y="340" font-size="13" fill="#1d1d1f">블록별·파일별 캐시는 없습니다. 접두사가 한 글자라도 다르면 그 뒤가 모두 캐시를 놓칩니다.</text>
+  <text x="32" y="364" font-size="13" fill="#6b6760">모델을 바꾸면 내용이 같아도 처음부터 다시 처리합니다. 모델마다 캐시가 따로 있기 때문입니다.</text>
+</svg>
