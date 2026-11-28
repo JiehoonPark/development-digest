@@ -11,8 +11,13 @@
   "readingMinutes": 24,
   "cover": {
     "src": "/covers/2026-11-28-streaming-csv-export-backpressure.jpg",
-    "alt": "DB 커서에서 읽은 CSV 조각을 pipeline으로 응답에 잇는 코드 커버",
-    "style": "code"
+    "alt": "물을 쌓아 두지 않고 흘려보내는 수로와 보라색 물레방아 먹 인쇄 그림",
+    "style": "mono",
+    "layers": {
+      "art": "/covers/layers/2026-11-28-streaming-csv-export-backpressure-art.jpg",
+      "text": "/covers/layers/2026-11-28-streaming-csv-export-backpressure-text.webp",
+      "motion": "/covers/layers/2026-11-28-streaming-csv-export-backpressure-art.mp4"
+    }
   },
   "tldr": [
     "응답 스트림의 write()는 데이터가 사용자 메모리에 쌓이면 false를 돌려주고, 버퍼가 비면 'drain' 이벤트로 알립니다.[1] pipeline은 이 흐름 조절과 오류 전달, 정리를 함께 맡습니다.[2]",
